@@ -20,47 +20,38 @@ namespace vl
 		{
 			using namespace elements;
 
+#define DEFINE_BRUSH_ELEMENT_RENDERER(TELEMENT, TRENDERER)\
+				DEFINE_GUI_GRAPHICS_RENDERER(TELEMENT, TRENDERER, IWindowsDirect2DRenderTarget)\
+			protected:\
+				Color					oldColor;\
+				ID2D1SolidColorBrush*	brush;\
+				void					CreateBrush(IWindowsDirect2DRenderTarget* _renderTarget);\
+				void					DestroyBrush(IWindowsDirect2DRenderTarget* _renderTarget);\
+				void					InitializeInternal();\
+				void					FinalizeInternal();\
+				void					RenderTargetChangedInternal(IWindowsDirect2DRenderTarget* oldRenderTarget, IWindowsDirect2DRenderTarget* newRenderTarget);\
+			public:\
+				void					Render(Rect bounds);\
+				void					OnElementStateChanged();\
+
 /***********************************************************************
 Renderers
 ***********************************************************************/
 
+
 			class GuiSolidBorderElementRenderer : public Object, public IGuiGraphicsRenderer
 			{
-				DEFINE_GUI_GRAPHICS_RENDERER(GuiSolidBorderElement, GuiSolidBorderElementRenderer, IWindowsDirect2DRenderTarget)
-			protected:
-
-				void					InitializeInternal();
-				void					FinalizeInternal();
-				void					RenderTargetChangedInternal();
-			public:
-				void					Render(Rect bounds);
-				void					OnElementStateChanged();
+				DEFINE_BRUSH_ELEMENT_RENDERER(GuiSolidBorderElement, GuiSolidBorderElementRenderer)
 			};
 
 			class GuiRoundBorderElementRenderer : public Object, public IGuiGraphicsRenderer
 			{
-				DEFINE_GUI_GRAPHICS_RENDERER(GuiRoundBorderElement, GuiRoundBorderElementRenderer, IWindowsDirect2DRenderTarget)
-			protected:
-
-				void					InitializeInternal();
-				void					FinalizeInternal();
-				void					RenderTargetChangedInternal();
-			public:
-				void					Render(Rect bounds);
-				void					OnElementStateChanged();
+				DEFINE_BRUSH_ELEMENT_RENDERER(GuiRoundBorderElement, GuiRoundBorderElementRenderer)
 			};
 
 			class GuiSolidBackgroundElementRenderer : public Object, public IGuiGraphicsRenderer
 			{
-				DEFINE_GUI_GRAPHICS_RENDERER(GuiSolidBackgroundElement, GuiSolidBackgroundElementRenderer, IWindowsDirect2DRenderTarget)
-			protected:
-
-				void					InitializeInternal();
-				void					FinalizeInternal();
-				void					RenderTargetChangedInternal();
-			public:
-				void					Render(Rect bounds);
-				void					OnElementStateChanged();
+				DEFINE_BRUSH_ELEMENT_RENDERER(GuiSolidBackgroundElement, GuiSolidBackgroundElementRenderer)
 			};
 
 			class GuiGradientBackgroundElementRenderer : public Object, public IGuiGraphicsRenderer
@@ -69,7 +60,7 @@ Renderers
 			protected:
 				void					InitializeInternal();
 				void					FinalizeInternal();
-				void					RenderTargetChangedInternal();
+				void					RenderTargetChangedInternal(IWindowsDirect2DRenderTarget* oldRenderTarget, IWindowsDirect2DRenderTarget* newRenderTarget);
 			public:
 				void					Render(Rect bounds);
 				void					OnElementStateChanged();
@@ -84,7 +75,7 @@ Renderers
 
 				void					InitializeInternal();
 				void					FinalizeInternal();
-				void					RenderTargetChangedInternal();
+				void					RenderTargetChangedInternal(IWindowsDirect2DRenderTarget* oldRenderTarget, IWindowsDirect2DRenderTarget* newRenderTarget);
 			public:
 				void					Render(Rect bounds);
 				void					OnElementStateChanged();

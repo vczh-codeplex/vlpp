@@ -19,6 +19,7 @@ namespace vl
 		namespace windows
 		{
 			extern ID2D1RenderTarget*					GetNativeWindowDirect2DRenderTarget(INativeWindow* window);
+			extern ID2D1Factory*						GetDirect2DFactory();
 		}
 	}
 }

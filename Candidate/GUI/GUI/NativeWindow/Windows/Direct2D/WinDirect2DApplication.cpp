@@ -25,38 +25,17 @@ namespace vl
 			{
 			protected:
 				ID2D1Factory*					d2dFactory;
-				ID2D1HwndRenderTarget*			d2dRenderTarget;
+				ComPtr<ID2D1HwndRenderTarget>	d2dRenderTarget;
 				INativeWindow*					window;
 				Size							previousSize;
 
-				int DetermineBufferLength(int minSize, int minBound, int maxBound, int currentSize)
-				{
-					if(currentSize<minSize || currentSize>maxBound)
-					{
-						return minBound;
-					}
-					else
-					{
-						return currentSize;
-					}
-				}
-
-				Size CalculateBufferSize()
-				{
-					Size windowSize=window->GetClientSize();
-					Size minBounds(windowSize.x*5/4, windowSize.y*5/4);
-					Size maxBounds(windowSize.x*3/2, windowSize.y*3/2);
-					int newWidth=DetermineBufferLength(windowSize.x, minBounds.x, maxBounds.x, previousSize.x);
-					int newHeight=DetermineBufferLength(windowSize.y, minBounds.y, maxBounds.y, previousSize.y);
-					return Size(newWidth, newHeight);
-				}
-
 				void RebuildCanvas(Size size)
 				{
-					if(size.x<256)size.x=256;
-					if(size.y<256)size.y=256;
+					if(size.x<1)size.x=1;
+					if(size.y<1)size.y=1;
 					if(!d2dRenderTarget)
 					{
+						ID2D1HwndRenderTarget* renderTarget=0;
 						IWindowsForm* form=GetWindowsForm(window);
 						HRESULT hr=d2dFactory->CreateHwndRenderTarget(
 							D2D1::RenderTargetProperties(),
@@ -64,11 +43,11 @@ namespace vl
 								form->GetWindowHandle(),
 								D2D1::SizeU(size.x, size.y)
 								),
-							&d2dRenderTarget
+							&renderTarget
 							);
-						if(FAILED(hr))
+						if(!FAILED(hr))
 						{
-							d2dRenderTarget=0;
+							d2dRenderTarget=renderTarget;
 						}
 					}
 					else if(previousSize!=size)
@@ -85,17 +64,9 @@ namespace vl
 				{
 				}
 
-				~Direct2DWindowsNativeWindowListener()
-				{
-					if(d2dRenderTarget)
-					{
-						d2dRenderTarget->Release();
-					}
-				}
-
 				void Moved()
 				{
-					RebuildCanvas(CalculateBufferSize());
+					RebuildCanvas(window->GetClientSize());
 				}
 
 				void Paint()
@@ -107,7 +78,7 @@ namespace vl
 				ID2D1RenderTarget* GetDirect2DRenderTarget()
 				{
 					if(!d2dRenderTarget) Moved();
-					return d2dRenderTarget;
+					return d2dRenderTarget.Obj();
 				}
 			};
 
@@ -115,29 +86,21 @@ namespace vl
 			{
 			public:
 				Dictionary<INativeWindow*, Ptr<Direct2DWindowsNativeWindowListener>>		nativeWindowListeners;
-				ID2D1Factory*																d2dFactory;
+				ComPtr<ID2D1Factory>														d2dFactory;
 
 				Direct2DWindowsNativeControllerListener()
-					:d2dFactory(0)
 				{
-					HRESULT hr=D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &d2dFactory);
-					if(FAILED(hr))
+					ID2D1Factory* factory=0;
+					HRESULT hr=D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &factory);
+					if(!FAILED(hr))
 					{
-						d2dFactory=0;
-					}
-				}
-
-				~Direct2DWindowsNativeControllerListener()
-				{
-					if(d2dFactory)
-					{
-						d2dFactory->Release();
+						d2dFactory=factory;
 					}
 				}
 
 				void NativeWindowCreated(INativeWindow* window)
 				{
-					Ptr<Direct2DWindowsNativeWindowListener> listener=new Direct2DWindowsNativeWindowListener(window, d2dFactory);
+					Ptr<Direct2DWindowsNativeWindowListener> listener=new Direct2DWindowsNativeWindowListener(window, d2dFactory.Obj());
 					window->InstallListener(listener.Obj());
 					nativeWindowListeners.Add(window, listener);
 				}
@@ -156,6 +119,11 @@ namespace vl
 			{
 				int index=direct2DListener->nativeWindowListeners.Keys().IndexOf(window);
 				return index==-1?0:direct2DListener->nativeWindowListeners.Values()[index]->GetDirect2DRenderTarget();
+			}
+
+			ID2D1Factory* GetDirect2DFactory()
+			{
+				return direct2DListener->d2dFactory.Obj();
 			}
 		}
 	}
