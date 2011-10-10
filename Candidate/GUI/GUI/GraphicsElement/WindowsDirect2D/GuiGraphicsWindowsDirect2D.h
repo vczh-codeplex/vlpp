@@ -32,6 +32,8 @@ namespace vl
 			class IWindowsDirect2DResourceManager : public Interface
 			{
 			public:
+				virtual IDWriteTextFormat*					CreateDirect2DTextFormat(const FontProperties& fontProperties)=0;
+				virtual void								DestroyDirect2DTextFormat(const FontProperties& fontProperties)=0;
 			};
 
 			extern IWindowsDirect2DResourceManager*			GetWindowsDirect2DResourceManager();

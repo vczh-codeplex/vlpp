@@ -10,6 +10,7 @@ Interfaces:
 #ifdef GUI_GRAPHICS_RENDERER_DIRECT2D
 
 #include <D2D1.h>
+#include <DWrite.h>
 #include "..\WinNativeWindow.h"
 
 namespace vl
@@ -20,6 +21,7 @@ namespace vl
 		{
 			extern ID2D1RenderTarget*					GetNativeWindowDirect2DRenderTarget(INativeWindow* window);
 			extern ID2D1Factory*						GetDirect2DFactory();
+			extern IDWriteFactory*						GetDirectWriteFactory();
 		}
 	}
 }

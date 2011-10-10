@@ -48,6 +48,7 @@ namespace vl
 						if(!FAILED(hr))
 						{
 							d2dRenderTarget=renderTarget;
+							d2dRenderTarget->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_CLEARTYPE);
 						}
 					}
 					else if(previousSize!=size)
@@ -87,14 +88,25 @@ namespace vl
 			public:
 				Dictionary<INativeWindow*, Ptr<Direct2DWindowsNativeWindowListener>>		nativeWindowListeners;
 				ComPtr<ID2D1Factory>														d2dFactory;
+				ComPtr<IDWriteFactory>														dwrite;
 
 				Direct2DWindowsNativeControllerListener()
 				{
-					ID2D1Factory* factory=0;
-					HRESULT hr=D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &factory);
-					if(!FAILED(hr))
 					{
-						d2dFactory=factory;
+						ID2D1Factory* factory=0;
+						HRESULT hr=D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &factory);
+						if(!FAILED(hr))
+						{
+							d2dFactory=factory;
+						}
+					}
+					{
+						IDWriteFactory* factory=0;
+						HRESULT hr=DWriteCreateFactory(DWRITE_FACTORY_TYPE_ISOLATED, __uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(&factory));
+						if(!FAILED(hr))
+						{
+							dwrite=factory;
+						}
 					}
 				}
 
@@ -124,6 +136,11 @@ namespace vl
 			ID2D1Factory* GetDirect2DFactory()
 			{
 				return direct2DListener->d2dFactory.Obj();
+			}
+
+			IDWriteFactory* GetDirectWriteFactory()
+			{
+				return direct2DListener->dwrite.Obj();
 			}
 		}
 	}

@@ -53,6 +53,39 @@ CachedResourceAllocator
 				}
 			};
 
+			class CachedTextFormatAllocator
+			{
+				DEFINE_CACHED_RESOURCE_ALLOCATOR(FontProperties, ComPtr<IDWriteTextFormat>)
+			public:
+				CachedTextFormatAllocator()
+				{
+				}
+
+				ComPtr<IDWriteTextFormat> CreateInternal(const FontProperties& fontProperties)
+				{
+					IDWriteFactory* dwriteFactory=GetDirectWriteFactory();
+					IDWriteTextFormat* format=0;
+					HRESULT hr=dwriteFactory->CreateTextFormat(
+						fontProperties.fontFamily.Buffer(),
+						NULL,
+						(fontProperties.bold?DWRITE_FONT_WEIGHT_BOLD:DWRITE_FONT_WEIGHT_NORMAL),
+						(fontProperties.italic?DWRITE_FONT_STYLE_ITALIC:DWRITE_FONT_STYLE_NORMAL),
+						DWRITE_FONT_STRETCH_NORMAL,
+						(FLOAT)fontProperties.size,
+						L"",
+						&format);
+					if(!FAILED(hr))
+					{
+						format->SetWordWrapping(DWRITE_WORD_WRAPPING_NO_WRAP);
+						return format;
+					}
+					else
+					{
+						return 0;
+					}
+				}
+			};
+
 /***********************************************************************
 WindiwsGDIRenderTarget
 ***********************************************************************/
@@ -193,6 +226,8 @@ WindowsGDIResourceManager
 			{
 			protected:
 				SortedList<Ptr<WindowsDirect2DRenderTarget>>		renderTargets;
+
+				CachedTextFormatAllocator							textFormats;
 			public:
 				IGuiGraphicsRenderTarget* GetRenderTarget(INativeWindow* window)
 				{
@@ -212,6 +247,16 @@ WindowsGDIResourceManager
 					WindowsDirect2DRenderTarget* renderTarget=dynamic_cast<WindowsDirect2DRenderTarget*>(form->GetGraphicsHandler());
 					form->SetGraphicsHandler(0);
 					renderTargets.Remove(renderTarget);
+				}
+
+				IDWriteTextFormat* CreateDirect2DTextFormat(const FontProperties& fontProperties)
+				{
+					return textFormats.Create(fontProperties).Obj();
+				}
+
+				void DestroyDirect2DTextFormat(const FontProperties& fontProperties)
+				{
+					textFormats.Destroy(fontProperties);
 				}
 			};
 		}
