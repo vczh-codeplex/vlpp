@@ -34,6 +34,7 @@ Basic Construction
 			protected:
 				Ptr<IGuiStyleController>				styleController;
 				elements::GuiBoundsComposition*			boundsComposition;
+				elements::GuiGraphicsComposition*		eventComposition;
 				elements::GuiGraphicsComposition*		containerComposition;
 				elements::GuiGraphicsEventReceiver*		eventReceiver;
 
@@ -56,6 +57,33 @@ Basic Construction
 				virtual void							SetEnabled(bool value);
 				virtual bool							GetVisible();
 				virtual void							SetVisible(bool value);
+			};
+
+			class GuiControlHost : public GuiControl
+			{
+			protected:
+				class Style : public Object, public IGuiStyleController
+				{
+				protected:
+					elements::GuiGraphicsHost*			host;
+				public:
+					Style();
+					~Style();
+
+					elements::GuiBoundsComposition*		GetBoundsComposition();
+					elements::GuiGraphicsComposition*	GetContainerComposition();
+					elements::GuiGraphicsHost*			GetHost();
+				};
+
+				elements::GuiGraphicsHost*				host;
+			public:
+				GuiControlHost();
+				~GuiControlHost();
+
+				elements::GuiGraphicsHost*				GetGraphicsHost();
+				INativeWindow*							GetNativeWindow();
+				void									SetNativeWindow(INativeWindow* window);
+				void									Render();
 			};
 
 /***********************************************************************

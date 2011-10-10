@@ -121,10 +121,10 @@ void GuiMain()
 		));
 
 	GetCurrentController()->StartTimer();
-	GuiGraphicsHost host;
+	GuiControlHost host;
 	GuiButton buttonOK(new win7::Win7ButtonStyle());
 	GuiButton buttonCancel(new win7::Win7ButtonStyle());
-	SetupWindow(&host, &buttonOK, &buttonCancel);
+	SetupWindow(host.GetGraphicsHost(), &buttonOK, &buttonCancel);
 	host.SetNativeWindow(window);
 
 	GetCurrentController()->Run(window);
