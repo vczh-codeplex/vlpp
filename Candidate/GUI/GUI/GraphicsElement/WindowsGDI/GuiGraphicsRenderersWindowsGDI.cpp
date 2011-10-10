@@ -30,7 +30,7 @@ GuiSolidBorderElementRenderer
 				resourceManager->DestroyGdiBrush(Color(0, 0, 0, 0));
 			}
 
-			void GuiSolidBorderElementRenderer::RenderTargetChangedInternal()
+			void GuiSolidBorderElementRenderer::RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget)
 			{
 			}
 
@@ -75,7 +75,7 @@ GuiRoundBorderElementRenderer
 				resourceManager->DestroyGdiBrush(Color(0, 0, 0, 0));
 			}
 
-			void GuiRoundBorderElementRenderer::RenderTargetChangedInternal()
+			void GuiRoundBorderElementRenderer::RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget)
 			{
 			}
 
@@ -119,7 +119,7 @@ GuiSolidBackgroundElementRenderer
 				resourceManager->DestroyGdiBrush(oldColor);
 			}
 
-			void GuiSolidBackgroundElementRenderer::RenderTargetChangedInternal()
+			void GuiSolidBackgroundElementRenderer::RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget)
 			{
 			}
 
@@ -156,7 +156,7 @@ GuiGradientBackgroundElementRenderer
 			{
 			}
 
-			void GuiGradientBackgroundElementRenderer::RenderTargetChangedInternal()
+			void GuiGradientBackgroundElementRenderer::RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget)
 			{
 			}
 
@@ -269,7 +269,7 @@ GuiSolidLabelElementRenderer
 				resourceManager->DestroyGdiFont(oldFont);
 			}
 
-			void GuiSolidLabelElementRenderer::RenderTargetChangedInternal()
+			void GuiSolidLabelElementRenderer::RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget)
 			{
 				UpdateMinSize();
 			}

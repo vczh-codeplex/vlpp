@@ -13,6 +13,46 @@ namespace vl
 			using namespace elements;
 			using namespace collections;
 
+			D2D1::ColorF GetD2DColor(Color color)
+			{
+				return D2D1::ColorF(color.r/255.0f, color.g/255.0f, color.b/255.0f, color.a/255.0f);
+			}
+
+/***********************************************************************
+CachedResourceAllocator
+***********************************************************************/
+
+			class CachedSolidBrushAllocator
+			{
+				DEFINE_CACHED_RESOURCE_ALLOCATOR(Color, ComPtr<ID2D1SolidColorBrush>)
+
+				IWindowsDirect2DRenderTarget*	guiRenderTarget;
+			public:
+				CachedSolidBrushAllocator()
+				{
+				}
+
+				void SetRenderTarget(IWindowsDirect2DRenderTarget* _guiRenderTarget)
+				{
+					guiRenderTarget=_guiRenderTarget;
+				}
+
+				ComPtr<ID2D1SolidColorBrush> CreateInternal(Color color)
+				{
+					ID2D1SolidColorBrush* brush=0;
+					ID2D1RenderTarget* renderTarget=guiRenderTarget->GetDirect2DRenderTarget();
+					HRESULT hr=renderTarget->CreateSolidColorBrush(GetD2DColor(color), &brush);
+					if(!FAILED(hr))
+					{
+						return brush;
+					}
+					else
+					{
+						return 0;
+					}
+				}
+			};
+
 /***********************************************************************
 WindiwsGDIRenderTarget
 ***********************************************************************/
@@ -24,6 +64,8 @@ WindiwsGDIRenderTarget
 				ID2D1RenderTarget*			d2dRenderTarget;
 				List<Rect>					clippers;
 				int							clipperCoverWholeTargetCounter;
+
+				CachedSolidBrushAllocator	solidBrushes;
 
 				void ApplyClipper()
 				{
@@ -46,6 +88,7 @@ WindiwsGDIRenderTarget
 					,d2dRenderTarget(0)
 					,clipperCoverWholeTargetCounter(0)
 				{
+					solidBrushes.SetRenderTarget(this);
 				}
 
 				ID2D1RenderTarget* GetDirect2DRenderTarget()
@@ -57,6 +100,7 @@ WindiwsGDIRenderTarget
 				{
 					d2dRenderTarget=GetNativeWindowDirect2DRenderTarget(window);
 					d2dRenderTarget->BeginDraw();
+					d2dRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
 				}
 
 				void StopRendering()
@@ -128,6 +172,16 @@ WindiwsGDIRenderTarget
 				bool IsClipperCoverWholeTarget()
 				{
 					return clipperCoverWholeTargetCounter>0;
+				}
+
+				ID2D1SolidColorBrush* CreateDirect2DBrush(Color color)
+				{
+					return solidBrushes.Create(color).Obj();
+				}
+
+				void DestroyDirect2DBrush(Color color)
+				{
+					solidBrushes.Destroy(color);
 				}
 			};
 

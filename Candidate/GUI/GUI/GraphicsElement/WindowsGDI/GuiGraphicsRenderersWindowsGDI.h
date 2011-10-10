@@ -34,7 +34,7 @@ Renderers
 
 				void					InitializeInternal();
 				void					FinalizeInternal();
-				void					RenderTargetChangedInternal();
+				void					RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget);
 			public:
 				void					Render(Rect bounds);
 				void					OnElementStateChanged();
@@ -50,7 +50,7 @@ Renderers
 
 				void					InitializeInternal();
 				void					FinalizeInternal();
-				void					RenderTargetChangedInternal();
+				void					RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget);
 			public:
 				void					Render(Rect bounds);
 				void					OnElementStateChanged();
@@ -65,7 +65,7 @@ Renderers
 
 				void					InitializeInternal();
 				void					FinalizeInternal();
-				void					RenderTargetChangedInternal();
+				void					RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget);
 			public:
 				void					Render(Rect bounds);
 				void					OnElementStateChanged();
@@ -77,7 +77,7 @@ Renderers
 			protected:
 				void					InitializeInternal();
 				void					FinalizeInternal();
-				void					RenderTargetChangedInternal();
+				void					RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget);
 			public:
 				void					Render(Rect bounds);
 				void					OnElementStateChanged();
@@ -94,7 +94,7 @@ Renderers
 
 				void					InitializeInternal();
 				void					FinalizeInternal();
-				void					RenderTargetChangedInternal();
+				void					RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget);
 			public:
 				void					Render(Rect bounds);
 				void					OnElementStateChanged();

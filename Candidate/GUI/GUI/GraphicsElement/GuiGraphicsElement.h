@@ -180,12 +180,89 @@ Helpers
 				}\
 				void SetRenderTarget(IGuiGraphicsRenderTarget* _renderTarget)\
 				{\
+					TTARGET* oldRenderTarget=renderTarget;\
 					renderTarget=dynamic_cast<TTARGET*>(_renderTarget);\
-					RenderTargetChangedInternal();\
+					RenderTargetChangedInternal(oldRenderTarget, renderTarget);\
 				}\
 				Size GetMinSize()\
 				{\
 					return minSize;\
+				}\
+
+#define DEFINE_CACHED_RESOURCE_ALLOCATOR(TKEY, TVALUE)\
+			public:\
+				struct Package\
+				{\
+					TVALUE							resource;\
+					int								counter;\
+					bool operator==(const Package& package)const{return false;}\
+					bool operator!=(const Package& package)const{return true;}\
+				};\
+				struct DeadPackage\
+				{\
+					TKEY							key;\
+					TVALUE							value;\
+					bool operator==(const DeadPackage& package)const{return false;}\
+					bool operator!=(const DeadPackage& package)const{return true;}\
+				};\
+				Dictionary<TKEY, Package>			aliveResources;\
+				List<DeadPackage>					deadResources;\
+			public:\
+				TVALUE Create(const TKEY& key)\
+				{\
+					int index=aliveResources.Keys().IndexOf(key);\
+					if(index!=-1)\
+					{\
+						Package package=aliveResources.Values()[index];\
+						package.counter++;\
+						aliveResources.Set(key, package);\
+						return package.resource;\
+					}\
+					TVALUE resource;\
+					for(int i=0;i<deadResources.Count();i++)\
+					{\
+						if(deadResources[i].key==key)\
+						{\
+							DeadPackage deadPackage=deadResources[i];\
+							deadResources.RemoveAt(i);\
+							resource=deadPackage.value;\
+							break;\
+						}\
+					}\
+					if(!resource)\
+					{\
+						resource=CreateInternal(key);\
+					}\
+					Package package;\
+					package.resource=resource;\
+					package.counter=1;\
+					aliveResources.Add(key, package);\
+					return package.resource;\
+				}\
+				void Destroy(const TKEY& key)\
+				{\
+					int index=aliveResources.Keys().IndexOf(key);\
+					if(index!=-1)\
+					{\
+						Package package=aliveResources.Values()[index];\
+						package.counter--;\
+						if(package.counter==0)\
+						{\
+							aliveResources.Remove(key);\
+							if(deadResources.Count()==16)\
+							{\
+								deadResources.RemoveAt(15);\
+							}\
+							DeadPackage deadPackage;\
+							deadPackage.key=key;\
+							deadPackage.value=package.resource;\
+							deadResources.Insert(0, deadPackage);\
+						}\
+						else\
+						{\
+							aliveResources.Set(key, package);\
+						}\
+					}\
 				}\
 
 /***********************************************************************

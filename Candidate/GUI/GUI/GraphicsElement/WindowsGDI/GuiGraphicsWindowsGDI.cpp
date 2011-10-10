@@ -133,87 +133,11 @@ WindiwsGDIRenderTarget
 CachedResourceAllocator
 ***********************************************************************/
 
-#define DEFINE_CACHED_RESOURCE_ALLOCATOR(TKEY, TVALUE)\
-			public:\
-				struct Package\
-				{\
-					TVALUE							resource;\
-					int								counter;\
-					bool operator==(const Package& package)const{return false;}\
-					bool operator!=(const Package& package)const{return true;}\
-				};\
-				struct DeadPackage\
-				{\
-					TKEY							key;\
-					TVALUE							value;\
-					bool operator==(const DeadPackage& package)const{return false;}\
-					bool operator!=(const DeadPackage& package)const{return true;}\
-				};\
-				Dictionary<TKEY, Package>			aliveResources;\
-				List<DeadPackage>					deadResources;\
-			public:\
-				TVALUE Create(const TKEY& key)\
-				{\
-					int index=aliveResources.Keys().IndexOf(key);\
-					if(index!=-1)\
-					{\
-						Package package=aliveResources.Values()[index];\
-						package.counter++;\
-						aliveResources.Set(key, package);\
-						return package.resource;\
-					}\
-					TVALUE resource;\
-					for(int i=0;i<deadResources.Count();i++)\
-					{\
-						if(deadResources[i].key==key)\
-						{\
-							DeadPackage deadPackage=deadResources[i];\
-							deadResources.RemoveAt(i);\
-							resource=deadPackage.value;\
-							break;\
-						}\
-					}\
-					if(!resource)\
-					{\
-						resource=CreateInternal(key);\
-					}\
-					Package package;\
-					package.resource=resource;\
-					package.counter=1;\
-					aliveResources.Add(key, package);\
-					return package.resource;\
-				}\
-				void Destroy(const TKEY& key)\
-				{\
-					int index=aliveResources.Keys().IndexOf(key);\
-					if(index!=-1)\
-					{\
-						Package package=aliveResources.Values()[index];\
-						package.counter--;\
-						if(package.counter==0)\
-						{\
-							aliveResources.Remove(key);\
-							if(deadResources.Count()==16)\
-							{\
-								deadResources.RemoveAt(15);\
-							}\
-							DeadPackage deadPackage;\
-							deadPackage.key=key;\
-							deadPackage.value=package.resource;\
-							deadResources.Insert(0, deadPackage);\
-						}\
-						else\
-						{\
-							aliveResources.Set(key, package);\
-						}\
-					}\
-				}\
-
 			class CachedPenAllocator
 			{
 				DEFINE_CACHED_RESOURCE_ALLOCATOR(Color, Ptr<WinPen>)
 			public:
-				static Ptr<WinPen> CreateInternal(Color color)
+				Ptr<WinPen> CreateInternal(Color color)
 				{
 					return new WinPen(PS_SOLID, 1, RGB(color.r, color.g, color.b));
 				}
@@ -223,7 +147,7 @@ CachedResourceAllocator
 			{
 				DEFINE_CACHED_RESOURCE_ALLOCATOR(Color, Ptr<WinBrush>)
 			public:
-				static Ptr<WinBrush> CreateInternal(Color color)
+				Ptr<WinBrush> CreateInternal(Color color)
 				{
 					return color.a==0?new WinBrush:new WinBrush(RGB(color.r, color.g, color.b));
 				}
@@ -233,7 +157,7 @@ CachedResourceAllocator
 			{
 				DEFINE_CACHED_RESOURCE_ALLOCATOR(FontProperties, Ptr<WinFont>)
 			public:
-				static Ptr<WinFont> CreateInternal(const FontProperties& value)
+				Ptr<WinFont> CreateInternal(const FontProperties& value)
 				{
 					return new WinFont(value.fontFamily, value.size, 0, 0, 0, (value.bold?FW_BOLD:FW_NORMAL), value.italic, value.underline, value.strikeline, value.antialias);
 				}
