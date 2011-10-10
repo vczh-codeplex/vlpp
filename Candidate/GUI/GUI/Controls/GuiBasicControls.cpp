@@ -12,17 +12,30 @@ namespace vl
 GuiControl
 ***********************************************************************/
 
+			GuiGraphicsComposition* GetEventComposition(Ptr<IGuiStyleController> styleController)
+			{
+				if(styleController->GetBoundsComposition())
+				{
+					return styleController->GetBoundsComposition();
+				}
+				else
+				{
+					return styleController->GetContainerComposition();
+				}
+			}
+
 			GuiControl::GuiControl(Ptr<IGuiStyleController> _styleController)
 				:styleController(_styleController)
 				,boundsComposition(_styleController->GetBoundsComposition())
+				,eventComposition(GetEventComposition(_styleController))
 				,containerComposition(_styleController->GetContainerComposition())
-				,eventReceiver(_styleController->GetBoundsComposition()->GetEventReceiver())
+				,eventReceiver(GetEventComposition(_styleController)->GetEventReceiver())
 				,isEnabled(true)
 				,isVisible(true)
 			{
-				boundsComposition->SetAssociatedControl(this);
-				VisibleChanged.SetAssociatedComposition(GetBoundsComposition());
-				EnabledChanged.SetAssociatedComposition(GetBoundsComposition());
+				eventComposition->SetAssociatedControl(this);
+				VisibleChanged.SetAssociatedComposition(eventComposition);
+				EnabledChanged.SetAssociatedComposition(eventComposition);
 			}
 
 			GuiControl::~GuiControl()
@@ -31,7 +44,7 @@ GuiControl
 
 			elements::GuiEventArgs GuiControl::GetNotifyEventArguments()
 			{
-				return GuiEventArgs(boundsComposition);
+				return GuiEventArgs(eventComposition);
 			}
 
 			IGuiStyleController* GuiControl::GetStyleController()
@@ -81,6 +94,65 @@ GuiControl
 					isVisible=value;
 					VisibleChanged.Execute(GetNotifyEventArguments());
 				}
+			}
+
+/***********************************************************************
+GuiControlHost
+***********************************************************************/
+
+			GuiControlHost::Style::Style()
+				:host(new GuiGraphicsHost)
+			{
+			}
+
+			GuiControlHost::Style::~Style()
+			{
+				delete host;
+			}
+
+			elements::GuiBoundsComposition* GuiControlHost::Style::GetBoundsComposition()
+			{
+				return 0;
+			}
+
+			elements::GuiGraphicsComposition* GuiControlHost::Style::GetContainerComposition()
+			{
+				return host->GetMainComposition();
+			}
+
+			elements::GuiGraphicsHost* GuiControlHost::Style::GetHost()
+			{
+				return host;
+			}
+
+			GuiControlHost::GuiControlHost()
+				:GuiControl(new Style)
+			{
+				host=dynamic_cast<Style*>(GetStyleController())->GetHost();
+			}
+
+			GuiControlHost::~GuiControlHost()
+			{
+			}
+
+			elements::GuiGraphicsHost* GuiControlHost::GetGraphicsHost()
+			{
+				return host;
+			}
+
+			INativeWindow* GuiControlHost::GetNativeWindow()
+			{
+				return host->GetNativeWindow();
+			}
+
+			void GuiControlHost::SetNativeWindow(INativeWindow* window)
+			{
+				host->SetNativeWindow(window);
+			}
+
+			void GuiControlHost::Render()
+			{
+				host->Render();
 			}
 
 /***********************************************************************
