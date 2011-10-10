@@ -20,6 +20,7 @@ namespace vl
 		{
 			class IGuiStyleController;
 			class GuiControl;
+			class GuiControlHost;
 		}
 
 		namespace elements
@@ -55,6 +56,8 @@ Basic Construction
 				Ptr<GuiGraphicsEventReceiver>		eventReceiver;
 				controls::GuiControl*				associatedControl;
 				GuiGraphicsHost*					associatedHost;
+
+				void								OnControlParentChanged(controls::GuiControl* control);
 
 				virtual void						OnChildInserted(GuiGraphicsComposition* child);
 				virtual void						OnChildRemoved(GuiGraphicsComposition* child);
@@ -92,7 +95,8 @@ Basic Construction
 				GuiGraphicsHost*					GetAssociatedHost();
 
 				controls::GuiControl*				GetRelatedControl();
-				GuiGraphicsHost*					GetRelatedHost();
+				GuiGraphicsHost*					GetRelatedGraphicsHost();
+				controls::GuiControlHost*			GetRelatedControlHost();
 
 				virtual Margin						GetMargin();
 				virtual void						SetMargin(Margin value);

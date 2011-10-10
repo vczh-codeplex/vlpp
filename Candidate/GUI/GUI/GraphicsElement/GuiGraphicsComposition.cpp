@@ -1,4 +1,5 @@
 #include "GuiGraphicsComposition.h"
+#include "..\Controls\GuiBasicControls.h"
 #include "..\..\..\..\Library\Collections\OperationCopyFrom.h"
 
 namespace vl
@@ -8,17 +9,42 @@ namespace vl
 		namespace elements
 		{
 			using namespace collections;
+			using namespace controls;
 
 /***********************************************************************
 GuiGraphicsComposition
 ***********************************************************************/
 
+			void GuiGraphicsComposition::OnControlParentChanged(controls::GuiControl* control)
+			{
+				if(associatedControl && associatedControl!=control)
+				{
+					if(associatedControl->GetParent())
+					{
+						associatedControl->GetParent()->OnChildRemoved(associatedControl);
+					}
+					if(control)
+					{
+						control->OnChildInserted(associatedControl);
+					}
+				}
+				else
+				{
+					for(int i=0;i<children.Count();i++)
+					{
+						children[i]->OnControlParentChanged(control);
+					}
+				}
+			}
+
 			void GuiGraphicsComposition::OnChildInserted(GuiGraphicsComposition* child)
 			{
+				child->OnControlParentChanged(GetRelatedControl());
 			}
 
 			void GuiGraphicsComposition::OnChildRemoved(GuiGraphicsComposition* child)
 			{
+				child->OnControlParentChanged(0);
 			}
 
 			void GuiGraphicsComposition::OnParentChanged(GuiGraphicsComposition* oldParent, GuiGraphicsComposition* newParent)
@@ -309,7 +335,7 @@ GuiGraphicsComposition
 				return 0;
 			}
 
-			GuiGraphicsHost* GuiGraphicsComposition::GetRelatedHost()
+			GuiGraphicsHost* GuiGraphicsComposition::GetRelatedGraphicsHost()
 			{
 				GuiGraphicsComposition* composition=this;
 				while(composition)
@@ -321,6 +347,19 @@ GuiGraphicsComposition
 					else
 					{
 						composition=composition->GetParent();
+					}
+				}
+				return 0;
+			}
+
+			controls::GuiControlHost* GuiGraphicsComposition::GetRelatedControlHost()
+			{
+				GuiGraphicsComposition* composition=this;
+				while(composition)
+				{
+					if(composition->GetParent()==0)
+					{
+						return dynamic_cast<GuiControlHost*>(composition->GetAssociatedControl());
 					}
 				}
 				return 0;
