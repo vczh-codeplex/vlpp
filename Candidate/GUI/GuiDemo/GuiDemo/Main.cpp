@@ -63,7 +63,12 @@ void SetupWindow(GuiGraphicsHost* host)
 			GuiCellComposition* cell=new GuiCellComposition;
 			table->AddChild(cell);
 			cell->SetSite(0, 0, 1, 3);
-			CreateLabel(cell, Color(0, 0, 0), L"This is the title");
+#ifdef GUI_GRAPHICS_RENDERER_GDI
+			CreateLabel(cell, Color(0, 0, 0), L"GUI_GRAPHICS_RENDERER_GDI is selected.");
+#endif
+#ifdef GUI_GRAPHICS_RENDERER_DIRECT2D
+			CreateLabel(cell, Color(0, 0, 0), L"GUI_GRAPHICS_RENDERER_DIRECT2D is selected.");
+#endif
 		}
 		{
 			GuiCellComposition* cell=new GuiCellComposition;
@@ -75,7 +80,12 @@ void SetupWindow(GuiGraphicsHost* host)
 				cell->SetOwnedElement(element);
 				cell->SetInternalMargin(Margin(1, 1, 1, 1));
 			}
-			CreateCenteredLabel(cell, Color(0, 0, 0), L"This is the content");
+#ifdef GUI_GRAPHICS_RENDERER_GDI
+			CreateCenteredLabel(cell, Color(0, 0, 0), L"Use GUI_GRAPHICS_RENDERER_DIRECT2D to turn on Direct2D rendering.");
+#endif
+#ifdef GUI_GRAPHICS_RENDERER_DIRECT2D
+			CreateCenteredLabel(cell, Color(0, 0, 0), L"Use GUI_GRAPHICS_RENDERER_GDI to turn on GDI rendering.");
+#endif
 		}
 
 		const wchar_t* buttonTexts[]={L"OK", L"Cancel"};
@@ -98,7 +108,12 @@ void SetupWindow(GuiGraphicsHost* host)
 void GuiMain()
 {
 	INativeWindow* window=GetCurrentController()->CreateNativeWindow();
-	window->SetTitle(L"Vczh GUI Demo");
+#ifdef GUI_GRAPHICS_RENDERER_GDI
+	window->SetTitle(L"Vczh GUI Demo (GDI)");
+#endif
+#ifdef GUI_GRAPHICS_RENDERER_DIRECT2D
+	window->SetTitle(L"Vczh GUI Demo (Direct2D)");
+#endif
 	window->SetClientSize(Size(800, 600));
 
 	INativeScreen* screen=GetCurrentController()->GetScreen(window);
