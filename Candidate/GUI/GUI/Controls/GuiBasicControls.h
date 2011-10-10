@@ -31,6 +31,8 @@ Basic Construction
 
 			class GuiControl : public Object
 			{
+				friend class elements::GuiGraphicsComposition;
+				typedef collections::List<GuiControl*>		ControlList;
 			protected:
 				Ptr<IGuiStyleController>				styleController;
 				elements::GuiBoundsComposition*			boundsComposition;
@@ -40,6 +42,12 @@ Basic Construction
 
 				bool									isEnabled;
 				bool									isVisible;
+
+				GuiControl*								parent;
+				ControlList								children;
+
+				void									OnChildInserted(GuiControl* control);
+				void									OnChildRemoved(GuiControl* control);
 			public:
 				GuiControl(Ptr<IGuiStyleController> _styleController);
 				~GuiControl();
@@ -52,6 +60,7 @@ Basic Construction
 				elements::GuiBoundsComposition*			GetBoundsComposition();
 				elements::GuiGraphicsComposition*		GetContainerComposition();
 				elements::GuiGraphicsEventReceiver*		GetEventReceiver();
+				GuiControl*								GetParent();
 
 				virtual bool							GetEnabled();
 				virtual void							SetEnabled(bool value);

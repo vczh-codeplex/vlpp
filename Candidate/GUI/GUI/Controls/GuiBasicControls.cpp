@@ -8,10 +8,6 @@ namespace vl
 		{
 			using namespace elements;
 
-/***********************************************************************
-GuiControl
-***********************************************************************/
-
 			GuiGraphicsComposition* GetEventComposition(Ptr<IGuiStyleController> styleController)
 			{
 				if(styleController->GetBoundsComposition())
@@ -24,6 +20,22 @@ GuiControl
 				}
 			}
 
+/***********************************************************************
+GuiControl
+***********************************************************************/
+
+			void GuiControl::OnChildInserted(GuiControl* control)
+			{
+				children.Add(control);
+				control->parent=this;
+			}
+
+			void GuiControl::OnChildRemoved(GuiControl* control)
+			{
+				control->parent=0;
+				children.Remove(control);
+			}
+
 			GuiControl::GuiControl(Ptr<IGuiStyleController> _styleController)
 				:styleController(_styleController)
 				,boundsComposition(_styleController->GetBoundsComposition())
@@ -32,6 +44,7 @@ GuiControl
 				,eventReceiver(GetEventComposition(_styleController)->GetEventReceiver())
 				,isEnabled(true)
 				,isVisible(true)
+				,parent(0)
 			{
 				eventComposition->SetAssociatedControl(this);
 				VisibleChanged.SetAssociatedComposition(eventComposition);
@@ -40,6 +53,10 @@ GuiControl
 
 			GuiControl::~GuiControl()
 			{
+				for(int i=0;i<children.Count();i++)
+				{
+					delete children[i];
+				}
 			}
 
 			elements::GuiEventArgs GuiControl::GetNotifyEventArguments()
@@ -65,6 +82,11 @@ GuiControl
 			elements::GuiGraphicsEventReceiver* GuiControl::GetEventReceiver()
 			{
 				return eventReceiver;
+			}
+
+			GuiControl* GuiControl::GetParent()
+			{
+				return parent;
 			}
 
 			bool GuiControl::GetEnabled()

@@ -254,7 +254,7 @@ Win7ButtonStyle
 				{
 					colorBegin=colorEnd;
 					colorEnd=end;
-					style->GetBoundsComposition()->GetRelatedHost()->GetAnimationManager()->AddAnimation(style->transferringAnimation);
+					style->GetBoundsComposition()->GetRelatedGraphicsHost()->GetAnimationManager()->AddAnimation(style->transferringAnimation);
 					stopped=false;
 				}
 				else

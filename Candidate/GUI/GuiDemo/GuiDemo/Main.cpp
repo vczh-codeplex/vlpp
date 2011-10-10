@@ -34,7 +34,7 @@ GuiBoundsComposition* CreateCenteredLabel(GuiCellComposition* cell, Color color,
 	return composition;
 }
 
-void SetupWindow(GuiGraphicsHost* host, GuiButton* buttonOK, GuiButton* buttonCancel)
+void SetupWindow(GuiGraphicsHost* host)
 {
 	{
 		GuiSolidBackgroundElement* background=GuiSolidBackgroundElement::Create();
@@ -87,18 +87,10 @@ void SetupWindow(GuiGraphicsHost* host, GuiButton* buttonOK, GuiButton* buttonCa
 			cell->SetBounds(Rect(Point(0, 0), Size(100, 0)));
 			CreateCenteredLabel(cell, Color(0, 0, 0), buttonTexts[i]);
 
-			if(i==0)
-			{
-				cell->AddChild(buttonOK->GetBoundsComposition());
-				buttonOK->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
-				buttonOK->SetText(L"OK");
-			}
-			else
-			{
-				cell->AddChild(buttonCancel->GetBoundsComposition());
-				buttonCancel->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
-				buttonCancel->SetText(L"Cancel");
-			}
+			GuiButton* button=new GuiButton(new win7::Win7ButtonStyle());
+			cell->AddChild(button->GetBoundsComposition());
+			button->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+			button->SetText(buttonTexts[i]);
 		}
 	}
 }
@@ -122,9 +114,7 @@ void GuiMain()
 
 	GetCurrentController()->StartTimer();
 	GuiControlHost host;
-	GuiButton buttonOK(new win7::Win7ButtonStyle());
-	GuiButton buttonCancel(new win7::Win7ButtonStyle());
-	SetupWindow(host.GetGraphicsHost(), &buttonOK, &buttonCancel);
+	SetupWindow(host.GetGraphicsHost());
 	host.SetNativeWindow(window);
 
 	GetCurrentController()->Run(window);
