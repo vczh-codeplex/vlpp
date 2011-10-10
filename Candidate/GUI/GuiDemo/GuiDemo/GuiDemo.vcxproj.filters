@@ -67,6 +67,12 @@
     <Filter Include="GUI\Controls">
       <UniqueIdentifier>{c320517e-a203-4e64-84ad-c1d03dc1609c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI\NativeWindow\Windows\Direct2D">
+      <UniqueIdentifier>{3c2b2a45-8418-422c-a06a-bb37c1fe7ee0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\GraphicsElement\WindowsDirect2D">
+      <UniqueIdentifier>{68d7a26e-c451-4931-8e38-c45fc51d30d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -137,6 +143,15 @@
     </ClCompile>
     <ClCompile Include="..\..\GUI\Controls\GuiWin7Styles.cpp">
       <Filter>GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\NativeWindow\Windows\Direct2D\WinDirect2DApplication.cpp">
+      <Filter>GUI\NativeWindow\Windows\Direct2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\GraphicsElement\WindowsDirect2D\GuiGraphicsWindowsDirect2D.cpp">
+      <Filter>GUI\GraphicsElement\WindowsDirect2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\GraphicsElement\WindowsDirect2D\GuiGraphicsRenderersWindowsDirect2D.cpp">
+      <Filter>GUI\GraphicsElement\WindowsDirect2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -271,6 +286,15 @@
     </ClInclude>
     <ClInclude Include="..\..\GUI\Controls\GuiWin7Styles.h">
       <Filter>GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\NativeWindow\Windows\Direct2D\WinDirect2DApplication.h">
+      <Filter>GUI\NativeWindow\Windows\Direct2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\GraphicsElement\WindowsDirect2D\GuiGraphicsWindowsDirect2D.h">
+      <Filter>GUI\GraphicsElement\WindowsDirect2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\GraphicsElement\WindowsDirect2D\GuiGraphicsRenderersWindowsDirect2D.h">
+      <Filter>GUI\GraphicsElement\WindowsDirect2D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

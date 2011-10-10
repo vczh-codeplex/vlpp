@@ -8,6 +8,7 @@ Interfaces:
 
 #ifndef VCZH_PRESENTATION_ELEMENTS_GUIGRAPHICSWINDOWSGDI
 #define VCZH_PRESENTATION_ELEMENTS_GUIGRAPHICSWINDOWSGDI
+#ifdef GUI_GRAPHICS_RENDERER_GDI
 
 #include "..\..\NativeWindow\Windows\GDI\WinGDIApplication.h"
 #include "..\GuiGraphicsElement.h"
@@ -41,4 +42,5 @@ namespace vl
 	}
 }
 
+#endif
 #endif

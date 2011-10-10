@@ -6,17 +6,17 @@ GUI::Windows Platform
 Interfaces:
 ***********************************************************************/
 
-#ifndef VCZH_PRESENTATION_ELEMENTS_GUIGRAPHICSRENDERERSWINDOWSGDI
-#define VCZH_PRESENTATION_ELEMENTS_GUIGRAPHICSRENDERERSWINDOWSGDI
-#ifdef GUI_GRAPHICS_RENDERER_GDI
+#ifndef VCZH_PRESENTATION_ELEMENTS_GUIGRAPHICSRENDERERSWINDOWSDIRECT2D
+#define VCZH_PRESENTATION_ELEMENTS_GUIGRAPHICSRENDERERSWINDOWSDIRECT2D
+#ifdef GUI_GRAPHICS_RENDERER_DIRECT2D
 
-#include "GuiGraphicsWindowsGDI.h"
+#include "GuiGraphicsWindowsDirect2D.h"
 
 namespace vl
 {
 	namespace presentation
 	{
-		namespace elements_windows_gdi
+		namespace elements_windows_d2d
 		{
 			using namespace elements;
 
@@ -26,11 +26,8 @@ Renderers
 
 			class GuiSolidBorderElementRenderer : public Object, public IGuiGraphicsRenderer
 			{
-				DEFINE_GUI_GRAPHICS_RENDERER(GuiSolidBorderElement, GuiSolidBorderElementRenderer, IWindowsGDIRenderTarget)
+				DEFINE_GUI_GRAPHICS_RENDERER(GuiSolidBorderElement, GuiSolidBorderElementRenderer, IWindowsDirect2DRenderTarget)
 			protected:
-				Color					oldColor;
-				Ptr<windows::WinPen>	pen;
-				Ptr<windows::WinBrush>	brush;
 
 				void					InitializeInternal();
 				void					FinalizeInternal();
@@ -42,11 +39,8 @@ Renderers
 
 			class GuiRoundBorderElementRenderer : public Object, public IGuiGraphicsRenderer
 			{
-				DEFINE_GUI_GRAPHICS_RENDERER(GuiRoundBorderElement, GuiRoundBorderElementRenderer, IWindowsGDIRenderTarget)
+				DEFINE_GUI_GRAPHICS_RENDERER(GuiRoundBorderElement, GuiRoundBorderElementRenderer, IWindowsDirect2DRenderTarget)
 			protected:
-				Color					oldColor;
-				Ptr<windows::WinPen>	pen;
-				Ptr<windows::WinBrush>	brush;
 
 				void					InitializeInternal();
 				void					FinalizeInternal();
@@ -58,10 +52,8 @@ Renderers
 
 			class GuiSolidBackgroundElementRenderer : public Object, public IGuiGraphicsRenderer
 			{
-				DEFINE_GUI_GRAPHICS_RENDERER(GuiSolidBackgroundElement, GuiSolidBackgroundElementRenderer, IWindowsGDIRenderTarget)
+				DEFINE_GUI_GRAPHICS_RENDERER(GuiSolidBackgroundElement, GuiSolidBackgroundElementRenderer, IWindowsDirect2DRenderTarget)
 			protected:
-				Color					oldColor;
-				Ptr<windows::WinBrush>	brush;
 
 				void					InitializeInternal();
 				void					FinalizeInternal();
@@ -73,7 +65,7 @@ Renderers
 
 			class GuiGradientBackgroundElementRenderer : public Object, public IGuiGraphicsRenderer
 			{
-				DEFINE_GUI_GRAPHICS_RENDERER(GuiGradientBackgroundElement, GuiGradientBackgroundElementRenderer, IWindowsGDIRenderTarget)
+				DEFINE_GUI_GRAPHICS_RENDERER(GuiGradientBackgroundElement, GuiGradientBackgroundElementRenderer, IWindowsDirect2DRenderTarget)
 			protected:
 				void					InitializeInternal();
 				void					FinalizeInternal();
@@ -85,10 +77,8 @@ Renderers
 
 			class GuiSolidLabelElementRenderer : public Object, public IGuiGraphicsRenderer
 			{
-				DEFINE_GUI_GRAPHICS_RENDERER(GuiSolidLabelElement, GuiSolidLabelElementRenderer, IWindowsGDIRenderTarget)
+				DEFINE_GUI_GRAPHICS_RENDERER(GuiSolidLabelElement, GuiSolidLabelElementRenderer, IWindowsDirect2DRenderTarget)
 			protected:
-				FontProperties			oldFont;
-				Ptr<windows::WinFont>	font;
 
 				void					UpdateMinSize();
 
