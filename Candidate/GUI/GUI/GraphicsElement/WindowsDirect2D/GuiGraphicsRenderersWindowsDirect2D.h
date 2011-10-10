@@ -20,11 +20,11 @@ namespace vl
 		{
 			using namespace elements;
 
-#define DEFINE_BRUSH_ELEMENT_RENDERER(TELEMENT, TRENDERER)\
+#define DEFINE_BRUSH_ELEMENT_RENDERER(TELEMENT, TRENDERER, TBRUSH, TBRUSHPROPERTY)\
 				DEFINE_GUI_GRAPHICS_RENDERER(TELEMENT, TRENDERER, IWindowsDirect2DRenderTarget)\
 			protected:\
-				Color					oldColor;\
-				ID2D1SolidColorBrush*	brush;\
+				TBRUSHPROPERTY			oldColor;\
+				TBRUSH*					brush;\
 				void					CreateBrush(IWindowsDirect2DRenderTarget* _renderTarget);\
 				void					DestroyBrush(IWindowsDirect2DRenderTarget* _renderTarget);\
 				void					InitializeInternal();\
@@ -42,29 +42,23 @@ Renderers
 
 			class GuiSolidBorderElementRenderer : public Object, public IGuiGraphicsRenderer
 			{
-				DEFINE_BRUSH_ELEMENT_RENDERER(GuiSolidBorderElement, GuiSolidBorderElementRenderer)
+				DEFINE_BRUSH_ELEMENT_RENDERER(GuiSolidBorderElement, GuiSolidBorderElementRenderer, ID2D1SolidColorBrush, Color)
 			};
 
 			class GuiRoundBorderElementRenderer : public Object, public IGuiGraphicsRenderer
 			{
-				DEFINE_BRUSH_ELEMENT_RENDERER(GuiRoundBorderElement, GuiRoundBorderElementRenderer)
+				DEFINE_BRUSH_ELEMENT_RENDERER(GuiRoundBorderElement, GuiRoundBorderElementRenderer, ID2D1SolidColorBrush, Color)
 			};
 
 			class GuiSolidBackgroundElementRenderer : public Object, public IGuiGraphicsRenderer
 			{
-				DEFINE_BRUSH_ELEMENT_RENDERER(GuiSolidBackgroundElement, GuiSolidBackgroundElementRenderer)
+				DEFINE_BRUSH_ELEMENT_RENDERER(GuiSolidBackgroundElement, GuiSolidBackgroundElementRenderer, ID2D1SolidColorBrush, Color)
 			};
 
 			class GuiGradientBackgroundElementRenderer : public Object, public IGuiGraphicsRenderer
 			{
-				DEFINE_GUI_GRAPHICS_RENDERER(GuiGradientBackgroundElement, GuiGradientBackgroundElementRenderer, IWindowsDirect2DRenderTarget)
-			protected:
-				void					InitializeInternal();
-				void					FinalizeInternal();
-				void					RenderTargetChangedInternal(IWindowsDirect2DRenderTarget* oldRenderTarget, IWindowsDirect2DRenderTarget* newRenderTarget);
-			public:
-				void					Render(Rect bounds);
-				void					OnElementStateChanged();
+				typedef collections::Pair<Color, Color> ColorPair;
+				DEFINE_BRUSH_ELEMENT_RENDERER(GuiGradientBackgroundElement, GuiGradientBackgroundElementRenderer, ID2D1LinearGradientBrush, ColorPair)
 			};
 
 			class GuiSolidLabelElementRenderer : public Object, public IGuiGraphicsRenderer
