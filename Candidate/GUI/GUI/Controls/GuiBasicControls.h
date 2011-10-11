@@ -27,6 +27,8 @@ Basic Construction
 			public:
 				virtual elements::GuiBoundsComposition*		GetBoundsComposition()=0;
 				virtual elements::GuiGraphicsComposition*	GetContainerComposition()=0;
+				virtual void								SetText(const WString& value)=0;
+				virtual void								SetFont(const FontProperties& value)=0;
 			};
 
 			class GuiControl : public Object
@@ -42,6 +44,8 @@ Basic Construction
 
 				bool									isEnabled;
 				bool									isVisible;
+				WString									text;
+				FontProperties							font;
 
 				GuiControl*								parent;
 				ControlList								children;
@@ -54,6 +58,8 @@ Basic Construction
 
 				elements::GuiNotifyEvent				VisibleChanged;
 				elements::GuiNotifyEvent				EnabledChanged;
+				elements::GuiNotifyEvent				TextChanged;
+				elements::GuiNotifyEvent				FontChanged;
 
 				elements::GuiEventArgs					GetNotifyEventArguments();
 				IGuiStyleController*					GetStyleController();
@@ -66,6 +72,10 @@ Basic Construction
 				virtual void							SetEnabled(bool value);
 				virtual bool							GetVisible();
 				virtual void							SetVisible(bool value);
+				virtual const WString&					GetText();
+				virtual void							SetText(const WString& value);
+				virtual const FontProperties&			GetFont();
+				virtual void							SetFont(const FontProperties& value);
 			};
 
 			class GuiControlHost : public GuiControl
@@ -82,6 +92,9 @@ Basic Construction
 					elements::GuiBoundsComposition*		GetBoundsComposition();
 					elements::GuiGraphicsComposition*	GetContainerComposition();
 					elements::GuiGraphicsHost*			GetHost();
+
+					void								SetText(const WString& value);
+					void								SetFont(const FontProperties& value);
 				};
 
 				elements::GuiGraphicsHost*				host;
@@ -114,14 +127,12 @@ Controls
 				{
 				public:
 					virtual void						Transfer(ControlStyle value)=0;
-					virtual void						SetText(const WString& value)=0;
 				};
 			protected:
 				IStyleController*						styleController;
 				bool									mousePressing;
 				bool									mouseHoving;
 				ControlStyle							controlStyle;
-				WString									text;
 				
 				void									UpdateControlStyle();
 				void									OnEnabledChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
@@ -133,11 +144,7 @@ Controls
 				GuiButton(IStyleController* _styleController);
 				~GuiButton();
 
-				elements::GuiNotifyEvent				TextChanged;
 				elements::GuiNotifyEvent				Clicked;
-
-				virtual const WString&					GetText();
-				virtual void							SetText(const WString& value);
 			};
 		}
 	}

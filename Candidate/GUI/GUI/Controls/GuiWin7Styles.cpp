@@ -193,22 +193,10 @@ Win7ButtonElements
 					}
 				}
 				{
-					GuiSolidLabelElement* element=GuiSolidLabelElement::Create();
-					button.textElement=element;
-					{
-						FontProperties font;
-						font.size=16;
-						font.fontFamily=L"Lucida Console";
-						element->SetFont(font);
-					}
-
-					GuiBoundsComposition* composition=new GuiBoundsComposition;
-					button.mainComposition->AddChild(composition);
-					composition->SetOwnedElement(element);
-					composition->SetMargin(Margin(10, 10, 10, 10));
-					composition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElement);
-					composition->SetAlignmentToParent(Margin(0, 0, 0, 0));
-					composition->GetOwnedElement().Cast<GuiSolidLabelElement>()->SetAlignments(Alignment::Center, Alignment::Center);
+					Win7CreateSolidLabelElement(button.textElement, button.textComposition);
+					
+					button.textElement->SetAlignments(Alignment::Center, Alignment::Center);
+					button.mainComposition->AddChild(button.textComposition);
 				}
 				return button;
 			}
@@ -220,6 +208,30 @@ Win7ButtonElements
 				topGradientElement->SetColors(colors.g1, colors.g2);
 				bottomGradientElement->SetColors(colors.g3, colors.g4);
 				textElement->SetColor(colors.textColor);
+			}
+
+/***********************************************************************
+Helpers
+***********************************************************************/
+
+			void Win7SetFont(GuiSolidLabelElement* element, GuiBoundsComposition* composition, const FontProperties& fontProperties)
+			{
+				FontProperties font=GetCurrentController()->GetDefaultFont();
+				int margin=font.size/2;
+				element->SetFont(font);
+				composition->SetMargin(Margin(margin, margin, margin, margin));
+			}
+
+			void Win7CreateSolidLabelElement(GuiSolidLabelElement*& element, GuiBoundsComposition*& composition)
+			{
+				element=GuiSolidLabelElement::Create();
+				element->SetAlignments(Alignment::Center, Alignment::Center);
+
+				composition=new GuiBoundsComposition;
+				composition->SetOwnedElement(element);
+				composition->SetMargin(Margin(0, 0, 0, 0));
+				composition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElement);
+				composition->SetAlignmentToParent(Margin(0, 0, 0, 0));
 			}
 
 /***********************************************************************
@@ -308,6 +320,11 @@ Win7ButtonStyle
 			void Win7ButtonStyle::SetText(const WString& value)
 			{
 				elements.textElement->SetText(value);
+			}
+
+			void Win7ButtonStyle::SetFont(const FontProperties& value)
+			{
+				Win7SetFont(elements.textElement, elements.textComposition, value);
 			}
 		}
 	}

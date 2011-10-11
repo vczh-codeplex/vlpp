@@ -798,6 +798,7 @@ WindowsController
 				bool								isTimerEnabled;
 
 				List<Ptr<WindowsScreen>>			screens;
+				FontProperties						defaultFont;
 			public:
 				WindowsController(HINSTANCE _hInstance)
 					:hInstance(_hInstance)
@@ -808,6 +809,9 @@ WindowsController
 					,isTimerEnabled(false)
 				{
 					godWindow=CreateWindowEx(WS_EX_CONTROLPARENT, godClass.GetName().Buffer(), L"GodWindow", WS_OVERLAPPEDWINDOW, 0, 0, 0, 0, NULL, NULL, hInstance, NULL);
+
+					defaultFont.size=16;
+					defaultFont.fontFamily=L"Lucida Console";
 				}
 
 				~WindowsController()
@@ -900,6 +904,16 @@ WindowsController
 						TranslateMessage(&message);
 						DispatchMessage(&message);
 					}
+				}
+
+				FontProperties GetDefaultFont()
+				{
+					return defaultFont;
+				}
+
+				void SetDefaultFont(const FontProperties& value)
+				{
+					defaultFont=value;
 				}
 
 				bool InstallListener(INativeControllerListener* listener)
