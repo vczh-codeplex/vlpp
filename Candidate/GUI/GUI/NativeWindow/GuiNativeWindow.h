@@ -151,6 +151,9 @@ Native Window Provider
 			virtual INativeWindow*		GetMainWindow()=0;
 			virtual void				Run(INativeWindow* window)=0;
 
+			virtual FontProperties		GetDefaultFont()=0;
+			virtual void				SetDefaultFont(const FontProperties& value)=0;
+
 			virtual bool				InstallListener(INativeControllerListener* listener)=0;
 			virtual bool				UninstallListener(INativeControllerListener* listener)=0;
 

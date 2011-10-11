@@ -49,6 +49,12 @@ GuiControl
 				eventComposition->SetAssociatedControl(this);
 				VisibleChanged.SetAssociatedComposition(eventComposition);
 				EnabledChanged.SetAssociatedComposition(eventComposition);
+				TextChanged.SetAssociatedComposition(eventComposition);
+				FontChanged.SetAssociatedComposition(eventComposition);
+
+				font=GetCurrentController()->GetDefaultFont();
+				styleController->SetFont(font);
+				styleController->SetText(text);
 			}
 
 			GuiControl::~GuiControl()
@@ -118,6 +124,36 @@ GuiControl
 				}
 			}
 
+			const WString& GuiControl::GetText()
+			{
+				return text;
+			}
+
+			void GuiControl::SetText(const WString& value)
+			{
+				if(text!=value)
+				{
+					text=value;
+					styleController->SetText(text);
+					TextChanged.Execute(GetNotifyEventArguments());
+				}
+			}
+
+			const FontProperties& GuiControl::GetFont()
+			{
+				return font;
+			}
+
+			void GuiControl::SetFont(const FontProperties& value)
+			{
+				if(font!=value)
+				{
+					font=value;
+					styleController->SetFont(font);
+					FontChanged.Execute(GetNotifyEventArguments());
+				}
+			}
+
 /***********************************************************************
 GuiControlHost
 ***********************************************************************/
@@ -145,6 +181,14 @@ GuiControlHost
 			elements::GuiGraphicsHost* GuiControlHost::Style::GetHost()
 			{
 				return host;
+			}
+
+			void GuiControlHost::Style::SetText(const WString& value)
+			{
+			}
+
+			void GuiControlHost::Style::SetFont(const FontProperties& value)
+			{
 			}
 
 			GuiControlHost::GuiControlHost()
@@ -282,8 +326,7 @@ GuiButton
 				,mouseHoving(false)
 				,controlStyle(Normal)
 			{
-				TextChanged.SetAssociatedComposition(GetBoundsComposition());
-				Clicked.SetAssociatedComposition(GetBoundsComposition());
+				Clicked.SetAssociatedComposition(eventComposition);
 
 				GetEventReceiver()->leftButtonDown.Attach(new GuiMouseEvent::FunctionHandler(GuiMouseEvent::FunctionType(this, &GuiButton::OnLeftButtonDown)));
 				GetEventReceiver()->leftButtonUp.Attach(new GuiMouseEvent::FunctionHandler(GuiMouseEvent::FunctionType(this, &GuiButton::OnLeftButtonUp)));
@@ -293,21 +336,6 @@ GuiButton
 
 			GuiButton::~GuiButton()
 			{
-			}
-
-			const WString& GuiButton::GetText()
-			{
-				return text;
-			}
-
-			void GuiButton::SetText(const WString& value)
-			{
-				if(text!=value)
-				{
-					text=value;
-					styleController->SetText(text);
-					TextChanged.Execute(GetNotifyEventArguments());
-				}
 			}
 		}
 	}

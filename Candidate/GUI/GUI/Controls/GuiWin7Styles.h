@@ -51,11 +51,15 @@ Common Configurations
 				GuiGradientBackgroundElement*			topGradientElement;
 				GuiGradientBackgroundElement*			bottomGradientElement;
 				GuiSolidLabelElement*					textElement;
+				GuiBoundsComposition*					textComposition;
 				GuiBoundsComposition*					mainComposition;
 
 				static Win7ButtonElements				Create();
 				void									Apply(Win7ItemColors colors);
 			};
+
+			extern void									Win7SetFont(GuiSolidLabelElement* element, GuiBoundsComposition* composition, const FontProperties& fontProperties);
+			extern void									Win7CreateSolidLabelElement(GuiSolidLabelElement*& element, GuiBoundsComposition*& composition);
 
 /***********************************************************************
 Button
@@ -90,6 +94,7 @@ Button
 				elements::GuiGraphicsComposition*			GetContainerComposition();
 				void										Transfer(GuiButton::ControlStyle value);
 				void										SetText(const WString& value);
+				void										SetFont(const FontProperties& value);
 			};
 		}
 	}

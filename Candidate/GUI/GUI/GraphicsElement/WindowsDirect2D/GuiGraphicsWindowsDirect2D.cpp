@@ -356,6 +356,7 @@ void NativeMain()
 	SetGuiGraphicsResourceManager(&resourceManager);
 	SetWindowsDirect2DResourceManager(&resourceManager);
 	GetCurrentController()->InstallListener(&resourceManager);
+	GetCurrentController()->StartTimer();
 
 	GuiSolidBorderElementRenderer::Register();
 	GuiRoundBorderElementRenderer::Register();
