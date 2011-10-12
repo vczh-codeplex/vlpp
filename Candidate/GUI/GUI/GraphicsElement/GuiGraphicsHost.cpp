@@ -53,7 +53,7 @@ GuiGraphicsHost
 
 			void GuiGraphicsHost::MouseCapture(const NativeWindowMouseInfo& info)
 			{
-				if(!mouseCapturing && (info.left || info.middle || info.right))
+				if(nativeWindow && !mouseCapturing && (info.left || info.middle || info.right))
 				{
 					nativeWindow->RequireCapture();
 					mouseCaptureLocation=Point(info.x, info.y);
@@ -63,7 +63,7 @@ GuiGraphicsHost
 
 			void GuiGraphicsHost::MouseUncapture(const NativeWindowMouseInfo& info)
 			{
-				if(mouseCapturing && !(info.left || info.middle || info.right))
+				if(nativeWindow && mouseCapturing && !(info.left || info.middle || info.right))
 				{
 					nativeWindow->ReleaseCapture();
 					mouseCapturing=false;

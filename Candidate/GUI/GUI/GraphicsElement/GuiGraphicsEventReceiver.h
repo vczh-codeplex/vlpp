@@ -30,7 +30,8 @@ Event
 			class GuiGraphicsEvent : public Object
 			{
 			public:
-				typedef Func<void(GuiGraphicsComposition*, T&)>		FunctionType;
+				typedef void(RawFunctionType)(GuiGraphicsComposition*, T&);
+				typedef Func<RawFunctionType>						FunctionType;
 
 				class IHandler : public Interface
 				{
@@ -105,14 +106,23 @@ Event
 				Ptr<IHandler> AttachMethod(TClass* receiver, TMethod TClass::* method)
 				{
 					Ptr<IHandler> handler=new FunctionHandler(FunctionType(receiver, method));
-					if(Attach(handler))
-					{
-						return handler;
-					}
-					else
-					{
-						return 0;
-					}
+					Attach(handler);
+					return handler;
+				}
+
+				Ptr<IHandler> AttachFunction(RawFunctionType* function)
+				{
+					Ptr<IHandler> handler=new FunctionHandler(FunctionType(function));
+					Attach(handler);
+					return handler;
+				}
+
+				template<typename T>
+				Ptr<IHandler> AttachLambda(const T& lambda)
+				{
+					Ptr<IHandler> handler=new FunctionHandler(FunctionType(lambda));
+					Attach(handler);
+					return handler;
 				}
 
 				bool Detach(Ptr<IHandler> handler)

@@ -107,9 +107,17 @@ Basic Construction
 				~GuiControlHost();
 
 				elements::GuiGraphicsHost*				GetGraphicsHost();
+				elements::GuiGraphicsComposition*		GetMainComposition();
 				INativeWindow*							GetNativeWindow();
 				void									SetNativeWindow(INativeWindow* window);
 				void									Render();
+
+				void									Show();
+				void									ShowRestored();
+				void									ShowMaximized();
+				void									ShowMinimized();
+				void									Hide();
+				void									Close();
 			};
 
 /***********************************************************************
