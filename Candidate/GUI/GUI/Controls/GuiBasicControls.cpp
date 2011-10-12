@@ -8,18 +8,6 @@ namespace vl
 		{
 			using namespace elements;
 
-			GuiGraphicsComposition* GetEventComposition(Ptr<GuiControl::IStyleController> styleController)
-			{
-				if(styleController->GetBoundsComposition())
-				{
-					return styleController->GetBoundsComposition();
-				}
-				else
-				{
-					return styleController->GetContainerComposition();
-				}
-			}
-
 /***********************************************************************
 GuiControl
 ***********************************************************************/
@@ -53,27 +41,27 @@ GuiControl
 				}
 			}
 
-			GuiControl::GuiControl(Ptr<IStyleController> _styleController)
+			GuiControl::GuiControl(IStyleController* _styleController)
 				:styleController(_styleController)
 				,boundsComposition(_styleController->GetBoundsComposition())
-				,eventComposition(GetEventComposition(_styleController))
 				,containerComposition(_styleController->GetContainerComposition())
-				,eventReceiver(GetEventComposition(_styleController)->GetEventReceiver())
+				,eventReceiver(_styleController->GetBoundsComposition()->GetEventReceiver())
 				,isEnabled(true)
 				,isVisuallyEnabled(true)
 				,isVisible(true)
 				,parent(0)
 			{
-				eventComposition->SetAssociatedControl(this);
-				VisibleChanged.SetAssociatedComposition(eventComposition);
-				EnabledChanged.SetAssociatedComposition(eventComposition);
-				VisuallyEnabledChanged.SetAssociatedComposition(eventComposition);
-				TextChanged.SetAssociatedComposition(eventComposition);
-				FontChanged.SetAssociatedComposition(eventComposition);
+				boundsComposition->SetAssociatedControl(this);
+				VisibleChanged.SetAssociatedComposition(boundsComposition);
+				EnabledChanged.SetAssociatedComposition(boundsComposition);
+				VisuallyEnabledChanged.SetAssociatedComposition(boundsComposition);
+				TextChanged.SetAssociatedComposition(boundsComposition);
+				FontChanged.SetAssociatedComposition(boundsComposition);
 
 				font=GetCurrentController()->GetDefaultFont();
 				styleController->SetFont(font);
 				styleController->SetText(text);
+				styleController->SetVisuallyEnabled(isVisuallyEnabled);
 			}
 
 			GuiControl::~GuiControl()
@@ -82,11 +70,15 @@ GuiControl
 				{
 					delete children[i];
 				}
+				if(boundsComposition->GetRelatedGraphicsHost()==0 && boundsComposition->GetParent()==0)
+				{
+					delete boundsComposition;
+				}
 			}
 
 			elements::GuiEventArgs GuiControl::GetNotifyEventArguments()
 			{
-				return GuiEventArgs(eventComposition);
+				return GuiEventArgs(boundsComposition);
 			}
 
 			GuiControl::IStyleController* GuiControl::GetStyleController()
@@ -183,51 +175,18 @@ GuiControl
 GuiControlHost
 ***********************************************************************/
 
-			GuiControlHost::Style::Style()
-				:host(new GuiGraphicsHost)
+			GuiControlHost::GuiControlHost(GuiControl::IStyleController* _styleController)
+				:GuiControl(_styleController)
 			{
-			}
+				GetStyleController()->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
 
-			GuiControlHost::Style::~Style()
-			{
-				delete host;
-			}
-
-			elements::GuiBoundsComposition* GuiControlHost::Style::GetBoundsComposition()
-			{
-				return 0;
-			}
-
-			elements::GuiGraphicsComposition* GuiControlHost::Style::GetContainerComposition()
-			{
-				return host->GetMainComposition();
-			}
-
-			elements::GuiGraphicsHost* GuiControlHost::Style::GetHost()
-			{
-				return host;
-			}
-
-			void GuiControlHost::Style::SetText(const WString& value)
-			{
-			}
-
-			void GuiControlHost::Style::SetFont(const FontProperties& value)
-			{
-			}
-
-			void GuiControlHost::Style::SetVisuallyEnabled(bool value)
-			{
-			}
-
-			GuiControlHost::GuiControlHost()
-				:GuiControl(new Style)
-			{
-				host=dynamic_cast<Style*>(GetStyleController())->GetHost();
+				host=new GuiGraphicsHost;
+				host->GetMainComposition()->AddChild(GetStyleController()->GetBoundsComposition());
 			}
 
 			GuiControlHost::~GuiControlHost()
 			{
+				delete host;
 			}
 
 			elements::GuiGraphicsHost* GuiControlHost::GetGraphicsHost()
@@ -398,7 +357,7 @@ GuiButton
 				,mouseHoving(false)
 				,controlStyle(Normal)
 			{
-				Clicked.SetAssociatedComposition(eventComposition);
+				Clicked.SetAssociatedComposition(boundsComposition);
 
 				GetEventReceiver()->leftButtonDown.AttachMethod(this, &GuiButton::OnLeftButtonDown);
 				GetEventReceiver()->leftButtonUp.AttachMethod(this, &GuiButton::OnLeftButtonUp);

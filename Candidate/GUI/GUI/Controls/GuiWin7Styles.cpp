@@ -132,6 +132,11 @@ Win7ItemColors
 				return colors;
 			}
 
+			Color Win7ItemColors::GetSystemWindowColor()
+			{
+				return Color(240, 240, 240);
+			}
+
 /***********************************************************************
 Win7ButtonElements
 ***********************************************************************/
@@ -141,7 +146,6 @@ Win7ButtonElements
 				Win7ButtonElements button;
 				{
 					button.mainComposition=new GuiBoundsComposition;
-					button.mainComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
 					button.mainComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 				}
 				{
@@ -232,6 +236,45 @@ Helpers
 				composition->SetMargin(Margin(0, 0, 0, 0));
 				composition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElement);
 				composition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+			}
+
+/***********************************************************************
+Win7WindowStyle
+***********************************************************************/
+
+			Win7WindowStyle::Win7WindowStyle()
+			{
+				GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
+				element->SetColor(Win7ItemColors::GetSystemWindowColor());
+				
+				boundsComposition=new GuiBoundsComposition;
+				boundsComposition->SetOwnedElement(element);
+			}
+
+			Win7WindowStyle::~Win7WindowStyle()
+			{
+			}
+
+			elements::GuiBoundsComposition* Win7WindowStyle::GetBoundsComposition()
+			{
+				return boundsComposition;
+			}
+
+			elements::GuiGraphicsComposition* Win7WindowStyle::GetContainerComposition()
+			{
+				return boundsComposition;
+			}
+
+			void Win7WindowStyle::SetText(const WString& value)
+			{
+			}
+
+			void Win7WindowStyle::SetFont(const FontProperties& value)
+			{
+			}
+
+			void Win7WindowStyle::SetVisuallyEnabled(bool value)
+			{
 			}
 
 /***********************************************************************
@@ -351,6 +394,117 @@ Win7ButtonStyle
 				{
 					controlStyle=value;
 					TransferInternal(controlStyle, isVisuallyEnabled);
+				}
+			}
+
+/***********************************************************************
+WinGroupBoxStyle
+***********************************************************************/
+
+			void Win7GroupBoxStyle::SetMargins(int fontSize)
+			{
+				fontSize+=4;
+				int half=fontSize/2;
+				sinkBorderComposition->SetAlignmentToParent(Margin(0, half, 1, 1));
+				raisedBorderComposition->SetAlignmentToParent(Margin(1, half+1, 0, 0));
+				containerComposition->SetAlignmentToParent(Margin(2, fontSize, 2, 2));
+				textBackgroundComposition->SetAlignmentToParent(Margin(half, 2, -1, -1));
+			}
+
+			Win7GroupBoxStyle::Win7GroupBoxStyle()
+			{
+				boundsComposition=new GuiBoundsComposition;
+				{
+					GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
+					element->SetColor(Win7ItemColors::GetSystemWindowColor());
+
+					boundsComposition->SetOwnedElement(element);
+				}
+
+				sinkBorderComposition=new GuiBoundsComposition;
+				{
+					GuiRoundBorderElement* element=GuiRoundBorderElement::Create();
+					element->SetRadius(3);
+					element->SetColor(Color(213, 223, 229));
+
+					sinkBorderComposition->SetOwnedElement(element);
+					boundsComposition->AddChild(sinkBorderComposition);
+				}
+
+				raisedBorderComposition=new GuiBoundsComposition;
+				{
+					GuiRoundBorderElement* element=GuiRoundBorderElement::Create();
+					element->SetRadius(3);
+					element->SetColor(Color(255, 255, 255));
+
+					raisedBorderComposition->SetOwnedElement(element);
+					boundsComposition->AddChild(raisedBorderComposition);
+				}
+
+				textBackgroundComposition=new GuiBoundsComposition;
+				{
+					GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
+					element->SetColor(Win7ItemColors::GetSystemWindowColor());
+
+					textBackgroundComposition->SetOwnedElement(element);
+					textBackgroundComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+					boundsComposition->AddChild(textBackgroundComposition);
+				}
+
+				textComposition=new GuiBoundsComposition;
+				{
+					GuiSolidLabelElement* element=GuiSolidLabelElement::Create();
+					textElement=element;
+
+					textComposition->SetOwnedElement(element);
+					textComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+					textComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElement);
+					textBackgroundComposition->AddChild(textComposition);
+				}
+
+				containerComposition=new GuiBoundsComposition;
+				{
+					boundsComposition->AddChild(containerComposition);
+				}
+
+				SetMargins(0);
+				SetVisuallyEnabled(true);
+			}
+
+			Win7GroupBoxStyle::~Win7GroupBoxStyle()
+			{
+			}
+
+			elements::GuiBoundsComposition* Win7GroupBoxStyle::GetBoundsComposition()
+			{
+				return boundsComposition;
+			}
+
+			elements::GuiGraphicsComposition* Win7GroupBoxStyle::GetContainerComposition()
+			{
+				return containerComposition;
+			}
+
+			void Win7GroupBoxStyle::SetText(const WString& value)
+			{
+				textElement->SetText(value);
+			}
+
+			void Win7GroupBoxStyle::SetFont(const FontProperties& value)
+			{
+				textElement->SetFont(value);
+				SetMargins(value.size);
+			}
+
+			void Win7GroupBoxStyle::SetVisuallyEnabled(bool value)
+			{
+				if(value)
+				{
+					textElement->SetColor(Win7ItemColors::Normal().textColor);
+				}
+				else
+				{
+					textElement->SetColor(Win7ItemColors::Disabled().textColor);
 				}
 			}
 		}
