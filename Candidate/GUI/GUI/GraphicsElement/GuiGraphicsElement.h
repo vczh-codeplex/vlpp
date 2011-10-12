@@ -275,8 +275,9 @@ Elements
 				DEFINE_GUI_GRAPHICS_ELEMENT(GuiSolidBorderElement, L"SolidBorder")
 			protected:
 				Color					color;
-			public:
+
 				GuiSolidBorderElement();
+			public:
 				~GuiSolidBorderElement();
 
 				Color					GetColor();
@@ -289,8 +290,9 @@ Elements
 			protected:
 				Color					color;
 				int						radius;
-			public:
+
 				GuiRoundBorderElement();
+			public:
 				~GuiRoundBorderElement();
 
 				Color					GetColor();
@@ -305,8 +307,9 @@ Elements
 				DEFINE_GUI_GRAPHICS_ELEMENT(GuiSolidBackgroundElement, L"SolidBackground")
 			protected:
 				Color					color;
-			public:
+
 				GuiSolidBackgroundElement();
+			public:
 				~GuiSolidBackgroundElement();
 
 				Color					GetColor();
@@ -325,8 +328,9 @@ Elements
 			protected:
 				Color					color1, color2;
 				Direction				direction;
-			public:
+
 				GuiGradientBackgroundElement();
+			public:
 				~GuiGradientBackgroundElement();
 
 				Color					GetColor1();
@@ -346,8 +350,9 @@ Elements
 				WString					text;
 				Alignment::Type			hAlignment;
 				Alignment::Type			vAlignment;
-			public:
+
 				GuiSolidLabelElement();
+			public:
 				~GuiSolidLabelElement();
 
 				Color					GetColor();
