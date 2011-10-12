@@ -955,20 +955,21 @@ GuiTableComposition
 
 			Rect GuiTableComposition::GetBounds()
 			{
+				Rect result;
 				if(!IsAlignedToParent() && GetMinSizeLimitation()!=GuiGraphicsComposition::NoLimit)
 				{
-					return Rect(compositionBounds.LeftTop(), compositionBounds.GetSize()-Size(columnExtending, rowExtending));
+					result=Rect(compositionBounds.LeftTop(), compositionBounds.GetSize()-Size(columnExtending, rowExtending));
 				}
 				else
 				{
-					Rect result=GuiBoundsComposition::GetBounds();
-					if(previousGetBoundsResult!=result)
-					{
-						previousGetBoundsResult=result;
-						UpdateCellBounds();
-					}
-					return result;
+					result=GuiBoundsComposition::GetBounds();
 				}
+				if(previousGetBoundsResult!=result)
+				{
+					previousGetBoundsResult=result;
+					UpdateCellBounds();
+				}
+				return result;
 			}
 
 			void GuiTableComposition::SetBounds(Rect value)

@@ -247,7 +247,7 @@ Table Compositions
 														int start,
 														int max
 														);
-
+				
 				Rect								GetUnalignedBoundsForMinNecessaryBounds();
 			public:
 				GuiTableComposition();
