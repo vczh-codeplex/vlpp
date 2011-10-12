@@ -275,35 +275,35 @@ GuiControlHost
 GuiButton
 ***********************************************************************/
 
-			void GuiButton::UpdateControlStyle()
+			void GuiButton::UpdateControlState()
 			{
-				ControlStyle newControlStyle=Normal;
+				ControlState newControlState=Normal;
 				if(mousePressing)
 				{
 					if(mouseHoving)
 					{
-						newControlStyle=Pressed;
+						newControlState=Pressed;
 					}
 					else
 					{
-						newControlStyle=Active;
+						newControlState=Active;
 					}
 				}
 				else
 				{
 					if(mouseHoving)
 					{
-						newControlStyle=Active;
+						newControlState=Active;
 					}
 					else
 					{
-						newControlStyle=Normal;
+						newControlState=Normal;
 					}
 				}
-				if(controlStyle!=newControlStyle)
+				if(controlState!=newControlState)
 				{
-					controlStyle=newControlStyle;
-					styleController->Transfer(controlStyle);
+					controlState=newControlState;
+					styleController->Transfer(controlState);
 				}
 			}
 
@@ -312,7 +312,7 @@ GuiButton
 				if(arguments.eventSource==GetBoundsComposition())
 				{
 					mousePressing=true;
-					UpdateControlStyle();
+					UpdateControlState();
 				}
 			}
 
@@ -321,7 +321,7 @@ GuiButton
 				if(arguments.eventSource==GetBoundsComposition())
 				{
 					mousePressing=false;
-					UpdateControlStyle();
+					UpdateControlState();
 				}
 				if(GetVisuallyEnabled())
 				{
@@ -337,7 +337,7 @@ GuiButton
 				if(arguments.eventSource==GetBoundsComposition())
 				{
 					mouseHoving=true;
-					UpdateControlStyle();
+					UpdateControlState();
 				}
 			}
 
@@ -346,7 +346,7 @@ GuiButton
 				if(arguments.eventSource==GetBoundsComposition())
 				{
 					mouseHoving=false;
-					UpdateControlStyle();
+					UpdateControlState();
 				}
 			}
 
@@ -355,7 +355,7 @@ GuiButton
 				,styleController(_styleController)
 				,mousePressing(false)
 				,mouseHoving(false)
-				,controlStyle(Normal)
+				,controlState(Normal)
 			{
 				Clicked.SetAssociatedComposition(boundsComposition);
 
@@ -367,6 +367,44 @@ GuiButton
 
 			GuiButton::~GuiButton()
 			{
+			}
+
+/***********************************************************************
+GuiSelectableButton
+***********************************************************************/
+
+			void GuiSelectableButton::OnClicked(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
+			{
+				SetSelected(!GetSelected());
+			}
+
+			GuiSelectableButton::GuiSelectableButton(IStyleController* _styleController)
+				:GuiButton(_styleController)
+				,styleController(_styleController)
+				,isSelected(false)
+			{
+				SelectedChanged.SetAssociatedComposition(boundsComposition);
+
+				styleController->SetSelected(isSelected);
+			}
+			
+			GuiSelectableButton::~GuiSelectableButton()
+			{
+			}
+
+			bool GuiSelectableButton::GetSelected()
+			{
+				return isSelected;
+			}
+
+			void GuiSelectableButton::SetSelected(bool value)
+			{
+				if(isSelected!=value)
+				{
+					isSelected=value;
+					styleController->SetSelected(isSelected);
+					SelectedChanged.Execute(GetNotifyEventArguments());
+				}
 			}
 		}
 	}

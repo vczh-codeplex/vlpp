@@ -17,24 +17,22 @@ namespace vl
 	{
 		namespace win7
 		{
-			using namespace elements;
-			using namespace controls;
 
 /***********************************************************************
 Common Configurations
 ***********************************************************************/
 			
-			struct Win7ItemColors
+			struct Win7ButtonColors
 			{
-				Color									borderColor;
-				Color									backgroundColor;
-				Color									g1;
-				Color									g2;
-				Color									g3;
-				Color									g4;
-				Color									textColor;
+				Color										borderColor;
+				Color										backgroundColor;
+				Color										g1;
+				Color										g2;
+				Color										g3;
+				Color										g4;
+				Color										textColor;
 
-				bool operator==(const Win7ItemColors& colors)
+				bool operator==(const Win7ButtonColors& colors)
 				{
 					return
 						borderColor == colors.borderColor &&
@@ -46,46 +44,66 @@ Common Configurations
 						textColor == colors.textColor;
 				}
 
-				bool operator!=(const Win7ItemColors& colors)
+				bool operator!=(const Win7ButtonColors& colors)
 				{
 					return !(*this==colors);
 				}
 
-				static Win7ItemColors					Blend(const Win7ItemColors c1, const Win7ItemColors c2, int ratio, int total);
+				static Win7ButtonColors						Blend(const Win7ButtonColors c1, const Win7ButtonColors c2, int ratio, int total);
 
-				static Win7ItemColors					Normal();
-				static Win7ItemColors					ItemActive();
-				static Win7ItemColors					ItemSelected();
-				static Win7ItemColors					ButtonActive();
-				static Win7ItemColors					ButtonPressed();
-				static Win7ItemColors					Disabled();
-
-				static int								GetColorAnimationLength();
-				static Color							GetSystemWindowColor();
+				static Win7ButtonColors						Normal();
+				static Win7ButtonColors						ItemActive();
+				static Win7ButtonColors						ItemSelected();
+				static Win7ButtonColors						ButtonActive();
+				static Win7ButtonColors						ButtonPressed();
+				static Win7ButtonColors						Disabled();
 			};
 
 			struct Win7ButtonElements
 			{
-				GuiRoundBorderElement*					borderElement;
-				GuiSolidBackgroundElement*				backgroundElement;
-				GuiGradientBackgroundElement*			topGradientElement;
-				GuiGradientBackgroundElement*			bottomGradientElement;
-				GuiSolidLabelElement*					textElement;
-				GuiBoundsComposition*					textComposition;
-				GuiBoundsComposition*					mainComposition;
+				elements::GuiRoundBorderElement*			borderElement;
+				elements::GuiSolidBackgroundElement*		backgroundElement;
+				elements::GuiGradientBackgroundElement*		topGradientElement;
+				elements::GuiGradientBackgroundElement*		bottomGradientElement;
+				elements::GuiSolidLabelElement*				textElement;
+				elements::GuiBoundsComposition*				textComposition;
+				elements::GuiBoundsComposition*				mainComposition;
 
-				static Win7ButtonElements				Create();
-				void									Apply(Win7ItemColors colors);
+				static Win7ButtonElements					Create();
+				void										Apply(Win7ButtonColors colors);
 			};
+			
+			extern int										Win7GetColorAnimationLength();
+			extern Color									Win7GetSystemWindowColor();
+			extern Color									Win7GetSystemTextColor(bool enabled);
+			extern void										Win7SetFont(elements::GuiSolidLabelElement* element, elements::GuiBoundsComposition* composition, const FontProperties& fontProperties);
+			extern void										Win7CreateSolidLabelElement(elements::GuiSolidLabelElement*& element, elements::GuiBoundsComposition*& composition);
 
-			extern void									Win7SetFont(GuiSolidLabelElement* element, GuiBoundsComposition* composition, const FontProperties& fontProperties);
-			extern void									Win7CreateSolidLabelElement(GuiSolidLabelElement*& element, GuiBoundsComposition*& composition);
+/***********************************************************************
+Animation
+***********************************************************************/
+
+#define DEFINE_TRANSFERRING_ANIMATION(TSTATE, TSTYLECONTROLLER)\
+				class TransferringAnimation : public elements::GuiTimeBasedAnimation\
+				{\
+				protected:\
+					TSTATE									colorBegin;\
+					TSTATE									colorEnd;\
+					TSTATE									colorCurrent;\
+					TSTYLECONTROLLER*						style;\
+					bool									stopped;\
+				public:\
+					TransferringAnimation(TSTYLECONTROLLER* _style, const TSTATE& begin);\
+					void									Play(int currentPosition, int totalLength);\
+					void									Stop();\
+					void									Transfer(const TSTATE& end);\
+				};\
 
 /***********************************************************************
 Button
 ***********************************************************************/
 
-			class Win7WindowStyle : public Object, public GuiControl::IStyleController
+			class Win7WindowStyle : public Object, public controls::GuiControl::IStyleController
 			{
 			protected:
 				elements::GuiBoundsComposition*				boundsComposition;
@@ -100,31 +118,17 @@ Button
 				void										SetVisuallyEnabled(bool value);
 			};
 
-			class Win7ButtonStyle : public Object, public GuiButton::IStyleController
+			class Win7ButtonStyle : public Object, public controls::GuiButton::IStyleController
 			{
 			protected:
-				class TransferringAnimation : public GuiTimeBasedAnimation
-				{
-				protected:
-					Win7ItemColors							colorBegin;
-					Win7ItemColors							colorEnd;
-					Win7ItemColors							colorCurrent;
-					Win7ButtonStyle*						style;
-					bool									stopped;
-				public:
-					TransferringAnimation(Win7ButtonStyle* _style, const Win7ItemColors& begin);
-
-					void									Play(int currentPosition, int totalLength);
-					void									Stop();
-					void									Transfer(const Win7ItemColors& end);
-				};
+				DEFINE_TRANSFERRING_ANIMATION(Win7ButtonColors, Win7ButtonStyle)
 
 				Win7ButtonElements							elements;
 				Ptr<TransferringAnimation>					transferringAnimation;
-				GuiButton::ControlStyle						controlStyle;
+				controls::GuiButton::ControlState			controlStyle;
 				bool										isVisuallyEnabled;
 
-				void										TransferInternal(GuiButton::ControlStyle value, bool enabled);
+				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled);
 			public:
 				Win7ButtonStyle();
 				~Win7ButtonStyle();
@@ -134,27 +138,13 @@ Button
 				void										SetText(const WString& value);
 				void										SetFont(const FontProperties& value);
 				void										SetVisuallyEnabled(bool value);
-				void										Transfer(GuiButton::ControlStyle value);
+				void										Transfer(controls::GuiButton::ControlState value);
 			};
 
-			class Win7GroupBoxStyle : public Object, public GuiControl::IStyleController
+			class Win7GroupBoxStyle : public Object, public controls::GuiControl::IStyleController
 			{
 			protected:
-				class TransferringAnimation : public GuiTimeBasedAnimation
-				{
-				protected:
-					Color									colorBegin;
-					Color									colorEnd;
-					Color									colorCurrent;
-					Win7GroupBoxStyle*						style;
-					bool									stopped;
-				public:
-					TransferringAnimation(Win7GroupBoxStyle* _style, const Color& begin);
-
-					void									Play(int currentPosition, int totalLength);
-					void									Stop();
-					void									Transfer(const Color& end);
-				};
+				DEFINE_TRANSFERRING_ANIMATION(Color, Win7GroupBoxStyle)
 
 				elements::GuiBoundsComposition*				boundsComposition;
 				elements::GuiBoundsComposition*				sinkBorderComposition;
