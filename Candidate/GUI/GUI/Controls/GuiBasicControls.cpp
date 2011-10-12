@@ -323,7 +323,7 @@ GuiButton
 					mousePressing=false;
 					UpdateControlStyle();
 				}
-				if(GetEnabled())
+				if(GetVisuallyEnabled())
 				{
 					if(mouseHoving)
 					{
