@@ -132,6 +132,11 @@ Win7ItemColors
 				return colors;
 			}
 
+			int Win7ItemColors::GetColorAnimationLength()
+			{
+				return 120;
+			}
+
 			Color Win7ItemColors::GetSystemWindowColor()
 			{
 				return Color(240, 240, 240);
@@ -306,7 +311,7 @@ Win7ButtonStyle
 			{
 				if(colorEnd!=end)
 				{
-					Restart(120);
+					Restart(Win7ItemColors::GetColorAnimationLength());
 					if(stopped)
 					{
 						colorBegin=colorEnd;
@@ -398,8 +403,49 @@ Win7ButtonStyle
 			}
 
 /***********************************************************************
-WinGroupBoxStyle
+Win7GroupBoxStyle
 ***********************************************************************/
+
+			Win7GroupBoxStyle::TransferringAnimation::TransferringAnimation(Win7GroupBoxStyle* _style, const Color& begin)
+				:GuiTimeBasedAnimation(0)
+				,colorBegin(begin)
+				,colorEnd(begin)
+				,colorCurrent(begin)
+				,style(_style)
+				,stopped(true)
+			{
+			}
+
+			void Win7GroupBoxStyle::TransferringAnimation::Play(int currentPosition, int totalLength)
+			{
+				colorCurrent=BlendColor(colorBegin, colorEnd, currentPosition, totalLength);
+				style->textElement->SetColor(colorCurrent);
+			}
+
+			void Win7GroupBoxStyle::TransferringAnimation::Stop()
+			{
+				stopped=true;
+			}
+
+			void Win7GroupBoxStyle::TransferringAnimation::Transfer(const Color& end)
+			{
+				if(colorEnd!=end)
+				{
+					Restart(Win7ItemColors::GetColorAnimationLength());
+					if(stopped)
+					{
+						colorBegin=colorEnd;
+						colorEnd=end;
+						style->GetBoundsComposition()->GetRelatedGraphicsHost()->GetAnimationManager()->AddAnimation(style->transferringAnimation);
+						stopped=false;
+					}
+					else
+					{
+						colorBegin=colorCurrent;
+						colorEnd=end;
+					}
+				}
+			}
 
 			void Win7GroupBoxStyle::SetMargins(int fontSize)
 			{
@@ -454,6 +500,7 @@ WinGroupBoxStyle
 				textComposition=new GuiBoundsComposition;
 				{
 					GuiSolidLabelElement* element=GuiSolidLabelElement::Create();
+					element->SetColor(Win7ItemColors::Normal().textColor);
 					textElement=element;
 
 					textComposition->SetOwnedElement(element);
@@ -468,7 +515,7 @@ WinGroupBoxStyle
 				}
 
 				SetMargins(0);
-				SetVisuallyEnabled(true);
+				transferringAnimation=new TransferringAnimation(this, Win7ItemColors::Normal().textColor);
 			}
 
 			Win7GroupBoxStyle::~Win7GroupBoxStyle()
@@ -500,11 +547,11 @@ WinGroupBoxStyle
 			{
 				if(value)
 				{
-					textElement->SetColor(Win7ItemColors::Normal().textColor);
+					transferringAnimation->Transfer(Win7ItemColors::Normal().textColor);
 				}
 				else
 				{
-					textElement->SetColor(Win7ItemColors::Disabled().textColor);
+					transferringAnimation->Transfer(Win7ItemColors::Disabled().textColor);
 				}
 			}
 		}
