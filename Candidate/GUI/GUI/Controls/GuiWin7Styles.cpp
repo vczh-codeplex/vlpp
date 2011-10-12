@@ -6,6 +6,8 @@ namespace vl
 	{
 		namespace win7
 		{
+			using namespace elements;
+			using namespace controls;
 
 			unsigned char IntToColor(int color)
 			{
@@ -26,12 +28,12 @@ namespace vl
 Win7ItemColors
 ***********************************************************************/
 
-			Win7ItemColors Win7ItemColors::Blend(const Win7ItemColors c1, const Win7ItemColors c2, int ratio, int total)
+			Win7ButtonColors Win7ButtonColors::Blend(const Win7ButtonColors c1, const Win7ButtonColors c2, int ratio, int total)
 			{
 				if(ratio<0) ratio=0;
 				else if(ratio>total) ratio=total;
 
-				Win7ItemColors result;
+				Win7ButtonColors result;
 				result.borderColor=BlendColor(c1.borderColor, c2.borderColor, ratio, total);
 				result.backgroundColor=BlendColor(c1.backgroundColor, c2.backgroundColor, ratio, total);
 				result.g1=BlendColor(c1.g1, c2.g1, ratio, total);
@@ -42,9 +44,9 @@ Win7ItemColors
 				return result;
 			}
 
-			Win7ItemColors Win7ItemColors::Normal()
+			Win7ButtonColors Win7ButtonColors::Normal()
 			{
-				Win7ItemColors colors=
+				Win7ButtonColors colors=
 				{
 					Color(122, 122, 122),
 					Color(251, 251, 251),
@@ -52,14 +54,14 @@ Win7ItemColors
 					Color(235, 235, 235),
 					Color(221, 221, 221),
 					Color(207, 207, 207),
-					Color(0, 0, 0),
+					Win7GetSystemTextColor(true),
 				};
 				return colors;
 			}
 
-			Win7ItemColors Win7ItemColors::ItemActive()
+			Win7ButtonColors Win7ButtonColors::ItemActive()
 			{
-				Win7ItemColors colors=
+				Win7ButtonColors colors=
 				{
 					Color(204, 240, 255),
 					Color(220, 244, 254),
@@ -67,14 +69,14 @@ Win7ItemColors
 					Color(240, 250, 255),
 					Color(225, 245, 254),
 					Color(215, 245, 254),
-					Color(0, 0, 0),
+					Win7GetSystemTextColor(true),
 				};
 				return colors;
 			}
 
-			Win7ItemColors Win7ItemColors::ItemSelected()
+			Win7ButtonColors Win7ButtonColors::ItemSelected()
 			{
-				Win7ItemColors colors=
+				Win7ButtonColors colors=
 				{
 					Color(128, 190, 247),
 					Color(232, 248, 255),
@@ -82,14 +84,14 @@ Win7ItemColors
 					Color(204, 239, 254),
 					Color(181, 231, 253),
 					Color(164, 225, 251),
-					Color(0, 0, 0),
+					Win7GetSystemTextColor(true),
 				};
 				return colors;
 			}
 
-			Win7ItemColors Win7ItemColors::ButtonActive()
+			Win7ButtonColors Win7ButtonColors::ButtonActive()
 			{
-				Win7ItemColors colors=
+				Win7ButtonColors colors=
 				{
 					Color(60, 127, 177),
 					Color(220, 244, 254),
@@ -97,14 +99,14 @@ Win7ItemColors
 					Color(240, 250, 255),
 					Color(225, 245, 254),
 					Color(215, 245, 254),
-					Color(0, 0, 0),
+					Win7GetSystemTextColor(true),
 				};
 				return colors;
 			}
 
-			Win7ItemColors Win7ItemColors::ButtonPressed()
+			Win7ButtonColors Win7ButtonColors::ButtonPressed()
 			{
-				Win7ItemColors colors=
+				Win7ButtonColors colors=
 				{
 					Color(44, 98, 139),
 					Color(158, 176, 186),
@@ -112,14 +114,14 @@ Win7ItemColors
 					Color(204, 239, 254),
 					Color(181, 231, 253),
 					Color(164, 225, 251),
-					Color(0, 0, 0),
+					Win7GetSystemTextColor(true),
 				};
 				return colors;
 			}
 
-			Win7ItemColors Win7ItemColors::Disabled()
+			Win7ButtonColors Win7ButtonColors::Disabled()
 			{
-				Win7ItemColors colors=
+				Win7ButtonColors colors=
 				{
 					Color(173, 178, 181),
 					Color(252, 252, 252),
@@ -127,19 +129,9 @@ Win7ItemColors
 					Color(244, 244, 244),
 					Color(244, 244, 244),
 					Color(244, 244, 244),
-					Color(131, 131, 131),
+					Win7GetSystemTextColor(false),
 				};
 				return colors;
-			}
-
-			int Win7ItemColors::GetColorAnimationLength()
-			{
-				return 120;
-			}
-
-			Color Win7ItemColors::GetSystemWindowColor()
-			{
-				return Color(240, 240, 240);
 			}
 
 /***********************************************************************
@@ -210,7 +202,7 @@ Win7ButtonElements
 				return button;
 			}
 
-			void Win7ButtonElements::Apply(Win7ItemColors colors)
+			void Win7ButtonElements::Apply(Win7ButtonColors colors)
 			{
 				borderElement->SetColor(colors.borderColor);
 				backgroundElement->SetColor(colors.backgroundColor);
@@ -222,6 +214,21 @@ Win7ButtonElements
 /***********************************************************************
 Helpers
 ***********************************************************************/
+
+			int Win7GetColorAnimationLength()
+			{
+				return 120;
+			}
+
+			Color Win7GetSystemWindowColor()
+			{
+				return Color(240, 240, 240);
+			}
+
+			Color Win7GetSystemTextColor(bool enabled)
+			{
+				return enabled?Color(0, 0, 0):Color(131, 131, 131);
+			}
 
 			void Win7SetFont(GuiSolidLabelElement* element, GuiBoundsComposition* composition, const FontProperties& fontProperties)
 			{
@@ -244,13 +251,52 @@ Helpers
 			}
 
 /***********************************************************************
+Animation
+***********************************************************************/
+
+#define IMPLEMENT_TRANSFERRING_ANIMATION(TSTATE, TSTYLECONTROLLER)\
+			TSTYLECONTROLLER::TransferringAnimation::TransferringAnimation(TSTYLECONTROLLER* _style, const TSTATE& begin)\
+				:GuiTimeBasedAnimation(0)\
+				,colorBegin(begin)\
+				,colorEnd(begin)\
+				,colorCurrent(begin)\
+				,style(_style)\
+				,stopped(true)\
+			{\
+			}\
+			void TSTYLECONTROLLER::TransferringAnimation::Stop()\
+			{\
+				stopped=true;\
+			}\
+			void TSTYLECONTROLLER::TransferringAnimation::Transfer(const TSTATE& end)\
+			{\
+				if(colorEnd!=end)\
+				{\
+					Restart(Win7GetColorAnimationLength());\
+					if(stopped)\
+					{\
+						colorBegin=colorEnd;\
+						colorEnd=end;\
+						style->GetBoundsComposition()->GetRelatedGraphicsHost()->GetAnimationManager()->AddAnimation(style->transferringAnimation);\
+						stopped=false;\
+					}\
+					else\
+					{\
+						colorBegin=colorCurrent;\
+						colorEnd=end;\
+					}\
+				}\
+			}\
+			void TSTYLECONTROLLER::TransferringAnimation::Play(int currentPosition, int totalLength)\
+
+/***********************************************************************
 Win7WindowStyle
 ***********************************************************************/
 
 			Win7WindowStyle::Win7WindowStyle()
 			{
 				GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
-				element->SetColor(Win7ItemColors::GetSystemWindowColor());
+				element->SetColor(Win7GetSystemWindowColor());
 				
 				boundsComposition=new GuiBoundsComposition;
 				boundsComposition->SetOwnedElement(element);
@@ -286,67 +332,32 @@ Win7WindowStyle
 Win7ButtonStyle
 ***********************************************************************/
 
-			Win7ButtonStyle::TransferringAnimation::TransferringAnimation(Win7ButtonStyle* _style, const Win7ItemColors& begin)
-				:GuiTimeBasedAnimation(0)
-				,colorBegin(begin)
-				,colorEnd(begin)
-				,colorCurrent(begin)
-				,style(_style)
-				,stopped(true)
+			IMPLEMENT_TRANSFERRING_ANIMATION(Win7ButtonColors, Win7ButtonStyle)
 			{
-			}
-
-			void Win7ButtonStyle::TransferringAnimation::Play(int currentPosition, int totalLength)
-			{
-				colorCurrent=Win7ItemColors::Blend(colorBegin, colorEnd, currentPosition, totalLength);
+				colorCurrent=Win7ButtonColors::Blend(colorBegin, colorEnd, currentPosition, totalLength);
 				style->elements.Apply(colorCurrent);
 			}
 
-			void Win7ButtonStyle::TransferringAnimation::Stop()
-			{
-				stopped=true;
-			}
-
-			void Win7ButtonStyle::TransferringAnimation::Transfer(const Win7ItemColors& end)
-			{
-				if(colorEnd!=end)
-				{
-					Restart(Win7ItemColors::GetColorAnimationLength());
-					if(stopped)
-					{
-						colorBegin=colorEnd;
-						colorEnd=end;
-						style->GetBoundsComposition()->GetRelatedGraphicsHost()->GetAnimationManager()->AddAnimation(style->transferringAnimation);
-						stopped=false;
-					}
-					else
-					{
-						colorBegin=colorCurrent;
-						colorEnd=end;
-					}
-				}
-			}
-
-			void Win7ButtonStyle::TransferInternal(GuiButton::ControlStyle value, bool enabled)
+			void Win7ButtonStyle::TransferInternal(GuiButton::ControlState value, bool enabled)
 			{
 				if(enabled)
 				{
 					switch(value)
 					{
 					case GuiButton::Normal:
-						transferringAnimation->Transfer(Win7ItemColors::Normal());
+						transferringAnimation->Transfer(Win7ButtonColors::Normal());
 						break;
 					case GuiButton::Active:
-						transferringAnimation->Transfer(Win7ItemColors::ButtonActive());
+						transferringAnimation->Transfer(Win7ButtonColors::ButtonActive());
 						break;
 					case GuiButton::Pressed:
-						transferringAnimation->Transfer(Win7ItemColors::ButtonPressed());
+						transferringAnimation->Transfer(Win7ButtonColors::ButtonPressed());
 						break;
 					}
 				}
 				else
 				{
-					transferringAnimation->Transfer(Win7ItemColors::Disabled());
+					transferringAnimation->Transfer(Win7ButtonColors::Disabled());
 				}
 			}
 
@@ -354,7 +365,7 @@ Win7ButtonStyle
 				:controlStyle(GuiButton::Normal)
 				,isVisuallyEnabled(true)
 			{
-				Win7ItemColors initialColor=Win7ItemColors::Normal();
+				Win7ButtonColors initialColor=Win7ButtonColors::Normal();
 				elements=Win7ButtonElements::Create();
 				elements.Apply(initialColor);
 				transferringAnimation=new TransferringAnimation(this, initialColor);
@@ -393,7 +404,7 @@ Win7ButtonStyle
 				}
 			}
 
-			void Win7ButtonStyle::Transfer(GuiButton::ControlStyle value)
+			void Win7ButtonStyle::Transfer(GuiButton::ControlState value)
 			{
 				if(controlStyle!=value)
 				{
@@ -405,46 +416,11 @@ Win7ButtonStyle
 /***********************************************************************
 Win7GroupBoxStyle
 ***********************************************************************/
-
-			Win7GroupBoxStyle::TransferringAnimation::TransferringAnimation(Win7GroupBoxStyle* _style, const Color& begin)
-				:GuiTimeBasedAnimation(0)
-				,colorBegin(begin)
-				,colorEnd(begin)
-				,colorCurrent(begin)
-				,style(_style)
-				,stopped(true)
-			{
-			}
-
-			void Win7GroupBoxStyle::TransferringAnimation::Play(int currentPosition, int totalLength)
+			
+			IMPLEMENT_TRANSFERRING_ANIMATION(Color, Win7GroupBoxStyle)
 			{
 				colorCurrent=BlendColor(colorBegin, colorEnd, currentPosition, totalLength);
 				style->textElement->SetColor(colorCurrent);
-			}
-
-			void Win7GroupBoxStyle::TransferringAnimation::Stop()
-			{
-				stopped=true;
-			}
-
-			void Win7GroupBoxStyle::TransferringAnimation::Transfer(const Color& end)
-			{
-				if(colorEnd!=end)
-				{
-					Restart(Win7ItemColors::GetColorAnimationLength());
-					if(stopped)
-					{
-						colorBegin=colorEnd;
-						colorEnd=end;
-						style->GetBoundsComposition()->GetRelatedGraphicsHost()->GetAnimationManager()->AddAnimation(style->transferringAnimation);
-						stopped=false;
-					}
-					else
-					{
-						colorBegin=colorCurrent;
-						colorEnd=end;
-					}
-				}
 			}
 
 			void Win7GroupBoxStyle::SetMargins(int fontSize)
@@ -462,7 +438,7 @@ Win7GroupBoxStyle
 				boundsComposition=new GuiBoundsComposition;
 				{
 					GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
-					element->SetColor(Win7ItemColors::GetSystemWindowColor());
+					element->SetColor(Win7GetSystemWindowColor());
 
 					boundsComposition->SetOwnedElement(element);
 				}
@@ -490,7 +466,7 @@ Win7GroupBoxStyle
 				textBackgroundComposition=new GuiBoundsComposition;
 				{
 					GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
-					element->SetColor(Win7ItemColors::GetSystemWindowColor());
+					element->SetColor(Win7GetSystemWindowColor());
 
 					textBackgroundComposition->SetOwnedElement(element);
 					textBackgroundComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
@@ -500,7 +476,7 @@ Win7GroupBoxStyle
 				textComposition=new GuiBoundsComposition;
 				{
 					GuiSolidLabelElement* element=GuiSolidLabelElement::Create();
-					element->SetColor(Win7ItemColors::Normal().textColor);
+					element->SetColor(Win7GetSystemTextColor(true));
 					textElement=element;
 
 					textComposition->SetOwnedElement(element);
@@ -515,7 +491,7 @@ Win7GroupBoxStyle
 				}
 
 				SetMargins(0);
-				transferringAnimation=new TransferringAnimation(this, Win7ItemColors::Normal().textColor);
+				transferringAnimation=new TransferringAnimation(this, Win7GetSystemTextColor(true));
 			}
 
 			Win7GroupBoxStyle::~Win7GroupBoxStyle()
@@ -547,11 +523,11 @@ Win7GroupBoxStyle
 			{
 				if(value)
 				{
-					transferringAnimation->Transfer(Win7ItemColors::Normal().textColor);
+					transferringAnimation->Transfer(Win7GetSystemTextColor(true));
 				}
 				else
 				{
-					transferringAnimation->Transfer(Win7ItemColors::Disabled().textColor);
+					transferringAnimation->Transfer(Win7GetSystemTextColor(false));
 				}
 			}
 		}

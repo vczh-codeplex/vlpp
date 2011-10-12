@@ -111,7 +111,7 @@ Controls
 			class GuiButton : public GuiControl
 			{
 			public:
-				enum ControlStyle
+				enum ControlState
 				{
 					Normal,
 					Active,
@@ -121,15 +121,15 @@ Controls
 				class IStyleController : public GuiControl::IStyleController
 				{
 				public:
-					virtual void						Transfer(ControlStyle value)=0;
+					virtual void						Transfer(ControlState value)=0;
 				};
 			protected:
 				IStyleController*						styleController;
 				bool									mousePressing;
 				bool									mouseHoving;
-				ControlStyle							controlStyle;
+				ControlState							controlState;
 				
-				void									UpdateControlStyle();
+				void									UpdateControlState();
 				void									OnLeftButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
 				void									OnLeftButtonUp(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
 				void									OnMouseEnter(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
@@ -139,6 +139,30 @@ Controls
 				~GuiButton();
 
 				elements::GuiNotifyEvent				Clicked;
+			};
+
+			class GuiSelectableButton : public GuiButton
+			{
+			public:
+				class IStyleController : public GuiButton::IStyleController
+				{
+				public:
+					virtual void						SetSelected(bool value)=0;
+				};
+
+			protected:
+				IStyleController*						styleController;
+				bool									isSelected;
+
+				void									OnClicked(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+			public:
+				GuiSelectableButton(IStyleController* _styleController);
+				~GuiSelectableButton();
+
+				elements::GuiNotifyEvent				SelectedChanged;
+
+				virtual bool							GetSelected();
+				virtual void							SetSelected(bool value);
 			};
 		}
 	}
