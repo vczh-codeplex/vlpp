@@ -8,7 +8,7 @@ namespace vl
 		{
 			using namespace elements;
 
-			GuiGraphicsComposition* GetEventComposition(Ptr<IGuiStyleController> styleController)
+			GuiGraphicsComposition* GetEventComposition(Ptr<GuiControl::IStyleController> styleController)
 			{
 				if(styleController->GetBoundsComposition())
 				{
@@ -43,6 +43,7 @@ GuiControl
 				if(isVisuallyEnabled!=newValue)
 				{
 					isVisuallyEnabled=newValue;
+					styleController->SetVisuallyEnabled(isVisuallyEnabled);
 					VisuallyEnabledChanged.Execute(GetNotifyEventArguments());
 
 					for(int i=0;i<children.Count();i++)
@@ -52,7 +53,7 @@ GuiControl
 				}
 			}
 
-			GuiControl::GuiControl(Ptr<IGuiStyleController> _styleController)
+			GuiControl::GuiControl(Ptr<IStyleController> _styleController)
 				:styleController(_styleController)
 				,boundsComposition(_styleController->GetBoundsComposition())
 				,eventComposition(GetEventComposition(_styleController))
@@ -88,7 +89,7 @@ GuiControl
 				return GuiEventArgs(eventComposition);
 			}
 
-			IGuiStyleController* GuiControl::GetStyleController()
+			GuiControl::IStyleController* GuiControl::GetStyleController()
 			{
 				return styleController.Obj();
 			}
@@ -215,6 +216,10 @@ GuiControlHost
 			{
 			}
 
+			void GuiControlHost::Style::SetVisuallyEnabled(bool value)
+			{
+			}
+
 			GuiControlHost::GuiControlHost()
 				:GuiControl(new Style)
 			{
@@ -313,39 +318,33 @@ GuiButton
 
 			void GuiButton::UpdateControlStyle()
 			{
+				ControlStyle newControlStyle=Normal;
 				if(mousePressing)
 				{
 					if(mouseHoving)
 					{
-						controlStyle=Pressed;
+						newControlStyle=Pressed;
 					}
 					else
 					{
-						controlStyle=Active;
+						newControlStyle=Active;
 					}
 				}
 				else
 				{
 					if(mouseHoving)
 					{
-						controlStyle=Active;
+						newControlStyle=Active;
 					}
 					else
 					{
-						controlStyle=Normal;
+						newControlStyle=Normal;
 					}
 				}
-			}
-
-			void GuiButton::OnVisuallyEnabledChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
-			{
-				if(GetEnabled())
+				if(controlStyle!=newControlStyle)
 				{
+					controlStyle=newControlStyle;
 					styleController->Transfer(controlStyle);
-				}
-				else
-				{
-					styleController->Transfer(Disabled);
 				}
 			}
 
@@ -355,10 +354,6 @@ GuiButton
 				{
 					mousePressing=true;
 					UpdateControlStyle();
-				}
-				if(GetEnabled())
-				{
-					styleController->Transfer(controlStyle);
 				}
 			}
 
@@ -371,7 +366,6 @@ GuiButton
 				}
 				if(GetEnabled())
 				{
-					styleController->Transfer(controlStyle);
 					if(mouseHoving)
 					{
 						Clicked.Execute(GetNotifyEventArguments());
@@ -386,10 +380,6 @@ GuiButton
 					mouseHoving=true;
 					UpdateControlStyle();
 				}
-				if(GetEnabled())
-				{
-					styleController->Transfer(controlStyle);
-				}
 			}
 
 			void GuiButton::OnMouseLeave(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
@@ -398,10 +388,6 @@ GuiButton
 				{
 					mouseHoving=false;
 					UpdateControlStyle();
-				}
-				if(GetEnabled())
-				{
-					styleController->Transfer(controlStyle);
 				}
 			}
 
@@ -414,7 +400,6 @@ GuiButton
 			{
 				Clicked.SetAssociatedComposition(eventComposition);
 
-				VisuallyEnabledChanged.AttachMethod(this, &GuiButton::OnVisuallyEnabledChanged);
 				GetEventReceiver()->leftButtonDown.AttachMethod(this, &GuiButton::OnLeftButtonDown);
 				GetEventReceiver()->leftButtonUp.AttachMethod(this, &GuiButton::OnLeftButtonUp);
 				GetEventReceiver()->mouseEnter.AttachMethod(this, &GuiButton::OnMouseEnter);

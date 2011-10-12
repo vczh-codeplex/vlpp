@@ -22,21 +22,22 @@ namespace vl
 Basic Construction
 ***********************************************************************/
 
-			class IGuiStyleController : public Interface
-			{
-			public:
-				virtual elements::GuiBoundsComposition*		GetBoundsComposition()=0;
-				virtual elements::GuiGraphicsComposition*	GetContainerComposition()=0;
-				virtual void								SetText(const WString& value)=0;
-				virtual void								SetFont(const FontProperties& value)=0;
-			};
-
 			class GuiControl : public Object
 			{
 				friend class elements::GuiGraphicsComposition;
 				typedef collections::List<GuiControl*>		ControlList;
+			public:
+				class IStyleController : public Interface
+				{
+				public:
+					virtual elements::GuiBoundsComposition*		GetBoundsComposition()=0;
+					virtual elements::GuiGraphicsComposition*	GetContainerComposition()=0;
+					virtual void								SetText(const WString& value)=0;
+					virtual void								SetFont(const FontProperties& value)=0;
+					virtual void								SetVisuallyEnabled(bool value)=0;
+				};
 			protected:
-				Ptr<IGuiStyleController>				styleController;
+				Ptr<IStyleController>					styleController;
 				elements::GuiBoundsComposition*			boundsComposition;
 				elements::GuiGraphicsComposition*		eventComposition;
 				elements::GuiGraphicsComposition*		containerComposition;
@@ -55,7 +56,7 @@ Basic Construction
 				void									OnChildRemoved(GuiControl* control);
 				void									UpdateVisuallyEnabled();
 			public:
-				GuiControl(Ptr<IGuiStyleController> _styleController);
+				GuiControl(Ptr<IStyleController> _styleController);
 				~GuiControl();
 
 				elements::GuiNotifyEvent				VisibleChanged;
@@ -65,7 +66,7 @@ Basic Construction
 				elements::GuiNotifyEvent				FontChanged;
 
 				elements::GuiEventArgs					GetNotifyEventArguments();
-				IGuiStyleController*					GetStyleController();
+				IStyleController*						GetStyleController();
 				elements::GuiBoundsComposition*			GetBoundsComposition();
 				elements::GuiGraphicsComposition*		GetContainerComposition();
 				elements::GuiGraphicsEventReceiver*		GetEventReceiver();
@@ -85,7 +86,7 @@ Basic Construction
 			class GuiControlHost : public GuiControl
 			{
 			protected:
-				class Style : public Object, public IGuiStyleController
+				class Style : public Object, public GuiControl::IStyleController
 				{
 				protected:
 					elements::GuiGraphicsHost*			host;
@@ -99,6 +100,7 @@ Basic Construction
 
 					void								SetText(const WString& value);
 					void								SetFont(const FontProperties& value);
+					void								SetVisuallyEnabled(bool value);
 				};
 
 				elements::GuiGraphicsHost*				host;
@@ -132,10 +134,9 @@ Controls
 					Normal,
 					Active,
 					Pressed,
-					Disabled,
 				};
 
-				class IStyleController : public IGuiStyleController
+				class IStyleController : public GuiControl::IStyleController
 				{
 				public:
 					virtual void						Transfer(ControlStyle value)=0;
@@ -147,7 +148,6 @@ Controls
 				ControlStyle							controlStyle;
 				
 				void									UpdateControlStyle();
-				void									OnVisuallyEnabledChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 				void									OnLeftButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
 				void									OnLeftButtonUp(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
 				void									OnMouseEnter(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);

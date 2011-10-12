@@ -40,7 +40,7 @@ void SetupWindow(GuiControlHost* host)
 			}
 		}
 
-		const wchar_t* buttonTexts[]={L"OK", L"Cancel"};
+		const wchar_t* buttonTexts[]={L"Not Reactive", L"Close"};
 		for(int i=0;i<2;i++)
 		{
 			GuiCellComposition* cell=new GuiCellComposition;
@@ -56,7 +56,7 @@ void SetupWindow(GuiControlHost* host)
 			button->Clicked.AttachLambda([host](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
 			{
 				GuiButton* button=dynamic_cast<GuiButton*>(sender->GetAssociatedControl());
-				if(button->GetText()==L"OK" || button->GetText()==L"Cancel")
+				if(button->GetText()==L"Close")
 				{
 					host->Close();
 				}
