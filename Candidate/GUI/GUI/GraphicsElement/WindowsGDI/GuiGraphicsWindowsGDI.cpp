@@ -159,7 +159,8 @@ CachedResourceAllocator
 			public:
 				Ptr<WinFont> CreateInternal(const FontProperties& value)
 				{
-					return new WinFont(value.fontFamily, value.size, 0, 0, 0, (value.bold?FW_BOLD:FW_NORMAL), value.italic, value.underline, value.strikeline, value.antialias);
+					int size=value.size<0?value.size:-value.size;
+					return new WinFont(value.fontFamily, size, 0, 0, 0, (value.bold?FW_BOLD:FW_NORMAL), value.italic, value.underline, value.strikeline, value.antialias);
 				}
 			};
 
