@@ -261,22 +261,50 @@ Win7ButtonStyle
 
 			void Win7ButtonStyle::TransferringAnimation::Transfer(const Win7ItemColors& end)
 			{
-				Restart(120);
-				if(stopped)
+				if(colorEnd!=end)
 				{
-					colorBegin=colorEnd;
-					colorEnd=end;
-					style->GetBoundsComposition()->GetRelatedGraphicsHost()->GetAnimationManager()->AddAnimation(style->transferringAnimation);
-					stopped=false;
+					Restart(120);
+					if(stopped)
+					{
+						colorBegin=colorEnd;
+						colorEnd=end;
+						style->GetBoundsComposition()->GetRelatedGraphicsHost()->GetAnimationManager()->AddAnimation(style->transferringAnimation);
+						stopped=false;
+					}
+					else
+					{
+						colorBegin=colorCurrent;
+						colorEnd=end;
+					}
+				}
+			}
+
+			void Win7ButtonStyle::TransferInternal(GuiButton::ControlStyle value, bool enabled)
+			{
+				if(enabled)
+				{
+					switch(value)
+					{
+					case GuiButton::Normal:
+						transferringAnimation->Transfer(Win7ItemColors::Normal());
+						break;
+					case GuiButton::Active:
+						transferringAnimation->Transfer(Win7ItemColors::ButtonActive());
+						break;
+					case GuiButton::Pressed:
+						transferringAnimation->Transfer(Win7ItemColors::ButtonPressed());
+						break;
+					}
 				}
 				else
 				{
-					colorBegin=colorCurrent;
-					colorEnd=end;
+					transferringAnimation->Transfer(Win7ItemColors::Disabled());
 				}
 			}
 
 			Win7ButtonStyle::Win7ButtonStyle()
+				:controlStyle(GuiButton::Normal)
+				,isVisuallyEnabled(true)
 			{
 				Win7ItemColors initialColor=Win7ItemColors::Normal();
 				elements=Win7ButtonElements::Create();
@@ -298,25 +326,6 @@ Win7ButtonStyle
 				return elements.mainComposition;
 			}
 
-			void Win7ButtonStyle::Transfer(GuiButton::ControlStyle value)
-			{
-				switch(value)
-				{
-				case GuiButton::Normal:
-					transferringAnimation->Transfer(Win7ItemColors::Normal());
-					break;
-				case GuiButton::Active:
-					transferringAnimation->Transfer(Win7ItemColors::ButtonActive());
-					break;
-				case GuiButton::Pressed:
-					transferringAnimation->Transfer(Win7ItemColors::ButtonPressed());
-					break;
-				case GuiButton::Disabled:
-					transferringAnimation->Transfer(Win7ItemColors::Disabled());
-					break;
-				}
-			}
-
 			void Win7ButtonStyle::SetText(const WString& value)
 			{
 				elements.textElement->SetText(value);
@@ -325,6 +334,24 @@ Win7ButtonStyle
 			void Win7ButtonStyle::SetFont(const FontProperties& value)
 			{
 				Win7SetFont(elements.textElement, elements.textComposition, value);
+			}
+
+			void Win7ButtonStyle::SetVisuallyEnabled(bool value)
+			{
+				if(isVisuallyEnabled!=value)
+				{
+					isVisuallyEnabled=value;
+					TransferInternal(controlStyle, isVisuallyEnabled);
+				}
+			}
+
+			void Win7ButtonStyle::Transfer(GuiButton::ControlStyle value)
+			{
+				if(controlStyle!=value)
+				{
+					controlStyle=value;
+					TransferInternal(controlStyle, isVisuallyEnabled);
+				}
 			}
 		}
 	}

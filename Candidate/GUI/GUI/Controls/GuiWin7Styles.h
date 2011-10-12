@@ -34,6 +34,23 @@ Common Configurations
 				Color									g4;
 				Color									textColor;
 
+				bool operator==(const Win7ItemColors& colors)
+				{
+					return
+						borderColor == colors.borderColor &&
+						backgroundColor == colors.backgroundColor &&
+						g1 == colors.g1 &&
+						g2 == colors.g2 &&
+						g3 == colors.g3 &&
+						g4 == colors.g4 &&
+						textColor == colors.textColor;
+				}
+
+				bool operator!=(const Win7ItemColors& colors)
+				{
+					return !(*this==colors);
+				}
+
 				static Win7ItemColors					Blend(const Win7ItemColors c1, const Win7ItemColors c2, int ratio, int total);
 
 				static Win7ItemColors					Normal();
@@ -86,15 +103,34 @@ Button
 
 				Win7ButtonElements							elements;
 				Ptr<TransferringAnimation>					transferringAnimation;
+				GuiButton::ControlStyle						controlStyle;
+				bool										isVisuallyEnabled;
+
+				void										TransferInternal(GuiButton::ControlStyle value, bool enabled);
 			public:
 				Win7ButtonStyle();
 				~Win7ButtonStyle();
 
 				elements::GuiBoundsComposition*				GetBoundsComposition();
 				elements::GuiGraphicsComposition*			GetContainerComposition();
+				void										SetText(const WString& value);
+				void										SetFont(const FontProperties& value);
+				void										SetVisuallyEnabled(bool value);
+				void										Transfer(GuiButton::ControlStyle value);
+			};
+
+			class WinGroupBoxStyle : public Object, public GuiControl::IStyleController
+			{
+			public:
+				WinGroupBoxStyle();
+				~WinGroupBoxStyle();
+
+				elements::GuiBoundsComposition*				GetBoundsComposition();
+				elements::GuiGraphicsComposition*			GetContainerComposition();
 				void										Transfer(GuiButton::ControlStyle value);
 				void										SetText(const WString& value);
 				void										SetFont(const FontProperties& value);
+				void										SetVisuallyEnabled(bool value);
 			};
 		}
 	}
