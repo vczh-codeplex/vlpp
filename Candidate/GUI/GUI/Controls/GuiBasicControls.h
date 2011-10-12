@@ -39,7 +39,6 @@ Basic Construction
 			protected:
 				Ptr<IStyleController>					styleController;
 				elements::GuiBoundsComposition*			boundsComposition;
-				elements::GuiGraphicsComposition*		eventComposition;
 				elements::GuiGraphicsComposition*		containerComposition;
 				elements::GuiGraphicsEventReceiver*		eventReceiver;
 
@@ -56,7 +55,7 @@ Basic Construction
 				void									OnChildRemoved(GuiControl* control);
 				void									UpdateVisuallyEnabled();
 			public:
-				GuiControl(Ptr<IStyleController> _styleController);
+				GuiControl(IStyleController* _styleController);
 				~GuiControl();
 
 				elements::GuiNotifyEvent				VisibleChanged;
@@ -86,26 +85,9 @@ Basic Construction
 			class GuiControlHost : public GuiControl
 			{
 			protected:
-				class Style : public Object, public GuiControl::IStyleController
-				{
-				protected:
-					elements::GuiGraphicsHost*			host;
-				public:
-					Style();
-					~Style();
-
-					elements::GuiBoundsComposition*		GetBoundsComposition();
-					elements::GuiGraphicsComposition*	GetContainerComposition();
-					elements::GuiGraphicsHost*			GetHost();
-
-					void								SetText(const WString& value);
-					void								SetFont(const FontProperties& value);
-					void								SetVisuallyEnabled(bool value);
-				};
-
 				elements::GuiGraphicsHost*				host;
 			public:
-				GuiControlHost();
+				GuiControlHost(GuiControl::IStyleController* _styleController);
 				~GuiControlHost();
 
 				elements::GuiGraphicsHost*				GetGraphicsHost();

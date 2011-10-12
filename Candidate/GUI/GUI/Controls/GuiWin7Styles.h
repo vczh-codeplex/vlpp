@@ -59,6 +59,8 @@ Common Configurations
 				static Win7ItemColors					ButtonActive();
 				static Win7ItemColors					ButtonPressed();
 				static Win7ItemColors					Disabled();
+
+				static Color							GetSystemWindowColor();
 			};
 
 			struct Win7ButtonElements
@@ -81,6 +83,21 @@ Common Configurations
 /***********************************************************************
 Button
 ***********************************************************************/
+
+			class Win7WindowStyle : public Object, public GuiControl::IStyleController
+			{
+			protected:
+				elements::GuiBoundsComposition*				boundsComposition;
+			public:
+				Win7WindowStyle();
+				~Win7WindowStyle();
+
+				elements::GuiBoundsComposition*				GetBoundsComposition();
+				elements::GuiGraphicsComposition*			GetContainerComposition();
+				void										SetText(const WString& value);
+				void										SetFont(const FontProperties& value);
+				void										SetVisuallyEnabled(bool value);
+			};
 
 			class Win7ButtonStyle : public Object, public GuiButton::IStyleController
 			{
@@ -119,15 +136,24 @@ Button
 				void										Transfer(GuiButton::ControlStyle value);
 			};
 
-			class WinGroupBoxStyle : public Object, public GuiControl::IStyleController
+			class Win7GroupBoxStyle : public Object, public GuiControl::IStyleController
 			{
+			protected:
+				elements::GuiBoundsComposition*				boundsComposition;
+				elements::GuiBoundsComposition*				sinkBorderComposition;
+				elements::GuiBoundsComposition*				raisedBorderComposition;
+				elements::GuiBoundsComposition*				textComposition;
+				elements::GuiBoundsComposition*				textBackgroundComposition;
+				elements::GuiBoundsComposition*				containerComposition;
+				elements::GuiSolidLabelElement*				textElement;
+
+				void										SetMargins(int fontSize);
 			public:
-				WinGroupBoxStyle();
-				~WinGroupBoxStyle();
+				Win7GroupBoxStyle();
+				~Win7GroupBoxStyle();
 
 				elements::GuiBoundsComposition*				GetBoundsComposition();
 				elements::GuiGraphicsComposition*			GetContainerComposition();
-				void										Transfer(GuiButton::ControlStyle value);
 				void										SetText(const WString& value);
 				void										SetFont(const FontProperties& value);
 				void										SetVisuallyEnabled(bool value);

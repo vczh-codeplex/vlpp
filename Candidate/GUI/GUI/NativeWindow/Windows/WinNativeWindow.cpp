@@ -810,8 +810,22 @@ WindowsController
 				{
 					godWindow=CreateWindowEx(WS_EX_CONTROLPARENT, godClass.GetName().Buffer(), L"GodWindow", WS_OVERLAPPEDWINDOW, 0, 0, 0, 0, NULL, NULL, hInstance, NULL);
 
-					defaultFont.size=16;
-					defaultFont.fontFamily=L"Lucida Console";
+					{
+						NONCLIENTMETRICS metrics;
+						metrics.cbSize=sizeof(NONCLIENTMETRICS);
+						SystemParametersInfo(SPI_GETNONCLIENTMETRICS, metrics.cbSize, &metrics, 0);
+						if(!*metrics.lfMessageFont.lfFaceName)
+						{
+							metrics.cbSize=sizeof(NONCLIENTMETRICS)-sizeof(metrics.iPaddedBorderWidth);
+							SystemParametersInfo(SPI_GETNONCLIENTMETRICS, metrics.cbSize, &metrics, 0);
+						}
+						defaultFont.fontFamily=metrics.lfMessageFont.lfFaceName;
+						defaultFont.size=metrics.lfMessageFont.lfHeight;
+						if(defaultFont.size<0)
+						{
+							defaultFont.size=-defaultFont.size;
+						}
+					}
 				}
 
 				~WindowsController()
