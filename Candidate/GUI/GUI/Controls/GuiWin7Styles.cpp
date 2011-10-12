@@ -316,10 +316,8 @@ Win7CheckedButtonElements
 					button.mainComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 				}
 				{
-					GuiSolidBorderElement* element=GuiSolidBorderElement::Create();
-					element->SetColor(Color(255, 0, 0));
-					//GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
-					//element->SetColor(Win7GetSystemWindowColor());
+					GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
+					element->SetColor(Win7GetSystemWindowColor());
 
 					GuiTableComposition* mainTable=new GuiTableComposition;
 					button.mainComposition->AddChild(mainTable);

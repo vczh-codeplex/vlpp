@@ -216,8 +216,7 @@ Table Compositions
 				collections::Array<GuiCellOption>			columnOptions;
 				collections::Array<GuiCellComposition*>		cellCompositions;
 				collections::Array<Rect>					cellBounds;
-				Rect										previousGetBoundsResult;
-				Size										tableContentMinSize;
+				Rect										previousBoundsForUpdateCellBounds;
 
 				int									GetSiteIndex(int _rows, int _columns, int _row, int _column);
 				void								SetSitedCell(int _row, int _column, GuiCellComposition* cell);
@@ -249,6 +248,7 @@ Table Compositions
 														);
 				
 				Rect								GetUnalignedBoundsForMinNecessaryBounds();
+				Size								GetTableContentMinSize();
 			public:
 				GuiTableComposition();
 				~GuiTableComposition();
