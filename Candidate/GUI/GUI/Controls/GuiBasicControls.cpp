@@ -28,12 +28,28 @@ GuiControl
 			{
 				children.Add(control);
 				control->parent=this;
+				control->UpdateVisuallyEnabled();
 			}
 
 			void GuiControl::OnChildRemoved(GuiControl* control)
 			{
 				control->parent=0;
 				children.Remove(control);
+			}
+
+			void GuiControl::UpdateVisuallyEnabled()
+			{
+				bool newValue=isEnabled && (parent==0?true:parent->GetVisuallyEnabled());
+				if(isVisuallyEnabled!=newValue)
+				{
+					isVisuallyEnabled=newValue;
+					VisuallyEnabledChanged.Execute(GetNotifyEventArguments());
+
+					for(int i=0;i<children.Count();i++)
+					{
+						children[i]->UpdateVisuallyEnabled();
+					}
+				}
 			}
 
 			GuiControl::GuiControl(Ptr<IGuiStyleController> _styleController)
@@ -43,12 +59,14 @@ GuiControl
 				,containerComposition(_styleController->GetContainerComposition())
 				,eventReceiver(GetEventComposition(_styleController)->GetEventReceiver())
 				,isEnabled(true)
+				,isVisuallyEnabled(true)
 				,isVisible(true)
 				,parent(0)
 			{
 				eventComposition->SetAssociatedControl(this);
 				VisibleChanged.SetAssociatedComposition(eventComposition);
 				EnabledChanged.SetAssociatedComposition(eventComposition);
+				VisuallyEnabledChanged.SetAssociatedComposition(eventComposition);
 				TextChanged.SetAssociatedComposition(eventComposition);
 				FontChanged.SetAssociatedComposition(eventComposition);
 
@@ -95,6 +113,11 @@ GuiControl
 				return parent;
 			}
 
+			bool GuiControl::GetVisuallyEnabled()
+			{
+				return isVisuallyEnabled;
+			}
+
 			bool GuiControl::GetEnabled()
 			{
 				return isEnabled;
@@ -106,6 +129,7 @@ GuiControl
 				{
 					isEnabled=value;
 					EnabledChanged.Execute(GetNotifyEventArguments());
+					UpdateVisuallyEnabled();
 				}
 			}
 
@@ -251,7 +275,7 @@ GuiButton
 				}
 			}
 
-			void GuiButton::OnEnabledChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
+			void GuiButton::OnVisuallyEnabledChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 			{
 				if(GetEnabled())
 				{
@@ -328,10 +352,11 @@ GuiButton
 			{
 				Clicked.SetAssociatedComposition(eventComposition);
 
-				GetEventReceiver()->leftButtonDown.Attach(new GuiMouseEvent::FunctionHandler(GuiMouseEvent::FunctionType(this, &GuiButton::OnLeftButtonDown)));
-				GetEventReceiver()->leftButtonUp.Attach(new GuiMouseEvent::FunctionHandler(GuiMouseEvent::FunctionType(this, &GuiButton::OnLeftButtonUp)));
-				GetEventReceiver()->mouseEnter.Attach(new GuiNotifyEvent::FunctionHandler(GuiNotifyEvent::FunctionType(this, &GuiButton::OnMouseEnter)));
-				GetEventReceiver()->mouseLeave.Attach(new GuiNotifyEvent::FunctionHandler(GuiNotifyEvent::FunctionType(this, &GuiButton::OnMouseLeave)));
+				VisuallyEnabledChanged.AttachMethod(this, &GuiButton::OnVisuallyEnabledChanged);
+				GetEventReceiver()->leftButtonDown.AttachMethod(this, &GuiButton::OnLeftButtonDown);
+				GetEventReceiver()->leftButtonUp.AttachMethod(this, &GuiButton::OnLeftButtonUp);
+				GetEventReceiver()->mouseEnter.AttachMethod(this, &GuiButton::OnMouseEnter);
+				GetEventReceiver()->mouseLeave.AttachMethod(this, &GuiButton::OnMouseLeave);
 			}
 
 			GuiButton::~GuiButton()
