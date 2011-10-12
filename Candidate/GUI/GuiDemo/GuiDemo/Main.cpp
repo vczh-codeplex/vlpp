@@ -75,6 +75,25 @@ void SetupWindow(GuiControlHost* host)
 					buttonBig->SetEnabled(!buttonBig->GetEnabled());
 				});
 			}
+			{
+				GuiSelectableButton* checkBox=new GuiSelectableButton(new win7::Win7CheckBoxStyle());
+				cell->AddChild(checkBox->GetBoundsComposition());
+				checkBox->GetBoundsComposition()->SetBounds(Rect(Point(220, 10), Size(200, 25)));
+				checkBox->SetText(L"CheckBox 1");
+			}
+			{
+				GuiButton* checkBox=new GuiButton(new win7::Win7ButtonStyle());
+				cell->AddChild(checkBox->GetBoundsComposition());
+				checkBox->GetBoundsComposition()->SetBounds(Rect(Point(220, 45), Size(200, 25)));
+				checkBox->SetText(L"CheckBox 2");
+			}
+			for(int i=0;i<3;i++)
+			{
+				GuiButton* radioButton=new GuiButton(new win7::Win7ButtonStyle());
+				cell->AddChild(radioButton->GetBoundsComposition());
+				radioButton->GetBoundsComposition()->SetBounds(Rect(Point(220, 80+i*35), Size(200, 25)));
+				radioButton->SetText(L"RadioButton "+itow(i+1));
+			}
 		}
 	}
 

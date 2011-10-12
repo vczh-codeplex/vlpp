@@ -169,6 +169,22 @@ GuiGradientBackgroundElementRenderer
 						points[1].y=(FLOAT)bounds.y2;
 					}
 					break;
+				case GuiGradientBackgroundElement::Slash:
+					{
+						points[0].x=(FLOAT)bounds.x2;
+						points[0].y=(FLOAT)bounds.y1;
+						points[1].x=(FLOAT)bounds.x1;
+						points[1].y=(FLOAT)bounds.y2;
+					}
+					break;
+				case GuiGradientBackgroundElement::Backslash:
+					{
+						points[0].x=(FLOAT)bounds.x1;
+						points[0].y=(FLOAT)bounds.y1;
+						points[1].x=(FLOAT)bounds.x2;
+						points[1].y=(FLOAT)bounds.y2;
+					}
+					break;
 				}
 
 				brush->SetStartPoint(points[0]);

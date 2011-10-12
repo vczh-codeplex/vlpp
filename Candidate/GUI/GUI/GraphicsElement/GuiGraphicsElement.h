@@ -324,6 +324,8 @@ Elements
 				{
 					Horizontal,
 					Vertical,
+					Slash,
+					Backslash,
 				};
 			protected:
 				Color					color1, color2;
