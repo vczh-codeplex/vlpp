@@ -318,6 +318,8 @@ Win7CheckedButtonElements
 				{
 					GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
 					element->SetColor(Win7GetSystemWindowColor());
+					//GuiSolidBorderElement* element=GuiSolidBorderElement::Create();
+					//element->SetColor(Color(255, 0, 0));
 
 					GuiTableComposition* mainTable=new GuiTableComposition;
 					button.mainComposition->AddChild(mainTable);

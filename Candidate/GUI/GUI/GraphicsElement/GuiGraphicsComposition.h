@@ -62,6 +62,7 @@ Basic Construction
 				virtual void						OnChildInserted(GuiGraphicsComposition* child);
 				virtual void						OnChildRemoved(GuiGraphicsComposition* child);
 				virtual void						OnParentChanged(GuiGraphicsComposition* oldParent, GuiGraphicsComposition* newParent);
+				virtual void						OnRenderTargetChanged();
 				virtual Rect						GetBoundsInternal(Rect expectedBounds, MinSizeLimitation limitation);
 				
 				void								SetAssociatedControl(controls::GuiControl* control);
@@ -216,7 +217,9 @@ Table Compositions
 				collections::Array<GuiCellOption>			columnOptions;
 				collections::Array<GuiCellComposition*>		cellCompositions;
 				collections::Array<Rect>					cellBounds;
-				Rect										previousBoundsForUpdateCellBounds;
+				Rect										previousBounds;
+				Size										previousContentMinSize;
+				Size										tableContentMinSize;
 
 				int									GetSiteIndex(int _rows, int _columns, int _row, int _column);
 				void								SetSitedCell(int _row, int _column, GuiCellComposition* cell);
@@ -248,7 +251,9 @@ Table Compositions
 														);
 				
 				Rect								GetUnalignedBoundsForMinNecessaryBounds();
-				Size								GetTableContentMinSize();
+				void								UpdateCellBoundsInternal();
+				void								UpdateTableContentMinSize();
+				void								OnRenderTargetChanged();
 			public:
 				GuiTableComposition();
 				~GuiTableComposition();
