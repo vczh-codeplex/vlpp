@@ -8,6 +8,7 @@ using namespace vl::presentation::controls;
 
 void SetupWindow(GuiControlHost* host)
 {
+	host->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 	GuiTableComposition* table=new GuiTableComposition;
 	table->SetAlignmentToParent(Margin(0, 0, 0, 0));
 	host->GetContainerComposition()->AddChild(table);
