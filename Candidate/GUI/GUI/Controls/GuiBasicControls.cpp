@@ -230,6 +230,11 @@ GuiControlHost
 				return host;
 			}
 
+			elements::GuiGraphicsComposition* GuiControlHost::GetMainComposition()
+			{
+				return host->GetMainComposition();
+			}
+
 			INativeWindow* GuiControlHost::GetNativeWindow()
 			{
 				return host->GetNativeWindow();
@@ -243,6 +248,63 @@ GuiControlHost
 			void GuiControlHost::Render()
 			{
 				host->Render();
+			}
+
+			void GuiControlHost::Show()
+			{
+				if(host->GetNativeWindow())
+				{
+					host->GetNativeWindow()->Show();
+				}
+			}
+
+			void GuiControlHost::ShowRestored()
+			{
+				if(host->GetNativeWindow())
+				{
+					host->GetNativeWindow()->ShowRestored();
+				}
+			}
+
+			void GuiControlHost::ShowMaximized()
+			{
+				if(host->GetNativeWindow())
+				{
+					host->GetNativeWindow()->ShowMaximized();
+				}
+			}
+
+			void GuiControlHost::ShowMinimized()
+			{
+				if(host->GetNativeWindow())
+				{
+					host->GetNativeWindow()->ShowMinimized();
+				}
+			}
+
+			void GuiControlHost::Hide()
+			{
+				if(host->GetNativeWindow())
+				{
+					host->GetNativeWindow()->Hide();
+				}
+			}
+
+			void GuiControlHost::Close()
+			{
+				INativeWindow* window=host->GetNativeWindow();
+				if(window)
+				{
+					SetNativeWindow(0);
+					if(GetCurrentController()->GetMainWindow()==window)
+					{
+						window->Hide();
+					}
+					else
+					{
+						GetCurrentController()->DestroyNativeWindow(window);
+					}
+				}
 			}
 
 /***********************************************************************

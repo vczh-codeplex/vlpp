@@ -6,7 +6,7 @@ using namespace vl::presentation;
 using namespace vl::presentation::elements;
 using namespace vl::presentation::controls;
 
-void SetupWindow(GuiGraphicsHost* host)
+void SetupWindow(GuiControlHost* host)
 {
 	{
 		GuiSolidBackgroundElement* background=GuiSolidBackgroundElement::Create();
@@ -52,6 +52,15 @@ void SetupWindow(GuiGraphicsHost* host)
 			cell->AddChild(button->GetBoundsComposition());
 			button->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
 			button->SetText(buttonTexts[i]);
+
+			button->Clicked.AttachLambda([host](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
+			{
+				GuiButton* button=dynamic_cast<GuiButton*>(sender->GetAssociatedControl());
+				if(button->GetText()==L"OK" || button->GetText()==L"Cancel")
+				{
+					host->Close();
+				}
+			});
 		}
 	}
 }
@@ -79,7 +88,7 @@ void GuiMain()
 		));
 
 	GuiControlHost host;
-	SetupWindow(host.GetGraphicsHost());
+	SetupWindow(&host);
 	host.SetNativeWindow(window);
 
 	GetCurrentController()->Run(window);
