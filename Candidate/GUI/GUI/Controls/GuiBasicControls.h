@@ -43,6 +43,7 @@ Basic Construction
 				elements::GuiGraphicsEventReceiver*		eventReceiver;
 
 				bool									isEnabled;
+				bool									isVisuallyEnabled;
 				bool									isVisible;
 				WString									text;
 				FontProperties							font;
@@ -52,12 +53,14 @@ Basic Construction
 
 				void									OnChildInserted(GuiControl* control);
 				void									OnChildRemoved(GuiControl* control);
+				void									UpdateVisuallyEnabled();
 			public:
 				GuiControl(Ptr<IGuiStyleController> _styleController);
 				~GuiControl();
 
 				elements::GuiNotifyEvent				VisibleChanged;
 				elements::GuiNotifyEvent				EnabledChanged;
+				elements::GuiNotifyEvent				VisuallyEnabledChanged;
 				elements::GuiNotifyEvent				TextChanged;
 				elements::GuiNotifyEvent				FontChanged;
 
@@ -68,6 +71,7 @@ Basic Construction
 				elements::GuiGraphicsEventReceiver*		GetEventReceiver();
 				GuiControl*								GetParent();
 
+				virtual bool							GetVisuallyEnabled();
 				virtual bool							GetEnabled();
 				virtual void							SetEnabled(bool value);
 				virtual bool							GetVisible();
@@ -135,7 +139,7 @@ Controls
 				ControlStyle							controlStyle;
 				
 				void									UpdateControlStyle();
-				void									OnEnabledChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+				void									OnVisuallyEnabledChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 				void									OnLeftButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
 				void									OnLeftButtonUp(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
 				void									OnMouseEnter(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);

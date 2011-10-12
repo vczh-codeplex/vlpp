@@ -101,6 +101,20 @@ Event
 					return true;
 				}
 
+				template<typename TClass, typename TMethod>
+				Ptr<IHandler> AttachMethod(TClass* receiver, TMethod TClass::* method)
+				{
+					Ptr<IHandler> handler=new FunctionHandler(FunctionType(receiver, method));
+					if(Attach(handler))
+					{
+						return handler;
+					}
+					else
+					{
+						return 0;
+					}
+				}
+
 				bool Detach(Ptr<IHandler> handler)
 				{
 					Ptr<HandlerNode>* currentHandler=&handlers;
