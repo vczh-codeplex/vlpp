@@ -60,6 +60,7 @@ Common Configurations
 				static Win7ItemColors					ButtonPressed();
 				static Win7ItemColors					Disabled();
 
+				static int								GetColorAnimationLength();
 				static Color							GetSystemWindowColor();
 			};
 
@@ -139,6 +140,22 @@ Button
 			class Win7GroupBoxStyle : public Object, public GuiControl::IStyleController
 			{
 			protected:
+				class TransferringAnimation : public GuiTimeBasedAnimation
+				{
+				protected:
+					Color									colorBegin;
+					Color									colorEnd;
+					Color									colorCurrent;
+					Win7GroupBoxStyle*						style;
+					bool									stopped;
+				public:
+					TransferringAnimation(Win7GroupBoxStyle* _style, const Color& begin);
+
+					void									Play(int currentPosition, int totalLength);
+					void									Stop();
+					void									Transfer(const Color& end);
+				};
+
 				elements::GuiBoundsComposition*				boundsComposition;
 				elements::GuiBoundsComposition*				sinkBorderComposition;
 				elements::GuiBoundsComposition*				raisedBorderComposition;
@@ -146,6 +163,7 @@ Button
 				elements::GuiBoundsComposition*				textBackgroundComposition;
 				elements::GuiBoundsComposition*				containerComposition;
 				elements::GuiSolidLabelElement*				textElement;
+				Ptr<TransferringAnimation>					transferringAnimation;
 
 				void										SetMargins(int fontSize);
 			public:
