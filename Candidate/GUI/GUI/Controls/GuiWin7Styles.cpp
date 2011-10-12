@@ -327,7 +327,7 @@ Win7CheckedButtonElements
 					mainTable->SetRowsAndColumns(1, 2);
 					mainTable->SetAlignmentToParent(Margin(0, 0, 0, 0));
 					mainTable->SetRowOption(0, GuiCellOption::PercentageOption(1.0));
-					mainTable->SetColumnOption(0, GuiCellOption::MinSizeOption());
+					mainTable->SetColumnOption(0, GuiCellOption::AbsoluteOption(checkSize+2*checkPadding));
 					mainTable->SetColumnOption(1, GuiCellOption::PercentageOption(1.0));
 					
 					{
