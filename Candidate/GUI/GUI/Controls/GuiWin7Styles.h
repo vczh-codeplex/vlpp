@@ -19,7 +19,7 @@ namespace vl
 		{
 
 /***********************************************************************
-Common Configurations
+Button Configuration
 ***********************************************************************/
 			
 			struct Win7ButtonColors
@@ -31,6 +31,8 @@ Common Configurations
 				Color										g3;
 				Color										g4;
 				Color										textColor;
+				Color										tickLight;
+				Color										tickDark;
 
 				bool operator==(const Win7ButtonColors& colors)
 				{
@@ -57,6 +59,11 @@ Common Configurations
 				static Win7ButtonColors						ButtonActive();
 				static Win7ButtonColors						ButtonPressed();
 				static Win7ButtonColors						Disabled();
+				
+				static Win7ButtonColors						CheckedNormal(bool selected);
+				static Win7ButtonColors						CheckedActive(bool selected);
+				static Win7ButtonColors						CheckedPressed(bool selected);
+				static Win7ButtonColors						CheckedDisabled(bool selected);
 			};
 
 			struct Win7ButtonElements
@@ -70,8 +77,26 @@ Common Configurations
 				elements::GuiBoundsComposition*				mainComposition;
 
 				static Win7ButtonElements					Create();
-				void										Apply(Win7ButtonColors colors);
+				void										Apply(const Win7ButtonColors& colors);
 			};
+
+			struct Win7CheckedButtonElements
+			{
+				elements::GuiSolidBorderElement*			borderElement;
+				elements::GuiSolidBackgroundElement*		backgroundElement;
+				elements::GuiGradientBackgroundElement*		outerGradientElement;
+				elements::GuiGradientBackgroundElement*		innerGradientElement;
+				elements::GuiSolidLabelElement*				textElement;
+				elements::GuiBoundsComposition*				textComposition;
+				elements::GuiBoundsComposition*				mainComposition;
+
+				static Win7CheckedButtonElements			Create();
+				void										Apply(const Win7ButtonColors& colors);
+			};
+
+/***********************************************************************
+Helpers
+***********************************************************************/
 			
 			extern int										Win7GetColorAnimationLength();
 			extern Color									Win7GetSystemWindowColor();
@@ -165,6 +190,31 @@ Button
 				void										SetText(const WString& value);
 				void										SetFont(const FontProperties& value);
 				void										SetVisuallyEnabled(bool value);
+			};
+
+			class Win7CheckBoxStyle : public Object, public controls::GuiSelectableButton::IStyleController
+			{
+			protected:
+				DEFINE_TRANSFERRING_ANIMATION(Win7ButtonColors, Win7CheckBoxStyle)
+
+				Win7CheckedButtonElements					elements;
+				Ptr<TransferringAnimation>					transferringAnimation;
+				controls::GuiButton::ControlState			controlStyle;
+				bool										isVisuallyEnabled;
+				bool										isSelected;
+
+				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected);
+			public:
+				Win7CheckBoxStyle();
+				~Win7CheckBoxStyle();
+
+				elements::GuiBoundsComposition*				GetBoundsComposition();
+				elements::GuiGraphicsComposition*			GetContainerComposition();
+				void										SetText(const WString& value);
+				void										SetFont(const FontProperties& value);
+				void										SetVisuallyEnabled(bool value);
+				void										SetSelected(bool value);
+				void										Transfer(controls::GuiButton::ControlState value);
 			};
 		}
 	}

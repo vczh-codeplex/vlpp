@@ -41,6 +41,8 @@ Win7ItemColors
 				result.g3=BlendColor(c1.g3, c2.g3, ratio, total);
 				result.g4=BlendColor(c1.g4, c2.g4, ratio, total);
 				result.textColor=BlendColor(c1.textColor, c2.textColor, ratio, total);
+				result.tickLight=BlendColor(c1.tickLight, c2.tickLight, ratio, total);
+				result.tickDark=BlendColor(c1.tickDark, c2.tickDark, ratio, total);
 				return result;
 			}
 
@@ -134,6 +136,94 @@ Win7ItemColors
 				return colors;
 			}
 
+			Win7ButtonColors Win7ButtonColors::CheckedNormal(bool selected)
+			{
+				Win7ButtonColors colors=
+				{
+					Color(142, 143, 143),
+					Color(244, 244, 244),
+					Color(174, 179, 185),
+					Color(233, 233, 234),
+					Color(203, 207, 213),
+					Color(235, 235, 236),
+					Win7GetSystemTextColor(true),
+					Color(76, 97, 152),
+					Color(76, 97, 152),
+				};
+				if(!selected)
+				{
+					colors.tickLight.a=0;
+					colors.tickDark.a=0;
+				}
+				return colors;
+			}
+
+			Win7ButtonColors Win7ButtonColors::CheckedActive(bool selected)
+			{
+				Win7ButtonColors colors=
+				{
+					Color(85, 134, 163),
+					Color(222, 249, 250),
+					Color(121, 198, 249),
+					Color(207, 236, 253),
+					Color(177, 233, 253),
+					Color(231, 247, 254),
+					Win7GetSystemTextColor(true),
+					Color(4, 34, 113),
+					Color(4, 34, 113),
+				};
+				if(!selected)
+				{
+					colors.tickLight.a=0;
+					colors.tickDark.a=0;
+				}
+				return colors;
+			}
+
+			Win7ButtonColors Win7ButtonColors::CheckedPressed(bool selected)
+			{
+				Win7ButtonColors colors=
+				{
+					Color(44, 98, 139),
+					Color(194, 228, 254),
+					Color(94, 182, 147),
+					Color(193, 230, 252),
+					Color(157, 213, 252),
+					Color(224, 244, 254),
+					Win7GetSystemTextColor(true),
+					Color(63, 93, 153),
+					Color(63, 93, 153),
+				};
+				if(!selected)
+				{
+					colors.tickLight.a=0;
+					colors.tickDark.a=0;
+				}
+				return colors;
+			}
+
+			Win7ButtonColors Win7ButtonColors::CheckedDisabled(bool selected)
+			{
+				Win7ButtonColors colors=
+				{
+					Color(177, 177, 177),
+					Color(240, 240, 240),
+					Color(240, 240, 240),
+					Color(240, 240, 240),
+					Color(240, 240, 240),
+					Color(240, 240, 240),
+					Win7GetSystemTextColor(false),
+					Color(177, 177, 177),
+					Color(177, 177, 177),
+				};
+				if(!selected)
+				{
+					colors.tickLight.a=0;
+					colors.tickDark.a=0;
+				}
+				return colors;
+			}
+
 /***********************************************************************
 Win7ButtonElements
 ***********************************************************************/
@@ -202,12 +292,139 @@ Win7ButtonElements
 				return button;
 			}
 
-			void Win7ButtonElements::Apply(Win7ButtonColors colors)
+			void Win7ButtonElements::Apply(const Win7ButtonColors& colors)
 			{
 				borderElement->SetColor(colors.borderColor);
 				backgroundElement->SetColor(colors.backgroundColor);
 				topGradientElement->SetColors(colors.g1, colors.g2);
 				bottomGradientElement->SetColors(colors.g3, colors.g4);
+				textElement->SetColor(colors.textColor);
+			}
+
+/***********************************************************************
+Win7CheckedButtonElements
+***********************************************************************/
+
+			Win7CheckedButtonElements Win7CheckedButtonElements::Create()
+			{
+				const int checkSize=13;
+				const int checkPadding=2;
+
+				Win7CheckedButtonElements button;
+				{
+					button.mainComposition=new GuiBoundsComposition;
+					button.mainComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+				}
+				{
+					GuiSolidBorderElement* element=GuiSolidBorderElement::Create();
+					element->SetColor(Color(255, 0, 0));
+					//GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
+					//element->SetColor(Win7GetSystemWindowColor());
+
+					GuiTableComposition* mainTable=new GuiTableComposition;
+					button.mainComposition->AddChild(mainTable);
+					mainTable->SetOwnedElement(element);
+					mainTable->SetRowsAndColumns(1, 2);
+					mainTable->SetAlignmentToParent(Margin(0, 0, 0, 0));
+					mainTable->SetRowOption(0, GuiCellOption::PercentageOption(1.0));
+					mainTable->SetColumnOption(0, GuiCellOption::MinSizeOption());
+					mainTable->SetColumnOption(1, GuiCellOption::PercentageOption(1.0));
+					
+					{
+						GuiCellComposition* cell=new GuiCellComposition;
+						mainTable->AddChild(cell);
+						cell->SetSite(0, 0, 1, 1);
+
+						GuiTableComposition* table=new GuiTableComposition;
+						cell->AddChild(table);
+						table->SetRowsAndColumns(3, 1);
+						table->SetAlignmentToParent(Margin(0, 0, 0, 0));
+						table->SetRowOption(0, GuiCellOption::PercentageOption(0.5));
+						table->SetRowOption(1, GuiCellOption::MinSizeOption());
+						table->SetRowOption(2, GuiCellOption::PercentageOption(0.5));
+
+						{
+							GuiCellComposition* checkCell=new GuiCellComposition;
+							table->AddChild(checkCell);
+							checkCell->SetSite(1, 0, 1, 1);
+							{
+								GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
+								button.backgroundElement=element;
+
+								GuiBoundsComposition* borderBounds=new GuiBoundsComposition;
+								checkCell->AddChild(borderBounds);
+								borderBounds->SetOwnedElement(element);
+								borderBounds->SetAlignmentToParent(Margin(checkPadding, -1, checkPadding, -1));
+								borderBounds->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+								{
+									GuiSolidBorderElement* element=GuiSolidBorderElement::Create();
+									button.borderElement=element;
+
+									GuiBoundsComposition* bounds=new GuiBoundsComposition;
+									borderBounds->AddChild(bounds);
+									bounds->SetOwnedElement(element);
+									bounds->SetAlignmentToParent(Margin(0, 0, 0, 0));
+									bounds->SetBounds(Rect(Point(0, 0), Size(checkSize, checkSize)));
+								}
+								{
+									GuiGradientBackgroundElement* element=GuiGradientBackgroundElement::Create();
+									button.outerGradientElement=element;
+									element->SetDirection(GuiGradientBackgroundElement::Backslash);
+
+									GuiBoundsComposition* bounds=new GuiBoundsComposition;
+									borderBounds->AddChild(bounds);
+									bounds->SetOwnedElement(element);
+									bounds->SetAlignmentToParent(Margin(2, 2, 2, 2));
+								}
+								{
+									GuiGradientBackgroundElement* element=GuiGradientBackgroundElement::Create();
+									button.innerGradientElement=element;
+									element->SetDirection(GuiGradientBackgroundElement::Backslash);
+
+									GuiBoundsComposition* bounds=new GuiBoundsComposition;
+									borderBounds->AddChild(bounds);
+									bounds->SetOwnedElement(element);
+									bounds->SetAlignmentToParent(Margin(3, 3, 3, 3));
+								}
+							}
+						}
+					}
+
+					{
+						GuiCellComposition* cell=new GuiCellComposition;
+						mainTable->AddChild(cell);
+						cell->SetSite(0, 1, 1, 1);
+
+						GuiTableComposition* table=new GuiTableComposition;
+						cell->AddChild(table);
+						table->SetRowsAndColumns(3, 1);
+						table->SetAlignmentToParent(Margin(0, 0, 0, 0));
+						table->SetRowOption(0, GuiCellOption::PercentageOption(0.5));
+						table->SetRowOption(1, GuiCellOption::MinSizeOption());
+						table->SetRowOption(2, GuiCellOption::PercentageOption(0.5));
+
+						{
+							GuiCellComposition* textCell=new GuiCellComposition;
+							table->AddChild(textCell);
+							textCell->SetSite(1, 0, 1, 1);
+							{
+								Win7CreateSolidLabelElement(button.textElement, button.textComposition);
+					
+								button.textElement->SetAlignments(Alignment::Left, Alignment::Center);
+								textCell->AddChild(button.textComposition);
+							}
+						}
+					}
+				}
+				return button;
+			}
+
+			void Win7CheckedButtonElements::Apply(const Win7ButtonColors& colors)
+			{
+				borderElement->SetColor(colors.borderColor);
+				backgroundElement->SetColor(colors.backgroundColor);
+				outerGradientElement->SetColors(colors.g1, colors.g2);
+				innerGradientElement->SetColors(colors.g3, colors.g4);
 				textElement->SetColor(colors.textColor);
 			}
 
@@ -528,6 +745,101 @@ Win7GroupBoxStyle
 				else
 				{
 					transferringAnimation->Transfer(Win7GetSystemTextColor(false));
+				}
+			}
+
+/***********************************************************************
+Win7CheckBoxStyle
+***********************************************************************/
+
+			IMPLEMENT_TRANSFERRING_ANIMATION(Win7ButtonColors, Win7CheckBoxStyle)
+			{
+				colorCurrent=Win7ButtonColors::Blend(colorBegin, colorEnd, currentPosition, totalLength);
+				style->elements.Apply(colorCurrent);
+			}
+
+			void Win7CheckBoxStyle::TransferInternal(GuiButton::ControlState value, bool enabled, bool selected)
+			{
+				if(enabled)
+				{
+					switch(value)
+					{
+					case GuiButton::Normal:
+						transferringAnimation->Transfer(Win7ButtonColors::CheckedNormal(selected));
+						break;
+					case GuiButton::Active:
+						transferringAnimation->Transfer(Win7ButtonColors::CheckedActive(selected));
+						break;
+					case GuiButton::Pressed:
+						transferringAnimation->Transfer(Win7ButtonColors::CheckedPressed(selected));
+						break;
+					}
+				}
+				else
+				{
+					transferringAnimation->Transfer(Win7ButtonColors::CheckedDisabled(selected));
+				}
+			}
+
+			Win7CheckBoxStyle::Win7CheckBoxStyle()
+				:controlStyle(GuiButton::Normal)
+				,isVisuallyEnabled(true)
+				,isSelected(false)
+			{
+				Win7ButtonColors initialColor=Win7ButtonColors::CheckedNormal(isSelected);
+				elements=Win7CheckedButtonElements::Create();
+				elements.Apply(initialColor);
+				transferringAnimation=new TransferringAnimation(this, initialColor);
+			}
+
+			Win7CheckBoxStyle::~Win7CheckBoxStyle()
+			{
+			}
+
+			elements::GuiBoundsComposition* Win7CheckBoxStyle::GetBoundsComposition()
+			{
+				return elements.mainComposition;
+			}
+
+			elements::GuiGraphicsComposition* Win7CheckBoxStyle::GetContainerComposition()
+			{
+				return elements.mainComposition;
+			}
+
+			void Win7CheckBoxStyle::SetText(const WString& value)
+			{
+				elements.textElement->SetText(value);
+			}
+
+			void Win7CheckBoxStyle::SetFont(const FontProperties& value)
+			{
+				Win7SetFont(elements.textElement, elements.textComposition, value);
+			}
+
+			void Win7CheckBoxStyle::SetVisuallyEnabled(bool value)
+			{
+				if(isVisuallyEnabled!=value)
+				{
+					isVisuallyEnabled=value;
+					TransferInternal(controlStyle, isVisuallyEnabled, isSelected);
+				}
+			}
+
+			void Win7CheckBoxStyle::SetSelected(bool value)
+			{
+				if(isSelected!=value)
+				{
+					isSelected=value;
+					TransferInternal(controlStyle, isVisuallyEnabled, isSelected);
+				}
+			}
+
+			void Win7CheckBoxStyle::Transfer(GuiButton::ControlState value)
+			{
+				if(controlStyle!=value)
+				{
+					controlStyle=value;
+					TransferInternal(controlStyle, isVisuallyEnabled, isSelected);
 				}
 			}
 		}

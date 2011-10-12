@@ -70,10 +70,6 @@ GuiControl
 				{
 					delete children[i];
 				}
-				if(boundsComposition->GetRelatedGraphicsHost()==0 && boundsComposition->GetParent()==0)
-				{
-					delete boundsComposition;
-				}
 			}
 
 			elements::GuiEventArgs GuiControl::GetNotifyEventArguments()
