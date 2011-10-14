@@ -89,7 +89,7 @@ void SetupWindow(GuiControlHost* host)
 				groupBox->GetBoundsComposition()->SetBounds(Rect(Point(220, 10), Size(200, 200)));
 				groupBox->SetText(L"GroupBox2");
 				{
-					GuiSelectableButton* checkBox=new GuiSelectableButton(new win7::Win7CheckBoxStyle());
+					GuiSelectableButton* checkBox=new GuiSelectableButton(new win7::Win7CheckBoxStyle(win7::Win7CheckBoxStyle::CheckBox));
 					groupBox->GetContainerComposition()->AddChild(checkBox->GetBoundsComposition());
 					checkBox->GetBoundsComposition()->SetAlignmentToParent(Margin(10, 5, 10, -1));
 					checkBox->SetText(L"CheckBox 1");
@@ -100,12 +100,18 @@ void SetupWindow(GuiControlHost* host)
 					checkBox->GetBoundsComposition()->SetAlignmentToParent(Margin(10, 40, 10, -1));
 					checkBox->SetText(L"CheckBox 2");
 				}
-				for(int i=0;i<3;i++)
 				{
-					GuiButton* radioButton=new GuiButton(new win7::Win7ButtonStyle());
-					groupBox->GetContainerComposition()->AddChild(radioButton->GetBoundsComposition());
-					radioButton->GetBoundsComposition()->SetBounds(Rect(Point(10, 75+i*35), Size(200, 25)));
-					radioButton->SetText(L"RadioButton "+itow(i+1));
+					GuiSelectableButton::MutexGroupController* controller=new GuiSelectableButton::MutexGroupController;
+					host->AddComponent(controller);
+
+					for(int i=0;i<3;i++)
+					{
+						GuiSelectableButton* radioButton=new GuiSelectableButton(new win7::Win7CheckBoxStyle(win7::Win7CheckBoxStyle::RadioButton));
+						groupBox->GetContainerComposition()->AddChild(radioButton->GetBoundsComposition());
+						radioButton->GetBoundsComposition()->SetBounds(Rect(Point(10, 75+i*35), Size(200, 25)));
+						radioButton->SetText(L"RadioButton "+itow(i+1));
+						radioButton->SetGroupController(controller);
+					}
 				}
 				{
 					GuiButton* buttonEnabling=new GuiButton(new win7::Win7ButtonStyle());

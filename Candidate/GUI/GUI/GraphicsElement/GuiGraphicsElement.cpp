@@ -90,6 +90,7 @@ GuiSolidBorderElement
 
 			GuiSolidBorderElement::GuiSolidBorderElement()
 				:color(0, 0, 0)
+				,shape(ElementShape::Rectangle)
 			{
 			}
 
@@ -110,6 +111,16 @@ GuiSolidBorderElement
 					color=value;
 					renderer->OnElementStateChanged();
 				}
+			}
+			
+			ElementShape::Type GuiSolidBorderElement::GetShape()
+			{
+				return shape;
+			}
+
+			void GuiSolidBorderElement::SetShape(ElementShape::Type value)
+			{
+				shape=value;
 			}
 
 /***********************************************************************
@@ -161,6 +172,7 @@ GuiSolidBackgroundElement
 
 			GuiSolidBackgroundElement::GuiSolidBackgroundElement()
 				:color(255, 255, 255)
+				,shape(ElementShape::Rectangle)
 			{
 			}
 
@@ -182,6 +194,16 @@ GuiSolidBackgroundElement
 					renderer->OnElementStateChanged();
 				}
 			}
+			
+			ElementShape::Type GuiSolidBackgroundElement::GetShape()
+			{
+				return shape;
+			}
+
+			void GuiSolidBackgroundElement::SetShape(ElementShape::Type value)
+			{
+				shape=value;
+			}
 
 /***********************************************************************
 GuiGradientBackgroundElement
@@ -189,6 +211,7 @@ GuiGradientBackgroundElement
 
 			GuiGradientBackgroundElement::GuiGradientBackgroundElement()
 				:direction(Horizontal)
+				,shape(ElementShape::Rectangle)
 			{
 			}
 
@@ -229,6 +252,16 @@ GuiGradientBackgroundElement
 					direction=value;
 					renderer->OnElementStateChanged();
 				}
+			}
+			
+			ElementShape::Type GuiGradientBackgroundElement::GetShape()
+			{
+				return shape;
+			}
+
+			void GuiGradientBackgroundElement::SetShape(ElementShape::Type value)
+			{
+				shape=value;
 			}
 
 /***********************************************************************

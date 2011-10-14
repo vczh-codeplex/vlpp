@@ -270,11 +270,21 @@ Helpers
 Elements
 ***********************************************************************/
 
+			namespace ElementShape
+			{
+				enum Type
+				{
+					Rectangle,
+					Ellipse,
+				};
+			};
+
 			class GuiSolidBorderElement : public Object, public IGuiGraphicsElement
 			{
 				DEFINE_GUI_GRAPHICS_ELEMENT(GuiSolidBorderElement, L"SolidBorder")
 			protected:
 				Color					color;
+				ElementShape::Type		shape;
 
 				GuiSolidBorderElement();
 			public:
@@ -282,6 +292,8 @@ Elements
 
 				Color					GetColor();
 				void					SetColor(Color value);
+				ElementShape::Type		GetShape();
+				void					SetShape(ElementShape::Type value);
 			};
 
 			class GuiRoundBorderElement : public Object, public IGuiGraphicsElement
@@ -307,6 +319,7 @@ Elements
 				DEFINE_GUI_GRAPHICS_ELEMENT(GuiSolidBackgroundElement, L"SolidBackground")
 			protected:
 				Color					color;
+				ElementShape::Type		shape;
 
 				GuiSolidBackgroundElement();
 			public:
@@ -314,6 +327,8 @@ Elements
 
 				Color					GetColor();
 				void					SetColor(Color value);
+				ElementShape::Type		GetShape();
+				void					SetShape(ElementShape::Type value);
 			};
 
 			class GuiGradientBackgroundElement : public Object, public IGuiGraphicsElement
@@ -330,6 +345,7 @@ Elements
 			protected:
 				Color					color1, color2;
 				Direction				direction;
+				ElementShape::Type		shape;
 
 				GuiGradientBackgroundElement();
 			public:
@@ -341,6 +357,8 @@ Elements
 
 				Direction				GetDirection();
 				void					SetDirection(Direction value);
+				ElementShape::Type		GetShape();
+				void					SetShape(ElementShape::Type value);
 			};
 
 			class GuiSolidLabelElement : public Object, public IGuiGraphicsElement
