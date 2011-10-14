@@ -168,6 +168,29 @@ GuiControl
 			}
 
 /***********************************************************************
+GuiComponent
+***********************************************************************/
+			
+			GuiComponent::GuiComponent()
+				:controlHost(0)
+			{
+			}
+
+			GuiComponent::~GuiComponent()
+			{
+			}
+
+			GuiControlHost* GuiComponent::GetControlHost()
+			{
+				return controlHost;
+			}
+
+			void GuiComponent::SetControlHost(GuiControlHost* value)
+			{
+				controlHost=value;
+			}
+
+/***********************************************************************
 GuiControlHost
 ***********************************************************************/
 
@@ -182,6 +205,10 @@ GuiControlHost
 
 			GuiControlHost::~GuiControlHost()
 			{
+				for(int i=0;i<components.Count();i++)
+				{
+					delete components[i];
+				}
 				delete host;
 			}
 
@@ -208,6 +235,29 @@ GuiControlHost
 			void GuiControlHost::Render()
 			{
 				host->Render();
+			}
+
+			bool GuiControlHost::AddComponent(GuiComponent* component)
+			{
+				if(components.Contains(component))
+				{
+					return false;
+				}
+				else
+				{
+					components.Add(component);
+					return true;
+				}
+			}
+
+			bool GuiControlHost::RemoveComponent(GuiComponent* component)
+			{
+				return components.Remove(component);
+			}
+
+			bool GuiControlHost::ContainsComponent(GuiComponent* component)
+			{
+				return components.Contains(component);
 			}
 
 			void GuiControlHost::Show()
@@ -366,26 +416,89 @@ GuiButton
 			}
 
 /***********************************************************************
-GuiSelectableButton
+GuiSelectableButton::GroupController
 ***********************************************************************/
+
+			GuiSelectableButton::GroupController::GroupController()
+			{
+			}
+
+			GuiSelectableButton::GroupController::~GroupController()
+			{
+			}
+
+			void GuiSelectableButton::GroupController::Attach(GuiSelectableButton* button)
+			{
+				if(!buttons.Contains(button))
+				{
+					buttons.Add(button);
+				}
+			}
+
+			void GuiSelectableButton::GroupController::Detach(GuiSelectableButton* button)
+			{
+				buttons.Remove(button);
+			}
 
 			void GuiSelectableButton::OnClicked(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 			{
 				SetSelected(!GetSelected());
 			}
 
+/***********************************************************************
+GuiSelectableButton::MutexGroupController
+***********************************************************************/
+
+			void GuiSelectableButton::MutexGroupController::OnSelectedChanged(GuiSelectableButton* button)
+			{
+				if(button->GetSelected())
+				{
+					for(int i=0;i<buttons.Count();i++)
+					{
+						if(buttons[i]!=button)
+						{
+							buttons[i]->SetSelected(false);
+						}
+					}
+				}
+			}
+
+/***********************************************************************
+GuiSelectableButton
+***********************************************************************/
+
 			GuiSelectableButton::GuiSelectableButton(IStyleController* _styleController)
 				:GuiButton(_styleController)
 				,styleController(_styleController)
+				,groupController(0)
 				,isSelected(false)
 			{
 				SelectedChanged.SetAssociatedComposition(boundsComposition);
 
+				Clicked.AttachMethod(this, &GuiSelectableButton::OnClicked);
 				styleController->SetSelected(isSelected);
 			}
 			
 			GuiSelectableButton::~GuiSelectableButton()
 			{
+			}
+
+			GuiSelectableButton::GroupController* GuiSelectableButton::GetGroupController()
+			{
+				return groupController;
+			}
+
+			void GuiSelectableButton::SetGroupController(GroupController* value)
+			{
+				if(groupController)
+				{
+					groupController->Detach(this);
+				}
+				groupController=value;
+				if(groupController)
+				{
+					groupController->Attach(this);
+				}
 			}
 
 			bool GuiSelectableButton::GetSelected()
@@ -399,6 +512,10 @@ GuiSelectableButton
 				{
 					isSelected=value;
 					styleController->SetSelected(isSelected);
+					if(groupController)
+					{
+						groupController->OnSelectedChanged(this);
+					}
 					SelectedChanged.Execute(GetNotifyEventArguments());
 				}
 			}

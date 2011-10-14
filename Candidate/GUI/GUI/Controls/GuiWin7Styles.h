@@ -31,8 +31,8 @@ Button Configuration
 				Color										g3;
 				Color										g4;
 				Color										textColor;
-				Color										tickLight;
-				Color										tickDark;
+				Color										bulletLight;
+				Color										bulletDark;
 
 				bool operator==(const Win7ButtonColors& colors)
 				{
@@ -43,7 +43,9 @@ Button Configuration
 						g2 == colors.g2 &&
 						g3 == colors.g3 &&
 						g4 == colors.g4 &&
-						textColor == colors.textColor;
+						textColor == colors.textColor &&
+						bulletLight == colors.bulletLight &&
+						bulletDark == colors.bulletDark;
 				}
 
 				bool operator!=(const Win7ButtonColors& colors)
@@ -87,10 +89,11 @@ Button Configuration
 				elements::GuiGradientBackgroundElement*		outerGradientElement;
 				elements::GuiGradientBackgroundElement*		innerGradientElement;
 				elements::GuiSolidLabelElement*				textElement;
+				elements::GuiSolidLabelElement*				bulletTextElement;
 				elements::GuiBoundsComposition*				textComposition;
 				elements::GuiBoundsComposition*				mainComposition;
 
-				static Win7CheckedButtonElements			Create();
+				static Win7CheckedButtonElements			Create(elements::ElementShape::Type shape);
 				void										Apply(const Win7ButtonColors& colors);
 			};
 
@@ -194,6 +197,12 @@ Button
 
 			class Win7CheckBoxStyle : public Object, public controls::GuiSelectableButton::IStyleController
 			{
+			public:
+				enum BulletStyle
+				{
+					CheckBox,
+					RadioButton,
+				};
 			protected:
 				DEFINE_TRANSFERRING_ANIMATION(Win7ButtonColors, Win7CheckBoxStyle)
 
@@ -205,7 +214,7 @@ Button
 
 				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected);
 			public:
-				Win7CheckBoxStyle();
+				Win7CheckBoxStyle(BulletStyle bulletStyle);
 				~Win7CheckBoxStyle();
 
 				elements::GuiBoundsComposition*				GetBoundsComposition();

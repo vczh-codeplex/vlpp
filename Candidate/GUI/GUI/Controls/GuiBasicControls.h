@@ -82,10 +82,25 @@ Basic Construction
 				virtual void							SetFont(const FontProperties& value);
 			};
 
+			class GuiComponent : public Object
+			{
+				friend class GuiControlHost;
+			private:
+				GuiControlHost*							controlHost;
+
+				void									SetControlHost(GuiControlHost* value);
+			public:
+				GuiComponent();
+				~GuiComponent();
+
+				GuiControlHost*							GetControlHost();
+			};
+
 			class GuiControlHost : public GuiControl
 			{
 			protected:
 				elements::GuiGraphicsHost*				host;
+				collections::List<GuiComponent*>		components;
 			public:
 				GuiControlHost(GuiControl::IStyleController* _styleController);
 				~GuiControlHost();
@@ -95,6 +110,10 @@ Basic Construction
 				INativeWindow*							GetNativeWindow();
 				void									SetNativeWindow(INativeWindow* window);
 				void									Render();
+
+				bool									AddComponent(GuiComponent* component);
+				bool									RemoveComponent(GuiComponent* component);
+				bool									ContainsComponent(GuiComponent* component);
 
 				void									Show();
 				void									ShowRestored();
@@ -150,8 +169,28 @@ Controls
 					virtual void						SetSelected(bool value)=0;
 				};
 
+				class GroupController : public GuiComponent
+				{
+				protected:
+					collections::List<GuiSelectableButton*>	buttons;
+				public:
+					GroupController();
+					~GroupController();
+
+					virtual void						Attach(GuiSelectableButton* button);
+					virtual void						Detach(GuiSelectableButton* button);
+					virtual void						OnSelectedChanged(GuiSelectableButton* button)=0;
+				};
+
+				class MutexGroupController : public GroupController
+				{
+				public:
+					void								OnSelectedChanged(GuiSelectableButton* button);
+				};
+
 			protected:
 				IStyleController*						styleController;
+				GroupController*						groupController;
 				bool									isSelected;
 
 				void									OnClicked(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
@@ -160,6 +199,9 @@ Controls
 				~GuiSelectableButton();
 
 				elements::GuiNotifyEvent				SelectedChanged;
+
+				virtual GroupController*				GetGroupController();
+				virtual void							SetGroupController(GroupController* value);
 
 				virtual bool							GetSelected();
 				virtual void							SetSelected(bool value);

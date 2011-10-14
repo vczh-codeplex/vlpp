@@ -41,8 +41,8 @@ Win7ItemColors
 				result.g3=BlendColor(c1.g3, c2.g3, ratio, total);
 				result.g4=BlendColor(c1.g4, c2.g4, ratio, total);
 				result.textColor=BlendColor(c1.textColor, c2.textColor, ratio, total);
-				result.tickLight=BlendColor(c1.tickLight, c2.tickLight, ratio, total);
-				result.tickDark=BlendColor(c1.tickDark, c2.tickDark, ratio, total);
+				result.bulletLight=BlendColor(c1.bulletLight, c2.bulletLight, ratio, total);
+				result.bulletDark=BlendColor(c1.bulletDark, c2.bulletDark, ratio, total);
 				return result;
 			}
 
@@ -152,8 +152,8 @@ Win7ItemColors
 				};
 				if(!selected)
 				{
-					colors.tickLight.a=0;
-					colors.tickDark.a=0;
+					colors.bulletLight.a=0;
+					colors.bulletDark.a=0;
 				}
 				return colors;
 			}
@@ -174,8 +174,8 @@ Win7ItemColors
 				};
 				if(!selected)
 				{
-					colors.tickLight.a=0;
-					colors.tickDark.a=0;
+					colors.bulletLight.a=0;
+					colors.bulletDark.a=0;
 				}
 				return colors;
 			}
@@ -186,7 +186,7 @@ Win7ItemColors
 				{
 					Color(44, 98, 139),
 					Color(194, 228, 254),
-					Color(94, 182, 147),
+					Color(94, 182, 247),
 					Color(193, 230, 252),
 					Color(157, 213, 252),
 					Color(224, 244, 254),
@@ -196,8 +196,8 @@ Win7ItemColors
 				};
 				if(!selected)
 				{
-					colors.tickLight.a=0;
-					colors.tickDark.a=0;
+					colors.bulletLight.a=0;
+					colors.bulletDark.a=0;
 				}
 				return colors;
 			}
@@ -218,8 +218,8 @@ Win7ItemColors
 				};
 				if(!selected)
 				{
-					colors.tickLight.a=0;
-					colors.tickDark.a=0;
+					colors.bulletLight.a=0;
+					colors.bulletDark.a=0;
 				}
 				return colors;
 			}
@@ -305,7 +305,7 @@ Win7ButtonElements
 Win7CheckedButtonElements
 ***********************************************************************/
 
-			Win7CheckedButtonElements Win7CheckedButtonElements::Create()
+			Win7CheckedButtonElements Win7CheckedButtonElements::Create(elements::ElementShape::Type shape)
 			{
 				const int checkSize=13;
 				const int checkPadding=2;
@@ -318,8 +318,6 @@ Win7CheckedButtonElements
 				{
 					GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
 					element->SetColor(Win7GetSystemWindowColor());
-					//GuiSolidBorderElement* element=GuiSolidBorderElement::Create();
-					//element->SetColor(Color(255, 0, 0));
 
 					GuiTableComposition* mainTable=new GuiTableComposition;
 					button.mainComposition->AddChild(mainTable);
@@ -350,6 +348,7 @@ Win7CheckedButtonElements
 							{
 								GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
 								button.backgroundElement=element;
+								element->SetShape(shape);
 
 								GuiBoundsComposition* borderBounds=new GuiBoundsComposition;
 								checkCell->AddChild(borderBounds);
@@ -359,6 +358,7 @@ Win7CheckedButtonElements
 								{
 									GuiSolidBorderElement* element=GuiSolidBorderElement::Create();
 									button.borderElement=element;
+									element->SetShape(shape);
 
 									GuiBoundsComposition* bounds=new GuiBoundsComposition;
 									borderBounds->AddChild(bounds);
@@ -369,6 +369,7 @@ Win7CheckedButtonElements
 								{
 									GuiGradientBackgroundElement* element=GuiGradientBackgroundElement::Create();
 									button.outerGradientElement=element;
+									element->SetShape(shape);
 									element->SetDirection(GuiGradientBackgroundElement::Backslash);
 
 									GuiBoundsComposition* bounds=new GuiBoundsComposition;
@@ -380,6 +381,7 @@ Win7CheckedButtonElements
 									GuiGradientBackgroundElement* element=GuiGradientBackgroundElement::Create();
 									button.innerGradientElement=element;
 									element->SetDirection(GuiGradientBackgroundElement::Backslash);
+									element->SetShape(shape);
 
 									GuiBoundsComposition* bounds=new GuiBoundsComposition;
 									borderBounds->AddChild(bounds);
@@ -387,6 +389,23 @@ Win7CheckedButtonElements
 									bounds->SetAlignmentToParent(Margin(3, 3, 3, 3));
 								}
 							}
+						}
+						{
+							button.bulletTextElement=GuiSolidLabelElement::Create();
+							{
+								FontProperties font;
+								font.fontFamily=L"Wingdings 2";
+								font.size=16;
+								font.bold=true;
+								button.bulletTextElement->SetFont(font);
+							}
+							button.bulletTextElement->SetText(L"P");
+							button.bulletTextElement->SetAlignments(Alignment::Center, Alignment::Center);
+
+							GuiBoundsComposition* composition=new GuiBoundsComposition;
+							composition->SetOwnedElement(button.bulletTextElement);
+							composition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+							table->AddChild(composition);
 						}
 					}
 
@@ -426,6 +445,7 @@ Win7CheckedButtonElements
 				outerGradientElement->SetColors(colors.g1, colors.g2);
 				innerGradientElement->SetColors(colors.g3, colors.g4);
 				textElement->SetColor(colors.textColor);
+				bulletTextElement->SetColor(colors.bulletDark);
 			}
 
 /***********************************************************************
@@ -781,13 +801,13 @@ Win7CheckBoxStyle
 				}
 			}
 
-			Win7CheckBoxStyle::Win7CheckBoxStyle()
+			Win7CheckBoxStyle::Win7CheckBoxStyle(BulletStyle bulletStyle)
 				:controlStyle(GuiButton::Normal)
 				,isVisuallyEnabled(true)
 				,isSelected(false)
 			{
 				Win7ButtonColors initialColor=Win7ButtonColors::CheckedNormal(isSelected);
-				elements=Win7CheckedButtonElements::Create();
+				elements=Win7CheckedButtonElements::Create(bulletStyle==CheckBox?ElementShape::Rectangle:ElementShape::Ellipse);
 				elements.Apply(initialColor);
 				transferringAnimation=new TransferringAnimation(this, initialColor);
 			}
