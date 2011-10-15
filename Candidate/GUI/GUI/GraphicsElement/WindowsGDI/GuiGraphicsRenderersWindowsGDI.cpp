@@ -40,7 +40,15 @@ GuiSolidBorderElementRenderer
 				{
 					renderTarget->GetDC()->SetBrush(brush);
 					renderTarget->GetDC()->SetPen(pen);
-					renderTarget->GetDC()->Rectangle(bounds.Left(), bounds.Top(), bounds.Right()-1, bounds.Bottom()-1);
+					switch(element->GetShape())
+					{
+					case ElementShape::Rectangle:
+						renderTarget->GetDC()->Rectangle(bounds.Left(), bounds.Top(), bounds.Right()-1, bounds.Bottom()-1);
+						break;
+					case ElementShape::Ellipse:
+						renderTarget->GetDC()->Ellipse(bounds.Left(), bounds.Top(), bounds.Right()-1, bounds.Bottom()-1);
+						break;
+					}
 				}
 			}
 
@@ -110,12 +118,14 @@ GuiSolidBackgroundElementRenderer
 			{
 				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
 				oldColor=element->GetColor();
+				pen=resourceManager->CreateGdiPen(oldColor);
 				brush=resourceManager->CreateGdiBrush(oldColor);
 			}
 
 			void GuiSolidBackgroundElementRenderer::FinalizeInternal()
 			{
 				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+				resourceManager->DestroyGdiPen(oldColor);
 				resourceManager->DestroyGdiBrush(oldColor);
 			}
 
@@ -127,8 +137,17 @@ GuiSolidBackgroundElementRenderer
 			{
 				if(oldColor.a>0)
 				{
+					renderTarget->GetDC()->SetPen(pen);
 					renderTarget->GetDC()->SetBrush(brush);
-					renderTarget->GetDC()->FillRect(bounds.Left(), bounds.Top(), bounds.Right(), bounds.Bottom());
+					switch(element->GetShape())
+					{
+					case ElementShape::Rectangle:
+						renderTarget->GetDC()->FillRect(bounds.Left(), bounds.Top(), bounds.Right(), bounds.Bottom());
+						break;
+					case ElementShape::Ellipse:
+						renderTarget->GetDC()->Ellipse(bounds.Left(), bounds.Top(), bounds.Right()-1, bounds.Bottom()-1);
+						break;
+					}
 				}
 			}
 
@@ -138,8 +157,10 @@ GuiSolidBackgroundElementRenderer
 				if(oldColor!=color)
 				{
 					IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+					resourceManager->DestroyGdiPen(oldColor);
 					resourceManager->DestroyGdiBrush(oldColor);
 					oldColor=color;
+					pen=resourceManager->CreateGdiPen(oldColor);
 					brush=resourceManager->CreateGdiBrush(oldColor);
 				}
 			}
@@ -229,8 +250,25 @@ GuiGradientBackgroundElementRenderer
 						vertices[3].Blue=color1.b<<8;
 						vertices[3].Alpha=0xFF00;
 					}
-
-					renderTarget->GetDC()->GradientTriangle(vertices, 6, triangles, 2);
+					
+					switch(element->GetShape())
+					{
+					case ElementShape::Rectangle:
+						{
+							renderTarget->GetDC()->GradientTriangle(vertices, 6, triangles, 2);
+						}
+						break;
+					case ElementShape::Ellipse:
+						{
+							Ptr<WinRegion> ellipseRegion=new WinRegion(bounds.x1, bounds.y1, bounds.x2+1, bounds.y2+1, false);
+							Ptr<WinRegion> oldRegion=renderTarget->GetDC()->GetClipRegion();
+							Ptr<WinRegion> newRegion=new WinRegion(oldRegion, ellipseRegion, RGN_AND);
+							renderTarget->GetDC()->ClipRegion(newRegion);
+							renderTarget->GetDC()->GradientTriangle(vertices, 6, triangles, 2);
+							renderTarget->GetDC()->ClipRegion(oldRegion);
+						}
+						break;
+					}
 				}
 			}
 

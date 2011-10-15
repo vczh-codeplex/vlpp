@@ -389,23 +389,37 @@ Win7CheckedButtonElements
 									bounds->SetAlignmentToParent(Margin(3, 3, 3, 3));
 								}
 							}
-						}
-						{
-							button.bulletTextElement=GuiSolidLabelElement::Create();
-							{
-								FontProperties font;
-								font.fontFamily=L"Wingdings 2";
-								font.size=16;
-								font.bold=true;
-								button.bulletTextElement->SetFont(font);
-							}
-							button.bulletTextElement->SetText(L"P");
-							button.bulletTextElement->SetAlignments(Alignment::Center, Alignment::Center);
 
-							GuiBoundsComposition* composition=new GuiBoundsComposition;
-							composition->SetOwnedElement(button.bulletTextElement);
-							composition->SetAlignmentToParent(Margin(0, 0, 0, 0));
-							table->AddChild(composition);
+							button.bulletTextElement=0;
+							button.bulletBackgroundElement=0;
+							if(shape==ElementShape::Rectangle)
+							{
+								button.bulletTextElement=GuiSolidLabelElement::Create();
+								{
+									FontProperties font;
+									font.fontFamily=L"Wingdings 2";
+									font.size=16;
+									font.bold=true;
+									button.bulletTextElement->SetFont(font);
+								}
+								button.bulletTextElement->SetText(L"P");
+								button.bulletTextElement->SetAlignments(Alignment::Center, Alignment::Center);
+
+								GuiBoundsComposition* composition=new GuiBoundsComposition;
+								composition->SetOwnedElement(button.bulletTextElement);
+								composition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+								checkCell->AddChild(composition);
+							}
+							else
+							{
+								button.bulletBackgroundElement=GuiSolidBackgroundElement::Create();
+								button.bulletBackgroundElement->SetShape(ElementShape::Ellipse);
+
+								GuiBoundsComposition* composition=new GuiBoundsComposition;
+								composition->SetOwnedElement(button.bulletBackgroundElement);
+								composition->SetAlignmentToParent(Margin(checkPadding+3, 3, checkPadding+3, 3));
+								checkCell->AddChild(composition);
+							}
 						}
 					}
 
@@ -445,7 +459,14 @@ Win7CheckedButtonElements
 				outerGradientElement->SetColors(colors.g1, colors.g2);
 				innerGradientElement->SetColors(colors.g3, colors.g4);
 				textElement->SetColor(colors.textColor);
-				bulletTextElement->SetColor(colors.bulletDark);
+				if(bulletTextElement)
+				{
+					bulletTextElement->SetColor(colors.bulletDark);
+				}
+				if(bulletBackgroundElement)
+				{
+					bulletBackgroundElement->SetColor(colors.bulletDark);
+				}
 			}
 
 /***********************************************************************
