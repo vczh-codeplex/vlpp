@@ -90,6 +90,7 @@ Button Configuration
 				elements::GuiGradientBackgroundElement*		innerGradientElement;
 				elements::GuiSolidLabelElement*				textElement;
 				elements::GuiSolidLabelElement*				bulletTextElement;
+				elements::GuiSolidBackgroundElement*		bulletBackgroundElement;
 				elements::GuiBoundsComposition*				textComposition;
 				elements::GuiBoundsComposition*				mainComposition;
 
