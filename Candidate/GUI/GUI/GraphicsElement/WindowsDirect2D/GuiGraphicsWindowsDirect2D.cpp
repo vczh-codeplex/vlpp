@@ -150,22 +150,6 @@ WindiwsGDIRenderTarget
 
 				CachedSolidBrushAllocator	solidBrushes;
 				CachedLinearBrushAllocator	linearBrushes;
-
-				void ApplyClipper()
-				{
-					if(clipperCoverWholeTargetCounter==0)
-					{
-						if(clippers.Count()==0)
-						{
-							//dc->RemoveClip();
-						}
-						else
-						{
-							Rect clipper=GetClipper();
-							//dc->ClipRegion(new WinRegion(clipper.Left(), clipper.Top(), clipper.Right(), clipper.Bottom(), true));
-						}
-					}
-				}
 			public:
 				WindowsDirect2DRenderTarget(INativeWindow* _window)
 					:window(_window)
@@ -217,13 +201,16 @@ WindiwsGDIRenderTarget
 						if(currentClipper.x1<currentClipper.x2 && currentClipper.y1<currentClipper.y2)
 						{
 							clippers.Add(currentClipper);
+							d2dRenderTarget->PushAxisAlignedClip(
+								D2D1::RectF((FLOAT)currentClipper.x1, (FLOAT)currentClipper.y1, (FLOAT)currentClipper.x2, (FLOAT)currentClipper.y2),
+								D2D1_ANTIALIAS_MODE_PER_PRIMITIVE
+								);
 						}
 						else
 						{
 							clipperCoverWholeTargetCounter++;
 						}
 					}
-					ApplyClipper();
 				}
 
 				void PopClipper()
@@ -237,8 +224,8 @@ WindiwsGDIRenderTarget
 						else
 						{
 							clippers.RemoveAt(clippers.Count()-1);
+							d2dRenderTarget->PopAxisAlignedClip();
 						}
-						ApplyClipper();
 					}
 				}
 
