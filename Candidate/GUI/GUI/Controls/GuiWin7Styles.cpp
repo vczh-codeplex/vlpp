@@ -883,6 +883,97 @@ Win7CheckBoxStyle
 					TransferInternal(controlStyle, isVisuallyEnabled, isSelected);
 				}
 			}
+
+/***********************************************************************
+Win7ScrollStyle
+***********************************************************************/
+
+			Win7ScrollStyle::Win7ScrollStyle(Direction direction)
+				:commandExecutor(0)
+				,decreaseButton(0)
+				,increaseButton(0)
+				,boundsComposition(0)
+			{
+				boundsComposition=new GuiBoundsComposition;
+				{
+					decreaseButton=new GuiButton(new Win7ButtonStyle);
+					decreaseButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+					increaseButton=new GuiButton(new Win7ButtonStyle);
+					increaseButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+				}
+				{
+					GuiSideAlignedComposition* decreaseComposition=new GuiSideAlignedComposition;
+					decreaseComposition->SetMaxLength(DefaultSize);
+					decreaseComposition->SetMaxRatio(0.5);
+					decreaseComposition->AddChild(decreaseButton->GetBoundsComposition());
+					boundsComposition->AddChild(decreaseComposition);
+
+					GuiSideAlignedComposition* increaseComposition=new GuiSideAlignedComposition;
+					increaseComposition->SetMaxLength(DefaultSize);
+					increaseComposition->SetMaxRatio(0.5);
+					increaseComposition->AddChild(increaseButton->GetBoundsComposition());
+					boundsComposition->AddChild(increaseComposition);
+
+					switch(direction)
+					{
+					case Horizontal:
+						{
+							decreaseComposition->SetDirection(GuiSideAlignedComposition::Left);
+							increaseComposition->SetDirection(GuiSideAlignedComposition::Right);
+						}
+						break;
+					case Vertical:
+						{
+							decreaseComposition->SetDirection(GuiSideAlignedComposition::Top);
+							increaseComposition->SetDirection(GuiSideAlignedComposition::Bottom);
+						}
+						break;
+					}
+				}
+			}
+
+			Win7ScrollStyle::~Win7ScrollStyle()
+			{
+			}
+
+			elements::GuiBoundsComposition* Win7ScrollStyle::GetBoundsComposition()
+			{
+				return boundsComposition;
+			}
+
+			elements::GuiGraphicsComposition* Win7ScrollStyle::GetContainerComposition()
+			{
+				return boundsComposition;
+			}
+
+			void Win7ScrollStyle::SetText(const WString& value)
+			{
+			}
+
+			void Win7ScrollStyle::SetFont(const FontProperties& value)
+			{
+			}
+
+			void Win7ScrollStyle::SetVisuallyEnabled(bool value)
+			{
+			}
+
+			void Win7ScrollStyle::SetCommandExecutor(controls::GuiScroll::ICommandExecutor* value)
+			{
+				commandExecutor=value;
+			}
+
+			void Win7ScrollStyle::SetTotalSize(int value)
+			{
+			}
+
+			void Win7ScrollStyle::SetPageSize(int value)
+			{
+			}
+
+			void Win7ScrollStyle::SetPosition(int value)
+			{
+			}
 		}
 	}
 }

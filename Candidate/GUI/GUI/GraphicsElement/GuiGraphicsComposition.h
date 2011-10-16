@@ -310,6 +310,39 @@ Table Compositions
 				Rect								GetBounds();
 				void								SetBounds(Rect value);
 			};
+
+/***********************************************************************
+Specialized Compositions
+***********************************************************************/
+
+			class GuiSideAlignedComposition : public GuiGraphicsComposition
+			{
+			public:
+				enum Direction
+				{
+					Left,
+					Top,
+					Right,
+					Bottom,
+				};
+			protected:
+				Direction							direction;
+				int									maxLength;
+				double								maxRatio;
+			public:
+				GuiSideAlignedComposition();
+				~GuiSideAlignedComposition();
+
+				Direction							GetDirection();
+				void								SetDirection(Direction value);
+				int									GetMaxLength();
+				void								SetMaxLength(int value);
+				double								GetMaxRatio();
+				void								SetMaxRatio(double value);
+
+				Rect								GetBounds();
+				void								SetBounds(Rect value);
+			};
 		}
 	}
 }

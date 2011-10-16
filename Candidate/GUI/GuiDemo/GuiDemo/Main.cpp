@@ -6,15 +6,112 @@ using namespace vl::presentation;
 using namespace vl::presentation::elements;
 using namespace vl::presentation::controls;
 
+void SetupMainPanel(GuiControlHost* host, GuiCellComposition* cell)
+{
+	{
+		GuiControl* groupBox=new GuiControl(new win7::Win7GroupBoxStyle);
+		cell->AddChild(groupBox->GetBoundsComposition());
+		groupBox->GetBoundsComposition()->SetBounds(Rect(Point(0, 0), Size(200, 200)));
+		groupBox->SetText(L"GroupBox1");
+
+		GuiButton* buttonBig=new GuiButton(new win7::Win7ButtonStyle());
+		groupBox->GetContainerComposition()->AddChild(buttonBig->GetBoundsComposition());
+		buttonBig->GetBoundsComposition()->SetAlignmentToParent(Margin(10, 10, 10, 10));
+		buttonBig->SetText(L"I am a big button!");
+		{
+			GuiButton* buttonEnabling=new GuiButton(new win7::Win7ButtonStyle());
+			cell->AddChild(buttonEnabling->GetBoundsComposition());
+			buttonEnabling->GetBoundsComposition()->SetBounds(Rect(Point(0, 210), Size(200, 25)));
+			buttonEnabling->SetText(L"Disable GroupBox1");
+
+			buttonEnabling->Clicked.AttachLambda([groupBox, buttonEnabling](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
+			{
+				if(groupBox->GetEnabled())
+				{
+					buttonEnabling->SetText(L"Enable GroupBox1");
+				}
+				else
+				{
+					buttonEnabling->SetText(L"Disable GroupBox1");
+				}
+				groupBox->SetEnabled(!groupBox->GetEnabled());
+			});
+		}
+		{
+			GuiButton* buttonEnabling=new GuiButton(new win7::Win7ButtonStyle());
+			cell->AddChild(buttonEnabling->GetBoundsComposition());
+			buttonEnabling->GetBoundsComposition()->SetBounds(Rect(Point(0, 245), Size(200, 25)));
+			buttonEnabling->SetText(L"Disable big button");
+
+			buttonEnabling->Clicked.AttachLambda([buttonBig, buttonEnabling](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
+			{
+				if(buttonBig->GetEnabled())
+				{
+					buttonEnabling->SetText(L"Enable big button");
+				}
+				else
+				{
+					buttonEnabling->SetText(L"Disable big button");
+				}
+				buttonBig->SetEnabled(!buttonBig->GetEnabled());
+			});
+		}
+	}
+	{
+		GuiControl* groupBox=new GuiControl(new win7::Win7GroupBoxStyle);
+		cell->AddChild(groupBox->GetBoundsComposition());
+		groupBox->GetBoundsComposition()->SetBounds(Rect(Point(210, 0), Size(200, 200)));
+		groupBox->SetText(L"GroupBox2");
+		{
+			GuiSelectableButton* checkBox=new GuiSelectableButton(new win7::Win7CheckBoxStyle(win7::Win7CheckBoxStyle::CheckBox));
+			groupBox->GetContainerComposition()->AddChild(checkBox->GetBoundsComposition());
+			checkBox->GetBoundsComposition()->SetAlignmentToParent(Margin(10, 5, 10, -1));
+			checkBox->SetText(L"CheckBox 1");
+		}
+		{
+			GuiButton* checkBox=new GuiButton(new win7::Win7ButtonStyle());
+			groupBox->GetContainerComposition()->AddChild(checkBox->GetBoundsComposition());
+			checkBox->GetBoundsComposition()->SetAlignmentToParent(Margin(10, 40, 10, -1));
+			checkBox->SetText(L"CheckBox 2");
+		}
+		{
+			GuiSelectableButton::MutexGroupController* controller=new GuiSelectableButton::MutexGroupController;
+			host->AddComponent(controller);
+
+			for(int i=0;i<3;i++)
+			{
+				GuiSelectableButton* radioButton=new GuiSelectableButton(new win7::Win7CheckBoxStyle(win7::Win7CheckBoxStyle::RadioButton));
+				groupBox->GetContainerComposition()->AddChild(radioButton->GetBoundsComposition());
+				radioButton->GetBoundsComposition()->SetBounds(Rect(Point(10, 75+i*35), Size(200, 25)));
+				radioButton->SetText(L"RadioButton "+itow(i+1));
+				radioButton->SetGroupController(controller);
+			}
+		}
+		{
+			GuiButton* buttonEnabling=new GuiButton(new win7::Win7ButtonStyle());
+			cell->AddChild(buttonEnabling->GetBoundsComposition());
+			buttonEnabling->GetBoundsComposition()->SetBounds(Rect(Point(210, 210), Size(200, 25)));
+			buttonEnabling->SetText(L"Disable GroupBox2");
+
+			buttonEnabling->Clicked.AttachLambda([groupBox, buttonEnabling](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
+			{
+				if(groupBox->GetEnabled())
+				{
+					buttonEnabling->SetText(L"Enable GroupBox2");
+				}
+				else
+				{
+					buttonEnabling->SetText(L"Disable GroupBox2");
+				}
+				groupBox->SetEnabled(!groupBox->GetEnabled());
+			});
+		}
+	}
+}
+
 void SetupWindow(GuiControlHost* host)
 {
 	host->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
-	//{
-	//	GuiSelectableButton* checkBox=new GuiSelectableButton(new win7::Win7CheckBoxStyle());
-	//	host->GetBoundsComposition()->AddChild(checkBox->GetBoundsComposition());
-	//	checkBox->GetBoundsComposition()->SetAlignmentToParent(Margin(10, 10, 10, -1));
-	//	checkBox->SetText(L"CheckBox 1");
-	//}
 	GuiTableComposition* table=new GuiTableComposition;
 	table->SetAlignmentToParent(Margin(0, 0, 0, 0));
 	host->GetContainerComposition()->AddChild(table);
@@ -34,104 +131,40 @@ void SetupWindow(GuiControlHost* host)
 		table->AddChild(cell);
 		cell->SetSite(0, 0, 1, 3);
 		{
+			GuiTableComposition* mainTable=new GuiTableComposition;
+			cell->AddChild(mainTable);
+			mainTable->SetAlignmentToParent(Margin(0, 0, 0, 0));
+			mainTable->SetRowsAndColumns(2, 2);
+			mainTable->SetCellPadding(0);
+			mainTable->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+
+			mainTable->SetRowOption(0, GuiCellOption::PercentageOption(1.0));
+			mainTable->SetRowOption(1, GuiCellOption::AbsoluteOption(win7::Win7ScrollStyle::DefaultSize));
+			mainTable->SetColumnOption(0, GuiCellOption::PercentageOption(1.0));
+			mainTable->SetColumnOption(1, GuiCellOption::AbsoluteOption(win7::Win7ScrollStyle::DefaultSize));
 			{
-				GuiControl* groupBox=new GuiControl(new win7::Win7GroupBoxStyle);
-				cell->AddChild(groupBox->GetBoundsComposition());
-				groupBox->GetBoundsComposition()->SetBounds(Rect(Point(10, 10), Size(200, 200)));
-				groupBox->SetText(L"GroupBox1");
-
-				GuiButton* buttonBig=new GuiButton(new win7::Win7ButtonStyle());
-				groupBox->GetContainerComposition()->AddChild(buttonBig->GetBoundsComposition());
-				buttonBig->GetBoundsComposition()->SetAlignmentToParent(Margin(10, 10, 10, 10));
-				buttonBig->SetText(L"I am a big button!");
-				{
-					GuiButton* buttonEnabling=new GuiButton(new win7::Win7ButtonStyle());
-					cell->AddChild(buttonEnabling->GetBoundsComposition());
-					buttonEnabling->GetBoundsComposition()->SetBounds(Rect(Point(10, 220), Size(200, 25)));
-					buttonEnabling->SetText(L"Disable GroupBox1");
-
-					buttonEnabling->Clicked.AttachLambda([groupBox, buttonEnabling](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
-					{
-						if(groupBox->GetEnabled())
-						{
-							buttonEnabling->SetText(L"Enable GroupBox1");
-						}
-						else
-						{
-							buttonEnabling->SetText(L"Disable GroupBox1");
-						}
-						groupBox->SetEnabled(!groupBox->GetEnabled());
-					});
-				}
-				{
-					GuiButton* buttonEnabling=new GuiButton(new win7::Win7ButtonStyle());
-					cell->AddChild(buttonEnabling->GetBoundsComposition());
-					buttonEnabling->GetBoundsComposition()->SetBounds(Rect(Point(10, 255), Size(200, 25)));
-					buttonEnabling->SetText(L"Disable big button");
-
-					buttonEnabling->Clicked.AttachLambda([buttonBig, buttonEnabling](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
-					{
-						if(buttonBig->GetEnabled())
-						{
-							buttonEnabling->SetText(L"Enable big button");
-						}
-						else
-						{
-							buttonEnabling->SetText(L"Disable big button");
-						}
-						buttonBig->SetEnabled(!buttonBig->GetEnabled());
-					});
-				}
+				GuiCellComposition* cell=new GuiCellComposition;
+				mainTable->AddChild(cell);
+				cell->SetSite(0, 0, 1, 1);
+				SetupMainPanel(host, cell);
 			}
 			{
-				GuiControl* groupBox=new GuiControl(new win7::Win7GroupBoxStyle);
-				cell->AddChild(groupBox->GetBoundsComposition());
-				groupBox->GetBoundsComposition()->SetBounds(Rect(Point(220, 10), Size(200, 200)));
-				groupBox->SetText(L"GroupBox2");
-				{
-					GuiSelectableButton* checkBox=new GuiSelectableButton(new win7::Win7CheckBoxStyle(win7::Win7CheckBoxStyle::CheckBox));
-					groupBox->GetContainerComposition()->AddChild(checkBox->GetBoundsComposition());
-					checkBox->GetBoundsComposition()->SetAlignmentToParent(Margin(10, 5, 10, -1));
-					checkBox->SetText(L"CheckBox 1");
-				}
-				{
-					GuiButton* checkBox=new GuiButton(new win7::Win7ButtonStyle());
-					groupBox->GetContainerComposition()->AddChild(checkBox->GetBoundsComposition());
-					checkBox->GetBoundsComposition()->SetAlignmentToParent(Margin(10, 40, 10, -1));
-					checkBox->SetText(L"CheckBox 2");
-				}
-				{
-					GuiSelectableButton::MutexGroupController* controller=new GuiSelectableButton::MutexGroupController;
-					host->AddComponent(controller);
+				GuiCellComposition* cell=new GuiCellComposition;
+				mainTable->AddChild(cell);
+				cell->SetSite(0, 1, 1, 1);
 
-					for(int i=0;i<3;i++)
-					{
-						GuiSelectableButton* radioButton=new GuiSelectableButton(new win7::Win7CheckBoxStyle(win7::Win7CheckBoxStyle::RadioButton));
-						groupBox->GetContainerComposition()->AddChild(radioButton->GetBoundsComposition());
-						radioButton->GetBoundsComposition()->SetBounds(Rect(Point(10, 75+i*35), Size(200, 25)));
-						radioButton->SetText(L"RadioButton "+itow(i+1));
-						radioButton->SetGroupController(controller);
-					}
-				}
-				{
-					GuiButton* buttonEnabling=new GuiButton(new win7::Win7ButtonStyle());
-					cell->AddChild(buttonEnabling->GetBoundsComposition());
-					buttonEnabling->GetBoundsComposition()->SetBounds(Rect(Point(220, 220), Size(200, 25)));
-					buttonEnabling->SetText(L"Disable GroupBox2");
+				GuiScroll* scroll=new GuiScroll(new win7::Win7ScrollStyle(win7::Win7ScrollStyle::Vertical));
+				scroll->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+				cell->AddChild(scroll->GetBoundsComposition());
+			}
+			{
+				GuiCellComposition* cell=new GuiCellComposition;
+				mainTable->AddChild(cell);
+				cell->SetSite(1, 0, 1, 1);
 
-					buttonEnabling->Clicked.AttachLambda([groupBox, buttonEnabling](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
-					{
-						if(groupBox->GetEnabled())
-						{
-							buttonEnabling->SetText(L"Enable GroupBox2");
-						}
-						else
-						{
-							buttonEnabling->SetText(L"Disable GroupBox2");
-						}
-						groupBox->SetEnabled(!groupBox->GetEnabled());
-					});
-				}
+				GuiScroll* scroll=new GuiScroll(new win7::Win7ScrollStyle(win7::Win7ScrollStyle::Horizontal));
+				scroll->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+				cell->AddChild(scroll->GetBoundsComposition());
 			}
 		}
 	}
