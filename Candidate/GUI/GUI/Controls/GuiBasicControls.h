@@ -206,6 +206,71 @@ Controls
 				virtual bool							GetSelected();
 				virtual void							SetSelected(bool value);
 			};
+
+			class GuiScroll : public GuiControl
+			{
+			public:
+				class ICommandExecutor : public Interface
+				{
+				public:
+					virtual void						SmallMoveUp()=0;
+					virtual void						SmallMoveDown()=0;
+					virtual void						BigMoveUp()=0;
+					virtual void						BigMoveDown()=0;
+					virtual void						Scroll(int value)=0;
+				};
+
+				class IStyleController : public GuiControl::IStyleController
+				{
+				public:
+					virtual void						SetCommandExecutor(ICommandExecutor* value)=0;
+					virtual void						SetTotalSize(int value)=0;
+					virtual void						SetPageSize(int value)=0;
+					virtual void						SetPosition(int value)=0;
+				};
+			protected:
+				class CommandExecutor : public Object, public ICommandExecutor
+				{
+				protected:
+					GuiScroll*							scroll;
+				public:
+					CommandExecutor(GuiScroll* _scroll);
+					~CommandExecutor();
+
+					void								SmallMoveUp();
+					void								SmallMoveDown();
+					void								BigMoveUp();
+					void								BigMoveDown();
+					void								Scroll(int value);
+				};
+
+				IStyleController*						styleController;
+				Ptr<CommandExecutor>					commandExecutor;
+				int										totalSize;
+				int										pageSize;
+				int										position;
+				int										smallMove;
+				int										bigMove;
+			public:
+				GuiScroll(IStyleController* _styleController);
+				~GuiScroll();
+
+				elements::GuiNotifyEvent				PositionChanged;
+
+				virtual int								GetTotalSize();
+				virtual void							SetTotalSize(int value);
+				virtual int								GetPageSize();
+				virtual void							SetPageSize(int value);
+				virtual int								GetPosition();
+				virtual void							SetPosition(int value);
+				virtual int								GetSmallMove();
+				virtual void							SetSmallMove(int value);
+				virtual int								GetBigMove();
+				virtual void							SetBigMove(int value);
+
+				int										GetMinPosition();
+				int										GetMaxPosition();
+			};
 		}
 	}
 }
