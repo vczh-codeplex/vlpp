@@ -519,6 +519,158 @@ GuiSelectableButton
 					SelectedChanged.Execute(GetNotifyEventArguments());
 				}
 			}
+
+/***********************************************************************
+GuiScroll::CommandExecutor
+***********************************************************************/
+
+			GuiScroll::CommandExecutor::CommandExecutor(GuiScroll* _scroll)
+				:scroll(_scroll)
+			{
+			}
+
+			GuiScroll::CommandExecutor::~CommandExecutor()
+			{
+			}
+
+			void GuiScroll::CommandExecutor::SmallMoveUp()
+			{
+				scroll->SetPosition(scroll->GetPosition()-scroll->GetSmallMove());
+			}
+
+			void GuiScroll::CommandExecutor::SmallMoveDown()
+			{
+				scroll->SetPosition(scroll->GetPosition()+scroll->GetSmallMove());
+			}
+
+			void GuiScroll::CommandExecutor::BigMoveUp()
+			{
+				scroll->SetPosition(scroll->GetPosition()-scroll->GetBigMove());
+			}
+
+			void GuiScroll::CommandExecutor::BigMoveDown()
+			{
+				scroll->SetPosition(scroll->GetPosition()+scroll->GetBigMove());
+			}
+
+			void GuiScroll::CommandExecutor::Scroll(int value)
+			{
+				scroll->SetPosition(value);
+			}
+
+/***********************************************************************
+GuiScroll
+***********************************************************************/
+
+			GuiScroll::GuiScroll(IStyleController* _styleController)
+				:GuiControl(_styleController)
+				,styleController(_styleController)
+				,totalSize(100)
+				,pageSize(10)
+				,position(0)
+				,smallMove(1)
+				,bigMove(10)
+			{
+				PositionChanged.SetAssociatedComposition(boundsComposition);
+
+				commandExecutor=new CommandExecutor(this);
+				styleController->SetCommandExecutor(commandExecutor.Obj());
+			}
+
+			GuiScroll::~GuiScroll()
+			{
+			}
+
+			int GuiScroll::GetTotalSize()
+			{
+				return totalSize;
+			}
+
+			void GuiScroll::SetTotalSize(int value)
+			{
+				totalSize=value;
+				if(pageSize>totalSize)
+				{
+					SetPageSize(totalSize);
+				}
+				if(position>GetMaxPosition())
+				{
+					SetPosition(GetMaxPosition());
+				}
+			}
+
+			int GuiScroll::GetPageSize()
+			{
+				return pageSize;
+			}
+
+			void GuiScroll::SetPageSize(int value)
+			{
+				if(value<=totalSize)
+				{
+					pageSize=value;
+					if(position>GetMaxPosition())
+					{
+						SetPosition(GetMaxPosition());
+					}
+				}
+			}
+
+			int GuiScroll::GetPosition()
+			{
+				return position;
+			}
+
+			void GuiScroll::SetPosition(int value)
+			{
+				int min=GetMinPosition();
+				int max=GetMaxPosition();
+				int newPosition=
+					value<min?min:
+					value>max?max:
+					value;
+				if(position!=newPosition)
+				{
+					position=newPosition;
+					PositionChanged.Execute(GetNotifyEventArguments());
+				}
+			}
+
+			int GuiScroll::GetSmallMove()
+			{
+				return smallMove;
+			}
+
+			void GuiScroll::SetSmallMove(int value)
+			{
+				if(value>0)
+				{
+					smallMove=value;
+				}
+			}
+
+			int GuiScroll::GetBigMove()
+			{
+				return bigMove;
+			}
+
+			void GuiScroll::SetBigMove(int value)
+			{
+				if(value>0)
+				{
+					bigMove=value;
+				}
+			}
+
+			int GuiScroll::GetMinPosition()
+			{
+				return 0;
+			}
+
+			int GuiScroll::GetMaxPosition()
+			{
+				return totalSize-pageSize-1;
+			}
 		}
 	}
 }
