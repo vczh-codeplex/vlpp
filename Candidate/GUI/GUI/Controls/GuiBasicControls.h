@@ -207,6 +207,10 @@ Controls
 				virtual void							SetSelected(bool value);
 			};
 
+/***********************************************************************
+Scroll
+***********************************************************************/
+
 			class GuiScroll : public GuiControl
 			{
 			public:

@@ -129,7 +129,7 @@ Animation
 				};\
 
 /***********************************************************************
-Button
+Containers
 ***********************************************************************/
 
 			class Win7WindowStyle : public Object, public controls::GuiControl::IStyleController
@@ -145,29 +145,6 @@ Button
 				void										SetText(const WString& value);
 				void										SetFont(const FontProperties& value);
 				void										SetVisuallyEnabled(bool value);
-			};
-
-			class Win7ButtonStyle : public Object, public controls::GuiButton::IStyleController
-			{
-			protected:
-				DEFINE_TRANSFERRING_ANIMATION(Win7ButtonColors, Win7ButtonStyle)
-
-				Win7ButtonElements							elements;
-				Ptr<TransferringAnimation>					transferringAnimation;
-				controls::GuiButton::ControlState			controlStyle;
-				bool										isVisuallyEnabled;
-
-				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled);
-			public:
-				Win7ButtonStyle();
-				~Win7ButtonStyle();
-
-				elements::GuiBoundsComposition*				GetBoundsComposition();
-				elements::GuiGraphicsComposition*			GetContainerComposition();
-				void										SetText(const WString& value);
-				void										SetFont(const FontProperties& value);
-				void										SetVisuallyEnabled(bool value);
-				void										Transfer(controls::GuiButton::ControlState value);
 			};
 
 			class Win7GroupBoxStyle : public Object, public controls::GuiControl::IStyleController
@@ -194,6 +171,33 @@ Button
 				void										SetText(const WString& value);
 				void										SetFont(const FontProperties& value);
 				void										SetVisuallyEnabled(bool value);
+			};
+
+/***********************************************************************
+Buttons
+***********************************************************************/
+
+			class Win7ButtonStyle : public Object, public controls::GuiButton::IStyleController
+			{
+			protected:
+				DEFINE_TRANSFERRING_ANIMATION(Win7ButtonColors, Win7ButtonStyle)
+
+				Win7ButtonElements							elements;
+				Ptr<TransferringAnimation>					transferringAnimation;
+				controls::GuiButton::ControlState			controlStyle;
+				bool										isVisuallyEnabled;
+
+				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled);
+			public:
+				Win7ButtonStyle();
+				~Win7ButtonStyle();
+
+				elements::GuiBoundsComposition*				GetBoundsComposition();
+				elements::GuiGraphicsComposition*			GetContainerComposition();
+				void										SetText(const WString& value);
+				void										SetFont(const FontProperties& value);
+				void										SetVisuallyEnabled(bool value);
+				void										Transfer(controls::GuiButton::ControlState value);
 			};
 
 			class Win7CheckBoxStyle : public Object, public controls::GuiSelectableButton::IStyleController
@@ -226,6 +230,10 @@ Button
 				void										SetSelected(bool value);
 				void										Transfer(controls::GuiButton::ControlState value);
 			};
+
+/***********************************************************************
+Scrolls
+***********************************************************************/
 		}
 	}
 }
