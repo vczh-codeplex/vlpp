@@ -234,6 +234,36 @@ Buttons
 /***********************************************************************
 Scrolls
 ***********************************************************************/
+
+			class Win7ScrollStyle : public Object, public controls::GuiScroll::IStyleController
+			{
+			public:
+				static const int							DefaultSize=18;
+
+				enum Direction
+				{
+					Horizontal,
+					Vertical,
+				};
+			protected:
+				controls::GuiScroll::ICommandExecutor*		commandExecutor;
+				controls::GuiButton*						decreaseButton;
+				controls::GuiButton*						increaseButton;
+				elements::GuiBoundsComposition*				boundsComposition;
+			public:
+				Win7ScrollStyle(Direction direction);
+				~Win7ScrollStyle();
+
+				elements::GuiBoundsComposition*				GetBoundsComposition();
+				elements::GuiGraphicsComposition*			GetContainerComposition();
+				void										SetText(const WString& value);
+				void										SetFont(const FontProperties& value);
+				void										SetVisuallyEnabled(bool value);
+				void										SetCommandExecutor(controls::GuiScroll::ICommandExecutor* value);
+				void										SetTotalSize(int value);
+				void										SetPageSize(int value);
+				void										SetPosition(int value);
+			};
 		}
 	}
 }

@@ -310,7 +310,21 @@ GuiGraphicsComposition
 
 			void GuiGraphicsComposition::SetAssociatedControl(controls::GuiControl* control)
 			{
+				if(associatedControl)
+				{
+					for(int i=0;i<children.Count();i++)
+					{
+						children[i]->OnControlParentChanged(0);
+					}
+				}
 				associatedControl=control;
+				if(associatedControl)
+				{
+					for(int i=0;i<children.Count();i++)
+					{
+						children[i]->OnControlParentChanged(associatedControl);
+					}
+				}
 			}
 
 			GuiGraphicsHost* GuiGraphicsComposition::GetAssociatedHost()
@@ -1188,6 +1202,97 @@ GuiCellComposition
 			void GuiCellComposition::SetBounds(Rect value)
 			{
 				bounds=value;
+			}
+
+/***********************************************************************
+GuiSideAlignedComposition
+***********************************************************************/
+
+			GuiSideAlignedComposition::GuiSideAlignedComposition()
+				:direction(Top)
+				,maxLength(10)
+				,maxRatio(1.0)
+			{
+			}
+
+			GuiSideAlignedComposition::~GuiSideAlignedComposition()
+			{
+			}
+
+			GuiSideAlignedComposition::Direction GuiSideAlignedComposition::GetDirection()
+			{
+				return direction;
+			}
+
+			void GuiSideAlignedComposition::SetDirection(Direction value)
+			{
+				direction=value;
+			}
+
+			int GuiSideAlignedComposition::GetMaxLength()
+			{
+				return maxLength;
+			}
+
+			void GuiSideAlignedComposition::SetMaxLength(int value)
+			{
+				if(value<0) value=0;
+				maxLength=value;
+			}
+
+			double GuiSideAlignedComposition::GetMaxRatio()
+			{
+				return maxRatio;
+			}
+
+			void GuiSideAlignedComposition::SetMaxRatio(double value)
+			{
+				maxRatio=
+					value<0?0:
+					value>1?1:
+					value;
+			}
+
+			Rect GuiSideAlignedComposition::GetBounds()
+			{
+				GuiGraphicsComposition* parent=GetParent();
+				if(parent)
+				{
+					Rect bounds=parent->GetBounds();
+					int w=(int)(bounds.Width()*maxRatio);
+					int h=(int)(bounds.Height()*maxRatio);
+					if(w>maxLength) w=maxLength;
+					if(h>maxLength) h=maxLength;
+					switch(direction)
+					{
+					case Left:
+						{
+							bounds.x2=bounds.x1+w;
+						}
+						break;
+					case Top:
+						{
+							bounds.y2=bounds.y1+h;
+						}
+						break;
+					case Right:
+						{
+							bounds.x1=bounds.x2-w;
+						}
+						break;
+					case Bottom:
+						{
+							bounds.y1=bounds.y2-h;
+						}
+						break;
+					}
+					return bounds;
+				}
+				return Rect();
+			}
+
+			void GuiSideAlignedComposition::SetBounds(Rect value)
+			{
 			}
 		}
 	}
