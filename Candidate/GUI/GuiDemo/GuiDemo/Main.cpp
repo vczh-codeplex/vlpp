@@ -164,6 +164,7 @@ void SetupWindow(GuiControlHost* host)
 
 				GuiScroll* scroll=new GuiScroll(new win7::Win7ScrollStyle(win7::Win7ScrollStyle::Horizontal));
 				scroll->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+				scroll->SetEnabled(false);
 				cell->AddChild(scroll->GetBoundsComposition());
 			}
 		}

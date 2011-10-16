@@ -228,7 +228,7 @@ Win7ItemColors
 Win7ButtonElements
 ***********************************************************************/
 
-			Win7ButtonElements Win7ButtonElements::Create()
+			Win7ButtonElements Win7ButtonElements::Create(bool verticalGradient)
 			{
 				Win7ButtonElements button;
 				{
@@ -258,14 +258,24 @@ Win7ButtonElements
 					GuiTableComposition* table=new GuiTableComposition;
 					table->SetAlignmentToParent(Margin(2, 2, 2, 2));
 					button.mainComposition->AddChild(table);
-					table->SetRowsAndColumns(2, 1);
-					table->SetRowOption(0, GuiCellOption::PercentageOption(0.5));
-					table->SetRowOption(1, GuiCellOption::PercentageOption(0.5));
-					table->SetColumnOption(0, GuiCellOption::PercentageOption(1.0));
+					if(verticalGradient)
+					{
+						table->SetRowsAndColumns(2, 1);
+						table->SetRowOption(0, GuiCellOption::PercentageOption(0.5));
+						table->SetRowOption(1, GuiCellOption::PercentageOption(0.5));
+						table->SetColumnOption(0, GuiCellOption::PercentageOption(1.0));
+					}
+					else
+					{
+						table->SetRowsAndColumns(1, 2);
+						table->SetRowOption(0, GuiCellOption::PercentageOption(1.0));
+						table->SetColumnOption(0, GuiCellOption::PercentageOption(0.5));
+						table->SetColumnOption(1, GuiCellOption::PercentageOption(0.5));
+					}
 					{
 						GuiGradientBackgroundElement* element=GuiGradientBackgroundElement::Create();
 						button.topGradientElement=element;
-						element->SetDirection(GuiGradientBackgroundElement::Vertical);
+						element->SetDirection(verticalGradient?GuiGradientBackgroundElement::Vertical:GuiGradientBackgroundElement::Horizontal);
 
 						GuiCellComposition* cell=new GuiCellComposition;
 						table->AddChild(cell);
@@ -275,11 +285,18 @@ Win7ButtonElements
 					{
 						GuiGradientBackgroundElement* element=GuiGradientBackgroundElement::Create();
 						button.bottomGradientElement=element;
-						element->SetDirection(GuiGradientBackgroundElement::Vertical);
+						element->SetDirection(verticalGradient?GuiGradientBackgroundElement::Vertical:GuiGradientBackgroundElement::Horizontal);
 
 						GuiCellComposition* cell=new GuiCellComposition;
 						table->AddChild(cell);
-						cell->SetSite(1, 0, 1, 1);
+						if(verticalGradient)
+						{
+							cell->SetSite(1, 0, 1, 1);
+						}
+						else
+						{
+							cell->SetSite(0, 1, 1, 1);
+						}
 						cell->SetOwnedElement(element);
 					}
 				}
@@ -530,18 +547,29 @@ Animation
 			{\
 				if(colorEnd!=end)\
 				{\
-					Restart(Win7GetColorAnimationLength());\
-					if(stopped)\
+					GuiGraphicsHost* host=style->GetBoundsComposition()->GetRelatedGraphicsHost();\
+					if(host)\
 					{\
-						colorBegin=colorEnd;\
-						colorEnd=end;\
-						style->GetBoundsComposition()->GetRelatedGraphicsHost()->GetAnimationManager()->AddAnimation(style->transferringAnimation);\
-						stopped=false;\
+						Restart(Win7GetColorAnimationLength());\
+						if(stopped)\
+						{\
+							colorBegin=colorEnd;\
+							colorEnd=end;\
+							host->GetAnimationManager()->AddAnimation(style->transferringAnimation);\
+							stopped=false;\
+						}\
+						else\
+						{\
+							colorBegin=colorCurrent;\
+							colorEnd=end;\
+						}\
 					}\
 					else\
 					{\
-						colorBegin=colorCurrent;\
+						colorBegin=end;\
 						colorEnd=end;\
+						colorCurrent=end;\
+						Play(1, 1);\
 					}\
 				}\
 			}\
@@ -619,12 +647,12 @@ Win7ButtonStyle
 				}
 			}
 
-			Win7ButtonStyle::Win7ButtonStyle()
+			Win7ButtonStyle::Win7ButtonStyle(bool verticalGradient)
 				:controlStyle(GuiButton::Normal)
 				,isVisuallyEnabled(true)
 			{
 				Win7ButtonColors initialColor=Win7ButtonColors::Normal();
-				elements=Win7ButtonElements::Create();
+				elements=Win7ButtonElements::Create(verticalGradient);
 				elements.Apply(initialColor);
 				transferringAnimation=new TransferringAnimation(this, initialColor);
 			}
@@ -896,12 +924,65 @@ Win7ScrollStyle
 			{
 				boundsComposition=new GuiBoundsComposition;
 				{
-					decreaseButton=new GuiButton(new Win7ButtonStyle);
-					decreaseButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
-					increaseButton=new GuiButton(new Win7ButtonStyle);
-					increaseButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+					GuiBoundsComposition* backgroundComposition=new GuiBoundsComposition;
+					boundsComposition->AddChild(backgroundComposition);
+					backgroundComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+
+					GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
+					element->SetColor(Win7GetSystemWindowColor());
+					backgroundComposition->SetOwnedElement(element);
+
+					{
+						GuiSideAlignedComposition* composition=new GuiSideAlignedComposition;
+						composition->SetMaxLength(DefaultSize);
+						composition->SetMaxRatio(0.2);
+						backgroundComposition->AddChild(composition);
+
+						GuiGradientBackgroundElement* gradient=GuiGradientBackgroundElement::Create();
+						gradient->SetColors(Color(227, 227, 227), Color(239, 239, 239));
+						composition->SetOwnedElement(gradient);
+
+						switch(direction)
+						{
+						case Horizontal:
+							composition->SetDirection(GuiSideAlignedComposition::Top);
+							gradient->SetDirection(GuiGradientBackgroundElement::Vertical);
+							break;
+						case Vertical:
+							composition->SetDirection(GuiSideAlignedComposition::Left);
+							gradient->SetDirection(GuiGradientBackgroundElement::Horizontal);
+							break;
+						}
+					}
+					{
+						GuiSideAlignedComposition* composition=new GuiSideAlignedComposition;
+						composition->SetMaxLength(DefaultSize);
+						composition->SetMaxRatio(0.2);
+						backgroundComposition->AddChild(composition);
+
+						GuiGradientBackgroundElement* gradient=GuiGradientBackgroundElement::Create();
+						gradient->SetColors(Color(239, 239, 239), Color(227, 227, 227));
+						composition->SetOwnedElement(gradient);
+
+						switch(direction)
+						{
+						case Horizontal:
+							composition->SetDirection(GuiSideAlignedComposition::Bottom);
+							gradient->SetDirection(GuiGradientBackgroundElement::Vertical);
+							break;
+						case Vertical:
+							composition->SetDirection(GuiSideAlignedComposition::Right);
+							gradient->SetDirection(GuiGradientBackgroundElement::Horizontal);
+							break;
+						}
+					}
 				}
 				{
+					decreaseButton=new GuiButton(new Win7ButtonStyle(direction==Horizontal));
+					decreaseButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+					increaseButton=new GuiButton(new Win7ButtonStyle(direction==Horizontal));
+					increaseButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+
 					GuiSideAlignedComposition* decreaseComposition=new GuiSideAlignedComposition;
 					decreaseComposition->SetMaxLength(DefaultSize);
 					decreaseComposition->SetMaxRatio(0.5);

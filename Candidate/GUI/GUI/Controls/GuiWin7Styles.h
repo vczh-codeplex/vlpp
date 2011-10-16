@@ -78,7 +78,7 @@ Button Configuration
 				elements::GuiBoundsComposition*				textComposition;
 				elements::GuiBoundsComposition*				mainComposition;
 
-				static Win7ButtonElements					Create();
+				static Win7ButtonElements					Create(bool verticalGradient);
 				void										Apply(const Win7ButtonColors& colors);
 			};
 
@@ -189,7 +189,7 @@ Buttons
 
 				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled);
 			public:
-				Win7ButtonStyle();
+				Win7ButtonStyle(bool verticalGradient=true);
 				~Win7ButtonStyle();
 
 				elements::GuiBoundsComposition*				GetBoundsComposition();
