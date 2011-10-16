@@ -575,6 +575,9 @@ GuiScroll
 
 				commandExecutor=new CommandExecutor(this);
 				styleController->SetCommandExecutor(commandExecutor.Obj());
+				styleController->SetPageSize(pageSize);
+				styleController->SetTotalSize(totalSize);
+				styleController->SetPosition(position);
 			}
 
 			GuiScroll::~GuiScroll()
@@ -588,14 +591,18 @@ GuiScroll
 
 			void GuiScroll::SetTotalSize(int value)
 			{
-				totalSize=value;
-				if(pageSize>totalSize)
+				if(totalSize!=value)
 				{
-					SetPageSize(totalSize);
-				}
-				if(position>GetMaxPosition())
-				{
-					SetPosition(GetMaxPosition());
+					totalSize=value;
+					if(pageSize>totalSize)
+					{
+						SetPageSize(totalSize);
+					}
+					if(position>GetMaxPosition())
+					{
+						SetPosition(GetMaxPosition());
+					}
+					styleController->SetTotalSize(totalSize);
 				}
 			}
 
@@ -606,13 +613,14 @@ GuiScroll
 
 			void GuiScroll::SetPageSize(int value)
 			{
-				if(value<=totalSize)
+				if(pageSize!=value && value<=totalSize)
 				{
 					pageSize=value;
 					if(position>GetMaxPosition())
 					{
 						SetPosition(GetMaxPosition());
 					}
+					styleController->SetPageSize(pageSize);
 				}
 			}
 
@@ -632,6 +640,7 @@ GuiScroll
 				if(position!=newPosition)
 				{
 					position=newPosition;
+					styleController->SetPosition(position);
 					PositionChanged.Execute(GetNotifyEventArguments());
 				}
 			}
