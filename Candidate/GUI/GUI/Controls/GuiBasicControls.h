@@ -217,10 +217,10 @@ Scroll
 				class ICommandExecutor : public Interface
 				{
 				public:
-					virtual void						SmallMoveUp()=0;
-					virtual void						SmallMoveDown()=0;
-					virtual void						BigMoveUp()=0;
-					virtual void						BigMoveDown()=0;
+					virtual void						SmallDecrease()=0;
+					virtual void						SmallIncrease()=0;
+					virtual void						BigDecrease()=0;
+					virtual void						BigIncrease()=0;
 					virtual void						Scroll(int value)=0;
 				};
 
@@ -241,10 +241,10 @@ Scroll
 					CommandExecutor(GuiScroll* _scroll);
 					~CommandExecutor();
 
-					void								SmallMoveUp();
-					void								SmallMoveDown();
-					void								BigMoveUp();
-					void								BigMoveDown();
+					void								SmallDecrease();
+					void								SmallIncrease();
+					void								BigDecrease();
+					void								BigIncrease();
 					void								Scroll(int value);
 				};
 

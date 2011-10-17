@@ -1294,6 +1294,81 @@ GuiSideAlignedComposition
 			void GuiSideAlignedComposition::SetBounds(Rect value)
 			{
 			}
+
+/***********************************************************************
+GuiPartialViewComposition
+***********************************************************************/
+
+			GuiPartialViewComposition::GuiPartialViewComposition()
+				:wRatio(0.0)
+				,wPageSize(1.0)
+				,hRatio(0.0)
+				,hPageSize(1.0)
+			{
+			}
+
+			GuiPartialViewComposition::~GuiPartialViewComposition()
+			{
+			}
+
+			double GuiPartialViewComposition::GetWidthRatio()
+			{
+				return wRatio;
+			}
+
+			double GuiPartialViewComposition::GetWidthPageSize()
+			{
+				return wPageSize;
+			}
+
+			double GuiPartialViewComposition::GetHeightRatio()
+			{
+				return hRatio;
+			}
+
+			double GuiPartialViewComposition::GetHeightPageSize()
+			{
+				return hPageSize;
+			}
+
+			void GuiPartialViewComposition::SetWidthRatio(double value)
+			{
+				wRatio=value;
+			}
+
+			void GuiPartialViewComposition::SetWidthPageSize(double value)
+			{
+				wPageSize=value;
+			}
+
+			void GuiPartialViewComposition::SetHeightRatio(double value)
+			{
+				hRatio=value;
+			}
+
+			void GuiPartialViewComposition::SetHeightPageSize(double value)
+			{
+				hPageSize=value;
+			}
+
+			Rect GuiPartialViewComposition::GetBounds()
+			{
+				GuiGraphicsComposition* parent=GetParent();
+				if(parent)
+				{
+					Rect bounds=parent->GetBounds();
+					int w=bounds.Width();
+					int h=bounds.Height();
+					int pw=(int)(wPageSize*w);
+					int ph=(int)(hPageSize*h);
+					return Rect(Point((int)(wRatio*w), (int)(hRatio*h)), Size(pw, ph));
+				}
+				return Rect();
+			}
+
+			void GuiPartialViewComposition::SetBounds(Rect value)
+			{
+			}
 		}
 	}
 }

@@ -533,22 +533,22 @@ GuiScroll::CommandExecutor
 			{
 			}
 
-			void GuiScroll::CommandExecutor::SmallMoveUp()
+			void GuiScroll::CommandExecutor::SmallDecrease()
 			{
 				scroll->SetPosition(scroll->GetPosition()-scroll->GetSmallMove());
 			}
 
-			void GuiScroll::CommandExecutor::SmallMoveDown()
+			void GuiScroll::CommandExecutor::SmallIncrease()
 			{
 				scroll->SetPosition(scroll->GetPosition()+scroll->GetSmallMove());
 			}
 
-			void GuiScroll::CommandExecutor::BigMoveUp()
+			void GuiScroll::CommandExecutor::BigDecrease()
 			{
 				scroll->SetPosition(scroll->GetPosition()-scroll->GetBigMove());
 			}
 
-			void GuiScroll::CommandExecutor::BigMoveDown()
+			void GuiScroll::CommandExecutor::BigIncrease()
 			{
 				scroll->SetPosition(scroll->GetPosition()+scroll->GetBigMove());
 			}
@@ -591,7 +591,7 @@ GuiScroll
 
 			void GuiScroll::SetTotalSize(int value)
 			{
-				if(totalSize!=value)
+				if(totalSize!=value && 0<value)
 				{
 					totalSize=value;
 					if(pageSize>totalSize)
@@ -613,7 +613,7 @@ GuiScroll
 
 			void GuiScroll::SetPageSize(int value)
 			{
-				if(pageSize!=value && value<=totalSize)
+				if(pageSize!=value && 0<value && value<=totalSize)
 				{
 					pageSize=value;
 					if(position>GetMaxPosition())
@@ -678,7 +678,7 @@ GuiScroll
 
 			int GuiScroll::GetMaxPosition()
 			{
-				return totalSize-pageSize-1;
+				return totalSize-pageSize;
 			}
 		}
 	}

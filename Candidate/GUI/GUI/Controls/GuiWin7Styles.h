@@ -246,12 +246,28 @@ Scrolls
 					Vertical,
 				};
 			protected:
+				Direction									direction;
 				controls::GuiScroll::ICommandExecutor*		commandExecutor;
 				controls::GuiButton*						decreaseButton;
 				controls::GuiButton*						increaseButton;
+				controls::GuiButton*						handleButton;
+				elements::GuiPartialViewComposition*		handleComposition;
 				elements::GuiBoundsComposition*				boundsComposition;
+
+				int											totalSize;
+				int											pageSize;
+				int											position;
+				Point										draggingStartLocation;
+				bool										draggingHandle;
+
+				void										UpdateHandle();
+				void										OnDecreaseButtonClicked(elements::GuiGraphicsComposition* sender,elements::GuiEventArgs& arguments);
+				void										OnIncreaseButtonClicked(elements::GuiGraphicsComposition* sender,elements::GuiEventArgs& arguments);
+				void										OnHandleMouseDown(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments);
+				void										OnHandleMouseMove(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments);
+				void										OnHandleMouseUp(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments);
 			public:
-				Win7ScrollStyle(Direction direction);
+				Win7ScrollStyle(Direction _direction);
 				~Win7ScrollStyle();
 
 				elements::GuiBoundsComposition*				GetBoundsComposition();
