@@ -1,3 +1,4 @@
+#include <math.h>
 #include "GuiWin7Styles.h"
 
 namespace vl
@@ -916,11 +917,102 @@ Win7CheckBoxStyle
 Win7ScrollStyle
 ***********************************************************************/
 
-			Win7ScrollStyle::Win7ScrollStyle(Direction direction)
-				:commandExecutor(0)
+			void Win7ScrollStyle::UpdateHandle()
+			{
+				double handleRatio=(double)position/totalSize;
+				double handlePageSize=(double)pageSize/totalSize;
+				switch(direction)
+				{
+				case Horizontal:
+					handleComposition->SetWidthRatio(handleRatio);
+					handleComposition->SetWidthPageSize(handlePageSize);
+					break;
+				case Vertical:
+					handleComposition->SetHeightRatio(handleRatio);
+					handleComposition->SetHeightPageSize(handlePageSize);
+					break;
+				}
+			}
+
+			void Win7ScrollStyle::OnDecreaseButtonClicked(elements::GuiGraphicsComposition* sender,elements::GuiEventArgs& arguments)
+			{
+				if(commandExecutor)
+				{
+					commandExecutor->SmallDecrease();
+				}
+			}
+
+			void Win7ScrollStyle::OnIncreaseButtonClicked(elements::GuiGraphicsComposition* sender,elements::GuiEventArgs& arguments)
+			{
+				if(commandExecutor)
+				{
+					commandExecutor->SmallIncrease();
+				}
+			}
+
+			void Win7ScrollStyle::OnHandleMouseDown(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments)
+			{
+				if(commandExecutor)
+				{
+					draggingHandle=true;
+					draggingStartLocation=Point(arguments.x, arguments.y);
+				}
+			}
+
+			void Win7ScrollStyle::OnHandleMouseMove(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments)
+			{
+				if(draggingHandle)
+				{
+					int totalPixels=0;
+					int currentOffset=0;
+					int newOffset=0;
+					switch(direction)
+					{
+					case Horizontal:
+						totalPixels=handleComposition->GetParent()->GetBounds().Width();
+						currentOffset=handleComposition->GetBounds().Left();
+						newOffset=currentOffset+(arguments.x-draggingStartLocation.x);
+						break;
+					case Vertical:
+						totalPixels=handleComposition->GetParent()->GetBounds().Height();
+						currentOffset=handleComposition->GetBounds().Top();
+						newOffset=currentOffset+(arguments.y-draggingStartLocation.y);
+						break;
+					}
+
+					double ratio=(double)newOffset/totalPixels;
+					int newPosition=(int)(ratio*totalSize);
+
+					int offset1=(int)(((double)newPosition/totalSize)*totalPixels);
+					int offset2=int(((double)(newPosition+1)/totalSize)*totalPixels);
+					int delta1=abs(offset1-newOffset);
+					int delta2=abs(offset2-newOffset);
+					if(delta1<delta2)
+					{
+						commandExecutor->Scroll(newPosition);
+					}
+					else
+					{
+						commandExecutor->Scroll(newPosition+1);
+					}
+				}
+			}
+
+			void Win7ScrollStyle::OnHandleMouseUp(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments)
+			{
+				draggingHandle=false;
+			}
+
+			Win7ScrollStyle::Win7ScrollStyle(Direction _direction)
+				:direction(_direction)
+				,commandExecutor(0)
 				,decreaseButton(0)
 				,increaseButton(0)
 				,boundsComposition(0)
+				,totalSize(1)
+				,pageSize(1)
+				,position(0)
+				,draggingHandle(false)
 			{
 				boundsComposition=new GuiBoundsComposition;
 				{
@@ -978,10 +1070,36 @@ Win7ScrollStyle
 					}
 				}
 				{
+					GuiBoundsComposition* handleBoundsComposition=new GuiBoundsComposition;
+					boundsComposition->AddChild(handleBoundsComposition);
+					switch(direction)
+					{
+					case Horizontal:
+						handleBoundsComposition->SetAlignmentToParent(Margin(DefaultSize, 0, DefaultSize, 0));
+						break;
+					case Vertical:
+						handleBoundsComposition->SetAlignmentToParent(Margin(0, DefaultSize, 0, DefaultSize));
+						break;
+					}
+
+					handleComposition=new GuiPartialViewComposition;
+					handleBoundsComposition->AddChild(handleComposition);
+
+					handleButton=new GuiButton(new Win7ButtonStyle(direction==Horizontal));
+					handleButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+					handleButton->GetBoundsComposition()->GetEventReceiver()->leftButtonDown.AttachMethod(this, &Win7ScrollStyle::OnHandleMouseDown);
+					handleButton->GetBoundsComposition()->GetEventReceiver()->mouseMove.AttachMethod(this, &Win7ScrollStyle::OnHandleMouseMove);
+					handleButton->GetBoundsComposition()->GetEventReceiver()->leftButtonUp.AttachMethod(this, &Win7ScrollStyle::OnHandleMouseUp);
+					handleComposition->AddChild(handleButton->GetBoundsComposition());
+				}
+				{
 					decreaseButton=new GuiButton(new Win7ButtonStyle(direction==Horizontal));
 					decreaseButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+					decreaseButton->Clicked.AttachMethod(this, &Win7ScrollStyle::OnDecreaseButtonClicked);
+
 					increaseButton=new GuiButton(new Win7ButtonStyle(direction==Horizontal));
 					increaseButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+					increaseButton->Clicked.AttachMethod(this, &Win7ScrollStyle::OnIncreaseButtonClicked);
 
 					GuiSideAlignedComposition* decreaseComposition=new GuiSideAlignedComposition;
 					decreaseComposition->SetMaxLength(DefaultSize);
@@ -1046,14 +1164,29 @@ Win7ScrollStyle
 
 			void Win7ScrollStyle::SetTotalSize(int value)
 			{
+				if(totalSize!=value)
+				{
+					totalSize=value;
+					UpdateHandle();
+				}
 			}
 
 			void Win7ScrollStyle::SetPageSize(int value)
 			{
+				if(pageSize!=value)
+				{
+					pageSize=value;
+					UpdateHandle();
+				}
 			}
 
 			void Win7ScrollStyle::SetPosition(int value)
 			{
+				if(position!=value)
+				{
+					position=value;
+					UpdateHandle();
+				}
 			}
 		}
 	}

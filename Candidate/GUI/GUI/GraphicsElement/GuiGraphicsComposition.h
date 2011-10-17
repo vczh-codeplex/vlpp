@@ -343,6 +343,31 @@ Specialized Compositions
 				Rect								GetBounds();
 				void								SetBounds(Rect value);
 			};
+
+			class GuiPartialViewComposition : public GuiGraphicsComposition
+			{
+			protected:
+				double								wRatio;
+				double								wPageSize;
+				double								hRatio;
+				double								hPageSize;
+
+			public:
+				GuiPartialViewComposition();
+				~GuiPartialViewComposition();
+
+				double								GetWidthRatio();
+				double								GetWidthPageSize();
+				double								GetHeightRatio();
+				double								GetHeightPageSize();
+				void								SetWidthRatio(double value);
+				void								SetWidthPageSize(double value);
+				void								SetHeightRatio(double value);
+				void								SetHeightPageSize(double value);
+
+				Rect								GetBounds();
+				void								SetBounds(Rect value);
+			};
 		}
 	}
 }

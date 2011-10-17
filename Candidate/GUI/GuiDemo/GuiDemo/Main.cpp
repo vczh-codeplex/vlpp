@@ -155,6 +155,10 @@ void SetupWindow(GuiControlHost* host)
 
 				GuiScroll* scroll=new GuiScroll(new win7::Win7ScrollStyle(win7::Win7ScrollStyle::Vertical));
 				scroll->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+				scroll->SetTotalSize(10);
+				scroll->SetPageSize(6);
+				scroll->SetBigMove(2);
+				scroll->SetSmallMove(1);
 				cell->AddChild(scroll->GetBoundsComposition());
 			}
 			{
@@ -164,7 +168,10 @@ void SetupWindow(GuiControlHost* host)
 
 				GuiScroll* scroll=new GuiScroll(new win7::Win7ScrollStyle(win7::Win7ScrollStyle::Horizontal));
 				scroll->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
-				scroll->SetEnabled(false);
+				scroll->SetTotalSize(10);
+				scroll->SetPageSize(6);
+				scroll->SetBigMove(2);
+				scroll->SetSmallMove(1);
 				cell->AddChild(scroll->GetBoundsComposition());
 			}
 		}
