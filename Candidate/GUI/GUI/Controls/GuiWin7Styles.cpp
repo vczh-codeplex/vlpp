@@ -518,9 +518,8 @@ Helpers
 
 			void Win7SetFont(GuiSolidLabelElement* element, GuiBoundsComposition* composition, const FontProperties& fontProperties)
 			{
-				FontProperties font=GetCurrentController()->GetDefaultFont();
-				int margin=font.size/2;
-				element->SetFont(font);
+				int margin=fontProperties.size/2;
+				element->SetFont(fontProperties);
 				composition->SetMargin(Margin(margin, margin, margin, margin));
 			}
 
@@ -1146,12 +1145,17 @@ Win7ScrollStyle
 					handleButton->GetBoundsComposition()->GetEventReceiver()->leftButtonUp.AttachMethod(this, &Win7ScrollStyle::OnHandleMouseUp);
 				}
 				{
+					FontProperties font;
+					font.fontFamily=L"Wingdings 3";
+					font.size=12;
+
 					Win7ButtonStyle* decreaseButtonStyle=new Win7ButtonStyle(direction==Horizontal);
 					decreaseButtonStyle->SetTransparentWhenInactive(true);
 					decreaseButtonStyle->SetTransparentWhenDisabled(true);
 					decreaseButton=new GuiButton(decreaseButtonStyle);
 					decreaseButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
 					decreaseButton->Clicked.AttachMethod(this, &Win7ScrollStyle::OnDecreaseButtonClicked);
+					decreaseButton->SetFont(font);
 					
 					Win7ButtonStyle* increaseButtonStyle=new Win7ButtonStyle(direction==Horizontal);
 					increaseButtonStyle->SetTransparentWhenInactive(true);
@@ -1159,6 +1163,7 @@ Win7ScrollStyle
 					increaseButton=new GuiButton(increaseButtonStyle);
 					increaseButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
 					increaseButton->Clicked.AttachMethod(this, &Win7ScrollStyle::OnIncreaseButtonClicked);
+					increaseButton->SetFont(font);
 				}
 				{
 					GuiSideAlignedComposition* decreaseComposition=new GuiSideAlignedComposition;
@@ -1178,13 +1183,17 @@ Win7ScrollStyle
 					case Horizontal:
 						{
 							decreaseComposition->SetDirection(GuiSideAlignedComposition::Left);
+							decreaseButton->SetText((wchar_t)0x7C);
 							increaseComposition->SetDirection(GuiSideAlignedComposition::Right);
+							increaseButton->SetText((wchar_t)0x7D);
 						}
 						break;
 					case Vertical:
 						{
 							decreaseComposition->SetDirection(GuiSideAlignedComposition::Top);
+							decreaseButton->SetText((wchar_t)0x7E);
 							increaseComposition->SetDirection(GuiSideAlignedComposition::Bottom);
+							increaseButton->SetText((wchar_t)0xF080);
 						}
 						break;
 					}
