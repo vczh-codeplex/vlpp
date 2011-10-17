@@ -90,7 +90,8 @@ Basic Construction
 				void								Render(Size offset);
 				GuiGraphicsEventReceiver*			GetEventReceiver();
 				bool								HasEventReceiver();
-				GuiGraphicsComposition*				FindComposition(Point location, Rect& compositionBounds);
+				GuiGraphicsComposition*				FindComposition(Point location);
+				Rect								GetGlobalBounds();
 
 				controls::GuiControl*				GetAssociatedControl();
 				GuiGraphicsHost*					GetAssociatedHost();
