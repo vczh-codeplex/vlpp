@@ -269,7 +269,7 @@ GuiGraphicsComposition
 				return eventReceiver;
 			}
 
-			GuiGraphicsComposition* GuiGraphicsComposition::FindComposition(Point location, Rect& compositionBounds)
+			GuiGraphicsComposition* GuiGraphicsComposition::FindComposition(Point location)
 			{
 				if(!visible) return 0;
 				Rect bounds=GetBounds();
@@ -284,23 +284,35 @@ GuiGraphicsComposition
 						int offsetX=childBounds.x1+(clientArea.x1-bounds.x1);
 						int offsetY=childBounds.y1+(clientArea.y1-bounds.y1);
 						Point newLocation=location-Size(offsetX, offsetY);
-						GuiGraphicsComposition* childResult=child->FindComposition(newLocation, compositionBounds);
+						GuiGraphicsComposition* childResult=child->FindComposition(newLocation);
 						if(childResult)
 						{
-							compositionBounds.x1+=offsetX;
-							compositionBounds.x2+=offsetX;
-							compositionBounds.y1+=offsetY;
-							compositionBounds.y2+=offsetY;
 							return childResult;
 						}
 					}
-					compositionBounds=relativeBounds;
 					return this;
 				}
 				else
 				{
 					return 0;
 				}
+			}
+
+			Rect GuiGraphicsComposition::GetGlobalBounds()
+			{
+				Rect bounds=GetBounds();
+				GuiGraphicsComposition* composition=parent;
+				while(composition)
+				{
+					Rect clientArea=composition->GetClientArea();
+					Rect parentBounds=composition->GetBounds();
+					bounds.x1+=clientArea.x1;
+					bounds.x2+=clientArea.x1;
+					bounds.y1+=clientArea.y1;
+					bounds.y2+=clientArea.y1;
+					composition=composition->parent;
+				}
+				return bounds;
 			}
 
 			controls::GuiControl* GuiGraphicsComposition::GetAssociatedControl()

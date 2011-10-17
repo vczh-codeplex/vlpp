@@ -952,7 +952,7 @@ Win7ScrollStyle
 
 			void Win7ScrollStyle::OnHandleMouseDown(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments)
 			{
-				if(commandExecutor)
+				if(commandExecutor && handleButton->GetVisuallyEnabled())
 				{
 					draggingHandle=true;
 					draggingStartLocation=Point(arguments.x, arguments.y);
