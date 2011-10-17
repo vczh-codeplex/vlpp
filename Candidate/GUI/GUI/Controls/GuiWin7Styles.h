@@ -53,6 +53,8 @@ Button Configuration
 					return !(*this==colors);
 				}
 
+				void										SetAlphaWithoutText(unsigned char a);
+
 				static Win7ButtonColors						Blend(const Win7ButtonColors c1, const Win7ButtonColors c2, int ratio, int total);
 
 				static Win7ButtonColors						Normal();
@@ -186,6 +188,8 @@ Buttons
 				Ptr<TransferringAnimation>					transferringAnimation;
 				controls::GuiButton::ControlState			controlStyle;
 				bool										isVisuallyEnabled;
+				bool										transparentWhenInactive;
+				bool										transparentWhenDisabled;
 
 				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled);
 			public:
@@ -198,6 +202,11 @@ Buttons
 				void										SetFont(const FontProperties& value);
 				void										SetVisuallyEnabled(bool value);
 				void										Transfer(controls::GuiButton::ControlState value);
+
+				bool										GetTransparentWhenInactive();
+				void										SetTransparentWhenInactive(bool value);
+				bool										GetTransparentWhenDisabled();
+				void										SetTransparentWhenDisabled(bool value);
 			};
 
 			class Win7CheckBoxStyle : public Object, public controls::GuiSelectableButton::IStyleController
