@@ -29,6 +29,16 @@ namespace vl
 Win7ItemColors
 ***********************************************************************/
 
+			void Win7ButtonColors::SetAlphaWithoutText(unsigned char a)
+			{
+				borderColor.a=a;
+				backgroundColor.a=a;
+				g1.a=a;
+				g2.a=a;
+				g3.a=a;
+				g4.a=a;
+			}
+
 			Win7ButtonColors Win7ButtonColors::Blend(const Win7ButtonColors c1, const Win7ButtonColors c2, int ratio, int total)
 			{
 				if(ratio<0) ratio=0;
@@ -627,30 +637,42 @@ Win7ButtonStyle
 
 			void Win7ButtonStyle::TransferInternal(GuiButton::ControlState value, bool enabled)
 			{
+				Win7ButtonColors targetColor;
 				if(enabled)
 				{
 					switch(value)
 					{
 					case GuiButton::Normal:
-						transferringAnimation->Transfer(Win7ButtonColors::Normal());
+						targetColor=Win7ButtonColors::Normal();
+						if(transparentWhenInactive)
+						{
+							targetColor.SetAlphaWithoutText(0);
+						}
 						break;
 					case GuiButton::Active:
-						transferringAnimation->Transfer(Win7ButtonColors::ButtonActive());
+						targetColor=Win7ButtonColors::ButtonActive();
 						break;
 					case GuiButton::Pressed:
-						transferringAnimation->Transfer(Win7ButtonColors::ButtonPressed());
+						targetColor=Win7ButtonColors::ButtonPressed();
 						break;
 					}
 				}
 				else
 				{
-					transferringAnimation->Transfer(Win7ButtonColors::Disabled());
+					targetColor=Win7ButtonColors::Disabled();
+					if(transparentWhenDisabled)
+					{
+						targetColor.SetAlphaWithoutText(0);
+					}
 				}
+				transferringAnimation->Transfer(targetColor);
 			}
 
 			Win7ButtonStyle::Win7ButtonStyle(bool verticalGradient)
 				:controlStyle(GuiButton::Normal)
 				,isVisuallyEnabled(true)
+				,transparentWhenInactive(false)
+				,transparentWhenDisabled(false)
 			{
 				Win7ButtonColors initialColor=Win7ButtonColors::Normal();
 				elements=Win7ButtonElements::Create(verticalGradient);
@@ -698,6 +720,28 @@ Win7ButtonStyle
 					controlStyle=value;
 					TransferInternal(controlStyle, isVisuallyEnabled);
 				}
+			}
+
+			bool Win7ButtonStyle::GetTransparentWhenInactive()
+			{
+				return transparentWhenInactive;
+			}
+
+			void Win7ButtonStyle::SetTransparentWhenInactive(bool value)
+			{
+				transparentWhenInactive=value;
+				TransferInternal(controlStyle, isVisuallyEnabled);
+			}
+
+			bool Win7ButtonStyle::GetTransparentWhenDisabled()
+			{
+				return transparentWhenDisabled;
+			}
+
+			void Win7ButtonStyle::SetTransparentWhenDisabled(bool value)
+			{
+				transparentWhenDisabled=value;
+				TransferInternal(controlStyle, isVisuallyEnabled);
 			}
 
 /***********************************************************************
@@ -1014,24 +1058,21 @@ Win7ScrollStyle
 				,position(0)
 				,draggingHandle(false)
 			{
+				Color sinkColor(227, 227, 227);
 				boundsComposition=new GuiBoundsComposition;
 				{
-					GuiBoundsComposition* backgroundComposition=new GuiBoundsComposition;
-					boundsComposition->AddChild(backgroundComposition);
-					backgroundComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
-
 					GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
 					element->SetColor(Win7GetSystemWindowColor());
-					backgroundComposition->SetOwnedElement(element);
+					boundsComposition->SetOwnedElement(element);
 
 					{
 						GuiSideAlignedComposition* composition=new GuiSideAlignedComposition;
 						composition->SetMaxLength(DefaultSize);
 						composition->SetMaxRatio(0.2);
-						backgroundComposition->AddChild(composition);
+						boundsComposition->AddChild(composition);
 
 						GuiGradientBackgroundElement* gradient=GuiGradientBackgroundElement::Create();
-						gradient->SetColors(Color(227, 227, 227), Color(239, 239, 239));
+						gradient->SetColors(sinkColor, Win7GetSystemWindowColor());
 						composition->SetOwnedElement(gradient);
 
 						switch(direction)
@@ -1050,10 +1091,10 @@ Win7ScrollStyle
 						GuiSideAlignedComposition* composition=new GuiSideAlignedComposition;
 						composition->SetMaxLength(DefaultSize);
 						composition->SetMaxRatio(0.2);
-						backgroundComposition->AddChild(composition);
+						boundsComposition->AddChild(composition);
 
 						GuiGradientBackgroundElement* gradient=GuiGradientBackgroundElement::Create();
-						gradient->SetColors(Color(239, 239, 239), Color(227, 227, 227));
+						gradient->SetColors(Win7GetSystemWindowColor(), sinkColor);
 						composition->SetOwnedElement(gradient);
 
 						switch(direction)
@@ -1067,6 +1108,15 @@ Win7ScrollStyle
 							gradient->SetDirection(GuiGradientBackgroundElement::Horizontal);
 							break;
 						}
+					}
+					{
+						GuiSolidBorderElement* element=GuiSolidBorderElement::Create();
+						element->SetColor(sinkColor);
+
+						GuiBoundsComposition* composition=new GuiBoundsComposition;
+						composition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+						composition->SetOwnedElement(element);
+						boundsComposition->AddChild(composition);
 					}
 				}
 				{
@@ -1084,23 +1134,33 @@ Win7ScrollStyle
 
 					handleComposition=new GuiPartialViewComposition;
 					handleBoundsComposition->AddChild(handleComposition);
-
-					handleButton=new GuiButton(new Win7ButtonStyle(direction==Horizontal));
+					
+					Win7ButtonStyle* handleButtonStyle=new Win7ButtonStyle(direction==Horizontal);
+					handleButtonStyle->SetTransparentWhenDisabled(true);
+					handleButton=new GuiButton(handleButtonStyle);
 					handleButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+					handleComposition->AddChild(handleButton->GetBoundsComposition());
+
 					handleButton->GetBoundsComposition()->GetEventReceiver()->leftButtonDown.AttachMethod(this, &Win7ScrollStyle::OnHandleMouseDown);
 					handleButton->GetBoundsComposition()->GetEventReceiver()->mouseMove.AttachMethod(this, &Win7ScrollStyle::OnHandleMouseMove);
 					handleButton->GetBoundsComposition()->GetEventReceiver()->leftButtonUp.AttachMethod(this, &Win7ScrollStyle::OnHandleMouseUp);
-					handleComposition->AddChild(handleButton->GetBoundsComposition());
 				}
 				{
-					decreaseButton=new GuiButton(new Win7ButtonStyle(direction==Horizontal));
+					Win7ButtonStyle* decreaseButtonStyle=new Win7ButtonStyle(direction==Horizontal);
+					decreaseButtonStyle->SetTransparentWhenInactive(true);
+					decreaseButtonStyle->SetTransparentWhenDisabled(true);
+					decreaseButton=new GuiButton(decreaseButtonStyle);
 					decreaseButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
 					decreaseButton->Clicked.AttachMethod(this, &Win7ScrollStyle::OnDecreaseButtonClicked);
-
-					increaseButton=new GuiButton(new Win7ButtonStyle(direction==Horizontal));
+					
+					Win7ButtonStyle* increaseButtonStyle=new Win7ButtonStyle(direction==Horizontal);
+					increaseButtonStyle->SetTransparentWhenInactive(true);
+					increaseButtonStyle->SetTransparentWhenDisabled(true);
+					increaseButton=new GuiButton(increaseButtonStyle);
 					increaseButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
 					increaseButton->Clicked.AttachMethod(this, &Win7ScrollStyle::OnIncreaseButtonClicked);
-
+				}
+				{
 					GuiSideAlignedComposition* decreaseComposition=new GuiSideAlignedComposition;
 					decreaseComposition->SetMaxLength(DefaultSize);
 					decreaseComposition->SetMaxRatio(0.5);

@@ -404,6 +404,7 @@ GuiButton
 				,controlState(Normal)
 			{
 				Clicked.SetAssociatedComposition(boundsComposition);
+				styleController->Transfer(Normal);
 
 				GetEventReceiver()->leftButtonDown.AttachMethod(this, &GuiButton::OnLeftButtonDown);
 				GetEventReceiver()->leftButtonUp.AttachMethod(this, &GuiButton::OnLeftButtonUp);
