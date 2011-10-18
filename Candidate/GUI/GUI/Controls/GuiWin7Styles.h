@@ -314,8 +314,13 @@ Scrolls
 				int											totalSize;
 				int											pageSize;
 				int											position;
+				Point										draggingStartLocation;
+				bool										draggingHandle;
 
 				void										UpdateHandle();
+				void										OnHandleMouseDown(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments);
+				void										OnHandleMouseMove(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments);
+				void										OnHandleMouseUp(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments);
 			public:
 				Win7TrackStyle(Direction _direction);
 				~Win7TrackStyle();
