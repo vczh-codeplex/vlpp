@@ -60,7 +60,6 @@ IMPLEMENT_BRUSH_ELEMENT_RENDERER
 					if(oldColor!=color)\
 					{\
 						DestroyBrush(renderTarget);\
-						oldColor=color;\
 						CreateBrush(renderTarget);\
 					}\
 				}\
@@ -91,7 +90,6 @@ IMPLEMENT_BRUSH_ELEMENT_RENDERER
 					if(oldColor!=color)\
 					{\
 						DestroyBrush(renderTarget);\
-						oldColor=color;\
 						CreateBrush(renderTarget);\
 					}\
 				}\
@@ -138,6 +136,84 @@ GuiRoundBorderElementRenderer
 						),
 					brush
 					);
+			}
+
+/***********************************************************************
+Gui3DBorderElementRenderer
+***********************************************************************/
+
+			void Gui3DBorderElementRenderer::CreateBrush(IWindowsDirect2DRenderTarget* _renderTarget)
+			{
+				if(_renderTarget)
+				{
+					oldColor1=element->GetColor1();
+					oldColor2=element->GetColor2();
+					brush1=_renderTarget->CreateDirect2DBrush(oldColor1);
+					brush2=_renderTarget->CreateDirect2DBrush(oldColor2);
+				}
+			}
+
+			void Gui3DBorderElementRenderer::DestroyBrush(IWindowsDirect2DRenderTarget* _renderTarget)
+			{
+				if(_renderTarget)
+				{
+					if(brush1)
+					{
+						_renderTarget->DestroyDirect2DBrush(oldColor1);
+						brush1=0;
+					}
+					if(brush2)
+					{
+						_renderTarget->DestroyDirect2DBrush(oldColor2);
+						brush2=0;
+					}
+				}
+			}
+
+			void Gui3DBorderElementRenderer::InitializeInternal()
+			{
+			}
+
+			void Gui3DBorderElementRenderer::FinalizeInternal()
+			{
+				DestroyBrush(renderTarget);
+			}
+
+			void Gui3DBorderElementRenderer::RenderTargetChangedInternal(IWindowsDirect2DRenderTarget* oldRenderTarget, IWindowsDirect2DRenderTarget* newRenderTarget)
+			{
+				DestroyBrush(oldRenderTarget);
+				CreateBrush(newRenderTarget);
+			}
+
+			Gui3DBorderElementRenderer::Gui3DBorderElementRenderer()
+				:brush1(0)
+				,brush2(0)
+			{
+			}
+
+			void Gui3DBorderElementRenderer::Render(Rect bounds)
+			{
+				D2D1_RECT_F rect=D2D1::RectF((FLOAT)bounds.x1+0.5f, (FLOAT)bounds.y1+0.5f, (FLOAT)bounds.x2-0.5f, (FLOAT)bounds.y2-0.5f);
+				ID2D1RenderTarget* d2dRenderTarget=renderTarget->GetDirect2DRenderTarget();
+
+				d2dRenderTarget->DrawLine(D2D1::Point2F(rect.left, rect.top), D2D1::Point2F(rect.right, rect.top), brush1);
+				d2dRenderTarget->DrawLine(D2D1::Point2F(rect.left, rect.top), D2D1::Point2F(rect.left, rect.bottom), brush1);
+				d2dRenderTarget->DrawLine(D2D1::Point2F(rect.right, rect.bottom), D2D1::Point2F(rect.left, rect.bottom), brush2);
+				d2dRenderTarget->DrawLine(D2D1::Point2F(rect.right, rect.bottom), D2D1::Point2F(rect.right, rect.top), brush2);
+			}
+
+			void Gui3DBorderElementRenderer::OnElementStateChanged()
+			{
+				if(renderTarget)
+				{
+					Color color1=element->GetColor1();
+					Color color2=element->GetColor2();
+					if(oldColor1!=color1 || oldColor2!=color2)
+					{
+						DestroyBrush(renderTarget);
+						CreateBrush(renderTarget);
+					}
+				}
 			}
 
 /***********************************************************************
@@ -375,7 +451,6 @@ GuiSolidLabelElementRenderer
 					if(oldColor!=color)
 					{
 						DestroyBrush(renderTarget);
-						oldColor=color;
 						CreateBrush(renderTarget);
 					}
 
@@ -383,7 +458,6 @@ GuiSolidLabelElementRenderer
 					if(oldFont!=font)
 					{
 						DestroyTextFormat(renderTarget);
-						oldFont=font;
 						CreateTextFormat(renderTarget);
 						fontChanged=true;
 					}
