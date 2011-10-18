@@ -1229,10 +1229,6 @@ Win7ScrollStyle
 			void Win7ScrollStyle::SetCommandExecutor(controls::GuiScroll::ICommandExecutor* value)
 			{
 				commandExecutor=value;
-				if(value)
-				{
-					value->SetPageSize(0);
-				}
 			}
 
 			void Win7ScrollStyle::SetTotalSize(int value)
@@ -1268,7 +1264,9 @@ Win7TrackStyle
 
 			void Win7TrackStyle::UpdateHandle()
 			{
-				double ratio=(double)position/totalSize;
+				int maxSize=totalSize-pageSize;
+				if(maxSize<1) maxSize=1;
+				double ratio=(double)position/maxSize;
 				switch(direction)
 				{
 				case Horizontal:
@@ -1280,6 +1278,65 @@ Win7TrackStyle
 					handleComposition->SetRowOption(2, GuiCellOption::PercentageOption(ratio));
 					break;
 				}
+				handleComposition->UpdateCellBounds();
+			}
+
+			void Win7TrackStyle::OnHandleMouseDown(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments)
+			{
+				if(commandExecutor && handleButton->GetVisuallyEnabled())
+				{
+					draggingHandle=true;
+					draggingStartLocation=Point(arguments.x, arguments.y);
+				}
+			}
+
+			void Win7TrackStyle::OnHandleMouseMove(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments)
+			{
+				if(draggingHandle)
+				{
+					int totalPixels=0;
+					int currentOffset=0;
+					int newOffset=0;
+
+					Rect handleArea=handleComposition->GetBounds();
+					Rect handleBounds=handleButton->GetBoundsComposition()->GetParent()->GetBounds();
+					switch(direction)
+					{
+					case Horizontal:
+						totalPixels=handleArea.Width()-HandleShort;
+						currentOffset=handleBounds.Left();
+						newOffset=currentOffset+(arguments.x-draggingStartLocation.x);
+						break;
+					case Vertical:
+						totalPixels=handleArea.Height()-HandleShort;
+						currentOffset=handleArea.Height()-handleBounds.Bottom();
+						newOffset=currentOffset-(arguments.y-draggingStartLocation.y);
+						break;
+					}
+
+					double ratio=(double)newOffset/totalPixels;
+					int maxSize=totalSize-pageSize;
+					if(maxSize<1) maxSize=1;
+					int newPosition=(int)(ratio*maxSize);
+
+					int offset1=(int)(((double)newPosition/maxSize)*totalPixels);
+					int offset2=int(((double)(newPosition+1)/maxSize)*totalPixels);
+					int delta1=abs(offset1-newOffset);
+					int delta2=abs(offset2-newOffset);
+					if(delta1<delta2)
+					{
+						commandExecutor->SetPosition(newPosition);
+					}
+					else
+					{
+						commandExecutor->SetPosition(newPosition+1);
+					}
+				}
+			}
+
+			void Win7TrackStyle::OnHandleMouseUp(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments)
+			{
+				draggingHandle=false;
 			}
 
 			Win7TrackStyle::Win7TrackStyle(Direction _direction)
@@ -1288,6 +1345,7 @@ Win7TrackStyle
 				,totalSize(1)
 				,pageSize(1)
 				,position(0)
+				,draggingHandle(false)
 			{
 				boundsComposition=new GuiBoundsComposition;
 				{
@@ -1381,6 +1439,10 @@ Win7TrackStyle
 							handleButton=new GuiButton(new Win7ButtonStyle(direction==Horizontal));
 							handleButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
 							handleCell->AddChild(handleButton->GetBoundsComposition());
+
+							handleButton->GetBoundsComposition()->GetEventReceiver()->leftButtonDown.AttachMethod(this, &Win7TrackStyle::OnHandleMouseDown);
+							handleButton->GetBoundsComposition()->GetEventReceiver()->mouseMove.AttachMethod(this, &Win7TrackStyle::OnHandleMouseMove);
+							handleButton->GetBoundsComposition()->GetEventReceiver()->leftButtonUp.AttachMethod(this, &Win7TrackStyle::OnHandleMouseUp);
 						}
 					}
 				}
@@ -1415,6 +1477,10 @@ Win7TrackStyle
 			void Win7TrackStyle::SetCommandExecutor(controls::GuiScroll::ICommandExecutor* value)
 			{
 				commandExecutor=value;
+				if(value)
+				{
+					value->SetPageSize(0);
+				}
 			}
 
 			void Win7TrackStyle::SetTotalSize(int value)
