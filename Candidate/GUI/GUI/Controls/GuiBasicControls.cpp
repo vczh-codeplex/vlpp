@@ -553,8 +553,18 @@ GuiScroll::CommandExecutor
 			{
 				scroll->SetPosition(scroll->GetPosition()+scroll->GetBigMove());
 			}
+			
+			void GuiScroll::CommandExecutor::SetTotalSize(int value)
+			{
+				scroll->SetTotalSize(value);
+			}
 
-			void GuiScroll::CommandExecutor::Scroll(int value)
+			void GuiScroll::CommandExecutor::SetPageSize(int value)
+			{
+				scroll->SetPageSize(value);
+			}
+
+			void GuiScroll::CommandExecutor::SetPosition(int value)
 			{
 				scroll->SetPosition(value);
 			}
@@ -614,7 +624,7 @@ GuiScroll
 
 			void GuiScroll::SetPageSize(int value)
 			{
-				if(pageSize!=value && 0<value && value<=totalSize)
+				if(pageSize!=value && 0<=value && value<=totalSize)
 				{
 					pageSize=value;
 					if(position>GetMaxPosition())

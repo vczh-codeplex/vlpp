@@ -314,6 +314,22 @@ Elements
 				void					SetRadius(int value);
 			};
 
+			class Gui3DBorderElement : public Object, public IGuiGraphicsElement
+			{
+				DEFINE_GUI_GRAPHICS_ELEMENT(Gui3DBorderElement, L"3DBorder")
+			protected:
+				Color					color1;
+				Color					color2;
+
+				Gui3DBorderElement();
+			public:
+				~Gui3DBorderElement();
+
+				Color					GetColor1();
+				Color					GetColor2();
+				void					SetColors(Color value1, Color value2);
+			};
+
 			class GuiSolidBackgroundElement : public Object, public IGuiGraphicsElement
 			{
 				DEFINE_GUI_GRAPHICS_ELEMENT(GuiSolidBackgroundElement, L"SolidBackground")
