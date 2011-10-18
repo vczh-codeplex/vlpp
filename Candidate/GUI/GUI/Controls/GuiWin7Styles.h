@@ -275,7 +275,8 @@ Scrolls
 				void										OnIncreaseButtonClicked(elements::GuiGraphicsComposition* sender,elements::GuiEventArgs& arguments);
 				void										OnHandleMouseDown(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments);
 				void										OnHandleMouseMove(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments);
-				void										OnHandleMouseUp(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments);
+				void										OnHandleMouseUp(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments);;
+				void										OnBigMoveMouseDown(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments);
 			public:
 				Win7ScrollStyle(Direction _direction);
 				~Win7ScrollStyle();
