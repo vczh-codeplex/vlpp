@@ -111,6 +111,71 @@ GuiRoundBorderElementRenderer
 			}
 
 /***********************************************************************
+Gui3DBorderElementRenderer
+***********************************************************************/
+
+			void Gui3DBorderElementRenderer::InitializeInternal()
+			{
+				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+				oldColor1=element->GetColor1();
+				oldColor2=element->GetColor2();
+				pen1=resourceManager->CreateGdiPen(oldColor1);
+				pen2=resourceManager->CreateGdiPen(oldColor2);
+			}
+
+			void Gui3DBorderElementRenderer::FinalizeInternal()
+			{
+				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+				resourceManager->DestroyGdiPen(oldColor1);
+				resourceManager->DestroyGdiPen(oldColor2);
+			}
+
+			void Gui3DBorderElementRenderer::RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget)
+			{
+			}
+
+			void Gui3DBorderElementRenderer::Render(Rect bounds)
+			{
+				if(oldColor1.a>0)
+				{
+					renderTarget->GetDC()->SetPen(pen1);
+					renderTarget->GetDC()->MoveTo(bounds.x1, bounds.y1);
+					renderTarget->GetDC()->LineTo(bounds.x2, bounds.y1);
+					renderTarget->GetDC()->MoveTo(bounds.x1, bounds.y1);
+					renderTarget->GetDC()->LineTo(bounds.x1, bounds.y2);
+				}
+				if(oldColor2.a>0)
+				{
+					renderTarget->GetDC()->SetPen(pen2);
+					renderTarget->GetDC()->MoveTo(bounds.x2-1, bounds.y2-1);
+					renderTarget->GetDC()->LineTo(bounds.x1, bounds.y2-1);
+					renderTarget->GetDC()->MoveTo(bounds.x2-1, bounds.y2-1);
+					renderTarget->GetDC()->LineTo(bounds.x2-1, bounds.y1);
+				}
+			}
+
+			void Gui3DBorderElementRenderer::OnElementStateChanged()
+			{
+				Color color1=element->GetColor1();
+				if(oldColor1!=color1)
+				{
+					IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+					resourceManager->DestroyGdiPen(oldColor1);
+					oldColor1=color1;
+					pen1=resourceManager->CreateGdiPen(oldColor1);
+				}
+
+				Color color2=element->GetColor2();
+				if(oldColor2!=color2)
+				{
+					IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+					resourceManager->DestroyGdiPen(oldColor2);
+					oldColor2=color2;
+					pen2=resourceManager->CreateGdiPen(oldColor2);
+				}
+			}
+
+/***********************************************************************
 GuiSolidBackgroundElementRenderer
 ***********************************************************************/
 

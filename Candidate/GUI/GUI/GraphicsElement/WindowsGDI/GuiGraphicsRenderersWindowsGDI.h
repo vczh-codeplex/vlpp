@@ -56,6 +56,23 @@ Renderers
 				void					OnElementStateChanged();
 			};
 
+			class Gui3DBorderElementRenderer : public Object, public IGuiGraphicsRenderer
+			{
+				DEFINE_GUI_GRAPHICS_RENDERER(Gui3DBorderElement, Gui3DBorderElementRenderer, IWindowsGDIRenderTarget)
+			protected:
+				Color					oldColor1;
+				Color					oldColor2;
+				Ptr<windows::WinPen>	pen1;
+				Ptr<windows::WinPen>	pen2;
+
+				void					InitializeInternal();
+				void					FinalizeInternal();
+				void					RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget);
+			public:
+				void					Render(Rect bounds);
+				void					OnElementStateChanged();
+			};
+
 			class GuiSolidBackgroundElementRenderer : public Object, public IGuiGraphicsRenderer
 			{
 				DEFINE_GUI_GRAPHICS_RENDERER(GuiSolidBackgroundElement, GuiSolidBackgroundElementRenderer, IWindowsGDIRenderTarget)

@@ -1324,34 +1324,64 @@ Win7TrackStyle
 						GuiCellComposition* contentCell=new GuiCellComposition;
 						table->AddChild(contentCell);
 						contentCell->SetSite(1, 1, 1, 1);
-
-						handleComposition=new GuiTableComposition;
-						handleComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
-						contentCell->AddChild(handleComposition);
-						GuiCellComposition* handleCell=new GuiCellComposition;
-						handleComposition->AddChild(handleCell);
-
-						switch(direction)
 						{
-						case Horizontal:
-							handleComposition->SetRowsAndColumns(1, 3);
-							handleComposition->SetColumnOption(0, GuiCellOption::PercentageOption(0.0));
-							handleComposition->SetColumnOption(1, GuiCellOption::AbsoluteOption(HandleShort));
-							handleComposition->SetColumnOption(2, GuiCellOption::PercentageOption(1.0));
-							handleCell->SetSite(0, 1, 1, 1);
-							break;
-						case Vertical:
-							handleComposition->SetRowsAndColumns(3, 1);
-							handleComposition->SetRowOption(0, GuiCellOption::PercentageOption(1.0));
-							handleComposition->SetRowOption(1, GuiCellOption::AbsoluteOption(HandleShort));
-							handleComposition->SetRowOption(2, GuiCellOption::PercentageOption(0.0));
-							handleCell->SetSite(1, 0, 1, 1);
-							break;
-						}
+							GuiTableComposition* trackTable=new GuiTableComposition;
+							trackTable->SetAlignmentToParent(Margin(0, 0, 0, 0));
+							contentCell->AddChild(trackTable);
+							GuiCellComposition* trackCell=new GuiCellComposition;
+							trackTable->AddChild(trackCell);
 
-						handleButton=new GuiButton(new Win7ButtonStyle(direction==Horizontal));
-						handleButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
-						handleCell->AddChild(handleButton->GetBoundsComposition());
+							switch(direction)
+							{
+							case Horizontal:
+								trackTable->SetRowsAndColumns(3, 1);
+								trackTable->SetRowOption(0, GuiCellOption::PercentageOption(0.5));
+								trackTable->SetRowOption(1, GuiCellOption::AbsoluteOption(TrackThickness));
+								trackTable->SetRowOption(2, GuiCellOption::PercentageOption(0.5));
+								trackCell->SetSite(1, 0, 1, 1);
+								break;
+							case Vertical:
+								trackTable->SetRowsAndColumns(1, 3);
+								trackTable->SetColumnOption(0, GuiCellOption::PercentageOption(0.5));
+								trackTable->SetColumnOption(1, GuiCellOption::AbsoluteOption(TrackThickness));
+								trackTable->SetColumnOption(2, GuiCellOption::PercentageOption(0.5));
+								trackCell->SetSite(0, 1, 1, 1);
+								break;
+							}
+
+							Gui3DBorderElement* element=Gui3DBorderElement::Create();
+							element->SetColors(Color(176, 176, 176), Color(252, 252, 252));
+							trackCell->SetOwnedElement(element);
+						}
+						{
+							handleComposition=new GuiTableComposition;
+							handleComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+							contentCell->AddChild(handleComposition);
+							GuiCellComposition* handleCell=new GuiCellComposition;
+							handleComposition->AddChild(handleCell);
+
+							switch(direction)
+							{
+							case Horizontal:
+								handleComposition->SetRowsAndColumns(1, 3);
+								handleComposition->SetColumnOption(0, GuiCellOption::PercentageOption(0.0));
+								handleComposition->SetColumnOption(1, GuiCellOption::AbsoluteOption(HandleShort));
+								handleComposition->SetColumnOption(2, GuiCellOption::PercentageOption(1.0));
+								handleCell->SetSite(0, 1, 1, 1);
+								break;
+							case Vertical:
+								handleComposition->SetRowsAndColumns(3, 1);
+								handleComposition->SetRowOption(0, GuiCellOption::PercentageOption(1.0));
+								handleComposition->SetRowOption(1, GuiCellOption::AbsoluteOption(HandleShort));
+								handleComposition->SetRowOption(2, GuiCellOption::PercentageOption(0.0));
+								handleCell->SetSite(1, 0, 1, 1);
+								break;
+							}
+
+							handleButton=new GuiButton(new Win7ButtonStyle(direction==Horizontal));
+							handleButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+							handleCell->AddChild(handleButton->GetBoundsComposition());
+						}
 					}
 				}
 			}
