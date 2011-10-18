@@ -248,6 +248,7 @@ Scrolls
 			{
 			public:
 				static const int							DefaultSize=18;
+				static const int							ArrowSize=10;
 
 				enum Direction
 				{
@@ -278,6 +279,46 @@ Scrolls
 			public:
 				Win7ScrollStyle(Direction _direction);
 				~Win7ScrollStyle();
+
+				elements::GuiBoundsComposition*				GetBoundsComposition();
+				elements::GuiGraphicsComposition*			GetContainerComposition();
+				void										SetText(const WString& value);
+				void										SetFont(const FontProperties& value);
+				void										SetVisuallyEnabled(bool value);
+				void										SetCommandExecutor(controls::GuiScroll::ICommandExecutor* value);
+				void										SetTotalSize(int value);
+				void										SetPageSize(int value);
+				void										SetPosition(int value);
+			};
+
+			class Win7TrackStyle : public Object, public controls::GuiScroll::IStyleController
+			{
+			public:
+				static const int							TrackThickness=4;
+				static const int							TrackPadding=8;
+				static const int							HandleLong=21;
+				static const int							HandleShort=10;
+
+				enum Direction
+				{
+					Horizontal,
+					Vertical,
+				};
+			protected:
+				Direction									direction;
+				controls::GuiScroll::ICommandExecutor*		commandExecutor;
+				elements::GuiBoundsComposition*				boundsComposition;
+				controls::GuiButton*						handleButton;
+				elements::GuiTableComposition*				handleComposition;
+
+				int											totalSize;
+				int											pageSize;
+				int											position;
+
+				void										UpdateHandle();
+			public:
+				Win7TrackStyle(Direction _direction);
+				~Win7TrackStyle();
 
 				elements::GuiBoundsComposition*				GetBoundsComposition();
 				elements::GuiGraphicsComposition*			GetContainerComposition();

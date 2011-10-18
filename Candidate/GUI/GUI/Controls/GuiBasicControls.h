@@ -221,7 +221,10 @@ Scroll
 					virtual void						SmallIncrease()=0;
 					virtual void						BigDecrease()=0;
 					virtual void						BigIncrease()=0;
-					virtual void						Scroll(int value)=0;
+
+					virtual void						SetTotalSize(int value)=0;
+					virtual void						SetPageSize(int value)=0;
+					virtual void						SetPosition(int value)=0;
 				};
 
 				class IStyleController : public GuiControl::IStyleController
@@ -245,7 +248,10 @@ Scroll
 					void								SmallIncrease();
 					void								BigDecrease();
 					void								BigIncrease();
-					void								Scroll(int value);
+
+					void								SetTotalSize(int value);
+					void								SetPageSize(int value);
+					void								SetPosition(int value);
 				};
 
 				IStyleController*						styleController;

@@ -167,6 +167,39 @@ GuiRoundBorderElement
 			}
 
 /***********************************************************************
+Gui3DBorderElement
+***********************************************************************/
+
+			Gui3DBorderElement::Gui3DBorderElement()
+			{
+			}
+
+			Gui3DBorderElement::~Gui3DBorderElement()
+			{
+				renderer->Finalize();
+			}
+
+			Color Gui3DBorderElement::GetColor1()
+			{
+				return color1;
+			}
+
+			Color Gui3DBorderElement::GetColor2()
+			{
+				return color2;
+			}
+
+			void Gui3DBorderElement::SetColors(Color value1, Color value2)
+			{
+				if(color1!=value1 || color2!=value2)
+				{
+					color1=value1;
+					color2=value2;
+					renderer->OnElementStateChanged();
+				}
+			}
+
+/***********************************************************************
 GuiSolidBackgroundElement
 ***********************************************************************/
 

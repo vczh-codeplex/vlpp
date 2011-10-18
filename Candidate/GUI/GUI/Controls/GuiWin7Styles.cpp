@@ -1032,11 +1032,11 @@ Win7ScrollStyle
 					int delta2=abs(offset2-newOffset);
 					if(delta1<delta2)
 					{
-						commandExecutor->Scroll(newPosition);
+						commandExecutor->SetPosition(newPosition);
 					}
 					else
 					{
-						commandExecutor->Scroll(newPosition+1);
+						commandExecutor->SetPosition(newPosition+1);
 					}
 				}
 			}
@@ -1147,7 +1147,7 @@ Win7ScrollStyle
 				{
 					FontProperties font;
 					font.fontFamily=L"Wingdings 3";
-					font.size=12;
+					font.size=ArrowSize;
 
 					Win7ButtonStyle* decreaseButtonStyle=new Win7ButtonStyle(direction==Horizontal);
 					decreaseButtonStyle->SetTransparentWhenInactive(true);
@@ -1229,6 +1229,10 @@ Win7ScrollStyle
 			void Win7ScrollStyle::SetCommandExecutor(controls::GuiScroll::ICommandExecutor* value)
 			{
 				commandExecutor=value;
+				if(value)
+				{
+					value->SetPageSize(0);
+				}
 			}
 
 			void Win7ScrollStyle::SetTotalSize(int value)
@@ -1250,6 +1254,158 @@ Win7ScrollStyle
 			}
 
 			void Win7ScrollStyle::SetPosition(int value)
+			{
+				if(position!=value)
+				{
+					position=value;
+					UpdateHandle();
+				}
+			}
+
+/***********************************************************************
+Win7TrackStyle
+***********************************************************************/
+
+			void Win7TrackStyle::UpdateHandle()
+			{
+				double ratio=(double)position/totalSize;
+				switch(direction)
+				{
+				case Horizontal:
+					handleComposition->SetColumnOption(0, GuiCellOption::PercentageOption(ratio));
+					handleComposition->SetColumnOption(2, GuiCellOption::PercentageOption(1-ratio));
+					break;
+				case Vertical:
+					handleComposition->SetRowOption(0, GuiCellOption::PercentageOption(1-ratio));
+					handleComposition->SetRowOption(2, GuiCellOption::PercentageOption(ratio));
+					break;
+				}
+			}
+
+			Win7TrackStyle::Win7TrackStyle(Direction _direction)
+				:direction(_direction)
+				,commandExecutor(0)
+				,totalSize(1)
+				,pageSize(1)
+				,position(0)
+			{
+				boundsComposition=new GuiBoundsComposition;
+				{
+					GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
+					element->SetColor(Win7GetSystemWindowColor());
+					boundsComposition->SetOwnedElement(element);
+				}
+				{
+					GuiTableComposition* table=new GuiTableComposition;
+					boundsComposition->AddChild(table);
+					table->SetAlignmentToParent(Margin(0, 0, 0, 0));
+					table->SetRowsAndColumns(3, 3);
+					table->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+					switch(direction)
+					{
+					case Horizontal:
+						table->SetRowOption(0, GuiCellOption::PercentageOption(0.5));
+						table->SetRowOption(1, GuiCellOption::AbsoluteOption(HandleLong));
+						table->SetRowOption(2, GuiCellOption::PercentageOption(0.5));
+						table->SetColumnOption(0, GuiCellOption::AbsoluteOption(TrackPadding));
+						table->SetColumnOption(1, GuiCellOption::PercentageOption(1.0));
+						table->SetColumnOption(2, GuiCellOption::AbsoluteOption(TrackPadding));
+						break;
+					case Vertical:
+						table->SetRowOption(0, GuiCellOption::AbsoluteOption(TrackPadding));
+						table->SetRowOption(1, GuiCellOption::PercentageOption(1.0));
+						table->SetRowOption(2, GuiCellOption::AbsoluteOption(TrackPadding));
+						table->SetColumnOption(0, GuiCellOption::PercentageOption(0.5));
+						table->SetColumnOption(1, GuiCellOption::AbsoluteOption(HandleLong));
+						table->SetColumnOption(2, GuiCellOption::PercentageOption(0.5));
+						break;
+					}
+					{
+						GuiCellComposition* contentCell=new GuiCellComposition;
+						table->AddChild(contentCell);
+						contentCell->SetSite(1, 1, 1, 1);
+
+						handleComposition=new GuiTableComposition;
+						handleComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+						contentCell->AddChild(handleComposition);
+						GuiCellComposition* handleCell=new GuiCellComposition;
+						handleComposition->AddChild(handleCell);
+
+						switch(direction)
+						{
+						case Horizontal:
+							handleComposition->SetRowsAndColumns(1, 3);
+							handleComposition->SetColumnOption(0, GuiCellOption::PercentageOption(0.0));
+							handleComposition->SetColumnOption(1, GuiCellOption::AbsoluteOption(HandleShort));
+							handleComposition->SetColumnOption(2, GuiCellOption::PercentageOption(1.0));
+							handleCell->SetSite(0, 1, 1, 1);
+							break;
+						case Vertical:
+							handleComposition->SetRowsAndColumns(3, 1);
+							handleComposition->SetRowOption(0, GuiCellOption::PercentageOption(1.0));
+							handleComposition->SetRowOption(1, GuiCellOption::AbsoluteOption(HandleShort));
+							handleComposition->SetRowOption(2, GuiCellOption::PercentageOption(0.0));
+							handleCell->SetSite(1, 0, 1, 1);
+							break;
+						}
+
+						handleButton=new GuiButton(new Win7ButtonStyle(direction==Horizontal));
+						handleButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+						handleCell->AddChild(handleButton->GetBoundsComposition());
+					}
+				}
+			}
+
+			Win7TrackStyle::~Win7TrackStyle()
+			{
+			}
+
+			elements::GuiBoundsComposition* Win7TrackStyle::GetBoundsComposition()
+			{
+				return boundsComposition;
+			}
+
+			elements::GuiGraphicsComposition* Win7TrackStyle::GetContainerComposition()
+			{
+				return boundsComposition;
+			}
+
+			void Win7TrackStyle::SetText(const WString& value)
+			{
+			}
+
+			void Win7TrackStyle::SetFont(const FontProperties& value)
+			{
+			}
+
+			void Win7TrackStyle::SetVisuallyEnabled(bool value)
+			{
+			}
+
+			void Win7TrackStyle::SetCommandExecutor(controls::GuiScroll::ICommandExecutor* value)
+			{
+				commandExecutor=value;
+			}
+
+			void Win7TrackStyle::SetTotalSize(int value)
+			{
+				if(totalSize!=value)
+				{
+					totalSize=value;
+					UpdateHandle();
+				}
+			}
+
+			void Win7TrackStyle::SetPageSize(int value)
+			{
+				if(pageSize!=value)
+				{
+					pageSize=value;
+					UpdateHandle();
+				}
+			}
+
+			void Win7TrackStyle::SetPosition(int value)
 			{
 				if(position!=value)
 				{
