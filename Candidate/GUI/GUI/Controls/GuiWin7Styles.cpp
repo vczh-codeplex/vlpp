@@ -1046,6 +1046,40 @@ Win7ScrollStyle
 				draggingHandle=false;
 			}
 
+			void Win7ScrollStyle::OnBigMoveMouseDown(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments)
+			{
+				if(commandExecutor && handleButton->GetVisuallyEnabled())
+				{
+					if(arguments.eventSource==arguments.compositionSource)
+					{
+						Rect handleBounds=handleComposition->GetBounds();
+						switch(direction)
+						{
+						case Horizontal:
+							if(arguments.x<handleBounds.x1)
+							{
+								commandExecutor->BigDecrease();
+							}
+							else if(arguments.x>=handleBounds.x2)
+							{
+								commandExecutor->BigIncrease();
+							}
+							break;
+						case Vertical:
+							if(arguments.y<handleBounds.y1)
+							{
+								commandExecutor->BigDecrease();
+							}
+							else if(arguments.y>=handleBounds.y2)
+							{
+								commandExecutor->BigIncrease();
+							}
+							break;
+						}
+					}
+				}
+			}
+
 			Win7ScrollStyle::Win7ScrollStyle(Direction _direction)
 				:direction(_direction)
 				,commandExecutor(0)
@@ -1130,6 +1164,7 @@ Win7ScrollStyle
 						handleBoundsComposition->SetAlignmentToParent(Margin(0, DefaultSize, 0, DefaultSize));
 						break;
 					}
+					handleBoundsComposition->GetEventReceiver()->leftButtonDown.AttachMethod(this, &Win7ScrollStyle::OnBigMoveMouseDown);
 
 					handleComposition=new GuiPartialViewComposition;
 					handleBoundsComposition->AddChild(handleComposition);

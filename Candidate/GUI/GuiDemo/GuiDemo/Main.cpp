@@ -195,7 +195,6 @@ void SetupWindow(GuiControlHost* host)
 				scroll->SetPageSize(6);
 				scroll->SetBigMove(2);
 				scroll->SetSmallMove(1);
-				scroll->SetEnabled(false);
 				cell->AddChild(scroll->GetBoundsComposition());
 			}
 		}
