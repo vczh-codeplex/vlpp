@@ -476,10 +476,6 @@ GuiWindowComposition
 GuiBoundsComposition
 ***********************************************************************/
 
-			void GuiBoundsComposition::OnBoundsChanged()
-			{
-			}
-
 			Rect GuiBoundsComposition::GetUnalignedBoundsForMinNecessaryBounds()
 			{
 				return GetBoundsInternal(compositionBounds, GetMinSizeLimitation());
@@ -487,6 +483,7 @@ GuiBoundsComposition
 
 			GuiBoundsComposition::GuiBoundsComposition()
 			{
+				BoundsChanged.SetAssociatedComposition(this);
 				ClearAlignmentToParent();
 			}
 
@@ -568,7 +565,7 @@ GuiBoundsComposition
 				if(previousBounds!=result)
 				{
 					previousBounds=result;
-					OnBoundsChanged();
+					BoundsChanged.Execute(GuiEventArgs(this));
 				}
 				return result;
 			}

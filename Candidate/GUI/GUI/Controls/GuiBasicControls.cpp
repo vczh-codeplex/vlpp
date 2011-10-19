@@ -693,7 +693,7 @@ GuiScroll
 			}
 
 /***********************************************************************
-GuiScrollView
+GuiScrollView::StyleController
 ***********************************************************************/
 
 			void GuiScrollView::StyleController::UpdateTable()
@@ -758,9 +758,17 @@ GuiScrollView
 				containerCellComposition=new GuiCellComposition;
 				tableComposition->AddChild(containerCellComposition);
 				containerCellComposition->SetSite(0, 0, 1, 1);
+
+				containerComposition=new GuiBoundsComposition;
+				containerComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+				containerCellComposition->AddChild(containerComposition);
 			}
 
 			GuiScrollView::StyleController::~StyleController()
+			{
+			}
+
+			void GuiScrollView::StyleController::AdjustView(Size fullSize, Size viewSize)
 			{
 			}
 
@@ -774,14 +782,14 @@ GuiScrollView
 				return verticalScroll;
 			}
 
-			elements::GuiTableComposition* GuiScrollView::StyleController::GetTableComposition()
+			elements::GuiTableComposition* GuiScrollView::StyleController::GetInternalTableComposition()
 			{
 				return tableComposition;
 			}
 
-			elements::GuiCellComposition* GuiScrollView::StyleController::GetContaienrCellComposition()
+			elements::GuiBoundsComposition* GuiScrollView::StyleController::GetInternalContaienrComposition()
 			{
-				return containerCellComposition;
+				return containerComposition;
 			}
 
 			bool GuiScrollView::StyleController::GetHorizontalAlwaysVisible()
@@ -819,7 +827,7 @@ GuiScrollView
 
 			elements::GuiGraphicsComposition* GuiScrollView::StyleController::GetContainerComposition()
 			{
-				return containerCellComposition;
+				return containerComposition;
 			}
 
 			void GuiScrollView::StyleController::SetText(const WString& value)
@@ -834,14 +842,48 @@ GuiScrollView
 			{
 			}
 
+/***********************************************************************
+GuiScrollView
+***********************************************************************/
+
+			void GuiScrollView::OnContainerBoundsChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
+			{
+				CalculateView();
+			}
+
+			Size GuiScrollView::QueryFullSize()
+			{
+				return Size(0, 0);
+			}
+
+			void GuiScrollView::UpdateView(Rect viewBounds)
+			{
+			}
+
 			GuiScrollView::GuiScrollView(IStyleProvider* styleProvider)
 				:GuiControl(new StyleController(styleProvider))
 			{
 				styleController=dynamic_cast<StyleController*>(GetStyleController());
+
+				styleController->GetInternalContaienrComposition()->BoundsChanged.AttachMethod(this, &GuiScrollView::OnContainerBoundsChanged);
 			}
 			
 			GuiScrollView::~GuiScrollView()
 			{
+			}
+
+			void GuiScrollView::CalculateView()
+			{
+				Size fullSize=QueryFullSize();
+				Size viewSize=styleController->GetInternalContaienrComposition()->GetBounds().GetSize();
+				styleController->AdjustView(fullSize, viewSize);
+				UpdateView(Rect(
+					Point(
+						styleController->GetHorizontalScroll()->GetPosition(),
+						styleController->GetVerticalScroll()->GetPosition()
+						),
+					viewSize
+					));
 			}
 
 			GuiScroll* GuiScrollView::GetHorizontalScroll()
