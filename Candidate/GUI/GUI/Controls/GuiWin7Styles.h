@@ -9,7 +9,7 @@ Interfaces:
 #ifndef VCZH_PRESENTATION_CONTROLS_GUIWIN7STYLES
 #define VCZH_PRESENTATION_CONTROLS_GUIWIN7STYLES
 
-#include "GuiBasicControls.h"
+#include "GuiCommonStyles.h"
 
 namespace vl
 {
@@ -244,55 +244,22 @@ Buttons
 Scrolls
 ***********************************************************************/
 
-			class Win7ScrollStyle : public Object, public controls::GuiScroll::IStyleController
+			class Win7ScrollStyle : public common_styles::CommonScrollStyle
 			{
 			public:
 				static const int							DefaultSize=18;
 				static const int							ArrowSize=10;
-
-				enum Direction
-				{
-					Horizontal,
-					Vertical,
-				};
 			protected:
-				Direction									direction;
-				controls::GuiScroll::ICommandExecutor*		commandExecutor;
-				controls::GuiButton*						decreaseButton;
-				controls::GuiButton*						increaseButton;
-				controls::GuiButton*						handleButton;
-				elements::GuiPartialViewComposition*		handleComposition;
-				elements::GuiBoundsComposition*				boundsComposition;
-
-				int											totalSize;
-				int											pageSize;
-				int											position;
-				Point										draggingStartLocation;
-				bool										draggingHandle;
-
-				void										UpdateHandle();
-				void										OnDecreaseButtonClicked(elements::GuiGraphicsComposition* sender,elements::GuiEventArgs& arguments);
-				void										OnIncreaseButtonClicked(elements::GuiGraphicsComposition* sender,elements::GuiEventArgs& arguments);
-				void										OnHandleMouseDown(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments);
-				void										OnHandleMouseMove(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments);
-				void										OnHandleMouseUp(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments);;
-				void										OnBigMoveMouseDown(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments);
+				controls::GuiButton::IStyleController*		CreateDecreaseButtonStyle(Direction direction);
+				controls::GuiButton::IStyleController*		CreateIncreaseButtonStyle(Direction direction);
+				controls::GuiButton::IStyleController*		CreateHandleButtonStyle(Direction direction);
+				void										InstallBackground(elements::GuiGraphicsComposition* boundsComposition, Direction direction);
 			public:
 				Win7ScrollStyle(Direction _direction);
 				~Win7ScrollStyle();
-
-				elements::GuiBoundsComposition*				GetBoundsComposition();
-				elements::GuiGraphicsComposition*			GetContainerComposition();
-				void										SetText(const WString& value);
-				void										SetFont(const FontProperties& value);
-				void										SetVisuallyEnabled(bool value);
-				void										SetCommandExecutor(controls::GuiScroll::ICommandExecutor* value);
-				void										SetTotalSize(int value);
-				void										SetPageSize(int value);
-				void										SetPosition(int value);
 			};
 
-			class Win7TrackStyle : public Object, public controls::GuiScroll::IStyleController
+			class Win7TrackStyle : public common_styles::CommonTrackStyle
 			{
 			public:
 				static const int							TrackThickness=4;
@@ -300,41 +267,13 @@ Scrolls
 				static const int							HandleLong=21;
 				static const int							HandleShort=10;
 
-				enum Direction
-				{
-					Horizontal,
-					Vertical,
-				};
 			protected:
-				Direction									direction;
-				controls::GuiScroll::ICommandExecutor*		commandExecutor;
-				elements::GuiBoundsComposition*				boundsComposition;
-				controls::GuiButton*						handleButton;
-				elements::GuiTableComposition*				handleComposition;
-
-				int											totalSize;
-				int											pageSize;
-				int											position;
-				Point										draggingStartLocation;
-				bool										draggingHandle;
-
-				void										UpdateHandle();
-				void										OnHandleMouseDown(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments);
-				void										OnHandleMouseMove(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments);
-				void										OnHandleMouseUp(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments);
+				controls::GuiButton::IStyleController*		CreateHandleButtonStyle(Direction direction);
+				void										InstallBackground(elements::GuiGraphicsComposition* boundsComposition, Direction direction);
+				void										InstallTrack(elements::GuiGraphicsComposition* trackComposition, Direction direction);
 			public:
 				Win7TrackStyle(Direction _direction);
 				~Win7TrackStyle();
-
-				elements::GuiBoundsComposition*				GetBoundsComposition();
-				elements::GuiGraphicsComposition*			GetContainerComposition();
-				void										SetText(const WString& value);
-				void										SetFont(const FontProperties& value);
-				void										SetVisuallyEnabled(bool value);
-				void										SetCommandExecutor(controls::GuiScroll::ICommandExecutor* value);
-				void										SetTotalSize(int value);
-				void										SetPageSize(int value);
-				void										SetPosition(int value);
 			};
 		}
 	}
