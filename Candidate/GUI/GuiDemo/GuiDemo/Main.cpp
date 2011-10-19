@@ -152,6 +152,28 @@ void SetupMainPanel(GuiControlHost* host, GuiCellComposition* cell)
 				}
 			});
 		}
+		{
+			GuiButton* buttonHorizontal=new GuiButton(new win7::Win7ButtonStyle());
+			cell->AddChild(buttonHorizontal->GetBoundsComposition());
+			buttonHorizontal->GetBoundsComposition()->SetBounds(Rect(Point(420, 280), Size(200, 25)));
+			buttonHorizontal->SetText(L"Horizontal Scroll Bar");
+
+			buttonHorizontal->Clicked.AttachLambda([scrollView](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
+			{
+				scrollView->SetHorizontalAlwaysVisible(!scrollView->GetHorizontalAlwaysVisible());
+			});
+		}
+		{
+			GuiButton* buttonVertical=new GuiButton(new win7::Win7ButtonStyle());
+			cell->AddChild(buttonVertical->GetBoundsComposition());
+			buttonVertical->GetBoundsComposition()->SetBounds(Rect(Point(420, 315), Size(200, 25)));
+			buttonVertical->SetText(L"Vertical Scroll Bar");
+
+			buttonVertical->Clicked.AttachLambda([scrollView](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
+			{
+				scrollView->SetVerticalAlwaysVisible(!scrollView->GetVerticalAlwaysVisible());
+			});
+		}
 	}
 }
 

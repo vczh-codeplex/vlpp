@@ -319,12 +319,12 @@ Scrolls
 					~StyleController();
 
 					void								SetScrollView(GuiScrollView* _scrollView);
-					void								AdjustView(Size fullSize, Size viewSize);
+					void								AdjustView(Size fullSize);
 
 					GuiScroll*							GetHorizontalScroll();
 					GuiScroll*							GetVerticalScroll();
 					elements::GuiTableComposition*		GetInternalTableComposition();
-					elements::GuiBoundsComposition*		GetInternalContaienrComposition();
+					elements::GuiBoundsComposition*		GetInternalContainerComposition();
 
 					bool								GetHorizontalAlwaysVisible();
 					void								SetHorizontalAlwaysVisible(bool value);
