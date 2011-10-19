@@ -960,589 +960,133 @@ Win7CheckBoxStyle
 Win7ScrollStyle
 ***********************************************************************/
 
-			void Win7ScrollStyle::UpdateHandle()
+			controls::GuiButton::IStyleController* Win7ScrollStyle::CreateDecreaseButtonStyle(Direction direction)
 			{
-				double handleRatio=(double)position/totalSize;
-				double handlePageSize=(double)pageSize/totalSize;
-				switch(direction)
-				{
-				case Horizontal:
-					handleComposition->SetWidthRatio(handleRatio);
-					handleComposition->SetWidthPageSize(handlePageSize);
-					break;
-				case Vertical:
-					handleComposition->SetHeightRatio(handleRatio);
-					handleComposition->SetHeightPageSize(handlePageSize);
-					break;
-				}
+				Win7ButtonStyle* decreaseButtonStyle=new Win7ButtonStyle(direction==Horizontal);
+				decreaseButtonStyle->SetTransparentWhenInactive(true);
+				decreaseButtonStyle->SetTransparentWhenDisabled(true);
+				return decreaseButtonStyle;
 			}
 
-			void Win7ScrollStyle::OnDecreaseButtonClicked(elements::GuiGraphicsComposition* sender,elements::GuiEventArgs& arguments)
+			controls::GuiButton::IStyleController* Win7ScrollStyle::CreateIncreaseButtonStyle(Direction direction)
 			{
-				if(commandExecutor)
-				{
-					commandExecutor->SmallDecrease();
-				}
+				Win7ButtonStyle* increaseButtonStyle=new Win7ButtonStyle(direction==Horizontal);
+				increaseButtonStyle->SetTransparentWhenInactive(true);
+				increaseButtonStyle->SetTransparentWhenDisabled(true);
+				return increaseButtonStyle;
 			}
 
-			void Win7ScrollStyle::OnIncreaseButtonClicked(elements::GuiGraphicsComposition* sender,elements::GuiEventArgs& arguments)
+			controls::GuiButton::IStyleController* Win7ScrollStyle::CreateHandleButtonStyle(Direction direction)
 			{
-				if(commandExecutor)
-				{
-					commandExecutor->SmallIncrease();
-				}
+				Win7ButtonStyle* handleButtonStyle=new Win7ButtonStyle(direction==Horizontal);
+				handleButtonStyle->SetTransparentWhenDisabled(true);
+				return handleButtonStyle;
 			}
 
-			void Win7ScrollStyle::OnHandleMouseDown(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments)
+			void Win7ScrollStyle::InstallBackground(elements::GuiGraphicsComposition* boundsComposition, Direction direction)
 			{
-				if(commandExecutor && handleButton->GetVisuallyEnabled())
-				{
-					draggingHandle=true;
-					draggingStartLocation=Point(arguments.x, arguments.y);
-				}
-			}
+				Color sinkColor(227, 227, 227);
+				GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
+				element->SetColor(Win7GetSystemWindowColor());
+				boundsComposition->SetOwnedElement(element);
 
-			void Win7ScrollStyle::OnHandleMouseMove(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments)
-			{
-				if(draggingHandle)
 				{
-					int totalPixels=0;
-					int currentOffset=0;
-					int newOffset=0;
+					GuiSideAlignedComposition* composition=new GuiSideAlignedComposition;
+					composition->SetMaxLength(DefaultSize);
+					composition->SetMaxRatio(0.2);
+					boundsComposition->AddChild(composition);
+
+					GuiGradientBackgroundElement* gradient=GuiGradientBackgroundElement::Create();
+					gradient->SetColors(sinkColor, Win7GetSystemWindowColor());
+					composition->SetOwnedElement(gradient);
+
 					switch(direction)
 					{
 					case Horizontal:
-						totalPixels=handleComposition->GetParent()->GetBounds().Width();
-						currentOffset=handleComposition->GetBounds().Left();
-						newOffset=currentOffset+(arguments.x-draggingStartLocation.x);
+						composition->SetDirection(GuiSideAlignedComposition::Top);
+						gradient->SetDirection(GuiGradientBackgroundElement::Vertical);
 						break;
 					case Vertical:
-						totalPixels=handleComposition->GetParent()->GetBounds().Height();
-						currentOffset=handleComposition->GetBounds().Top();
-						newOffset=currentOffset+(arguments.y-draggingStartLocation.y);
+						composition->SetDirection(GuiSideAlignedComposition::Left);
+						gradient->SetDirection(GuiGradientBackgroundElement::Horizontal);
 						break;
 					}
+				}
+				{
+					GuiSideAlignedComposition* composition=new GuiSideAlignedComposition;
+					composition->SetMaxLength(DefaultSize);
+					composition->SetMaxRatio(0.2);
+					boundsComposition->AddChild(composition);
 
-					double ratio=(double)newOffset/totalPixels;
-					int newPosition=(int)(ratio*totalSize);
+					GuiGradientBackgroundElement* gradient=GuiGradientBackgroundElement::Create();
+					gradient->SetColors(Win7GetSystemWindowColor(), sinkColor);
+					composition->SetOwnedElement(gradient);
 
-					int offset1=(int)(((double)newPosition/totalSize)*totalPixels);
-					int offset2=int(((double)(newPosition+1)/totalSize)*totalPixels);
-					int delta1=abs(offset1-newOffset);
-					int delta2=abs(offset2-newOffset);
-					if(delta1<delta2)
+					switch(direction)
 					{
-						commandExecutor->SetPosition(newPosition);
-					}
-					else
-					{
-						commandExecutor->SetPosition(newPosition+1);
+					case Horizontal:
+						composition->SetDirection(GuiSideAlignedComposition::Bottom);
+						gradient->SetDirection(GuiGradientBackgroundElement::Vertical);
+						break;
+					case Vertical:
+						composition->SetDirection(GuiSideAlignedComposition::Right);
+						gradient->SetDirection(GuiGradientBackgroundElement::Horizontal);
+						break;
 					}
 				}
-			}
-
-			void Win7ScrollStyle::OnHandleMouseUp(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments)
-			{
-				draggingHandle=false;
-			}
-
-			void Win7ScrollStyle::OnBigMoveMouseDown(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments)
-			{
-				if(commandExecutor && handleButton->GetVisuallyEnabled())
 				{
-					if(arguments.eventSource==arguments.compositionSource)
-					{
-						Rect handleBounds=handleComposition->GetBounds();
-						switch(direction)
-						{
-						case Horizontal:
-							if(arguments.x<handleBounds.x1)
-							{
-								commandExecutor->BigDecrease();
-							}
-							else if(arguments.x>=handleBounds.x2)
-							{
-								commandExecutor->BigIncrease();
-							}
-							break;
-						case Vertical:
-							if(arguments.y<handleBounds.y1)
-							{
-								commandExecutor->BigDecrease();
-							}
-							else if(arguments.y>=handleBounds.y2)
-							{
-								commandExecutor->BigIncrease();
-							}
-							break;
-						}
-					}
+					GuiSolidBorderElement* element=GuiSolidBorderElement::Create();
+					element->SetColor(sinkColor);
+
+					GuiBoundsComposition* composition=new GuiBoundsComposition;
+					composition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+					composition->SetOwnedElement(element);
+					boundsComposition->AddChild(composition);
 				}
 			}
 
 			Win7ScrollStyle::Win7ScrollStyle(Direction _direction)
-				:direction(_direction)
-				,commandExecutor(0)
-				,decreaseButton(0)
-				,increaseButton(0)
-				,boundsComposition(0)
-				,totalSize(1)
-				,pageSize(1)
-				,position(0)
-				,draggingHandle(false)
+				:CommonScrollStyle(_direction)
 			{
-				Color sinkColor(227, 227, 227);
-				boundsComposition=new GuiBoundsComposition;
-				{
-					GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
-					element->SetColor(Win7GetSystemWindowColor());
-					boundsComposition->SetOwnedElement(element);
-
-					{
-						GuiSideAlignedComposition* composition=new GuiSideAlignedComposition;
-						composition->SetMaxLength(DefaultSize);
-						composition->SetMaxRatio(0.2);
-						boundsComposition->AddChild(composition);
-
-						GuiGradientBackgroundElement* gradient=GuiGradientBackgroundElement::Create();
-						gradient->SetColors(sinkColor, Win7GetSystemWindowColor());
-						composition->SetOwnedElement(gradient);
-
-						switch(direction)
-						{
-						case Horizontal:
-							composition->SetDirection(GuiSideAlignedComposition::Top);
-							gradient->SetDirection(GuiGradientBackgroundElement::Vertical);
-							break;
-						case Vertical:
-							composition->SetDirection(GuiSideAlignedComposition::Left);
-							gradient->SetDirection(GuiGradientBackgroundElement::Horizontal);
-							break;
-						}
-					}
-					{
-						GuiSideAlignedComposition* composition=new GuiSideAlignedComposition;
-						composition->SetMaxLength(DefaultSize);
-						composition->SetMaxRatio(0.2);
-						boundsComposition->AddChild(composition);
-
-						GuiGradientBackgroundElement* gradient=GuiGradientBackgroundElement::Create();
-						gradient->SetColors(Win7GetSystemWindowColor(), sinkColor);
-						composition->SetOwnedElement(gradient);
-
-						switch(direction)
-						{
-						case Horizontal:
-							composition->SetDirection(GuiSideAlignedComposition::Bottom);
-							gradient->SetDirection(GuiGradientBackgroundElement::Vertical);
-							break;
-						case Vertical:
-							composition->SetDirection(GuiSideAlignedComposition::Right);
-							gradient->SetDirection(GuiGradientBackgroundElement::Horizontal);
-							break;
-						}
-					}
-					{
-						GuiSolidBorderElement* element=GuiSolidBorderElement::Create();
-						element->SetColor(sinkColor);
-
-						GuiBoundsComposition* composition=new GuiBoundsComposition;
-						composition->SetAlignmentToParent(Margin(0, 0, 0, 0));
-						composition->SetOwnedElement(element);
-						boundsComposition->AddChild(composition);
-					}
-				}
-				{
-					GuiBoundsComposition* handleBoundsComposition=new GuiBoundsComposition;
-					boundsComposition->AddChild(handleBoundsComposition);
-					switch(direction)
-					{
-					case Horizontal:
-						handleBoundsComposition->SetAlignmentToParent(Margin(DefaultSize, 0, DefaultSize, 0));
-						break;
-					case Vertical:
-						handleBoundsComposition->SetAlignmentToParent(Margin(0, DefaultSize, 0, DefaultSize));
-						break;
-					}
-					handleBoundsComposition->GetEventReceiver()->leftButtonDown.AttachMethod(this, &Win7ScrollStyle::OnBigMoveMouseDown);
-
-					handleComposition=new GuiPartialViewComposition;
-					handleBoundsComposition->AddChild(handleComposition);
-					
-					Win7ButtonStyle* handleButtonStyle=new Win7ButtonStyle(direction==Horizontal);
-					handleButtonStyle->SetTransparentWhenDisabled(true);
-					handleButton=new GuiButton(handleButtonStyle);
-					handleButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
-					handleComposition->AddChild(handleButton->GetBoundsComposition());
-
-					handleButton->GetBoundsComposition()->GetEventReceiver()->leftButtonDown.AttachMethod(this, &Win7ScrollStyle::OnHandleMouseDown);
-					handleButton->GetBoundsComposition()->GetEventReceiver()->mouseMove.AttachMethod(this, &Win7ScrollStyle::OnHandleMouseMove);
-					handleButton->GetBoundsComposition()->GetEventReceiver()->leftButtonUp.AttachMethod(this, &Win7ScrollStyle::OnHandleMouseUp);
-				}
-				{
-					FontProperties font;
-					font.fontFamily=L"Wingdings 3";
-					font.size=ArrowSize;
-
-					Win7ButtonStyle* decreaseButtonStyle=new Win7ButtonStyle(direction==Horizontal);
-					decreaseButtonStyle->SetTransparentWhenInactive(true);
-					decreaseButtonStyle->SetTransparentWhenDisabled(true);
-					decreaseButton=new GuiButton(decreaseButtonStyle);
-					decreaseButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
-					decreaseButton->Clicked.AttachMethod(this, &Win7ScrollStyle::OnDecreaseButtonClicked);
-					decreaseButton->SetFont(font);
-					
-					Win7ButtonStyle* increaseButtonStyle=new Win7ButtonStyle(direction==Horizontal);
-					increaseButtonStyle->SetTransparentWhenInactive(true);
-					increaseButtonStyle->SetTransparentWhenDisabled(true);
-					increaseButton=new GuiButton(increaseButtonStyle);
-					increaseButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
-					increaseButton->Clicked.AttachMethod(this, &Win7ScrollStyle::OnIncreaseButtonClicked);
-					increaseButton->SetFont(font);
-				}
-				{
-					GuiSideAlignedComposition* decreaseComposition=new GuiSideAlignedComposition;
-					decreaseComposition->SetMaxLength(DefaultSize);
-					decreaseComposition->SetMaxRatio(0.5);
-					decreaseComposition->AddChild(decreaseButton->GetBoundsComposition());
-					boundsComposition->AddChild(decreaseComposition);
-
-					GuiSideAlignedComposition* increaseComposition=new GuiSideAlignedComposition;
-					increaseComposition->SetMaxLength(DefaultSize);
-					increaseComposition->SetMaxRatio(0.5);
-					increaseComposition->AddChild(increaseButton->GetBoundsComposition());
-					boundsComposition->AddChild(increaseComposition);
-
-					switch(direction)
-					{
-					case Horizontal:
-						{
-							decreaseComposition->SetDirection(GuiSideAlignedComposition::Left);
-							decreaseButton->SetText((wchar_t)0x7C);
-							increaseComposition->SetDirection(GuiSideAlignedComposition::Right);
-							increaseButton->SetText((wchar_t)0x7D);
-						}
-						break;
-					case Vertical:
-						{
-							decreaseComposition->SetDirection(GuiSideAlignedComposition::Top);
-							decreaseButton->SetText((wchar_t)0x7E);
-							increaseComposition->SetDirection(GuiSideAlignedComposition::Bottom);
-							increaseButton->SetText((wchar_t)0xF080);
-						}
-						break;
-					}
-				}
+				BuildStyle(DefaultSize, ArrowSize);
 			}
 
 			Win7ScrollStyle::~Win7ScrollStyle()
 			{
 			}
 
-			elements::GuiBoundsComposition* Win7ScrollStyle::GetBoundsComposition()
-			{
-				return boundsComposition;
-			}
-
-			elements::GuiGraphicsComposition* Win7ScrollStyle::GetContainerComposition()
-			{
-				return boundsComposition;
-			}
-
-			void Win7ScrollStyle::SetText(const WString& value)
-			{
-			}
-
-			void Win7ScrollStyle::SetFont(const FontProperties& value)
-			{
-			}
-
-			void Win7ScrollStyle::SetVisuallyEnabled(bool value)
-			{
-			}
-
-			void Win7ScrollStyle::SetCommandExecutor(controls::GuiScroll::ICommandExecutor* value)
-			{
-				commandExecutor=value;
-			}
-
-			void Win7ScrollStyle::SetTotalSize(int value)
-			{
-				if(totalSize!=value)
-				{
-					totalSize=value;
-					UpdateHandle();
-				}
-			}
-
-			void Win7ScrollStyle::SetPageSize(int value)
-			{
-				if(pageSize!=value)
-				{
-					pageSize=value;
-					UpdateHandle();
-				}
-			}
-
-			void Win7ScrollStyle::SetPosition(int value)
-			{
-				if(position!=value)
-				{
-					position=value;
-					UpdateHandle();
-				}
-			}
-
 /***********************************************************************
 Win7TrackStyle
 ***********************************************************************/
 
-			void Win7TrackStyle::UpdateHandle()
+			controls::GuiButton::IStyleController* Win7TrackStyle::CreateHandleButtonStyle(Direction direction)
 			{
-				int maxSize=totalSize-pageSize;
-				if(maxSize<1) maxSize=1;
-				double ratio=(double)position/maxSize;
-				switch(direction)
-				{
-				case Horizontal:
-					handleComposition->SetColumnOption(0, GuiCellOption::PercentageOption(ratio));
-					handleComposition->SetColumnOption(2, GuiCellOption::PercentageOption(1-ratio));
-					break;
-				case Vertical:
-					handleComposition->SetRowOption(0, GuiCellOption::PercentageOption(1-ratio));
-					handleComposition->SetRowOption(2, GuiCellOption::PercentageOption(ratio));
-					break;
-				}
-				handleComposition->UpdateCellBounds();
+				Win7ButtonStyle* handleButtonStyle=new Win7ButtonStyle(direction==Horizontal);
+				return handleButtonStyle;
 			}
 
-			void Win7TrackStyle::OnHandleMouseDown(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments)
+			void Win7TrackStyle::InstallBackground(elements::GuiGraphicsComposition* boundsComposition, Direction direction)
 			{
-				if(commandExecutor && handleButton->GetVisuallyEnabled())
-				{
-					draggingHandle=true;
-					draggingStartLocation=Point(arguments.x, arguments.y);
-				}
+				GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
+				element->SetColor(Win7GetSystemWindowColor());
+				boundsComposition->SetOwnedElement(element);
 			}
 
-			void Win7TrackStyle::OnHandleMouseMove(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments)
+			void Win7TrackStyle::InstallTrack(elements::GuiGraphicsComposition* trackComposition, Direction direction)
 			{
-				if(draggingHandle)
-				{
-					int totalPixels=0;
-					int currentOffset=0;
-					int newOffset=0;
-
-					Rect handleArea=handleComposition->GetBounds();
-					Rect handleBounds=handleButton->GetBoundsComposition()->GetParent()->GetBounds();
-					switch(direction)
-					{
-					case Horizontal:
-						totalPixels=handleArea.Width()-HandleShort;
-						currentOffset=handleBounds.Left();
-						newOffset=currentOffset+(arguments.x-draggingStartLocation.x);
-						break;
-					case Vertical:
-						totalPixels=handleArea.Height()-HandleShort;
-						currentOffset=handleArea.Height()-handleBounds.Bottom();
-						newOffset=currentOffset-(arguments.y-draggingStartLocation.y);
-						break;
-					}
-
-					double ratio=(double)newOffset/totalPixels;
-					int maxSize=totalSize-pageSize;
-					if(maxSize<1) maxSize=1;
-					int newPosition=(int)(ratio*maxSize);
-
-					int offset1=(int)(((double)newPosition/maxSize)*totalPixels);
-					int offset2=int(((double)(newPosition+1)/maxSize)*totalPixels);
-					int delta1=abs(offset1-newOffset);
-					int delta2=abs(offset2-newOffset);
-					if(delta1<delta2)
-					{
-						commandExecutor->SetPosition(newPosition);
-					}
-					else
-					{
-						commandExecutor->SetPosition(newPosition+1);
-					}
-				}
-			}
-
-			void Win7TrackStyle::OnHandleMouseUp(elements::GuiGraphicsComposition* sender,elements::GuiMouseEventArgs& arguments)
-			{
-				draggingHandle=false;
+				Gui3DBorderElement* element=Gui3DBorderElement::Create();
+				element->SetColors(Color(176, 176, 176), Color(252, 252, 252));
+				trackComposition->SetOwnedElement(element);
 			}
 
 			Win7TrackStyle::Win7TrackStyle(Direction _direction)
-				:direction(_direction)
-				,commandExecutor(0)
-				,totalSize(1)
-				,pageSize(1)
-				,position(0)
-				,draggingHandle(false)
+				:CommonTrackStyle(_direction)
 			{
-				boundsComposition=new GuiBoundsComposition;
-				{
-					GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
-					element->SetColor(Win7GetSystemWindowColor());
-					boundsComposition->SetOwnedElement(element);
-				}
-				{
-					GuiTableComposition* table=new GuiTableComposition;
-					boundsComposition->AddChild(table);
-					table->SetAlignmentToParent(Margin(0, 0, 0, 0));
-					table->SetRowsAndColumns(3, 3);
-					table->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
-					switch(direction)
-					{
-					case Horizontal:
-						table->SetRowOption(0, GuiCellOption::PercentageOption(0.5));
-						table->SetRowOption(1, GuiCellOption::AbsoluteOption(HandleLong));
-						table->SetRowOption(2, GuiCellOption::PercentageOption(0.5));
-						table->SetColumnOption(0, GuiCellOption::AbsoluteOption(TrackPadding));
-						table->SetColumnOption(1, GuiCellOption::PercentageOption(1.0));
-						table->SetColumnOption(2, GuiCellOption::AbsoluteOption(TrackPadding));
-						break;
-					case Vertical:
-						table->SetRowOption(0, GuiCellOption::AbsoluteOption(TrackPadding));
-						table->SetRowOption(1, GuiCellOption::PercentageOption(1.0));
-						table->SetRowOption(2, GuiCellOption::AbsoluteOption(TrackPadding));
-						table->SetColumnOption(0, GuiCellOption::PercentageOption(0.5));
-						table->SetColumnOption(1, GuiCellOption::AbsoluteOption(HandleLong));
-						table->SetColumnOption(2, GuiCellOption::PercentageOption(0.5));
-						break;
-					}
-					{
-						GuiCellComposition* contentCell=new GuiCellComposition;
-						table->AddChild(contentCell);
-						contentCell->SetSite(1, 1, 1, 1);
-						{
-							GuiTableComposition* trackTable=new GuiTableComposition;
-							trackTable->SetAlignmentToParent(Margin(0, 0, 0, 0));
-							contentCell->AddChild(trackTable);
-							GuiCellComposition* trackCell=new GuiCellComposition;
-							trackTable->AddChild(trackCell);
-
-							switch(direction)
-							{
-							case Horizontal:
-								trackTable->SetRowsAndColumns(3, 1);
-								trackTable->SetRowOption(0, GuiCellOption::PercentageOption(0.5));
-								trackTable->SetRowOption(1, GuiCellOption::AbsoluteOption(TrackThickness));
-								trackTable->SetRowOption(2, GuiCellOption::PercentageOption(0.5));
-								trackCell->SetSite(1, 0, 1, 1);
-								break;
-							case Vertical:
-								trackTable->SetRowsAndColumns(1, 3);
-								trackTable->SetColumnOption(0, GuiCellOption::PercentageOption(0.5));
-								trackTable->SetColumnOption(1, GuiCellOption::AbsoluteOption(TrackThickness));
-								trackTable->SetColumnOption(2, GuiCellOption::PercentageOption(0.5));
-								trackCell->SetSite(0, 1, 1, 1);
-								break;
-							}
-
-							Gui3DBorderElement* element=Gui3DBorderElement::Create();
-							element->SetColors(Color(176, 176, 176), Color(252, 252, 252));
-							trackCell->SetOwnedElement(element);
-						}
-						{
-							handleComposition=new GuiTableComposition;
-							handleComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
-							contentCell->AddChild(handleComposition);
-							GuiCellComposition* handleCell=new GuiCellComposition;
-							handleComposition->AddChild(handleCell);
-
-							switch(direction)
-							{
-							case Horizontal:
-								handleComposition->SetRowsAndColumns(1, 3);
-								handleComposition->SetColumnOption(0, GuiCellOption::PercentageOption(0.0));
-								handleComposition->SetColumnOption(1, GuiCellOption::AbsoluteOption(HandleShort));
-								handleComposition->SetColumnOption(2, GuiCellOption::PercentageOption(1.0));
-								handleCell->SetSite(0, 1, 1, 1);
-								break;
-							case Vertical:
-								handleComposition->SetRowsAndColumns(3, 1);
-								handleComposition->SetRowOption(0, GuiCellOption::PercentageOption(1.0));
-								handleComposition->SetRowOption(1, GuiCellOption::AbsoluteOption(HandleShort));
-								handleComposition->SetRowOption(2, GuiCellOption::PercentageOption(0.0));
-								handleCell->SetSite(1, 0, 1, 1);
-								break;
-							}
-
-							handleButton=new GuiButton(new Win7ButtonStyle(direction==Horizontal));
-							handleButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
-							handleCell->AddChild(handleButton->GetBoundsComposition());
-
-							handleButton->GetBoundsComposition()->GetEventReceiver()->leftButtonDown.AttachMethod(this, &Win7TrackStyle::OnHandleMouseDown);
-							handleButton->GetBoundsComposition()->GetEventReceiver()->mouseMove.AttachMethod(this, &Win7TrackStyle::OnHandleMouseMove);
-							handleButton->GetBoundsComposition()->GetEventReceiver()->leftButtonUp.AttachMethod(this, &Win7TrackStyle::OnHandleMouseUp);
-						}
-					}
-				}
+				BuildStyle(TrackThickness, TrackPadding, HandleLong, HandleShort);
 			}
 
 			Win7TrackStyle::~Win7TrackStyle()
 			{
-			}
-
-			elements::GuiBoundsComposition* Win7TrackStyle::GetBoundsComposition()
-			{
-				return boundsComposition;
-			}
-
-			elements::GuiGraphicsComposition* Win7TrackStyle::GetContainerComposition()
-			{
-				return boundsComposition;
-			}
-
-			void Win7TrackStyle::SetText(const WString& value)
-			{
-			}
-
-			void Win7TrackStyle::SetFont(const FontProperties& value)
-			{
-			}
-
-			void Win7TrackStyle::SetVisuallyEnabled(bool value)
-			{
-			}
-
-			void Win7TrackStyle::SetCommandExecutor(controls::GuiScroll::ICommandExecutor* value)
-			{
-				commandExecutor=value;
-				if(value)
-				{
-					value->SetPageSize(0);
-				}
-			}
-
-			void Win7TrackStyle::SetTotalSize(int value)
-			{
-				if(totalSize!=value)
-				{
-					totalSize=value;
-					UpdateHandle();
-				}
-			}
-
-			void Win7TrackStyle::SetPageSize(int value)
-			{
-				if(pageSize!=value)
-				{
-					pageSize=value;
-					UpdateHandle();
-				}
-			}
-
-			void Win7TrackStyle::SetPosition(int value)
-			{
-				if(position!=value)
-				{
-					position=value;
-					UpdateHandle();
-				}
 			}
 		}
 	}

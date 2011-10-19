@@ -153,6 +153,9 @@
     <ClCompile Include="..\..\GUI\GraphicsElement\WindowsDirect2D\GuiGraphicsRenderersWindowsDirect2D.cpp">
       <Filter>GUI\GraphicsElement\WindowsDirect2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\GUI\Controls\GuiCommonStyles.cpp">
+      <Filter>GUI\Controls</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Library\Basic.h">
@@ -295,6 +298,9 @@
     </ClInclude>
     <ClInclude Include="..\..\GUI\GraphicsElement\WindowsDirect2D\GuiGraphicsRenderersWindowsDirect2D.h">
       <Filter>GUI\GraphicsElement\WindowsDirect2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\Controls\GuiCommonStyles.h">
+      <Filter>GUI\Controls</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
