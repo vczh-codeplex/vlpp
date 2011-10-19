@@ -716,12 +716,9 @@ GuiScrollView::StyleController
 				}
 			}
 
-			void GuiScrollView::StyleController::UpdateScrolls()
-			{
-			}
-
 			GuiScrollView::StyleController::StyleController(IStyleProvider* _styleProvider)
 				:styleProvider(_styleProvider)
+				,scrollView(0)
 				,horizontalAlwaysVisible(true)
 				,verticalAlwaysVisible(true)
 			{
@@ -768,8 +765,34 @@ GuiScrollView::StyleController
 			{
 			}
 
+			void GuiScrollView::StyleController::SetScrollView(GuiScrollView* _scrollView)
+			{
+				scrollView=_scrollView;
+			}
+
 			void GuiScrollView::StyleController::AdjustView(Size fullSize, Size viewSize)
 			{
+				if(fullSize.x<viewSize.x)
+				{
+					horizontalScroll->SetEnabled(false);
+				}
+				else
+				{
+					horizontalScroll->SetEnabled(true);
+					horizontalScroll->SetTotalSize(fullSize.x);
+					horizontalScroll->SetPageSize(viewSize.x);
+				}
+				if(fullSize.y<viewSize.y)
+				{
+					verticalScroll->SetEnabled(false);
+				}
+				else
+				{
+					verticalScroll->SetEnabled(true);
+					horizontalScroll->SetTotalSize(fullSize.y);
+					horizontalScroll->SetPageSize(viewSize.y);
+				}
+				UpdateTable();
 			}
 
 			GuiScroll* GuiScrollView::StyleController::GetHorizontalScroll()
@@ -802,7 +825,7 @@ GuiScrollView::StyleController
 				if(horizontalAlwaysVisible!=value)
 				{
 					horizontalAlwaysVisible=value;
-					UpdateScrolls();
+					scrollView->CalculateView();
 				}
 			}
 
@@ -816,7 +839,7 @@ GuiScrollView::StyleController
 				if(verticalAlwaysVisible!=value)
 				{
 					verticalAlwaysVisible=value;
-					UpdateScrolls();
+					scrollView->CalculateView();
 				}
 			}
 
@@ -851,6 +874,34 @@ GuiScrollView
 				CalculateView();
 			}
 
+			void GuiScrollView::OnHorizontalScroll(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
+			{
+				if(!supressScrolling)
+				{
+					CallUpdateView();
+				}
+			}
+
+			void GuiScrollView::OnVerticalScroll(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
+			{
+				if(!supressScrolling)
+				{
+					CallUpdateView();
+				}
+			}
+
+			void GuiScrollView::CallUpdateView()
+			{
+				Size viewSize=styleController->GetInternalContaienrComposition()->GetBounds().GetSize();
+				UpdateView(Rect(
+					Point(
+						styleController->GetHorizontalScroll()->GetPosition(),
+						styleController->GetVerticalScroll()->GetPosition()
+						),
+					viewSize
+					));
+			}
+
 			Size GuiScrollView::QueryFullSize()
 			{
 				return Size(0, 0);
@@ -862,10 +913,14 @@ GuiScrollView
 
 			GuiScrollView::GuiScrollView(IStyleProvider* styleProvider)
 				:GuiControl(new StyleController(styleProvider))
+				,supressScrolling(false)
 			{
 				styleController=dynamic_cast<StyleController*>(GetStyleController());
+				styleController->SetScrollView(this);
 
 				styleController->GetInternalContaienrComposition()->BoundsChanged.AttachMethod(this, &GuiScrollView::OnContainerBoundsChanged);
+				styleController->GetHorizontalScroll()->PositionChanged.AttachMethod(this, &GuiScrollView::OnHorizontalScroll);
+				styleController->GetVerticalScroll()->PositionChanged.AttachMethod(this, &GuiScrollView::OnVerticalScroll);
 			}
 			
 			GuiScrollView::~GuiScrollView()
@@ -874,16 +929,15 @@ GuiScrollView
 
 			void GuiScrollView::CalculateView()
 			{
-				Size fullSize=QueryFullSize();
-				Size viewSize=styleController->GetInternalContaienrComposition()->GetBounds().GetSize();
-				styleController->AdjustView(fullSize, viewSize);
-				UpdateView(Rect(
-					Point(
-						styleController->GetHorizontalScroll()->GetPosition(),
-						styleController->GetVerticalScroll()->GetPosition()
-						),
-					viewSize
-					));
+				if(!supressScrolling)
+				{
+					Size fullSize=QueryFullSize();
+					Size viewSize=styleController->GetInternalContaienrComposition()->GetBounds().GetSize();
+					styleController->AdjustView(fullSize, viewSize);
+					supressScrolling=true;
+					CallUpdateView();
+					supressScrolling=false;
+				}
 			}
 
 			GuiScroll* GuiScrollView::GetHorizontalScroll()
