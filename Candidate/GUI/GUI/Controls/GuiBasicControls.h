@@ -43,7 +43,6 @@ Basic Construction
 			protected:
 				Ptr<IStyleController>					styleController;
 				elements::GuiBoundsComposition*			boundsComposition;
-				elements::GuiGraphicsComposition*		containerComposition;
 				elements::GuiGraphicsEventReceiver*		eventReceiver;
 
 				bool									isEnabled;
@@ -74,6 +73,8 @@ Basic Construction
 				elements::GuiGraphicsComposition*		GetContainerComposition();
 				elements::GuiGraphicsEventReceiver*		GetEventReceiver();
 				GuiControl*								GetParent();
+				int										GetChildrenCount();
+				GuiControl*								GetChild(int index);
 
 				virtual bool							GetVisuallyEnabled();
 				virtual bool							GetEnabled();
@@ -344,9 +345,12 @@ Scrolls
 				void									OnHorizontalScroll(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 				void									OnVerticalScroll(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 				void									CallUpdateView();
+				void									Initialize();
 
-				virtual Size							QueryFullSize();
-				virtual void							UpdateView(Rect viewBounds);
+				virtual Size							QueryFullSize()=0;
+				virtual void							UpdateView(Rect viewBounds)=0;
+
+				GuiScrollView(StyleController* _styleController);
 			public:
 				GuiScrollView(IStyleProvider* styleProvider);
 				~GuiScrollView();
@@ -363,6 +367,25 @@ Scrolls
 
 			class GuiScrollContainer : public GuiScrollView
 			{
+			protected:
+				class StyleController : public GuiScrollView::StyleController
+				{
+				protected:
+					elements::GuiBoundsComposition*		controlContainerComposition;
+				public:
+					StyleController(GuiScrollView::IStyleProvider* styleProvider);
+					~StyleController();
+
+					elements::GuiGraphicsComposition*	GetContainerComposition();
+				};
+
+				void									OnControlContainerBoundsChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+
+				Size									QueryFullSize();
+				void									UpdateView(Rect viewBounds);
+			public:
+				GuiScrollContainer(GuiScrollView::IStyleProvider* styleProvider);
+				~GuiScrollContainer();
 			};
 		}
 	}

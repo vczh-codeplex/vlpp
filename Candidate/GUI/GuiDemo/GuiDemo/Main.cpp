@@ -108,18 +108,50 @@ void SetupMainPanel(GuiControlHost* host, GuiCellComposition* cell)
 		}
 	}
 	{
-		GuiScrollView* scrollView=new GuiScrollView(new win7::Win7ScrollViewProvider);
+		GuiScrollContainer* scrollView=new GuiScrollContainer(new win7::Win7ScrollViewProvider);
 		cell->AddChild(scrollView->GetBoundsComposition());
 		scrollView->GetBoundsComposition()->SetBounds(Rect(Point(420, 0), Size(200, 200)));
-
-		GuiButton* buttonAdd=new GuiButton(new win7::Win7ButtonStyle());
-		cell->AddChild(buttonAdd->GetBoundsComposition());
-		buttonAdd->GetBoundsComposition()->SetBounds(Rect(Point(420, 210), Size(200, 25)));
-		buttonAdd->SetText(L"Add Control");
-
-		buttonAdd->Clicked.AttachLambda([scrollView](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
 		{
-		});
+			GuiButton* buttonAdd=new GuiButton(new win7::Win7ButtonStyle());
+			cell->AddChild(buttonAdd->GetBoundsComposition());
+			buttonAdd->GetBoundsComposition()->SetBounds(Rect(Point(420, 210), Size(200, 25)));
+			buttonAdd->SetText(L"Add Button");
+
+			buttonAdd->Clicked.AttachLambda([scrollView](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
+			{
+				int count=0;
+				for(int i=0;i<scrollView->GetChildrenCount();i++)
+				{
+					if(dynamic_cast<GuiButton*>(scrollView->GetChild(i)))
+					{
+						count++;
+					}
+				}
+				GuiButton* child=new GuiButton(new win7::Win7ButtonStyle);
+				child->GetBoundsComposition()->SetBounds(Rect(Point(0, count*40), Size(200, 30)));
+				child->SetText(L"Button "+itow(count+1));
+				scrollView->GetContainerComposition()->AddChild(child->GetBoundsComposition());
+			});
+		}
+		{
+			GuiButton* buttonClear=new GuiButton(new win7::Win7ButtonStyle());
+			cell->AddChild(buttonClear->GetBoundsComposition());
+			buttonClear->GetBoundsComposition()->SetBounds(Rect(Point(420, 245), Size(200, 25)));
+			buttonClear->SetText(L"Clear Buttons");
+
+			buttonClear->Clicked.AttachLambda([scrollView](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
+			{
+				for(int i=scrollView->GetChildrenCount()-1;i>=0;i--)
+				{
+					GuiControl* child=scrollView->GetChild(i);
+					if(dynamic_cast<GuiButton*>(child))
+					{
+						scrollView->GetContainerComposition()->RemoveChild(child->GetBoundsComposition());
+						delete child;
+					}
+				}
+			});
+		}
 	}
 }
 
