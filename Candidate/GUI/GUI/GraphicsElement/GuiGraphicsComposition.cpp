@@ -567,6 +567,7 @@ GuiBoundsComposition
 				}
 				if(previousBounds!=result)
 				{
+					previousBounds=result;
 					OnBoundsChanged();
 				}
 				return result;

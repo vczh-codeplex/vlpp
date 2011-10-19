@@ -106,6 +106,7 @@ Helpers
 			
 			extern int										Win7GetColorAnimationLength();
 			extern Color									Win7GetSystemWindowColor();
+			extern Color									Win7GetSystemBorderColor();
 			extern Color									Win7GetSystemTextColor(bool enabled);
 			extern void										Win7SetFont(elements::GuiSolidLabelElement* element, elements::GuiBoundsComposition* composition, const FontProperties& fontProperties);
 			extern void										Win7CreateSolidLabelElement(elements::GuiSolidLabelElement*& element, elements::GuiBoundsComposition*& composition);
@@ -274,6 +275,15 @@ Scrolls
 			public:
 				Win7TrackStyle(Direction _direction);
 				~Win7TrackStyle();
+			};
+
+			class Win7ScrollViewProvider : public Object, public controls::GuiScrollView::IStyleProvider
+			{
+			public:
+				controls::GuiScroll::IStyleController*		CreateHorizontalScrollStyle();
+				controls::GuiScroll::IStyleController*		CreateVerticalScrollStyle();
+				int											GetDefaultScrollSize();
+				void										InstallBackground(elements::GuiBoundsComposition* boundsComposition);
 			};
 		}
 	}

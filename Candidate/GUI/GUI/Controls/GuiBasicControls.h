@@ -36,6 +36,10 @@ Basic Construction
 					virtual void								SetFont(const FontProperties& value)=0;
 					virtual void								SetVisuallyEnabled(bool value)=0;
 				};
+
+				class IStyleProvider : public Interface
+				{
+				};
 			protected:
 				Ptr<IStyleController>					styleController;
 				elements::GuiBoundsComposition*			boundsComposition;
@@ -124,7 +128,7 @@ Basic Construction
 			};
 
 /***********************************************************************
-Controls
+Buttons
 ***********************************************************************/
 
 			class GuiButton : public GuiControl
@@ -208,7 +212,7 @@ Controls
 			};
 
 /***********************************************************************
-Scroll
+Scrolls
 ***********************************************************************/
 
 			class GuiScroll : public GuiControl
@@ -280,6 +284,70 @@ Scroll
 
 				int										GetMinPosition();
 				int										GetMaxPosition();
+			};
+
+			class GuiScrollView : public GuiControl
+			{
+			public:
+				class IStyleProvider : public GuiControl::IStyleProvider
+				{
+				public:
+					virtual GuiScroll::IStyleController*		CreateHorizontalScrollStyle()=0;
+					virtual GuiScroll::IStyleController*		CreateVerticalScrollStyle()=0;
+					virtual int									GetDefaultScrollSize()=0;
+					virtual void								InstallBackground(elements::GuiBoundsComposition* boundsComposition)=0;
+				};
+			protected:
+				class StyleController : public Object, public GuiControl::IStyleController
+				{
+				protected:
+					Ptr<IStyleProvider>					styleProvider;
+					GuiScroll*							horizontalScroll;
+					GuiScroll*							verticalScroll;
+					elements::GuiBoundsComposition*		boundsComposition;
+					elements::GuiTableComposition*		tableComposition;
+					elements::GuiCellComposition*		containerCellComposition;
+					bool								horizontalAlwaysVisible;
+					bool								verticalAlwaysVisible;
+
+					void								UpdateTable();
+					void								UpdateScrolls();
+				public:
+					StyleController(IStyleProvider* _styleProvider);
+					~StyleController();
+
+					GuiScroll*							GetHorizontalScroll();
+					GuiScroll*							GetVerticalScroll();
+					elements::GuiTableComposition*		GetTableComposition();
+					elements::GuiCellComposition*		GetContaienrCellComposition();
+
+					bool								GetHorizontalAlwaysVisible();
+					void								SetHorizontalAlwaysVisible(bool value);
+					bool								GetVerticalAlwaysVisible();
+					void								SetVerticalAlwaysVisible(bool value);
+
+					elements::GuiBoundsComposition*		GetBoundsComposition();
+					elements::GuiGraphicsComposition*	GetContainerComposition();
+					void								SetText(const WString& value);
+					void								SetFont(const FontProperties& value);
+					void								SetVisuallyEnabled(bool value);
+				};
+
+				StyleController*						styleController;
+			public:
+				GuiScrollView(IStyleProvider* styleProvider);
+				~GuiScrollView();
+
+				GuiScroll*								GetHorizontalScroll();
+				GuiScroll*								GetVerticalScroll();
+				bool									GetHorizontalAlwaysVisible();
+				void									SetHorizontalAlwaysVisible(bool value);
+				bool									GetVerticalAlwaysVisible();
+				void									SetVerticalAlwaysVisible(bool value);
+			};
+
+			class GuiScrollContainer : public GuiScrollView
+			{
 			};
 		}
 	}

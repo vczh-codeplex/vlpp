@@ -107,6 +107,20 @@ void SetupMainPanel(GuiControlHost* host, GuiCellComposition* cell)
 			});
 		}
 	}
+	{
+		GuiScrollView* scrollView=new GuiScrollView(new win7::Win7ScrollViewProvider);
+		cell->AddChild(scrollView->GetBoundsComposition());
+		scrollView->GetBoundsComposition()->SetBounds(Rect(Point(420, 0), Size(200, 200)));
+
+		GuiButton* buttonAdd=new GuiButton(new win7::Win7ButtonStyle());
+		cell->AddChild(buttonAdd->GetBoundsComposition());
+		buttonAdd->GetBoundsComposition()->SetBounds(Rect(Point(420, 210), Size(200, 25)));
+		buttonAdd->SetText(L"Add Control");
+
+		buttonAdd->Clicked.AttachLambda([scrollView](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
+		{
+		});
+	}
 }
 
 void SetupWindow(GuiControlHost* host)
