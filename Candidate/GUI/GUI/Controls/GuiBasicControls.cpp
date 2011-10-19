@@ -691,6 +691,192 @@ GuiScroll
 			{
 				return totalSize-pageSize;
 			}
+
+/***********************************************************************
+GuiScrollView
+***********************************************************************/
+
+			void GuiScrollView::StyleController::UpdateTable()
+			{
+				if(horizontalScroll->GetEnabled() || horizontalAlwaysVisible)
+				{
+					tableComposition->SetRowOption(1, GuiCellOption::AbsoluteOption(styleProvider->GetDefaultScrollSize()));
+				}
+				else
+				{
+					tableComposition->SetRowOption(1, GuiCellOption::AbsoluteOption(0));
+				}
+				if(verticalScroll->GetEnabled() || verticalAlwaysVisible)
+				{
+					tableComposition->SetColumnOption(1, GuiCellOption::AbsoluteOption(styleProvider->GetDefaultScrollSize()));
+				}
+				else
+				{
+					tableComposition->SetColumnOption(1, GuiCellOption::AbsoluteOption(0));
+				}
+			}
+
+			void GuiScrollView::StyleController::UpdateScrolls()
+			{
+			}
+
+			GuiScrollView::StyleController::StyleController(IStyleProvider* _styleProvider)
+				:styleProvider(_styleProvider)
+				,horizontalAlwaysVisible(true)
+				,verticalAlwaysVisible(true)
+			{
+				horizontalScroll=new GuiScroll(styleProvider->CreateHorizontalScrollStyle());
+				horizontalScroll->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+				horizontalScroll->SetEnabled(false);
+				verticalScroll=new GuiScroll(styleProvider->CreateVerticalScrollStyle());
+				verticalScroll->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+				verticalScroll->SetEnabled(false);
+
+				boundsComposition=new GuiBoundsComposition;
+				styleProvider->InstallBackground(boundsComposition);
+
+				tableComposition=new GuiTableComposition;
+				boundsComposition->AddChild(tableComposition);
+				tableComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+				tableComposition->SetRowsAndColumns(2, 2);
+				tableComposition->SetRowOption(0, GuiCellOption::PercentageOption(1.0));
+				tableComposition->SetColumnOption(0, GuiCellOption::PercentageOption(1.0));
+				UpdateTable();
+				{
+					GuiCellComposition* cell=new GuiCellComposition;
+					tableComposition->AddChild(cell);
+					cell->SetSite(1, 0, 1, 1);
+					cell->AddChild(horizontalScroll->GetBoundsComposition());
+				}
+				{
+					GuiCellComposition* cell=new GuiCellComposition;
+					tableComposition->AddChild(cell);
+					cell->SetSite(0, 1, 1, 1);
+					cell->AddChild(verticalScroll->GetBoundsComposition());
+				}
+				
+				containerCellComposition=new GuiCellComposition;
+				tableComposition->AddChild(containerCellComposition);
+				containerCellComposition->SetSite(0, 0, 1, 1);
+			}
+
+			GuiScrollView::StyleController::~StyleController()
+			{
+			}
+
+			GuiScroll* GuiScrollView::StyleController::GetHorizontalScroll()
+			{
+				return horizontalScroll;
+			}
+
+			GuiScroll* GuiScrollView::StyleController::GetVerticalScroll()
+			{
+				return verticalScroll;
+			}
+
+			elements::GuiTableComposition* GuiScrollView::StyleController::GetTableComposition()
+			{
+				return tableComposition;
+			}
+
+			elements::GuiCellComposition* GuiScrollView::StyleController::GetContaienrCellComposition()
+			{
+				return containerCellComposition;
+			}
+
+			bool GuiScrollView::StyleController::GetHorizontalAlwaysVisible()
+			{
+				return horizontalAlwaysVisible;
+			}
+
+			void GuiScrollView::StyleController::SetHorizontalAlwaysVisible(bool value)
+			{
+				if(horizontalAlwaysVisible!=value)
+				{
+					horizontalAlwaysVisible=value;
+					UpdateScrolls();
+				}
+			}
+
+			bool GuiScrollView::StyleController::GetVerticalAlwaysVisible()
+			{
+				return verticalAlwaysVisible;
+			}
+
+			void GuiScrollView::StyleController::SetVerticalAlwaysVisible(bool value)
+			{
+				if(verticalAlwaysVisible!=value)
+				{
+					verticalAlwaysVisible=value;
+					UpdateScrolls();
+				}
+			}
+
+			elements::GuiBoundsComposition* GuiScrollView::StyleController::GetBoundsComposition()
+			{
+				return boundsComposition;
+			}
+
+			elements::GuiGraphicsComposition* GuiScrollView::StyleController::GetContainerComposition()
+			{
+				return containerCellComposition;
+			}
+
+			void GuiScrollView::StyleController::SetText(const WString& value)
+			{
+			}
+
+			void GuiScrollView::StyleController::SetFont(const FontProperties& value)
+			{
+			}
+
+			void GuiScrollView::StyleController::SetVisuallyEnabled(bool value)
+			{
+			}
+
+			GuiScrollView::GuiScrollView(IStyleProvider* styleProvider)
+				:GuiControl(new StyleController(styleProvider))
+			{
+				styleController=dynamic_cast<StyleController*>(GetStyleController());
+			}
+			
+			GuiScrollView::~GuiScrollView()
+			{
+			}
+
+			GuiScroll* GuiScrollView::GetHorizontalScroll()
+			{
+				return styleController->GetHorizontalScroll();
+			}
+
+			GuiScroll* GuiScrollView::GetVerticalScroll()
+			{
+				return styleController->GetVerticalScroll();
+			}
+
+			bool GuiScrollView::GetHorizontalAlwaysVisible()
+			{
+				return styleController->GetHorizontalAlwaysVisible();
+			}
+
+			void GuiScrollView::SetHorizontalAlwaysVisible(bool value)
+			{
+				styleController->SetHorizontalAlwaysVisible(value);
+			}
+
+			bool GuiScrollView::GetVerticalAlwaysVisible()
+			{
+				return styleController->GetVerticalAlwaysVisible();
+			}
+
+			void GuiScrollView::SetVerticalAlwaysVisible(bool value)
+			{
+				styleController->SetVerticalAlwaysVisible(value);
+			}
+
+/***********************************************************************
+GuiScrollContainer
+***********************************************************************/
 		}
 	}
 }

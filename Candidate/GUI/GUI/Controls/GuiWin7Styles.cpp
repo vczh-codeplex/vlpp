@@ -511,6 +511,11 @@ Helpers
 				return Color(240, 240, 240);
 			}
 
+			Color Win7GetSystemBorderColor()
+			{
+				return Color(100, 100, 100);
+			}
+
 			Color Win7GetSystemTextColor(bool enabled)
 			{
 				return enabled?Color(0, 0, 0):Color(131, 131, 131);
@@ -1087,6 +1092,34 @@ Win7TrackStyle
 
 			Win7TrackStyle::~Win7TrackStyle()
 			{
+			}
+
+/***********************************************************************
+Win7ScrollViewProvider
+***********************************************************************/
+
+			controls::GuiScroll::IStyleController* Win7ScrollViewProvider::CreateHorizontalScrollStyle()
+			{
+				return new Win7ScrollStyle(Win7ScrollStyle::Horizontal);
+			}
+
+			controls::GuiScroll::IStyleController* Win7ScrollViewProvider::CreateVerticalScrollStyle()
+			{
+				return new Win7ScrollStyle(Win7ScrollStyle::Vertical);
+			}
+
+			int Win7ScrollViewProvider::GetDefaultScrollSize()
+			{
+				return Win7ScrollStyle::DefaultSize;
+			}
+
+			void Win7ScrollViewProvider::InstallBackground(elements::GuiBoundsComposition* boundsComposition)
+			{
+				boundsComposition->SetInternalMargin(Margin(1, 1, 1, 1));
+
+				GuiSolidBorderElement* element=GuiSolidBorderElement::Create();
+				element->SetColor(Win7GetSystemBorderColor());
+				boundsComposition->SetOwnedElement(element);
 			}
 		}
 	}
