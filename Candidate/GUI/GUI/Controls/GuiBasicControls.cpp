@@ -737,6 +737,7 @@ GuiScrollView::StyleController
 				{
 					tableComposition->SetColumnOption(1, GuiCellOption::AbsoluteOption(0));
 				}
+				tableComposition->UpdateCellBounds();
 			}
 
 			GuiScrollView::StyleController::StyleController(IStyleProvider* _styleProvider)
@@ -793,8 +794,9 @@ GuiScrollView::StyleController
 				scrollView=_scrollView;
 			}
 
-			void GuiScrollView::StyleController::AdjustView(Size fullSize, Size viewSize)
+			void GuiScrollView::StyleController::AdjustView(Size fullSize)
 			{
+				Size viewSize=containerComposition->GetBounds().GetSize();
 				if(fullSize.x<viewSize.x)
 				{
 					horizontalScroll->SetEnabled(false);
@@ -835,7 +837,7 @@ GuiScrollView::StyleController
 				return tableComposition;
 			}
 
-			elements::GuiBoundsComposition* GuiScrollView::StyleController::GetInternalContaienrComposition()
+			elements::GuiBoundsComposition* GuiScrollView::StyleController::GetInternalContainerComposition()
 			{
 				return containerComposition;
 			}
@@ -917,7 +919,7 @@ GuiScrollView
 
 			void GuiScrollView::CallUpdateView()
 			{
-				Size viewSize=styleController->GetInternalContaienrComposition()->GetBounds().GetSize();
+				Size viewSize=styleController->GetInternalContainerComposition()->GetBounds().GetSize();
 				UpdateView(Rect(
 					Point(
 						styleController->GetHorizontalScroll()->GetPosition(),
@@ -932,7 +934,7 @@ GuiScrollView
 				styleController=dynamic_cast<StyleController*>(GetStyleController());
 				styleController->SetScrollView(this);
 
-				styleController->GetInternalContaienrComposition()->BoundsChanged.AttachMethod(this, &GuiScrollView::OnContainerBoundsChanged);
+				styleController->GetInternalContainerComposition()->BoundsChanged.AttachMethod(this, &GuiScrollView::OnContainerBoundsChanged);
 				styleController->GetHorizontalScroll()->PositionChanged.AttachMethod(this, &GuiScrollView::OnHorizontalScroll);
 				styleController->GetVerticalScroll()->PositionChanged.AttachMethod(this, &GuiScrollView::OnVerticalScroll);
 			}
@@ -960,8 +962,8 @@ GuiScrollView
 				if(!supressScrolling)
 				{
 					Size fullSize=QueryFullSize();
-					Size viewSize=styleController->GetInternalContaienrComposition()->GetBounds().GetSize();
-					styleController->AdjustView(fullSize, viewSize);
+					styleController->AdjustView(fullSize);
+					styleController->AdjustView(fullSize);
 					supressScrolling=true;
 					CallUpdateView();
 					supressScrolling=false;
@@ -1007,7 +1009,7 @@ GuiScrollContainer::StyleController
 			{
 				controlContainerComposition=new GuiBoundsComposition;
 				controlContainerComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
-				GetInternalContaienrComposition()->AddChild(controlContainerComposition);
+				GetInternalContainerComposition()->AddChild(controlContainerComposition);
 			}
 
 			GuiScrollContainer::StyleController::~StyleController()
