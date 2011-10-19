@@ -476,6 +476,10 @@ GuiWindowComposition
 GuiBoundsComposition
 ***********************************************************************/
 
+			void GuiBoundsComposition::OnBoundsChanged()
+			{
+			}
+
 			Rect GuiBoundsComposition::GetUnalignedBoundsForMinNecessaryBounds()
 			{
 				return GetBoundsInternal(compositionBounds, GetMinSizeLimitation());
@@ -560,6 +564,10 @@ GuiBoundsComposition
 						result.y2=clientSize.x-alignmentToParent.bottom;
 						result.y1=result.y2-height;
 					}
+				}
+				if(previousBounds!=result)
+				{
+					OnBoundsChanged();
 				}
 				return result;
 			}

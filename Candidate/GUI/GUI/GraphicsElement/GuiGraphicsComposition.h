@@ -134,8 +134,10 @@ Basic Compositions
 			{
 			protected:
 				Rect								compositionBounds;
+				Rect								previousBounds;
 				Margin								alignmentToParent;
 				
+				virtual void						OnBoundsChanged();
 				virtual Rect						GetUnalignedBoundsForMinNecessaryBounds();
 			public:
 				GuiBoundsComposition();
