@@ -302,6 +302,7 @@ Scrolls
 				{
 				protected:
 					Ptr<IStyleProvider>					styleProvider;
+					GuiScrollView*						scrollView;
 					GuiScroll*							horizontalScroll;
 					GuiScroll*							verticalScroll;
 					elements::GuiBoundsComposition*		boundsComposition;
@@ -312,11 +313,11 @@ Scrolls
 					bool								verticalAlwaysVisible;
 
 					void								UpdateTable();
-					void								UpdateScrolls();
 				public:
 					StyleController(IStyleProvider* _styleProvider);
 					~StyleController();
 
+					void								SetScrollView(GuiScrollView* _scrollView);
 					void								AdjustView(Size fullSize, Size viewSize);
 
 					GuiScroll*							GetHorizontalScroll();
@@ -337,8 +338,12 @@ Scrolls
 				};
 
 				StyleController*						styleController;
+				bool									supressScrolling;
 
 				void									OnContainerBoundsChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+				void									OnHorizontalScroll(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+				void									OnVerticalScroll(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+				void									CallUpdateView();
 
 				virtual Size							QueryFullSize();
 				virtual void							UpdateView(Rect viewBounds);
