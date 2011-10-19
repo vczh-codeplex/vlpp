@@ -307,6 +307,7 @@ Scrolls
 					elements::GuiBoundsComposition*		boundsComposition;
 					elements::GuiTableComposition*		tableComposition;
 					elements::GuiCellComposition*		containerCellComposition;
+					elements::GuiBoundsComposition*		containerComposition;
 					bool								horizontalAlwaysVisible;
 					bool								verticalAlwaysVisible;
 
@@ -316,10 +317,12 @@ Scrolls
 					StyleController(IStyleProvider* _styleProvider);
 					~StyleController();
 
+					void								AdjustView(Size fullSize, Size viewSize);
+
 					GuiScroll*							GetHorizontalScroll();
 					GuiScroll*							GetVerticalScroll();
-					elements::GuiTableComposition*		GetTableComposition();
-					elements::GuiCellComposition*		GetContaienrCellComposition();
+					elements::GuiTableComposition*		GetInternalTableComposition();
+					elements::GuiBoundsComposition*		GetInternalContaienrComposition();
 
 					bool								GetHorizontalAlwaysVisible();
 					void								SetHorizontalAlwaysVisible(bool value);
@@ -334,9 +337,16 @@ Scrolls
 				};
 
 				StyleController*						styleController;
+
+				void									OnContainerBoundsChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+
+				virtual Size							QueryFullSize();
+				virtual void							UpdateView(Rect viewBounds);
 			public:
 				GuiScrollView(IStyleProvider* styleProvider);
 				~GuiScrollView();
+
+				void									CalculateView();
 
 				GuiScroll*								GetHorizontalScroll();
 				GuiScroll*								GetVerticalScroll();

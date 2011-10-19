@@ -137,11 +137,12 @@ Basic Compositions
 				Rect								previousBounds;
 				Margin								alignmentToParent;
 				
-				virtual void						OnBoundsChanged();
 				virtual Rect						GetUnalignedBoundsForMinNecessaryBounds();
 			public:
 				GuiBoundsComposition();
 				~GuiBoundsComposition();
+
+				GuiNotifyEvent						BoundsChanged;
 
 				Rect								GetMinNecessaryBounds();
 				Rect								GetBounds();
