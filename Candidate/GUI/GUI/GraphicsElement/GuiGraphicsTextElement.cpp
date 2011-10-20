@@ -371,6 +371,7 @@ text::TextLines
 
 				int TextLines::GetRowWidth(int row)
 				{
+					if(row<0 || row>=lines.Count()) return -1;
 					TextLine& line=lines[row];
 					if(line.dataLength==0)
 					{
@@ -435,8 +436,8 @@ text::TextLines
 						int p1=0, p2=line.att[line.dataLength-1].rightOffset;
 						while(i2-i1>1)
 						{
-							int i=(i1+i2)/2+1;
-							int p=line.att[i].rightOffset;
+							int i=(i1+i2)/2;
+							int p=i==0?0:line.att[i-1].rightOffset;
 							if(point.x<p)
 							{
 								i2=i;
