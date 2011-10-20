@@ -34,6 +34,42 @@ Enumerations
 		}
 
 /***********************************************************************
+TextPos
+***********************************************************************/
+
+		struct TextPos
+		{
+			int			row;
+			int			column;
+
+			TextPos()
+				:row(0) ,column(0)
+			{
+			}
+
+			TextPos(int _row, int _column)
+				:row(_row) ,column(_column)
+			{
+			}
+
+			int Compare(const TextPos& value)const
+			{
+				if(row<value.row) return -1;
+				if(row>value.row) return 1;
+				if(column<value.column) return -1;
+				if(column>value.column) return 1;
+				return 0;
+			}
+
+			bool operator==(const TextPos& value)const {return Compare(value)==0;}
+			bool operator!=(const TextPos& value)const {return Compare(value)!=0;}
+			bool operator<(const TextPos& value)const {return Compare(value)<0;}
+			bool operator<=(const TextPos& value)const {return Compare(value)<=0;}
+			bool operator>(const TextPos& value)const {return Compare(value)>0;}
+			bool operator>=(const TextPos& value)const {return Compare(value)>=0;}
+		};
+
+/***********************************************************************
 Point
 ***********************************************************************/
 
