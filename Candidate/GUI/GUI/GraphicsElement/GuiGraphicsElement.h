@@ -458,6 +458,7 @@ ColorizedText
 					bool				Modify(TextPos start, TextPos end, const wchar_t* input, int inputCount);
 					bool				Modify(TextPos start, TextPos end, const wchar_t* input);
 					bool				Modify(TextPos start, TextPos end, const WString& input);
+					void				Clear();
 				};
 			}
 
