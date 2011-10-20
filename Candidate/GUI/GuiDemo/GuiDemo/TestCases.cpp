@@ -215,9 +215,111 @@ TEST_CASE(TextLines)
 	}
 }
 
+namespace TextMeasurementHelper
+{
+	const int CharSize=5;
+
+	class CharMeasurer : public Object, public ICharMeasurer
+	{
+	public:
+		void SetFont(const FontProperties& font)
+		{
+		}
+
+		Size Measure(wchar_t character)
+		{
+			return Size(CharSize, CharSize);
+		}
+
+		int	 GetRowHeight()
+		{
+			return CharSize;
+		}
+	};
+}
+using namespace TextMeasurementHelper;
+
 TEST_CASE(TextMeasurement)
 {
 	TextLines lines;
+	CharMeasurer charMeasurer;
+	lines.SetCharMeasurer(&charMeasurer);
 	TEST_ASSERT(lines.Modify(TextPos(0, 0), TextPos(0, 0), L"ABCDEFG\r\nHIJKLMN\r\nOPQRST\r\nUVWXYZ"));
 	TEST_ASSERT(lines.GetText()==L"ABCDEFG\r\nHIJKLMN\r\nOPQRST\r\nUVWXYZ");
+
+	TEST_ASSERT(lines.GetRowHeight()==CharSize);
+	for(int i=-1;i<5;i++)
+	{
+		if(i==-1 || i==4)
+		{
+			TEST_ASSERT(lines.GetRowWidth(i)==-1);
+		}
+		else
+		{
+			TEST_ASSERT(lines.GetRowWidth(i)==lines.GetLine(i).dataLength*CharSize);
+		}
+	}
+	TEST_ASSERT(lines.GetMaxHeight()==lines.GetCount()*CharSize);
+	TEST_ASSERT(lines.GetMaxWidth()==lines.GetLine(0).dataLength*CharSize);
+
+	for(int y=-1;y<5;y++)
+	{
+		for(int x=-1;x<9;x++)
+		{
+			if(y==-1 || y==4)
+			{
+				TEST_ASSERT(lines.GetRectFromTextPos(TextPos(y, x))==Rect(-1, -1, -1, -1));
+			}
+			else
+			{
+				int c=lines.GetLine(y).dataLength;
+				if(x==-1 || x>c)
+				{
+					TEST_ASSERT(lines.GetRectFromTextPos(TextPos(y, x))==Rect(-1, -1, -1, -1));
+				}
+				else if(x==c)
+				{
+					TEST_ASSERT(lines.GetRectFromTextPos(TextPos(y, x))==Rect(Point(x*CharSize, y*CharSize), Size(CharSize/2, CharSize)));
+				}
+				else
+				{
+					TEST_ASSERT(lines.GetRectFromTextPos(TextPos(y, x))==Rect(Point(x*CharSize, y*CharSize), Size(CharSize, CharSize)));
+				}
+			}
+
+			for(int dy=0;dy<CharSize;dy++)
+			{
+				for(int dx=0;dx<CharSize;dx++)
+				{
+					Point point(x*CharSize+dx, y*CharSize+dy);
+					TextPos pos=lines.GetTextPosFromPoint(point);
+
+					if(y==-1)
+					{
+						TEST_ASSERT(pos==TextPos(0, 0));
+					}
+					else if(y==4)
+					{
+						TEST_ASSERT(pos==TextPos(3, 6));
+					}
+					else
+					{
+						int c=lines.GetLine(y).dataLength;
+						if(x==-1)
+						{
+							TEST_ASSERT(pos==TextPos(y, 0));
+						}
+						else if(x>=c)
+						{
+							TEST_ASSERT(pos==TextPos(y, c));
+						}
+						else
+						{
+							TEST_ASSERT(pos==TextPos(y, x));
+						}
+					}
+				}
+			}
+		}
+	}
 }
