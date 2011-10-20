@@ -83,10 +83,10 @@ ColorizedText
 
 					bool				RemoveLines(int start, int count);
 					bool				IsAvailable(TextPos pos);
-					bool				Modify(TextPos start, TextPos end, const wchar_t** inputs, int* inputCounts, int rows);
-					bool				Modify(TextPos start, TextPos end, const wchar_t* input, int inputCount);
-					bool				Modify(TextPos start, TextPos end, const wchar_t* input);
-					bool				Modify(TextPos start, TextPos end, const WString& input);
+					TextPos				Modify(TextPos start, TextPos end, const wchar_t** inputs, int* inputCounts, int rows);
+					TextPos				Modify(TextPos start, TextPos end, const wchar_t* input, int inputCount);
+					TextPos				Modify(TextPos start, TextPos end, const wchar_t* input);
+					TextPos				Modify(TextPos start, TextPos end, const WString& input);
 					void				Clear();
 
 					void				MeasureRow(int row);

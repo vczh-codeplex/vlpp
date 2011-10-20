@@ -243,9 +243,9 @@ text::TextLines
 					return 0<=pos.row && pos.row<lines.Count() && 0<=pos.column && pos.column<=lines[pos.row].dataLength;
 				}
 
-				bool TextLines::Modify(TextPos start, TextPos end, const wchar_t** inputs, int* inputCounts, int rows)
+				TextPos TextLines::Modify(TextPos start, TextPos end, const wchar_t** inputs, int* inputCounts, int rows)
 				{
-					if(!IsAvailable(start) || !IsAvailable(end) || start>end) return false;
+					if(!IsAvailable(start) || !IsAvailable(end) || start>end) return TextPos(-1, -1);
 
 					if(rows==1)
 					{
@@ -264,7 +264,7 @@ text::TextLines
 							lines.RemoveAt(start.row+1);
 							lines[start.row].Modify(start.column, modifyCount, inputs[0], inputCounts[0]);
 						}
-						return true;
+						return TextPos(start.row, start.column+inputCounts[0]);
 					}
 
 					if(start.row==end.row)
@@ -297,10 +297,10 @@ text::TextLines
 					{
 						lines[start.row+i].Modify(0, lines[start.row+i].dataLength, inputs[i], inputCounts[i]);
 					}
-					return true;
+					return TextPos(end.row, inputCounts[rows-1]);
 				}
 
-				bool TextLines::Modify(TextPos start, TextPos end, const wchar_t* input, int inputCount)
+				TextPos TextLines::Modify(TextPos start, TextPos end, const wchar_t* input, int inputCount)
 				{
 					List<const wchar_t*> inputs;
 					List<int> inputCounts;
@@ -331,12 +331,12 @@ text::TextLines
 					return Modify(start, end, &inputs[0], &inputCounts[0], inputs.Count());
 				}
 
-				bool TextLines::Modify(TextPos start, TextPos end, const wchar_t* input)
+				TextPos TextLines::Modify(TextPos start, TextPos end, const wchar_t* input)
 				{
 					return Modify(start, end, input, wcslen(input));
 				}
 
-				bool TextLines::Modify(TextPos start, TextPos end, const WString& input)
+				TextPos TextLines::Modify(TextPos start, TextPos end, const WString& input)
 				{
 					return Modify(start, end, input.Buffer(), input.Length());
 				}
