@@ -448,14 +448,14 @@ text::TextLine
 					if(newBufferLength!=bufferLength)
 					{
 						wchar_t* newText=new wchar_t[newBufferLength];
-						memcpy(newText, text, start);
-						memcpy(newText+start, input, inputCount);
-						memcpy(newText+start+inputCount, text+start+count, dataLength-start-count);
+						memcpy(newText, text, start*sizeof(wchar_t));
+						memcpy(newText+start, input, inputCount*sizeof(wchar_t));
+						memcpy(newText+start+inputCount, text+start+count, (dataLength-start-count)*sizeof(wchar_t));
 
 						CharAtt* newAtt=new CharAtt[newBufferLength];
-						memcpy(newAtt, att, start);
-						memset(newAtt+start, 0, sizeof(inputCount)*sizeof(CharAtt));
-						memcpy(newAtt+start+inputCount, att+start+count, dataLength-start-count);
+						memcpy(newAtt, att, start*sizeof(CharAtt));
+						memset(newAtt+start, 0, inputCount*sizeof(CharAtt));
+						memcpy(newAtt+start+inputCount, att+start+count, (dataLength-start-count)*sizeof(CharAtt));
 
 						delete[] text;
 						delete[] att;
@@ -464,10 +464,10 @@ text::TextLine
 					}
 					else
 					{
-						memmove(text+start+inputCount, text+start+count, dataLength-start-count);
-						memmove(att+start+inputCount, att+start+count, dataLength-start-count);
-						memcpy(text+start, input, inputCount);
-						memset(att+start, 0, sizeof(inputCount)*sizeof(CharAtt));
+						memmove(text+start+inputCount, text+start+count, (dataLength-start-count)*sizeof(wchar_t));
+						memmove(att+start+inputCount, att+start+count, (dataLength-start-count)*sizeof(CharAtt));
+						memcpy(text+start, input, inputCount*sizeof(wchar_t));
+						memset(att+start, 0, inputCount*sizeof(CharAtt));
 					}
 					dataLength=newDataLength;
 					bufferLength=newBufferLength;
@@ -482,10 +482,11 @@ text::TextLine
 				TextLine TextLine::Split(int index)
 				{
 					if(index<0 || index>dataLength) return TextLine();
-					TextLine line;
 					int count=dataLength-index;
+					TextLine line;
+					line.Initialize();
 					line.Modify(0, 0, text+index, count);
-					memcpy(line.att, att+index, count);
+					memcpy(line.att, att+index, count*sizeof(CharAtt));
 					Modify(index, count, L"", 0);
 					return line;
 				}
@@ -493,7 +494,7 @@ text::TextLine
 				void TextLine::AppendAndFinalize(TextLine& line)
 				{
 					Modify(dataLength, 0, line.text, line.dataLength);
-					memcpy(att+dataLength, line.att, line.dataLength);
+					memcpy(att+dataLength, line.att, line.dataLength*sizeof(CharAtt));
 					line.Finalize();
 				}
 
