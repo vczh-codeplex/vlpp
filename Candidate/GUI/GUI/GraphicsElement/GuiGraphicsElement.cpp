@@ -527,7 +527,7 @@ text::TextLines
 
 				bool TextLines::IsAvailable(TextPos pos)
 				{
-					return 0<=pos.row && pos.row<lines.Count() && 0<=pos.column && pos.column<lines[pos.row].dataLength;
+					return 0<=pos.row && pos.row<lines.Count() && 0<=pos.column && pos.column<=lines[pos.row].dataLength;
 				}
 
 				bool TextLines::Modify(TextPos start, TextPos end, const wchar_t** inputs, int* inputCounts, int rows)
@@ -582,7 +582,7 @@ text::TextLines
 					lines[end.row].Modify(0, end.column, inputs[rows-1], inputCounts[rows-1]);
 					for(int i=1;i<rows-1;i++)
 					{
-						lines[start.row+i].Modify(0, lines[start.row+1].dataLength, inputs[i], inputCounts[i]);
+						lines[start.row+i].Modify(0, lines[start.row+i].dataLength, inputs[i], inputCounts[i]);
 					}
 					return true;
 				}
@@ -594,25 +594,26 @@ text::TextLines
 					const wchar_t* previous=input;
 					const wchar_t* current=input;
 
-					do
+					while(true)
 					{
-						if(*current==L'\0')
+						if(current==input+inputCount)
 						{
 							inputs.Add(previous);
 							inputCounts.Add(current-previous);
+							break;
 						}
 						else if(*current==L'\r' || *current==L'\n')
 						{
 							inputs.Add(previous);
 							inputCounts.Add(current-previous);
-							previous=current+(current[1]==L'\n'?1:0);
+							previous=current+(current[1]==L'\n'?2:1);
 							current=previous;
 						}
 						else
 						{
 							current++;
 						}
-					}while(*current);
+					}
 
 					return Modify(start, end, &inputs[0], &inputCounts[0], inputs.Count());
 				}
@@ -625,6 +626,14 @@ text::TextLines
 				bool TextLines::Modify(TextPos start, TextPos end, const WString& input)
 				{
 					return Modify(start, end, input.Buffer(), input.Length());
+				}
+
+				void TextLines::Clear()
+				{
+					RemoveLines(0, lines.Count());
+					TextLine line;
+					line.Initialize();
+					lines.Add(line);
 				}
 			}
 		}
