@@ -159,6 +159,9 @@
     <ClCompile Include="TestCases.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsTextElement.cpp">
+      <Filter>GUI\GraphicsElement</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Library\Basic.h">
@@ -304,6 +307,9 @@
     </ClInclude>
     <ClInclude Include="..\..\GUI\Controls\GuiCommonStyles.h">
       <Filter>GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsTextElement.h">
+      <Filter>GUI\GraphicsElement</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

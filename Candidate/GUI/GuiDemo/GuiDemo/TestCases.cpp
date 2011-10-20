@@ -1,4 +1,4 @@
-#include "..\..\GUI\GraphicsElement\GuiGraphicsElement.h"
+#include "..\..\GUI\GraphicsElement\GuiGraphicsTextElement.h"
 
 using namespace vl;
 using namespace vl::presentation;
@@ -118,88 +118,99 @@ TEST_CASE(TextLines)
 {
 	TextLines lines;
 	{
-		TEST_ASSERT(lines.lines.Count()==1);
-		AssertText(lines.lines[0], L"");
+		TEST_ASSERT(lines.GetCount()==1);
+		AssertText(lines.GetLine(0), L"");
 	}
 
 	TEST_ASSERT(lines.Modify(TextPos(0, 0), TextPos(0, 0), L"")==true);
 	{
-		TEST_ASSERT(lines.lines.Count()==1);
-		AssertText(lines.lines[0], L"");
+		TEST_ASSERT(lines.GetCount()==1);
+		AssertText(lines.GetLine(0), L"");
+		TEST_ASSERT(lines.GetText()==L"");
 	}
 
 	TEST_ASSERT(lines.Modify(TextPos(0, 0), TextPos(0, 0), L"ABCDEFG")==true);
 	{
-		TEST_ASSERT(lines.lines.Count()==1);
-		AssertText(lines.lines[0], L"ABCDEFG");
+		TEST_ASSERT(lines.GetCount()==1);
+		AssertText(lines.GetLine(0), L"ABCDEFG");
+		TEST_ASSERT(lines.GetText()==L"ABCDEFG");
 	}
 
 	TEST_ASSERT(lines.Modify(TextPos(0, 7), TextPos(0, 7), L"\r\nHIJKLMN")==true);
 	{
-		TEST_ASSERT(lines.lines.Count()==2);
-		AssertText(lines.lines[0], L"ABCDEFG");
-		AssertText(lines.lines[1], L"HIJKLMN");
+		TEST_ASSERT(lines.GetCount()==2);
+		AssertText(lines.GetLine(0), L"ABCDEFG");
+		AssertText(lines.GetLine(1), L"HIJKLMN");
+		TEST_ASSERT(lines.GetText()==L"ABCDEFG\r\nHIJKLMN");
 	}
 
 	TEST_ASSERT(lines.Modify(TextPos(1, 7), TextPos(1, 7), L"\r\n")==true);
 	{
-		TEST_ASSERT(lines.lines.Count()==3);
-		AssertText(lines.lines[0], L"ABCDEFG");
-		AssertText(lines.lines[1], L"HIJKLMN");
-		AssertText(lines.lines[2], L"");
+		TEST_ASSERT(lines.GetCount()==3);
+		AssertText(lines.GetLine(0), L"ABCDEFG");
+		AssertText(lines.GetLine(1), L"HIJKLMN");
+		AssertText(lines.GetLine(2), L"");
+		TEST_ASSERT(lines.GetText()==L"ABCDEFG\r\nHIJKLMN\r\n");
 	}
 
 	TEST_ASSERT(lines.Modify(TextPos(2, 0), TextPos(2, 0), L"OPQRST\r\nUVWXYZ")==true);
 	{
-		TEST_ASSERT(lines.lines.Count()==4);
-		AssertText(lines.lines[0], L"ABCDEFG");
-		AssertText(lines.lines[1], L"HIJKLMN");
-		AssertText(lines.lines[2], L"OPQRST");
-		AssertText(lines.lines[3], L"UVWXYZ");
+		TEST_ASSERT(lines.GetCount()==4);
+		AssertText(lines.GetLine(0), L"ABCDEFG");
+		AssertText(lines.GetLine(1), L"HIJKLMN");
+		AssertText(lines.GetLine(2), L"OPQRST");
+		AssertText(lines.GetLine(3), L"UVWXYZ");
+		TEST_ASSERT(lines.GetText()==L"ABCDEFG\r\nHIJKLMN\r\nOPQRST\r\nUVWXYZ");
 	}
 
 	TEST_ASSERT(lines.Modify(TextPos(1, 3), TextPos(2, 3), L"vczh"));
 	{
-		TEST_ASSERT(lines.lines.Count()==3);
-		AssertText(lines.lines[0], L"ABCDEFG");
-		AssertText(lines.lines[1], L"HIJvczhRST");
-		AssertText(lines.lines[2], L"UVWXYZ");
+		TEST_ASSERT(lines.GetCount()==3);
+		AssertText(lines.GetLine(0), L"ABCDEFG");
+		AssertText(lines.GetLine(1), L"HIJvczhRST");
+		AssertText(lines.GetLine(2), L"UVWXYZ");
+		TEST_ASSERT(lines.GetText()==L"ABCDEFG\r\nHIJvczhRST\r\nUVWXYZ");
 	}
 
 	TEST_ASSERT(lines.Modify(TextPos(1, 3), TextPos(1, 7), L"KLMN\r\nOPQ"));
 	{
-		TEST_ASSERT(lines.lines.Count()==4);
-		AssertText(lines.lines[0], L"ABCDEFG");
-		AssertText(lines.lines[1], L"HIJKLMN");
-		AssertText(lines.lines[2], L"OPQRST");
-		AssertText(lines.lines[3], L"UVWXYZ");
+		TEST_ASSERT(lines.GetCount()==4);
+		AssertText(lines.GetLine(0), L"ABCDEFG");
+		AssertText(lines.GetLine(1), L"HIJKLMN");
+		AssertText(lines.GetLine(2), L"OPQRST");
+		AssertText(lines.GetLine(3), L"UVWXYZ");
+		TEST_ASSERT(lines.GetText()==L"ABCDEFG\r\nHIJKLMN\r\nOPQRST\r\nUVWXYZ");
 	}
 
 	TEST_ASSERT(lines.Modify(TextPos(0, 3), TextPos(3, 3), L"vczh"));
 	{
-		TEST_ASSERT(lines.lines.Count()==1);
-		AssertText(lines.lines[0], L"ABCvczhXYZ");
+		TEST_ASSERT(lines.GetCount()==1);
+		AssertText(lines.GetLine(0), L"ABCvczhXYZ");
+		TEST_ASSERT(lines.GetText()==L"ABCvczhXYZ");
 	}
 
 	TEST_ASSERT(lines.Modify(TextPos(0, 0), TextPos(0, 10), L"ABCDEFG\r\nHIJKLMN\r\nOPQRST\r\nUVWXYZ"));
 	{
-		TEST_ASSERT(lines.lines.Count()==4);
-		AssertText(lines.lines[0], L"ABCDEFG");
-		AssertText(lines.lines[1], L"HIJKLMN");
-		AssertText(lines.lines[2], L"OPQRST");
-		AssertText(lines.lines[3], L"UVWXYZ");
+		TEST_ASSERT(lines.GetCount()==4);
+		AssertText(lines.GetLine(0), L"ABCDEFG");
+		AssertText(lines.GetLine(1), L"HIJKLMN");
+		AssertText(lines.GetLine(2), L"OPQRST");
+		AssertText(lines.GetLine(3), L"UVWXYZ");
+		TEST_ASSERT(lines.GetText()==L"ABCDEFG\r\nHIJKLMN\r\nOPQRST\r\nUVWXYZ");
 	}
 
 	TEST_ASSERT(lines.Modify(TextPos(0, 0), TextPos(3, 6), L"12345\r\n67890"));
 	{
-		TEST_ASSERT(lines.lines.Count()==2);
-		AssertText(lines.lines[0], L"12345");
-		AssertText(lines.lines[1], L"67890");
+		TEST_ASSERT(lines.GetCount()==2);
+		AssertText(lines.GetLine(0), L"12345");
+		AssertText(lines.GetLine(1), L"67890");
+		TEST_ASSERT(lines.GetText()==L"12345\r\n67890");
 	}
 
 	lines.Clear();
 	{
-		TEST_ASSERT(lines.lines.Count()==1);
-		AssertText(lines.lines[0], L"");
+		TEST_ASSERT(lines.GetCount()==1);
+		AssertText(lines.GetLine(0), L"");
+		TEST_ASSERT(lines.GetText()==L"");
 	}
 }
