@@ -26,7 +26,7 @@ ColorizedText
 			{
 				struct CharAtt
 				{
-					unsigned __int16	offset;
+					unsigned __int16	rightOffset;
 					unsigned __int16	colorIndex;
 				};
 
@@ -88,6 +88,15 @@ ColorizedText
 					bool				Modify(TextPos start, TextPos end, const wchar_t* input);
 					bool				Modify(TextPos start, TextPos end, const WString& input);
 					void				Clear();
+
+					void				MeasureRow(int row);
+					int					GetRowWidth(int row);
+					int					GetRowHeight();
+					int					GetMaxWidth();
+					int					GetMaxHeight();
+					TextPos				GetTextPosFromPoint(Point point);
+					Point				GetPointFromTextPos(TextPos pos);
+					Rect				GetRectFromTextPos(TextPos pos);
 				};
 			}
 

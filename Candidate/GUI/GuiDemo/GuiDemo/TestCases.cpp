@@ -214,3 +214,10 @@ TEST_CASE(TextLines)
 		TEST_ASSERT(lines.GetText()==L"");
 	}
 }
+
+TEST_CASE(TextMeasurement)
+{
+	TextLines lines;
+	TEST_ASSERT(lines.Modify(TextPos(0, 0), TextPos(0, 0), L"ABCDEFG\r\nHIJKLMN\r\nOPQRST\r\nUVWXYZ"));
+	TEST_ASSERT(lines.GetText()==L"ABCDEFG\r\nHIJKLMN\r\nOPQRST\r\nUVWXYZ");
+}

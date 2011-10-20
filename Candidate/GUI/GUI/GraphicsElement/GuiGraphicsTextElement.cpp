@@ -350,6 +350,153 @@ text::TextLines
 				}
 
 				//--------------------------------------------------------
+
+				void TextLines::MeasureRow(int row)
+				{
+					TextLine& line=lines[row];
+					int offset=0;
+					if(line.availableOffsetCount)
+					{
+						offset=line.att[line.availableOffsetCount-1].rightOffset;
+					}
+					for(int i=line.availableOffsetCount;i<line.dataLength;i++)
+					{
+						CharAtt& att=line.att[i];
+						int width=charMeasurer->Measure(line.text[i]).x;
+						offset+=width;
+						att.rightOffset=offset;
+					}
+					line.availableOffsetCount=line.dataLength;
+				}
+
+				int TextLines::GetRowWidth(int row)
+				{
+					TextLine& line=lines[row];
+					if(line.dataLength==0)
+					{
+						return 0;
+					}
+					else
+					{
+						MeasureRow(row);
+						return line.att[line.dataLength-1].rightOffset;
+					}
+				}
+
+				int TextLines::GetRowHeight()
+				{
+					return charMeasurer->GetRowHeight();
+				}
+
+				int TextLines::GetMaxWidth()
+				{
+					int width=0;
+					for(int i=0;i<lines.Count();i++)
+					{
+						int rowWidth=GetRowWidth(i);
+						if(width<rowWidth)
+						{
+							width=rowWidth;
+						}
+					}
+					return width;
+				}
+
+				int TextLines::GetMaxHeight()
+				{
+					return lines.Count()*charMeasurer->GetRowHeight();
+				}
+
+				TextPos TextLines::GetTextPosFromPoint(Point point)
+				{
+					int h=charMeasurer->GetRowHeight();
+					if(point.y<0)
+					{
+						return TextPos(0, 0);
+					}
+					else if(point.y>=h*lines.Count())
+					{
+						return TextPos(lines.Count()-1, lines[lines.Count()-1].dataLength);
+					}
+					else
+					{
+						int row=point.y/h;
+						if(point.x<0)
+						{
+							return TextPos(row, 0);
+						}
+						else if(point.x>=GetRowWidth(row))
+						{
+							return TextPos(row, lines[row].dataLength);
+						}
+						TextLine& line=lines[row];
+
+						int i1=0, i2=line.dataLength;
+						int p1=0, p2=line.att[line.dataLength-1].rightOffset;
+						while(i2-i1>1)
+						{
+							int i=(i1+i2)/2+1;
+							int p=line.att[i].rightOffset;
+							if(point.x<p)
+							{
+								i2=i;
+								p2=p;
+							}
+							else
+							{
+								i1=i;
+								p1=p;
+							}
+						}
+						return TextPos(row, i1);
+					}
+				}
+
+				Point TextLines::GetPointFromTextPos(TextPos pos)
+				{
+					if(IsAvailable(pos))
+					{
+						int y=pos.row*charMeasurer->GetRowHeight();
+						if(pos.column==0)
+						{
+							return Point(0, y);
+						}
+						else
+						{
+							MeasureRow(pos.row);
+							TextLine& line=lines[pos.row];
+							return Point(line.att[pos.column-1].rightOffset, y);
+						}
+					}
+					else
+					{
+						return Point(-1, -1);
+					}
+				}
+
+				Rect TextLines::GetRectFromTextPos(TextPos pos)
+				{
+					Point point=GetPointFromTextPos(pos);
+					if(point==Point(-1, -1))
+					{
+						return Rect(-1, -1, -1, -1);
+					}
+					else
+					{
+						int h=charMeasurer->GetRowHeight();
+						TextLine& line=lines[pos.row];
+						if(pos.column==line.dataLength)
+						{
+							return Rect(point, Size(h/2, h));
+						}
+						else
+						{
+							return Rect(point, Size(line.att[pos.column].rightOffset-point.x, h));
+						}
+					}
+				}
+
+				//--------------------------------------------------------
 			}
 		}
 	}
