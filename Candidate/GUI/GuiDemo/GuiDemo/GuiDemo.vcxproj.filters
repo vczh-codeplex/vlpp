@@ -156,6 +156,9 @@
     <ClCompile Include="..\..\GUI\Controls\GuiCommonStyles.cpp">
       <Filter>GUI\Controls</Filter>
     </ClCompile>
+    <ClCompile Include="TestCases.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Library\Basic.h">
