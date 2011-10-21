@@ -29,9 +29,13 @@ namespace vl
 
 				Size									QueryFullSize();
 				void									UpdateView(Rect viewBounds);
+
+				void									OnBoundsMouseButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
 			public:
 				GuiMultilineTextBox(GuiScrollView::IStyleProvider* styleProvider);
 				~GuiMultilineTextBox();
+
+				elements::GuiGraphicsComposition*		GetFocusableComposition();
 			};
 		}
 	}

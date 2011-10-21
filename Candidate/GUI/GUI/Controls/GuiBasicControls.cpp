@@ -104,6 +104,11 @@ GuiControl
 				return styleController->GetContainerComposition();
 			}
 
+			elements::GuiGraphicsComposition* GuiControl::GetFocusableComposition()
+			{
+				return 0;
+			}
+
 			elements::GuiGraphicsEventReceiver* GuiControl::GetEventReceiver()
 			{
 				return eventReceiver;
@@ -378,16 +383,17 @@ GuiButton
 
 			void GuiButton::OnLeftButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments)
 			{
-				if(arguments.eventSource==GetBoundsComposition())
+				if(arguments.eventSource==boundsComposition)
 				{
 					mousePressing=true;
+					boundsComposition->GetRelatedGraphicsHost()->SetFocus(boundsComposition);
 					UpdateControlState();
 				}
 			}
 
 			void GuiButton::OnLeftButtonUp(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments)
 			{
-				if(arguments.eventSource==GetBoundsComposition())
+				if(arguments.eventSource==boundsComposition)
 				{
 					mousePressing=false;
 					UpdateControlState();
@@ -403,7 +409,7 @@ GuiButton
 
 			void GuiButton::OnMouseEnter(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 			{
-				if(arguments.eventSource==GetBoundsComposition())
+				if(arguments.eventSource==boundsComposition)
 				{
 					mouseHoving=true;
 					UpdateControlState();
@@ -412,11 +418,16 @@ GuiButton
 
 			void GuiButton::OnMouseLeave(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 			{
-				if(arguments.eventSource==GetBoundsComposition())
+				if(arguments.eventSource==boundsComposition)
 				{
 					mouseHoving=false;
 					UpdateControlState();
 				}
+			}
+
+			elements::GuiGraphicsComposition* GuiButton::GetFocusableComposition()
+			{
+				return boundsComposition;
 			}
 
 			GuiButton::GuiButton(IStyleController* _styleController)
@@ -428,6 +439,7 @@ GuiButton
 			{
 				Clicked.SetAssociatedComposition(boundsComposition);
 				styleController->Transfer(Normal);
+				styleController->SetFocusableComposition(boundsComposition);
 
 				GetEventReceiver()->leftButtonDown.AttachMethod(this, &GuiButton::OnLeftButtonDown);
 				GetEventReceiver()->leftButtonUp.AttachMethod(this, &GuiButton::OnLeftButtonUp);
@@ -754,10 +766,10 @@ GuiScrollView::StyleController
 				verticalScroll->SetEnabled(false);
 
 				boundsComposition=new GuiBoundsComposition;
-				styleProvider->InstallBackground(boundsComposition);
+				GuiGraphicsComposition* tableContainerComposition=styleProvider->InstallBackground(boundsComposition);
 
 				tableComposition=new GuiTableComposition;
-				boundsComposition->AddChild(tableComposition);
+				tableContainerComposition->AddChild(tableComposition);
 				tableComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
 				tableComposition->SetRowsAndColumns(2, 2);
 				tableComposition->SetRowOption(0, GuiCellOption::PercentageOption(1.0));
@@ -880,6 +892,11 @@ GuiScrollView::StyleController
 			elements::GuiGraphicsComposition* GuiScrollView::StyleController::GetContainerComposition()
 			{
 				return containerComposition;
+			}
+
+			void GuiScrollView::StyleController::SetFocusableComposition(elements::GuiGraphicsComposition* value)
+			{
+				styleProvider->SetFocusableComposition(value);
 			}
 
 			void GuiScrollView::StyleController::SetText(const WString& value)

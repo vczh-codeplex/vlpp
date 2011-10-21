@@ -64,6 +64,7 @@ Scrolls
 
 				elements::GuiBoundsComposition*						GetBoundsComposition();
 				elements::GuiGraphicsComposition*					GetContainerComposition();
+				void												SetFocusableComposition(elements::GuiGraphicsComposition* value);
 				void												SetText(const WString& value);
 				void												SetFont(const FontProperties& value);
 				void												SetVisuallyEnabled(bool value);
@@ -109,6 +110,7 @@ Scrolls
 
 				elements::GuiBoundsComposition*						GetBoundsComposition();
 				elements::GuiGraphicsComposition*					GetContainerComposition();
+				void												SetFocusableComposition(elements::GuiGraphicsComposition* value);
 				void												SetText(const WString& value);
 				void												SetFont(const FontProperties& value);
 				void												SetVisuallyEnabled(bool value);

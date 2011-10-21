@@ -240,6 +240,10 @@ CommonScrollStyle
 				return boundsComposition;
 			}
 
+			void CommonScrollStyle::SetFocusableComposition(elements::GuiGraphicsComposition* value)
+			{
+			}
+
 			void CommonScrollStyle::SetText(const WString& value)
 			{
 			}
@@ -483,6 +487,10 @@ CommonTrackStyle
 			elements::GuiGraphicsComposition* CommonTrackStyle::GetContainerComposition()
 			{
 				return boundsComposition;
+			}
+
+			void CommonTrackStyle::SetFocusableComposition(elements::GuiGraphicsComposition* value)
+			{
 			}
 
 			void CommonTrackStyle::SetText(const WString& value)

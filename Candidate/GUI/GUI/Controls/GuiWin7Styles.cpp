@@ -26,7 +26,7 @@ namespace vl
 			}
 
 /***********************************************************************
-Win7ItemColors
+Win7ButtonColors
 ***********************************************************************/
 
 			void Win7ButtonColors::SetAlphaWithoutText(unsigned char a)
@@ -39,7 +39,7 @@ Win7ItemColors
 				g4.a=a;
 			}
 
-			Win7ButtonColors Win7ButtonColors::Blend(const Win7ButtonColors c1, const Win7ButtonColors c2, int ratio, int total)
+			Win7ButtonColors Win7ButtonColors::Blend(const Win7ButtonColors& c1, const Win7ButtonColors& c2, int ratio, int total)
 			{
 				if(ratio<0) ratio=0;
 				else if(ratio>total) ratio=total;
@@ -498,6 +498,61 @@ Win7CheckedButtonElements
 			}
 
 /***********************************************************************
+Win7TextBoxColors
+***********************************************************************/
+
+			Win7TextBoxColors Win7TextBoxColors::Blend(const Win7TextBoxColors& c1, const Win7TextBoxColors& c2, int ratio, int total)
+			{
+				if(ratio<0) ratio=0;
+				else if(ratio>total) ratio=total;
+
+				Win7TextBoxColors result;
+				result.borderColor=BlendColor(c1.borderColor, c2.borderColor, ratio, total);
+				result.backgroundColor=BlendColor(c1.backgroundColor, c2.backgroundColor, ratio, total);
+				return result;
+			}
+			
+			Win7TextBoxColors Win7TextBoxColors::Normal()
+			{
+				Win7TextBoxColors result=
+				{
+					Color(197, 197, 197),
+					Color(255, 255, 255),
+				};
+				return result;
+			}
+
+			Win7TextBoxColors Win7TextBoxColors::Active()
+			{
+				Win7TextBoxColors result=
+				{
+					Color(197, 218, 237),
+					Color(255, 255, 255),
+				};
+				return result;
+			}
+
+			Win7TextBoxColors Win7TextBoxColors::Focused()
+			{
+				Win7TextBoxColors result=
+				{
+					Color(61, 123, 173),
+					Color(255, 255, 255),
+				};
+				return result;
+			}
+
+			Win7TextBoxColors Win7TextBoxColors::Disabled()
+			{
+				Win7TextBoxColors result=
+				{
+					Color(175, 175, 175),
+					Win7GetSystemWindowColor(),
+				};
+				return result;
+			}
+
+/***********************************************************************
 Helpers
 ***********************************************************************/
 
@@ -544,7 +599,9 @@ Helpers
 Animation
 ***********************************************************************/
 
-#define IMPLEMENT_TRANSFERRING_ANIMATION(TSTATE, TSTYLECONTROLLER)\
+#define DEFAULT_TRANSFERRING_ANIMATION_HOST_GETTER(STYLE) (STYLE->GetBoundsComposition()->GetRelatedGraphicsHost())
+
+#define IMPLEMENT_TRANSFERRING_ANIMATION_BASE(TSTATE, TSTYLECONTROLLER, HOST_GETTER)\
 			TSTYLECONTROLLER::TransferringAnimation::TransferringAnimation(TSTYLECONTROLLER* _style, const TSTATE& begin)\
 				:GuiTimeBasedAnimation(0)\
 				,colorBegin(begin)\
@@ -562,7 +619,7 @@ Animation
 			{\
 				if(colorEnd!=end)\
 				{\
-					GuiGraphicsHost* host=style->GetBoundsComposition()->GetRelatedGraphicsHost();\
+					GuiGraphicsHost* host=HOST_GETTER(style);\
 					if(host)\
 					{\
 						Restart(Win7GetColorAnimationLength());\
@@ -590,6 +647,9 @@ Animation
 			}\
 			void TSTYLECONTROLLER::TransferringAnimation::Play(int currentPosition, int totalLength)\
 
+#define IMPLEMENT_TRANSFERRING_ANIMATION(TSTATE, TSTYLECONTROLLER)\
+	IMPLEMENT_TRANSFERRING_ANIMATION_BASE(TSTATE, TSTYLECONTROLLER, DEFAULT_TRANSFERRING_ANIMATION_HOST_GETTER)
+
 /***********************************************************************
 Win7WindowStyle
 ***********************************************************************/
@@ -615,6 +675,10 @@ Win7WindowStyle
 			elements::GuiGraphicsComposition* Win7WindowStyle::GetContainerComposition()
 			{
 				return boundsComposition;
+			}
+
+			void Win7WindowStyle::SetFocusableComposition(elements::GuiGraphicsComposition* value)
+			{
 			}
 
 			void Win7WindowStyle::SetText(const WString& value)
@@ -696,6 +760,10 @@ Win7ButtonStyle
 			elements::GuiGraphicsComposition* Win7ButtonStyle::GetContainerComposition()
 			{
 				return elements.mainComposition;
+			}
+
+			void Win7ButtonStyle::SetFocusableComposition(elements::GuiGraphicsComposition* value)
+			{
 			}
 
 			void Win7ButtonStyle::SetText(const WString& value)
@@ -843,6 +911,10 @@ Win7GroupBoxStyle
 				return containerComposition;
 			}
 
+			void Win7GroupBoxStyle::SetFocusableComposition(elements::GuiGraphicsComposition* value)
+			{
+			}
+
 			void Win7GroupBoxStyle::SetText(const WString& value)
 			{
 				textElement->SetText(value);
@@ -922,6 +994,10 @@ Win7CheckBoxStyle
 			elements::GuiGraphicsComposition* Win7CheckBoxStyle::GetContainerComposition()
 			{
 				return elements.mainComposition;
+			}
+
+			void Win7CheckBoxStyle::SetFocusableComposition(elements::GuiGraphicsComposition* value)
+			{
 			}
 
 			void Win7CheckBoxStyle::SetText(const WString& value)
@@ -1098,7 +1174,11 @@ Win7TrackStyle
 Win7ScrollViewProvider
 ***********************************************************************/
 
-			void Win7ScrollViewProvider::AssociateStyleController(GuiControl::IStyleController* styleController)
+			void Win7ScrollViewProvider::AssociateStyleController(controls::GuiControl::IStyleController* controller)
+			{
+			}
+			
+			void Win7ScrollViewProvider::SetFocusableComposition(elements::GuiGraphicsComposition* value)
 			{
 			}
 
@@ -1129,7 +1209,7 @@ Win7ScrollViewProvider
 				return Win7ScrollStyle::DefaultSize;
 			}
 
-			void Win7ScrollViewProvider::InstallBackground(elements::GuiBoundsComposition* boundsComposition)
+			elements::GuiGraphicsComposition* Win7ScrollViewProvider::InstallBackground(elements::GuiBoundsComposition* boundsComposition)
 			{
 				GuiSolidBorderElement* border=GuiSolidBorderElement::Create();
 				border->SetColor(Win7GetSystemBorderColor());
@@ -1143,26 +1223,132 @@ Win7ScrollViewProvider
 				boundsComposition->AddChild(backgroundComposition);
 				backgroundComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
 				backgroundComposition->SetOwnedElement(background);
+
+				return boundsComposition;
 			}
 
 /***********************************************************************
 Win7MultilineTextBoxProvider
 ***********************************************************************/
 
-			void Win7MultilineTextBoxProvider::InstallBackground(elements::GuiBoundsComposition* boundsComposition)
-			{
-				GuiSolidBorderElement* border=GuiSolidBorderElement::Create();
-				border->SetColor(Win7GetSystemBorderColor());
-				boundsComposition->SetOwnedElement(border);
-				boundsComposition->SetInternalMargin(Margin(1, 1, 1, 1));
-				
-				GuiSolidBackgroundElement* background=GuiSolidBackgroundElement::Create();
-				background->SetColor(Color(255, 255, 255));
+#define HOST_GETTER_BY_FOCUSABLE_COMPOSITION(STYLE) (style->focusableComposition->GetRelatedGraphicsHost())
 
-				GuiBoundsComposition* backgroundComposition=new GuiBoundsComposition;
-				boundsComposition->AddChild(backgroundComposition);
-				backgroundComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
-				backgroundComposition->SetOwnedElement(background);
+			IMPLEMENT_TRANSFERRING_ANIMATION_BASE(Win7TextBoxColors, Win7MultilineTextBoxProvider, HOST_GETTER_BY_FOCUSABLE_COMPOSITION)
+			{
+				colorCurrent=Win7TextBoxColors::Blend(colorBegin, colorEnd, currentPosition, totalLength);
+				style->Apply(colorCurrent);
+			}
+
+			void Win7MultilineTextBoxProvider::UpdateStyle()
+			{
+				if(!isVisuallyEnabled)
+				{
+					transferringAnimation->Transfer(Win7TextBoxColors::Disabled());
+				}
+				else if(isFocused)
+				{
+					transferringAnimation->Transfer(Win7TextBoxColors::Focused());
+				}
+				else if(isMouseEnter)
+				{
+					transferringAnimation->Transfer(Win7TextBoxColors::Active());
+				}
+				else
+				{
+					transferringAnimation->Transfer(Win7TextBoxColors::Normal());
+				}
+			}
+
+			void Win7MultilineTextBoxProvider::Apply(const Win7TextBoxColors& colors)
+			{
+				borderElement->SetColor(colors.borderColor);
+				backgroundElement->SetColor(colors.backgroundColor);
+			}
+
+			void Win7MultilineTextBoxProvider::OnBoundsMouseEnter(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
+			{
+				isMouseEnter=true;
+				UpdateStyle();
+			}
+
+			void Win7MultilineTextBoxProvider::OnBoundsMouseLeave(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
+			{
+				isMouseEnter=false;
+				UpdateStyle();
+			}
+
+			void Win7MultilineTextBoxProvider::OnBoundsGotFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
+			{
+				isFocused=true;
+				UpdateStyle();
+			}
+
+			void Win7MultilineTextBoxProvider::OnBoundsLostFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
+			{
+				isFocused=false;
+				UpdateStyle();
+			}
+
+			Win7MultilineTextBoxProvider::Win7MultilineTextBoxProvider()
+				:backgroundElement(0)
+				,borderElement(0)
+				,focusableComposition(0)
+				,isMouseEnter(false)
+				,isFocused(false)
+				,isVisuallyEnabled(false)
+			{
+				transferringAnimation=new TransferringAnimation(this, Win7TextBoxColors::Normal());
+			}
+
+			Win7MultilineTextBoxProvider::~Win7MultilineTextBoxProvider()
+			{
+			}
+			
+			void Win7MultilineTextBoxProvider::SetFocusableComposition(elements::GuiGraphicsComposition* value)
+			{
+				focusableComposition=value;
+				focusableComposition->GetEventReceiver()->mouseEnter.AttachMethod(this, &Win7MultilineTextBoxProvider::OnBoundsMouseEnter);
+				focusableComposition->GetEventReceiver()->mouseLeave.AttachMethod(this, &Win7MultilineTextBoxProvider::OnBoundsMouseLeave);
+				focusableComposition->GetEventReceiver()->gotFocus.AttachMethod(this, &Win7MultilineTextBoxProvider::OnBoundsGotFocus);
+				focusableComposition->GetEventReceiver()->lostFocus.AttachMethod(this, &Win7MultilineTextBoxProvider::OnBoundsLostFocus);
+			}
+
+			void Win7MultilineTextBoxProvider::SetVisuallyEnabled(bool value)
+			{
+				isVisuallyEnabled=value;
+				UpdateStyle();
+			}
+
+			elements::GuiGraphicsComposition* Win7MultilineTextBoxProvider::InstallBackground(elements::GuiBoundsComposition* boundsComposition)
+			{
+				{
+					GuiSolidBackgroundElement* background=GuiSolidBackgroundElement::Create();
+					background->SetColor(Color(255, 255, 255));
+
+					GuiBoundsComposition* backgroundComposition=new GuiBoundsComposition;
+					boundsComposition->AddChild(backgroundComposition);
+					backgroundComposition->SetAlignmentToParent(Margin(1, 1, 1, 1));
+					backgroundComposition->SetOwnedElement(background);
+					backgroundElement=background;
+				}
+				{
+					GuiRoundBorderElement* border=GuiRoundBorderElement::Create();
+					border->SetColor(Win7GetSystemBorderColor());
+					border->SetRadius(2);
+					borderElement=border;
+
+					GuiBoundsComposition* borderComposition=new GuiBoundsComposition;
+					boundsComposition->AddChild(borderComposition);
+					borderComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+					borderComposition->SetOwnedElement(border);
+				}
+				Apply(Win7TextBoxColors::Normal());
+				{
+					GuiBoundsComposition* containerComposition=new GuiBoundsComposition;
+					boundsComposition->AddChild(containerComposition);
+					containerComposition->SetAlignmentToParent(Margin(2, 2, 2, 2));
+					return containerComposition;
+				}
 			}
 		}
 	}

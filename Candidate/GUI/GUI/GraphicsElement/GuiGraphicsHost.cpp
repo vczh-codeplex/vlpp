@@ -447,6 +447,11 @@ GuiGraphicsHost
 				return true;
 			}
 
+			GuiGraphicsComposition* GuiGraphicsHost::GetFocusedComposition()
+			{
+				return focusedComposition;
+			}
+
 			GuiGraphicsAnimationManager* GuiGraphicsHost::GetAnimationManager()
 			{
 				return &animationManager;
