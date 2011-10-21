@@ -39,6 +39,11 @@ Basic Construction
 
 				class IStyleProvider : public Interface
 				{
+				public:
+					virtual void								AssociateStyleController(IStyleController* styleController)=0;
+					virtual void								SetText(const WString& value)=0;
+					virtual void								SetFont(const FontProperties& value)=0;
+					virtual void								SetVisuallyEnabled(bool value)=0;
 				};
 			protected:
 				Ptr<IStyleController>					styleController;

@@ -280,9 +280,20 @@ Scrolls
 			class Win7ScrollViewProvider : public Object, public controls::GuiScrollView::IStyleProvider
 			{
 			public:
+				void										AssociateStyleController(controls::GuiControl::IStyleController* styleController);
+				void										SetText(const WString& value);
+				void										SetFont(const FontProperties& value);
+				void										SetVisuallyEnabled(bool value);
+
 				controls::GuiScroll::IStyleController*		CreateHorizontalScrollStyle();
 				controls::GuiScroll::IStyleController*		CreateVerticalScrollStyle();
 				int											GetDefaultScrollSize();
+				void										InstallBackground(elements::GuiBoundsComposition* boundsComposition);
+			};
+
+			class Win7MultilineTextBoxProvider : public Win7ScrollViewProvider
+			{
+			public:
 				void										InstallBackground(elements::GuiBoundsComposition* boundsComposition);
 			};
 		}

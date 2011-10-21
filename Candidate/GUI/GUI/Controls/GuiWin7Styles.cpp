@@ -1098,6 +1098,22 @@ Win7TrackStyle
 Win7ScrollViewProvider
 ***********************************************************************/
 
+			void Win7ScrollViewProvider::AssociateStyleController(GuiControl::IStyleController* styleController)
+			{
+			}
+
+			void Win7ScrollViewProvider::SetText(const WString& value)
+			{
+			}
+
+			void Win7ScrollViewProvider::SetFont(const FontProperties& value)
+			{
+			}
+
+			void Win7ScrollViewProvider::SetVisuallyEnabled(bool value)
+			{
+			}
+
 			controls::GuiScroll::IStyleController* Win7ScrollViewProvider::CreateHorizontalScrollStyle()
 			{
 				return new Win7ScrollStyle(Win7ScrollStyle::Horizontal);
@@ -1115,11 +1131,38 @@ Win7ScrollViewProvider
 
 			void Win7ScrollViewProvider::InstallBackground(elements::GuiBoundsComposition* boundsComposition)
 			{
+				GuiSolidBorderElement* border=GuiSolidBorderElement::Create();
+				border->SetColor(Win7GetSystemBorderColor());
+				boundsComposition->SetOwnedElement(border);
 				boundsComposition->SetInternalMargin(Margin(1, 1, 1, 1));
+				
+				GuiSolidBackgroundElement* background=GuiSolidBackgroundElement::Create();
+				background->SetColor(Win7GetSystemWindowColor());
 
-				GuiSolidBorderElement* element=GuiSolidBorderElement::Create();
-				element->SetColor(Win7GetSystemBorderColor());
-				boundsComposition->SetOwnedElement(element);
+				GuiBoundsComposition* backgroundComposition=new GuiBoundsComposition;
+				boundsComposition->AddChild(backgroundComposition);
+				backgroundComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+				backgroundComposition->SetOwnedElement(background);
+			}
+
+/***********************************************************************
+Win7MultilineTextBoxProvider
+***********************************************************************/
+
+			void Win7MultilineTextBoxProvider::InstallBackground(elements::GuiBoundsComposition* boundsComposition)
+			{
+				GuiSolidBorderElement* border=GuiSolidBorderElement::Create();
+				border->SetColor(Win7GetSystemBorderColor());
+				boundsComposition->SetOwnedElement(border);
+				boundsComposition->SetInternalMargin(Margin(1, 1, 1, 1));
+				
+				GuiSolidBackgroundElement* background=GuiSolidBackgroundElement::Create();
+				background->SetColor(Color(255, 255, 255));
+
+				GuiBoundsComposition* backgroundComposition=new GuiBoundsComposition;
+				boundsComposition->AddChild(backgroundComposition);
+				backgroundComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+				backgroundComposition->SetOwnedElement(background);
 			}
 		}
 	}

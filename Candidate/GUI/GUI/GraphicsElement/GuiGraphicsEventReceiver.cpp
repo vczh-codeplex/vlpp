@@ -32,6 +32,8 @@ Event Receiver
 				,systemKeyDown(_sender)
 				,systemKeyUp(_sender)
 				,charInput(_sender)
+				,gotFocus(_sender)
+				,lostFocus(_sender)
 			{
 			}
 

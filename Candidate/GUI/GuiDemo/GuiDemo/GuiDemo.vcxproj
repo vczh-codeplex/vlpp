@@ -163,6 +163,7 @@
     <ClCompile Include="..\..\..\..\Library\String.cpp" />
     <ClCompile Include="..\..\GUI\Controls\GuiBasicControls.cpp" />
     <ClCompile Include="..\..\GUI\Controls\GuiCommonStyles.cpp" />
+    <ClCompile Include="..\..\GUI\Controls\GuiTextControls.cpp" />
     <ClCompile Include="..\..\GUI\Controls\GuiWin7Styles.cpp" />
     <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsComposition.cpp" />
     <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsElement.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="..\..\..\..\Library\String.h" />
     <ClInclude Include="..\..\GUI\Controls\GuiBasicControls.h" />
     <ClInclude Include="..\..\GUI\Controls\GuiCommonStyles.h" />
+    <ClInclude Include="..\..\GUI\Controls\GuiTextControls.h" />
     <ClInclude Include="..\..\GUI\Controls\GuiWin7Styles.h" />
     <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsComposition.h" />
     <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsElement.h" />
