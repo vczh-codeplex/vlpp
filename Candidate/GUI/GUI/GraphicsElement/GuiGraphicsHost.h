@@ -102,7 +102,9 @@ Host
 				void							SetNativeWindow(INativeWindow* _nativeWindow);
 				GuiGraphicsComposition*			GetMainComposition();
 				void							Render();
+
 				bool							SetFocus(GuiGraphicsComposition* composition);
+				GuiGraphicsComposition*			GetFocusedComposition();
 
 				GuiGraphicsAnimationManager*	GetAnimationManager();
 			};

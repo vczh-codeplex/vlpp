@@ -34,13 +34,30 @@ GuiMultilineTextBox
 			{
 			}
 
+			void GuiMultilineTextBox::OnBoundsMouseButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments)
+			{
+				if(GetVisuallyEnabled())
+				{
+					boundsComposition->GetRelatedGraphicsHost()->SetFocus(boundsComposition);
+				}
+			}
+
 			GuiMultilineTextBox::GuiMultilineTextBox(GuiScrollView::IStyleProvider* styleProvider)
 				:GuiScrollView(new StyleController(styleProvider))
 			{
+				boundsComposition->GetEventReceiver()->leftButtonDown.AttachMethod(this, &GuiMultilineTextBox::OnBoundsMouseButtonDown);
+				boundsComposition->GetEventReceiver()->middleButtonDown.AttachMethod(this, &GuiMultilineTextBox::OnBoundsMouseButtonDown);
+				boundsComposition->GetEventReceiver()->rightButtonDown.AttachMethod(this, &GuiMultilineTextBox::OnBoundsMouseButtonDown);
+				styleController->SetFocusableComposition(boundsComposition);
 			}
 
 			GuiMultilineTextBox::~GuiMultilineTextBox()
 			{
+			}
+
+			elements::GuiGraphicsComposition* GuiMultilineTextBox::GetFocusableComposition()
+			{
+				return boundsComposition;
 			}
 		}
 	}

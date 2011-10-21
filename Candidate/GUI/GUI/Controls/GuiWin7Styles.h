@@ -55,7 +55,7 @@ Button Configuration
 
 				void										SetAlphaWithoutText(unsigned char a);
 
-				static Win7ButtonColors						Blend(const Win7ButtonColors c1, const Win7ButtonColors c2, int ratio, int total);
+				static Win7ButtonColors						Blend(const Win7ButtonColors& c1, const Win7ButtonColors& c2, int ratio, int total);
 
 				static Win7ButtonColors						Normal();
 				static Win7ButtonColors						ItemActive();
@@ -98,6 +98,31 @@ Button Configuration
 
 				static Win7CheckedButtonElements			Create(elements::ElementShape::Type shape);
 				void										Apply(const Win7ButtonColors& colors);
+			};
+
+			struct Win7TextBoxColors
+			{
+				Color										borderColor;
+				Color										backgroundColor;
+
+				bool operator==(const Win7TextBoxColors& colors)
+				{
+					return
+						borderColor == colors.borderColor &&
+						backgroundColor == colors.backgroundColor;
+				}
+
+				bool operator!=(const Win7TextBoxColors& colors)
+				{
+					return !(*this==colors);
+				}
+
+				static Win7TextBoxColors					Blend(const Win7TextBoxColors& c1, const Win7TextBoxColors& c2, int ratio, int total);
+
+				static Win7TextBoxColors					Normal();
+				static Win7TextBoxColors					Active();
+				static Win7TextBoxColors					Focused();
+				static Win7TextBoxColors					Disabled();
 			};
 
 /***********************************************************************
@@ -145,6 +170,7 @@ Containers
 
 				elements::GuiBoundsComposition*				GetBoundsComposition();
 				elements::GuiGraphicsComposition*			GetContainerComposition();
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value);
 				void										SetText(const WString& value);
 				void										SetFont(const FontProperties& value);
 				void										SetVisuallyEnabled(bool value);
@@ -171,6 +197,7 @@ Containers
 
 				elements::GuiBoundsComposition*				GetBoundsComposition();
 				elements::GuiGraphicsComposition*			GetContainerComposition();
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value);
 				void										SetText(const WString& value);
 				void										SetFont(const FontProperties& value);
 				void										SetVisuallyEnabled(bool value);
@@ -199,6 +226,7 @@ Buttons
 
 				elements::GuiBoundsComposition*				GetBoundsComposition();
 				elements::GuiGraphicsComposition*			GetContainerComposition();
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value);
 				void										SetText(const WString& value);
 				void										SetFont(const FontProperties& value);
 				void										SetVisuallyEnabled(bool value);
@@ -234,6 +262,7 @@ Buttons
 
 				elements::GuiBoundsComposition*				GetBoundsComposition();
 				elements::GuiGraphicsComposition*			GetContainerComposition();
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value);
 				void										SetText(const WString& value);
 				void										SetFont(const FontProperties& value);
 				void										SetVisuallyEnabled(bool value);
@@ -280,7 +309,8 @@ Scrolls
 			class Win7ScrollViewProvider : public Object, public controls::GuiScrollView::IStyleProvider
 			{
 			public:
-				void										AssociateStyleController(controls::GuiControl::IStyleController* styleController);
+				void										AssociateStyleController(controls::GuiControl::IStyleController* controller);
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value);
 				void										SetText(const WString& value);
 				void										SetFont(const FontProperties& value);
 				void										SetVisuallyEnabled(bool value);
@@ -288,13 +318,36 @@ Scrolls
 				controls::GuiScroll::IStyleController*		CreateHorizontalScrollStyle();
 				controls::GuiScroll::IStyleController*		CreateVerticalScrollStyle();
 				int											GetDefaultScrollSize();
-				void										InstallBackground(elements::GuiBoundsComposition* boundsComposition);
+				elements::GuiGraphicsComposition*			InstallBackground(elements::GuiBoundsComposition* boundsComposition);
 			};
 
 			class Win7MultilineTextBoxProvider : public Win7ScrollViewProvider
 			{
+			protected:
+				DEFINE_TRANSFERRING_ANIMATION(Win7TextBoxColors, Win7MultilineTextBoxProvider)
+					
+				elements::GuiRoundBorderElement*			borderElement;
+				elements::GuiSolidBackgroundElement*		backgroundElement;
+				elements::GuiGraphicsComposition*			focusableComposition;
+				bool										isMouseEnter;
+				bool										isFocused;
+				bool										isVisuallyEnabled;
+				Ptr<TransferringAnimation>					transferringAnimation;
+
+				void										UpdateStyle();
+				void										Apply(const Win7TextBoxColors& colors);
+
+				void										OnBoundsMouseEnter(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+				void										OnBoundsMouseLeave(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+				void										OnBoundsGotFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+				void										OnBoundsLostFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 			public:
-				void										InstallBackground(elements::GuiBoundsComposition* boundsComposition);
+				Win7MultilineTextBoxProvider();
+				~Win7MultilineTextBoxProvider();
+				
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value);
+				void										SetVisuallyEnabled(bool value);
+				elements::GuiGraphicsComposition*			InstallBackground(elements::GuiBoundsComposition* boundsComposition);
 			};
 		}
 	}

@@ -32,6 +32,7 @@ Basic Construction
 				public:
 					virtual elements::GuiBoundsComposition*		GetBoundsComposition()=0;
 					virtual elements::GuiGraphicsComposition*	GetContainerComposition()=0;
+					virtual void								SetFocusableComposition(elements::GuiGraphicsComposition* value)=0;
 					virtual void								SetText(const WString& value)=0;
 					virtual void								SetFont(const FontProperties& value)=0;
 					virtual void								SetVisuallyEnabled(bool value)=0;
@@ -40,7 +41,8 @@ Basic Construction
 				class IStyleProvider : public Interface
 				{
 				public:
-					virtual void								AssociateStyleController(IStyleController* styleController)=0;
+					virtual void								AssociateStyleController(IStyleController* controller)=0;
+					virtual void								SetFocusableComposition(elements::GuiGraphicsComposition* value)=0;
 					virtual void								SetText(const WString& value)=0;
 					virtual void								SetFont(const FontProperties& value)=0;
 					virtual void								SetVisuallyEnabled(bool value)=0;
@@ -76,6 +78,7 @@ Basic Construction
 				IStyleController*						GetStyleController();
 				elements::GuiBoundsComposition*			GetBoundsComposition();
 				elements::GuiGraphicsComposition*		GetContainerComposition();
+				elements::GuiGraphicsComposition*		GetFocusableComposition();
 				elements::GuiGraphicsEventReceiver*		GetEventReceiver();
 				GuiControl*								GetParent();
 				int										GetChildrenCount();
@@ -168,6 +171,8 @@ Buttons
 				~GuiButton();
 
 				elements::GuiNotifyEvent				Clicked;
+
+				elements::GuiGraphicsComposition*		GetFocusableComposition();
 			};
 
 			class GuiSelectableButton : public GuiButton
@@ -301,7 +306,7 @@ Scrolls
 					virtual GuiScroll::IStyleController*		CreateHorizontalScrollStyle()=0;
 					virtual GuiScroll::IStyleController*		CreateVerticalScrollStyle()=0;
 					virtual int									GetDefaultScrollSize()=0;
-					virtual void								InstallBackground(elements::GuiBoundsComposition* boundsComposition)=0;
+					virtual elements::GuiGraphicsComposition*	InstallBackground(elements::GuiBoundsComposition* boundsComposition)=0;
 				};
 			protected:
 				class StyleController : public Object, public GuiControl::IStyleController
@@ -338,6 +343,7 @@ Scrolls
 
 					elements::GuiBoundsComposition*		GetBoundsComposition();
 					elements::GuiGraphicsComposition*	GetContainerComposition();
+					void								SetFocusableComposition(elements::GuiGraphicsComposition* value);
 					void								SetText(const WString& value);
 					void								SetFont(const FontProperties& value);
 					void								SetVisuallyEnabled(bool value);
