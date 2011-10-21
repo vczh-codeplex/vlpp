@@ -55,6 +55,7 @@ Host
 			protected:
 				INativeWindow*					nativeWindow;
 				GuiWindowComposition*			windowComposition;
+				GuiGraphicsComposition*			focusedComposition;
 				Size							previousClientSize;
 				Size							minSize;
 
@@ -101,6 +102,7 @@ Host
 				void							SetNativeWindow(INativeWindow* _nativeWindow);
 				GuiGraphicsComposition*			GetMainComposition();
 				void							Render();
+				bool							SetFocus(GuiGraphicsComposition* composition);
 
 				GuiGraphicsAnimationManager*	GetAnimationManager();
 			};

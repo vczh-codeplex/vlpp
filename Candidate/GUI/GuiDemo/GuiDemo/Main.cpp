@@ -1,4 +1,4 @@
-#include "..\..\GUI\Controls\GuiBasicControls.h"
+#include "..\..\GUI\Controls\GuiTextControls.h"
 #include "..\..\GUI\Controls\GuiWin7Styles.h"
 
 using namespace vl;
@@ -55,6 +55,11 @@ void SetupMainPanel(GuiControlHost* host, GuiCellComposition* cell)
 				}
 				buttonBig->SetEnabled(!buttonBig->GetEnabled());
 			});
+		}
+		{
+			GuiMultilineTextBox* textBox=new GuiMultilineTextBox(new win7::Win7MultilineTextBoxProvider);
+			cell->AddChild(textBox->GetBoundsComposition());
+			textBox->GetBoundsComposition()->SetBounds(Rect(Point(0, 280), Size(200, 200)));
 		}
 	}
 	{

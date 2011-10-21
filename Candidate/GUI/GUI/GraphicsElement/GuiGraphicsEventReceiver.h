@@ -230,6 +230,8 @@ Event Receiver
 				GuiKeyEvent						systemKeyDown;
 				GuiKeyEvent						systemKeyUp;
 				GuiCharEvent					charInput;
+				GuiNotifyEvent					gotFocus;
+				GuiNotifyEvent					lostFocus;
 			};
 		}
 	}

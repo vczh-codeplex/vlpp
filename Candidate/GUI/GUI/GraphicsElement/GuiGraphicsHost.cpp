@@ -221,10 +221,12 @@ GuiGraphicsHost
 
 			void GuiGraphicsHost::HorizontalWheel(const NativeWindowMouseInfo& info)
 			{
+				OnMouseInput(info, &GuiGraphicsEventReceiver::horizontalWheel);
 			}
 
 			void GuiGraphicsHost::VerticalWheel(const NativeWindowMouseInfo& info)
 			{
+				OnMouseInput(info, &GuiGraphicsEventReceiver::verticalWheel);
 			}
 
 			void GuiGraphicsHost::MouseMoving(const NativeWindowMouseInfo& info)
@@ -295,22 +297,66 @@ GuiGraphicsHost
 
 			void GuiGraphicsHost::KeyDown(int code, bool alt)
 			{
+				if(focusedComposition && focusedComposition->HasEventReceiver())
+				{
+					GuiKeyEventArgs arguments;
+					arguments.code=code;
+					arguments.alt=alt;
+					arguments.compositionSource=focusedComposition;
+					arguments.eventSource=focusedComposition;
+					focusedComposition->GetEventReceiver()->keyDown.Execute(arguments);
+				}
 			}
 
 			void GuiGraphicsHost::KeyUp(int code, bool alt)
 			{
+				if(focusedComposition && focusedComposition->HasEventReceiver())
+				{
+					GuiKeyEventArgs arguments;
+					arguments.code=code;
+					arguments.alt=alt;
+					arguments.compositionSource=focusedComposition;
+					arguments.eventSource=focusedComposition;
+					focusedComposition->GetEventReceiver()->keyUp.Execute(arguments);
+				}
 			}
 
 			void GuiGraphicsHost::SysKeyDown(int code, bool alt)
 			{
+				if(focusedComposition && focusedComposition->HasEventReceiver())
+				{
+					GuiKeyEventArgs arguments;
+					arguments.code=code;
+					arguments.alt=alt;
+					arguments.compositionSource=focusedComposition;
+					arguments.eventSource=focusedComposition;
+					focusedComposition->GetEventReceiver()->systemKeyDown.Execute(arguments);
+				}
 			}
 
 			void GuiGraphicsHost::SysKeyUp(int code, bool alt)
 			{
+				if(focusedComposition && focusedComposition->HasEventReceiver())
+				{
+					GuiKeyEventArgs arguments;
+					arguments.code=code;
+					arguments.alt=alt;
+					arguments.compositionSource=focusedComposition;
+					arguments.eventSource=focusedComposition;
+					focusedComposition->GetEventReceiver()->systemKeyUp.Execute(arguments);
+				}
 			}
 
 			void GuiGraphicsHost::Char(wchar_t keyChar)
 			{
+				if(focusedComposition && focusedComposition->HasEventReceiver())
+				{
+					GuiCharEventArgs arguments;
+					arguments.value=keyChar;
+					arguments.compositionSource=focusedComposition;
+					arguments.eventSource=focusedComposition;
+					focusedComposition->GetEventReceiver()->charInput.Execute(arguments);
+				}
 			}
 
 			void GuiGraphicsHost::GlobalTimer()
@@ -326,6 +372,7 @@ GuiGraphicsHost
 			GuiGraphicsHost::GuiGraphicsHost()
 				:nativeWindow(0)
 				,windowComposition(0)
+				,focusedComposition(0)
 				,mouseCaptureComposition(0)
 			{
 				windowComposition=new GuiWindowComposition;
@@ -374,6 +421,30 @@ GuiGraphicsHost
 				windowComposition->GetRenderTarget()->StartRendering();
 				windowComposition->Render(Size());
 				windowComposition->GetRenderTarget()->StopRendering();
+			}
+
+			bool GuiGraphicsHost::SetFocus(GuiGraphicsComposition* composition)
+			{
+				if(!composition || composition->GetRelatedGraphicsHost()!=this)
+				{
+					return false;
+				}
+				if(focusedComposition && focusedComposition->HasEventReceiver())
+				{
+					GuiEventArgs arguments;
+					arguments.compositionSource=focusedComposition;
+					arguments.eventSource=focusedComposition;
+					focusedComposition->GetEventReceiver()->lostFocus.Execute(arguments);
+				}
+				focusedComposition=composition;
+				if(focusedComposition && focusedComposition->HasEventReceiver())
+				{
+					GuiEventArgs arguments;
+					arguments.compositionSource=focusedComposition;
+					arguments.eventSource=focusedComposition;
+					focusedComposition->GetEventReceiver()->gotFocus.Execute(arguments);
+				}
+				return true;
 			}
 
 			GuiGraphicsAnimationManager* GuiGraphicsHost::GetAnimationManager()

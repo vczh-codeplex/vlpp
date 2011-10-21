@@ -783,6 +783,8 @@ GuiScrollView::StyleController
 				containerComposition=new GuiBoundsComposition;
 				containerComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
 				containerCellComposition->AddChild(containerComposition);
+
+				styleProvider->AssociateStyleController(this);
 			}
 
 			GuiScrollView::StyleController::~StyleController()
@@ -882,14 +884,17 @@ GuiScrollView::StyleController
 
 			void GuiScrollView::StyleController::SetText(const WString& value)
 			{
+				styleProvider->SetText(value);
 			}
 
 			void GuiScrollView::StyleController::SetFont(const FontProperties& value)
 			{
+				styleProvider->SetFont(value);
 			}
 
 			void GuiScrollView::StyleController::SetVisuallyEnabled(bool value)
 			{
+				styleProvider->SetVisuallyEnabled(value);
 			}
 
 /***********************************************************************
