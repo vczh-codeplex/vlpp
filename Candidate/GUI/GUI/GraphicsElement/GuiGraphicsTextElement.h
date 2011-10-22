@@ -62,14 +62,11 @@ ColorizedText
 					int								rowHeight;
 					int								widths[65536];
 					
-					virtual void					SetFontInternal(const FontProperties& font)=0;
 					virtual int						MeasureWidthInternal(wchar_t character)=0;
-					virtual int						GetRowHeightInternal()=0;
 				public:
-					CharMeasurer();
+					CharMeasurer(int _rowHeight);
 					~CharMeasurer();
 
-					void							SetFont(const FontProperties& font);
 					int								MeasureWidth(wchar_t character);
 					int								GetRowHeight();
 				};
@@ -90,6 +87,7 @@ ColorizedText
 					void							SetCharMeasurer(CharMeasurer* value);
 					WString							GetText(TextPos start, TextPos end);
 					WString							GetText();
+					void							SetText(const WString& value);
 
 					bool							RemoveLines(int start, int count);
 					bool							IsAvailable(TextPos pos);
@@ -138,7 +136,6 @@ ColorizedText
 				public:
 					virtual void					ColorChanged()=0;
 					virtual void					FontChanged()=0;
-					virtual text::CharMeasurer*		GetCharMeasurer()=0;
 				};
 			protected:
 				ICallback*							callback;

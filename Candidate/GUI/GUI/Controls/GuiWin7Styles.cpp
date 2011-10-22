@@ -7,6 +7,7 @@ namespace vl
 	{
 		namespace win7
 		{
+			using namespace collections;
 			using namespace elements;
 			using namespace controls;
 
@@ -1296,12 +1297,19 @@ Win7MultilineTextBoxProvider
 				,isMouseEnter(false)
 				,isFocused(false)
 				,isVisuallyEnabled(false)
+				,styleController(0)
+				,textElement(0)
 			{
 				transferringAnimation=new TransferringAnimation(this, Win7TextBoxColors::Normal());
 			}
 
 			Win7MultilineTextBoxProvider::~Win7MultilineTextBoxProvider()
 			{
+			}
+
+			void Win7MultilineTextBoxProvider::AssociateStyleController(controls::GuiControl::IStyleController* controller)
+			{
+				styleController=controller;
 			}
 			
 			void Win7MultilineTextBoxProvider::SetFocusableComposition(elements::GuiGraphicsComposition* value)
@@ -1311,6 +1319,23 @@ Win7MultilineTextBoxProvider
 				focusableComposition->GetEventReceiver()->mouseLeave.AttachMethod(this, &Win7MultilineTextBoxProvider::OnBoundsMouseLeave);
 				focusableComposition->GetEventReceiver()->gotFocus.AttachMethod(this, &Win7MultilineTextBoxProvider::OnBoundsGotFocus);
 				focusableComposition->GetEventReceiver()->lostFocus.AttachMethod(this, &Win7MultilineTextBoxProvider::OnBoundsLostFocus);
+
+				GuiMultilineTextBox::StyleController* controller=dynamic_cast<GuiMultilineTextBox::StyleController*>(styleController);
+				textElement=controller->GetTextElement();
+
+				Array<text::ColorEntry> colors;
+				colors.Resize(1);
+				{
+					text::ColorEntry entry;
+					entry.normal.text=Color(0, 0, 0);
+					entry.normal.background=Color(0, 0, 0, 0);
+					entry.selectedFocused.text=Color(0, 0, 0);
+					entry.selectedFocused.background=Color(51, 153, 255);
+					entry.selectedUnfocused.text=Color(0, 0, 0);
+					entry.selectedUnfocused.background=Color(51, 153, 255);
+					colors[0]=entry;
+				}
+				textElement->SetColors(colors);
 			}
 
 			void Win7MultilineTextBoxProvider::SetVisuallyEnabled(bool value)

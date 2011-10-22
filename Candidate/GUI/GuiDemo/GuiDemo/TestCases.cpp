@@ -222,20 +222,16 @@ namespace TextMeasurementHelper
 	class TestCharMeasurer : public Object, public CharMeasurer
 	{
 	protected:
-		void SetFontInternal(const FontProperties& font)
-		{
-		}
 
 		int MeasureWidthInternal(wchar_t character)
 		{
 			return CharSize;
 		}
-
-		int GetRowHeightInternal()
-		{
-			return CharSize;
-		}
 	public:
+		TestCharMeasurer()
+			:CharMeasurer(CharSize)
+		{
+		}
 	};
 }
 using namespace TextMeasurementHelper;
@@ -244,7 +240,6 @@ TEST_CASE(TextMeasurement)
 {
 	TextLines lines;
 	TestCharMeasurer charMeasurer;
-	charMeasurer.SetFont(FontProperties());
 	lines.SetCharMeasurer(&charMeasurer);
 	TEST_ASSERT(lines.Modify(TextPos(0, 0), TextPos(0, 0), L"ABCDEFG\r\nHIJKLMN\r\nOPQRST\r\nUVWXYZ")==TextPos(3, 6));
 	TEST_ASSERT(lines.GetText()==L"ABCDEFG\r\nHIJKLMN\r\nOPQRST\r\nUVWXYZ");

@@ -136,21 +136,14 @@ text::TextLine
 text::CharMeasurer
 ***********************************************************************/
 
-				CharMeasurer::CharMeasurer()
-					:rowHeight(0)
+				CharMeasurer::CharMeasurer(int _rowHeight)
+					:rowHeight(_rowHeight)
 				{
 					memset(widths, 0, sizeof(widths));
 				}
 
 				CharMeasurer::~CharMeasurer()
 				{
-				}
-
-				void CharMeasurer::SetFont(const FontProperties& font)
-				{
-					SetFontInternal(font);
-					rowHeight=GetRowHeightInternal();
-					memset(widths, 0, sizeof(widths));
 				}
 
 				int CharMeasurer::MeasureWidth(wchar_t character)
@@ -205,6 +198,10 @@ text::TextLines
 				void TextLines::SetCharMeasurer(CharMeasurer* value)
 				{
 					charMeasurer=value;
+					for(int i=0;i<lines.Count();i++)
+					{
+						lines[i].availableOffsetCount=0;
+					}
 				}
 
 				WString TextLines::GetText(TextPos start, TextPos end)
@@ -260,6 +257,11 @@ text::TextLines
 				WString TextLines::GetText()
 				{
 					return GetText(TextPos(0, 0), TextPos(lines.Count()-1, lines[lines.Count()-1].dataLength));
+				}
+
+				void TextLines::SetText(const WString& value)
+				{
+					Modify(TextPos(0, 0), TextPos(lines.Count()-1, lines[lines.Count()-1].dataLength), value);
 				}
 
 				//--------------------------------------------------------
@@ -562,11 +564,7 @@ GuiColorizedTextElement
 			void GuiColorizedTextElement::SetCallback(ICallback* value)
 			{
 				callback=value;
-				if(callback)
-				{
-					lines.SetCharMeasurer(callback->GetCharMeasurer());
-				}
-				else
+				if(!callback)
 				{
 					lines.SetCharMeasurer(0);
 				}
@@ -594,11 +592,6 @@ GuiColorizedTextElement
 				if(font!=value)
 				{
 					font=value;
-					CharMeasurer* charMeasurer=lines.GetCharMeasurer();
-					if(charMeasurer)
-					{
-						charMeasurer->SetFont(font);
-					}
 					if(callback)
 					{
 						callback->FontChanged();

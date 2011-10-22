@@ -60,6 +60,7 @@ void SetupMainPanel(GuiControlHost* host, GuiCellComposition* cell)
 			GuiMultilineTextBox* textBox=new GuiMultilineTextBox(new win7::Win7MultilineTextBoxProvider);
 			cell->AddChild(textBox->GetBoundsComposition());
 			textBox->GetBoundsComposition()->SetBounds(Rect(Point(0, 280), Size(200, 180)));
+			textBox->SetText(L"Vczh GUI Demo");
 
 			GuiButton* buttonEnabling=new GuiButton(new win7::Win7ButtonStyle());
 			cell->AddChild(buttonEnabling->GetBoundsComposition());
