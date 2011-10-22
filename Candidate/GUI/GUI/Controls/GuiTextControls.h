@@ -19,7 +19,7 @@ namespace vl
 		{
 			class GuiMultilineTextBox : public GuiScrollView
 			{
-			protected:
+			public:
 				class StyleController : public GuiScrollView::StyleController
 				{
 				protected:

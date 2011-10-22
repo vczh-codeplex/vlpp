@@ -333,6 +333,8 @@ Scrolls
 				bool										isFocused;
 				bool										isVisuallyEnabled;
 				Ptr<TransferringAnimation>					transferringAnimation;
+				controls::GuiControl::IStyleController*		styleController;
+				elements::GuiColorizedTextElement*			textElement;
 
 				void										UpdateStyle();
 				void										Apply(const Win7TextBoxColors& colors);
@@ -345,6 +347,7 @@ Scrolls
 				Win7MultilineTextBoxProvider();
 				~Win7MultilineTextBoxProvider();
 				
+				void										AssociateStyleController(controls::GuiControl::IStyleController* controller);
 				void										SetFocusableComposition(elements::GuiGraphicsComposition* value);
 				void										SetVisuallyEnabled(bool value);
 				elements::GuiGraphicsComposition*			InstallBackground(elements::GuiBoundsComposition* boundsComposition);

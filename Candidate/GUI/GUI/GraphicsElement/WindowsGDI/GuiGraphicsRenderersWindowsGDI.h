@@ -122,9 +122,11 @@ Renderers
 			{
 				DEFINE_GUI_GRAPHICS_RENDERER(GuiColorizedTextElement, GuiColorizedTextElementRenderer, IWindowsGDIRenderTarget)
 			protected:
+				FontProperties			oldFont;
+				Ptr<windows::WinFont>	font;
+
 				void					ColorChanged();
 				void					FontChanged();
-				text::CharMeasurer*		GetCharMeasurer();
 
 				void					InitializeInternal();
 				void					FinalizeInternal();

@@ -437,11 +437,16 @@ GuiColorizedTextElementRenderer
 
 			void GuiColorizedTextElementRenderer::FontChanged()
 			{
-			}
-
-			text::CharMeasurer* GuiColorizedTextElementRenderer::GetCharMeasurer()
-			{
-				return 0;
+				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+				if(font)
+				{
+					element->lines.SetCharMeasurer(0);
+					resourceManager->DestroyGdiFont(oldFont);
+					font=0;
+				}
+				oldFont=element->GetFont();
+				font=resourceManager->CreateGdiFont(oldFont);
+				element->lines.SetCharMeasurer(0);
 			}
 
 			void GuiColorizedTextElementRenderer::InitializeInternal()
@@ -451,6 +456,8 @@ GuiColorizedTextElementRenderer
 
 			void GuiColorizedTextElementRenderer::FinalizeInternal()
 			{
+				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+				resourceManager->DestroyGdiFont(oldFont);
 			}
 
 			void GuiColorizedTextElementRenderer::RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget)

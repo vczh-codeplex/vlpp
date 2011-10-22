@@ -58,6 +58,7 @@ GuiMultilineTextBox::StyleController
 
 			void GuiMultilineTextBox::StyleController::SetText(const WString& value)
 			{
+				textElement->lines.SetText(value);
 				GuiScrollView::StyleController::SetText(value);
 			}
 
@@ -79,7 +80,8 @@ GuiMultilineTextBox
 
 			Size GuiMultilineTextBox::QueryFullSize()
 			{
-				return Size(0, 0);
+				text::TextLines& lines=styleController->GetTextElement()->lines;
+				return Size(lines.GetMaxWidth(), lines.GetMaxHeight());
 			}
 
 			void GuiMultilineTextBox::UpdateView(Rect viewBounds)
@@ -124,6 +126,7 @@ GuiMultilineTextBox
 			{
 				styleController->SetText(value);
 				GuiScrollView::SetText(value);
+				CalculateView();
 			}
 		}
 	}

@@ -308,7 +308,7 @@ Scrolls
 					virtual int									GetDefaultScrollSize()=0;
 					virtual elements::GuiGraphicsComposition*	InstallBackground(elements::GuiBoundsComposition* boundsComposition)=0;
 				};
-			protected:
+
 				class StyleController : public Object, public GuiControl::IStyleController
 				{
 				protected:
@@ -348,6 +348,7 @@ Scrolls
 					void								SetFont(const FontProperties& value);
 					void								SetVisuallyEnabled(bool value);
 				};
+			protected:
 
 				StyleController*						styleController;
 				bool									supressScrolling;
@@ -378,7 +379,7 @@ Scrolls
 
 			class GuiScrollContainer : public GuiScrollView
 			{
-			protected:
+			public:
 				class StyleController : public GuiScrollView::StyleController
 				{
 				protected:
@@ -389,6 +390,8 @@ Scrolls
 
 					elements::GuiGraphicsComposition*	GetContainerComposition();
 				};
+
+			protected:
 
 				void									OnControlContainerBoundsChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 
