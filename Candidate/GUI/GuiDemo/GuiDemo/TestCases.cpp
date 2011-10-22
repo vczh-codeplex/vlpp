@@ -219,22 +219,23 @@ namespace TextMeasurementHelper
 {
 	const int CharSize=5;
 
-	class CharMeasurer : public Object, public ICharMeasurer
+	class TestCharMeasurer : public Object, public CharMeasurer
 	{
-	public:
-		void SetFont(const FontProperties& font)
+	protected:
+		void SetFontInternal(const FontProperties& font)
 		{
 		}
 
-		Size Measure(wchar_t character)
-		{
-			return Size(CharSize, CharSize);
-		}
-
-		int	 GetRowHeight()
+		int MeasureWidthInternal(wchar_t character)
 		{
 			return CharSize;
 		}
+
+		int GetRowHeightInternal()
+		{
+			return CharSize;
+		}
+	public:
 	};
 }
 using namespace TextMeasurementHelper;
@@ -242,7 +243,8 @@ using namespace TextMeasurementHelper;
 TEST_CASE(TextMeasurement)
 {
 	TextLines lines;
-	CharMeasurer charMeasurer;
+	TestCharMeasurer charMeasurer;
+	charMeasurer.SetFont(FontProperties());
 	lines.SetCharMeasurer(&charMeasurer);
 	TEST_ASSERT(lines.Modify(TextPos(0, 0), TextPos(0, 0), L"ABCDEFG\r\nHIJKLMN\r\nOPQRST\r\nUVWXYZ")==TextPos(3, 6));
 	TEST_ASSERT(lines.GetText()==L"ABCDEFG\r\nHIJKLMN\r\nOPQRST\r\nUVWXYZ");
