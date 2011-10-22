@@ -132,6 +132,42 @@ text::TextLine
 				}
 
 /***********************************************************************
+text::CharMeasurer
+***********************************************************************/
+
+				CharMeasurer::CharMeasurer()
+					:rowHeight(0)
+				{
+					memset(widths, 0, sizeof(widths));
+				}
+
+				CharMeasurer::~CharMeasurer()
+				{
+				}
+
+				void CharMeasurer::SetFont(const FontProperties& font)
+				{
+					SetFontInternal(font);
+					rowHeight=GetRowHeightInternal();
+					memset(widths, 0, sizeof(widths));
+				}
+
+				int CharMeasurer::MeasureWidth(wchar_t character)
+				{
+					int w=widths[character];
+					if(w==0)
+					{
+						widths[character]=w=MeasureWidthInternal(character);
+					}
+					return w;
+				}
+
+				int CharMeasurer::GetRowHeight()
+				{
+					return rowHeight;
+				}
+
+/***********************************************************************
 text::TextLines
 ***********************************************************************/
 
@@ -160,12 +196,12 @@ text::TextLines
 					return lines[row];
 				}
 
-				ICharMeasurer* TextLines::GetCharMeasurer()
+				CharMeasurer* TextLines::GetCharMeasurer()
 				{
 					return charMeasurer;
 				}
 
-				void TextLines::SetCharMeasurer(ICharMeasurer* value)
+				void TextLines::SetCharMeasurer(CharMeasurer* value)
 				{
 					charMeasurer=value;
 				}
@@ -362,7 +398,7 @@ text::TextLines
 					for(int i=line.availableOffsetCount;i<line.dataLength;i++)
 					{
 						CharAtt& att=line.att[i];
-						int width=charMeasurer->Measure(line.text[i]).x;
+						int width=charMeasurer->MeasureWidth(line.text[i]);
 						offset+=width;
 						att.rightOffset=offset;
 					}

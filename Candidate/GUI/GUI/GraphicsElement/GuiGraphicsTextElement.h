@@ -56,12 +56,22 @@ ColorizedText
 					void				AppendAndFinalize(TextLine& line);
 				};
 
-				class ICharMeasurer : public Interface
+				class CharMeasurer : public Interface
 				{
+				protected:
+					int					rowHeight;
+					int					widths[65536];
+					
+					virtual void		SetFontInternal(const FontProperties& font)=0;
+					virtual int			MeasureWidthInternal(wchar_t character)=0;
+					virtual int			GetRowHeightInternal()=0;
 				public:
-					virtual void		SetFont(const FontProperties& font)=0;
-					virtual Size		Measure(wchar_t character)=0;
-					virtual int			GetRowHeight()=0;
+					CharMeasurer();
+					~CharMeasurer();
+
+					void				SetFont(const FontProperties& font);
+					int					MeasureWidth(wchar_t character);
+					int					GetRowHeight();
 				};
 
 				struct TextLines
@@ -69,15 +79,15 @@ ColorizedText
 					typedef collections::List<TextLine>		TextLineList;
 				protected:
 					TextLineList		lines;
-					ICharMeasurer*		charMeasurer;
+					CharMeasurer*		charMeasurer;
 				public:
 					TextLines();
 					~TextLines();
 
 					int					GetCount();
 					TextLine&			GetLine(int row);
-					ICharMeasurer*		GetCharMeasurer();
-					void				SetCharMeasurer(ICharMeasurer* value);
+					CharMeasurer*		GetCharMeasurer();
+					void				SetCharMeasurer(CharMeasurer* value);
 					WString				GetText(TextPos start, TextPos end);
 					WString				GetText();
 
