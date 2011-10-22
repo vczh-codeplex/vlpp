@@ -12,6 +12,7 @@ Interfaces:
 
 #include "..\..\NativeWindow\Windows\GDI\WinGDIApplication.h"
 #include "..\GuiGraphicsElement.h"
+#include "..\GuiGraphicsTextElement.h"
 #include "..\GuiGraphicsComposition.h"
 
 namespace vl

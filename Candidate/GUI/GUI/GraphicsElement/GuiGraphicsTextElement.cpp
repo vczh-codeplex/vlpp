@@ -1,4 +1,5 @@
 #include "GuiGraphicsTextElement.h"
+#include "..\..\..\..\Library\Collections\OperationCopyFrom.h"
 
 namespace vl
 {
@@ -534,6 +535,118 @@ text::TextLines
 				}
 
 				//--------------------------------------------------------
+			}
+
+			using namespace text;
+
+/***********************************************************************
+GuiColorizedTextElement
+***********************************************************************/
+
+			GuiColorizedTextElement::GuiColorizedTextElement()
+				:callback(0)
+				,isVisuallyEnabled(true)
+				,isFocused(false)
+			{
+			}
+
+			GuiColorizedTextElement::~GuiColorizedTextElement()
+			{
+			}
+
+			GuiColorizedTextElement::ICallback* GuiColorizedTextElement::GetCallback()
+			{
+				return callback;
+			}
+
+			void GuiColorizedTextElement::SetCallback(ICallback* value)
+			{
+				callback=value;
+				if(callback)
+				{
+					lines.SetCharMeasurer(callback->GetCharMeasurer());
+				}
+				else
+				{
+					lines.SetCharMeasurer(0);
+				}
+			}
+
+			const GuiColorizedTextElement::IColorArray& GuiColorizedTextElement::GetColors()
+			{
+				return colors.Wrap();
+			}
+
+			void GuiColorizedTextElement::SetColors(const ColorArray& value)
+			{
+				CopyFrom(colors.Wrap(), value.Wrap());
+				if(callback) callback->ColorChanged();
+				renderer->OnElementStateChanged();
+			}
+
+			const FontProperties& GuiColorizedTextElement::GetFont()
+			{
+				return font;
+			}
+
+			void GuiColorizedTextElement::SetFont(const FontProperties& value)
+			{
+				if(font!=value)
+				{
+					font=value;
+					CharMeasurer* charMeasurer=lines.GetCharMeasurer();
+					if(charMeasurer)
+					{
+						charMeasurer->SetFont(font);
+					}
+					if(callback)
+					{
+						callback->FontChanged();
+					}
+					renderer->OnElementStateChanged();
+				}
+			}
+
+			Point GuiColorizedTextElement::GetViewPosition()
+			{
+				return viewPosition;
+			}
+
+			void GuiColorizedTextElement::SetViewPosition(Point value)
+			{
+				if(viewPosition!=value)
+				{
+					viewPosition=value;
+					renderer->OnElementStateChanged();
+				}
+			}
+
+			bool GuiColorizedTextElement::GetVisuallyEnabled()
+			{
+				return isVisuallyEnabled;
+			}
+
+			void GuiColorizedTextElement::SetVisuallyEnabled(bool value)
+			{
+				if(isVisuallyEnabled!=value)
+				{
+					isVisuallyEnabled=value;
+					renderer->OnElementStateChanged();
+				}
+			}
+
+			bool GuiColorizedTextElement::GetFocused()
+			{
+				return isFocused;
+			}
+
+			void GuiColorizedTextElement::SetFocused(bool value)
+			{
+				if(isFocused!=value)
+				{
+					isFocused=value;
+					renderer->OnElementStateChanged();
+				}
 			}
 		}
 	}

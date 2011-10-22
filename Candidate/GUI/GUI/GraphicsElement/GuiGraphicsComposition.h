@@ -10,6 +10,7 @@ Interfaces:
 #define VCZH_PRESENTATION_ELEMENTS_GUIGRAPHICSCOMPOSITION
 
 #include "GuiGraphicsElement.h"
+#include "GuiGraphicsTextElement.h"
 #include "GuiGraphicsEventReceiver.h"
 
 namespace vl

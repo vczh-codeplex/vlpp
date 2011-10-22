@@ -351,6 +351,7 @@ void NativeMain()
 	GuiSolidBackgroundElementRenderer::Register();
 	GuiGradientBackgroundElementRenderer::Register();
 	GuiSolidLabelElementRenderer::Register();
+	GuiColorizedTextElementRenderer::Register();
 
 	GuiMain();
 	SetWindowsDirect2DResourceManager(0);
