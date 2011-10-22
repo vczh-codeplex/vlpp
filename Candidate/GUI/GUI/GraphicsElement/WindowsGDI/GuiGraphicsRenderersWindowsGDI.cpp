@@ -1,6 +1,7 @@
 #ifdef GUI_GRAPHICS_RENDERER_GDI
 
 #include "GuiGraphicsRenderersWindowsGDI.h"
+#include "..\..\..\..\..\Library\Collections\OperationCopyFrom.h"
 
 namespace vl
 {
@@ -433,6 +434,7 @@ GuiColorizedTextElementRenderer
 
 			void GuiColorizedTextElementRenderer::ColorChanged()
 			{
+				CopyFrom(colors.Wrap(), element->GetColors());
 			}
 
 			void GuiColorizedTextElementRenderer::FontChanged()
@@ -472,6 +474,36 @@ GuiColorizedTextElementRenderer
 
 			void GuiColorizedTextElementRenderer::Render(Rect bounds)
 			{
+				if(renderTarget)
+				{
+					WinDC* dc=renderTarget->GetDC();
+					dc->SetFont(font);
+
+					Point viewPosition=element->GetViewPosition();
+					Rect viewBounds(viewPosition, bounds.GetSize());
+					int startRow=element->lines.GetTextPosFromPoint(Point(viewBounds.x1, viewBounds.y1)).row;
+					int endRow=element->lines.GetTextPosFromPoint(Point(viewBounds.x2, viewBounds.y2)).row;
+					for(int row=startRow;row<=endRow;row++)
+					{
+						Point startPoint=element->lines.GetPointFromTextPos(TextPos(row, 0));
+						int startColumn=element->lines.GetTextPosFromPoint(Point(viewBounds.x1, startPoint.y)).column;
+						int endColumn=element->lines.GetTextPosFromPoint(Point(viewBounds.x2, startPoint.y)).column;
+						text::TextLine& line=element->lines.GetLine(row);
+						if(endColumn>=line.dataLength) endColumn=line.dataLength-1;
+
+						int x=startColumn==0?0:line.att[startColumn-1].rightOffset;
+						for(int column=startColumn; column<=endColumn; column++)
+						{
+							text::ColorItem color=colors[line.att[column].colorIndex].normal;
+							if(color.text.a)
+							{
+								dc->SetTextColor(RGB(color.text.r, color.text.g, color.text.b));
+								dc->DrawBuffer(x-viewPosition.x+bounds.x1, startPoint.y-viewPosition.y+bounds.y1, &line.text[column], 1);
+							}
+							x=line.att[column].rightOffset;
+						}
+					}
+				}
 			}
 
 			void GuiColorizedTextElementRenderer::OnElementStateChanged()

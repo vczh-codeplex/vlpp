@@ -184,7 +184,10 @@ CachedResourceAllocator
 						if(renderTarget)
 						{
 							WindowsGDIRenderTarget* gdiRenderTarget=dynamic_cast<WindowsGDIRenderTarget*>(renderTarget);
-							return gdiRenderTarget->GetDC()->MeasureBuffer(&character, 1, -1).cx;
+							WinDC* dc=gdiRenderTarget->GetDC();
+							dc->SetFont(font);
+							SIZE size=dc->MeasureBuffer(&character, 1, -1);
+							return size.cx;
 						}
 						else
 						{
