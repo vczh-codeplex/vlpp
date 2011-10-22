@@ -473,6 +473,44 @@ GuiSolidLabelElementRenderer
 					UpdateMinSize();
 				}
 			}
+
+/***********************************************************************
+GuiColorizedTextElementRenderer
+***********************************************************************/
+
+			void GuiColorizedTextElementRenderer::ColorChanged()
+			{
+			}
+
+			void GuiColorizedTextElementRenderer::FontChanged()
+			{
+			}
+
+			text::CharMeasurer* GuiColorizedTextElementRenderer::GetCharMeasurer()
+			{
+				return 0;
+			}
+
+			void GuiColorizedTextElementRenderer::InitializeInternal()
+			{
+				element->SetCallback(this);
+			}
+
+			void GuiColorizedTextElementRenderer::FinalizeInternal()
+			{
+			}
+
+			void GuiColorizedTextElementRenderer::RenderTargetChangedInternal(IWindowsDirect2DRenderTarget* oldRenderTarget, IWindowsDirect2DRenderTarget* newRenderTarget)
+			{
+			}
+
+			void GuiColorizedTextElementRenderer::Render(Rect bounds)
+			{
+			}
+
+			void GuiColorizedTextElementRenderer::OnElementStateChanged()
+			{
+			}
 		}
 	}
 }

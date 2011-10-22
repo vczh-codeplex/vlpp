@@ -117,6 +117,22 @@ Renderers
 				void					Render(Rect bounds);
 				void					OnElementStateChanged();
 			};
+
+			class GuiColorizedTextElementRenderer : public Object, public IGuiGraphicsRenderer, protected GuiColorizedTextElement::ICallback
+			{
+				DEFINE_GUI_GRAPHICS_RENDERER(GuiColorizedTextElement, GuiColorizedTextElementRenderer, IWindowsGDIRenderTarget)
+			protected:
+				void					ColorChanged();
+				void					FontChanged();
+				text::CharMeasurer*		GetCharMeasurer();
+
+				void					InitializeInternal();
+				void					FinalizeInternal();
+				void					RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget);
+			public:
+				void					Render(Rect bounds);
+				void					OnElementStateChanged();
+			};
 		}
 	}
 }
