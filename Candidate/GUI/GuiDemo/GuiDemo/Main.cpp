@@ -60,7 +60,17 @@ void SetupMainPanel(GuiControlHost* host, GuiCellComposition* cell)
 			GuiMultilineTextBox* textBox=new GuiMultilineTextBox(new win7::Win7MultilineTextBoxProvider);
 			cell->AddChild(textBox->GetBoundsComposition());
 			textBox->GetBoundsComposition()->SetBounds(Rect(Point(0, 280), Size(200, 180)));
-			textBox->SetText(L"Vczh GUI Demo");
+
+			const wchar_t* text=
+				L"#include <iostream>"					L"\r\n"
+				L"using namespace std;"					L"\r\n"
+				L""										L"\r\n"
+				L"int main()"							L"\r\n"
+				L"{"									L"\r\n"
+				L"    cout<<\"Hello, world!\"<<endl;"	L"\r\n"
+				L"}"									L"\r\n"
+				;
+			textBox->SetText(text);
 
 			GuiButton* buttonEnabling=new GuiButton(new win7::Win7ButtonStyle());
 			cell->AddChild(buttonEnabling->GetBoundsComposition());

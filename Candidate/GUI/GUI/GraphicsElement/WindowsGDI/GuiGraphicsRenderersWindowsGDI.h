@@ -121,9 +121,12 @@ Renderers
 			class GuiColorizedTextElementRenderer : public Object, public IGuiGraphicsRenderer, protected GuiColorizedTextElement::ICallback
 			{
 				DEFINE_GUI_GRAPHICS_RENDERER(GuiColorizedTextElement, GuiColorizedTextElementRenderer, IWindowsGDIRenderTarget)
+
+				typedef collections::Array<text::ColorEntry>			ColorArray;
 			protected:
 				FontProperties			oldFont;
 				Ptr<windows::WinFont>	font;
+				ColorArray				colors;
 
 				void					ColorChanged();
 				void					FontChanged();
