@@ -53,6 +53,10 @@ GuiGraphicsComposition
 
 			void GuiGraphicsComposition::OnRenderTargetChanged()
 			{
+				if(associatedControl)
+				{
+					associatedControl->OnRenderTargetChanged(renderTarget);
+				}
 			}
 
 			Rect GuiGraphicsComposition::GetBoundsInternal(Rect expectedBounds, MinSizeLimitation limitation)

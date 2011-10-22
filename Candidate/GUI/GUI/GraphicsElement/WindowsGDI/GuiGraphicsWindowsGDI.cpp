@@ -157,10 +157,51 @@ CachedResourceAllocator
 			{
 				DEFINE_CACHED_RESOURCE_ALLOCATOR(FontProperties, Ptr<WinFont>)
 			public:
-				Ptr<WinFont> CreateInternal(const FontProperties& value)
+				static Ptr<WinFont> CreateGdiFont(const FontProperties& value)
 				{
 					int size=value.size<0?value.size:-value.size;
 					return new WinFont(value.fontFamily, size, 0, 0, 0, (value.bold?FW_BOLD:FW_NORMAL), value.italic, value.underline, value.strikeline, value.antialias);
+				}
+
+				Ptr<WinFont> CreateInternal(const FontProperties& value)
+				{
+					return CreateGdiFont(value);
+				}
+			};
+
+			class CachedCharMeasurerAllocator
+			{
+				DEFINE_CACHED_RESOURCE_ALLOCATOR(FontProperties, Ptr<text::CharMeasurer>)
+
+			protected:
+				class GdiCharMeasurer : public text::CharMeasurer
+				{
+				protected:
+					Ptr<WinFont>			font;
+
+					int MeasureWidthInternal(wchar_t character, IGuiGraphicsRenderTarget* renderTarget)
+					{
+						if(renderTarget)
+						{
+							WindowsGDIRenderTarget* gdiRenderTarget=dynamic_cast<WindowsGDIRenderTarget*>(renderTarget);
+							return gdiRenderTarget->GetDC()->MeasureBuffer(&character, 1, -1).cx;
+						}
+						else
+						{
+							return 0;
+						}
+					}
+				public:
+					GdiCharMeasurer(Ptr<WinFont> _font, int _size)
+						:text::CharMeasurer(_size)
+						,font(_font)
+					{
+					}
+				};
+			public:
+				Ptr<text::CharMeasurer> CreateInternal(const FontProperties& value)
+				{
+					return new GdiCharMeasurer(CachedFontAllocator::CreateGdiFont(value), value.size);
 				}
 			};
 
@@ -175,6 +216,7 @@ WindowsGDIResourceManager
 				CachedPenAllocator							pens;
 				CachedBrushAllocator						brushes;
 				CachedFontAllocator							fonts;
+				CachedCharMeasurerAllocator					charMeasurers;
 			public:
 				IGuiGraphicsRenderTarget* GetRenderTarget(INativeWindow* window)
 				{
@@ -224,6 +266,16 @@ WindowsGDIResourceManager
 				void DestroyGdiFont(const FontProperties& fontProperties)
 				{
 					fonts.Destroy(fontProperties);
+				}
+
+				Ptr<elements::text::CharMeasurer> CreateCharMeasurer(const FontProperties& fontProperties)
+				{
+					return charMeasurers.Create(fontProperties);
+				}
+
+				void DestroyCharMeasurer(const FontProperties& fontProperties)
+				{
+					charMeasurers.Destroy(fontProperties);
 				}
 			};
 		}

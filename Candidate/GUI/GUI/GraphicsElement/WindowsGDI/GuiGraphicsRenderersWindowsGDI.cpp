@@ -442,11 +442,12 @@ GuiColorizedTextElementRenderer
 				{
 					element->lines.SetCharMeasurer(0);
 					resourceManager->DestroyGdiFont(oldFont);
+					resourceManager->DestroyCharMeasurer(oldFont);
 					font=0;
 				}
 				oldFont=element->GetFont();
 				font=resourceManager->CreateGdiFont(oldFont);
-				element->lines.SetCharMeasurer(0);
+				element->lines.SetCharMeasurer(resourceManager->CreateCharMeasurer(oldFont).Obj());
 			}
 
 			void GuiColorizedTextElementRenderer::InitializeInternal()
@@ -456,12 +457,17 @@ GuiColorizedTextElementRenderer
 
 			void GuiColorizedTextElementRenderer::FinalizeInternal()
 			{
-				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
-				resourceManager->DestroyGdiFont(oldFont);
+				if(font)
+				{
+					IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+					resourceManager->DestroyGdiFont(oldFont);
+					resourceManager->DestroyCharMeasurer(oldFont);
+				}
 			}
 
 			void GuiColorizedTextElementRenderer::RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget)
 			{
+				element->lines.SetRenderTarget(newRenderTarget);
 			}
 
 			void GuiColorizedTextElementRenderer::Render(Rect bounds)

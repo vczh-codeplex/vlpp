@@ -44,6 +44,11 @@ GuiMultilineTextBox::StyleController
 				return textElement;
 			}
 
+			void GuiMultilineTextBox::StyleController::SetViewPosition(Point value)
+			{
+				textElement->SetViewPosition(value);
+			}
+
 			WString GuiMultilineTextBox::StyleController::GetText()
 			{
 				return textElement->lines.GetText();
@@ -78,6 +83,11 @@ GuiMultilineTextBox::StyleController
 GuiMultilineTextBox
 ***********************************************************************/
 
+			void GuiMultilineTextBox::OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget)
+			{
+				CalculateView();
+			}
+
 			Size GuiMultilineTextBox::QueryFullSize()
 			{
 				text::TextLines& lines=styleController->GetTextElement()->lines;
@@ -86,6 +96,7 @@ GuiMultilineTextBox
 
 			void GuiMultilineTextBox::UpdateView(Rect viewBounds)
 			{
+				styleController->SetViewPosition(viewBounds.LeftTop());
 			}
 
 			void GuiMultilineTextBox::OnBoundsMouseButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments)

@@ -32,6 +32,7 @@ namespace vl
 					~StyleController();
 
 					elements::GuiColorizedTextElement*	GetTextElement();
+					void								SetViewPosition(Point value);
 					WString								GetText();
 
 					void								SetFocusableComposition(elements::GuiGraphicsComposition* value);
@@ -43,6 +44,7 @@ namespace vl
 			protected:
 				StyleController*						styleController;
 
+				void									OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget);
 				Size									QueryFullSize();
 				void									UpdateView(Rect viewBounds);
 				void									OnBoundsMouseButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);

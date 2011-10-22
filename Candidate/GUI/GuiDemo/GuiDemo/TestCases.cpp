@@ -223,7 +223,7 @@ namespace TextMeasurementHelper
 	{
 	protected:
 
-		int MeasureWidthInternal(wchar_t character)
+		int MeasureWidthInternal(wchar_t character, IGuiGraphicsRenderTarget* renderTarget)
 		{
 			return CharSize;
 		}

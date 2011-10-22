@@ -146,12 +146,12 @@ text::CharMeasurer
 				{
 				}
 
-				int CharMeasurer::MeasureWidth(wchar_t character)
+				int CharMeasurer::MeasureWidth(wchar_t character, IGuiGraphicsRenderTarget* renderTarget)
 				{
 					int w=widths[character];
 					if(w==0)
 					{
-						widths[character]=w=MeasureWidthInternal(character);
+						widths[character]=w=MeasureWidthInternal(character, renderTarget);
 					}
 					return w;
 				}
@@ -167,6 +167,7 @@ text::TextLines
 
 				TextLines::TextLines()
 					:charMeasurer(0)
+					,renderTarget(0)
 				{
 					TextLine line;
 					line.Initialize();
@@ -202,6 +203,17 @@ text::TextLines
 					{
 						lines[i].availableOffsetCount=0;
 					}
+				}
+
+				IGuiGraphicsRenderTarget* TextLines::GetRenderTarget()
+				{
+					return renderTarget;
+				}
+
+				void TextLines::SetRenderTarget(IGuiGraphicsRenderTarget* value)
+				{
+					renderTarget=value;
+					SetCharMeasurer(charMeasurer);
 				}
 
 				WString TextLines::GetText(TextPos start, TextPos end)
@@ -401,7 +413,7 @@ text::TextLines
 					for(int i=line.availableOffsetCount;i<line.dataLength;i++)
 					{
 						CharAtt& att=line.att[i];
-						int width=charMeasurer->MeasureWidth(line.text[i]);
+						int width=charMeasurer->MeasureWidth(line.text[i], renderTarget);
 						offset+=width;
 						att.rightOffset=offset;
 					}
