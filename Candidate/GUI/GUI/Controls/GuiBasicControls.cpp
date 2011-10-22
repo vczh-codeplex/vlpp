@@ -25,6 +25,10 @@ GuiControl
 				children.Remove(control);
 			}
 
+			void GuiControl::OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget)
+			{
+			}
+
 			void GuiControl::UpdateVisuallyEnabled()
 			{
 				bool newValue=isEnabled && (parent==0?true:parent->GetVisuallyEnabled());

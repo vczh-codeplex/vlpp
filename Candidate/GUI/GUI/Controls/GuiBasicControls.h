@@ -61,9 +61,10 @@ Basic Construction
 				GuiControl*								parent;
 				ControlList								children;
 
-				void									OnChildInserted(GuiControl* control);
-				void									OnChildRemoved(GuiControl* control);
-				void									UpdateVisuallyEnabled();
+				virtual void							OnChildInserted(GuiControl* control);
+				virtual void							OnChildRemoved(GuiControl* control);
+				virtual void							OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget);
+				virtual void							UpdateVisuallyEnabled();
 			public:
 				GuiControl(IStyleController* _styleController);
 				~GuiControl();

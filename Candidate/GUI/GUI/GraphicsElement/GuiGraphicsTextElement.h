@@ -62,12 +62,12 @@ ColorizedText
 					int								rowHeight;
 					int								widths[65536];
 					
-					virtual int						MeasureWidthInternal(wchar_t character)=0;
+					virtual int						MeasureWidthInternal(wchar_t character, IGuiGraphicsRenderTarget* renderTarget)=0;
 				public:
 					CharMeasurer(int _rowHeight);
 					~CharMeasurer();
 
-					int								MeasureWidth(wchar_t character);
+					int								MeasureWidth(wchar_t character, IGuiGraphicsRenderTarget* renderTarget);
 					int								GetRowHeight();
 				};
 
@@ -77,6 +77,7 @@ ColorizedText
 				protected:
 					TextLineList					lines;
 					CharMeasurer*					charMeasurer;
+					IGuiGraphicsRenderTarget*		renderTarget;
 				public:
 					TextLines();
 					~TextLines();
@@ -85,6 +86,8 @@ ColorizedText
 					TextLine&						GetLine(int row);
 					CharMeasurer*					GetCharMeasurer();
 					void							SetCharMeasurer(CharMeasurer* value);
+					IGuiGraphicsRenderTarget*		GetRenderTarget();
+					void							SetRenderTarget(IGuiGraphicsRenderTarget* value);
 					WString							GetText(TextPos start, TextPos end);
 					WString							GetText();
 					void							SetText(const WString& value);
