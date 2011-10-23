@@ -48,6 +48,7 @@ GuiMultilineTextBox::StyleController
 					}
 					textElement->SetCaretBegin(pos);
 					textElement->SetCaretEnd(pos);
+					textElement->SetCaretVisible(true);
 				}
 			}
 
