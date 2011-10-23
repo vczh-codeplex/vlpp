@@ -561,11 +561,13 @@ GuiColorizedTextElement
 				:callback(0)
 				,isVisuallyEnabled(true)
 				,isFocused(false)
+				,caretVisible(false)
 			{
 			}
 
 			GuiColorizedTextElement::~GuiColorizedTextElement()
 			{
+				renderer->Finalize();
 			}
 
 			GuiColorizedTextElement::ICallback* GuiColorizedTextElement::GetCallback()
@@ -650,6 +652,50 @@ GuiColorizedTextElement
 				if(isFocused!=value)
 				{
 					isFocused=value;
+					renderer->OnElementStateChanged();
+				}
+			}
+
+			TextPos GuiColorizedTextElement::GetCaretBegin()
+			{
+				return caretBegin;
+			}
+
+			void GuiColorizedTextElement::SetCaretBegin(TextPos value)
+			{
+				caretBegin=value;
+			}
+
+			TextPos GuiColorizedTextElement::GetCaretEnd()
+			{
+				return caretEnd;
+			}
+
+			void GuiColorizedTextElement::SetCaretEnd(TextPos value)
+			{
+				caretEnd=value;
+			}
+
+			bool GuiColorizedTextElement::GetCaretVisible()
+			{
+				return caretVisible;
+			}
+
+			void GuiColorizedTextElement::SetCaretVisible(bool value)
+			{
+				caretVisible=value;
+			}
+
+			Color GuiColorizedTextElement::GetCaretColor()
+			{
+				return caretColor;
+			}
+
+			void GuiColorizedTextElement::SetCaretColor(Color value)
+			{
+				if(caretColor!=value)
+				{
+					caretColor=value;
 					renderer->OnElementStateChanged();
 				}
 			}

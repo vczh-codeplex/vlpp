@@ -127,6 +127,8 @@ Renderers
 				FontProperties			oldFont;
 				Ptr<windows::WinFont>	font;
 				ColorArray				colors;
+				Color					oldCaretColor;
+				Ptr<windows::WinPen>	caretPen;
 
 				void					ColorChanged();
 				void					FontChanged();

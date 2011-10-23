@@ -1336,6 +1336,7 @@ Win7MultilineTextBoxProvider
 					colors[0]=entry;
 				}
 				textElement->SetColors(colors);
+				textElement->SetCaretColor(Color(0, 0, 0));
 			}
 
 			void Win7MultilineTextBoxProvider::SetVisuallyEnabled(bool value)

@@ -52,12 +52,15 @@ Host
 			class GuiGraphicsHost : public Object, private INativeWindowListener, private INativeControllerListener
 			{
 				typedef collections::List<GuiGraphicsComposition*>		CompositionList;
+			public:
+				static const unsigned __int64	CaretInterval=500;
 			protected:
 				INativeWindow*					nativeWindow;
 				GuiWindowComposition*			windowComposition;
 				GuiGraphicsComposition*			focusedComposition;
 				Size							previousClientSize;
 				Size							minSize;
+				unsigned __int64				lastCaretTime;
 
 				GuiGraphicsAnimationManager		animationManager;
 				GuiGraphicsComposition*			mouseCaptureComposition;

@@ -15,11 +15,18 @@ GuiMultilineTextBox::StyleController
 			void GuiMultilineTextBox::StyleController::OnGotFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 			{
 				textElement->SetFocused(true);
+				textElement->SetCaretVisible(true);
 			}
 
 			void GuiMultilineTextBox::StyleController::OnLostFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 			{
 				textElement->SetFocused(false);
+				textElement->SetCaretVisible(false);
+			}
+
+			void GuiMultilineTextBox::StyleController::OnCaretNotify(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
+			{
+				textElement->SetCaretVisible(!textElement->GetCaretVisible());
 			}
 
 			GuiMultilineTextBox::StyleController::StyleController(GuiScrollView::IStyleProvider* styleProvider)
@@ -59,6 +66,7 @@ GuiMultilineTextBox::StyleController
 				GuiScrollView::StyleController::SetFocusableComposition(value);
 				value->GetEventReceiver()->gotFocus.AttachMethod(this, &StyleController::OnGotFocus);
 				value->GetEventReceiver()->lostFocus.AttachMethod(this, &StyleController::OnLostFocus);
+				value->GetEventReceiver()->caretNotify.AttachMethod(this, &StyleController::OnCaretNotify);
 			}
 
 			void GuiMultilineTextBox::StyleController::SetText(const WString& value)
@@ -91,12 +99,12 @@ GuiMultilineTextBox
 			Size GuiMultilineTextBox::QueryFullSize()
 			{
 				text::TextLines& lines=styleController->GetTextElement()->lines;
-				return Size(lines.GetMaxWidth(), lines.GetMaxHeight());
+				return Size(lines.GetMaxWidth()+TextMargin*2, lines.GetMaxHeight()+TextMargin*2);
 			}
 
 			void GuiMultilineTextBox::UpdateView(Rect viewBounds)
 			{
-				styleController->SetViewPosition(viewBounds.LeftTop());
+				styleController->SetViewPosition(viewBounds.LeftTop()-Size(TextMargin, TextMargin));
 			}
 
 			void GuiMultilineTextBox::OnBoundsMouseButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments)

@@ -365,6 +365,17 @@ GuiGraphicsHost
 				{
 					animationManager.Play();
 				}
+
+				DateTime now=DateTime::UtcTime();
+				if(now.totalMilliseconds-lastCaretTime>=CaretInterval)
+				{
+					lastCaretTime=now.totalMilliseconds;
+					if(focusedComposition && focusedComposition->HasEventReceiver())
+					{
+						focusedComposition->GetEventReceiver()->caretNotify.Execute(GuiEventArgs(focusedComposition));
+					}
+				}
+
 				Render();
 				nativeWindow->RedrawContent();
 			}
@@ -374,6 +385,7 @@ GuiGraphicsHost
 				,windowComposition(0)
 				,focusedComposition(0)
 				,mouseCaptureComposition(0)
+				,lastCaretTime(0)
 			{
 				windowComposition=new GuiWindowComposition;
 				windowComposition->SetAssociatedHost(this);

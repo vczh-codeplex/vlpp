@@ -20,6 +20,8 @@ namespace vl
 			class GuiMultilineTextBox : public GuiScrollView
 			{
 			public:
+				static const int						TextMargin=3;
+
 				class StyleController : public GuiScrollView::StyleController
 				{
 				protected:
@@ -27,6 +29,7 @@ namespace vl
 					
 					void								OnGotFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 					void								OnLostFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+					void								OnCaretNotify(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 				public:
 					StyleController(GuiScrollView::IStyleProvider* styleProvider);
 					~StyleController();

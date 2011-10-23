@@ -232,6 +232,7 @@ Event Receiver
 				GuiCharEvent					charInput;
 				GuiNotifyEvent					gotFocus;
 				GuiNotifyEvent					lostFocus;
+				GuiNotifyEvent					caretNotify;
 			};
 		}
 	}

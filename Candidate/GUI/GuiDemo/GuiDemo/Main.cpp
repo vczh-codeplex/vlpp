@@ -62,13 +62,13 @@ void SetupMainPanel(GuiControlHost* host, GuiCellComposition* cell)
 			textBox->GetBoundsComposition()->SetBounds(Rect(Point(0, 280), Size(200, 180)));
 
 			const wchar_t* text=
-				L"#include <iostream>"					L"\r\n"
-				L"using namespace std;"					L"\r\n"
-				L""										L"\r\n"
-				L"int main()"							L"\r\n"
-				L"{"									L"\r\n"
-				L"    cout<<\"Hello, world!\"<<endl;"	L"\r\n"
-				L"}"									L"\r\n"
+				L"#include <iostream>"											L"\r\n"
+				L"using namespace std;"											L"\r\n"
+				L""																L"\r\n"
+				L"int main()"													L"\r\n"
+				L"{"															L"\r\n"
+				L"    cout<<\"Hello, world! This is Vczh GUI Demo.\"<<endl;"	L"\r\n"
+				L"}"															L"\r\n"
 				;
 			textBox->SetText(text);
 
