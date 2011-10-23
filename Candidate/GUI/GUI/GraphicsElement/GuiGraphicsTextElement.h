@@ -59,15 +59,18 @@ ColorizedText
 				class CharMeasurer : public Interface
 				{
 				protected:
+					IGuiGraphicsRenderTarget*		oldRenderTarget;
 					int								rowHeight;
 					int								widths[65536];
 					
 					virtual int						MeasureWidthInternal(wchar_t character, IGuiGraphicsRenderTarget* renderTarget)=0;
+					virtual int						GetRowHeightInternal(IGuiGraphicsRenderTarget* renderTarget)=0;
 				public:
 					CharMeasurer(int _rowHeight);
 					~CharMeasurer();
 
-					int								MeasureWidth(wchar_t character, IGuiGraphicsRenderTarget* renderTarget);
+					void							SetRenderTarget(IGuiGraphicsRenderTarget* value);
+					int								MeasureWidth(wchar_t character);
 					int								GetRowHeight();
 				};
 

@@ -222,8 +222,12 @@ namespace TextMeasurementHelper
 	class TestCharMeasurer : public Object, public CharMeasurer
 	{
 	protected:
-
 		int MeasureWidthInternal(wchar_t character, IGuiGraphicsRenderTarget* renderTarget)
+		{
+			return CharSize;
+		}
+
+		int GetRowHeightInternal(IGuiGraphicsRenderTarget* renderTarget)
 		{
 			return CharSize;
 		}

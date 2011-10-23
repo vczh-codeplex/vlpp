@@ -1,4 +1,5 @@
 #include "GuiTextControls.h"
+#include <math.h>
 
 namespace vl
 {
@@ -35,7 +36,16 @@ GuiMultilineTextBox::StyleController
 				{
 					dragging=true;
 					Point viewPosition=textElement->GetViewPosition();
-					TextPos pos=textElement->lines.GetTextPosFromPoint(Point(arguments.x+viewPosition.x, arguments.y+viewPosition.y));
+					Point mousePosition=Point(arguments.x+viewPosition.x, arguments.y+viewPosition.y);
+					TextPos pos=textElement->lines.GetTextPosFromPoint(mousePosition);
+					if(pos.column<textElement->lines.GetLine(pos.row).dataLength)
+					{
+						Rect rect=textElement->lines.GetRectFromTextPos(pos);
+						if(abs(rect.x1-mousePosition.x)>=abs(rect.x2-1-mousePosition.x))
+						{
+							pos.column++;
+						}
+					}
 					textElement->SetCaretBegin(pos);
 					textElement->SetCaretEnd(pos);
 				}

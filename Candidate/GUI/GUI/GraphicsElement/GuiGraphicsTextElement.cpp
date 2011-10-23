@@ -137,7 +137,8 @@ text::CharMeasurer
 ***********************************************************************/
 
 				CharMeasurer::CharMeasurer(int _rowHeight)
-					:rowHeight(_rowHeight)
+					:oldRenderTarget(0)
+					,rowHeight(_rowHeight)
 				{
 					memset(widths, 0, sizeof(widths));
 				}
@@ -146,12 +147,22 @@ text::CharMeasurer
 				{
 				}
 
-				int CharMeasurer::MeasureWidth(wchar_t character, IGuiGraphicsRenderTarget* renderTarget)
+				void CharMeasurer::SetRenderTarget(IGuiGraphicsRenderTarget* value)
+				{
+					if(oldRenderTarget!=value)
+					{
+						oldRenderTarget=value;
+						rowHeight=GetRowHeightInternal(oldRenderTarget);
+						memset(widths, 0, sizeof(widths));
+					}
+				}
+
+				int CharMeasurer::MeasureWidth(wchar_t character)
 				{
 					int w=widths[character];
 					if(w==0)
 					{
-						widths[character]=w=MeasureWidthInternal(character, renderTarget);
+						widths[character]=w=MeasureWidthInternal(character, oldRenderTarget);
 					}
 					return w;
 				}
@@ -199,6 +210,7 @@ text::TextLines
 				void TextLines::SetCharMeasurer(CharMeasurer* value)
 				{
 					charMeasurer=value;
+					if(charMeasurer) charMeasurer->SetRenderTarget(renderTarget);
 					for(int i=0;i<lines.Count();i++)
 					{
 						lines[i].availableOffsetCount=0;
@@ -213,6 +225,7 @@ text::TextLines
 				void TextLines::SetRenderTarget(IGuiGraphicsRenderTarget* value)
 				{
 					renderTarget=value;
+					if(charMeasurer) charMeasurer->SetRenderTarget(renderTarget);
 					SetCharMeasurer(charMeasurer);
 				}
 
@@ -413,7 +426,7 @@ text::TextLines
 					for(int i=line.availableOffsetCount;i<line.dataLength;i++)
 					{
 						CharAtt& att=line.att[i];
-						int width=charMeasurer->MeasureWidth(line.text[i], renderTarget);
+						int width=charMeasurer->MeasureWidth(line.text[i]);
 						offset+=width;
 						att.rightOffset=offset;
 					}

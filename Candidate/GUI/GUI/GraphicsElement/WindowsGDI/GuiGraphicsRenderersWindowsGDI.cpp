@@ -513,10 +513,10 @@ GuiColorizedTextElementRenderer
 						Point caretPoint=element->lines.GetPointFromTextPos(element->GetCaretEnd());
 						int height=element->lines.GetRowHeight();
 						dc->SetPen(caretPen);
-						dc->MoveTo(caretPoint.x-viewPosition.x+bounds.x1, caretPoint.y-viewPosition.y+bounds.y1);
-						dc->LineTo(caretPoint.x-viewPosition.x+bounds.x1, caretPoint.y+height-viewPosition.y+bounds.y1);
-						dc->MoveTo(caretPoint.x-1-viewPosition.x+bounds.x1, caretPoint.y-viewPosition.y+bounds.y1);
-						dc->LineTo(caretPoint.x-1-viewPosition.x+bounds.x1, caretPoint.y+height-viewPosition.y+bounds.y1);
+						dc->MoveTo(caretPoint.x-viewPosition.x+bounds.x1, caretPoint.y-viewPosition.y+bounds.y1+1);
+						dc->LineTo(caretPoint.x-viewPosition.x+bounds.x1, caretPoint.y+height-viewPosition.y+bounds.y1-1);
+						dc->MoveTo(caretPoint.x-1-viewPosition.x+bounds.x1, caretPoint.y-viewPosition.y+bounds.y1+1);
+						dc->LineTo(caretPoint.x-1-viewPosition.x+bounds.x1, caretPoint.y+height-viewPosition.y+bounds.y1-1);
 					}
 				}
 			}
