@@ -454,17 +454,21 @@ GuiColorizedTextElementRenderer
 
 			void GuiColorizedTextElementRenderer::InitializeInternal()
 			{
+				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
 				element->SetCallback(this);
+				oldCaretColor=element->GetCaretColor();
+				caretPen=resourceManager->CreateGdiPen(oldCaretColor);
 			}
 
 			void GuiColorizedTextElementRenderer::FinalizeInternal()
 			{
+				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
 				if(font)
 				{
-					IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
 					resourceManager->DestroyGdiFont(oldFont);
 					resourceManager->DestroyCharMeasurer(oldFont);
 				}
+				resourceManager->DestroyGdiPen(oldCaretColor);
 			}
 
 			void GuiColorizedTextElementRenderer::RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget)
@@ -503,11 +507,30 @@ GuiColorizedTextElementRenderer
 							x=line.att[column].rightOffset;
 						}
 					}
+
+					if(element->GetCaretVisible() && element->lines.IsAvailable(element->GetCaretEnd()))
+					{
+						Point caretPoint=element->lines.GetPointFromTextPos(element->GetCaretEnd());
+						int height=element->lines.GetRowHeight();
+						dc->SetPen(caretPen);
+						dc->MoveTo(caretPoint.x-viewPosition.x+bounds.x1, caretPoint.y-viewPosition.y+bounds.y1);
+						dc->LineTo(caretPoint.x-viewPosition.x+bounds.x1, caretPoint.y+height-viewPosition.y+bounds.y1);
+						dc->MoveTo(caretPoint.x-1-viewPosition.x+bounds.x1, caretPoint.y-viewPosition.y+bounds.y1);
+						dc->LineTo(caretPoint.x-1-viewPosition.x+bounds.x1, caretPoint.y+height-viewPosition.y+bounds.y1);
+					}
 				}
 			}
 
 			void GuiColorizedTextElementRenderer::OnElementStateChanged()
 			{
+				Color caretColor=element->GetCaretColor();
+				if(oldCaretColor!=caretColor)
+				{
+					IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+					resourceManager->DestroyGdiPen(oldCaretColor);
+					oldCaretColor=caretColor;
+					caretPen=resourceManager->CreateGdiPen(oldCaretColor);
+				}
 			}
 		}
 	}

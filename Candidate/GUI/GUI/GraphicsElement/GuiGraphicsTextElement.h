@@ -148,6 +148,11 @@ ColorizedText
 				bool								isVisuallyEnabled;
 				bool								isFocused;
 
+				TextPos								caretBegin;
+				TextPos								caretEnd;
+				bool								caretVisible;
+				Color								caretColor;
+
 				GuiColorizedTextElement();
 			public:
 				~GuiColorizedTextElement();
@@ -159,18 +164,23 @@ ColorizedText
 
 				const IColorArray&					GetColors();
 				void								SetColors(const ColorArray& value);
-
 				const FontProperties&				GetFont();
 				void								SetFont(const FontProperties& value);
-
 				Point								GetViewPosition();
 				void								SetViewPosition(Point value);
-
 				bool								GetVisuallyEnabled();
 				void								SetVisuallyEnabled(bool value);
-
 				bool								GetFocused();
 				void								SetFocused(bool value);
+
+				TextPos								GetCaretBegin();
+				void								SetCaretBegin(TextPos value);
+				TextPos								GetCaretEnd();
+				void								SetCaretEnd(TextPos value);
+				bool								GetCaretVisible();
+				void								SetCaretVisible(bool value);
+				Color								GetCaretColor();
+				void								SetCaretColor(Color value);
 			};
 		}
 	}

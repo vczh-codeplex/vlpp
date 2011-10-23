@@ -34,6 +34,7 @@ Event Receiver
 				,charInput(_sender)
 				,gotFocus(_sender)
 				,lostFocus(_sender)
+				,caretNotify(_sender)
 			{
 			}
 
