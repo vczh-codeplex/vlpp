@@ -29,6 +29,45 @@ namespace vl
 		class INativeControllerListener;
 
 /***********************************************************************
+System Object
+***********************************************************************/
+
+		class INativeScreen : public Interface
+		{
+		public:
+			virtual Rect				GetBounds()=0;
+			virtual Rect				GetClientBounds()=0;
+			virtual WString				GetName()=0;
+			virtual bool				IsPrimary()=0;
+		};
+
+		class INativeCursor : public Interface
+		{
+		public:
+			enum SystemCursorType
+			{
+				SmallWaiting,
+				LargeWaiting,
+				Arrow,
+				Cross,
+				Hand,
+				Help,
+				IBeam,
+				SizeAll,
+				SizeNESW,
+				SizeNS,
+				SizeNWSE,
+				SizeWE,
+				LastSystemCursor=SizeWE,
+			};
+
+			static const int			SystemCursorCount=LastSystemCursor+1;
+		public:
+			virtual bool				IsSystemCursor()=0;
+			virtual SystemCursorType	GetSystemCursorType()=0;
+		};
+
+/***********************************************************************
 Native Window
 ***********************************************************************/
 
@@ -41,6 +80,8 @@ Native Window
 			virtual void				SetClientSize(Size size)=0;
 			virtual WString				GetTitle()=0;
 			virtual void				SetTitle(WString title)=0;
+			virtual INativeCursor*		GetWindowCursor()=0;
+			virtual void				SetWindowCursor(INativeCursor* cursor)=0;
 
 			virtual void				Show()=0;
 			virtual void				ShowRestored()=0;
@@ -134,18 +175,11 @@ Native Window
 Native Window Provider
 ***********************************************************************/
 
-		class INativeScreen : public Interface
-		{
-		public:
-			virtual Rect				GetBounds()=0;
-			virtual Rect				GetClientBounds()=0;
-			virtual WString				GetName()=0;
-			virtual bool				IsPrimary()=0;
-		};
-
 		class INativeController : public Interface
 		{
 		public:
+			virtual INativeCursor*		GetSystemCursor(INativeCursor::SystemCursorType type)=0;
+			virtual INativeCursor*		GetDefaultSystemCursor()=0;
 			virtual INativeWindow*		CreateNativeWindow()=0;
 			virtual void				DestroyNativeWindow(INativeWindow* window)=0;
 			virtual INativeWindow*		GetMainWindow()=0;

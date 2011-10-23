@@ -29,15 +29,48 @@ GuiMultilineTextBox::StyleController
 				textElement->SetCaretVisible(!textElement->GetCaretVisible());
 			}
 
+			void GuiMultilineTextBox::StyleController::OnLeftButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments)
+			{
+				if(scrollView->GetVisuallyEnabled() && arguments.compositionSource==arguments.eventSource)
+				{
+					dragging=true;
+					Point viewPosition=textElement->GetViewPosition();
+					TextPos pos=textElement->lines.GetTextPosFromPoint(Point(arguments.x+viewPosition.x, arguments.y+viewPosition.y));
+					textElement->SetCaretBegin(pos);
+					textElement->SetCaretEnd(pos);
+				}
+			}
+
+			void GuiMultilineTextBox::StyleController::OnLeftButtonUp(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments)
+			{
+				if(scrollView->GetVisuallyEnabled() && arguments.compositionSource==arguments.eventSource)
+				{
+					dragging=false;
+				}
+			}
+
+			void GuiMultilineTextBox::StyleController::OnMouseMove(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments)
+			{
+				if(scrollView->GetVisuallyEnabled() && arguments.compositionSource==arguments.eventSource)
+				{
+					if(dragging)
+					{
+					}
+				}
+			}
+
 			GuiMultilineTextBox::StyleController::StyleController(GuiScrollView::IStyleProvider* styleProvider)
 				:GuiScrollView::StyleController(styleProvider)
 				,textElement(0)
+				,textComposition(0)
+				,dragging(false)
 			{
 				textElement=GuiColorizedTextElement::Create();
 
-				GuiBoundsComposition* textComposition=new GuiBoundsComposition;
+				textComposition=new GuiBoundsComposition;
 				textComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
 				textComposition->SetOwnedElement(textElement);
+				textComposition->SetAssociatedCursor(GetCurrentController()->GetSystemCursor(INativeCursor::IBeam));
 
 				GetInternalContainerComposition()->AddChild(textComposition);
 			}
@@ -67,6 +100,9 @@ GuiMultilineTextBox::StyleController
 				value->GetEventReceiver()->gotFocus.AttachMethod(this, &StyleController::OnGotFocus);
 				value->GetEventReceiver()->lostFocus.AttachMethod(this, &StyleController::OnLostFocus);
 				value->GetEventReceiver()->caretNotify.AttachMethod(this, &StyleController::OnCaretNotify);
+				textComposition->GetEventReceiver()->leftButtonDown.AttachMethod(this, &StyleController::OnLeftButtonDown);
+				textComposition->GetEventReceiver()->leftButtonUp.AttachMethod(this, &StyleController::OnLeftButtonUp);
+				textComposition->GetEventReceiver()->mouseMove.AttachMethod(this, &StyleController::OnMouseMove);
 			}
 
 			void GuiMultilineTextBox::StyleController::SetText(const WString& value)

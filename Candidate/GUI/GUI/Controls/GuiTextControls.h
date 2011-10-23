@@ -26,10 +26,16 @@ namespace vl
 				{
 				protected:
 					elements::GuiColorizedTextElement*	textElement;
+					elements::GuiBoundsComposition*		textComposition;
+					bool								dragging;
 					
 					void								OnGotFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 					void								OnLostFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 					void								OnCaretNotify(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+
+					void								OnLeftButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
+					void								OnLeftButtonUp(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
+					void								OnMouseMove(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
 				public:
 					StyleController(GuiScrollView::IStyleProvider* styleProvider);
 					~StyleController();

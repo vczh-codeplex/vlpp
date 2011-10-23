@@ -57,6 +57,7 @@ Basic Construction
 				Ptr<GuiGraphicsEventReceiver>		eventReceiver;
 				controls::GuiControl*				associatedControl;
 				GuiGraphicsHost*					associatedHost;
+				INativeCursor*						associatedCursor;
 
 				void								OnControlParentChanged(controls::GuiControl* control);
 
@@ -96,10 +97,13 @@ Basic Construction
 
 				controls::GuiControl*				GetAssociatedControl();
 				GuiGraphicsHost*					GetAssociatedHost();
+				INativeCursor*						GetAssociatedCursor();
+				void								SetAssociatedCursor(INativeCursor* cursor);
 
 				controls::GuiControl*				GetRelatedControl();
 				GuiGraphicsHost*					GetRelatedGraphicsHost();
 				controls::GuiControlHost*			GetRelatedControlHost();
+				INativeCursor*						GetRelatedCursor();
 
 				virtual Margin						GetMargin();
 				virtual void						SetMargin(Margin value);

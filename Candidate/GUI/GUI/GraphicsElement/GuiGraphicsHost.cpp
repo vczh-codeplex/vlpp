@@ -8,6 +8,7 @@ namespace vl
 		namespace elements
 		{
 			using namespace collections;
+			using namespace controls;
 
 /***********************************************************************
 GuiGraphicsAnimationManager
@@ -273,6 +274,20 @@ GuiGraphicsHost
 					{
 						composition->GetEventReceiver()->mouseEnter.Execute(GuiEventArgs(composition));
 					}
+				}
+
+				INativeCursor* cursor=0;
+				if(newCompositions.Count()>0)
+				{
+					cursor=newCompositions[newCompositions.Count()-1]->GetRelatedCursor();
+				}
+				if(cursor)
+				{
+					nativeWindow->SetWindowCursor(cursor);
+				}
+				else
+				{
+					nativeWindow->SetWindowCursor(GetCurrentController()->GetDefaultSystemCursor());
 				}
 
 				OnMouseInput(info, &GuiGraphicsEventReceiver::mouseMove);
