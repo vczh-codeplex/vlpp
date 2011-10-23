@@ -32,7 +32,7 @@ WindowsClass
 					windowClass.cbWndExtra=0;
 					windowClass.hInstance=hInstance;
 					windowClass.hIcon=LoadIcon(NULL,IDI_APPLICATION);
-					windowClass.hCursor=LoadCursor(NULL,IDC_ARROW);
+					windowClass.hCursor=NULL;//LoadCursor(NULL,IDC_ARROW);
 					windowClass.hbrBackground=GetSysColorBrush(COLOR_BTNFACE);
 					windowClass.lpszMenuName=NULL;
 					windowClass.lpszClassName=name.Buffer();
@@ -57,6 +57,136 @@ WindowsClass
 			};
 
 /***********************************************************************
+WindowsScreen
+***********************************************************************/
+
+			class WindowsScreen : public Object, public INativeScreen
+			{
+				friend class WindowsController;
+			protected:
+				HMONITOR					monitor;
+			public:
+				WindowsScreen()
+				{
+					monitor=NULL;
+				}
+
+				Rect GetBounds()
+				{
+					MONITORINFOEX info;
+					info.cbSize=sizeof(MONITORINFOEX);
+					GetMonitorInfo(monitor, &info);
+					return Rect(info.rcMonitor.left, info.rcMonitor.top, info.rcMonitor.right, info.rcMonitor.bottom);
+				}
+
+				Rect GetClientBounds()
+				{
+					MONITORINFOEX info;
+					info.cbSize=sizeof(MONITORINFOEX);
+					GetMonitorInfo(monitor, &info);
+					return Rect(info.rcWork.left, info.rcWork.top, info.rcWork.right, info.rcWork.bottom);
+				}
+
+				WString GetName()
+				{
+					MONITORINFOEX info;
+					info.cbSize=sizeof(MONITORINFOEX);
+					GetMonitorInfo(monitor, &info);
+					
+					wchar_t buffer[sizeof(info.szDevice)/sizeof(*info.szDevice)+1];
+					memset(buffer, 0, sizeof(buffer));
+					memcpy(buffer, info.szDevice, sizeof(info.szDevice));
+					return buffer;
+				}
+
+				bool IsPrimary()
+				{
+					MONITORINFOEX info;
+					info.cbSize=sizeof(MONITORINFOEX);
+					GetMonitorInfo(monitor, &info);
+					return info.dwFlags==MONITORINFOF_PRIMARY;
+				}
+			};
+
+			class WindowsCursor : public Object, public INativeCursor
+			{
+			protected:
+				HCURSOR								handle;
+				bool								isSystemCursor;
+				SystemCursorType					systemCursorType;
+			public:
+				WindowsCursor(HCURSOR _handle)
+					:handle(_handle)
+					,isSystemCursor(false)
+					,systemCursorType(INativeCursor::Arrow)
+				{
+				}
+
+				WindowsCursor(SystemCursorType type)
+					:handle(NULL)
+					,isSystemCursor(true)
+					,systemCursorType(type)
+				{
+					LPWSTR id=NULL;
+					switch(type)
+					{
+					case SmallWaiting:
+						id=IDC_APPSTARTING;
+						break;
+					case LargeWaiting:
+						id=IDC_WAIT;
+						break;
+					case Arrow:
+						id=IDC_ARROW;
+						break;
+					case Cross:
+						id=IDC_CROSS;
+						break;
+					case Hand:
+						id=IDC_HAND;
+						break;
+					case Help:
+						id=IDC_HELP;
+						break;
+					case IBeam:
+						id=IDC_IBEAM;
+						break;
+					case SizeAll:
+						id=IDC_SIZEALL;
+						break;
+					case SizeNESW:
+						id=IDC_SIZENESW;
+						break;
+					case SizeNS:
+						id=IDC_SIZENS;
+						break;
+					case SizeNWSE:
+						id=IDC_SIZENWSE;
+						break;
+					case SizeWE:
+						id=IDC_SIZEWE;
+						break;
+					}
+					handle=(HCURSOR)LoadImage(NULL, id, IMAGE_CURSOR, 0, 0, LR_DEFAULTSIZE|LR_SHARED);
+				}
+				
+				bool IsSystemCursor()
+				{
+					return isSystemCursor;
+				}
+
+				SystemCursorType GetSystemCursorType()
+				{
+					return systemCursorType;
+				}
+
+				HCURSOR GetCursorHandle()
+				{
+					return handle;
+				}
+			};
+
+/***********************************************************************
 WindowsForm
 ***********************************************************************/
 
@@ -65,6 +195,7 @@ WindowsForm
 			protected:
 				HWND								handle;
 				WString								title;
+				WindowsCursor*						cursor;
 				List<INativeWindowListener*>		listeners;
 				int									mouseLastX;
 				int									mouseLastY;
@@ -158,7 +289,8 @@ WindowsForm
 
 			public:
 				WindowsForm(HWND parent, WString className, HINSTANCE hInstance)
-					:mouseLastX(-1)
+					:cursor(0)
+					,mouseLastX(-1)
 					,mouseLastY(-1)
 					,mouseHoving(false)
 					,graphicsHandler(0)
@@ -408,6 +540,10 @@ WindowsForm
 									listeners[i]->MouseMoving(info);
 								}
 							}
+							if(GetCursor()!=cursor->GetCursorHandle())
+							{
+								SetCursor(cursor->GetCursorHandle());
+							}
 						}
 						break;
 					case WM_MOUSELEAVE:
@@ -537,6 +673,24 @@ WindowsForm
 				{
 					title=_title;
 					SetWindowText(handle, title.Buffer());
+				}
+
+				INativeCursor* GetWindowCursor()
+				{
+					return cursor;
+				}
+
+				void SetWindowCursor(INativeCursor* _cursor)
+				{
+					WindowsCursor* newCursor=dynamic_cast<WindowsCursor*>(_cursor);
+					if(newCursor && cursor!=newCursor)
+					{
+						cursor=newCursor;
+						if(mouseHoving && IsVisible())
+						{
+							SetCursor(cursor->GetCursorHandle());
+						}
+					}
 				}
 
 				void Show()
@@ -735,54 +889,6 @@ WindowsController
 			LRESULT CALLBACK GodProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 			LRESULT CALLBACK MouseProc(int nCode , WPARAM wParam , LPARAM lParam);
 
-			class WindowsScreen : public Object, public INativeScreen
-			{
-				friend class WindowsController;
-			protected:
-				HMONITOR					monitor;
-			public:
-				WindowsScreen()
-				{
-					monitor=NULL;
-				}
-
-				Rect GetBounds()
-				{
-					MONITORINFOEX info;
-					info.cbSize=sizeof(MONITORINFOEX);
-					GetMonitorInfo(monitor, &info);
-					return Rect(info.rcMonitor.left, info.rcMonitor.top, info.rcMonitor.right, info.rcMonitor.bottom);
-				}
-
-				Rect GetClientBounds()
-				{
-					MONITORINFOEX info;
-					info.cbSize=sizeof(MONITORINFOEX);
-					GetMonitorInfo(monitor, &info);
-					return Rect(info.rcWork.left, info.rcWork.top, info.rcWork.right, info.rcWork.bottom);
-				}
-
-				WString GetName()
-				{
-					MONITORINFOEX info;
-					info.cbSize=sizeof(MONITORINFOEX);
-					GetMonitorInfo(monitor, &info);
-					
-					wchar_t buffer[sizeof(info.szDevice)/sizeof(*info.szDevice)+1];
-					memset(buffer, 0, sizeof(buffer));
-					memcpy(buffer, info.szDevice, sizeof(info.szDevice));
-					return buffer;
-				}
-
-				bool IsPrimary()
-				{
-					MONITORINFOEX info;
-					info.cbSize=sizeof(MONITORINFOEX);
-					GetMonitorInfo(monitor, &info);
-					return info.dwFlags==MONITORINFOF_PRIMARY;
-				}
-			};
-
 			class WindowsController : public Object, public INativeController
 			{
 			protected:
@@ -797,6 +903,7 @@ WindowsController
 				HHOOK								mouseHook;
 				bool								isTimerEnabled;
 
+				Array<Ptr<WindowsCursor>>			systemCursors;
 				List<Ptr<WindowsScreen>>			screens;
 				FontProperties						defaultFont;
 			public:
@@ -825,6 +932,12 @@ WindowsController
 						{
 							defaultFont.size=-defaultFont.size;
 						}
+					}
+
+					systemCursors.Resize(INativeCursor::SystemCursorCount);
+					for(int i=0;i<systemCursors.Count();i++)
+					{
+						systemCursors[i]=new WindowsCursor((INativeCursor::SystemCursorType)i);
 					}
 				}
 
@@ -878,6 +991,24 @@ WindowsController
 					return skipDefaultProcedure;
 				}
 
+				INativeCursor* GetSystemCursor(INativeCursor::SystemCursorType type)
+				{
+					int index=(int)type;
+					if(0<=index && index<systemCursors.Count())
+					{
+						return systemCursors[index].Obj();
+					}
+					else
+					{
+						return 0;
+					}
+				}
+
+				INativeCursor* GetDefaultSystemCursor()
+				{
+					return GetSystemCursor(INativeCursor::Arrow);
+				}
+
 				INativeWindow* CreateNativeWindow()
 				{
 					WindowsForm* window=new WindowsForm(godWindow, windowClass.GetName(), hInstance);
@@ -886,6 +1017,7 @@ WindowsController
 					{
 						listeners[i]->NativeWindowCreated(window);
 					}
+					window->SetWindowCursor(GetDefaultSystemCursor());
 					return window;
 				}
 

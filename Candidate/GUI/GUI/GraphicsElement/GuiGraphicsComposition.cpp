@@ -96,6 +96,7 @@ GuiGraphicsComposition
 				,renderTarget(0)
 				,associatedControl(0)
 				,associatedHost(0)
+				,associatedCursor(0)
 			{
 			}
 
@@ -353,6 +354,16 @@ GuiGraphicsComposition
 				associatedHost=host;
 			}
 
+			INativeCursor* GuiGraphicsComposition::GetAssociatedCursor()
+			{
+				return associatedCursor;
+			}
+
+			void GuiGraphicsComposition::SetAssociatedCursor(INativeCursor* cursor)
+			{
+				associatedCursor=cursor;
+			}
+
 			controls::GuiControl* GuiGraphicsComposition::GetRelatedControl()
 			{
 				GuiGraphicsComposition* composition=this;
@@ -395,6 +406,23 @@ GuiGraphicsComposition
 					if(composition->GetParent()==0)
 					{
 						return dynamic_cast<GuiControlHost*>(composition->GetAssociatedControl());
+					}
+				}
+				return 0;
+			}
+
+			INativeCursor* GuiGraphicsComposition::GetRelatedCursor()
+			{
+				GuiGraphicsComposition* composition=this;
+				while(composition)
+				{
+					if(composition->GetAssociatedCursor())
+					{
+						return composition->GetAssociatedCursor();
+					}
+					else
+					{
+						composition=composition->GetParent();
 					}
 				}
 				return 0;
