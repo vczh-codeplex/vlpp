@@ -178,6 +178,7 @@ CachedResourceAllocator
 				{
 				protected:
 					Ptr<WinFont>			font;
+					int						size;
 
 					int MeasureWidthInternal(wchar_t character, IGuiGraphicsRenderTarget* renderTarget)
 					{
@@ -194,9 +195,26 @@ CachedResourceAllocator
 							return 0;
 						}
 					}
+
+					int GetRowHeightInternal(IGuiGraphicsRenderTarget* renderTarget)
+					{
+						if(renderTarget)
+						{
+							WindowsGDIRenderTarget* gdiRenderTarget=dynamic_cast<WindowsGDIRenderTarget*>(renderTarget);
+							WinDC* dc=gdiRenderTarget->GetDC();
+							dc->SetFont(font);
+							SIZE size=dc->MeasureBuffer(L" ", 1, -1);
+							return size.cy;
+						}
+						else
+						{
+							return size;
+						}
+					}
 				public:
 					GdiCharMeasurer(Ptr<WinFont> _font, int _size)
 						:text::CharMeasurer(_size)
+						,size(_size)
 						,font(_font)
 					{
 					}
