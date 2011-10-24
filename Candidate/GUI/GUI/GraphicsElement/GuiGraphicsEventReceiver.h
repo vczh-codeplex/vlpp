@@ -162,10 +162,12 @@ Predefined Events
 			{
 				GuiGraphicsComposition*		compositionSource;	// the deepest composition
 				GuiGraphicsComposition*		eventSource;		// the deepest composition that contains an event receiver
+				bool						handled;
 
 				GuiEventArgs(GuiGraphicsComposition* composition=0)
 					:compositionSource(composition)
 					,eventSource(composition)
+					,handled(false)
 				{
 				}
 			};
@@ -222,10 +224,12 @@ Event Receiver
 				GuiNotifyEvent					mouseEnter;
 				GuiNotifyEvent					mouseLeave;
 
+				GuiKeyEvent						previewKey;
 				GuiKeyEvent						keyDown;
 				GuiKeyEvent						keyUp;
 				GuiKeyEvent						systemKeyDown;
 				GuiKeyEvent						systemKeyUp;
+				GuiCharEvent					previewCharInput;
 				GuiCharEvent					charInput;
 				GuiNotifyEvent					gotFocus;
 				GuiNotifyEvent					lostFocus;

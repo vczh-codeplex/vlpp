@@ -85,6 +85,149 @@ GuiTextElementOperator
 				}
 			}
 
+			void GuiTextElementOperator::ProcessKey(int code, bool shift, bool ctrl)
+			{
+				TextPos begin=textElement->GetCaretBegin();
+				TextPos end=textElement->GetCaretEnd();
+				switch(code)
+				{
+				case VKEY_UP:
+					{
+						end.row--;
+						Move(end, shift);
+					}
+					break;
+				case VKEY_DOWN:
+					{
+						end.row++;
+						Move(end, shift);
+					}
+					break;
+				case VKEY_LEFT:
+					{
+						if(ctrl)
+						{
+							Move(callback->GetLeftWord(end), shift);
+						}
+						else
+						{
+							if(end.column==0)
+							{
+								end.row--;
+								end=textElement->lines.Normalize(end);
+								end.column=textElement->lines.GetLine(end.row).dataLength;
+							}
+							else
+							{
+								end.column--;
+							}
+							Move(end, shift);
+						}
+					}
+					break;
+				case VKEY_RIGHT:
+					{
+						if(ctrl)
+						{
+							Move(callback->GetRightWord(end), shift);
+						}
+						else
+						{
+							if(end.column==textElement->lines.GetLine(end.row).dataLength)
+							{
+								end.row++;
+								end.column=0;
+							}
+							else
+							{
+								end.column++;
+							}
+							Move(end, shift);
+						}
+					}
+					break;
+				case VKEY_HOME:
+					{
+						if(ctrl)
+						{
+							Move(TextPos(0, 0), shift);
+						}
+						else
+						{
+							end.column=0;
+							Move(end, shift);
+						}
+					}
+					break;
+				case VKEY_END:
+					{
+						if(ctrl)
+						{
+							end.row=textElement->lines.GetCount()-1;
+						}
+						end.column=textElement->lines.GetLine(end.row).dataLength;
+						Move(end, shift);
+					}
+					break;
+				case VKEY_PRIOR:
+					{
+						end.row-=callback->GetPageRows();
+						Move(end, shift);
+					}
+					break;
+				case VKEY_NEXT:
+					{
+						end.row+=callback->GetPageRows();
+						Move(end, shift);
+					}
+					break;
+				case VKEY_BACK:
+					{
+						if(ctrl && !shift)
+						{
+							ProcessKey(VKEY_LEFT, true, true);
+							ProcessKey(VKEY_BACK, false, false);
+						}
+						else if(!ctrl && shift)
+						{
+							ProcessKey(VKEY_UP, true, false);
+							ProcessKey(VKEY_BACK, false, false);
+						}
+						else
+						{
+							if(begin==end)
+							{
+								ProcessKey(VKEY_LEFT, true, false);
+							}
+							SetSelectionText(L"");
+						}
+					}
+					break;
+				case VKEY_DELETE:
+					{
+						if(ctrl && !shift)
+						{
+							ProcessKey(VKEY_RIGHT, true, true);
+							ProcessKey(VKEY_DELETE, false, false);
+						}
+						else if(!ctrl && shift)
+						{
+							ProcessKey(VKEY_DOWN, true, false);
+							ProcessKey(VKEY_DELETE, false, false);
+						}
+						else
+						{
+							if(begin==end)
+							{
+								ProcessKey(VKEY_RIGHT, true, false);
+							}
+							SetSelectionText(L"");
+						}
+					}
+					break;
+				}
+			}
+
 			void GuiTextElementOperator::OnGotFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 			{
 				textElement->SetFocused(true);
@@ -136,127 +279,7 @@ GuiTextElementOperator
 			{
 				if(textControl->GetVisuallyEnabled() && arguments.compositionSource==arguments.eventSource)
 				{
-					TextPos begin=textElement->GetCaretBegin();
-					TextPos end=textElement->GetCaretEnd();
-					switch(arguments.code)
-					{
-					case VKEY_UP:
-						{
-							end.row--;
-							Move(end, arguments.shift);
-						}
-						break;
-					case VKEY_DOWN:
-						{
-							end.row++;
-							Move(end, arguments.shift);
-						}
-						break;
-					case VKEY_LEFT:
-						{
-							if(arguments.ctrl)
-							{
-								Move(callback->GetLeftWord(end), arguments.shift);
-							}
-							else
-							{
-								if(end.column==0)
-								{
-									end.row--;
-									end=textElement->lines.Normalize(end);
-									end.column=textElement->lines.GetLine(end.row).dataLength;
-								}
-								else
-								{
-									end.column--;
-								}
-								Move(end, arguments.shift);
-							}
-						}
-						break;
-					case VKEY_RIGHT:
-						{
-							if(arguments.ctrl)
-							{
-								Move(callback->GetRightWord(end), arguments.shift);
-							}
-							else
-							{
-								if(end.column==textElement->lines.GetLine(end.row).dataLength)
-								{
-									end.row++;
-									end.column=0;
-								}
-								else
-								{
-									end.column++;
-								}
-								Move(end, arguments.shift);
-							}
-						}
-						break;
-					case VKEY_HOME:
-						{
-							if(arguments.ctrl)
-							{
-								Move(TextPos(0, 0), arguments.shift);
-							}
-							else
-							{
-								end.column=0;
-								Move(end, arguments.shift);
-							}
-						}
-						break;
-					case VKEY_END:
-						{
-							if(arguments.ctrl)
-							{
-								end.row=textElement->lines.GetCount()-1;
-							}
-							end.column=textElement->lines.GetLine(end.row).dataLength;
-							Move(end, arguments.shift);
-						}
-						break;
-					case VKEY_PRIOR:
-						{
-							end.row-=callback->GetPageRows();
-							Move(end, arguments.shift);
-						}
-						break;
-					case VKEY_NEXT:
-						{
-							end.row+=callback->GetPageRows();
-							Move(end, arguments.shift);
-						}
-						break;
-					case VKEY_BACK:
-						{
-							if(arguments.ctrl && !arguments.shift)
-							{
-							}
-							else if(arguments.ctrl && arguments.shift)
-							{
-							}
-							else
-							{
-							}
-						}
-						break;
-					case VKEY_DELETE:
-						{
-							if(arguments.ctrl && !arguments.shift)
-							{
-							}
-							else if(arguments.ctrl && arguments.shift)
-							{
-							}
-							else
-							{
-							}
-						}
-						break;
-					}
+					ProcessKey(arguments.code, arguments.shift, arguments.ctrl);
 				}
 			}
 

@@ -127,8 +127,9 @@ text::TextLine
 
 				void TextLine::AppendAndFinalize(TextLine& line)
 				{
-					Modify(dataLength, 0, line.text, line.dataLength);
-					memcpy(att+dataLength, line.att, line.dataLength*sizeof(CharAtt));
+					int oldDataLength=dataLength;
+					Modify(oldDataLength, 0, line.text, line.dataLength);
+					memcpy(att+oldDataLength, line.att, line.dataLength*sizeof(CharAtt));
 					line.Finalize();
 				}
 
