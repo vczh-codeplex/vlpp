@@ -122,7 +122,25 @@ Renderers
 			{
 				DEFINE_GUI_GRAPHICS_RENDERER(GuiColorizedTextElement, GuiColorizedTextElementRenderer, IWindowsGDIRenderTarget)
 
-				typedef collections::Array<text::ColorEntry>			ColorArray;
+			public:
+				struct ColorItemResource
+				{
+					Color						text;
+					Color						background;
+					Ptr<windows::WinBrush>		backgroundBrush;
+				};
+
+				struct ColorEntryResource
+				{
+					ColorItemResource			normal;
+					ColorItemResource			selectedFocused;
+					ColorItemResource			selectedUnfocused;
+
+					bool						operator==(const ColorEntryResource& value){return false;}
+					bool						operator!=(const ColorEntryResource& value){return true;}
+				};
+
+				typedef collections::Array<ColorEntryResource>			ColorArray;
 			protected:
 				FontProperties			oldFont;
 				Ptr<windows::WinFont>	font;
@@ -130,6 +148,7 @@ Renderers
 				Color					oldCaretColor;
 				Ptr<windows::WinPen>	caretPen;
 
+				void					DestroyColors();
 				void					ColorChanged();
 				void					FontChanged();
 

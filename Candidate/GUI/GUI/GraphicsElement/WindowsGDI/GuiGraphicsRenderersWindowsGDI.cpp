@@ -432,9 +432,41 @@ GuiSolidLabelElementRenderer
 GuiColorizedTextElementRenderer
 ***********************************************************************/
 
+			void GuiColorizedTextElementRenderer::DestroyColors()
+			{
+				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+				for(int i=0;i<colors.Count();i++)
+				{
+					resourceManager->DestroyGdiBrush(colors[i].normal.background);
+					resourceManager->DestroyGdiBrush(colors[i].selectedFocused.background);
+					resourceManager->DestroyGdiBrush(colors[i].selectedUnfocused.background);
+				}
+			}
+
 			void GuiColorizedTextElementRenderer::ColorChanged()
 			{
-				CopyFrom(colors.Wrap(), element->GetColors());
+				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+				ColorArray newColors;
+				newColors.Resize(element->GetColors().Count());
+				for(int i=0;i<newColors.Count();i++)
+				{
+					text::ColorEntry entry=element->GetColors()[i];
+					ColorEntryResource newEntry;
+
+					newEntry.normal.text=entry.normal.text;
+					newEntry.normal.background=entry.normal.background;
+					newEntry.normal.backgroundBrush=resourceManager->CreateGdiBrush(newEntry.normal.background);
+					newEntry.selectedFocused.text=entry.selectedFocused.text;
+					newEntry.selectedFocused.background=entry.selectedFocused.background;
+					newEntry.selectedFocused.backgroundBrush=resourceManager->CreateGdiBrush(newEntry.selectedFocused.background);
+					newEntry.selectedUnfocused.text=entry.selectedUnfocused.text;
+					newEntry.selectedUnfocused.background=entry.selectedUnfocused.background;
+					newEntry.selectedUnfocused.backgroundBrush=resourceManager->CreateGdiBrush(newEntry.selectedUnfocused.background);
+					newColors[i]=newEntry;
+				}
+
+				DestroyColors();
+				CopyFrom(colors.Wrap(), newColors.Wrap());
 			}
 
 			void GuiColorizedTextElementRenderer::FontChanged()
@@ -469,6 +501,7 @@ GuiColorizedTextElementRenderer
 					resourceManager->DestroyCharMeasurer(oldFont);
 				}
 				resourceManager->DestroyGdiPen(oldCaretColor);
+				DestroyColors();
 			}
 
 			void GuiColorizedTextElementRenderer::RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget)
@@ -487,24 +520,60 @@ GuiColorizedTextElementRenderer
 					Rect viewBounds(viewPosition, bounds.GetSize());
 					int startRow=element->lines.GetTextPosFromPoint(Point(viewBounds.x1, viewBounds.y1)).row;
 					int endRow=element->lines.GetTextPosFromPoint(Point(viewBounds.x2, viewBounds.y2)).row;
+					TextPos selectionBegin=element->GetCaretBegin()<element->GetCaretEnd()?element->GetCaretBegin():element->GetCaretEnd();
+					TextPos selectionEnd=element->GetCaretBegin()>element->GetCaretEnd()?element->GetCaretBegin():element->GetCaretEnd();
+					bool inSelection=false;
+					bool focused=element->GetFocused();
+					Ptr<windows::WinBrush> lastBrush=0;
+
 					for(int row=startRow;row<=endRow;row++)
 					{
-						Point startPoint=element->lines.GetPointFromTextPos(TextPos(row, 0));
+						Rect startRect=element->lines.GetRectFromTextPos(TextPos(row, 0));
+						Point startPoint=startRect.LeftTop();
 						int startColumn=element->lines.GetTextPosFromPoint(Point(viewBounds.x1, startPoint.y)).column;
 						int endColumn=element->lines.GetTextPosFromPoint(Point(viewBounds.x2, startPoint.y)).column;
 						text::TextLine& line=element->lines.GetLine(row);
-						if(endColumn>=line.dataLength) endColumn=line.dataLength-1;
 
 						int x=startColumn==0?0:line.att[startColumn-1].rightOffset;
 						for(int column=startColumn; column<=endColumn; column++)
 						{
-							text::ColorItem color=colors[line.att[column].colorIndex].normal;
-							if(color.text.a)
+							if(row==selectionBegin.row && column==selectionBegin.column)
 							{
-								dc->SetTextColor(RGB(color.text.r, color.text.g, color.text.b));
-								dc->DrawBuffer(x-viewPosition.x+bounds.x1, startPoint.y-viewPosition.y+bounds.y1, &line.text[column], 1);
+								inSelection=true;
 							}
-							x=line.att[column].rightOffset;
+							if(row==selectionEnd.row && column==selectionEnd.column)
+							{
+								inSelection=false;
+							}
+							
+							bool crlf=column==line.dataLength;
+							int colorIndex=crlf?0:line.att[column].colorIndex;
+							ColorItemResource& color=
+								!inSelection?colors[colorIndex].normal:
+								focused?colors[colorIndex].selectedFocused:
+								colors[colorIndex].selectedUnfocused;
+							int x2=crlf?x+startRect.Height()/2:line.att[column].rightOffset;
+							int tx=x-viewPosition.x+bounds.x1;
+							int ty=startPoint.y-viewPosition.y+bounds.y1;
+							
+							if(color.background.a)
+							{
+								if(lastBrush!=color.backgroundBrush)
+								{
+									lastBrush=color.backgroundBrush;
+									dc->SetBrush(lastBrush);
+								}
+								dc->FillRect(tx, ty, tx+(x2-x), ty+startRect.Height());
+							}
+							if(!crlf)
+							{
+								if(color.text.a)
+								{
+									dc->SetTextColor(RGB(color.text.r, color.text.g, color.text.b));
+									dc->DrawBuffer(tx, ty, &line.text[column], 1);
+								}
+							}
+							x=x2;
 						}
 					}
 
