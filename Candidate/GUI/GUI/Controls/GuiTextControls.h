@@ -56,6 +56,7 @@ namespace vl
 				ICallback*								callback;
 				bool									dragging;
 
+				void									UpdateCaretPoint();
 				void									Move(TextPos pos, bool shift);
 				void									Modify(TextPos start, TextPos end, const WString& input);
 				void									ProcessKey(int code, bool shift, bool ctrl);

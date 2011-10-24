@@ -60,6 +60,7 @@ Host
 				GuiGraphicsComposition*			focusedComposition;
 				Size							previousClientSize;
 				Size							minSize;
+				Point							caretPoint;
 				unsigned __int64				lastCaretTime;
 
 				GuiGraphicsAnimationManager		animationManager;
@@ -110,6 +111,8 @@ Host
 
 				bool							SetFocus(GuiGraphicsComposition* composition);
 				GuiGraphicsComposition*			GetFocusedComposition();
+				Point							GetCaretPoint();
+				void							SetCaretPoint(Point value, GuiGraphicsComposition* referenceComposition=0);
 
 				GuiGraphicsAnimationManager*	GetAnimationManager();
 			};
