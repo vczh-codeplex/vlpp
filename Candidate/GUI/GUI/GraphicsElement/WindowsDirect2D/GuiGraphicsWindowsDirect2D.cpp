@@ -2,6 +2,7 @@
 
 #include "GuiGraphicsWindowsDirect2D.h"
 #include "GuiGraphicsRenderersWindowsDirect2D.h"
+#include <math.h>
 
 namespace vl
 {
@@ -29,6 +30,7 @@ CachedResourceAllocator
 				IWindowsDirect2DRenderTarget*	guiRenderTarget;
 			public:
 				CachedSolidBrushAllocator()
+					:guiRenderTarget(0)
 				{
 				}
 
@@ -61,6 +63,7 @@ CachedResourceAllocator
 				IWindowsDirect2DRenderTarget*	guiRenderTarget;
 			public:
 				CachedLinearBrushAllocator()
+					:guiRenderTarget(0)
 				{
 				}
 
@@ -107,11 +110,8 @@ CachedResourceAllocator
 			{
 				DEFINE_CACHED_RESOURCE_ALLOCATOR(FontProperties, ComPtr<IDWriteTextFormat>)
 			public:
-				CachedTextFormatAllocator()
-				{
-				}
 
-				ComPtr<IDWriteTextFormat> CreateInternal(const FontProperties& fontProperties)
+				static ComPtr<IDWriteTextFormat> CreateDirect2DFont(const FontProperties& fontProperties)
 				{
 					IDWriteFactory* dwriteFactory=GetDirectWriteFactory();
 					IDWriteTextFormat* format=0;
@@ -133,6 +133,70 @@ CachedResourceAllocator
 					{
 						return 0;
 					}
+				}
+
+				ComPtr<IDWriteTextFormat> CreateInternal(const FontProperties& fontProperties)
+				{
+					return CreateDirect2DFont(fontProperties);
+				}
+			};
+
+			class CachedCharMeasurerAllocator
+			{
+				DEFINE_CACHED_RESOURCE_ALLOCATOR(FontProperties, Ptr<text::CharMeasurer>)
+
+			protected:
+				class GdiCharMeasurer : public text::CharMeasurer
+				{
+				protected:
+					ComPtr<IDWriteTextFormat>		font;
+					int								size;
+
+					Size MeasureInternal(wchar_t character, IGuiGraphicsRenderTarget* renderTarget)
+					{
+						Size charSize(0, 0);
+						IDWriteTextLayout* textLayout=0;
+						HRESULT hr=GetDirectWriteFactory()->CreateTextLayout(
+							&character,
+							1,
+							font.Obj(),
+							0,
+							0,
+							&textLayout);
+						if(!FAILED(hr))
+						{
+							DWRITE_TEXT_METRICS metrics;
+							hr=textLayout->GetMetrics(&metrics);
+							if(!FAILED(hr))
+							{
+								charSize=Size((int)ceil(metrics.widthIncludingTrailingWhitespace), (int)ceil(metrics.height));
+							}
+							textLayout->Release();
+						}
+						return charSize;
+					}
+
+					int MeasureWidthInternal(wchar_t character, IGuiGraphicsRenderTarget* renderTarget)
+					{
+						return MeasureInternal(character, renderTarget).x;
+					}
+
+					int GetRowHeightInternal(IGuiGraphicsRenderTarget* renderTarget)
+					{
+						return MeasureInternal(L' ', renderTarget).y;
+					}
+				public:
+					GdiCharMeasurer(ComPtr<IDWriteTextFormat> _font, int _size)
+						:text::CharMeasurer(_size)
+						,size(_size)
+						,font(_font)
+					{
+					}
+				};
+			public:
+				Ptr<text::CharMeasurer> CreateInternal(const FontProperties& value)
+				{
+					return new GdiCharMeasurer(CachedTextFormatAllocator::CreateDirect2DFont(value), value.size);
 				}
 			};
 
@@ -277,6 +341,7 @@ WindowsGDIResourceManager
 				SortedList<Ptr<WindowsDirect2DRenderTarget>>		renderTargets;
 
 				CachedTextFormatAllocator							textFormats;
+				CachedCharMeasurerAllocator							charMeasurers;
 			public:
 				IGuiGraphicsRenderTarget* GetRenderTarget(INativeWindow* window)
 				{
@@ -306,6 +371,16 @@ WindowsGDIResourceManager
 				void DestroyDirect2DTextFormat(const FontProperties& fontProperties)
 				{
 					textFormats.Destroy(fontProperties);
+				}
+
+				Ptr<elements::text::CharMeasurer> CreateDirect2DCharMeasurer(const FontProperties& fontProperties)
+				{
+					return charMeasurers.Create(fontProperties);
+				}
+
+				void DestroyDirect2DCharMeasurer(const FontProperties& fontProperties)
+				{
+					charMeasurers.Destroy(fontProperties);
 				}
 			};
 		}

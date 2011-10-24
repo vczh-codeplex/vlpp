@@ -478,12 +478,88 @@ GuiSolidLabelElementRenderer
 GuiColorizedTextElementRenderer
 ***********************************************************************/
 
+			void GuiColorizedTextElementRenderer::CreateTextBrush(IWindowsDirect2DRenderTarget* _renderTarget)
+			{
+				if(_renderTarget)
+				{
+					colors.Resize(element->GetColors().Count());
+					for(int i=0;i<colors.Count();i++)
+					{
+						text::ColorEntry entry=element->GetColors()[i];
+						ColorEntryResource newEntry;
+
+						newEntry.normal.text=entry.normal.text;
+						newEntry.normal.textBrush=_renderTarget->CreateDirect2DBrush(newEntry.normal.text);
+						newEntry.normal.background=entry.normal.background;
+						newEntry.normal.backgroundBrush=_renderTarget->CreateDirect2DBrush(newEntry.normal.background);
+						newEntry.selectedFocused.text=entry.selectedFocused.text;
+						newEntry.selectedFocused.textBrush=_renderTarget->CreateDirect2DBrush(newEntry.selectedFocused.text);
+						newEntry.selectedFocused.background=entry.selectedFocused.background;
+						newEntry.selectedFocused.backgroundBrush=_renderTarget->CreateDirect2DBrush(newEntry.selectedFocused.background);
+						newEntry.selectedUnfocused.text=entry.selectedUnfocused.text;
+						newEntry.selectedUnfocused.textBrush=_renderTarget->CreateDirect2DBrush(newEntry.selectedUnfocused.text);
+						newEntry.selectedUnfocused.background=entry.selectedUnfocused.background;
+						newEntry.selectedUnfocused.backgroundBrush=_renderTarget->CreateDirect2DBrush(newEntry.selectedUnfocused.background);
+						colors[i]=newEntry;
+					}
+				}
+			}
+
+			void GuiColorizedTextElementRenderer::DestroyTextBrush(IWindowsDirect2DRenderTarget* _renderTarget)
+			{
+				if(_renderTarget)
+				{
+					for(int i=0;i<colors.Count();i++)
+					{
+						_renderTarget->DestroyDirect2DBrush(colors[i].normal.text);
+						_renderTarget->DestroyDirect2DBrush(colors[i].normal.background);
+						_renderTarget->DestroyDirect2DBrush(colors[i].selectedFocused.text);
+						_renderTarget->DestroyDirect2DBrush(colors[i].selectedFocused.background);
+						_renderTarget->DestroyDirect2DBrush(colors[i].selectedUnfocused.text);
+						_renderTarget->DestroyDirect2DBrush(colors[i].selectedUnfocused.background);
+					}
+					colors.Resize(0);
+				}
+			}
+
+			void GuiColorizedTextElementRenderer::CreateCaretBrush(IWindowsDirect2DRenderTarget* _renderTarget)
+			{
+				if(_renderTarget)
+				{
+					oldCaretColor=element->GetCaretColor();
+					caretBrush=_renderTarget->CreateDirect2DBrush(oldCaretColor);
+				}
+			}
+
+			void GuiColorizedTextElementRenderer::DestroyCaretBrush(IWindowsDirect2DRenderTarget* _renderTarget)
+			{
+				if(_renderTarget)
+				{
+					if(caretBrush)
+					{
+						_renderTarget->DestroyDirect2DBrush(oldCaretColor);
+						caretBrush=0;
+					}
+				}
+			}
+
 			void GuiColorizedTextElementRenderer::ColorChanged()
 			{
+				DestroyTextBrush(renderTarget);
+				CreateTextBrush(renderTarget);
 			}
 
 			void GuiColorizedTextElementRenderer::FontChanged()
 			{
+				IWindowsDirect2DResourceManager* resourceManager=GetWindowsDirect2DResourceManager();
+				if(textFormat)
+				{
+					resourceManager->DestroyDirect2DTextFormat(oldFont);
+					resourceManager->DestroyDirect2DCharMeasurer(oldFont);
+				}
+				oldFont=element->GetFont();
+				textFormat=resourceManager->CreateDirect2DTextFormat(oldFont);
+				element->lines.SetCharMeasurer(resourceManager->CreateDirect2DCharMeasurer(oldFont).Obj());
 			}
 
 			text::CharMeasurer* GuiColorizedTextElementRenderer::GetCharMeasurer()
@@ -493,23 +569,136 @@ GuiColorizedTextElementRenderer
 
 			void GuiColorizedTextElementRenderer::InitializeInternal()
 			{
+				textFormat=0;
+				caretBrush=0;
 				element->SetCallback(this);
 			}
 
 			void GuiColorizedTextElementRenderer::FinalizeInternal()
 			{
+				DestroyTextBrush(renderTarget);
+				DestroyCaretBrush(renderTarget);
+
+				IWindowsDirect2DResourceManager* resourceManager=GetWindowsDirect2DResourceManager();
+				if(textFormat)
+				{
+					resourceManager->DestroyDirect2DTextFormat(oldFont);
+					resourceManager->DestroyDirect2DCharMeasurer(oldFont);
+				}
 			}
 
 			void GuiColorizedTextElementRenderer::RenderTargetChangedInternal(IWindowsDirect2DRenderTarget* oldRenderTarget, IWindowsDirect2DRenderTarget* newRenderTarget)
 			{
+				DestroyTextBrush(oldRenderTarget);
+				DestroyCaretBrush(oldRenderTarget);
+				CreateTextBrush(newRenderTarget);
+				CreateCaretBrush(newRenderTarget);
+				element->lines.SetRenderTarget(newRenderTarget);
 			}
 
 			void GuiColorizedTextElementRenderer::Render(Rect bounds)
 			{
+				if(renderTarget)
+				{
+					ID2D1RenderTarget* d2dRenderTarget=renderTarget->GetDirect2DRenderTarget();
+					Point viewPosition=element->GetViewPosition();
+					Rect viewBounds(viewPosition, bounds.GetSize());
+					int startRow=element->lines.GetTextPosFromPoint(Point(viewBounds.x1, viewBounds.y1)).row;
+					int endRow=element->lines.GetTextPosFromPoint(Point(viewBounds.x2, viewBounds.y2)).row;
+					TextPos selectionBegin=element->GetCaretBegin()<element->GetCaretEnd()?element->GetCaretBegin():element->GetCaretEnd();
+					TextPos selectionEnd=element->GetCaretBegin()>element->GetCaretEnd()?element->GetCaretBegin():element->GetCaretEnd();
+					bool focused=element->GetFocused();
+
+					for(int row=startRow;row<=endRow;row++)
+					{
+						Rect startRect=element->lines.GetRectFromTextPos(TextPos(row, 0));
+						Point startPoint=startRect.LeftTop();
+						int startColumn=element->lines.GetTextPosFromPoint(Point(viewBounds.x1, startPoint.y)).column;
+						int endColumn=element->lines.GetTextPosFromPoint(Point(viewBounds.x2, startPoint.y)).column;
+						text::TextLine& line=element->lines.GetLine(row);
+
+						int x=startColumn==0?0:line.att[startColumn-1].rightOffset;
+						for(int column=startColumn; column<=endColumn; column++)
+						{
+							bool inSelection=false;
+							if(selectionBegin.row==selectionEnd.row)
+							{
+								inSelection=(row==selectionBegin.row && selectionBegin.column<=column && column<selectionEnd.column);
+							}
+							else if(row==selectionBegin.row)
+							{
+								inSelection=selectionBegin.column<=column;
+							}
+							else if(row==selectionEnd.row)
+							{
+								inSelection=column<selectionEnd.column;
+							}
+							else
+							{
+								inSelection=selectionBegin.row<row && row<selectionEnd.row;
+							}
+							
+							bool crlf=column==line.dataLength;
+							int colorIndex=crlf?0:line.att[column].colorIndex;
+							ColorItemResource& color=
+								!inSelection?colors[colorIndex].normal:
+								focused?colors[colorIndex].selectedFocused:
+								colors[colorIndex].selectedUnfocused;
+							int x2=crlf?x+startRect.Height()/2:line.att[column].rightOffset;
+							int tx=x-viewPosition.x+bounds.x1;
+							int ty=startPoint.y-viewPosition.y+bounds.y1;
+							
+							if(color.background.a>0)
+							{
+								d2dRenderTarget->FillRectangle(D2D1::RectF((FLOAT)tx, (FLOAT)ty, (FLOAT)(tx+(x2-x)), (FLOAT)(ty+startRect.Height())), color.backgroundBrush);
+							}
+							if(!crlf)
+							{
+								d2dRenderTarget->DrawText(
+									&line.text[column],
+									1,
+									textFormat,
+									D2D1::RectF((FLOAT)tx, (FLOAT)ty, (FLOAT)tx+1, (FLOAT)ty+1),
+									color.textBrush,
+									D2D1_DRAW_TEXT_OPTIONS_NO_SNAP,
+									DWRITE_MEASURING_MODE_GDI_NATURAL
+									);
+							}
+							x=x2;
+						}
+					}
+
+					if(element->GetCaretVisible() && element->lines.IsAvailable(element->GetCaretEnd()))
+					{
+						Point caretPoint=element->lines.GetPointFromTextPos(element->GetCaretEnd());
+						int height=element->lines.GetRowHeight();
+						Point p1(caretPoint.x-viewPosition.x+bounds.x1, caretPoint.y-viewPosition.y+bounds.y1+1);
+						Point p2(caretPoint.x-viewPosition.x+bounds.x1, caretPoint.y+height-viewPosition.y+bounds.y1-1);
+						d2dRenderTarget->DrawLine(
+							D2D1::Point2F((FLOAT)p1.x+0.5f, (FLOAT)p1.y),
+							D2D1::Point2F((FLOAT)p2.x+0.5f, (FLOAT)p2.y),
+							caretBrush
+							);
+						d2dRenderTarget->DrawLine(
+							D2D1::Point2F((FLOAT)p1.x-0.5f, (FLOAT)p1.y),
+							D2D1::Point2F((FLOAT)p2.x-0.5f, (FLOAT)p2.y),
+							caretBrush
+							);
+					}
+				}
 			}
 
 			void GuiColorizedTextElementRenderer::OnElementStateChanged()
 			{
+				if(renderTarget)
+				{
+					Color caretColor=element->GetCaretColor();
+					if(oldCaretColor!=caretColor)
+					{
+						DestroyCaretBrush(renderTarget);
+						CreateCaretBrush(renderTarget);
+					}
+				}
 			}
 		}
 	}

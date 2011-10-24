@@ -111,7 +111,39 @@ Renderers
 			class GuiColorizedTextElementRenderer : public Object, public IGuiGraphicsRenderer, protected GuiColorizedTextElement::ICallback
 			{
 				DEFINE_GUI_GRAPHICS_RENDERER(GuiColorizedTextElement, GuiColorizedTextElementRenderer, IWindowsDirect2DRenderTarget)
+
+			public:
+				struct ColorItemResource
+				{
+					Color						text;
+					ID2D1SolidColorBrush*		textBrush;
+					Color						background;
+					ID2D1SolidColorBrush*		backgroundBrush;
+				};
+
+				struct ColorEntryResource
+				{
+					ColorItemResource			normal;
+					ColorItemResource			selectedFocused;
+					ColorItemResource			selectedUnfocused;
+
+					bool						operator==(const ColorEntryResource& value){return false;}
+					bool						operator!=(const ColorEntryResource& value){return true;}
+				};
+
+				typedef collections::Array<ColorEntryResource>			ColorArray;
 			protected:
+				FontProperties			oldFont;
+				IDWriteTextFormat*		textFormat;
+				ColorArray				colors;
+				Color					oldCaretColor;
+				ID2D1SolidColorBrush*	caretBrush;
+				
+				void					CreateTextBrush(IWindowsDirect2DRenderTarget* _renderTarget);
+				void					DestroyTextBrush(IWindowsDirect2DRenderTarget* _renderTarget);
+				void					CreateCaretBrush(IWindowsDirect2DRenderTarget* _renderTarget);
+				void					DestroyCaretBrush(IWindowsDirect2DRenderTarget* _renderTarget);
+
 				void					ColorChanged();
 				void					FontChanged();
 				text::CharMeasurer*		GetCharMeasurer();
