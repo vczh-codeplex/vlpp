@@ -175,15 +175,12 @@ Predefined Events
 				bool		cancel;
 			};
 
-			struct GuiKeyEventArgs : public GuiEventArgs
+			struct GuiKeyEventArgs : public GuiEventArgs, public NativeWindowKeyInfo
 			{
-				int			code;
-				bool		alt;
 			};
 
-			struct GuiCharEventArgs : public GuiEventArgs
+			struct GuiCharEventArgs : public GuiEventArgs, public NativeWindowCharInfo
 			{
-				wchar_t		value;
 			};
 
 			struct GuiMouseEventArgs : public GuiEventArgs, public NativeWindowMouseInfo

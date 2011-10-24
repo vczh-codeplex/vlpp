@@ -10,8 +10,80 @@ namespace vl
 			using namespace elements;
 
 /***********************************************************************
+GuiTextElementOperator::DefaultCallback
+***********************************************************************/
+
+			GuiTextElementOperator::DefaultCallback::DefaultCallback(elements::GuiColorizedTextElement* _textElement, elements::GuiBoundsComposition* _textComposition)
+				:textElement(_textElement)
+				,textComposition(_textComposition)
+			{
+			}
+
+			GuiTextElementOperator::DefaultCallback::~DefaultCallback()
+			{
+			}
+
+			TextPos GuiTextElementOperator::DefaultCallback::GetLeftWord(TextPos pos)
+			{
+				return pos;
+			}
+
+			TextPos GuiTextElementOperator::DefaultCallback::GetRightWord(TextPos pos)
+			{
+				return pos;
+			}
+
+			void GuiTextElementOperator::DefaultCallback::GetWord(TextPos pos, TextPos& begin, TextPos& end)
+			{
+				begin=pos;
+				end=pos;
+			}
+
+			int GuiTextElementOperator::DefaultCallback::GetPageRows()
+			{
+				return textComposition->GetBounds().Height()/textElement->lines.GetRowHeight();
+			}
+
+			bool GuiTextElementOperator::DefaultCallback::BeforeModify(TextPos& start, TextPos& end, const WString& originalText, WString& inputText)
+			{
+				return true;
+			}
+
+/***********************************************************************
 GuiTextElementOperator
 ***********************************************************************/
+
+			void GuiTextElementOperator::Move(TextPos pos, bool shift)
+			{
+				pos=textElement->lines.Normalize(pos);
+				if(!shift)
+				{
+					textElement->SetCaretBegin(pos);
+				}
+				textElement->SetCaretEnd(pos);
+				textElement->SetCaretVisible(true);
+				ScrollToTextPos(pos);
+			}
+
+			void GuiTextElementOperator::Modify(TextPos start, TextPos end, const WString& input)
+			{
+				if(start>end)
+				{
+					TextPos temp=start;
+					start=end;
+					end=temp;
+				}
+				TextPos originalStart=start;
+				TextPos originalEnd=end;
+				WString originalText=textElement->lines.GetText(start, end);
+				WString inputText=input;
+				if(callback->BeforeModify(start, end, originalText, inputText))
+				{
+					end=textElement->lines.Modify(start, end, inputText);
+					Move(end, false);
+					callback->AfterModify(originalStart, originalEnd, originalText, start, end, inputText);
+				}
+			}
 
 			void GuiTextElementOperator::OnGotFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 			{
@@ -36,12 +108,7 @@ GuiTextElementOperator
 				{
 					dragging=true;
 					TextPos pos=GetNearestTextPos(Point(arguments.x, arguments.y));
-					if(!arguments.shift)
-					{
-						textElement->SetCaretBegin(pos);
-					}
-					textElement->SetCaretEnd(pos);
-					textElement->SetCaretVisible(true);
+					Move(pos, arguments.shift);
 				}
 			}
 
@@ -60,8 +127,146 @@ GuiTextElementOperator
 					if(dragging)
 					{
 						TextPos pos=GetNearestTextPos(Point(arguments.x, arguments.y));
-						textElement->SetCaretEnd(pos);
-						textElement->SetCaretVisible(true);
+						Move(pos, true);
+					}
+				}
+			}
+
+			void GuiTextElementOperator::OnKeyDown(elements::GuiGraphicsComposition* sender, elements::GuiKeyEventArgs& arguments)
+			{
+				if(textControl->GetVisuallyEnabled() && arguments.compositionSource==arguments.eventSource)
+				{
+					TextPos begin=textElement->GetCaretBegin();
+					TextPos end=textElement->GetCaretEnd();
+					switch(arguments.code)
+					{
+					case VKEY_UP:
+						{
+							end.row--;
+							Move(end, arguments.shift);
+						}
+						break;
+					case VKEY_DOWN:
+						{
+							end.row++;
+							Move(end, arguments.shift);
+						}
+						break;
+					case VKEY_LEFT:
+						{
+							if(arguments.ctrl)
+							{
+								Move(callback->GetLeftWord(end), arguments.shift);
+							}
+							else
+							{
+								if(end.column==0)
+								{
+									end.row--;
+									end=textElement->lines.Normalize(end);
+									end.column=textElement->lines.GetLine(end.row).dataLength;
+								}
+								else
+								{
+									end.column--;
+								}
+								Move(end, arguments.shift);
+							}
+						}
+						break;
+					case VKEY_RIGHT:
+						{
+							if(arguments.ctrl)
+							{
+								Move(callback->GetRightWord(end), arguments.shift);
+							}
+							else
+							{
+								if(end.column==textElement->lines.GetLine(end.row).dataLength)
+								{
+									end.row++;
+									end.column=0;
+								}
+								else
+								{
+									end.column++;
+								}
+								Move(end, arguments.shift);
+							}
+						}
+						break;
+					case VKEY_HOME:
+						{
+							if(arguments.ctrl)
+							{
+								Move(TextPos(0, 0), arguments.shift);
+							}
+							else
+							{
+								end.column=0;
+								Move(end, arguments.shift);
+							}
+						}
+						break;
+					case VKEY_END:
+						{
+							if(arguments.ctrl)
+							{
+								end.row=textElement->lines.GetCount()-1;
+							}
+							end.column=textElement->lines.GetLine(end.row).dataLength;
+							Move(end, arguments.shift);
+						}
+						break;
+					case VKEY_PRIOR:
+						{
+							end.row-=callback->GetPageRows();
+							Move(end, arguments.shift);
+						}
+						break;
+					case VKEY_NEXT:
+						{
+							end.row+=callback->GetPageRows();
+							Move(end, arguments.shift);
+						}
+						break;
+					case VKEY_BACK:
+						{
+							if(arguments.ctrl && !arguments.shift)
+							{
+							}
+							else if(arguments.ctrl && arguments.shift)
+							{
+							}
+							else
+							{
+							}
+						}
+						break;
+					case VKEY_DELETE:
+						{
+							if(arguments.ctrl && !arguments.shift)
+							{
+							}
+							else if(arguments.ctrl && arguments.shift)
+							{
+							}
+							else
+							{
+							}
+						}
+						break;
+					}
+				}
+			}
+
+			void GuiTextElementOperator::OnCharInput(elements::GuiGraphicsComposition* sender, elements::GuiCharEventArgs& arguments)
+			{
+				if(textControl->GetVisuallyEnabled() && arguments.compositionSource==arguments.eventSource)
+				{
+					if(arguments.code!=VKEY_ESCAPE && arguments.code!=VKEY_BACK && !arguments.ctrl)
+					{
+						SetSelectionText(WString(arguments.code));
 					}
 				}
 			}
@@ -70,6 +275,7 @@ GuiTextElementOperator
 				:textElement(0)
 				,textComposition(0)
 				,textControl(0)
+				,callback(0)
 				,dragging(false)
 			{
 			}
@@ -92,6 +298,18 @@ GuiTextElementOperator
 				textComposition->GetEventReceiver()->leftButtonDown.AttachMethod(this, &GuiTextElementOperator::OnLeftButtonDown);
 				textComposition->GetEventReceiver()->leftButtonUp.AttachMethod(this, &GuiTextElementOperator::OnLeftButtonUp);
 				textComposition->GetEventReceiver()->mouseMove.AttachMethod(this, &GuiTextElementOperator::OnMouseMove);
+				focusableComposition->GetEventReceiver()->keyDown.AttachMethod(this, &GuiTextElementOperator::OnKeyDown);
+				focusableComposition->GetEventReceiver()->charInput.AttachMethod(this, &GuiTextElementOperator::OnCharInput);
+			}
+			
+			GuiTextElementOperator::ICallback* GuiTextElementOperator::GetCallback()
+			{
+				return callback;
+			}
+
+			void GuiTextElementOperator::SetCallback(ICallback* value)
+			{
+				callback=value;
 			}
 
 			TextPos GuiTextElementOperator::GetNearestTextPos(Point point)
@@ -108,6 +326,22 @@ GuiTextElementOperator
 					}
 				}
 				return pos;
+			}
+
+			WString GuiTextElementOperator::GetSelectionText()
+			{
+				TextPos selectionBegin=textElement->GetCaretBegin()<textElement->GetCaretEnd()?textElement->GetCaretBegin():textElement->GetCaretEnd();
+				TextPos selectionEnd=textElement->GetCaretBegin()>textElement->GetCaretEnd()?textElement->GetCaretBegin():textElement->GetCaretEnd();
+				return textElement->lines.GetText(selectionBegin, selectionEnd);
+			}
+
+			void GuiTextElementOperator::SetSelectionText(const WString& value)
+			{
+				Modify(textElement->GetCaretBegin(), textElement->GetCaretEnd(), value);
+			}
+
+			void GuiTextElementOperator::ScrollToTextPos(TextPos pos)
+			{
 			}
 
 /***********************************************************************
@@ -137,6 +371,16 @@ GuiMultilineTextBox::StyleController
 				return textElement;
 			}
 
+			elements::GuiBoundsComposition* GuiMultilineTextBox::StyleController::GetTextComposition()
+			{
+				return textComposition;
+			}
+
+			GuiTextElementOperator* GuiMultilineTextBox::StyleController::GetTextElementOperator()
+			{
+				return &textElementOperator;
+			}
+
 			void GuiMultilineTextBox::StyleController::SetViewPosition(Point value)
 			{
 				textElement->SetViewPosition(value);
@@ -151,6 +395,14 @@ GuiMultilineTextBox::StyleController
 			{
 				GuiScrollView::StyleController::SetFocusableComposition(value);
 				textElementOperator.Install(textElement, textComposition, scrollView);
+				if(!textElementOperator.GetCallback())
+				{
+					if(!defaultCallback)
+					{
+						defaultCallback=new DefaultTextElementOperatorCallback(dynamic_cast<GuiMultilineTextBox*>(scrollView));
+					}
+					textElementOperator.SetCallback(defaultCallback.Obj());
+				}
 			}
 
 			void GuiMultilineTextBox::StyleController::SetText(const WString& value)
@@ -169,6 +421,25 @@ GuiMultilineTextBox::StyleController
 			{
 				textElement->SetVisuallyEnabled(value);
 				GuiScrollView::StyleController::SetVisuallyEnabled(value);
+			}
+
+/***********************************************************************
+GuiMultilineTextBox::DefaultTextElementOperatorCallback
+***********************************************************************/
+
+			GuiMultilineTextBox::DefaultTextElementOperatorCallback::DefaultTextElementOperatorCallback(GuiMultilineTextBox* _textControl)
+				:GuiTextElementOperator::DefaultCallback(
+					dynamic_cast<StyleController*>(_textControl->GetStyleController())->GetTextElement(),
+					dynamic_cast<StyleController*>(_textControl->GetStyleController())->GetTextComposition()
+					)
+				,textControl(_textControl)
+				,textController(dynamic_cast<StyleController*>(_textControl->GetStyleController()))
+			{
+			}
+
+			void GuiMultilineTextBox::DefaultTextElementOperatorCallback::AfterModify(TextPos originalStart, TextPos originalEnd, const WString& originalText, TextPos inputStart, TextPos inputEnd, const WString& inputText)
+			{
+				textControl->CalculateView();
 			}
 
 /***********************************************************************

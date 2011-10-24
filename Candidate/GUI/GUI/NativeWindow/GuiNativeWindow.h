@@ -132,6 +132,24 @@ Native Window
 			int							wheel;
 		};
 
+		struct NativeWindowKeyInfo
+		{
+			int							code;
+			bool						ctrl;
+			bool						shift;
+			bool						alt;
+			bool						capslock;
+		};
+
+		struct NativeWindowCharInfo
+		{
+			wchar_t						code;
+			bool						ctrl;
+			bool						shift;
+			bool						alt;
+			bool						capslock;
+		};
+
 		class INativeWindowListener : public Interface
 		{
 		public:
@@ -164,11 +182,11 @@ Native Window
 			virtual void				MouseEntered();
 			virtual void				MouseLeaved();
 
-			virtual void				KeyDown(int code, bool alt);
-			virtual void				KeyUp(int code, bool alt);
-			virtual void				SysKeyDown(int code, bool alt);
-			virtual void				SysKeyUp(int code, bool alt);
-			virtual void				Char(wchar_t keyChar);
+			virtual void				KeyDown(const NativeWindowKeyInfo& info);
+			virtual void				KeyUp(const NativeWindowKeyInfo& info);
+			virtual void				SysKeyDown(const NativeWindowKeyInfo& info);
+			virtual void				SysKeyUp(const NativeWindowKeyInfo& info);
+			virtual void				Char(const NativeWindowCharInfo& info);
 		};
 
 /***********************************************************************

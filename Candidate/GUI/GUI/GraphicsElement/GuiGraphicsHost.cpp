@@ -310,64 +310,60 @@ GuiGraphicsHost
 				mouseEnterCompositions.Clear();
 			}
 
-			void GuiGraphicsHost::KeyDown(int code, bool alt)
+			void GuiGraphicsHost::KeyDown(const NativeWindowKeyInfo& info)
 			{
 				if(focusedComposition && focusedComposition->HasEventReceiver())
 				{
 					GuiKeyEventArgs arguments;
-					arguments.code=code;
-					arguments.alt=alt;
+					(NativeWindowKeyInfo&)arguments=info;
 					arguments.compositionSource=focusedComposition;
 					arguments.eventSource=focusedComposition;
 					focusedComposition->GetEventReceiver()->keyDown.Execute(arguments);
 				}
 			}
 
-			void GuiGraphicsHost::KeyUp(int code, bool alt)
+			void GuiGraphicsHost::KeyUp(const NativeWindowKeyInfo& info)
 			{
 				if(focusedComposition && focusedComposition->HasEventReceiver())
 				{
 					GuiKeyEventArgs arguments;
-					arguments.code=code;
-					arguments.alt=alt;
+					(NativeWindowKeyInfo&)arguments=info;
 					arguments.compositionSource=focusedComposition;
 					arguments.eventSource=focusedComposition;
 					focusedComposition->GetEventReceiver()->keyUp.Execute(arguments);
 				}
 			}
 
-			void GuiGraphicsHost::SysKeyDown(int code, bool alt)
+			void GuiGraphicsHost::SysKeyDown(const NativeWindowKeyInfo& info)
 			{
 				if(focusedComposition && focusedComposition->HasEventReceiver())
 				{
 					GuiKeyEventArgs arguments;
-					arguments.code=code;
-					arguments.alt=alt;
+					(NativeWindowKeyInfo&)arguments=info;
 					arguments.compositionSource=focusedComposition;
 					arguments.eventSource=focusedComposition;
 					focusedComposition->GetEventReceiver()->systemKeyDown.Execute(arguments);
 				}
 			}
 
-			void GuiGraphicsHost::SysKeyUp(int code, bool alt)
+			void GuiGraphicsHost::SysKeyUp(const NativeWindowKeyInfo& info)
 			{
 				if(focusedComposition && focusedComposition->HasEventReceiver())
 				{
 					GuiKeyEventArgs arguments;
-					arguments.code=code;
-					arguments.alt=alt;
+					(NativeWindowKeyInfo&)arguments=info;
 					arguments.compositionSource=focusedComposition;
 					arguments.eventSource=focusedComposition;
 					focusedComposition->GetEventReceiver()->systemKeyUp.Execute(arguments);
 				}
 			}
 
-			void GuiGraphicsHost::Char(wchar_t keyChar)
+			void GuiGraphicsHost::Char(const NativeWindowCharInfo& info)
 			{
 				if(focusedComposition && focusedComposition->HasEventReceiver())
 				{
 					GuiCharEventArgs arguments;
-					arguments.value=keyChar;
+					(NativeWindowCharInfo&)arguments=info;
 					arguments.compositionSource=focusedComposition;
 					arguments.eventSource=focusedComposition;
 					focusedComposition->GetEventReceiver()->charInput.Execute(arguments);

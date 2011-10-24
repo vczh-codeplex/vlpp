@@ -90,11 +90,11 @@ Host
 				void							MouseEntered();
 				void							MouseLeaved();
 
-				void							KeyDown(int code, bool alt);
-				void							KeyUp(int code, bool alt);
-				void							SysKeyDown(int code, bool alt);
-				void							SysKeyUp(int code, bool alt);
-				void							Char(wchar_t keyChar);
+				void							KeyDown(const NativeWindowKeyInfo& info);
+				void							KeyUp(const NativeWindowKeyInfo& info);
+				void							SysKeyDown(const NativeWindowKeyInfo& info);
+				void							SysKeyUp(const NativeWindowKeyInfo& info);
+				void							Char(const NativeWindowCharInfo& info);
 
 				void							GlobalTimer();
 			public:

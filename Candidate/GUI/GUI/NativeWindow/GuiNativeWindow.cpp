@@ -117,23 +117,23 @@ INativeWindowListener
 		{
 		}
 
-		void INativeWindowListener::KeyDown(int code, bool alt)
+		void INativeWindowListener::KeyDown(const NativeWindowKeyInfo& info)
 		{
 		}
 
-		void INativeWindowListener::KeyUp(int code, bool alt)
+		void INativeWindowListener::KeyUp(const NativeWindowKeyInfo& info)
 		{
 		}
 
-		void INativeWindowListener::SysKeyDown(int code, bool alt)
+		void INativeWindowListener::SysKeyDown(const NativeWindowKeyInfo& info)
 		{
 		}
 
-		void INativeWindowListener::SysKeyUp(int code, bool alt)
+		void INativeWindowListener::SysKeyUp(const NativeWindowKeyInfo& info)
 		{
 		}
 
-		void INativeWindowListener::Char(wchar_t keyChar)
+		void INativeWindowListener::Char(const NativeWindowCharInfo& info)
 		{
 		}
 

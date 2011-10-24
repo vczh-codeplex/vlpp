@@ -307,6 +307,34 @@ text::TextLines
 					return 0<=pos.row && pos.row<lines.Count() && 0<=pos.column && pos.column<=lines[pos.row].dataLength;
 				}
 
+				TextPos TextLines::Normalize(TextPos pos)
+				{
+					if(pos.row<0)
+					{
+						return TextPos(0, 0);
+					}
+					else if(pos.row>=lines.Count())
+					{
+						return TextPos(lines.Count()-1, lines[lines.Count()-1].dataLength);
+					}
+					else
+					{
+						TextLine& line=lines[pos.row];
+						if(pos.column<0)
+						{
+							return TextPos(pos.row, 0);
+						}
+						else if(pos.column>line.dataLength)
+						{
+							return TextPos(pos.row, line.dataLength);
+						}
+						else
+						{
+							return pos;
+						}
+					}
+				}
+
 				TextPos TextLines::Modify(TextPos start, TextPos end, const wchar_t** inputs, int* inputCounts, int rows)
 				{
 					if(!IsAvailable(start) || !IsAvailable(end) || start>end) return TextPos(-1, -1);
@@ -315,7 +343,7 @@ text::TextLines
 					{
 						if(start.row==end.row)
 						{
-							lines[start.row].Modify(start.column, end.column, inputs[0], inputCounts[0]);
+							lines[start.row].Modify(start.column, end.column-start.column, inputs[0], inputCounts[0]);
 						}
 						else
 						{
