@@ -28,6 +28,8 @@ namespace vl
 					elements::GuiColorizedTextElement*	textElement;
 					elements::GuiBoundsComposition*		textComposition;
 					bool								dragging;
+
+					TextPos								GetNearestTextPos(Point point);
 					
 					void								OnGotFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 					void								OnLostFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);

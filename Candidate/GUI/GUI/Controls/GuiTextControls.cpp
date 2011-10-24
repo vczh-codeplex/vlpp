@@ -13,6 +13,22 @@ namespace vl
 GuiMultilineTextBox::StyleController
 ***********************************************************************/
 
+			TextPos GuiMultilineTextBox::StyleController::GetNearestTextPos(Point point)
+			{
+				Point viewPosition=textElement->GetViewPosition();
+				Point mousePosition=Point(point.x+viewPosition.x, point.y+viewPosition.y);
+				TextPos pos=textElement->lines.GetTextPosFromPoint(mousePosition);
+				if(pos.column<textElement->lines.GetLine(pos.row).dataLength)
+				{
+					Rect rect=textElement->lines.GetRectFromTextPos(pos);
+					if(abs(rect.x1-mousePosition.x)>=abs(rect.x2-1-mousePosition.x))
+					{
+						pos.column++;
+					}
+				}
+				return pos;
+			}
+
 			void GuiMultilineTextBox::StyleController::OnGotFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 			{
 				textElement->SetFocused(true);
@@ -35,18 +51,11 @@ GuiMultilineTextBox::StyleController
 				if(scrollView->GetVisuallyEnabled() && arguments.compositionSource==arguments.eventSource)
 				{
 					dragging=true;
-					Point viewPosition=textElement->GetViewPosition();
-					Point mousePosition=Point(arguments.x+viewPosition.x, arguments.y+viewPosition.y);
-					TextPos pos=textElement->lines.GetTextPosFromPoint(mousePosition);
-					if(pos.column<textElement->lines.GetLine(pos.row).dataLength)
+					TextPos pos=GetNearestTextPos(Point(arguments.x, arguments.y));
+					if(!arguments.shift)
 					{
-						Rect rect=textElement->lines.GetRectFromTextPos(pos);
-						if(abs(rect.x1-mousePosition.x)>=abs(rect.x2-1-mousePosition.x))
-						{
-							pos.column++;
-						}
+						textElement->SetCaretBegin(pos);
 					}
-					textElement->SetCaretBegin(pos);
 					textElement->SetCaretEnd(pos);
 					textElement->SetCaretVisible(true);
 				}
@@ -66,6 +75,9 @@ GuiMultilineTextBox::StyleController
 				{
 					if(dragging)
 					{
+						TextPos pos=GetNearestTextPos(Point(arguments.x, arguments.y));
+						textElement->SetCaretEnd(pos);
+						textElement->SetCaretVisible(true);
 					}
 				}
 			}

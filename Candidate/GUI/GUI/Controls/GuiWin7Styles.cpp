@@ -1329,9 +1329,9 @@ Win7MultilineTextBoxProvider
 					text::ColorEntry entry;
 					entry.normal.text=Color(0, 0, 0);
 					entry.normal.background=Color(0, 0, 0, 0);
-					entry.selectedFocused.text=Color(0, 0, 0);
+					entry.selectedFocused.text=Color(255, 255, 255);
 					entry.selectedFocused.background=Color(51, 153, 255);
-					entry.selectedUnfocused.text=Color(0, 0, 0);
+					entry.selectedUnfocused.text=Color(255, 255, 255);
 					entry.selectedUnfocused.background=Color(51, 153, 255);
 					colors[0]=entry;
 				}
