@@ -295,29 +295,28 @@ TEST_CASE(TextMeasurement)
 					Point point(x*CharSize+dx, y*CharSize+dy);
 					TextPos pos=lines.GetTextPosFromPoint(point);
 
+					int ay=y;
 					if(y==-1)
 					{
-						TEST_ASSERT(pos==TextPos(0, 0));
+						ay=0;
 					}
 					else if(y==4)
 					{
-						TEST_ASSERT(pos==TextPos(3, 6));
+						ay=3;
+					}
+
+					int c=lines.GetLine(ay).dataLength;
+					if(x==-1)
+					{
+						TEST_ASSERT(pos==TextPos(ay, 0));
+					}
+					else if(x>=c)
+					{
+						TEST_ASSERT(pos==TextPos(ay, c));
 					}
 					else
 					{
-						int c=lines.GetLine(y).dataLength;
-						if(x==-1)
-						{
-							TEST_ASSERT(pos==TextPos(y, 0));
-						}
-						else if(x>=c)
-						{
-							TEST_ASSERT(pos==TextPos(y, c));
-						}
-						else
-						{
-							TEST_ASSERT(pos==TextPos(y, x));
-						}
+						TEST_ASSERT(pos==TextPos(ay, x));
 					}
 				}
 			}

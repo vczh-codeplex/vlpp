@@ -62,7 +62,30 @@ GuiTextElementOperator
 				}
 				textElement->SetCaretEnd(pos);
 				textElement->SetCaretVisible(true);
-				ScrollToTextPos(pos);
+
+				Rect bounds=textElement->lines.GetRectFromTextPos(pos);
+				Rect view=Rect(textElement->GetViewPosition(), textComposition->GetBounds().GetSize());
+				Point viewPoint=view.LeftTop();
+				int offsetX=textElement->lines.GetRowHeight()*5;
+
+				if(bounds.x1<view.x1)
+				{
+					viewPoint.x=bounds.x1-offsetX;
+				}
+				else if(bounds.x2>view.x2)
+				{
+					viewPoint.x=bounds.x2-view.Width()+offsetX;
+				}
+				if(bounds.y1<view.y1)
+				{
+					viewPoint.y=bounds.y1;
+				}
+				else if(bounds.y2>view.y2)
+				{
+					viewPoint.y=bounds.y2-view.Height();
+				}
+
+				callback->ScrollToView(viewPoint);
 			}
 
 			void GuiTextElementOperator::Modify(TextPos start, TextPos end, const WString& input)
@@ -363,10 +386,6 @@ GuiTextElementOperator
 				Modify(textElement->GetCaretBegin(), textElement->GetCaretEnd(), value);
 			}
 
-			void GuiTextElementOperator::ScrollToTextPos(TextPos pos)
-			{
-			}
-
 /***********************************************************************
 GuiMultilineTextBox::StyleController
 ***********************************************************************/
@@ -463,6 +482,38 @@ GuiMultilineTextBox::DefaultTextElementOperatorCallback
 			void GuiMultilineTextBox::DefaultTextElementOperatorCallback::AfterModify(TextPos originalStart, TextPos originalEnd, const WString& originalText, TextPos inputStart, TextPos inputEnd, const WString& inputText)
 			{
 				textControl->CalculateView();
+			}
+			
+			void GuiMultilineTextBox::DefaultTextElementOperatorCallback::ScrollToView(Point point)
+			{
+				point.x+=TextMargin;
+				point.y+=TextMargin;
+				Point oldPoint(textControl->GetHorizontalScroll()->GetPosition(), textControl->GetVerticalScroll()->GetPosition());
+				int marginX=0;
+				int marginY=0;
+				if(oldPoint.x<point.x)
+				{
+					marginX=TextMargin;
+				}
+				else if(oldPoint.x>point.x)
+				{
+					marginX=-TextMargin;
+				}
+				if(oldPoint.y<point.y)
+				{
+					marginY=TextMargin;
+				}
+				else if(oldPoint.y>point.y)
+				{
+					marginY=-TextMargin;
+				}
+				textControl->GetHorizontalScroll()->SetPosition(point.x+marginX);
+				textControl->GetVerticalScroll()->SetPosition(point.y+marginY);
+			}
+
+			int GuiMultilineTextBox::DefaultTextElementOperatorCallback::GetTextMargin()
+			{
+				return TextMargin;
 			}
 
 /***********************************************************************
