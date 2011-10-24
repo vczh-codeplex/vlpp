@@ -3,6 +3,8 @@
 #include "..\..\..\..\..\Library\Collections\Dictionary.h"
 #include "..\..\..\..\..\Library\Collections\OperationCopyFrom.h"
 
+#pragma comment(lib, "Imm32.lib")
+
 namespace vl
 {
 	namespace presentation
@@ -206,6 +208,7 @@ WindowsForm
 				HWND								handle;
 				WString								title;
 				WindowsCursor*						cursor;
+				Point								caretPoint;
 				List<INativeWindowListener*>		listeners;
 				int									mouseLastX;
 				int									mouseLastY;
@@ -317,6 +320,17 @@ WindowsForm
 					trackMouseEvent.dwFlags=(enable?0:TME_CANCEL) | TME_HOVER | TME_LEAVE;
 					trackMouseEvent.dwHoverTime=HOVER_DEFAULT;
 					TrackMouseEvent(&trackMouseEvent);
+				}
+
+				void UpdateCompositionForContent()
+				{
+					HIMC imc = ImmGetContext(handle);
+					COMPOSITIONFORM cf;
+					cf.dwStyle = CFS_POINT;
+					cf.ptCurrentPos.x = caretPoint.x;
+					cf.ptCurrentPos.y = caretPoint.y;
+					ImmSetCompositionWindow(imc, &cf);
+					ImmReleaseContext(handle, imc);
 				}
 
 			public:
@@ -649,6 +663,9 @@ WindowsForm
 						break;
 					case WM_ERASEBKGND:
 						return true;
+					case WM_IME_STARTCOMPOSITION:
+						UpdateCompositionForContent();
+						break;
 					}
 					return false;
 				}
@@ -728,6 +745,17 @@ WindowsForm
 							SetCursor(cursor->GetCursorHandle());
 						}
 					}
+				}
+				
+				Point GetCaretPoint()
+				{
+					return caretPoint;
+				}
+
+				void SetCaretPoint(Point point)
+				{
+					caretPoint=point;
+					UpdateCompositionForContent();
 				}
 
 				void Show()

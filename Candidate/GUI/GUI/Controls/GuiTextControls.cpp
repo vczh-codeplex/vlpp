@@ -53,6 +53,20 @@ GuiTextElementOperator::DefaultCallback
 GuiTextElementOperator
 ***********************************************************************/
 
+			void GuiTextElementOperator::UpdateCaretPoint()
+			{
+				GuiGraphicsHost* host=textComposition->GetRelatedGraphicsHost();
+				if(host)
+				{
+					Rect caret=textElement->lines.GetRectFromTextPos(textElement->GetCaretEnd());
+					Point view=textElement->GetViewPosition();
+					int textMargin=callback->GetTextMargin();
+					int x=caret.x1-view.x;
+					int y=caret.y2-view.y;
+					host->SetCaretPoint(Point(x, y), textComposition);
+				}
+			}
+
 			void GuiTextElementOperator::Move(TextPos pos, bool shift)
 			{
 				pos=textElement->lines.Normalize(pos);
@@ -86,6 +100,7 @@ GuiTextElementOperator
 				}
 
 				callback->ScrollToView(viewPoint);
+				UpdateCaretPoint();
 			}
 
 			void GuiTextElementOperator::Modify(TextPos start, TextPos end, const WString& input)
@@ -255,6 +270,7 @@ GuiTextElementOperator
 			{
 				textElement->SetFocused(true);
 				textElement->SetCaretVisible(true);
+				UpdateCaretPoint();
 			}
 
 			void GuiTextElementOperator::OnLostFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)

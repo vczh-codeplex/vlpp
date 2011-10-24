@@ -486,6 +486,7 @@ GuiGraphicsHost
 						GetCurrentController()->InstallListener(this);
 						previousClientSize=nativeWindow->GetClientSize();
 						minSize=windowComposition->GetMinNecessaryBounds().GetSize();
+						nativeWindow->SetCaretPoint(caretPoint);
 					}
 				}
 			}
@@ -516,6 +517,7 @@ GuiGraphicsHost
 					focusedComposition->GetEventReceiver()->lostFocus.Execute(arguments);
 				}
 				focusedComposition=composition;
+				SetCaretPoint(Point(0, 0));
 				if(focusedComposition && focusedComposition->HasEventReceiver())
 				{
 					GuiEventArgs arguments;
@@ -529,6 +531,26 @@ GuiGraphicsHost
 			GuiGraphicsComposition* GuiGraphicsHost::GetFocusedComposition()
 			{
 				return focusedComposition;
+			}
+
+			Point GuiGraphicsHost::GetCaretPoint()
+			{
+				return caretPoint;
+			}
+
+			void GuiGraphicsHost::SetCaretPoint(Point value, GuiGraphicsComposition* referenceComposition)
+			{
+				if(referenceComposition)
+				{
+					Rect bounds=referenceComposition->GetGlobalBounds();
+					value.x+=bounds.x1;
+					value.y+=bounds.y1;
+				}
+				caretPoint=value;
+				if(nativeWindow)
+				{
+					nativeWindow->SetCaretPoint(caretPoint);
+				}
 			}
 
 			GuiGraphicsAnimationManager* GuiGraphicsHost::GetAnimationManager()
