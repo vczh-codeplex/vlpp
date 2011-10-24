@@ -17,6 +17,29 @@ namespace vl
 	{
 		namespace controls
 		{
+			class GuiTextElementOperator : public Object
+			{
+			protected:
+				elements::GuiColorizedTextElement*		textElement;
+				elements::GuiBoundsComposition*			textComposition;
+				GuiControl*								textControl;
+				bool									dragging;
+					
+				void									OnGotFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+				void									OnLostFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+				void									OnCaretNotify(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+
+				void									OnLeftButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
+				void									OnLeftButtonUp(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
+				void									OnMouseMove(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
+			public:
+				GuiTextElementOperator();
+				~GuiTextElementOperator();
+
+				void									Install(elements::GuiColorizedTextElement* _textElement, elements::GuiBoundsComposition* _textComposition, GuiControl* _textControl);
+				TextPos									GetNearestTextPos(Point point);
+			};
+
 			class GuiMultilineTextBox : public GuiScrollView
 			{
 			public:
@@ -27,17 +50,8 @@ namespace vl
 				protected:
 					elements::GuiColorizedTextElement*	textElement;
 					elements::GuiBoundsComposition*		textComposition;
-					bool								dragging;
+					GuiTextElementOperator				textElementOperator;
 
-					TextPos								GetNearestTextPos(Point point);
-					
-					void								OnGotFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
-					void								OnLostFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
-					void								OnCaretNotify(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
-
-					void								OnLeftButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
-					void								OnLeftButtonUp(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
-					void								OnMouseMove(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
 				public:
 					StyleController(GuiScrollView::IStyleProvider* styleProvider);
 					~StyleController();
@@ -55,6 +69,7 @@ namespace vl
 			protected:
 				StyleController*						styleController;
 
+				void									CalculateViewAndSetScroll();
 				void									OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget);
 				Size									QueryFullSize();
 				void									UpdateView(Rect viewBounds);
@@ -63,10 +78,9 @@ namespace vl
 				GuiMultilineTextBox(GuiScrollView::IStyleProvider* styleProvider);
 				~GuiMultilineTextBox();
 
-				elements::GuiGraphicsComposition*		GetFocusableComposition();
-
 				const WString&							GetText();
 				void									SetText(const WString& value);
+				void									SetFont(const FontProperties& value);
 			};
 		}
 	}

@@ -45,9 +45,19 @@ GuiControl
 				}
 			}
 
+			void GuiControl::SetFocusableComposition(elements::GuiGraphicsComposition* value)
+			{
+				if(focusableComposition!=value)
+				{
+					focusableComposition=value;
+					styleController->SetFocusableComposition(focusableComposition);
+				}
+			}
+
 			GuiControl::GuiControl(IStyleController* _styleController)
 				:styleController(_styleController)
 				,boundsComposition(_styleController->GetBoundsComposition())
+				,focusableComposition(0)
 				,eventReceiver(_styleController->GetBoundsComposition()->GetEventReceiver())
 				,isEnabled(true)
 				,isVisuallyEnabled(true)
@@ -110,7 +120,7 @@ GuiControl
 
 			elements::GuiGraphicsComposition* GuiControl::GetFocusableComposition()
 			{
-				return 0;
+				return focusableComposition;
 			}
 
 			elements::GuiGraphicsEventReceiver* GuiControl::GetEventReceiver()

@@ -50,6 +50,7 @@ Basic Construction
 			protected:
 				Ptr<IStyleController>					styleController;
 				elements::GuiBoundsComposition*			boundsComposition;
+				elements::GuiGraphicsComposition*		focusableComposition;
 				elements::GuiGraphicsEventReceiver*		eventReceiver;
 
 				bool									isEnabled;
@@ -65,6 +66,7 @@ Basic Construction
 				virtual void							OnChildRemoved(GuiControl* control);
 				virtual void							OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget);
 				virtual void							UpdateVisuallyEnabled();
+				void									SetFocusableComposition(elements::GuiGraphicsComposition* value);
 			public:
 				GuiControl(IStyleController* _styleController);
 				~GuiControl();

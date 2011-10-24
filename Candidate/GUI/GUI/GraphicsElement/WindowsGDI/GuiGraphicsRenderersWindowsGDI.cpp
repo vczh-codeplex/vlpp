@@ -522,7 +522,6 @@ GuiColorizedTextElementRenderer
 					int endRow=element->lines.GetTextPosFromPoint(Point(viewBounds.x2, viewBounds.y2)).row;
 					TextPos selectionBegin=element->GetCaretBegin()<element->GetCaretEnd()?element->GetCaretBegin():element->GetCaretEnd();
 					TextPos selectionEnd=element->GetCaretBegin()>element->GetCaretEnd()?element->GetCaretBegin():element->GetCaretEnd();
-					bool inSelection=false;
 					bool focused=element->GetFocused();
 					Ptr<windows::WinBrush> lastBrush=0;
 
@@ -537,13 +536,22 @@ GuiColorizedTextElementRenderer
 						int x=startColumn==0?0:line.att[startColumn-1].rightOffset;
 						for(int column=startColumn; column<=endColumn; column++)
 						{
-							if(row==selectionBegin.row && column==selectionBegin.column)
+							bool inSelection=false;
+							if(selectionBegin.row==selectionEnd.row)
 							{
-								inSelection=true;
+								inSelection=(row==selectionBegin.row && selectionBegin.column<=column && column<selectionEnd.column);
 							}
-							if(row==selectionEnd.row && column==selectionEnd.column)
+							else if(row==selectionBegin.row)
 							{
-								inSelection=false;
+								inSelection=selectionBegin.column<=column;
+							}
+							else if(row==selectionEnd.row)
+							{
+								inSelection=column<selectionEnd.column;
+							}
+							else
+							{
+								inSelection=selectionBegin.row<row && row<selectionEnd.row;
 							}
 							
 							bool crlf=column==line.dataLength;
