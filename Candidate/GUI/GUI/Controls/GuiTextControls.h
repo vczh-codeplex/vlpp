@@ -56,6 +56,7 @@ namespace vl
 
 				void									Move(TextPos pos, bool shift);
 				void									Modify(TextPos start, TextPos end, const WString& input);
+				void									ProcessKey(int code, bool shift, bool ctrl);
 					
 				void									OnGotFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 				void									OnLostFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
