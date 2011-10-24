@@ -10,6 +10,16 @@ namespace vl
 		namespace windows
 		{
 			using namespace collections;
+				
+			bool WinIsKeyPressing(int code)
+			{
+				return (GetKeyState(code)&0xF0)!=0;
+			}
+
+			bool WinIsKeyToggled(int code)
+			{
+				return (GetKeyState(code)&0x0F)!=0;
+			}
 
 /***********************************************************************
 WindowsClass
@@ -274,6 +284,28 @@ WindowsForm
 					POINTS Point=MAKEPOINTS(lParam);
 					info.x=Point.x;
 					info.y=Point.y;
+					return info;
+				}
+
+				NativeWindowKeyInfo ConvertKey(WPARAM wParam, LPARAM lParam)
+				{
+					NativeWindowKeyInfo info;
+					info.code=wParam;
+					info.ctrl=WinIsKeyPressing(VK_CONTROL);
+					info.shift=WinIsKeyPressing(VK_SHIFT);
+					info.alt=WinIsKeyPressing(VK_MENU);
+					info.capslock=WinIsKeyToggled(VK_CAPITAL);
+					return info;
+				}
+
+				NativeWindowCharInfo ConvertChar(WPARAM wParam)
+				{
+					NativeWindowCharInfo info;
+					info.code=wParam;
+					info.ctrl=WinIsKeyPressing(VK_CONTROL);
+					info.shift=WinIsKeyPressing(VK_SHIFT);
+					info.alt=WinIsKeyPressing(VK_MENU);
+					info.capslock=WinIsKeyToggled(VK_CAPITAL);
 					return info;
 				}
 
@@ -564,41 +596,46 @@ WindowsForm
 						break;
 					case WM_KEYUP:
 						{
+							NativeWindowKeyInfo info=ConvertKey(wParam, lParam);
 							for(int i=0;i<listeners.Count();i++)
 							{
-								listeners[i]->KeyUp(wParam, (lParam>>29)%1==1);
+								listeners[i]->KeyUp(info);
 							}
 						}
 						break;
 					case WM_KEYDOWN:
 						{
+							NativeWindowKeyInfo info=ConvertKey(wParam, lParam);
 							for(int i=0;i<listeners.Count();i++)
 							{
-								listeners[i]->KeyDown(wParam, (lParam>>29)%1==1);
+								listeners[i]->KeyDown(info);
 							}
 						}
 						break;
 					case WM_SYSKEYUP:
 						{
+							NativeWindowKeyInfo info=ConvertKey(wParam, lParam);
 							for(int i=0;i<listeners.Count();i++)
 							{
-								listeners[i]->SysKeyUp(wParam, (lParam>>29)%1==1);
+								listeners[i]->SysKeyUp(info);
 							}
 						}
 						break;
 					case WM_SYSKEYDOWN:
 						{
+							NativeWindowKeyInfo info=ConvertKey(wParam, lParam);
 							for(int i=0;i<listeners.Count();i++)
 							{
-								listeners[i]->SysKeyDown(wParam, (lParam>>29)%1==1);
+								listeners[i]->SysKeyDown(info);
 							}
 						}
 						break;
 					case WM_CHAR:
 						{
+							NativeWindowCharInfo info=ConvertChar(wParam);
 							for(int i=0;i<listeners.Count();i++)
 							{
-								listeners[i]->Char(wParam);
+								listeners[i]->Char(info);
 							}
 						}
 						break;
@@ -1266,12 +1303,12 @@ WindowsController
 				
 				bool IsKeyPressing(int code)
 				{
-					return (GetKeyState(code)&0xF0)!=0;
+					return WinIsKeyPressing(code);
 				}
 
 				bool IsKeyToggled(int code)
 				{
-					return (GetKeyState(code)&0x0F)!=0;
+					return WinIsKeyToggled(code);
 				}
 			};
 

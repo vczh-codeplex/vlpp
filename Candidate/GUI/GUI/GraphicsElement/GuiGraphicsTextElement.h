@@ -97,6 +97,7 @@ ColorizedText
 
 					bool							RemoveLines(int start, int count);
 					bool							IsAvailable(TextPos pos);
+					TextPos							Normalize(TextPos pos);
 					TextPos							Modify(TextPos start, TextPos end, const wchar_t** inputs, int* inputCounts, int rows);
 					TextPos							Modify(TextPos start, TextPos end, const wchar_t* input, int inputCount);
 					TextPos							Modify(TextPos start, TextPos end, const wchar_t* input);
