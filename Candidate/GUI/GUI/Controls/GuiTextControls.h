@@ -29,6 +29,8 @@ namespace vl
 					virtual int							GetPageRows()=0;
 					virtual bool						BeforeModify(TextPos& start, TextPos& end, const WString& originalText, WString& inputText)=0;
 					virtual void						AfterModify(TextPos originalStart, TextPos originalEnd, const WString& originalText, TextPos inputStart, TextPos inputEnd, const WString& inputText)=0;
+					virtual void						ScrollToView(Point point)=0;
+					virtual int							GetTextMargin()=0;
 				};
 
 				class DefaultCallback : public Object, public ICallback
@@ -78,7 +80,6 @@ namespace vl
 
 				WString									GetSelectionText();
 				void									SetSelectionText(const WString& value);
-				void									ScrollToTextPos(TextPos pos);
 			};
 
 			class GuiMultilineTextBox : public GuiScrollView
@@ -119,6 +120,8 @@ namespace vl
 					DefaultTextElementOperatorCallback(GuiMultilineTextBox* _textControl);
 
 					void								AfterModify(TextPos originalStart, TextPos originalEnd, const WString& originalText, TextPos inputStart, TextPos inputEnd, const WString& inputText);
+					void								ScrollToView(Point point);
+					int									GetTextMargin();
 				};
 
 			protected:

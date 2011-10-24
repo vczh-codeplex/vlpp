@@ -506,44 +506,42 @@ text::TextLines
 					int h=charMeasurer->GetRowHeight();
 					if(point.y<0)
 					{
-						return TextPos(0, 0);
+						point.y=0;
 					}
 					else if(point.y>=h*lines.Count())
 					{
-						return TextPos(lines.Count()-1, lines[lines.Count()-1].dataLength);
+						point.y=h*lines.Count()-1;
 					}
-					else
-					{
-						int row=point.y/h;
-						if(point.x<0)
-						{
-							return TextPos(row, 0);
-						}
-						else if(point.x>=GetRowWidth(row))
-						{
-							return TextPos(row, lines[row].dataLength);
-						}
-						TextLine& line=lines[row];
 
-						int i1=0, i2=line.dataLength;
-						int p1=0, p2=line.att[line.dataLength-1].rightOffset;
-						while(i2-i1>1)
-						{
-							int i=(i1+i2)/2;
-							int p=i==0?0:line.att[i-1].rightOffset;
-							if(point.x<p)
-							{
-								i2=i;
-								p2=p;
-							}
-							else
-							{
-								i1=i;
-								p1=p;
-							}
-						}
-						return TextPos(row, i1);
+					int row=point.y/h;
+					if(point.x<0)
+					{
+						return TextPos(row, 0);
 					}
+					else if(point.x>=GetRowWidth(row))
+					{
+						return TextPos(row, lines[row].dataLength);
+					}
+					TextLine& line=lines[row];
+
+					int i1=0, i2=line.dataLength;
+					int p1=0, p2=line.att[line.dataLength-1].rightOffset;
+					while(i2-i1>1)
+					{
+						int i=(i1+i2)/2;
+						int p=i==0?0:line.att[i-1].rightOffset;
+						if(point.x<p)
+						{
+							i2=i;
+							p2=p;
+						}
+						else
+						{
+							i1=i;
+							p1=p;
+						}
+					}
+					return TextPos(row, i1);
 				}
 
 				Point TextLines::GetPointFromTextPos(TextPos pos)
