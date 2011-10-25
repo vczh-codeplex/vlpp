@@ -1411,6 +1411,17 @@ GuiPartialViewComposition
 					int h=bounds.Height();
 					int pw=(int)(wPageSize*w);
 					int ph=(int)(hPageSize*h);
+
+					int ow=minSize.x-pw;
+					if(ow<0) ow=0;
+					int oh=minSize.y-ph;
+					if(oh<0) oh=0;
+
+					w-=ow;
+					h-=oh;
+					pw+=ow;
+					ph+=oh;
+
 					return Rect(Point((int)(wRatio*w), (int)(hRatio*h)), Size(pw, ph));
 				}
 				return Rect();
@@ -1418,6 +1429,7 @@ GuiPartialViewComposition
 
 			void GuiPartialViewComposition::SetBounds(Rect value)
 			{
+				minSize=value.GetSize();
 			}
 		}
 	}

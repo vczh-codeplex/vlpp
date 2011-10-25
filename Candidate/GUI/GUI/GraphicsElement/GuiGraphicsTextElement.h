@@ -81,6 +81,8 @@ ColorizedText
 					TextLineList					lines;
 					CharMeasurer*					charMeasurer;
 					IGuiGraphicsRenderTarget*		renderTarget;
+					int								tabWidth;
+					int								tabSpaceCount;
 				public:
 					TextLines();
 					~TextLines();
@@ -104,6 +106,9 @@ ColorizedText
 					TextPos							Modify(TextPos start, TextPos end, const WString& input);
 					void							Clear();
 
+					void							ClearMeasurement();
+					int								GetTabSpaceCount();
+					void							SetTabSpaceCount(int value);
 					void							MeasureRow(int row);
 					int								GetRowWidth(int row);
 					int								GetRowHeight();

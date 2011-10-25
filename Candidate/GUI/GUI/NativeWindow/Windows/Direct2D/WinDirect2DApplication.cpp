@@ -31,8 +31,7 @@ namespace vl
 
 				void RebuildCanvas(Size size)
 				{
-					if(size.x<1)size.x=1;
-					if(size.y<1)size.y=1;
+					if(size.x==0 || size.y==0) return;
 					if(!d2dRenderTarget)
 					{
 						ID2D1HwndRenderTarget* renderTarget=0;

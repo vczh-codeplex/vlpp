@@ -67,6 +67,14 @@ System Object
 			virtual SystemCursorType	GetSystemCursorType()=0;
 		};
 
+		class INativeClipboard : public Interface
+		{
+		public:
+			virtual bool				ContainsText()=0;
+			virtual WString				GetText()=0;
+			virtual bool				SetText(const WString& value)=0;
+		};
+
 /***********************************************************************
 Native Window
 ***********************************************************************/
@@ -218,6 +226,8 @@ Native Window Provider
 			virtual void				StartTimer()=0;
 			virtual void				StopTimer()=0;
 			virtual bool				IsTimerEnabled()=0;
+
+			virtual INativeClipboard*	GetClipboard()=0;
 			
 			virtual int					GetScreenCount()=0;
 			virtual INativeScreen*		GetScreen(int index)=0;
@@ -235,6 +245,7 @@ Native Window Provider
 			virtual void				RightButtonUp(Point position);
 			virtual void				MouseMoving(Point position);
 			virtual void				GlobalTimer();
+			virtual void				ClipboardUpdated();
 			virtual void				NativeWindowCreated(INativeWindow* window);
 			virtual void				NativeWindowDestroying(INativeWindow* window);
 		};

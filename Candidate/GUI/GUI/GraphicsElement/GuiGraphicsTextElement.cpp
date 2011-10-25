@@ -180,6 +180,8 @@ text::TextLines
 				TextLines::TextLines()
 					:charMeasurer(0)
 					,renderTarget(0)
+					,tabWidth(0)
+					,tabSpaceCount(4)
 				{
 					TextLine line;
 					line.Initialize();
@@ -212,10 +214,7 @@ text::TextLines
 				{
 					charMeasurer=value;
 					if(charMeasurer) charMeasurer->SetRenderTarget(renderTarget);
-					for(int i=0;i<lines.Count();i++)
-					{
-						lines[i].availableOffsetCount=0;
-					}
+					ClearMeasurement();
 				}
 
 				IGuiGraphicsRenderTarget* TextLines::GetRenderTarget()
@@ -227,7 +226,7 @@ text::TextLines
 				{
 					renderTarget=value;
 					if(charMeasurer) charMeasurer->SetRenderTarget(renderTarget);
-					SetCharMeasurer(charMeasurer);
+					ClearMeasurement();
 				}
 
 				WString TextLines::GetText(TextPos start, TextPos end)
@@ -444,6 +443,37 @@ text::TextLines
 
 				//--------------------------------------------------------
 
+				void TextLines::ClearMeasurement()
+				{
+					for(int i=0;i<lines.Count();i++)
+					{
+						lines[i].availableOffsetCount=0;
+					}
+					if(charMeasurer)
+					{
+						tabWidth=tabSpaceCount*charMeasurer->MeasureWidth(L' ');
+					}
+					else
+					{
+						tabWidth=0;
+					}
+				}
+
+				int TextLines::GetTabSpaceCount()
+				{
+					return tabSpaceCount;
+				}
+
+				void TextLines::SetTabSpaceCount(int value)
+				{
+					if(value<1) value=1;
+					if(tabSpaceCount!=value)
+					{
+						tabSpaceCount=value;
+						ClearMeasurement();
+					}
+				}
+
 				void TextLines::MeasureRow(int row)
 				{
 					TextLine& line=lines[row];
@@ -455,7 +485,16 @@ text::TextLines
 					for(int i=line.availableOffsetCount;i<line.dataLength;i++)
 					{
 						CharAtt& att=line.att[i];
-						int width=charMeasurer->MeasureWidth(line.text[i]);
+						wchar_t c=line.text[i];
+						int width=0;
+						if(c==L'\t')
+						{
+							width=tabWidth-offset%tabWidth;
+						}
+						else
+						{
+							width=charMeasurer->MeasureWidth(line.text[i]);
+						}
 						offset+=width;
 						att.rightOffset=offset;
 					}
