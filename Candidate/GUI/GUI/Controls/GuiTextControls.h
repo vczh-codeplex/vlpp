@@ -81,6 +81,14 @@ namespace vl
 
 				WString									GetSelectionText();
 				void									SetSelectionText(const WString& value);
+
+				bool									CanCut();
+				bool									CanCopy();
+				bool									CanPaste();
+				void									SelectAll();
+				bool									Cut();
+				bool									Copy();
+				bool									Paste();
 			};
 
 			class GuiMultilineTextBox : public GuiScrollView
@@ -104,9 +112,9 @@ namespace vl
 					elements::GuiBoundsComposition*		GetTextComposition();
 					GuiTextElementOperator*				GetTextElementOperator();
 					void								SetViewPosition(Point value);
-					WString								GetText();
-
 					void								SetFocusableComposition(elements::GuiGraphicsComposition* value);
+
+					WString								GetText();
 					void								SetText(const WString& value);
 					void								SetFont(const FontProperties& value);
 					void								SetVisuallyEnabled(bool value);

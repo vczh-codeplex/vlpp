@@ -360,6 +360,7 @@ Specialized Compositions
 				double								wPageSize;
 				double								hRatio;
 				double								hPageSize;
+				Size								minSize;
 
 			public:
 				GuiPartialViewComposition();

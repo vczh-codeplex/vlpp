@@ -165,6 +165,10 @@ INativeControllerListener
 		{
 		}
 
+		void INativeControllerListener::ClipboardUpdated()
+		{
+		}
+
 		void INativeControllerListener::NativeWindowCreated(INativeWindow* window)
 		{
 		}

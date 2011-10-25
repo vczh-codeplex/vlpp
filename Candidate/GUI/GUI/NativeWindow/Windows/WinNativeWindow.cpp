@@ -198,6 +198,77 @@ WindowsScreen
 				}
 			};
 
+			class WindowsClipboard : public Object, public INativeClipboard
+			{
+			protected:
+				HWND			ownerHandle;
+			public:
+				WindowsClipboard()
+					:ownerHandle(NULL)
+				{
+				}
+
+				void SetOwnerHandle(HWND handle)
+				{
+					ownerHandle=handle;
+				}
+
+				bool ContainsText()
+				{
+					if(OpenClipboard(ownerHandle))
+					{
+						UINT format=0;
+						bool contains=false;
+						while(format=EnumClipboardFormats(format))
+						{
+							if(format==CF_TEXT || format==CF_UNICODETEXT)
+							{
+								contains=true;
+								break;
+							}
+						}
+						CloseClipboard();
+						return contains;
+					}
+					return false;
+				}
+
+				WString GetText()
+				{
+					if(OpenClipboard(ownerHandle))
+					{
+						WString result;
+						HANDLE handle=GetClipboardData(CF_UNICODETEXT);
+						if(handle!=0)
+						{
+							wchar_t* buffer=(wchar_t*)GlobalLock(handle);
+							result=buffer;
+							GlobalUnlock(handle);
+						}
+						CloseClipboard();
+						return result;
+					}
+					return L"";
+				}
+
+				bool SetText(const WString& value)
+				{
+					if(OpenClipboard(ownerHandle))
+					{
+						EmptyClipboard();
+						int size=(value.Length()+1)*sizeof(wchar_t);
+						HGLOBAL data=GlobalAlloc(GMEM_MOVEABLE, size);
+						wchar_t* buffer=(wchar_t*)GlobalLock(data);
+						memcpy(buffer, value.Buffer(), size);
+						GlobalUnlock(data);
+						SetClipboardData(CF_UNICODETEXT, data);
+						CloseClipboard();
+						return true;
+					}
+					return false;
+				}
+			};
+
 /***********************************************************************
 WindowsForm
 ***********************************************************************/
@@ -964,6 +1035,7 @@ WindowsController
 				Dictionary<HWND, WindowsForm*>		windows;
 				List<INativeControllerListener*>	listeners;
 				INativeWindow*						mainWindow;
+				WindowsClipboard					clipboard;
 
 				HHOOK								mouseHook;
 				bool								isTimerEnabled;
@@ -981,6 +1053,8 @@ WindowsController
 					,isTimerEnabled(false)
 				{
 					godWindow=CreateWindowEx(WS_EX_CONTROLPARENT, godClass.GetName().Buffer(), L"GodWindow", WS_OVERLAPPEDWINDOW, 0, 0, 0, 0, NULL, NULL, hInstance, NULL);
+					AddClipboardFormatListener(godWindow);
+					clipboard.SetOwnerHandle(godWindow);
 
 					{
 						NONCLIENTMETRICS metrics;
@@ -1010,6 +1084,7 @@ WindowsController
 				{
 					StopTimer();
 					StopHookMouse();
+					RemoveClipboardFormatListener(godWindow);
 					DestroyWindow(godWindow);
 				}
 
@@ -1259,6 +1334,21 @@ WindowsController
 
 				//=======================================================================
 
+				void InvokeClipboardUpdated()
+				{
+					for(int i=0;i<listeners.Count();i++)
+					{
+						listeners[i]->ClipboardUpdated();
+					}
+				}
+
+				INativeClipboard* GetClipboard()
+				{
+					return &clipboard;
+				}
+
+				//=======================================================================
+
 				struct MonitorEnumProcData
 				{
 					WindowsController*		controller;
@@ -1367,6 +1457,9 @@ Windows Procedure
 					{
 					case WM_TIMER:
 						controller->InvokeGlobalTimer();
+						break;
+					case WM_CLIPBOARDUPDATE:
+						controller->InvokeClipboardUpdated();
 						break;
 					}
 				}

@@ -16,8 +16,8 @@ CommonScrollStyle
 
 			void CommonScrollStyle::UpdateHandle()
 			{
-				double handleRatio=(double)position/totalSize;
 				double handlePageSize=(double)pageSize/totalSize;
+				double handleRatio=(double)position/totalSize;
 				switch(direction)
 				{
 				case Horizontal:
@@ -141,19 +141,22 @@ CommonScrollStyle
 				{
 					GuiBoundsComposition* handleBoundsComposition=new GuiBoundsComposition;
 					boundsComposition->AddChild(handleBoundsComposition);
+
+					handleComposition=new GuiPartialViewComposition;
+					handleBoundsComposition->AddChild(handleComposition);
+					handleBoundsComposition->GetEventReceiver()->leftButtonDown.AttachMethod(this, &CommonScrollStyle::OnBigMoveMouseDown);
+
 					switch(direction)
 					{
 					case Horizontal:
 						handleBoundsComposition->SetAlignmentToParent(Margin(defaultSize, 0, defaultSize, 0));
+						handleComposition->SetBounds(Rect(Point(0, 0), Size(defaultSize, 0)));
 						break;
 					case Vertical:
 						handleBoundsComposition->SetAlignmentToParent(Margin(0, defaultSize, 0, defaultSize));
+						handleComposition->SetBounds(Rect(Point(0, 0), Size(0, defaultSize)));
 						break;
 					}
-					handleBoundsComposition->GetEventReceiver()->leftButtonDown.AttachMethod(this, &CommonScrollStyle::OnBigMoveMouseDown);
-
-					handleComposition=new GuiPartialViewComposition;
-					handleBoundsComposition->AddChild(handleComposition);
 					
 					handleButton=new GuiButton(CreateHandleButtonStyle(direction));
 					handleButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));

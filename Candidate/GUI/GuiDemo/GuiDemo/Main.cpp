@@ -326,6 +326,15 @@ void SetupWindow(GuiControlHost* host)
 	}
 }
 
+void SetupTextBoxWindow(GuiControlHost* host)
+{
+	host->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+	GuiMultilineTextBox* textBox=new GuiMultilineTextBox(new win7::Win7MultilineTextBoxProvider);
+	textBox->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+	textBox->GetBoundsComposition()->SetBounds(Rect(0, 0, 300, 200));
+	host->GetBoundsComposition()->AddChild(textBox->GetBoundsComposition());
+}
+
 void GuiMain()
 {
 	INativeWindow* window=GetCurrentController()->CreateNativeWindow();
@@ -349,7 +358,7 @@ void GuiMain()
 		));
 
 	GuiControlHost host(new win7::Win7WindowStyle);
-	SetupWindow(&host);
+	SetupTextBoxWindow(&host);
 	host.SetNativeWindow(window);
 
 	GetCurrentController()->Run(window);

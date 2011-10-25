@@ -118,13 +118,31 @@ GuiTextElementOperator
 				if(callback->BeforeModify(start, end, originalText, inputText))
 				{
 					end=textElement->lines.Modify(start, end, inputText);
-					Move(end, false);
 					callback->AfterModify(originalStart, originalEnd, originalText, start, end, inputText);
+					Move(end, false);
 				}
 			}
 
 			void GuiTextElementOperator::ProcessKey(int code, bool shift, bool ctrl)
 			{
+				if(!shift && ctrl)
+				{
+					switch(code)
+					{
+					case L'A':
+						SelectAll();
+						return;
+					case L'X':
+						Cut();
+						return;
+					case L'C':
+						Copy();
+						return;
+					case L'V':
+						Paste();
+						return;
+					}
+				}
 				TextPos begin=textElement->GetCaretBegin();
 				TextPos end=textElement->GetCaretEnd();
 				switch(code)
@@ -402,6 +420,68 @@ GuiTextElementOperator
 				Modify(textElement->GetCaretBegin(), textElement->GetCaretEnd(), value);
 			}
 
+			bool GuiTextElementOperator::CanCut()
+			{
+				return textElement->GetCaretBegin()!=textElement->GetCaretEnd();
+			}
+
+			bool GuiTextElementOperator::CanCopy()
+			{
+				return textElement->GetCaretBegin()!=textElement->GetCaretEnd();
+			}
+
+			bool GuiTextElementOperator::CanPaste()
+			{
+				return GetCurrentController()->GetClipboard()->ContainsText();
+			}
+
+			void GuiTextElementOperator::SelectAll()
+			{
+				int row=textElement->lines.GetCount()-1;
+				textElement->SetCaretBegin(TextPos(0, 0));
+				textElement->SetCaretEnd(TextPos(row, textElement->lines.GetLine(row).dataLength));
+			}
+
+			bool GuiTextElementOperator::Cut()
+			{
+				if(CanCut())
+				{
+					GetCurrentController()->GetClipboard()->SetText(GetSelectionText());
+					SetSelectionText(L"");
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+
+			bool GuiTextElementOperator::Copy()
+			{
+				if(CanCopy())
+				{
+					GetCurrentController()->GetClipboard()->SetText(GetSelectionText());
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+
+			bool GuiTextElementOperator::Paste()
+			{
+				if(CanPaste())
+				{
+					SetSelectionText(GetCurrentController()->GetClipboard()->GetText());
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+
 /***********************************************************************
 GuiMultilineTextBox::StyleController
 ***********************************************************************/
@@ -444,11 +524,6 @@ GuiMultilineTextBox::StyleController
 				textElement->SetViewPosition(value);
 			}
 
-			WString GuiMultilineTextBox::StyleController::GetText()
-			{
-				return textElement->lines.GetText();
-			}
-
 			void GuiMultilineTextBox::StyleController::SetFocusableComposition(elements::GuiGraphicsComposition* value)
 			{
 				GuiScrollView::StyleController::SetFocusableComposition(value);
@@ -463,9 +538,16 @@ GuiMultilineTextBox::StyleController
 				}
 			}
 
+			WString GuiMultilineTextBox::StyleController::GetText()
+			{
+				return textElement->lines.GetText();
+			}
+
 			void GuiMultilineTextBox::StyleController::SetText(const WString& value)
 			{
 				textElement->lines.SetText(value);
+				textElement->SetCaretBegin(TextPos(0, 0));
+				textElement->SetCaretEnd(TextPos(0, 0));
 				GuiScrollView::StyleController::SetText(value);
 			}
 
