@@ -37,10 +37,10 @@ namespace vl
 				{
 				protected:
 					elements::GuiColorizedTextElement*		textElement;
-					elements::GuiBoundsComposition*			textComposition;
+					elements::GuiGraphicsComposition*		textComposition;
 					bool									readonly;
 				public:
-					DefaultCallback(elements::GuiColorizedTextElement* _textElement, elements::GuiBoundsComposition* _textComposition);
+					DefaultCallback(elements::GuiColorizedTextElement* _textElement, elements::GuiGraphicsComposition* _textComposition);
 					~DefaultCallback();
 
 					TextPos									GetLeftWord(TextPos pos);
@@ -51,7 +51,7 @@ namespace vl
 				};
 			protected:
 				elements::GuiColorizedTextElement*			textElement;
-				elements::GuiBoundsComposition*				textComposition;
+				elements::GuiGraphicsComposition*			textComposition;
 				GuiControl*									textControl;
 				ICallback*									callback;
 				bool										dragging;
@@ -74,7 +74,7 @@ namespace vl
 				GuiTextElementOperator();
 				~GuiTextElementOperator();
 
-				void										Install(elements::GuiColorizedTextElement* _textElement, elements::GuiBoundsComposition* _textComposition, GuiControl* _textControl);
+				void										Install(elements::GuiColorizedTextElement* _textElement, elements::GuiGraphicsComposition* _textComposition, GuiControl* _textControl);
 				ICallback*									GetCallback();
 				void										SetCallback(ICallback* value);
 				TextPos										GetNearestTextPos(Point point);
@@ -109,7 +109,7 @@ namespace vl
 					~StyleController();
 
 					elements::GuiColorizedTextElement*		GetTextElement();
-					elements::GuiBoundsComposition*			GetTextComposition();
+					elements::GuiGraphicsComposition*		GetTextComposition();
 					GuiTextElementOperator*					GetTextElementOperator();
 					void									SetViewPosition(Point value);
 					void									SetFocusableComposition(elements::GuiGraphicsComposition* value);
@@ -170,7 +170,8 @@ namespace vl
 
 					GuiSinglelineTextBox*					textBox;
 					elements::GuiColorizedTextElement*		textElement;
-					elements::GuiBoundsComposition*			textComposition;
+					elements::GuiTableComposition*			textCompositionTable;
+					elements::GuiCellComposition*			textComposition;
 					GuiTextElementOperator					textElementOperator;
 					Ptr<GuiTextElementOperator::ICallback>	defaultCallback;
 
@@ -179,6 +180,7 @@ namespace vl
 					~StyleController();
 
 					void									SetTextBox(GuiSinglelineTextBox* value);
+					void									RearrangeTextElement();
 					elements::GuiBoundsComposition*			GetBoundsComposition();
 					elements::GuiGraphicsComposition*		GetContainerComposition();
 					void									SetFocusableComposition(elements::GuiGraphicsComposition* value);
@@ -189,7 +191,7 @@ namespace vl
 					void									SetVisuallyEnabled(bool value);
 
 					elements::GuiColorizedTextElement*		GetTextElement();
-					elements::GuiBoundsComposition*			GetTextComposition();
+					elements::GuiGraphicsComposition*		GetTextComposition();
 					GuiTextElementOperator*					GetTextElementOperator();
 					void									SetViewPosition(Point value);
 				};
@@ -209,7 +211,8 @@ namespace vl
 				};
 			protected:
 				StyleController*							styleController;
-
+				
+				void										OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget);
 				void										OnBoundsMouseButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
 			public:
 				GuiSinglelineTextBox(GuiSinglelineTextBox::IStyleProvider* styleProvider);

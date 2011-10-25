@@ -143,7 +143,7 @@ void SetupMainPanel(GuiControlHost* host, GuiCellComposition* cell)
 		{
 			GuiSinglelineTextBox* textBox=new GuiSinglelineTextBox(new win7::Win7SinglelineTextBoxProvider);
 			cell->AddChild(textBox->GetBoundsComposition());
-			textBox->GetBoundsComposition()->SetBounds(Rect(Point(210, 245), Size(200, 25)));
+			textBox->GetBoundsComposition()->SetBounds(Rect(Point(210, 245), Size(200, 27)));
 			textBox->SetText(L"Singleline TextBox");
 		}
 	}

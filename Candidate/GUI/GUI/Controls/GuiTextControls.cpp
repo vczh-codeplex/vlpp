@@ -13,7 +13,7 @@ namespace vl
 GuiTextElementOperator::DefaultCallback
 ***********************************************************************/
 
-			GuiTextElementOperator::DefaultCallback::DefaultCallback(elements::GuiColorizedTextElement* _textElement, elements::GuiBoundsComposition* _textComposition)
+			GuiTextElementOperator::DefaultCallback::DefaultCallback(elements::GuiColorizedTextElement* _textElement, elements::GuiGraphicsComposition* _textComposition)
 				:textElement(_textElement)
 				,textComposition(_textComposition)
 			{
@@ -364,7 +364,7 @@ GuiTextElementOperator
 			{
 			}
 
-			void GuiTextElementOperator::Install(elements::GuiColorizedTextElement* _textElement, elements::GuiBoundsComposition* _textComposition, GuiControl* _textControl)
+			void GuiTextElementOperator::Install(elements::GuiColorizedTextElement* _textElement, elements::GuiGraphicsComposition* _textComposition, GuiControl* _textControl)
 			{
 				textElement=_textElement;
 				textComposition=_textComposition;
@@ -509,7 +509,7 @@ GuiMultilineTextBox::StyleController
 				return textElement;
 			}
 
-			elements::GuiBoundsComposition* GuiMultilineTextBox::StyleController::GetTextComposition()
+			elements::GuiGraphicsComposition* GuiMultilineTextBox::StyleController::GetTextComposition()
 			{
 				return textComposition;
 			}
@@ -704,10 +704,20 @@ GuiSinglelineTextBox::StyleController
 
 				textElement=GuiColorizedTextElement::Create();
 				textElement->SetViewPosition(Point(-TextMargin, -TextMargin));
-				textComposition=new GuiBoundsComposition;
-				textComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+
+				textCompositionTable=new GuiTableComposition;
+				textCompositionTable->SetAlignmentToParent(Margin(0, 0, 0, 0));
+				textCompositionTable->SetRowsAndColumns(3, 1);
+				textCompositionTable->SetRowOption(0, GuiCellOption::PercentageOption(0.5));
+				textCompositionTable->SetRowOption(1, GuiCellOption::AbsoluteOption(0));
+				textCompositionTable->SetRowOption(2, GuiCellOption::PercentageOption(0.5));
+				textCompositionTable->SetColumnOption(0, GuiCellOption::PercentageOption(1.0));
+				containerComposition->AddChild(textCompositionTable);
+
+				textComposition=new GuiCellComposition;
 				textComposition->SetOwnedElement(textElement);
-				containerComposition->AddChild(textComposition);
+				textCompositionTable->AddChild(textComposition);
+				textComposition->SetSite(1, 0, 1, 1);
 
 				styleProvider->AssociateStyleController(this);
 			}
@@ -719,6 +729,11 @@ GuiSinglelineTextBox::StyleController
 			void GuiSinglelineTextBox::StyleController::SetTextBox(GuiSinglelineTextBox* value)
 			{
 				textBox=value;
+			}
+
+			void GuiSinglelineTextBox::StyleController::RearrangeTextElement()
+			{
+				textCompositionTable->SetRowOption(1, GuiCellOption::AbsoluteOption(textElement->lines.GetRowHeight()+2*TextMargin));
 			}
 
 			elements::GuiBoundsComposition* GuiSinglelineTextBox::StyleController::GetBoundsComposition()
@@ -775,7 +790,7 @@ GuiSinglelineTextBox::StyleController
 				return textElement;
 			}
 
-			elements::GuiBoundsComposition* GuiSinglelineTextBox::StyleController::GetTextComposition()
+			elements::GuiGraphicsComposition* GuiSinglelineTextBox::StyleController::GetTextComposition()
 			{
 				return textComposition;
 			}
@@ -864,6 +879,11 @@ GuiSinglelineTextBox::DefaultTextElementOperatorCallback
 GuiSinglelineTextBox
 ***********************************************************************/
 
+			void GuiSinglelineTextBox::OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget)
+			{
+				styleController->RearrangeTextElement();
+			}
+
 			void GuiSinglelineTextBox::OnBoundsMouseButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments)
 			{
 				if(GetVisuallyEnabled())
@@ -903,6 +923,7 @@ GuiSinglelineTextBox
 			void GuiSinglelineTextBox::SetFont(const FontProperties& value)
 			{
 				GuiControl::SetFont(value);
+				styleController->RearrangeTextElement();
 			}
 		}
 	}
