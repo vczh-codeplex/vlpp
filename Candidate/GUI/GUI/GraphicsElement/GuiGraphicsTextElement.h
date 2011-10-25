@@ -26,8 +26,8 @@ ColorizedText
 			{
 				struct CharAtt
 				{
-					unsigned __int16				rightOffset;
-					unsigned __int16				colorIndex;
+					unsigned __int32				rightOffset;
+					unsigned __int32				colorIndex;
 				};
 
 				struct TextLine
