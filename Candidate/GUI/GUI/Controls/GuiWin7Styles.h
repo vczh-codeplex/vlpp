@@ -321,10 +321,10 @@ Scrolls
 				elements::GuiGraphicsComposition*			InstallBackground(elements::GuiBoundsComposition* boundsComposition);
 			};
 
-			class Win7MultilineTextBoxProvider : public Win7ScrollViewProvider
+			class Win7TextBoxBackground : public Object
 			{
 			protected:
-				DEFINE_TRANSFERRING_ANIMATION(Win7TextBoxColors, Win7MultilineTextBoxProvider)
+				DEFINE_TRANSFERRING_ANIMATION(Win7TextBoxColors, Win7TextBoxBackground)
 					
 				elements::GuiRoundBorderElement*			borderElement;
 				elements::GuiSolidBackgroundElement*		backgroundElement;
@@ -344,11 +344,44 @@ Scrolls
 				void										OnBoundsGotFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 				void										OnBoundsLostFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 			public:
+				Win7TextBoxBackground();
+				~Win7TextBoxBackground();
+				
+				void										AssociateStyleController(controls::GuiControl::IStyleController* controller);
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value);
+				void										SetVisuallyEnabled(bool value);
+				elements::GuiGraphicsComposition*			InstallBackground(elements::GuiBoundsComposition* boundsComposition);
+				void										InitializeTextElement(elements::GuiColorizedTextElement* _textElement);
+			};
+
+			class Win7MultilineTextBoxProvider : public Win7ScrollViewProvider
+			{
+			protected:
+				Win7TextBoxBackground						background;
+				controls::GuiControl::IStyleController*		styleController;
+			public:
 				Win7MultilineTextBoxProvider();
 				~Win7MultilineTextBoxProvider();
 				
 				void										AssociateStyleController(controls::GuiControl::IStyleController* controller);
 				void										SetFocusableComposition(elements::GuiGraphicsComposition* value);
+				void										SetVisuallyEnabled(bool value);
+				elements::GuiGraphicsComposition*			InstallBackground(elements::GuiBoundsComposition* boundsComposition);
+			};
+
+			class Win7SinglelineTextBoxProvider : public Object, public controls::GuiSinglelineTextBox::IStyleProvider
+			{
+			protected:
+				Win7TextBoxBackground						background;
+				controls::GuiControl::IStyleController*		styleController;
+			public:
+				Win7SinglelineTextBoxProvider();
+				~Win7SinglelineTextBoxProvider();
+
+				void										AssociateStyleController(controls::GuiControl::IStyleController* controller);
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value);
+				void										SetText(const WString& value);
+				void										SetFont(const FontProperties& value);
 				void										SetVisuallyEnabled(bool value);
 				elements::GuiGraphicsComposition*			InstallBackground(elements::GuiBoundsComposition* boundsComposition);
 			};
