@@ -1229,18 +1229,18 @@ Win7ScrollViewProvider
 			}
 
 /***********************************************************************
-Win7MultilineTextBoxProvider
+Win7TextBoxBackground
 ***********************************************************************/
 
 #define HOST_GETTER_BY_FOCUSABLE_COMPOSITION(STYLE) (style->focusableComposition->GetRelatedGraphicsHost())
 
-			IMPLEMENT_TRANSFERRING_ANIMATION_BASE(Win7TextBoxColors, Win7MultilineTextBoxProvider, HOST_GETTER_BY_FOCUSABLE_COMPOSITION)
+			IMPLEMENT_TRANSFERRING_ANIMATION_BASE(Win7TextBoxColors, Win7TextBoxBackground, HOST_GETTER_BY_FOCUSABLE_COMPOSITION)
 			{
 				colorCurrent=Win7TextBoxColors::Blend(colorBegin, colorEnd, currentPosition, totalLength);
 				style->Apply(colorCurrent);
 			}
 
-			void Win7MultilineTextBoxProvider::UpdateStyle()
+			void Win7TextBoxBackground::UpdateStyle()
 			{
 				if(!isVisuallyEnabled)
 				{
@@ -1260,37 +1260,37 @@ Win7MultilineTextBoxProvider
 				}
 			}
 
-			void Win7MultilineTextBoxProvider::Apply(const Win7TextBoxColors& colors)
+			void Win7TextBoxBackground::Apply(const Win7TextBoxColors& colors)
 			{
 				borderElement->SetColor(colors.borderColor);
 				backgroundElement->SetColor(colors.backgroundColor);
 			}
 
-			void Win7MultilineTextBoxProvider::OnBoundsMouseEnter(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
+			void Win7TextBoxBackground::OnBoundsMouseEnter(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 			{
 				isMouseEnter=true;
 				UpdateStyle();
 			}
 
-			void Win7MultilineTextBoxProvider::OnBoundsMouseLeave(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
+			void Win7TextBoxBackground::OnBoundsMouseLeave(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 			{
 				isMouseEnter=false;
 				UpdateStyle();
 			}
 
-			void Win7MultilineTextBoxProvider::OnBoundsGotFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
+			void Win7TextBoxBackground::OnBoundsGotFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 			{
 				isFocused=true;
 				UpdateStyle();
 			}
 
-			void Win7MultilineTextBoxProvider::OnBoundsLostFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
+			void Win7TextBoxBackground::OnBoundsLostFocus(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 			{
 				isFocused=false;
 				UpdateStyle();
 			}
 
-			Win7MultilineTextBoxProvider::Win7MultilineTextBoxProvider()
+			Win7TextBoxBackground::Win7TextBoxBackground()
 				:backgroundElement(0)
 				,borderElement(0)
 				,focusableComposition(0)
@@ -1303,49 +1303,31 @@ Win7MultilineTextBoxProvider
 				transferringAnimation=new TransferringAnimation(this, Win7TextBoxColors::Normal());
 			}
 
-			Win7MultilineTextBoxProvider::~Win7MultilineTextBoxProvider()
+			Win7TextBoxBackground::~Win7TextBoxBackground()
 			{
 			}
 
-			void Win7MultilineTextBoxProvider::AssociateStyleController(controls::GuiControl::IStyleController* controller)
+			void Win7TextBoxBackground::AssociateStyleController(controls::GuiControl::IStyleController* controller)
 			{
 				styleController=controller;
 			}
 			
-			void Win7MultilineTextBoxProvider::SetFocusableComposition(elements::GuiGraphicsComposition* value)
+			void Win7TextBoxBackground::SetFocusableComposition(elements::GuiGraphicsComposition* value)
 			{
 				focusableComposition=value;
-				focusableComposition->GetEventReceiver()->mouseEnter.AttachMethod(this, &Win7MultilineTextBoxProvider::OnBoundsMouseEnter);
-				focusableComposition->GetEventReceiver()->mouseLeave.AttachMethod(this, &Win7MultilineTextBoxProvider::OnBoundsMouseLeave);
-				focusableComposition->GetEventReceiver()->gotFocus.AttachMethod(this, &Win7MultilineTextBoxProvider::OnBoundsGotFocus);
-				focusableComposition->GetEventReceiver()->lostFocus.AttachMethod(this, &Win7MultilineTextBoxProvider::OnBoundsLostFocus);
-
-				GuiMultilineTextBox::StyleController* controller=dynamic_cast<GuiMultilineTextBox::StyleController*>(styleController);
-				textElement=controller->GetTextElement();
-
-				Array<text::ColorEntry> colors;
-				colors.Resize(1);
-				{
-					text::ColorEntry entry;
-					entry.normal.text=Color(0, 0, 0);
-					entry.normal.background=Color(0, 0, 0, 0);
-					entry.selectedFocused.text=Color(255, 255, 255);
-					entry.selectedFocused.background=Color(51, 153, 255);
-					entry.selectedUnfocused.text=Color(255, 255, 255);
-					entry.selectedUnfocused.background=Color(51, 153, 255);
-					colors[0]=entry;
-				}
-				textElement->SetColors(colors);
-				textElement->SetCaretColor(Color(0, 0, 0));
+				focusableComposition->GetEventReceiver()->mouseEnter.AttachMethod(this, &Win7TextBoxBackground::OnBoundsMouseEnter);
+				focusableComposition->GetEventReceiver()->mouseLeave.AttachMethod(this, &Win7TextBoxBackground::OnBoundsMouseLeave);
+				focusableComposition->GetEventReceiver()->gotFocus.AttachMethod(this, &Win7TextBoxBackground::OnBoundsGotFocus);
+				focusableComposition->GetEventReceiver()->lostFocus.AttachMethod(this, &Win7TextBoxBackground::OnBoundsLostFocus);
 			}
 
-			void Win7MultilineTextBoxProvider::SetVisuallyEnabled(bool value)
+			void Win7TextBoxBackground::SetVisuallyEnabled(bool value)
 			{
 				isVisuallyEnabled=value;
 				UpdateStyle();
 			}
 
-			elements::GuiGraphicsComposition* Win7MultilineTextBoxProvider::InstallBackground(elements::GuiBoundsComposition* boundsComposition)
+			elements::GuiGraphicsComposition* Win7TextBoxBackground::InstallBackground(elements::GuiBoundsComposition* boundsComposition)
 			{
 				{
 					GuiSolidBackgroundElement* background=GuiSolidBackgroundElement::Create();
@@ -1375,6 +1357,106 @@ Win7MultilineTextBoxProvider
 					containerComposition->SetAlignmentToParent(Margin(2, 2, 2, 2));
 					return containerComposition;
 				}
+			}
+
+			void Win7TextBoxBackground::InitializeTextElement(elements::GuiColorizedTextElement* _textElement)
+			{
+				textElement=_textElement;
+
+				Array<text::ColorEntry> colors;
+				colors.Resize(1);
+				{
+					text::ColorEntry entry;
+					entry.normal.text=Color(0, 0, 0);
+					entry.normal.background=Color(0, 0, 0, 0);
+					entry.selectedFocused.text=Color(255, 255, 255);
+					entry.selectedFocused.background=Color(51, 153, 255);
+					entry.selectedUnfocused.text=Color(255, 255, 255);
+					entry.selectedUnfocused.background=Color(51, 153, 255);
+					colors[0]=entry;
+				}
+				textElement->SetColors(colors);
+				textElement->SetCaretColor(Color(0, 0, 0));
+			}
+
+/***********************************************************************
+Win7MultilineTextBoxProvider
+***********************************************************************/
+
+			Win7MultilineTextBoxProvider::Win7MultilineTextBoxProvider()
+				:styleController(0)
+			{
+			}
+
+			Win7MultilineTextBoxProvider::~Win7MultilineTextBoxProvider()
+			{
+			}
+
+			void Win7MultilineTextBoxProvider::AssociateStyleController(controls::GuiControl::IStyleController* controller)
+			{
+				styleController=controller;
+				background.AssociateStyleController(controller);
+			}
+			
+			void Win7MultilineTextBoxProvider::SetFocusableComposition(elements::GuiGraphicsComposition* value)
+			{
+				background.SetFocusableComposition(value);
+				GuiMultilineTextBox::StyleController* textBoxController=dynamic_cast<GuiMultilineTextBox::StyleController*>(styleController);
+				background.InitializeTextElement(textBoxController->GetTextElement());
+			}
+
+			void Win7MultilineTextBoxProvider::SetVisuallyEnabled(bool value)
+			{
+				background.SetVisuallyEnabled(value);
+			}
+
+			elements::GuiGraphicsComposition* Win7MultilineTextBoxProvider::InstallBackground(elements::GuiBoundsComposition* boundsComposition)
+			{
+				return background.InstallBackground(boundsComposition);
+			}
+
+/***********************************************************************
+Win7SinglelineTextBoxProvider
+***********************************************************************/
+
+			Win7SinglelineTextBoxProvider::Win7SinglelineTextBoxProvider()
+				:styleController(0)
+			{
+			}
+
+			Win7SinglelineTextBoxProvider::~Win7SinglelineTextBoxProvider()
+			{
+			}
+
+			void Win7SinglelineTextBoxProvider::AssociateStyleController(controls::GuiControl::IStyleController* controller)
+			{
+				styleController=controller;
+				background.AssociateStyleController(controller);
+			}
+			
+			void Win7SinglelineTextBoxProvider::SetFocusableComposition(elements::GuiGraphicsComposition* value)
+			{
+				background.SetFocusableComposition(value);
+				GuiSinglelineTextBox::StyleController* textBoxController=dynamic_cast<GuiSinglelineTextBox::StyleController*>(styleController);
+				background.InitializeTextElement(textBoxController->GetTextElement());
+			}
+
+			void Win7SinglelineTextBoxProvider::SetText(const WString& value)
+			{
+			}
+
+			void Win7SinglelineTextBoxProvider::SetFont(const FontProperties& value)
+			{
+			}
+
+			void Win7SinglelineTextBoxProvider::SetVisuallyEnabled(bool value)
+			{
+				background.SetVisuallyEnabled(value);
+			}
+
+			elements::GuiGraphicsComposition* Win7SinglelineTextBoxProvider::InstallBackground(elements::GuiBoundsComposition* boundsComposition)
+			{
+				return background.InstallBackground(boundsComposition);
 			}
 		}
 	}

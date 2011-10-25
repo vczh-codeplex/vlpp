@@ -1076,7 +1076,7 @@ GuiScrollContainer
 				styleController->GetContainerComposition()->SetBounds(Rect(Point(-viewBounds.x1, -viewBounds.y1), Size(0, 0)));
 			}
 
-			GuiScrollContainer::GuiScrollContainer(GuiScrollView::IStyleProvider* styleProvider)
+			GuiScrollContainer::GuiScrollContainer(GuiScrollContainer::IStyleProvider* styleProvider)
 				:GuiScrollView(new StyleController(styleProvider))
 			{
 				GuiBoundsComposition* composition=dynamic_cast<GuiBoundsComposition*>(styleController->GetContainerComposition());

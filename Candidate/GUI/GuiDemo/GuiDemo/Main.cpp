@@ -140,6 +140,12 @@ void SetupMainPanel(GuiControlHost* host, GuiCellComposition* cell)
 				groupBox->SetEnabled(!groupBox->GetEnabled());
 			});
 		}
+		{
+			GuiSinglelineTextBox* textBox=new GuiSinglelineTextBox(new win7::Win7SinglelineTextBoxProvider);
+			cell->AddChild(textBox->GetBoundsComposition());
+			textBox->GetBoundsComposition()->SetBounds(Rect(Point(210, 245), Size(200, 25)));
+			textBox->SetText(L"Singleline TextBox");
+		}
 	}
 	{
 		GuiScrollContainer* scrollView=new GuiScrollContainer(new win7::Win7ScrollViewProvider);
@@ -358,7 +364,7 @@ void GuiMain()
 		));
 
 	GuiControlHost host(new win7::Win7WindowStyle);
-	SetupTextBoxWindow(&host);
+	SetupWindow(&host);
 	host.SetNativeWindow(window);
 
 	GetCurrentController()->Run(window);

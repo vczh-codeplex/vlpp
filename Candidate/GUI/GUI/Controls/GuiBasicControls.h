@@ -401,7 +401,7 @@ Scrolls
 				Size									QueryFullSize();
 				void									UpdateView(Rect viewBounds);
 			public:
-				GuiScrollContainer(GuiScrollView::IStyleProvider* styleProvider);
+				GuiScrollContainer(GuiScrollContainer::IStyleProvider* styleProvider);
 				~GuiScrollContainer();
 			};
 		}
