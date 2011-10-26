@@ -1,7 +1,7 @@
 /***********************************************************************
 Vczh Library++ 3.0
 Developer: іВиче«(vczh)
-GUI::Windows GDI Provider
+GacUI::Native Window::Direct2D Provider for Windows Implementation
 
 Interfaces:
 ***********************************************************************/

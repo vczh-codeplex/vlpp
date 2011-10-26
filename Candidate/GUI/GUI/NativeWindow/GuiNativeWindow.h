@@ -1,7 +1,7 @@
 /***********************************************************************
 Vczh Library++ 3.0
 Developer: ³Âè÷å«(vczh)
-GUI::Native Window
+GacUI::Native Window
 
 Interfaces:
   INativeWindow							£º´°¿ÚÊÊÅäÆ÷

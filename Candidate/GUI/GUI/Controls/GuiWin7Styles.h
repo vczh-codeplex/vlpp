@@ -1,7 +1,7 @@
 /***********************************************************************
 Vczh Library++ 3.0
 Developer: іВиче«(vczh)
-GUI::Windows Platform
+GacUI::Control Styles::Windows7 Styles
 
 Interfaces:
 ***********************************************************************/
