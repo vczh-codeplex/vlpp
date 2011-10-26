@@ -1,10 +1,4 @@
-#include "..\..\GUI\Controls\GuiTextControls.h"
-#include "..\..\GUI\Controls\GuiWin7Styles.h"
-
-using namespace vl;
-using namespace vl::presentation;
-using namespace vl::presentation::elements;
-using namespace vl::presentation::controls;
+#include "..\..\GUI\GacUI.h"
 
 void SetupMainPanel(GuiControlHost* host, GuiCellComposition* cell)
 {
