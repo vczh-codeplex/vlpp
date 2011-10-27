@@ -54,7 +54,7 @@ namespace vl
 				public:
 					virtual bool								AttachCallback(IItemProviderCallback* value)=0;
 					virtual bool								DetachCallback(IItemProviderCallback* value)=0;
-					virtual int									GetCount()=0;
+					virtual int									Count()=0;
 				};
 
 				class IItemStyleController : public Interface
@@ -140,6 +140,11 @@ namespace vl
 
 					bool										AttachCallback(GuiListControl::IItemProviderCallback* value);
 					bool										DetachCallback(GuiListControl::IItemProviderCallback* value);
+				};
+
+				template<typename T>
+				class ListProvider : public ItemProviderBase
+				{
 				};
 			};
 		}
