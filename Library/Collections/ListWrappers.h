@@ -174,14 +174,9 @@ namespace vl
 				return container->IndexOf(item);
 			}
 
-			void Set(vint index, const K& item)
+			void Set(vint index, const T& item)
 			{
 				container->Set(index, item);
-			}
-
-			T& operator[](vint index)
-			{
-				return container->operator[](index);
 			}
 
 			void Resize(vint size)
@@ -348,14 +343,9 @@ namespace vl
 				return container->Insert(index, item);
 			}
 
-			bool Set(vint index, const K& item)
+			bool Set(vint index, const T& item)
 			{
 				return container->Set(index, item);
-			}
-
-			T& operator[](vint index)
-			{
-				return container->operator[](index);
 			}
 		};
 

@@ -57,11 +57,7 @@ void TestArray(IArray<vint>& arr)
 	CHECK_EMPTY_LIST(arr);
 
 	arr.Resize(10);
-	for(vint i=0;i<5;i++)
-	{
-		arr[i]=i;
-	}
-	for(vint i=5;i<10;i++)
+	for(vint i=0;i<10;i++)
 	{
 		arr.Set(i, i);
 	}
@@ -169,7 +165,7 @@ void TestNormalList(IList<vint>& list)
 
 	for(vint i=0;i<10;i++)
 	{
-		list[i]=9-i;
+		list.Set(i, 9-i);
 	}
 	CHECK_LIST_ITEMS(list, {9 _ 8 _ 7 _ 6 _ 5 _ 4 _ 3 _ 2 _ 1 _ 0});
 

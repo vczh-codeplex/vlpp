@@ -30,7 +30,7 @@ namespace vl
 			}
 			for(vint i=0;i<src.Length();i++)
 			{
-				dst[start+i]=src[i];
+				dst.Set(start+i, src[i]);
 			}
 		}
 

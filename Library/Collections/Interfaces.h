@@ -65,8 +65,7 @@ namespace vl
 		class IArray : public virtual IReadonlyList<T, K>
 		{
 		public:
-			virtual void								Set(vint index, const K& item)=0;
-			virtual T&									operator[](vint index)=0;
+			virtual void								Set(vint index, const T& item)=0;
 			virtual void								Resize(vint size)=0;
 		};
 
@@ -86,8 +85,7 @@ namespace vl
 		{
 		public:
 			virtual vint								Insert(vint index, const T& item)=0;
-			virtual bool								Set(vint index, const K& item)=0;
-			virtual T&									operator[](vint index)=0;
+			virtual bool								Set(vint index, const T& item)=0;
 		};
 
 		template<typename KT, typename VT, typename KK=typename KeyType<KT>::Type, typename VK=typename KeyType<VT>::Type>
