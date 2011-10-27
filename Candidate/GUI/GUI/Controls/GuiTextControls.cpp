@@ -532,7 +532,7 @@ GuiMultilineTextBox::StyleController
 				{
 					if(!defaultCallback)
 					{
-						defaultCallback=new DefaultTextElementOperatorCallback(dynamic_cast<GuiMultilineTextBox*>(scrollView));
+						defaultCallback=new TextElementOperatorCallback(dynamic_cast<GuiMultilineTextBox*>(scrollView));
 					}
 					textElementOperator.SetCallback(defaultCallback.Obj());
 				}
@@ -567,7 +567,7 @@ GuiMultilineTextBox::StyleController
 GuiMultilineTextBox::DefaultTextElementOperatorCallback
 ***********************************************************************/
 
-			GuiMultilineTextBox::DefaultTextElementOperatorCallback::DefaultTextElementOperatorCallback(GuiMultilineTextBox* _textControl)
+			GuiMultilineTextBox::TextElementOperatorCallback::TextElementOperatorCallback(GuiMultilineTextBox* _textControl)
 				:GuiTextElementOperator::DefaultCallback(
 					dynamic_cast<StyleController*>(_textControl->GetStyleController())->GetTextElement(),
 					dynamic_cast<StyleController*>(_textControl->GetStyleController())->GetTextComposition()
@@ -577,12 +577,12 @@ GuiMultilineTextBox::DefaultTextElementOperatorCallback
 			{
 			}
 
-			void GuiMultilineTextBox::DefaultTextElementOperatorCallback::AfterModify(TextPos originalStart, TextPos originalEnd, const WString& originalText, TextPos inputStart, TextPos inputEnd, const WString& inputText)
+			void GuiMultilineTextBox::TextElementOperatorCallback::AfterModify(TextPos originalStart, TextPos originalEnd, const WString& originalText, TextPos inputStart, TextPos inputEnd, const WString& inputText)
 			{
 				textControl->CalculateView();
 			}
 			
-			void GuiMultilineTextBox::DefaultTextElementOperatorCallback::ScrollToView(Point point)
+			void GuiMultilineTextBox::TextElementOperatorCallback::ScrollToView(Point point)
 			{
 				point.x+=TextMargin;
 				point.y+=TextMargin;
@@ -609,7 +609,7 @@ GuiMultilineTextBox::DefaultTextElementOperatorCallback
 				textControl->GetVerticalScroll()->SetPosition(point.y+marginY);
 			}
 
-			int GuiMultilineTextBox::DefaultTextElementOperatorCallback::GetTextMargin()
+			int GuiMultilineTextBox::TextElementOperatorCallback::GetTextMargin()
 			{
 				return TextMargin;
 			}
@@ -754,7 +754,7 @@ GuiSinglelineTextBox::StyleController
 				{
 					if(!defaultCallback)
 					{
-						defaultCallback=new DefaultTextElementOperatorCallback(textBox);
+						defaultCallback=new TextElementOperatorCallback(textBox);
 					}
 					textElementOperator.SetCallback(defaultCallback.Obj());
 				}
@@ -809,7 +809,7 @@ GuiSinglelineTextBox::StyleController
 GuiSinglelineTextBox::DefaultTextElementOperatorCallback
 ***********************************************************************/
 
-			GuiSinglelineTextBox::DefaultTextElementOperatorCallback::DefaultTextElementOperatorCallback(GuiSinglelineTextBox* _textControl)
+			GuiSinglelineTextBox::TextElementOperatorCallback::TextElementOperatorCallback(GuiSinglelineTextBox* _textControl)
 				:GuiTextElementOperator::DefaultCallback(
 					dynamic_cast<StyleController*>(_textControl->GetStyleController())->GetTextElement(),
 					dynamic_cast<StyleController*>(_textControl->GetStyleController())->GetTextComposition()
@@ -819,7 +819,7 @@ GuiSinglelineTextBox::DefaultTextElementOperatorCallback
 			{
 			}
 
-			bool GuiSinglelineTextBox::DefaultTextElementOperatorCallback::BeforeModify(TextPos& start, TextPos& end, const WString& originalText, WString& inputText)
+			bool GuiSinglelineTextBox::TextElementOperatorCallback::BeforeModify(TextPos& start, TextPos& end, const WString& originalText, WString& inputText)
 			{
 				int length=inputText.Length();
 				const wchar_t* input=inputText.Buffer();
@@ -838,11 +838,11 @@ GuiSinglelineTextBox::DefaultTextElementOperatorCallback
 				return true;
 			}
 
-			void GuiSinglelineTextBox::DefaultTextElementOperatorCallback::AfterModify(TextPos originalStart, TextPos originalEnd, const WString& originalText, TextPos inputStart, TextPos inputEnd, const WString& inputText)
+			void GuiSinglelineTextBox::TextElementOperatorCallback::AfterModify(TextPos originalStart, TextPos originalEnd, const WString& originalText, TextPos inputStart, TextPos inputEnd, const WString& inputText)
 			{
 			}
 			
-			void GuiSinglelineTextBox::DefaultTextElementOperatorCallback::ScrollToView(Point point)
+			void GuiSinglelineTextBox::TextElementOperatorCallback::ScrollToView(Point point)
 			{
 				int newX=point.x;
 				int oldX=textElement->GetViewPosition().x;
@@ -870,7 +870,7 @@ GuiSinglelineTextBox::DefaultTextElementOperatorCallback
 				textElement->SetViewPosition(Point(newX, -TextMargin));
 			}
 
-			int GuiSinglelineTextBox::DefaultTextElementOperatorCallback::GetTextMargin()
+			int GuiSinglelineTextBox::TextElementOperatorCallback::GetTextMargin()
 			{
 				return TextMargin;
 			}
