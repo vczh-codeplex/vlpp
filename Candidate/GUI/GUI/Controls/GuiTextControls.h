@@ -120,13 +120,13 @@ namespace vl
 					void									SetVisuallyEnabled(bool value);
 				};
 
-				class DefaultTextElementOperatorCallback : public GuiTextElementOperator::DefaultCallback
+				class TextElementOperatorCallback : public GuiTextElementOperator::DefaultCallback
 				{
 				protected:
 					GuiMultilineTextBox*					textControl;
 					StyleController*						textController;
 				public:
-					DefaultTextElementOperatorCallback(GuiMultilineTextBox* _textControl);
+					TextElementOperatorCallback(GuiMultilineTextBox* _textControl);
 
 					void									AfterModify(TextPos originalStart, TextPos originalEnd, const WString& originalText, TextPos inputStart, TextPos inputEnd, const WString& inputText);
 					void									ScrollToView(Point point);
@@ -196,13 +196,13 @@ namespace vl
 					void									SetViewPosition(Point value);
 				};
 
-				class DefaultTextElementOperatorCallback : public GuiTextElementOperator::DefaultCallback
+				class TextElementOperatorCallback : public GuiTextElementOperator::DefaultCallback
 				{
 				protected:
 					GuiSinglelineTextBox*					textControl;
 					StyleController*						textController;
 				public:
-					DefaultTextElementOperatorCallback(GuiSinglelineTextBox* _textControl);
+					TextElementOperatorCallback(GuiSinglelineTextBox* _textControl);
 
 					bool									BeforeModify(TextPos& start, TextPos& end, const WString& originalText, WString& inputText);
 					void									AfterModify(TextPos originalStart, TextPos originalEnd, const WString& originalText, TextPos inputStart, TextPos inputEnd, const WString& inputText);
