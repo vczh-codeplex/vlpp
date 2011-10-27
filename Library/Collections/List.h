@@ -277,7 +277,7 @@ namespace vl
 				return -1;
 			}
 
-			void Set(vint index, const K& item)
+			void Set(vint index, const T& item)
 			{
 				CHECK_ERROR(index>=0 && index<count, L"Array<T, K>::Set(vint)#参数index越界。");
 				buffer[index]=item;
@@ -361,7 +361,7 @@ namespace vl
 				}
 			}
 
-			bool Set(vint index, const K& item)
+			bool Set(vint index, const T& item)
 			{
 				CHECK_ERROR(index>=0 && index<count, L"List<T, K>::Set(vint)#参数index越界。");
 				buffer[index]=item;

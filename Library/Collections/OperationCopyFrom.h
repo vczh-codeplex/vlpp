@@ -35,7 +35,7 @@ namespace vl
 			vint srcCount=src.Count();
 			for(vint i=0;i<srcCount;i++)
 			{
-				dst[start+i]=src[i];
+				dst.Set(start+i, src[i]);
 			}
 		}
 
@@ -108,7 +108,7 @@ namespace vl
 				}
 				while(enumerator->Available())
 				{
-					dst[start+enumerator->Index()]=enumerator->Current();
+					dst.Set(start+enumerator->Index(), enumerator->Current());
 					enumerator->Next();
 				}
 				delete enumerator;
