@@ -76,7 +76,7 @@ namespace vl
 				public:
 					virtual int									GetItemStyleId(int itemIndex)=0;
 					virtual IItemStyleController*				CreateItemStyle(int styleId)=0;
-					virtual bool								DestroyItemStyle(IItemStyleController* style)=0;
+					virtual void								DestroyItemStyle(IItemStyleController* style)=0;
 					virtual void								Install(IItemStyleController* style, int itemIndex)=0;
 				};
 
@@ -158,6 +158,34 @@ namespace vl
 					void										SetCallback(GuiListControl::IItemArrangerCallback* value);
 					Size										GetTotalSize();
 					void										OnViewChanged(Rect bounds);
+				};
+			}
+
+			namespace list
+			{
+				class ItemStyleControllerBase : public Object, public GuiListControl::IItemStyleController
+				{
+				protected:
+					GuiListControl::IItemStyleProvider*			provider;
+					int											styleId;
+					elements::GuiBoundsComposition*				boundsComposition;
+					GuiControl*									associatedControl;
+					bool										isInstalled;
+
+					void										Initialize(elements::GuiBoundsComposition* _boundsComposition, GuiControl* _associatedControl);
+					void										Finalize();
+
+					ItemStyleControllerBase(GuiListControl::IItemStyleProvider* _provider, int _styleId);
+				public:
+					~ItemStyleControllerBase();
+					
+					GuiListControl::IItemStyleProvider*			GetStyleProvider();
+					int											GetItemStyleId();
+					elements::GuiBoundsComposition*				GetBoundsComposition();
+					bool										IsCacheable();
+					bool										IsInstalled();
+					void										OnInstalled();
+					void										OnUninstalled();
 				};
 			}
 
