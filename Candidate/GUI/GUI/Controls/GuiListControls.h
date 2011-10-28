@@ -65,7 +65,6 @@ namespace vl
 					virtual IItemStyleProvider*					GetStyleProvider()=0;
 					virtual int									GetItemStyleId()=0;
 					virtual elements::GuiBoundsComposition*		GetBoundsComposition()=0;
-					virtual void								Transfer(ItemState state)=0;
 					virtual bool								IsCacheable()=0;
 					virtual bool								IsInstalled()=0;
 					virtual void								OnInstalled()=0;
@@ -143,11 +142,11 @@ namespace vl
 					GuiListControl::IItemProvider*				itemProvider;
 					Rect										viewBounds;
 					int											startIndex;
-					int											endIndex;
 					int											rowHeight;
 					StyleList									visibleStyles;
 					bool										suppressOnViewChanged;
 
+					void										ClearStyles();
 					void										RearrangeItemBounds();
 				public:
 					FixedHeightItemArranger();
