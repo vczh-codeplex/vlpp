@@ -210,14 +210,37 @@ GuiListControl
 FixedHeightItemArranger
 ***********************************************************************/
 
+				void FixedHeightItemArranger::ClearStyles()
+				{
+					startIndex=0;
+					rowHeight=1;
+					if(callback)
+					{
+						for(int i=0;i<visibleStyles.Count();i++)
+						{
+							GuiListControl::IItemStyleController* style=visibleStyles[i];
+							callback->GetContainerComposition()->RemoveChild(style->GetBoundsComposition());
+							callback->ReleaseItem(style);
+						}
+					}
+					visibleStyles.Clear();
+					viewBounds=Rect(0, 0, 0, 0);
+				}
+
 				void FixedHeightItemArranger::RearrangeItemBounds()
 				{
+					int y0=-viewBounds.Top();
+					for(int i=0;i<visibleStyles.Count();i++)
+					{
+						GuiListControl::IItemStyleController* style=visibleStyles[i];
+						style->GetBoundsComposition()->SetAlignmentToParent(Margin(0, -1, 0, -1));
+						style->GetBoundsComposition()->SetBounds(Rect(Point(0, y0+(startIndex+i)*rowHeight), Size(0, rowHeight)));
+					}
 				}
 
 				FixedHeightItemArranger::FixedHeightItemArranger()
 					:callback(0)
 					,startIndex(0)
-					,endIndex(-1)
 					,rowHeight(1)
 					,suppressOnViewChanged(false)
 				{
@@ -240,6 +263,43 @@ FixedHeightItemArranger
 				{
 					if(callback)
 					{
+						if(count==newCount)
+						{
+							int offset=viewBounds.Top()-rowHeight*startIndex;
+							int newRowHeight=rowHeight;
+
+							for(int i=0;i<visibleStyles.Count();i++)
+							{
+								int index=startIndex+i;
+								if(start<=index && index<start+count)
+								{
+									GuiListControl::IItemStyleController* style=visibleStyles[i];
+									callback->GetContainerComposition()->RemoveChild(style->GetBoundsComposition());
+									callback->ReleaseItem(style);
+
+									style=callback->RequestItem(index);
+									callback->GetContainerComposition()->AddChild(style->GetBoundsComposition());
+								}
+							}
+
+							if(rowHeight!=newRowHeight)
+							{
+								rowHeight=newRowHeight;
+								suppressOnViewChanged=true;
+								callback->OnTotalSizeChanged();
+								callback->SetViewLocation(Point(0, rowHeight*startIndex+offset));
+								suppressOnViewChanged=false;
+							}
+							RearrangeItemBounds();
+						}
+						else
+						{
+							ClearStyles();
+							suppressOnViewChanged=true;
+							callback->OnTotalSizeChanged();
+							suppressOnViewChanged=false;
+							callback->SetViewLocation(Point(0, 0));
+						}
 					}
 				}
 
@@ -253,10 +313,7 @@ FixedHeightItemArranger
 					callback=value;
 					if(!callback)
 					{
-						startIndex=0;
-						endIndex=-1;
-						rowHeight=1;
-						visibleStyles.Clear();
+						ClearStyles();
 					}
 				}
 
@@ -283,7 +340,13 @@ FixedHeightItemArranger
 							int oldVisibleCount=visibleStyles.Count();
 							int newRowHeight=rowHeight;
 							int newStartIndex=bounds.Top()/rowHeight;
+
+							int endIndex=startIndex+visibleStyles.Count()-1;
 							int newEndIndex=(bounds.Bottom()-1)/newRowHeight;
+							if(newEndIndex>=itemProvider->Count())
+							{
+								newEndIndex=itemProvider->Count()-1;
+							}
 
 							for(int i=newStartIndex;i<=newEndIndex;i++)
 							{
@@ -327,7 +390,6 @@ FixedHeightItemArranger
 								suppressOnViewChanged=false;
 							}
 							startIndex=newStartIndex;
-							endIndex=newEndIndex;
 							RearrangeItemBounds();
 						}
 					}
