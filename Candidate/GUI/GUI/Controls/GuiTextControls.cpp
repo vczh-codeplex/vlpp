@@ -632,6 +632,7 @@ GuiMultilineTextBox
 			void GuiMultilineTextBox::OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget)
 			{
 				CalculateViewAndSetScroll();
+				GuiScrollView::OnRenderTargetChanged(renderTarget);
 			}
 
 			Size GuiMultilineTextBox::QueryFullSize()
@@ -882,6 +883,7 @@ GuiSinglelineTextBox
 			void GuiSinglelineTextBox::OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget)
 			{
 				styleController->RearrangeTextElement();
+				GuiControl::OnRenderTargetChanged(renderTarget);
 			}
 
 			void GuiSinglelineTextBox::OnBoundsMouseButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments)
