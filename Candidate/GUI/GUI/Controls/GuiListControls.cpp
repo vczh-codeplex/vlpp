@@ -31,8 +31,10 @@ GuiListControl::ItemCallback
 				}
 				for(int i=0;i<installedStyles.Count();i++)
 				{
-					listControl->itemStyleProvider->DestroyItemStyle(cachedStyles[i]);
+					listControl->itemStyleProvider->DestroyItemStyle(installedStyles[i]);
 				}
+				cachedStyles.Clear();
+				installedStyles.Clear();
 			}
 
 			void GuiListControl::ItemCallback::OnAttached(IItemProvider* provider)
@@ -53,6 +55,7 @@ GuiListControl::ItemCallback
 					if(cachedStyle->GetItemStyleId()==id)
 					{
 						style=cachedStyle;
+						cachedStyles.RemoveAt(i);
 						break;
 					}
 				}
@@ -62,19 +65,25 @@ GuiListControl::ItemCallback
 				}
 				listControl->itemStyleProvider->Install(style, itemIndex);
 				style->OnInstalled();
+				installedStyles.Add(style);
 				return style;
 			}
 
 			void GuiListControl::ItemCallback::ReleaseItem(IItemStyleController* style)
 			{
-				style->OnUninstalled();
-				if(style->IsCacheable())
+				int index=installedStyles.IndexOf(style);
+				if(index!=-1)
 				{
-					cachedStyles.Add(style);
-				}
-				else
-				{
-					listControl->itemStyleProvider->DestroyItemStyle(style);
+					installedStyles.RemoveAt(index);
+					style->OnUninstalled();
+					if(style->IsCacheable())
+					{
+						cachedStyles.Add(style);
+					}
+					else
+					{
+						listControl->itemStyleProvider->DestroyItemStyle(style);
+					}
 				}
 			}
 
@@ -130,10 +139,12 @@ GuiListControl
 
 			GuiListControl::~GuiListControl()
 			{
-				SetStyleProvider(0);
-				SetArranger(0);
-				itemProvider=0;
-				callback=0;
+				if(itemArranger)
+				{
+					itemProvider->DetachCallback(itemArranger.Obj());
+					itemArranger->SetCallback(0);
+				}
+				callback->ClearCache();
 			}
 
 			GuiListControl::IItemStyleProvider* GuiListControl::GetStyleProvider()
@@ -343,16 +354,14 @@ FixedHeightItemArranger
 
 							int endIndex=startIndex+visibleStyles.Count()-1;
 							int newEndIndex=(bounds.Bottom()-1)/newRowHeight;
-							if(newEndIndex>=itemProvider->Count())
-							{
-								newEndIndex=itemProvider->Count()-1;
-							}
+							int itemCount=itemProvider->Count();
 
-							for(int i=newStartIndex;i<=newEndIndex;i++)
+							for(int i=newStartIndex;i<=newEndIndex && i<itemCount;i++)
 							{
 								if(startIndex<=i && i<=endIndex)
 								{
-									visibleStyles.Add(visibleStyles[startIndex+i-newStartIndex]);
+									GuiListControl::IItemStyleController* style=visibleStyles[i-startIndex];
+									visibleStyles.Add(style);
 								}
 								else
 								{
@@ -409,8 +418,14 @@ ItemStyleControllerBase
 				{
 					if(boundsComposition && !isInstalled)
 					{
-						delete boundsComposition;
-						delete associatedControl;
+						if(associatedControl)
+						{
+							delete associatedControl;
+						}
+						else
+						{
+							delete boundsComposition;
+						}
 					}
 					boundsComposition=0;
 					associatedControl=0;
