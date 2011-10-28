@@ -45,6 +45,8 @@ namespace vl
 					virtual IItemStyleController*				RequestItem(int itemIndex)=0;
 					virtual void								ReleaseItem(IItemStyleController* style)=0;
 					virtual void								SetViewLocation(Point value)=0;
+					virtual elements::GuiGraphicsComposition*	GetContainerComposition()=0;
+					virtual void								OnTotalSizeChanged()=0;
 				};
 
 				//-----------------------------------------------------------
@@ -85,7 +87,7 @@ namespace vl
 					virtual IItemArrangerCallback*				GetCallback()=0;
 					virtual void								SetCallback(IItemArrangerCallback* value)=0;
 					virtual Size								GetTotalSize()=0;
-					virtual void								OnViewChanged(Rect bounds);
+					virtual void								OnViewChanged(Rect bounds)=0;
 				};
 
 			protected:
@@ -109,13 +111,16 @@ namespace vl
 					IItemStyleController*						RequestItem(int itemIndex);
 					void										ReleaseItem(IItemStyleController* style);
 					void										SetViewLocation(Point value);
+					elements::GuiGraphicsComposition*			GetContainerComposition();
+					void										OnTotalSizeChanged();
 				};
 
 				Ptr<ItemCallback>								callback;
 				Ptr<IItemProvider>								itemProvider;
 				Ptr<IItemStyleProvider>							itemStyleProvider;
 				Ptr<IItemArranger>								itemArranger;
-
+				
+				void											OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget);
 				Size											QueryFullSize();
 				void											UpdateView(Rect viewBounds);
 			public:
@@ -130,10 +135,41 @@ namespace vl
 
 			namespace list
 			{
+				class FixedHeightItemArranger : public Object, public GuiListControl::IItemArranger
+				{
+					typedef collections::List<GuiListControl::IItemStyleController*>		StyleList;
+				protected:
+					GuiListControl::IItemArrangerCallback*		callback;
+					GuiListControl::IItemProvider*				itemProvider;
+					Rect										viewBounds;
+					int											startIndex;
+					int											endIndex;
+					int											rowHeight;
+					StyleList									visibleStyles;
+					bool										suppressOnViewChanged;
+
+					void										RearrangeItemBounds();
+				public:
+					FixedHeightItemArranger();
+					~FixedHeightItemArranger();
+
+					void										OnAttached(GuiListControl::IItemProvider* provider);
+					void										OnItemModified(int start, int count, int newCount);
+					GuiListControl::IItemArrangerCallback*		GetCallback();
+					void										SetCallback(GuiListControl::IItemArrangerCallback* value);
+					Size										GetTotalSize();
+					void										OnViewChanged(Rect bounds);
+				};
+			}
+
+			namespace list
+			{
 				class ItemProviderBase : public Object, public GuiListControl::IItemProvider
 				{
 				protected:
 					collections::List<GuiListControl::IItemProviderCallback*>	callbacks;
+
+					void										InvokeOnItemModified(int start, int count, int newCount);
 				public:
 					ItemProviderBase();
 					~ItemProviderBase();
@@ -142,9 +178,149 @@ namespace vl
 					bool										DetachCallback(GuiListControl::IItemProviderCallback* value);
 				};
 
-				template<typename T>
-				class ListProvider : public ItemProviderBase
+				template<typename T, typename K=typename KeyType<T>::Type>
+				class ListWrapperProvider : public ItemProviderBase, public collections::IList<T, K>
 				{
+				protected:
+					collections::IList<T, K>*			proxy;
+
+					ListWrapperProvider()
+						:proxy(0)
+					{
+					}
+				public:
+					ListWrapperProvider(collections::IList<T, K>* _proxy)
+						:proxy(_proxy)
+					{
+					}
+
+					~ListWrapperProvider()
+					{
+					}
+
+					collections::IEnumerator<T>* CreateEnumerator()const
+					{
+						return proxy->CreateEnumerator();
+					}
+
+					bool Contains(const K& item)const
+					{
+						return proxy->Contains(item);
+					}
+
+					vint Count()const
+					{
+						return proxy->Count();
+					}
+
+					vint Count()
+					{
+						return proxy->Count();
+					}
+
+					const T& Get(vint index)const
+					{
+						return proxy->Get(index);
+					}
+
+					const T& operator[](vint index)const
+					{
+						return (*proxy)[index];
+					}
+
+					vint IndexOf(const K& item)const
+					{
+						return proxy->IndexOf(item);
+					}
+
+					vint Add(const T& item)
+					{
+						return Insert(proxy->Count(), item);
+					}
+
+					bool Remove(const K& item)
+					{
+						vint index=proxy->IndexOf(item);
+						if(index==-1) return false;
+						return RemoveAt(index);
+					}
+
+					bool RemoveAt(vint index)
+					{
+						if(proxy->RemoveAt(index))
+						{
+							InvokeOnItemModified(index, 1, 0);
+							return true;
+						}
+						else
+						{
+							return false;
+						}
+					}
+
+					bool RemoveRange(vint index, vint count)
+					{
+						if(proxy->RemoveRange(index, count))
+						{
+							InvokeOnItemModified(index, count, 0);
+							return true;
+						}
+						else
+						{
+							return false;
+						}
+					}
+
+					bool Clear()
+					{
+						vint count=proxy->Count();
+						if(proxy->Clear())
+						{
+							InvokeOnItemModified(0, count, 0);
+							return true;
+						}
+						else
+						{
+							return false;
+						}
+					}
+
+					vint Insert(vint index, const T& item)
+					{
+						vint result=proxy->Insert(index, item);
+						InvokeOnItemModified(index, 0, 1);
+						return result;
+					}
+
+					bool Set(vint index, const T& item)
+					{
+						if(proxy->Set(index, item))
+						{
+							InvokeOnItemModified(index, 1, 1);
+							return true;
+						}
+						else
+						{
+							return false;
+						}
+					}
+				};
+
+				template<typename T>
+				class ListProvider : public ListWrapperProvider<T>
+				{
+				protected:
+					collections::List<T>		list;
+
+				public:
+					ListProvider()
+					{
+						proxy=&list.Wrap();
+					}
+
+					~ListProvider()
+					{
+					}
 				};
 			};
 		}

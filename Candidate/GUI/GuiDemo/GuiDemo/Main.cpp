@@ -335,6 +335,20 @@ void SetupTextBoxWindow(GuiControlHost* host)
 	host->GetBoundsComposition()->AddChild(textBox->GetBoundsComposition());
 }
 
+void SetupListControlWindow(GuiControlHost* host)
+{
+	host->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+
+	list::ListProvider<WString>* itemProvider=new list::ListProvider<WString>;
+	GuiListControl* listControl=new GuiListControl(new win7::Win7ScrollViewProvider, itemProvider);
+	listControl->SetArranger(new list::FixedHeightItemArranger);
+
+	listControl->GetBoundsComposition()->SetAlignmentToParent(Margin(5, 5, 5, 5));
+	listControl->GetBoundsComposition()->SetBounds(Rect(0, 0, 300, 200));
+	listControl->SetHorizontalAlwaysVisible(false);
+	host->GetBoundsComposition()->AddChild(listControl->GetBoundsComposition());
+}
+
 void GuiMain()
 {
 	INativeWindow* window=GetCurrentController()->CreateNativeWindow();
@@ -358,7 +372,7 @@ void GuiMain()
 		));
 
 	GuiControlHost host(new win7::Win7WindowStyle);
-	SetupWindow(&host);
+	SetupListControlWindow(&host);
 	host.SetNativeWindow(window);
 
 	GetCurrentController()->Run(window);
