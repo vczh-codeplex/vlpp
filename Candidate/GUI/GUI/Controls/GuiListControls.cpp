@@ -396,6 +396,76 @@ FixedHeightItemArranger
 				}
 
 /***********************************************************************
+ItemStyleControllerBase
+***********************************************************************/
+
+				void ItemStyleControllerBase::Initialize(elements::GuiBoundsComposition* _boundsComposition, GuiControl* _associatedControl)
+				{
+					boundsComposition=_boundsComposition;
+					associatedControl=_associatedControl;
+				}
+
+				void ItemStyleControllerBase::Finalize()
+				{
+					if(boundsComposition && !isInstalled)
+					{
+						delete boundsComposition;
+						delete associatedControl;
+					}
+					boundsComposition=0;
+					associatedControl=0;
+				}
+
+				ItemStyleControllerBase::ItemStyleControllerBase(GuiListControl::IItemStyleProvider* _provider, int _styleId)
+					:provider(_provider)
+					,styleId(_styleId)
+					,boundsComposition(0)
+					,associatedControl(0)
+					,isInstalled(false)
+				{
+				}
+
+				ItemStyleControllerBase::~ItemStyleControllerBase()
+				{
+					Finalize();
+				}
+					
+				GuiListControl::IItemStyleProvider* ItemStyleControllerBase::GetStyleProvider()
+				{
+					return provider;
+				}
+
+				int ItemStyleControllerBase::GetItemStyleId()
+				{
+					return styleId;
+				}
+
+				elements::GuiBoundsComposition* ItemStyleControllerBase::GetBoundsComposition()
+				{
+					return boundsComposition;
+				}
+
+				bool ItemStyleControllerBase::IsCacheable()
+				{
+					return true;
+				}
+
+				bool ItemStyleControllerBase::IsInstalled()
+				{
+					return isInstalled;
+				}
+
+				void ItemStyleControllerBase::OnInstalled()
+				{
+					isInstalled=true;
+				}
+
+				void ItemStyleControllerBase::OnUninstalled()
+				{
+					isInstalled=false;
+				}
+
+/***********************************************************************
 ItemProviderBase
 ***********************************************************************/
 
