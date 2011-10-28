@@ -408,6 +408,11 @@ void SetupListControlWindow(GuiControlHost* host)
 	listControl->GetBoundsComposition()->SetBounds(Rect(0, 0, 300, 200));
 	listControl->SetHorizontalAlwaysVisible(false);
 	host->GetBoundsComposition()->AddChild(listControl->GetBoundsComposition());
+
+	for(int i=0;i<10;i++)
+	{
+		itemProvider->Add(L"Button Item "+itow(i+1));
+	}
 }
 
 void GuiMain()
