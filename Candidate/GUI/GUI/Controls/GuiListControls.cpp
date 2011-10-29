@@ -157,6 +157,7 @@ GuiListControl
 				Ptr<IItemStyleProvider> old=itemStyleProvider;
 				if(itemStyleProvider)
 				{
+					itemStyleProvider->DetachListControl();
 					if(itemArranger)
 					{
 						itemArranger->SetCallback(0);
@@ -170,6 +171,7 @@ GuiListControl
 					{
 						itemProvider->AttachCallback(itemArranger.Obj());
 					}
+					itemStyleProvider->AttachListControl(this);
 				}
 
 				GetVerticalScroll()->SetPosition(0);
@@ -191,6 +193,7 @@ GuiListControl
 				Ptr<IItemArranger> old=itemArranger;
 				if(itemArranger)
 				{
+					itemArranger->DetachListControl();
 					itemProvider->DetachCallback(itemArranger.Obj());
 					itemArranger->SetCallback(0);
 					callback->ClearCache();
@@ -203,6 +206,7 @@ GuiListControl
 						itemArranger->SetCallback(callback.Obj());
 					}
 					itemProvider->AttachCallback(itemArranger.Obj());
+					itemArranger->AttachListControl(this);
 				}
 
 				GetVerticalScroll()->SetPosition(0);
@@ -268,6 +272,14 @@ FixedHeightItemArranger
 					{
 						OnItemModified(0, 0, provider->Count());
 					}
+				}
+
+				void FixedHeightItemArranger::AttachListControl(GuiListControl* value)
+				{
+				}
+
+				void FixedHeightItemArranger::DetachListControl()
+				{
 				}
 
 				void FixedHeightItemArranger::OnItemModified(int start, int count, int newCount)
@@ -338,6 +350,24 @@ FixedHeightItemArranger
 					{
 						return Size(0, 0);
 					}
+				}
+
+				GuiListControl::IItemStyleController* FixedHeightItemArranger::GetVisibleStyle(int itemIndex)
+				{
+					if(startIndex<=itemIndex && itemIndex<startIndex+visibleStyles.Count())
+					{
+						return visibleStyles[itemIndex-startIndex];
+					}
+					else
+					{
+						return 0;
+					}
+				}
+
+				int FixedHeightItemArranger::GetVisibleIndex(GuiListControl::IItemStyleController* style)
+				{
+					int index=visibleStyles.IndexOf(style);
+					return index==-1?-1:index+startIndex;
 				}
 
 				void FixedHeightItemArranger::OnViewChanged(Rect bounds)
@@ -531,6 +561,89 @@ ItemProviderBase
 						callbacks.Remove(value);
 						return true;
 					}
+				}
+
+/***********************************************************************
+TextItem
+***********************************************************************/
+
+				TextItem::TextItem()
+					:checked(false)
+					,selected(false)
+				{
+				}
+
+				TextItem::TextItem(const TextItem& item)
+					:text(item.text)
+					,checked(item.checked)
+					,selected(item.selected)
+				{
+				}
+
+				TextItem::TextItem(const WString& _text, bool _checked, bool _selected)
+					:text(_text)
+					,checked(_checked)
+					,selected(_selected)
+				{
+				}
+
+				TextItem::~TextItem()
+				{
+				}
+
+				bool TextItem::operator==(const TextItem& value)const
+				{
+					return text==value.text;
+				}
+
+				bool TextItem::operator!=(const TextItem& value)const
+				{
+					return text!=value.text;
+				}
+
+				const WString& TextItem::GetText()const
+				{
+					return text;
+				}
+
+				bool TextItem::GetChecked()const
+				{
+					return checked;
+				}
+
+				bool TextItem::GetSelected()const
+				{
+					return selected;
+				}
+
+/***********************************************************************
+TextItemProvider
+***********************************************************************/
+
+				TextItemProvider::TextItemProvider()
+				{
+				}
+
+				TextItemProvider::~TextItemProvider()
+				{
+				}
+					
+				void TextItemProvider::SetText(int itemIndex, const WString& value)
+				{
+					TextItem item=Get(itemIndex);
+					Set(itemIndex, TextItem(value, item.GetChecked(), item.GetSelected()));
+				}
+
+				void TextItemProvider::SetChecked(int itemIndex, bool value)
+				{
+					TextItem item=Get(itemIndex);
+					Set(itemIndex, TextItem(item.GetText(), value, item.GetSelected()));
+				}
+
+				void TextItemProvider::SetSelected(int itemIndex, bool value)
+				{
+					TextItem item=Get(itemIndex);
+					Set(itemIndex, TextItem(item.GetText(), item.GetChecked(), value));
 				}
 			}
 		}

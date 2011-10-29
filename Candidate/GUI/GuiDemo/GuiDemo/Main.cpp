@@ -367,6 +367,14 @@ public:
 	{
 	}
 
+	void AttachListControl(GuiListControl* value)
+	{
+	}
+
+	void DetachListControl()
+	{
+	}
+
 	int GetItemStyleId(int itemIndex)
 	{
 		return 0;

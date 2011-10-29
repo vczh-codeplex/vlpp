@@ -17,6 +17,11 @@ namespace vl
 	{
 		namespace controls
 		{
+
+/***********************************************************************
+List Control
+***********************************************************************/
+
 			class GuiListControl : public GuiScrollView
 			{
 			public:
@@ -74,6 +79,8 @@ namespace vl
 				class IItemStyleProvider : public Interface
 				{
 				public:
+					virtual void								AttachListControl(GuiListControl* value)=0;
+					virtual void								DetachListControl()=0;
 					virtual int									GetItemStyleId(int itemIndex)=0;
 					virtual IItemStyleController*				CreateItemStyle(int styleId)=0;
 					virtual void								DestroyItemStyle(IItemStyleController* style)=0;
@@ -83,9 +90,13 @@ namespace vl
 				class IItemArranger : public IItemProviderCallback
 				{
 				public:
+					virtual void								AttachListControl(GuiListControl* value)=0;
+					virtual void								DetachListControl()=0;
 					virtual IItemArrangerCallback*				GetCallback()=0;
 					virtual void								SetCallback(IItemArrangerCallback* value)=0;
 					virtual Size								GetTotalSize()=0;
+					virtual IItemStyleController*				GetVisibleStyle(int itemIndex)=0;
+					virtual int									GetVisibleIndex(IItemStyleController* style)=0;
 					virtual void								OnViewChanged(Rect bounds)=0;
 				};
 
@@ -132,6 +143,10 @@ namespace vl
 				Ptr<IItemArranger>								SetArranger(Ptr<IItemArranger> value);
 			};
 
+/***********************************************************************
+Predefined ItemArranger
+***********************************************************************/
+
 			namespace list
 			{
 				class FixedHeightItemArranger : public Object, public GuiListControl::IItemArranger
@@ -154,12 +169,20 @@ namespace vl
 
 					void										OnAttached(GuiListControl::IItemProvider* provider);
 					void										OnItemModified(int start, int count, int newCount);
+					void										AttachListControl(GuiListControl* value);
+					void										DetachListControl();
 					GuiListControl::IItemArrangerCallback*		GetCallback();
 					void										SetCallback(GuiListControl::IItemArrangerCallback* value);
 					Size										GetTotalSize();
+					GuiListControl::IItemStyleController*		GetVisibleStyle(int itemIndex);
+					int											GetVisibleIndex(GuiListControl::IItemStyleController* style);
 					void										OnViewChanged(Rect bounds);
 				};
 			}
+
+/***********************************************************************
+Predefined ItemStyleController
+***********************************************************************/
 
 			namespace list
 			{
@@ -188,6 +211,10 @@ namespace vl
 					void										OnUninstalled();
 				};
 			}
+
+/***********************************************************************
+Predefined ItemProvider
+***********************************************************************/
 
 			namespace list
 			{
@@ -349,7 +376,92 @@ namespace vl
 					{
 					}
 				};
-			};
+			}
+
+/***********************************************************************
+TextList Components
+***********************************************************************/
+
+			namespace list
+			{
+				class TextItem
+				{
+				protected:
+					WString						text;
+					bool						checked;
+					bool						selected;
+
+				public:
+					TextItem();
+					TextItem(const TextItem& item);
+					TextItem(const WString& _text, bool _checked=false, bool _selected=false);
+					~TextItem();
+
+					bool						operator==(const TextItem& value)const;
+					bool						operator!=(const TextItem& value)const;
+
+					const WString&				GetText()const;
+					bool						GetChecked()const;
+					bool						GetSelected()const;
+				};
+
+				class TextItemProvider : public ListProvider<TextItem>
+				{
+				public:
+					TextItemProvider();
+					~TextItemProvider();
+					
+					void						SetText(int itemIndex, const WString& value);
+					void						SetChecked(int itemIndex, bool value);
+					void						SetSelected(int itemIndex, bool value);
+				};
+
+				class TextItemStyleProvider : public Object, public GuiListControl::IItemStyleProvider
+				{
+				public:
+					class IBulletStyleProvider : public Interface
+					{
+					public:
+						virtual GuiSelectableButton::IStyleController*		CreateBulletStyleController()=0;
+					};
+
+				protected:
+					class TextItemStyleController : public ItemStyleControllerBase
+					{
+					protected:
+						GuiSelectableButton*					backgroundButton;
+						GuiSelectableButton*					bulletButton;
+						TextItemStyleProvider*					textItemProvider;
+
+						void									OnBackgroundSelectedChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+						void									OnBulletSelectedChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+					public:
+						TextItemStyleController(TextItemStyleProvider* provider, GuiSelectableButton* _bulletButton);
+						~TextItemStyleController();
+
+						bool									GetSelected();
+						void									SetSelected(bool value);
+						bool									GetChecked();
+						void									SetChecked(bool value);
+					};
+
+					IBulletStyleProvider*						bulletStyleProvider;
+					TextItemProvider*							textItemProvider;
+
+					void										OnSelectedChanged(TextItemStyleController* style);
+					void										OnCheckedChanged(TextItemStyleController* style);
+				public:
+					TextItemStyleProvider(TextItemProvider* _textItemProvider, IBulletStyleProvider* _bulletStyleProvider);
+					~TextItemStyleProvider();
+
+					void										AttachListControl(GuiListControl* value);
+					void										DetachListControl();
+					int											GetItemStyleId(int itemIndex);
+					GuiListControl::IItemStyleController*		CreateItemStyle(int styleId);
+					void										DestroyItemStyle(GuiListControl::IItemStyleController* style);
+					void										Install(GuiListControl::IItemStyleController* style, int itemIndex);
+				};
+			}
 		}
 	}
 }
