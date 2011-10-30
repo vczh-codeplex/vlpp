@@ -202,7 +202,12 @@ Buttons
 
 				class MutexGroupController : public GroupController
 				{
+				protected:
+					bool								suppress;
 				public:
+					MutexGroupController();
+					~MutexGroupController();
+
 					void								OnSelectedChanged(GuiSelectableButton* button);
 				};
 
