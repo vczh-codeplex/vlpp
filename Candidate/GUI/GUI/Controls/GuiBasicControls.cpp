@@ -499,17 +499,25 @@ GuiSelectableButton::GroupController
 GuiSelectableButton::MutexGroupController
 ***********************************************************************/
 
+			GuiSelectableButton::MutexGroupController::MutexGroupController()
+				:suppress(false)
+			{
+			}
+
+			GuiSelectableButton::MutexGroupController::~MutexGroupController()
+			{
+			}
+
 			void GuiSelectableButton::MutexGroupController::OnSelectedChanged(GuiSelectableButton* button)
 			{
-				if(button->GetSelected())
+				if(!suppress)
 				{
+					suppress=true;
 					for(int i=0;i<buttons.Count();i++)
 					{
-						if(buttons[i]!=button)
-						{
-							buttons[i]->SetSelected(false);
-						}
+						buttons[i]->SetSelected(buttons[i]==button);
 					}
+					suppress=false;
 				}
 			}
 

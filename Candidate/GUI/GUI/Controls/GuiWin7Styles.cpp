@@ -453,28 +453,14 @@ Win7CheckedButtonElements
 					}
 
 					{
-						GuiCellComposition* cell=new GuiCellComposition;
-						mainTable->AddChild(cell);
-						cell->SetSite(0, 1, 1, 1);
-
-						GuiTableComposition* table=new GuiTableComposition;
-						cell->AddChild(table);
-						table->SetRowsAndColumns(3, 1);
-						table->SetAlignmentToParent(Margin(0, 0, 0, 0));
-						table->SetRowOption(0, GuiCellOption::PercentageOption(0.5));
-						table->SetRowOption(1, GuiCellOption::MinSizeOption());
-						table->SetRowOption(2, GuiCellOption::PercentageOption(0.5));
-
+						GuiCellComposition* textCell=new GuiCellComposition;
+						mainTable->AddChild(textCell);
+						textCell->SetSite(0, 1, 1, 1);
 						{
-							GuiCellComposition* textCell=new GuiCellComposition;
-							table->AddChild(textCell);
-							textCell->SetSite(1, 0, 1, 1);
-							{
-								Win7CreateSolidLabelElement(button.textElement, button.textComposition);
+							Win7CreateSolidLabelElement(button.textElement, button.textComposition);
 					
-								button.textElement->SetAlignments(Alignment::Left, Alignment::Center);
-								textCell->AddChild(button.textComposition);
-							}
+							button.textElement->SetAlignments(Alignment::Left, Alignment::Center);
+							textCell->AddChild(button.textComposition);
 						}
 					}
 				}

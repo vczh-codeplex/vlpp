@@ -446,6 +446,8 @@ void GuiMain()
 		));
 
 	GuiControlHost host(new win7::Win7WindowStyle);
+	//SetupWindow(&host);
+	//SetupTextBoxWindow(&host);
 	SetupListControlWindow(&host);
 	host.SetNativeWindow(window);
 
