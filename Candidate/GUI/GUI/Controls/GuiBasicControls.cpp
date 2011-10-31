@@ -490,11 +490,6 @@ GuiSelectableButton::GroupController
 				buttons.Remove(button);
 			}
 
-			void GuiSelectableButton::OnClicked(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
-			{
-				SetSelected(!GetSelected());
-			}
-
 /***********************************************************************
 GuiSelectableButton::MutexGroupController
 ***********************************************************************/
@@ -525,10 +520,19 @@ GuiSelectableButton::MutexGroupController
 GuiSelectableButton
 ***********************************************************************/
 
+			void GuiSelectableButton::OnClicked(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
+			{
+				if(autoSelection)
+				{
+					SetSelected(!GetSelected());
+				}
+			}
+
 			GuiSelectableButton::GuiSelectableButton(IStyleController* _styleController)
 				:GuiButton(_styleController)
 				,styleController(_styleController)
 				,groupController(0)
+				,autoSelection(true)
 				,isSelected(false)
 			{
 				SelectedChanged.SetAssociatedComposition(boundsComposition);
@@ -557,6 +561,16 @@ GuiSelectableButton
 				{
 					groupController->Attach(this);
 				}
+			}
+
+			bool GuiSelectableButton::GetAutoSelection()
+			{
+				return autoSelection;
+			}
+
+			void GuiSelectableButton::SetAutoSelection(bool value)
+			{
+				autoSelection=value;
 			}
 
 			bool GuiSelectableButton::GetSelected()
