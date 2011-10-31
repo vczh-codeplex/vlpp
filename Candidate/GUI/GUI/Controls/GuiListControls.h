@@ -25,17 +25,13 @@ List Control
 			class GuiListControl : public GuiScrollView
 			{
 			public:
-
-				enum ItemState
-				{
-					Normal,
-					Active,
-					Selected,
-				};
-
 				class IItemProvider;
 				class IItemStyleController;
 				class IItemStyleProvider;
+
+				//-----------------------------------------------------------
+				// Callback Interfaces
+				//-----------------------------------------------------------
 
 				class IItemProviderCallback : public Interface
 				{
@@ -54,6 +50,8 @@ List Control
 					virtual void								OnTotalSizeChanged()=0;
 				};
 
+				//-----------------------------------------------------------
+				// Provider Interfaces
 				//-----------------------------------------------------------
 
 				class IItemProvider : public Interface
@@ -129,6 +127,10 @@ List Control
 				Ptr<IItemProvider>								itemProvider;
 				Ptr<IItemStyleProvider>							itemStyleProvider;
 				Ptr<IItemArranger>								itemArranger;
+
+				virtual void									OnItemModified(int start, int count, int newCount);
+				virtual void									OnStyleInstalled(IItemStyleController* style);
+				virtual void									OnStyleUninstalled(IItemStyleController* style);
 				
 				void											OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget);
 				Size											QueryFullSize();
@@ -137,11 +139,60 @@ List Control
 				GuiListControl(IStyleProvider* _styleProvider, IItemProvider* _itemProvider);
 				~GuiListControl();
 
-				IItemProvider*									GetItemProvider();
-				IItemStyleProvider*								GetStyleProvider();
-				Ptr<IItemStyleProvider>							SetStyleProvider(Ptr<IItemStyleProvider> value);
-				IItemArranger*									GetArranger();
-				Ptr<IItemArranger>								SetArranger(Ptr<IItemArranger> value);
+				virtual IItemProvider*							GetItemProvider();
+				virtual IItemStyleProvider*						GetStyleProvider();
+				virtual Ptr<IItemStyleProvider>					SetStyleProvider(Ptr<IItemStyleProvider> value);
+				virtual IItemArranger*							GetArranger();
+				virtual Ptr<IItemArranger>						SetArranger(Ptr<IItemArranger> value);
+			};
+
+			class GuiSelectableListControl : public GuiListControl
+			{
+			public:
+				class IItemStyleProvider : public GuiListControl::IItemStyleProvider
+				{
+				public:
+					virtual void								SetStyleSelected(IItemStyleController* style, bool value)=0;
+				};
+
+			protected:
+				class StyleEvents
+				{
+				protected:
+					GuiSelectableListControl*					listControl;
+					IItemStyleController*						style;
+					Ptr<elements::GuiMouseEvent::IHandler>		leftButtonDownHandler;
+
+					void										OnBoundsLeftButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
+				public:
+					StyleEvents(GuiSelectableListControl* _listControl, IItemStyleController* _style);
+					~StyleEvents();
+				};
+
+				friend class collections::ReadonlyListEnumerator<Ptr<StyleEvents>>;
+				typedef collections::Dictionary<IItemStyleController*, Ptr<StyleEvents>>	VisibleStyleMap;
+
+			protected:
+
+				Ptr<IItemStyleProvider>							selectableStyleProvider;
+				collections::SortedList<int>					selectedItems;
+				VisibleStyleMap									visibleStyles;
+
+				void											OnItemModified(int start, int count, int newCount);
+				void											OnStyleInstalled(IItemStyleController* style);
+				void											OnStyleUninstalled(IItemStyleController* style);
+				virtual void									OnItemSelectionChanged(int itemIndex, bool value);
+				virtual void									OnItemSelectionCleared();
+			public:
+				GuiSelectableListControl(IStyleProvider* _styleProvider, IItemProvider* _itemProvider);
+				~GuiSelectableListControl();
+
+				Ptr<GuiListControl::IItemStyleProvider>			SetStyleProvider(Ptr<GuiListControl::IItemStyleProvider> value);
+				
+				const collections::IReadonlyList<int>&			GetSelectedItems();
+				bool											GetSelected(int itemIndex);
+				void											SetSelected(int itemIndex, bool value);
+				void											ClearSelection();
 			};
 
 /***********************************************************************
@@ -406,33 +457,15 @@ TextList Components
 
 				class TextItemProvider : public ListProvider<TextItem>
 				{
-					friend class TextItemStyleProvider;
-				public:
-					class ICallback : public Interface
-					{
-					public:
-						virtual void							OnItemSelectionChanged(int itemIndex, bool value)=0;
-						virtual void							OnItemSelectionCleared()=0;
-					};
-
-				protected:
-					collections::SortedList<int>				selectedItems;
-					ICallback*									callback;
-
-					void										SetCallback(ICallback* value);
-					void										InvokeOnItemModified(int start, int count, int newCount);
 				public:
 					TextItemProvider();
 					~TextItemProvider();
 					
-					const collections::IReadonlyList<int>&		GetSelectedItems();
 					void										SetText(int itemIndex, const WString& value);
 					void										SetChecked(int itemIndex, bool value);
-					void										SetSelected(int itemIndex, bool value);
-					void										ClearSelection();
 				};
 
-				class TextItemStyleProvider : public Object, public GuiListControl::IItemStyleProvider, protected TextItemProvider::ICallback
+				class TextItemStyleProvider : public Object, public GuiSelectableListControl::IItemStyleProvider
 				{
 				public:
 					class ITextItemStyleProvider : public Interface
@@ -450,14 +483,10 @@ TextList Components
 						elements::GuiSolidLabelElement*			textElement;
 						TextItemStyleProvider*					textItemStyleProvider;
 
-						void									OnBackgroundSelectedChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 						void									OnBulletSelectedChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 					public:
 						TextItemStyleController(TextItemStyleProvider* provider);
 						~TextItemStyleController();
-
-						void									OnInstalled();
-						void									OnUninstalled();
 
 						bool									GetSelected();
 						void									SetSelected(bool value);
@@ -469,15 +498,11 @@ TextList Components
 					
 					friend class collections::ReadonlyListEnumerator<TextItemStyleController*>;
 
-					ITextItemStyleProvider*								textItemStyleProvider;
-					TextItemProvider*									textItemProvider;
-					GuiListControl*										listControl;
-					collections::SortedList<TextItemStyleController*>	visibleStyles;
+					ITextItemStyleProvider*						textItemStyleProvider;
+					TextItemProvider*							textItemProvider;
+					GuiListControl*								listControl;
 
-					void										OnStyleSelectedChanged(TextItemStyleController* style);
 					void										OnStyleCheckedChanged(TextItemStyleController* style);
-					void										OnItemSelectionChanged(int itemIndex, bool value);
-					void										OnItemSelectionCleared();
 				public:
 					TextItemStyleProvider(ITextItemStyleProvider* _textItemStyleProvider);
 					~TextItemStyleProvider();
@@ -488,6 +513,7 @@ TextList Components
 					GuiListControl::IItemStyleController*		CreateItemStyle(int styleId);
 					void										DestroyItemStyle(GuiListControl::IItemStyleController* style);
 					void										Install(GuiListControl::IItemStyleController* style, int itemIndex);
+					void										SetStyleSelected(GuiListControl::IItemStyleController* style, bool value);
 				};
 			}
 		}
