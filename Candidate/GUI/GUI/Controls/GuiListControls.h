@@ -137,6 +137,7 @@ List Control
 				GuiListControl(IStyleProvider* _styleProvider, IItemProvider* _itemProvider);
 				~GuiListControl();
 
+				IItemProvider*									GetItemProvider();
 				IItemStyleProvider*								GetStyleProvider();
 				Ptr<IItemStyleProvider>							SetStyleProvider(Ptr<IItemStyleProvider> value);
 				IItemArranger*									GetArranger();
@@ -223,7 +224,7 @@ Predefined ItemProvider
 				protected:
 					collections::List<GuiListControl::IItemProviderCallback*>	callbacks;
 
-					void										InvokeOnItemModified(int start, int count, int newCount);
+					virtual void								InvokeOnItemModified(int start, int count, int newCount);
 				public:
 					ItemProviderBase();
 					~ItemProviderBase();
@@ -386,72 +387,99 @@ TextList Components
 			{
 				class TextItem
 				{
+					friend class TextItemProvider;
 				protected:
-					WString						text;
-					bool						checked;
-					bool						selected;
-
+					WString										text;
+					bool										checked;
 				public:
 					TextItem();
 					TextItem(const TextItem& item);
-					TextItem(const WString& _text, bool _checked=false, bool _selected=false);
+					TextItem(const WString& _text, bool _checked=false);
 					~TextItem();
 
-					bool						operator==(const TextItem& value)const;
-					bool						operator!=(const TextItem& value)const;
+					bool										operator==(const TextItem& value)const;
+					bool										operator!=(const TextItem& value)const;
 
-					const WString&				GetText()const;
-					bool						GetChecked()const;
-					bool						GetSelected()const;
+					const WString&								GetText()const;
+					bool										GetChecked()const;
 				};
 
 				class TextItemProvider : public ListProvider<TextItem>
 				{
+					friend class TextItemStyleProvider;
+				public:
+					class ICallback : public Interface
+					{
+					public:
+						virtual void							OnItemSelectionChanged(int itemIndex, bool value)=0;
+						virtual void							OnItemSelectionCleared()=0;
+					};
+
+				protected:
+					collections::SortedList<int>				selectedItems;
+					ICallback*									callback;
+
+					void										SetCallback(ICallback* value);
+					void										InvokeOnItemModified(int start, int count, int newCount);
 				public:
 					TextItemProvider();
 					~TextItemProvider();
 					
-					void						SetText(int itemIndex, const WString& value);
-					void						SetChecked(int itemIndex, bool value);
-					void						SetSelected(int itemIndex, bool value);
+					const collections::IReadonlyList<int>&		GetSelectedItems();
+					void										SetText(int itemIndex, const WString& value);
+					void										SetChecked(int itemIndex, bool value);
+					void										SetSelected(int itemIndex, bool value);
+					void										ClearSelection();
 				};
 
-				class TextItemStyleProvider : public Object, public GuiListControl::IItemStyleProvider
+				class TextItemStyleProvider : public Object, public GuiListControl::IItemStyleProvider, protected TextItemProvider::ICallback
 				{
 				public:
-					class IBulletStyleProvider : public Interface
+					class ITextItemStyleProvider : public Interface
 					{
 					public:
+						virtual GuiSelectableButton::IStyleController*		CreateBackgroundStyleController()=0;
 						virtual GuiSelectableButton::IStyleController*		CreateBulletStyleController()=0;
 					};
-
 				protected:
 					class TextItemStyleController : public ItemStyleControllerBase
 					{
 					protected:
 						GuiSelectableButton*					backgroundButton;
 						GuiSelectableButton*					bulletButton;
-						TextItemStyleProvider*					textItemProvider;
+						elements::GuiSolidLabelElement*			textElement;
+						TextItemStyleProvider*					textItemStyleProvider;
 
 						void									OnBackgroundSelectedChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 						void									OnBulletSelectedChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 					public:
-						TextItemStyleController(TextItemStyleProvider* provider, GuiSelectableButton* _bulletButton);
+						TextItemStyleController(TextItemStyleProvider* provider);
 						~TextItemStyleController();
+
+						void									OnInstalled();
+						void									OnUninstalled();
 
 						bool									GetSelected();
 						void									SetSelected(bool value);
 						bool									GetChecked();
 						void									SetChecked(bool value);
+						const WString&							GetText();
+						void									SetText(const WString& value);
 					};
+					
+					friend class collections::ReadonlyListEnumerator<TextItemStyleController*>;
 
-					IBulletStyleProvider*						bulletStyleProvider;
-					TextItemProvider*							textItemProvider;
+					ITextItemStyleProvider*								textItemStyleProvider;
+					TextItemProvider*									textItemProvider;
+					GuiListControl*										listControl;
+					collections::SortedList<TextItemStyleController*>	visibleStyles;
 
-					void										OnSelectedChanged(TextItemStyleController* style);
-					void										OnCheckedChanged(TextItemStyleController* style);
+					void										OnStyleSelectedChanged(TextItemStyleController* style);
+					void										OnStyleCheckedChanged(TextItemStyleController* style);
+					void										OnItemSelectionChanged(int itemIndex, bool value);
+					void										OnItemSelectionCleared();
 				public:
-					TextItemStyleProvider(TextItemProvider* _textItemProvider, IBulletStyleProvider* _bulletStyleProvider);
+					TextItemStyleProvider(ITextItemStyleProvider* _textItemStyleProvider);
 					~TextItemStyleProvider();
 
 					void										AttachListControl(GuiListControl* value);

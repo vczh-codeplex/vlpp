@@ -214,6 +214,7 @@ Buttons
 			protected:
 				IStyleController*						styleController;
 				GroupController*						groupController;
+				bool									autoSelection;
 				bool									isSelected;
 
 				void									OnClicked(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
@@ -225,6 +226,9 @@ Buttons
 
 				virtual GroupController*				GetGroupController();
 				virtual void							SetGroupController(GroupController* value);
+
+				virtual bool							GetAutoSelection();
+				virtual void							SetAutoSelection(bool value);
 
 				virtual bool							GetSelected();
 				virtual void							SetSelected(bool value);

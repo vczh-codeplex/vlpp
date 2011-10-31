@@ -8,6 +8,7 @@ namespace vl
 		namespace controls
 		{
 			using namespace collections;
+			using namespace elements;
 
 /***********************************************************************
 GuiListControl::ItemCallback
@@ -145,6 +146,11 @@ GuiListControl
 					itemArranger->SetCallback(0);
 				}
 				callback->ClearCache();
+			}
+
+			GuiListControl::IItemProvider* GuiListControl::GetItemProvider()
+			{
+				return itemProvider.Obj();
 			}
 
 			GuiListControl::IItemStyleProvider* GuiListControl::GetStyleProvider()
@@ -569,21 +575,18 @@ TextItem
 
 				TextItem::TextItem()
 					:checked(false)
-					,selected(false)
 				{
 				}
 
 				TextItem::TextItem(const TextItem& item)
 					:text(item.text)
 					,checked(item.checked)
-					,selected(item.selected)
 				{
 				}
 
-				TextItem::TextItem(const WString& _text, bool _checked, bool _selected)
+				TextItem::TextItem(const WString& _text, bool _checked)
 					:text(_text)
 					,checked(_checked)
-					,selected(_selected)
 				{
 				}
 
@@ -611,39 +614,251 @@ TextItem
 					return checked;
 				}
 
-				bool TextItem::GetSelected()const
-				{
-					return selected;
-				}
-
 /***********************************************************************
 TextItemProvider
 ***********************************************************************/
 
+				void TextItemProvider::SetCallback(ICallback* value)
+				{
+					callback=value;
+				}
+
+				void TextItemProvider::InvokeOnItemModified(int start, int count, int newCount)
+				{
+					if(count!=newCount)
+					{
+						ClearSelection();
+					}
+				}
+
 				TextItemProvider::TextItemProvider()
+					:callback(0)
 				{
 				}
 
 				TextItemProvider::~TextItemProvider()
 				{
 				}
+
+				const collections::IReadonlyList<int>& TextItemProvider::GetSelectedItems()
+				{
+					return selectedItems.Wrap();
+				}
 					
 				void TextItemProvider::SetText(int itemIndex, const WString& value)
 				{
-					TextItem item=Get(itemIndex);
-					Set(itemIndex, TextItem(value, item.GetChecked(), item.GetSelected()));
+					list[itemIndex].text=value;
+					InvokeOnItemModified(itemIndex, 1, 1);
 				}
 
 				void TextItemProvider::SetChecked(int itemIndex, bool value)
 				{
-					TextItem item=Get(itemIndex);
-					Set(itemIndex, TextItem(item.GetText(), value, item.GetSelected()));
+					list[itemIndex].checked=value;
+					InvokeOnItemModified(itemIndex, 1, 1);
 				}
 
 				void TextItemProvider::SetSelected(int itemIndex, bool value)
 				{
-					TextItem item=Get(itemIndex);
-					Set(itemIndex, TextItem(item.GetText(), item.GetChecked(), value));
+					if(value)
+					{
+						if(!selectedItems.Contains(itemIndex))
+						{
+							selectedItems.Add(itemIndex);
+						}
+					}
+					else
+					{
+						selectedItems.Remove(itemIndex);
+					}
+				}
+
+				void TextItemProvider::ClearSelection()
+				{
+					selectedItems.Clear();
+				}
+
+/***********************************************************************
+TextItemStyleProvider::TextItemStyleController
+***********************************************************************/
+
+				void TextItemStyleProvider::TextItemStyleController::OnBackgroundSelectedChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
+				{
+					textItemStyleProvider->OnStyleSelectedChanged(this);
+				}
+
+				void TextItemStyleProvider::TextItemStyleController::OnBulletSelectedChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
+				{
+					textItemStyleProvider->OnStyleCheckedChanged(this);
+				}
+
+				TextItemStyleProvider::TextItemStyleController::TextItemStyleController(TextItemStyleProvider* provider)
+					:ItemStyleControllerBase(provider, 0)
+					,backgroundButton(0)
+					,bulletButton(0)
+					,textElement(0)
+					,textItemStyleProvider(provider)
+				{
+					backgroundButton=new GuiSelectableButton(textItemStyleProvider->textItemStyleProvider->CreateBackgroundStyleController());
+					backgroundButton->SelectedChanged.AttachMethod(this, &TextItemStyleController::OnBackgroundSelectedChanged);
+					
+					textElement=GuiSolidLabelElement::Create();
+					textElement->SetAlignments(Alignment::Left, Alignment::Center);
+
+					GuiBoundsComposition* textComposition=new GuiBoundsComposition;
+					textComposition->SetOwnedElement(textElement);
+					textComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+
+					GuiSelectableButton::IStyleController* bulletStyleController=textItemStyleProvider->textItemStyleProvider->CreateBulletStyleController();
+					if(bulletStyleController)
+					{
+						bulletButton=new GuiSelectableButton(bulletStyleController);
+						bulletButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+
+						GuiTableComposition* table=new GuiTableComposition;
+						table->SetRowsAndColumns(1, 2);
+						table->SetRowOption(0, GuiCellOption::PercentageOption(1.0));
+						table->SetColumnOption(0, GuiCellOption::MinSizeOption());
+						table->SetColumnOption(1, GuiCellOption::PercentageOption(1.0));
+						{
+							GuiCellComposition* cell=new GuiCellComposition;
+							table->AddChild(cell);
+							cell->SetSite(0, 0, 1, 1);
+							cell->AddChild(bulletButton->GetBoundsComposition());
+						}
+						{
+							GuiCellComposition* cell=new GuiCellComposition;
+							table->AddChild(cell);
+							cell->SetSite(0, 1, 1, 1);
+							cell->AddChild(textComposition);
+						}
+					}
+					else
+					{
+						backgroundButton->GetContainerComposition()->AddChild(textComposition);
+					}
+					Initialize(backgroundButton->GetBoundsComposition(), backgroundButton);
+				}
+
+				TextItemStyleProvider::TextItemStyleController::~TextItemStyleController()
+				{
+				}
+
+				void TextItemStyleProvider::TextItemStyleController::OnInstalled()
+				{
+					ItemStyleControllerBase::OnInstalled();
+					textItemStyleProvider->visibleStyles.Add(this);
+				}
+
+				void TextItemStyleProvider::TextItemStyleController::OnUninstalled()
+				{
+					textItemStyleProvider->visibleStyles.Remove(this);
+					ItemStyleControllerBase::OnUninstalled();
+				}
+
+				bool TextItemStyleProvider::TextItemStyleController::GetSelected()
+				{
+					return backgroundButton->GetSelected();
+				}
+
+				void TextItemStyleProvider::TextItemStyleController::SetSelected(bool value)
+				{
+					backgroundButton->SetSelected(value);
+				}
+
+				bool TextItemStyleProvider::TextItemStyleController::GetChecked()
+				{
+					return bulletButton?bulletButton->GetSelected():false;
+				}
+
+				void TextItemStyleProvider::TextItemStyleController::SetChecked(bool value)
+				{
+					if(bulletButton) bulletButton->SetSelected(value);
+				}
+				
+				const WString& TextItemStyleProvider::TextItemStyleController::GetText()
+				{
+					return textElement->GetText();
+				}
+
+				void TextItemStyleProvider::TextItemStyleController::SetText(const WString& value)
+				{
+					textElement->SetText(value);
+				}
+
+/***********************************************************************
+TextItemStyleProvider
+***********************************************************************/
+
+				void TextItemStyleProvider::OnStyleSelectedChanged(TextItemStyleController* style)
+				{
+				}
+
+				void TextItemStyleProvider::OnStyleCheckedChanged(TextItemStyleController* style)
+				{
+				}
+
+				void TextItemStyleProvider::OnItemSelectionChanged(int itemIndex, bool value)
+				{
+					GuiListControl::IItemStyleController* style=listControl->GetArranger()->GetVisibleStyle(itemIndex);
+					if(style)
+					{
+						dynamic_cast<TextItemStyleController*>(style)->SetSelected(value);
+					}
+				}
+
+				void TextItemStyleProvider::OnItemSelectionCleared()
+				{
+					for(int i=0;i<visibleStyles.Count();i++)
+					{
+						visibleStyles[i]->SetSelected(false);
+					}
+				}
+
+				TextItemStyleProvider::TextItemStyleProvider(ITextItemStyleProvider* _textItemStyleProvider)
+					:textItemStyleProvider(_textItemStyleProvider)
+					,textItemProvider(0)
+					,listControl(0)
+				{
+				}
+
+				TextItemStyleProvider::~TextItemStyleProvider()
+				{
+				}
+
+				void TextItemStyleProvider::AttachListControl(GuiListControl* value)
+				{
+					listControl=value;
+					textItemProvider=dynamic_cast<TextItemProvider*>(value->GetItemProvider());
+					textItemProvider->SetCallback(this);
+				}
+
+				void TextItemStyleProvider::DetachListControl()
+				{
+					textItemProvider->SetCallback(0);
+					listControl=0;
+				}
+
+				int TextItemStyleProvider::GetItemStyleId(int itemIndex)
+				{
+					return 0;
+				}
+
+				GuiListControl::IItemStyleController* TextItemStyleProvider::CreateItemStyle(int styleId)
+				{
+					return new TextItemStyleController(this);
+				}
+
+				void TextItemStyleProvider::DestroyItemStyle(GuiListControl::IItemStyleController* style)
+				{
+					delete dynamic_cast<TextItemStyleController*>(style);
+				}
+
+				void TextItemStyleProvider::Install(GuiListControl::IItemStyleController* style, int itemIndex)
+				{
+					TextItemStyleController* textStyle=dynamic_cast<TextItemStyleController*>(style);
+					const TextItem& item=textItemProvider->Get(itemIndex);
+					textStyle->SetText(item.GetText());
+					textStyle->SetChecked(item.GetChecked());
 				}
 			}
 		}
