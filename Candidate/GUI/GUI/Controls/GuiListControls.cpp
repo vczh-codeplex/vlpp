@@ -44,6 +44,7 @@ GuiListControl::ItemCallback
 
 			void GuiListControl::ItemCallback::OnItemModified(int start, int count, int newCount)
 			{
+				listControl->OnItemModified(start, count, newCount);
 			}
 
 			GuiListControl::IItemStyleController* GuiListControl::ItemCallback::RequestItem(int itemIndex)
@@ -67,6 +68,7 @@ GuiListControl::ItemCallback
 				listControl->itemStyleProvider->Install(style, itemIndex);
 				style->OnInstalled();
 				installedStyles.Add(style);
+				listControl->OnStyleInstalled(style);
 				return style;
 			}
 
@@ -75,6 +77,7 @@ GuiListControl::ItemCallback
 				int index=installedStyles.IndexOf(style);
 				if(index!=-1)
 				{
+					listControl->OnStyleUninstalled(style);
 					installedStyles.RemoveAt(index);
 					style->OnUninstalled();
 					if(style->IsCacheable())
@@ -107,6 +110,18 @@ GuiListControl::ItemCallback
 /***********************************************************************
 GuiListControl
 ***********************************************************************/
+
+			void GuiListControl::OnItemModified(int start, int count, int newCount)
+			{
+			}
+
+			void GuiListControl::OnStyleInstalled(IItemStyleController* style)
+			{
+			}
+
+			void GuiListControl::OnStyleUninstalled(IItemStyleController* style)
+			{
+			}
 
 			void GuiListControl::OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget)
 			{
@@ -222,6 +237,110 @@ GuiListControl
 					itemArranger->OnItemModified(0, itemProvider->Count(), itemProvider->Count());
 				}
 				return old;
+			}
+
+/***********************************************************************
+GuiSelectableListControl::StyleEvents
+***********************************************************************/
+
+			void GuiSelectableListControl::StyleEvents::OnBoundsLeftButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments)
+			{
+			}
+
+			GuiSelectableListControl::StyleEvents::StyleEvents(GuiSelectableListControl* _listControl, IItemStyleController* _style)
+				:listControl(_listControl)
+				,style(_style)
+			{
+				leftButtonDownHandler=style->GetBoundsComposition()->GetEventReceiver()->leftButtonDown.AttachMethod(this, &StyleEvents::OnBoundsLeftButtonDown);
+			}
+
+			GuiSelectableListControl::StyleEvents::~StyleEvents()
+			{
+				style->GetBoundsComposition()->GetEventReceiver()->leftButtonDown.Detach(leftButtonDownHandler);
+			}
+
+/***********************************************************************
+GuiSelectableListControl
+***********************************************************************/
+
+			void GuiSelectableListControl::OnItemModified(int start, int count, int newCount)
+			{
+				if(count!=newCount)
+				{
+					ClearSelection();
+				}
+			}
+
+			void GuiSelectableListControl::OnStyleInstalled(IItemStyleController* style)
+			{
+				visibleStyles.Add(style, new StyleEvents(this, style));
+			}
+
+			void GuiSelectableListControl::OnStyleUninstalled(IItemStyleController* style)
+			{
+				visibleStyles.Remove(style);
+			}
+
+			void GuiSelectableListControl::OnItemSelectionChanged(int itemIndex, bool value)
+			{
+				GuiListControl::IItemStyleController* style=itemArranger->GetVisibleStyle(itemIndex);
+				if(style)
+				{
+					selectableStyleProvider->SetStyleSelected(style, value);
+				}
+			}
+
+			void GuiSelectableListControl::OnItemSelectionCleared()
+			{
+				for(int i=0;i<visibleStyles.Count();i++)
+				{
+					selectableStyleProvider->SetStyleSelected(visibleStyles.Keys()[i], false);
+				}
+			}
+
+			GuiSelectableListControl::GuiSelectableListControl(IStyleProvider* _styleProvider, IItemProvider* _itemProvider)
+				:GuiListControl(_styleProvider, _itemProvider)
+			{
+			}
+
+			GuiSelectableListControl::~GuiSelectableListControl()
+			{
+			}
+
+			Ptr<GuiListControl::IItemStyleProvider> GuiSelectableListControl::SetStyleProvider(Ptr<GuiListControl::IItemStyleProvider> value)
+			{
+				selectableStyleProvider=value?value.Cast<IItemStyleProvider>():0;
+				return GuiListControl::SetStyleProvider(value);
+			}
+
+			const collections::IReadonlyList<int>& GuiSelectableListControl::GetSelectedItems()
+			{
+				return selectedItems.Wrap();
+			}
+
+			bool GuiSelectableListControl::GetSelected(int itemIndex)
+			{
+				return selectedItems.Contains(itemIndex);
+			}
+
+			void GuiSelectableListControl::SetSelected(int itemIndex, bool value)
+			{
+				if(value)
+				{
+					if(!selectedItems.Contains(itemIndex))
+					{
+						selectedItems.Add(itemIndex);
+					}
+				}
+				else
+				{
+					selectedItems.Remove(itemIndex);
+				}
+			}
+
+			void GuiSelectableListControl::ClearSelection()
+			{
+				selectedItems.Clear();
 			}
 
 			namespace list
@@ -618,31 +737,12 @@ TextItem
 TextItemProvider
 ***********************************************************************/
 
-				void TextItemProvider::SetCallback(ICallback* value)
-				{
-					callback=value;
-				}
-
-				void TextItemProvider::InvokeOnItemModified(int start, int count, int newCount)
-				{
-					if(count!=newCount)
-					{
-						ClearSelection();
-					}
-				}
-
 				TextItemProvider::TextItemProvider()
-					:callback(0)
 				{
 				}
 
 				TextItemProvider::~TextItemProvider()
 				{
-				}
-
-				const collections::IReadonlyList<int>& TextItemProvider::GetSelectedItems()
-				{
-					return selectedItems.Wrap();
 				}
 					
 				void TextItemProvider::SetText(int itemIndex, const WString& value)
@@ -657,34 +757,9 @@ TextItemProvider
 					InvokeOnItemModified(itemIndex, 1, 1);
 				}
 
-				void TextItemProvider::SetSelected(int itemIndex, bool value)
-				{
-					if(value)
-					{
-						if(!selectedItems.Contains(itemIndex))
-						{
-							selectedItems.Add(itemIndex);
-						}
-					}
-					else
-					{
-						selectedItems.Remove(itemIndex);
-					}
-				}
-
-				void TextItemProvider::ClearSelection()
-				{
-					selectedItems.Clear();
-				}
-
 /***********************************************************************
 TextItemStyleProvider::TextItemStyleController
 ***********************************************************************/
-
-				void TextItemStyleProvider::TextItemStyleController::OnBackgroundSelectedChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
-				{
-					textItemStyleProvider->OnStyleSelectedChanged(this);
-				}
 
 				void TextItemStyleProvider::TextItemStyleController::OnBulletSelectedChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 				{
@@ -699,7 +774,7 @@ TextItemStyleProvider::TextItemStyleController
 					,textItemStyleProvider(provider)
 				{
 					backgroundButton=new GuiSelectableButton(textItemStyleProvider->textItemStyleProvider->CreateBackgroundStyleController());
-					backgroundButton->SelectedChanged.AttachMethod(this, &TextItemStyleController::OnBackgroundSelectedChanged);
+					backgroundButton->SetAutoSelection(false);
 					
 					textElement=GuiSolidLabelElement::Create();
 					textElement->SetAlignments(Alignment::Left, Alignment::Center);
@@ -743,18 +818,6 @@ TextItemStyleProvider::TextItemStyleController
 				{
 				}
 
-				void TextItemStyleProvider::TextItemStyleController::OnInstalled()
-				{
-					ItemStyleControllerBase::OnInstalled();
-					textItemStyleProvider->visibleStyles.Add(this);
-				}
-
-				void TextItemStyleProvider::TextItemStyleController::OnUninstalled()
-				{
-					textItemStyleProvider->visibleStyles.Remove(this);
-					ItemStyleControllerBase::OnUninstalled();
-				}
-
 				bool TextItemStyleProvider::TextItemStyleController::GetSelected()
 				{
 					return backgroundButton->GetSelected();
@@ -789,29 +852,8 @@ TextItemStyleProvider::TextItemStyleController
 TextItemStyleProvider
 ***********************************************************************/
 
-				void TextItemStyleProvider::OnStyleSelectedChanged(TextItemStyleController* style)
-				{
-				}
-
 				void TextItemStyleProvider::OnStyleCheckedChanged(TextItemStyleController* style)
 				{
-				}
-
-				void TextItemStyleProvider::OnItemSelectionChanged(int itemIndex, bool value)
-				{
-					GuiListControl::IItemStyleController* style=listControl->GetArranger()->GetVisibleStyle(itemIndex);
-					if(style)
-					{
-						dynamic_cast<TextItemStyleController*>(style)->SetSelected(value);
-					}
-				}
-
-				void TextItemStyleProvider::OnItemSelectionCleared()
-				{
-					for(int i=0;i<visibleStyles.Count();i++)
-					{
-						visibleStyles[i]->SetSelected(false);
-					}
 				}
 
 				TextItemStyleProvider::TextItemStyleProvider(ITextItemStyleProvider* _textItemStyleProvider)
@@ -829,12 +871,10 @@ TextItemStyleProvider
 				{
 					listControl=value;
 					textItemProvider=dynamic_cast<TextItemProvider*>(value->GetItemProvider());
-					textItemProvider->SetCallback(this);
 				}
 
 				void TextItemStyleProvider::DetachListControl()
 				{
-					textItemProvider->SetCallback(0);
 					listControl=0;
 				}
 
@@ -859,6 +899,12 @@ TextItemStyleProvider
 					const TextItem& item=textItemProvider->Get(itemIndex);
 					textStyle->SetText(item.GetText());
 					textStyle->SetChecked(item.GetChecked());
+				}
+
+				void TextItemStyleProvider::SetStyleSelected(GuiListControl::IItemStyleController* style, bool value)
+				{
+					TextItemStyleController* textStyle=dynamic_cast<TextItemStyleController*>(style);
+					textStyle->SetSelected(value);
 				}
 			}
 		}
