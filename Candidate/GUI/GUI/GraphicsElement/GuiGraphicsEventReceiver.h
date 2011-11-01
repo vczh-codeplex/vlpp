@@ -132,7 +132,8 @@ Event
 					{
 						if((*currentHandler)->handler==handler)
 						{
-							(*currentHandler)=(*currentHandler)->next;
+							Ptr<HandlerNode> next=(*currentHandler)->next;
+							(*currentHandler)=next;
 							return true;
 						}
 						else

@@ -800,10 +800,12 @@ TextItemStyleProvider::TextItemStyleController
 					
 					textElement=GuiSolidLabelElement::Create();
 					textElement->SetAlignments(Alignment::Left, Alignment::Center);
+					textElement->SetFont(backgroundButton->GetFont());
 
 					GuiBoundsComposition* textComposition=new GuiBoundsComposition;
 					textComposition->SetOwnedElement(textElement);
 					textComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+					textComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElement);
 
 					GuiSelectableButton::IStyleController* bulletStyleController=textItemStyleProvider->textItemStyleProvider->CreateBulletStyleController();
 					if(bulletStyleController)

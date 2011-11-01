@@ -351,7 +351,11 @@ GuiSolidLabelElementRenderer
 				if(renderTarget)
 				{
 					renderTarget->GetDC()->SetFont(font);
-					SIZE size=renderTarget->GetDC()->MeasureString(element->GetText());
+					const WString& text=element->GetText();
+					SIZE size=text.Length()==0
+						?renderTarget->GetDC()->MeasureBuffer(L" ")
+						:renderTarget->GetDC()->MeasureString(text)
+						;
 					minSize=Size(size.cx, size.cy);
 				}
 				else
