@@ -68,7 +68,7 @@ GuiListControl::ItemCallback
 				listControl->itemStyleProvider->Install(style, itemIndex);
 				style->OnInstalled();
 				installedStyles.Add(style);
-				listControl->OnStyleInstalled(style);
+				listControl->OnStyleInstalled(itemIndex, style);
 				return style;
 			}
 
@@ -115,7 +115,7 @@ GuiListControl
 			{
 			}
 
-			void GuiListControl::OnStyleInstalled(IItemStyleController* style)
+			void GuiListControl::OnStyleInstalled(int itemIndex, IItemStyleController* style)
 			{
 			}
 
@@ -245,6 +245,18 @@ GuiSelectableListControl::StyleEvents
 
 			void GuiSelectableListControl::StyleEvents::OnBoundsLeftButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments)
 			{
+				if(listControl->multiSelect)
+				{
+				}
+				else
+				{
+					int index=listControl->GetArranger()->GetVisibleIndex(style);
+					if(index!=-1)
+					{
+						listControl->ClearSelection();
+						listControl->SetSelected(index, true);
+					}
+				}
 			}
 
 			GuiSelectableListControl::StyleEvents::StyleEvents(GuiSelectableListControl* _listControl, IItemStyleController* _style)
@@ -286,11 +298,12 @@ GuiSelectableListControl
 				}
 			}
 
-			void GuiSelectableListControl::OnStyleInstalled(IItemStyleController* style)
+			void GuiSelectableListControl::OnStyleInstalled(int itemIndex, IItemStyleController* style)
 			{
 				StyleEvents* styleEvents=new StyleEvents(this, style);
 				styleEvents->AttachEvents();
 				visibleStyles.Add(style, styleEvents);
+				selectableStyleProvider->SetStyleSelected(style, selectedItems.Contains(itemIndex));
 			}
 
 			void GuiSelectableListControl::OnStyleUninstalled(IItemStyleController* style)
@@ -322,6 +335,7 @@ GuiSelectableListControl
 
 			GuiSelectableListControl::GuiSelectableListControl(IStyleProvider* _styleProvider, IItemProvider* _itemProvider)
 				:GuiListControl(_styleProvider, _itemProvider)
+				,multiSelect(false)
 			{
 			}
 
@@ -333,6 +347,20 @@ GuiSelectableListControl
 			{
 				selectableStyleProvider=value?value.Cast<IItemStyleProvider>():0;
 				return GuiListControl::SetStyleProvider(value);
+			}
+
+			bool GuiSelectableListControl::GetMultiSelect()
+			{
+				return multiSelect;
+			}
+
+			void GuiSelectableListControl::SetMultiSelect(bool value)
+			{
+				if(multiSelect!=value)
+				{
+					multiSelect=value;
+					ClearSelection();
+				}
 			}
 
 			const collections::IReadonlyList<int>& GuiSelectableListControl::GetSelectedItems()
@@ -358,11 +386,13 @@ GuiSelectableListControl
 				{
 					selectedItems.Remove(itemIndex);
 				}
+				OnItemSelectionChanged(itemIndex, value);
 			}
 
 			void GuiSelectableListControl::ClearSelection()
 			{
 				selectedItems.Clear();
+				OnItemSelectionCleared();
 			}
 
 			namespace list

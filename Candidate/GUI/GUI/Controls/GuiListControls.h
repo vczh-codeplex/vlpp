@@ -129,7 +129,7 @@ List Control
 				Ptr<IItemArranger>								itemArranger;
 
 				virtual void									OnItemModified(int start, int count, int newCount);
-				virtual void									OnStyleInstalled(IItemStyleController* style);
+				virtual void									OnStyleInstalled(int itemIndex, IItemStyleController* style);
 				virtual void									OnStyleUninstalled(IItemStyleController* style);
 				
 				void											OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget);
@@ -180,9 +180,10 @@ List Control
 				Ptr<IItemStyleProvider>							selectableStyleProvider;
 				collections::SortedList<int>					selectedItems;
 				VisibleStyleMap									visibleStyles;
+				bool											multiSelect;
 
 				void											OnItemModified(int start, int count, int newCount);
-				void											OnStyleInstalled(IItemStyleController* style);
+				void											OnStyleInstalled(int itemIndex, IItemStyleController* style);
 				void											OnStyleUninstalled(IItemStyleController* style);
 				virtual void									OnItemSelectionChanged(int itemIndex, bool value);
 				virtual void									OnItemSelectionCleared();
@@ -191,6 +192,9 @@ List Control
 				~GuiSelectableListControl();
 
 				Ptr<GuiListControl::IItemStyleProvider>			SetStyleProvider(Ptr<GuiListControl::IItemStyleProvider> value);
+
+				bool											GetMultiSelect();
+				void											SetMultiSelect(bool value);
 				
 				const collections::IReadonlyList<int>&			GetSelectedItems();
 				bool											GetSelected(int itemIndex);
