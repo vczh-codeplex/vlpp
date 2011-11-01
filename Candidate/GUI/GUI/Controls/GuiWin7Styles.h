@@ -3,7 +3,22 @@ Vczh Library++ 3.0
 Developer: ³Âè÷å«(vczh)
 GacUI::Control Styles::Windows7 Styles
 
-Interfaces:
+Clases:
+	GuiControl::IStyleController
+		Win7WindowStyle
+		Win7GroupBoxStyle
+	GuiButton::IStyleController
+		Win7ButtonStyle(vertical|horizontal)
+	GuiSelectableButton::IStyleController
+		Win7CheckBoxStyle(check|radio)
+	GuiScroll::IStyleController
+		Win7ScrollStyle
+		Win7TrackStyle
+	GuiScrollView::IStyleProvider
+		Win7ScrollViewProvider
+		Win7MultilineTextBoxProvider
+	GuiSinglelineTextBox::IStyleProvider
+		Win7SinglelineTextBoxProvider
 ***********************************************************************/
 
 #ifndef VCZH_PRESENTATION_CONTROLS_GUIWIN7STYLES
@@ -57,12 +72,15 @@ Button Configuration
 
 				static Win7ButtonColors						Blend(const Win7ButtonColors& c1, const Win7ButtonColors& c2, int ratio, int total);
 
-				static Win7ButtonColors						Normal();
-				static Win7ButtonColors						ItemActive();
-				static Win7ButtonColors						ItemSelected();
+				static Win7ButtonColors						ButtonNormal();
 				static Win7ButtonColors						ButtonActive();
 				static Win7ButtonColors						ButtonPressed();
-				static Win7ButtonColors						Disabled();
+				static Win7ButtonColors						ButtonDisabled();
+				
+				static Win7ButtonColors						ItemNormal();
+				static Win7ButtonColors						ItemActive();
+				static Win7ButtonColors						ItemSelected();
+				static Win7ButtonColors						ItemDisabled();
 				
 				static Win7ButtonColors						CheckedNormal(bool selected);
 				static Win7ButtonColors						CheckedActive(bool selected);
@@ -80,7 +98,7 @@ Button Configuration
 				elements::GuiBoundsComposition*				textComposition;
 				elements::GuiBoundsComposition*				mainComposition;
 
-				static Win7ButtonElements					Create(bool verticalGradient);
+				static Win7ButtonElements					Create(bool verticalGradient, Alignment::Type horizontal=Alignment::Center, Alignment::Type vertical=Alignment::Center);
 				void										Apply(const Win7ButtonColors& colors);
 			};
 
@@ -134,7 +152,7 @@ Helpers
 			extern Color									Win7GetSystemBorderColor();
 			extern Color									Win7GetSystemTextColor(bool enabled);
 			extern void										Win7SetFont(elements::GuiSolidLabelElement* element, elements::GuiBoundsComposition* composition, const FontProperties& fontProperties);
-			extern void										Win7CreateSolidLabelElement(elements::GuiSolidLabelElement*& element, elements::GuiBoundsComposition*& composition);
+			extern void										Win7CreateSolidLabelElement(elements::GuiSolidLabelElement*& element, elements::GuiBoundsComposition*& composition, Alignment::Type horizontal, Alignment::Type vertical);
 
 /***********************************************************************
 Animation
@@ -259,6 +277,32 @@ Buttons
 			public:
 				Win7CheckBoxStyle(BulletStyle bulletStyle);
 				~Win7CheckBoxStyle();
+
+				elements::GuiBoundsComposition*				GetBoundsComposition();
+				elements::GuiGraphicsComposition*			GetContainerComposition();
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value);
+				void										SetText(const WString& value);
+				void										SetFont(const FontProperties& value);
+				void										SetVisuallyEnabled(bool value);
+				void										SetSelected(bool value);
+				void										Transfer(controls::GuiButton::ControlState value);
+			};
+
+			class Win7SelectableItemStyle : public Object, public controls::GuiSelectableButton::IStyleController
+			{
+			protected:
+				DEFINE_TRANSFERRING_ANIMATION(Win7ButtonColors, Win7SelectableItemStyle)
+
+				Win7ButtonElements							elements;
+				Ptr<TransferringAnimation>					transferringAnimation;
+				controls::GuiButton::ControlState			controlStyle;
+				bool										isVisuallyEnabled;
+				bool										isSelected;
+
+				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected);
+			public:
+				Win7SelectableItemStyle();
+				~Win7SelectableItemStyle();
 
 				elements::GuiBoundsComposition*				GetBoundsComposition();
 				elements::GuiGraphicsComposition*			GetContainerComposition();

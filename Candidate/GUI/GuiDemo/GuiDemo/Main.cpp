@@ -97,7 +97,7 @@ void SetupMainPanel(GuiControlHost* host, GuiCellComposition* cell)
 			checkBox->SetText(L"CheckBox 1");
 		}
 		{
-			GuiButton* checkBox=new GuiButton(new win7::Win7ButtonStyle());
+			GuiSelectableButton* checkBox=new GuiSelectableButton(new win7::Win7SelectableItemStyle());
 			groupBox->GetContainerComposition()->AddChild(checkBox->GetBoundsComposition());
 			checkBox->GetBoundsComposition()->SetAlignmentToParent(Margin(10, 40, 10, -1));
 			checkBox->SetText(L"CheckBox 2");
@@ -446,9 +446,9 @@ void GuiMain()
 		));
 
 	GuiControlHost host(new win7::Win7WindowStyle);
-	//SetupWindow(&host);
+	SetupWindow(&host);
 	//SetupTextBoxWindow(&host);
-	SetupListControlWindow(&host);
+	//SetupListControlWindow(&host);
 	host.SetNativeWindow(window);
 
 	GetCurrentController()->Run(window);
