@@ -336,91 +336,19 @@ void SetupTextBoxWindow(GuiControlHost* host)
 	host->GetBoundsComposition()->AddChild(textBox->GetBoundsComposition());
 }
 
-class ButtonStyleProvider : public Object, public GuiListControl::IItemStyleProvider
-{
-protected:
-
-	class ItemStyleController : public list::ItemStyleControllerBase
-	{
-	public:
-		ItemStyleController(ButtonStyleProvider* provider)
-			:ItemStyleControllerBase(provider, 0)
-		{
-			GuiButton* button=new GuiButton(new win7::Win7ButtonStyle);
-			Initialize(button->GetBoundsComposition(), button);
-		}
-
-		~ItemStyleController()
-		{
-		}
-
-		void Assign(const WString& text)
-		{
-			associatedControl->SetText(text);
-		}
-	};
-
-protected:
-	list::ListWrapperProvider<WString>*				itemProvider;
-public:
-	ButtonStyleProvider(list::ListWrapperProvider<WString>* _itemProvider)
-		:itemProvider(_itemProvider)
-	{
-	}
-
-	void AttachListControl(GuiListControl* value)
-	{
-	}
-
-	void DetachListControl()
-	{
-	}
-
-	int GetItemStyleId(int itemIndex)
-	{
-		return 0;
-	}
-
-	GuiListControl::IItemStyleController* CreateItemStyle(int styleId)
-	{
-		return styleId==0?new ItemStyleController(this):0;
-	}
-
-	void DestroyItemStyle(GuiListControl::IItemStyleController* style)
-	{
-		if(style->GetStyleProvider()==this)
-		{
-			delete style;
-		}
-	}
-
-	void Install(GuiListControl::IItemStyleController* style, int itemIndex)
-	{
-		ItemStyleController* itemStyleController=dynamic_cast<ItemStyleController*>(style);
-		if(itemStyleController)
-		{
-			itemStyleController->Assign(itemProvider->Get(itemIndex));
-		}
-	}
-};
-
 void SetupListControlWindow(GuiControlHost* host)
 {
 	host->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 
-	list::ListProvider<WString>* itemProvider=new list::ListProvider<WString>;
-	GuiListControl* listControl=new GuiListControl(new win7::Win7ScrollViewProvider, itemProvider);
-	listControl->SetStyleProvider(new ButtonStyleProvider(itemProvider));
-	listControl->SetArranger(new list::FixedHeightItemArranger);
-
+	GuiTextList* listControl=new GuiTextList(new win7::Win7MultilineTextBoxProvider, new win7::Win7TextListProvider);
 	listControl->GetBoundsComposition()->SetAlignmentToParent(Margin(5, 5, 5, 5));
 	listControl->GetBoundsComposition()->SetBounds(Rect(0, 0, 300, 200));
 	listControl->SetHorizontalAlwaysVisible(false);
 	host->GetBoundsComposition()->AddChild(listControl->GetBoundsComposition());
 
-	for(int i=0;i<10;i++)
+	for(int i=0;i<20;i++)
 	{
-		itemProvider->Add(L"Button Item "+itow(i+1));
+		listControl->GetItems().Add(L"Text Item "+itow(i+1));
 	}
 }
 
@@ -447,9 +375,9 @@ void GuiMain()
 		));
 
 	GuiControlHost host(new win7::Win7WindowStyle);
-	SetupWindow(&host);
+	//SetupWindow(&host);
 	//SetupTextBoxWindow(&host);
-	//SetupListControlWindow(&host);
+	SetupListControlWindow(&host);
 	host.SetNativeWindow(window);
 
 	GetCurrentController()->Run(window);

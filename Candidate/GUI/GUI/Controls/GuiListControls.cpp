@@ -251,12 +251,27 @@ GuiSelectableListControl::StyleEvents
 				:listControl(_listControl)
 				,style(_style)
 			{
-				leftButtonDownHandler=style->GetBoundsComposition()->GetEventReceiver()->leftButtonDown.AttachMethod(this, &StyleEvents::OnBoundsLeftButtonDown);
 			}
 
 			GuiSelectableListControl::StyleEvents::~StyleEvents()
 			{
-				style->GetBoundsComposition()->GetEventReceiver()->leftButtonDown.Detach(leftButtonDownHandler);
+			}
+
+			void GuiSelectableListControl::StyleEvents::AttachEvents()
+			{
+				if(!leftButtonDownHandler)
+				{
+					leftButtonDownHandler=style->GetBoundsComposition()->GetEventReceiver()->leftButtonDown.AttachMethod(this, &StyleEvents::OnBoundsLeftButtonDown);
+				}
+			}
+
+			void GuiSelectableListControl::StyleEvents::DetachEvents()
+			{
+				if(leftButtonDownHandler)
+				{
+					style->GetBoundsComposition()->GetEventReceiver()->leftButtonDown.Detach(leftButtonDownHandler);
+					leftButtonDownHandler=0;
+				}
 			}
 
 /***********************************************************************
@@ -273,12 +288,19 @@ GuiSelectableListControl
 
 			void GuiSelectableListControl::OnStyleInstalled(IItemStyleController* style)
 			{
-				visibleStyles.Add(style, new StyleEvents(this, style));
+				StyleEvents* styleEvents=new StyleEvents(this, style);
+				styleEvents->AttachEvents();
+				visibleStyles.Add(style, styleEvents);
 			}
 
 			void GuiSelectableListControl::OnStyleUninstalled(IItemStyleController* style)
 			{
-				visibleStyles.Remove(style);
+				int index=visibleStyles.Keys().IndexOf(style);
+				if(index!=-1)
+				{
+					visibleStyles.Values()[index]->DetachEvents();
+					visibleStyles.Remove(style);
+				}
 			}
 
 			void GuiSelectableListControl::OnItemSelectionChanged(int itemIndex, bool value)
@@ -906,6 +928,28 @@ TextItemStyleProvider
 					TextItemStyleController* textStyle=dynamic_cast<TextItemStyleController*>(style);
 					textStyle->SetSelected(value);
 				}
+			}
+
+/***********************************************************************
+GuiTextList
+***********************************************************************/
+
+			GuiTextList::GuiTextList(IStyleProvider* _styleProvider, list::TextItemStyleProvider::ITextItemStyleProvider* _itemStyleProvider)
+				:GuiSelectableListControl(_styleProvider, new list::TextItemProvider)
+				,items(0)
+			{
+				items=dynamic_cast<list::TextItemProvider*>(itemProvider.Obj());
+				SetStyleProvider(new list::TextItemStyleProvider(_itemStyleProvider));
+				SetArranger(new list::FixedHeightItemArranger);
+			}
+
+			GuiTextList::~GuiTextList()
+			{
+			}
+
+			list::TextItemProvider& GuiTextList::GetItems()
+			{
+				return *items;
 			}
 		}
 	}

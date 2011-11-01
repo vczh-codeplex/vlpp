@@ -1571,6 +1571,28 @@ Win7SinglelineTextBoxProvider
 			{
 				return background.InstallBackground(boundsComposition);
 			}
+
+/***********************************************************************
+Win7TextListProvider
+***********************************************************************/
+			
+			Win7TextListProvider::Win7TextListProvider()
+			{
+			}
+
+			Win7TextListProvider::~Win7TextListProvider()
+			{
+			}
+
+			controls::GuiSelectableButton::IStyleController* Win7TextListProvider::CreateBackgroundStyleController()
+			{
+				return new Win7SelectableItemStyle;
+			}
+
+			controls::GuiSelectableButton::IStyleController* Win7TextListProvider::CreateBulletStyleController()
+			{
+				return 0;
+			}
 		}
 	}
 }
