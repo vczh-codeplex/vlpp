@@ -167,6 +167,9 @@ List Control
 				public:
 					StyleEvents(GuiSelectableListControl* _listControl, IItemStyleController* _style);
 					~StyleEvents();
+
+					void										AttachEvents();
+					void										DetachEvents();
 				};
 
 				friend class collections::ReadonlyListEnumerator<Ptr<StyleEvents>>;
@@ -498,7 +501,7 @@ TextList Components
 					
 					friend class collections::ReadonlyListEnumerator<TextItemStyleController*>;
 
-					ITextItemStyleProvider*						textItemStyleProvider;
+					Ptr<ITextItemStyleProvider>					textItemStyleProvider;
 					TextItemProvider*							textItemProvider;
 					GuiListControl*								listControl;
 
@@ -516,6 +519,17 @@ TextList Components
 					void										SetStyleSelected(GuiListControl::IItemStyleController* style, bool value);
 				};
 			}
+
+			class GuiTextList : public GuiSelectableListControl
+			{
+			protected:
+				list::TextItemProvider*							items;
+			public:
+				GuiTextList(IStyleProvider* _styleProvider, list::TextItemStyleProvider::ITextItemStyleProvider* _itemStyleProvider);
+				~GuiTextList();
+
+				list::TextItemProvider&							GetItems();
+			};
 		}
 	}
 }

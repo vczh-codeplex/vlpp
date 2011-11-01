@@ -429,6 +429,20 @@ Scrolls
 				void										SetVisuallyEnabled(bool value);
 				elements::GuiGraphicsComposition*			InstallBackground(elements::GuiBoundsComposition* boundsComposition);
 			};
+
+/***********************************************************************
+Lists
+***********************************************************************/
+
+			class Win7TextListProvider : public Object, public controls::list::TextItemStyleProvider::ITextItemStyleProvider
+			{
+			public:
+				Win7TextListProvider();
+				~Win7TextListProvider();
+
+				controls::GuiSelectableButton::IStyleController*		CreateBackgroundStyleController();
+				controls::GuiSelectableButton::IStyleController*		CreateBulletStyleController();
+			};
 		}
 	}
 }
