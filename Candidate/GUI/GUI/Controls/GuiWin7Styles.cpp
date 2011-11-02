@@ -1515,7 +1515,10 @@ Win7MultilineTextBoxProvider
 			{
 				background.SetFocusableComposition(value);
 				GuiMultilineTextBox::StyleController* textBoxController=dynamic_cast<GuiMultilineTextBox::StyleController*>(styleController);
-				background.InitializeTextElement(textBoxController->GetTextElement());
+				if(textBoxController)
+				{
+					background.InitializeTextElement(textBoxController->GetTextElement());
+				}
 			}
 
 			void Win7MultilineTextBoxProvider::SetVisuallyEnabled(bool value)
