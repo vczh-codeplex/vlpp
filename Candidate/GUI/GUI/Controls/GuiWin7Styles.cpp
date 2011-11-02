@@ -362,7 +362,7 @@ Win7ButtonElements
 Win7CheckedButtonElements
 ***********************************************************************/
 
-			Win7CheckedButtonElements Win7CheckedButtonElements::Create(elements::ElementShape::Type shape)
+			Win7CheckedButtonElements Win7CheckedButtonElements::Create(elements::ElementShape::Type shape, bool backgroundVisible)
 			{
 				const int checkSize=13;
 				const int checkPadding=2;
@@ -373,12 +373,14 @@ Win7CheckedButtonElements
 					button.mainComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 				}
 				{
-					GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
-					element->SetColor(Win7GetSystemWindowColor());
-
 					GuiTableComposition* mainTable=new GuiTableComposition;
 					button.mainComposition->AddChild(mainTable);
-					mainTable->SetOwnedElement(element);
+					if(backgroundVisible)
+					{
+						GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
+						element->SetColor(Win7GetSystemWindowColor());
+						mainTable->SetOwnedElement(element);
+					}
 					mainTable->SetRowsAndColumns(1, 2);
 					mainTable->SetAlignmentToParent(Margin(0, 0, 0, 0));
 					mainTable->SetRowOption(0, GuiCellOption::PercentageOption(1.0));
@@ -984,13 +986,13 @@ Win7CheckBoxStyle
 				}
 			}
 
-			Win7CheckBoxStyle::Win7CheckBoxStyle(BulletStyle bulletStyle)
+			Win7CheckBoxStyle::Win7CheckBoxStyle(BulletStyle bulletStyle, bool backgroundVisible)
 				:controlStyle(GuiButton::Normal)
 				,isVisuallyEnabled(true)
 				,isSelected(false)
 			{
 				Win7ButtonColors initialColor=Win7ButtonColors::CheckedNormal(isSelected);
-				elements=Win7CheckedButtonElements::Create(bulletStyle==CheckBox?ElementShape::Rectangle:ElementShape::Ellipse);
+				elements=Win7CheckedButtonElements::Create(bulletStyle==CheckBox?ElementShape::Rectangle:ElementShape::Ellipse, backgroundVisible);
 				elements.Apply(initialColor);
 				transferringAnimation=new TransferringAnimation(this, initialColor);
 			}
@@ -1595,6 +1597,40 @@ Win7TextListProvider
 			controls::GuiSelectableButton::IStyleController* Win7TextListProvider::CreateBulletStyleController()
 			{
 				return 0;
+			}
+
+/***********************************************************************
+Win7CheckTextListProvider
+***********************************************************************/
+
+			Win7CheckTextListProvider::Win7CheckTextListProvider()
+			{
+			}
+
+			Win7CheckTextListProvider::~Win7CheckTextListProvider()
+			{
+			}
+
+			controls::GuiSelectableButton::IStyleController* Win7CheckTextListProvider::CreateBulletStyleController()
+			{
+				return new Win7CheckBoxStyle(Win7CheckBoxStyle::CheckBox, false);
+			}
+
+/***********************************************************************
+Win7RadioTextListProvider
+***********************************************************************/
+
+			Win7RadioTextListProvider::Win7RadioTextListProvider()
+			{
+			}
+
+			Win7RadioTextListProvider::~Win7RadioTextListProvider()
+			{
+			}
+
+			controls::GuiSelectableButton::IStyleController* Win7RadioTextListProvider::CreateBulletStyleController()
+			{
+				return new Win7CheckBoxStyle(Win7CheckBoxStyle::RadioButton, false);
 			}
 		}
 	}

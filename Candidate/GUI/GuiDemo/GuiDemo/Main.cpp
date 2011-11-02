@@ -362,6 +362,7 @@ void SetupListControlWindow(GuiControlHost* host)
 		for(int i=0;i<20;i++)
 		{
 			listControl->GetItems().Add(L"Text Item "+itow(i+1));
+			listControl->GetItems().SetChecked(i, i%2==0);
 		}
 	}
 	{
@@ -376,8 +377,23 @@ void SetupListControlWindow(GuiControlHost* host)
 		typeList->GetItems().Add(L"Radio List");
 		typeList->SetSelected(0, true);
 
-		typeList->SelectionChanged.AttachLambda([listControl](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
+		typeList->SelectionChanged.AttachLambda([listControl, typeList](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
 		{
+			if(typeList->GetSelectedItems().Count()>0)
+			{
+				switch(typeList->GetSelectedItems()[0])
+				{
+				case 0:
+					listControl->ChangeItemStyle(new win7::Win7TextListProvider);
+					break;
+				case 1:
+					listControl->ChangeItemStyle(new win7::Win7CheckTextListProvider);
+					break;
+				case 2:
+					listControl->ChangeItemStyle(new win7::Win7RadioTextListProvider);
+					break;
+				}
+			}
 		});
 	}
 }

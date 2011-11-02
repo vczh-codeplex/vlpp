@@ -114,7 +114,7 @@ Button Configuration
 				elements::GuiBoundsComposition*				textComposition;
 				elements::GuiBoundsComposition*				mainComposition;
 
-				static Win7CheckedButtonElements			Create(elements::ElementShape::Type shape);
+				static Win7CheckedButtonElements			Create(elements::ElementShape::Type shape, bool backgroundVisible);
 				void										Apply(const Win7ButtonColors& colors);
 			};
 
@@ -275,7 +275,7 @@ Buttons
 
 				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected);
 			public:
-				Win7CheckBoxStyle(BulletStyle bulletStyle);
+				Win7CheckBoxStyle(BulletStyle bulletStyle, bool backgroundVisible=true);
 				~Win7CheckBoxStyle();
 
 				elements::GuiBoundsComposition*				GetBoundsComposition();
@@ -441,6 +441,24 @@ Lists
 				~Win7TextListProvider();
 
 				controls::GuiSelectableButton::IStyleController*		CreateBackgroundStyleController();
+				controls::GuiSelectableButton::IStyleController*		CreateBulletStyleController();
+			};
+
+			class Win7CheckTextListProvider : public Win7TextListProvider
+			{
+			public:
+				Win7CheckTextListProvider();
+				~Win7CheckTextListProvider();
+
+				controls::GuiSelectableButton::IStyleController*		CreateBulletStyleController();
+			};
+
+			class Win7RadioTextListProvider : public Win7TextListProvider
+			{
+			public:
+				Win7RadioTextListProvider();
+				~Win7RadioTextListProvider();
+
 				controls::GuiSelectableButton::IStyleController*		CreateBulletStyleController();
 			};
 		}
