@@ -153,6 +153,35 @@ GuiListControl
 				}
 			}
 
+			void GuiListControl::SetStyleProviderAndArranger(Ptr<IItemStyleProvider> styleProvider, Ptr<IItemArranger> arranger)
+			{
+				if(itemStyleProvider)
+				{
+					itemStyleProvider->DetachListControl();
+				}
+				if(itemArranger)
+				{
+					itemProvider->DetachCallback(itemArranger.Obj());
+					itemArranger->SetCallback(0);
+				}
+				callback->ClearCache();
+
+				itemStyleProvider=styleProvider;
+				itemArranger=arranger;
+				GetVerticalScroll()->SetPosition(0);
+				GetHorizontalScroll()->SetPosition(0);
+
+				if(itemStyleProvider)
+				{
+					itemStyleProvider->AttachListControl(this);
+				}
+				if(itemArranger)
+				{
+					itemArranger->SetCallback(callback.Obj());
+					itemProvider->AttachCallback(itemArranger.Obj());
+				}
+			}
+
 			GuiListControl::GuiListControl(IStyleProvider* _styleProvider, IItemProvider* _itemProvider, bool acceptFocus)
 				:GuiScrollView(_styleProvider)
 				,itemProvider(_itemProvider)
@@ -174,7 +203,6 @@ GuiListControl
 				if(itemArranger)
 				{
 					itemProvider->DetachCallback(itemArranger.Obj());
-					itemArranger->SetCallback(0);
 				}
 				callback->ClearCache();
 			}
@@ -192,31 +220,7 @@ GuiListControl
 			Ptr<GuiListControl::IItemStyleProvider> GuiListControl::SetStyleProvider(Ptr<IItemStyleProvider> value)
 			{
 				Ptr<IItemStyleProvider> old=itemStyleProvider;
-				if(itemStyleProvider)
-				{
-					itemStyleProvider->DetachListControl();
-					if(itemArranger)
-					{
-						itemArranger->SetCallback(0);
-					}
-					callback->ClearCache();
-				}
-				itemStyleProvider=value;
-				if(itemStyleProvider)
-				{
-					if(itemArranger)
-					{
-						itemProvider->AttachCallback(itemArranger.Obj());
-					}
-					itemStyleProvider->AttachListControl(this);
-				}
-
-				GetVerticalScroll()->SetPosition(0);
-				GetHorizontalScroll()->SetPosition(0);
-				if(itemArranger)
-				{
-					itemArranger->OnItemModified(0, itemProvider->Count(), itemProvider->Count());
-				}
+				SetStyleProviderAndArranger(value, itemArranger);
 				return old;
 			}
 
@@ -228,30 +232,7 @@ GuiListControl
 			Ptr<GuiListControl::IItemArranger> GuiListControl::SetArranger(Ptr<IItemArranger> value)
 			{
 				Ptr<IItemArranger> old=itemArranger;
-				if(itemArranger)
-				{
-					itemArranger->DetachListControl();
-					itemProvider->DetachCallback(itemArranger.Obj());
-					itemArranger->SetCallback(0);
-					callback->ClearCache();
-				}
-				itemArranger=value;
-				if(itemArranger)
-				{
-					if(itemStyleProvider)
-					{
-						itemArranger->SetCallback(callback.Obj());
-					}
-					itemProvider->AttachCallback(itemArranger.Obj());
-					itemArranger->AttachListControl(this);
-				}
-
-				GetVerticalScroll()->SetPosition(0);
-				GetHorizontalScroll()->SetPosition(0);
-				if(itemArranger)
-				{
-					itemArranger->OnItemModified(0, itemProvider->Count(), itemProvider->Count());
-				}
+				SetStyleProviderAndArranger(itemStyleProvider, value);
 				return old;
 			}
 
@@ -528,9 +509,7 @@ FixedHeightItemArranger
 						else
 						{
 							ClearStyles();
-							suppressOnViewChanged=true;
 							callback->OnTotalSizeChanged();
-							suppressOnViewChanged=false;
 							callback->SetViewLocation(Point(0, 0));
 						}
 					}
@@ -543,11 +522,11 @@ FixedHeightItemArranger
 
 				void FixedHeightItemArranger::SetCallback(GuiListControl::IItemArrangerCallback* value)
 				{
-					callback=value;
-					if(!callback)
+					if(!value)
 					{
 						ClearStyles();
 					}
+					callback=value;
 				}
 
 				Size FixedHeightItemArranger::GetTotalSize()
@@ -828,6 +807,11 @@ TextItem
 TextItemProvider
 ***********************************************************************/
 
+				void TextItemProvider::SetCheckedSilently(int itemIndex, bool value)
+				{
+					list[itemIndex].checked=value;
+				}
+
 				TextItemProvider::TextItemProvider()
 				{
 				}
@@ -844,7 +828,7 @@ TextItemProvider
 
 				void TextItemProvider::SetChecked(int itemIndex, bool value)
 				{
-					list[itemIndex].checked=value;
+					SetCheckedSilently(itemIndex, value);
 					InvokeOnItemModified(itemIndex, 1, 1);
 				}
 
@@ -873,7 +857,6 @@ TextItemStyleProvider::TextItemStyleController
 
 					GuiBoundsComposition* textComposition=new GuiBoundsComposition;
 					textComposition->SetOwnedElement(textElement);
-					textComposition->SetAlignmentToParent(Margin(5, 0, 0, 0));
 					textComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElement);
 
 					GuiSelectableButton::IStyleController* bulletStyleController=textItemStyleProvider->textItemStyleProvider->CreateBulletStyleController();
@@ -881,8 +864,12 @@ TextItemStyleProvider::TextItemStyleController
 					{
 						bulletButton=new GuiSelectableButton(bulletStyleController);
 						bulletButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+						bulletButton->SelectedChanged.AttachMethod(this, &TextItemStyleController::OnBulletSelectedChanged);
 
 						GuiTableComposition* table=new GuiTableComposition;
+						backgroundButton->GetContainerComposition()->AddChild(table);
+						table->SetAlignmentToParent(Margin(0, 0, 0, 0));
+						table->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 						table->SetRowsAndColumns(1, 2);
 						table->SetRowOption(0, GuiCellOption::PercentageOption(1.0));
 						table->SetColumnOption(0, GuiCellOption::MinSizeOption());
@@ -898,11 +885,13 @@ TextItemStyleProvider::TextItemStyleController
 							table->AddChild(cell);
 							cell->SetSite(0, 1, 1, 1);
 							cell->AddChild(textComposition);
+							textComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
 						}
 					}
 					else
 					{
 						backgroundButton->GetContainerComposition()->AddChild(textComposition);
+						textComposition->SetAlignmentToParent(Margin(5, 0, 0, 0));
 					}
 					Initialize(backgroundButton->GetBoundsComposition(), backgroundButton);
 				}
@@ -947,6 +936,11 @@ TextItemStyleProvider
 
 				void TextItemStyleProvider::OnStyleCheckedChanged(TextItemStyleController* style)
 				{
+					int index=listControl->GetArranger()->GetVisibleIndex(style);
+					if(index!=-1)
+					{
+						textItemProvider->SetCheckedSilently(index, style->GetChecked());
+					}
 				}
 
 				TextItemStyleProvider::TextItemStyleProvider(ITextItemStyleProvider* _textItemStyleProvider)
@@ -1010,12 +1004,36 @@ GuiTextList
 				,items(0)
 			{
 				items=dynamic_cast<list::TextItemProvider*>(itemProvider.Obj());
-				SetStyleProvider(new list::TextItemStyleProvider(_itemStyleProvider));
+				ChangeItemStyle(_itemStyleProvider);
 				SetArranger(new list::FixedHeightItemArranger);
 			}
 
 			GuiTextList::~GuiTextList()
 			{
+			}
+
+			Ptr<GuiListControl::IItemStyleProvider> GuiTextList::SetStyleProvider(Ptr<GuiListControl::IItemStyleProvider> value)
+			{
+				if(value.Cast<list::TextItemStyleProvider>())
+				{
+					return GuiSelectableListControl::SetStyleProvider(value);
+				}
+				else
+				{
+					return 0;
+				}
+			}
+
+			Ptr<GuiListControl::IItemStyleProvider> GuiTextList::ChangeItemStyle(list::TextItemStyleProvider::ITextItemStyleProvider* itemStyleProvider)
+			{
+				if(itemStyleProvider)
+				{
+					return SetStyleProvider(new list::TextItemStyleProvider(itemStyleProvider));
+				}
+				else
+				{
+					return 0;
+				}
 			}
 
 			list::TextItemProvider& GuiTextList::GetItems()

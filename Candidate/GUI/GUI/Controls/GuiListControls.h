@@ -137,6 +137,7 @@ List Control
 				void											UpdateView(Rect viewBounds);
 				
 				void											OnBoundsMouseButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
+				void											SetStyleProviderAndArranger(Ptr<IItemStyleProvider> styleProvider, Ptr<IItemArranger> arranger);
 			public:
 				GuiListControl(IStyleProvider* _styleProvider, IItemProvider* _itemProvider, bool acceptFocus=false);
 				~GuiListControl();
@@ -469,6 +470,9 @@ TextList Components
 
 				class TextItemProvider : public ListProvider<TextItem>
 				{
+					friend class TextItemStyleProvider;
+				protected:
+					void										SetCheckedSilently(int itemIndex, bool value);
 				public:
 					TextItemProvider();
 					~TextItemProvider();
@@ -536,7 +540,9 @@ TextList Components
 			public:
 				GuiTextList(IStyleProvider* _styleProvider, list::TextItemStyleProvider::ITextItemStyleProvider* _itemStyleProvider);
 				~GuiTextList();
-
+				
+				Ptr<GuiListControl::IItemStyleProvider>			SetStyleProvider(Ptr<GuiListControl::IItemStyleProvider> value);
+				Ptr<GuiListControl::IItemStyleProvider>			ChangeItemStyle(list::TextItemStyleProvider::ITextItemStyleProvider* itemStyleProvider);
 				list::TextItemProvider&							GetItems();
 			};
 		}
