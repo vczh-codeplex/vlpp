@@ -1,5 +1,9 @@
 #include "..\..\GUI\GacUI.h"
 
+/***********************************************************************
+SetupWindow
+***********************************************************************/
+
 void SetupMainPanel(GuiControlHost* host, GuiCellComposition* cell)
 {
 	{
@@ -327,6 +331,10 @@ void SetupWindow(GuiControlHost* host)
 	}
 }
 
+/***********************************************************************
+SetupTextBoxWindow
+***********************************************************************/
+
 void SetupTextBoxWindow(GuiControlHost* host)
 {
 	host->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
@@ -336,21 +344,47 @@ void SetupTextBoxWindow(GuiControlHost* host)
 	host->GetBoundsComposition()->AddChild(textBox->GetBoundsComposition());
 }
 
+/***********************************************************************
+SetupListControlWindow
+***********************************************************************/
+
 void SetupListControlWindow(GuiControlHost* host)
 {
 	host->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
-
-	GuiTextList* listControl=new GuiTextList(new win7::Win7MultilineTextBoxProvider, new win7::Win7TextListProvider);
-	listControl->GetBoundsComposition()->SetAlignmentToParent(Margin(5, 5, 5, 5));
-	listControl->GetBoundsComposition()->SetBounds(Rect(0, 0, 300, 200));
-	listControl->SetHorizontalAlwaysVisible(false);
-	host->GetBoundsComposition()->AddChild(listControl->GetBoundsComposition());
-
-	for(int i=0;i<20;i++)
+	GuiTextList* listControl=0;
 	{
-		listControl->GetItems().Add(L"Text Item "+itow(i+1));
+		listControl=new GuiTextList(new win7::Win7MultilineTextBoxProvider, new win7::Win7TextListProvider);
+		listControl->GetBoundsComposition()->SetAlignmentToParent(Margin(200, 5, 5, 5));
+		listControl->GetBoundsComposition()->SetBounds(Rect(0, 0, 300, 200));
+		listControl->SetHorizontalAlwaysVisible(false);
+		host->GetBoundsComposition()->AddChild(listControl->GetBoundsComposition());
+
+		for(int i=0;i<20;i++)
+		{
+			listControl->GetItems().Add(L"Text Item "+itow(i+1));
+		}
+	}
+	{
+		GuiTextList* typeList=new GuiTextList(new win7::Win7MultilineTextBoxProvider, new win7::Win7TextListProvider);
+		typeList->GetBoundsComposition()->SetAlignmentToParent(Margin(5, 5, -1, 5));
+		typeList->GetBoundsComposition()->SetBounds(Rect(0, 0, 190, 200));
+		typeList->SetHorizontalAlwaysVisible(false);
+		host->GetBoundsComposition()->AddChild(typeList->GetBoundsComposition());
+
+		typeList->GetItems().Add(L"Text List");
+		typeList->GetItems().Add(L"Check List");
+		typeList->GetItems().Add(L"Radio List");
+		typeList->SetSelected(0, true);
+
+		typeList->SelectionChanged.AttachLambda([listControl](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
+		{
+		});
 	}
 }
+
+/***********************************************************************
+GuiMain
+***********************************************************************/
 
 void GuiMain()
 {

@@ -135,8 +135,10 @@ List Control
 				void											OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget);
 				Size											QueryFullSize();
 				void											UpdateView(Rect viewBounds);
+				
+				void											OnBoundsMouseButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
 			public:
-				GuiListControl(IStyleProvider* _styleProvider, IItemProvider* _itemProvider);
+				GuiListControl(IStyleProvider* _styleProvider, IItemProvider* _itemProvider, bool acceptFocus=false);
 				~GuiListControl();
 
 				virtual IItemProvider*							GetItemProvider();
@@ -190,6 +192,8 @@ List Control
 			public:
 				GuiSelectableListControl(IStyleProvider* _styleProvider, IItemProvider* _itemProvider);
 				~GuiSelectableListControl();
+
+				elements::GuiNotifyEvent						SelectionChanged;
 
 				Ptr<GuiListControl::IItemStyleProvider>			SetStyleProvider(Ptr<GuiListControl::IItemStyleProvider> value);
 
@@ -453,6 +457,7 @@ TextList Components
 					TextItem();
 					TextItem(const TextItem& item);
 					TextItem(const WString& _text, bool _checked=false);
+					TextItem(const wchar_t* _text, bool _checked=false);
 					~TextItem();
 
 					bool										operator==(const TextItem& value)const;

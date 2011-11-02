@@ -145,12 +145,28 @@ GuiListControl
 				}
 			}
 
-			GuiListControl::GuiListControl(IStyleProvider* _styleProvider, IItemProvider* _itemProvider)
+			void GuiListControl::OnBoundsMouseButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments)
+			{
+				if(GetVisuallyEnabled())
+				{
+					boundsComposition->GetRelatedGraphicsHost()->SetFocus(boundsComposition);
+				}
+			}
+
+			GuiListControl::GuiListControl(IStyleProvider* _styleProvider, IItemProvider* _itemProvider, bool acceptFocus)
 				:GuiScrollView(_styleProvider)
 				,itemProvider(_itemProvider)
 			{
 				callback=new ItemCallback(this);
 				itemProvider->AttachCallback(callback.Obj());
+
+				if(acceptFocus)
+				{
+					boundsComposition->GetEventReceiver()->leftButtonDown.AttachMethod(this, &GuiListControl::OnBoundsMouseButtonDown);
+					boundsComposition->GetEventReceiver()->middleButtonDown.AttachMethod(this, &GuiListControl::OnBoundsMouseButtonDown);
+					boundsComposition->GetEventReceiver()->rightButtonDown.AttachMethod(this, &GuiListControl::OnBoundsMouseButtonDown);
+					SetFocusableComposition(boundsComposition);
+				}
 			}
 
 			GuiListControl::~GuiListControl()
@@ -245,16 +261,18 @@ GuiSelectableListControl::StyleEvents
 
 			void GuiSelectableListControl::StyleEvents::OnBoundsLeftButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments)
 			{
-				if(listControl->multiSelect)
+				if(listControl->GetVisuallyEnabled())
 				{
-				}
-				else
-				{
-					int index=listControl->GetArranger()->GetVisibleIndex(style);
-					if(index!=-1)
+					if(listControl->multiSelect)
 					{
-						listControl->ClearSelection();
-						listControl->SetSelected(index, true);
+					}
+					else
+					{
+						int index=listControl->GetArranger()->GetVisibleIndex(style);
+						if(index!=-1)
+						{
+							listControl->SetSelected(index, true);
+						}
 					}
 				}
 			}
@@ -334,9 +352,10 @@ GuiSelectableListControl
 			}
 
 			GuiSelectableListControl::GuiSelectableListControl(IStyleProvider* _styleProvider, IItemProvider* _itemProvider)
-				:GuiListControl(_styleProvider, _itemProvider)
+				:GuiListControl(_styleProvider, _itemProvider, true)
 				,multiSelect(false)
 			{
+				SelectionChanged.SetAssociatedComposition(boundsComposition);
 			}
 
 			GuiSelectableListControl::~GuiSelectableListControl()
@@ -379,20 +398,34 @@ GuiSelectableListControl
 				{
 					if(!selectedItems.Contains(itemIndex))
 					{
+						if(!multiSelect)
+						{
+							selectedItems.Clear();
+							OnItemSelectionCleared();
+						}
 						selectedItems.Add(itemIndex);
+						OnItemSelectionChanged(itemIndex, value);
+						SelectionChanged.Execute(GetNotifyEventArguments());
 					}
 				}
 				else
 				{
-					selectedItems.Remove(itemIndex);
+					if(selectedItems.Remove(itemIndex))
+					{
+						OnItemSelectionChanged(itemIndex, value);
+						SelectionChanged.Execute(GetNotifyEventArguments());
+					}
 				}
-				OnItemSelectionChanged(itemIndex, value);
 			}
 
 			void GuiSelectableListControl::ClearSelection()
 			{
-				selectedItems.Clear();
-				OnItemSelectionCleared();
+				if(selectedItems.Count()>0)
+				{
+					selectedItems.Clear();
+					OnItemSelectionCleared();
+					SelectionChanged.Execute(GetNotifyEventArguments());
+				}
 			}
 
 			namespace list
@@ -761,6 +794,12 @@ TextItem
 				{
 				}
 
+				TextItem::TextItem(const wchar_t* _text, bool _checked)
+					:text(_text)
+					,checked(_checked)
+				{
+				}
+
 				TextItem::~TextItem()
 				{
 				}
@@ -834,7 +873,7 @@ TextItemStyleProvider::TextItemStyleController
 
 					GuiBoundsComposition* textComposition=new GuiBoundsComposition;
 					textComposition->SetOwnedElement(textElement);
-					textComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+					textComposition->SetAlignmentToParent(Margin(5, 0, 0, 0));
 					textComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElement);
 
 					GuiSelectableButton::IStyleController* bulletStyleController=textItemStyleProvider->textItemStyleProvider->CreateBulletStyleController();
