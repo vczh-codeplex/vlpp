@@ -180,6 +180,7 @@ GuiListControl
 					itemArranger->SetCallback(callback.Obj());
 					itemProvider->AttachCallback(itemArranger.Obj());
 				}
+				CalculateView();
 			}
 
 			GuiListControl::GuiListControl(IStyleProvider* _styleProvider, IItemProvider* _itemProvider, bool acceptFocus)
