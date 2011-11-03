@@ -69,6 +69,9 @@ GuiTextElementOperator
 
 			void GuiTextElementOperator::Move(TextPos pos, bool shift)
 			{
+				TextPos oldBegin=textElement->GetCaretBegin();
+				TextPos oldEnd=textElement->GetCaretEnd();
+
 				pos=textElement->lines.Normalize(pos);
 				if(!shift)
 				{
@@ -104,7 +107,10 @@ GuiTextElementOperator
 
 				if(textBoxCommonInterface)
 				{
-					textBoxCommonInterface->RaiseSelectionChanged();
+					if(oldBegin!=textElement->GetCaretBegin() || oldEnd!=textElement->GetCaretEnd())
+					{
+						textBoxCommonInterface->RaiseSelectionChanged();
+					}
 				}
 			}
 
