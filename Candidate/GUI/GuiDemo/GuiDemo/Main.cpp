@@ -335,6 +335,9 @@ void SetupWindow(GuiControlHost* host)
 SetupTextBoxWindow
 ***********************************************************************/
 
+int textBoxTextChangedCounter=0;
+int textBoxSelectionChangedCounter=0;
+
 void SetupTextBoxWindow(GuiControlHost* host)
 {
 	host->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
@@ -342,6 +345,21 @@ void SetupTextBoxWindow(GuiControlHost* host)
 	textBox->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
 	textBox->GetBoundsComposition()->SetBounds(Rect(0, 0, 300, 200));
 	host->GetBoundsComposition()->AddChild(textBox->GetBoundsComposition());
+
+	int& textChangedCounter=textBoxTextChangedCounter;
+	int& selectionChangedCounter=textBoxSelectionChangedCounter;
+
+	textBox->TextChanged.AttachLambda([&textChangedCounter, &selectionChangedCounter, host](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
+	{
+		textChangedCounter++;
+		host->GetNativeWindow()->SetTitle(L"TextChanged["+itow(textChangedCounter)+L"], SelectionChanged["+itow(selectionChangedCounter)+L"]");
+	});
+
+	textBox->SelectionChanged.AttachLambda([&textChangedCounter, &selectionChangedCounter, host](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
+	{
+		selectionChangedCounter++;
+		host->GetNativeWindow()->SetTitle(L"TextChanged["+itow(textChangedCounter)+L"], SelectionChanged["+itow(selectionChangedCounter)+L"]");
+	});
 }
 
 /***********************************************************************
@@ -426,8 +444,8 @@ void GuiMain()
 
 	GuiControlHost host(new win7::Win7WindowStyle);
 	//SetupWindow(&host);
-	//SetupTextBoxWindow(&host);
-	SetupListControlWindow(&host);
+	SetupTextBoxWindow(&host);
+	//SetupListControlWindow(&host);
 	host.SetNativeWindow(window);
 
 	GetCurrentController()->Run(window);

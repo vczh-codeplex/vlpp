@@ -17,6 +17,13 @@ namespace vl
 	{
 		namespace controls
 		{
+
+/***********************************************************************
+Common Operations
+***********************************************************************/
+
+			class GuiTextBoxCommonInterface;
+
 			class GuiTextElementOperator : public Object
 			{
 			public:
@@ -53,6 +60,7 @@ namespace vl
 				elements::GuiColorizedTextElement*			textElement;
 				elements::GuiGraphicsComposition*			textComposition;
 				GuiControl*									textControl;
+				GuiTextBoxCommonInterface*					textBoxCommonInterface;
 				ICallback*									callback;
 				bool										dragging;
 
@@ -77,8 +85,13 @@ namespace vl
 				void										Install(elements::GuiColorizedTextElement* _textElement, elements::GuiGraphicsComposition* _textComposition, GuiControl* _textControl);
 				ICallback*									GetCallback();
 				void										SetCallback(ICallback* value);
-				TextPos										GetNearestTextPos(Point point);
+				GuiTextBoxCommonInterface*					GetTextBoxCommonInterface();
+				void										SetTextBoxCommonInterface(GuiTextBoxCommonInterface* value);
 
+				elements::GuiColorizedTextElement*			GetTextElement();
+				elements::GuiGraphicsComposition*			GetTextComposition();
+				TextPos										GetNearestTextPos(Point point);
+				void										Select(TextPos begin, TextPos end);
 				WString										GetSelectionText();
 				void										SetSelectionText(const WString& value);
 
@@ -91,7 +104,58 @@ namespace vl
 				bool										Paste();
 			};
 
-			class GuiMultilineTextBox : public GuiScrollView
+			class GuiTextBoxCommonInterface
+			{
+				friend class GuiTextElementOperator;
+			protected:
+				GuiTextElementOperator*						textElementOperator;
+				GuiControl*									textControl;
+
+				void										RaiseTextChanged();
+				void										RaiseSelectionChanged();
+				void										InitializeCommonInterface(GuiControl* _textControl, GuiTextElementOperator* _textElementOperator);
+			public:
+				GuiTextBoxCommonInterface();
+				~GuiTextBoxCommonInterface();
+
+				elements::GuiNotifyEvent					SelectionChanged;
+
+				elements::GuiGraphicsComposition*			GetTextComposition();
+
+				bool										CanCut();
+				bool										CanCopy();
+				bool										CanPaste();
+				void										SelectAll();
+				bool										Cut();
+				bool										Copy();
+				bool										Paste();
+				
+				WString										GetRowText(int row);
+				WString										GetFragmentText(TextPos start, TextPos end);
+				int											GetRowWidth(int row);
+				int											GetRowHeight();
+				int											GetMaxWidth();
+				int											GetMaxHeight();
+				TextPos										GetTextPosFromPoint(Point point);
+				Point										GetPointFromTextPos(TextPos pos);
+				Rect										GetRectFromTextPos(TextPos pos);
+				TextPos										GetNearestTextPos(Point point);
+
+				TextPos										GetCaretBegin();
+				TextPos										GetCaretEnd();
+				TextPos										GetCaretSmall();
+				TextPos										GetCaretLarge();
+				void										Select(TextPos begin, TextPos end);
+
+				WString										GetSelectionText();
+				void										SetSelectionText(const WString& value);
+			};
+
+/***********************************************************************
+TextBox
+***********************************************************************/
+
+			class GuiMultilineTextBox : public GuiScrollView, public GuiTextBoxCommonInterface
 			{
 			public:
 				static const int							TextMargin=3;
@@ -150,7 +214,7 @@ namespace vl
 				void										SetFont(const FontProperties& value);
 			};
 
-			class GuiSinglelineTextBox : public GuiControl
+			class GuiSinglelineTextBox : public GuiControl, public GuiTextBoxCommonInterface
 			{
 			public:
 				static const int							TextMargin=3;
