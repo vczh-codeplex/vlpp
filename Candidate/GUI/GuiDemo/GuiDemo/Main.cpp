@@ -346,19 +346,16 @@ void SetupTextBoxWindow(GuiControlHost* host)
 	textBox->GetBoundsComposition()->SetBounds(Rect(0, 0, 300, 200));
 	host->GetBoundsComposition()->AddChild(textBox->GetBoundsComposition());
 
-	int& textChangedCounter=textBoxTextChangedCounter;
-	int& selectionChangedCounter=textBoxSelectionChangedCounter;
-
-	textBox->TextChanged.AttachLambda([&textChangedCounter, &selectionChangedCounter, host](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
+	textBox->TextChanged.AttachLambda([host](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
 	{
-		textChangedCounter++;
-		host->GetNativeWindow()->SetTitle(L"TextChanged["+itow(textChangedCounter)+L"], SelectionChanged["+itow(selectionChangedCounter)+L"]");
+		textBoxTextChangedCounter++;
+		host->GetNativeWindow()->SetTitle(L"TextChanged["+itow(textBoxTextChangedCounter)+L"], SelectionChanged["+itow(textBoxSelectionChangedCounter)+L"]");
 	});
 
-	textBox->SelectionChanged.AttachLambda([&textChangedCounter, &selectionChangedCounter, host](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
+	textBox->SelectionChanged.AttachLambda([host](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
 	{
-		selectionChangedCounter++;
-		host->GetNativeWindow()->SetTitle(L"TextChanged["+itow(textChangedCounter)+L"], SelectionChanged["+itow(selectionChangedCounter)+L"]");
+		textBoxSelectionChangedCounter++;
+		host->GetNativeWindow()->SetTitle(L"TextChanged["+itow(textBoxTextChangedCounter)+L"], SelectionChanged["+itow(textBoxSelectionChangedCounter)+L"]");
 	});
 }
 
