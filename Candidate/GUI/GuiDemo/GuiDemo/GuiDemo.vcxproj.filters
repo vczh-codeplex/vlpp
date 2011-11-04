@@ -73,6 +73,9 @@
     <Filter Include="GUI\GraphicsElement\WindowsDirect2D">
       <UniqueIdentifier>{68d7a26e-c451-4931-8e38-c45fc51d30d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI\Controls\ExtendedControls">
+      <UniqueIdentifier>{e25cb3d6-f85e-4cc6-bb1b-6698cd0a6500}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -167,6 +170,9 @@
     </ClCompile>
     <ClCompile Include="..\..\GUI\Controls\GuiListControls.cpp">
       <Filter>GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiTextList.cpp">
+      <Filter>GUI\Controls\ExtendedControls</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -325,6 +331,9 @@
     </ClInclude>
     <ClInclude Include="..\..\GUI\GacUI.h">
       <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiTextList.h">
+      <Filter>GUI\Controls\ExtendedControls</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
