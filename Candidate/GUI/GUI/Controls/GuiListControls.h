@@ -60,6 +60,8 @@ List Control
 					virtual bool								AttachCallback(IItemProviderCallback* value)=0;
 					virtual bool								DetachCallback(IItemProviderCallback* value)=0;
 					virtual int									Count()=0;
+					virtual Interface*							RequestView(const WString& identifier)=0;
+					virtual void								ReleaseView(Interface* view)=0;
 				};
 
 				class IItemStyleController : public Interface
