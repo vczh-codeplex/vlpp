@@ -1,5 +1,4 @@
 #include "GuiListControls.h"
-#include "..\..\..\..\Library\Collections\OperationCopyFrom.h"
 
 namespace vl
 {

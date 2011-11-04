@@ -10,8 +10,6 @@ Interfaces:
 #define VCZH_PRESENTATION_ELEMENTS_GUIGRAPHICSELEMENT
 
 #include "..\NativeWindow\GuiNativeWindow.h"
-#include "..\..\..\..\Library\Pointer.h"
-#include "..\..\..\..\Library\Collections\Dictionary.h"
 
 namespace vl
 {

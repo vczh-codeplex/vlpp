@@ -223,6 +223,7 @@
     <ClInclude Include="..\..\GUI\Controls\GuiTextControls.h" />
     <ClInclude Include="..\..\GUI\Controls\GuiWin7Styles.h" />
     <ClInclude Include="..\..\GUI\GacUI.h" />
+    <ClInclude Include="..\..\GUI\GacVlppReferences.h" />
     <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsComposition.h" />
     <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsElement.h" />
     <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsEventReceiver.h" />

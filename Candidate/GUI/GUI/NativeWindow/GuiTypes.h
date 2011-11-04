@@ -9,8 +9,7 @@ Classes:
 #ifndef VCZH_PRESENTATION_GUITYPES
 #define VCZH_PRESENTATION_GUITYPES
 
-#include "..\..\..\..\Library\Basic.h"
-#include "..\..\..\..\Library\String.h"
+#include "..\GacVlppReferences.h"
 
 namespace vl
 {
