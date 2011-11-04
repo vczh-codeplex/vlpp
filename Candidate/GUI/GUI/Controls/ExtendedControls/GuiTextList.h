@@ -17,45 +17,8 @@ namespace vl
 	{
 		namespace controls
 		{
-
-/***********************************************************************
-TextList Data Source
-***********************************************************************/
-
 			namespace list
 			{
-				class TextItem
-				{
-					friend class TextItemProvider;
-				protected:
-					WString										text;
-					bool										checked;
-				public:
-					TextItem();
-					TextItem(const TextItem& item);
-					TextItem(const WString& _text, bool _checked=false);
-					TextItem(const wchar_t* _text, bool _checked=false);
-					~TextItem();
-
-					bool										operator==(const TextItem& value)const;
-					bool										operator!=(const TextItem& value)const;
-
-					const WString&								GetText()const;
-					bool										GetChecked()const;
-				};
-
-				class TextItemProvider : public ListProvider<TextItem>
-				{
-					friend class TextItemStyleProvider;
-				protected:
-					void										SetCheckedSilently(int itemIndex, bool value);
-				public:
-					TextItemProvider();
-					~TextItemProvider();
-					
-					void										SetText(int itemIndex, const WString& value);
-					void										SetChecked(int itemIndex, bool value);
-				};
 
 /***********************************************************************
 TextList Style Provider
@@ -70,6 +33,16 @@ TextList Style Provider
 						virtual GuiSelectableButton::IStyleController*		CreateBackgroundStyleController()=0;
 						virtual GuiSelectableButton::IStyleController*		CreateBulletStyleController()=0;
 					};
+
+					class ITextItemView : public Interface
+					{
+					public:
+						virtual const WString&					GetText(int itemIndex)=0;
+						virtual bool							GetChecked(int itemIndex)=0;
+						virtual void							SetCheckedSilently(int itemIndex, bool value)=0;
+					};
+
+					static const wchar_t*						ITextItemViewIdentifier;
 				protected:
 					class TextItemStyleController : public ItemStyleControllerBase
 					{
@@ -95,7 +68,7 @@ TextList Style Provider
 					friend class collections::ReadonlyListEnumerator<TextItemStyleController*>;
 
 					Ptr<ITextItemStyleProvider>					textItemStyleProvider;
-					TextItemProvider*							textItemProvider;
+					ITextItemView*								textItemView;
 					GuiListControl*								listControl;
 
 					void										OnStyleCheckedChanged(TextItemStyleController* style);
@@ -110,6 +83,47 @@ TextList Style Provider
 					void										DestroyItemStyle(GuiListControl::IItemStyleController* style);
 					void										Install(GuiListControl::IItemStyleController* style, int itemIndex);
 					void										SetStyleSelected(GuiListControl::IItemStyleController* style, bool value);
+				};
+
+/***********************************************************************
+TextList Data Source
+***********************************************************************/
+
+				class TextItem
+				{
+					friend class TextItemProvider;
+				protected:
+					WString										text;
+					bool										checked;
+				public:
+					TextItem();
+					TextItem(const TextItem& item);
+					TextItem(const WString& _text, bool _checked=false);
+					TextItem(const wchar_t* _text, bool _checked=false);
+					~TextItem();
+
+					bool										operator==(const TextItem& value)const;
+					bool										operator!=(const TextItem& value)const;
+
+					const WString&								GetText()const;
+					bool										GetChecked()const;
+				};
+
+				class TextItemProvider : public ListProvider<TextItem>, protected TextItemStyleProvider::ITextItemView
+				{
+				protected:
+					const WString&								GetText(int itemIndex);
+					bool										GetChecked(int itemIndex);
+					void										SetCheckedSilently(int itemIndex, bool value);
+				public:
+					TextItemProvider();
+					~TextItemProvider();
+					
+					void										SetText(int itemIndex, const WString& value);
+					void										SetChecked(int itemIndex, bool value);
+
+					Interface*									RequestView(const WString& identifier);
+					void										ReleaseView(Interface* view);
 				};
 			}
 

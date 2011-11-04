@@ -13,86 +13,6 @@ namespace vl
 			{
 
 /***********************************************************************
-TextItem
-***********************************************************************/
-
-				TextItem::TextItem()
-					:checked(false)
-				{
-				}
-
-				TextItem::TextItem(const TextItem& item)
-					:text(item.text)
-					,checked(item.checked)
-				{
-				}
-
-				TextItem::TextItem(const WString& _text, bool _checked)
-					:text(_text)
-					,checked(_checked)
-				{
-				}
-
-				TextItem::TextItem(const wchar_t* _text, bool _checked)
-					:text(_text)
-					,checked(_checked)
-				{
-				}
-
-				TextItem::~TextItem()
-				{
-				}
-
-				bool TextItem::operator==(const TextItem& value)const
-				{
-					return text==value.text;
-				}
-
-				bool TextItem::operator!=(const TextItem& value)const
-				{
-					return text!=value.text;
-				}
-
-				const WString& TextItem::GetText()const
-				{
-					return text;
-				}
-
-				bool TextItem::GetChecked()const
-				{
-					return checked;
-				}
-
-/***********************************************************************
-TextItemProvider
-***********************************************************************/
-
-				void TextItemProvider::SetCheckedSilently(int itemIndex, bool value)
-				{
-					list[itemIndex].checked=value;
-				}
-
-				TextItemProvider::TextItemProvider()
-				{
-				}
-
-				TextItemProvider::~TextItemProvider()
-				{
-				}
-					
-				void TextItemProvider::SetText(int itemIndex, const WString& value)
-				{
-					list[itemIndex].text=value;
-					InvokeOnItemModified(itemIndex, 1, 1);
-				}
-
-				void TextItemProvider::SetChecked(int itemIndex, bool value)
-				{
-					SetCheckedSilently(itemIndex, value);
-					InvokeOnItemModified(itemIndex, 1, 1);
-				}
-
-/***********************************************************************
 TextItemStyleProvider::TextItemStyleController
 ***********************************************************************/
 
@@ -194,18 +114,20 @@ TextItemStyleProvider::TextItemStyleController
 TextItemStyleProvider
 ***********************************************************************/
 
+				const wchar_t* TextItemStyleProvider::ITextItemViewIdentifier = L"vl::presentation::controls::list::TextItemStyleProvider::ITextItemView";
+
 				void TextItemStyleProvider::OnStyleCheckedChanged(TextItemStyleController* style)
 				{
 					int index=listControl->GetArranger()->GetVisibleIndex(style);
 					if(index!=-1)
 					{
-						textItemProvider->SetCheckedSilently(index, style->GetChecked());
+						textItemView->SetCheckedSilently(index, style->GetChecked());
 					}
 				}
 
 				TextItemStyleProvider::TextItemStyleProvider(ITextItemStyleProvider* _textItemStyleProvider)
 					:textItemStyleProvider(_textItemStyleProvider)
-					,textItemProvider(0)
+					,textItemView(0)
 					,listControl(0)
 				{
 				}
@@ -217,11 +139,13 @@ TextItemStyleProvider
 				void TextItemStyleProvider::AttachListControl(GuiListControl* value)
 				{
 					listControl=value;
-					textItemProvider=dynamic_cast<TextItemProvider*>(value->GetItemProvider());
+					textItemView=dynamic_cast<ITextItemView*>(value->GetItemProvider()->RequestView(ITextItemViewIdentifier));
 				}
 
 				void TextItemStyleProvider::DetachListControl()
 				{
+					listControl->GetItemProvider()->ReleaseView(textItemView);
+					textItemView=0;
 					listControl=0;
 				}
 
@@ -243,15 +167,120 @@ TextItemStyleProvider
 				void TextItemStyleProvider::Install(GuiListControl::IItemStyleController* style, int itemIndex)
 				{
 					TextItemStyleController* textStyle=dynamic_cast<TextItemStyleController*>(style);
-					const TextItem& item=textItemProvider->Get(itemIndex);
-					textStyle->SetText(item.GetText());
-					textStyle->SetChecked(item.GetChecked());
+					textStyle->SetText(textItemView->GetText(itemIndex));
+					textStyle->SetChecked(textItemView->GetChecked(itemIndex));
 				}
 
 				void TextItemStyleProvider::SetStyleSelected(GuiListControl::IItemStyleController* style, bool value)
 				{
 					TextItemStyleController* textStyle=dynamic_cast<TextItemStyleController*>(style);
 					textStyle->SetSelected(value);
+				}
+
+/***********************************************************************
+TextItem
+***********************************************************************/
+
+				TextItem::TextItem()
+					:checked(false)
+				{
+				}
+
+				TextItem::TextItem(const TextItem& item)
+					:text(item.text)
+					,checked(item.checked)
+				{
+				}
+
+				TextItem::TextItem(const WString& _text, bool _checked)
+					:text(_text)
+					,checked(_checked)
+				{
+				}
+
+				TextItem::TextItem(const wchar_t* _text, bool _checked)
+					:text(_text)
+					,checked(_checked)
+				{
+				}
+
+				TextItem::~TextItem()
+				{
+				}
+
+				bool TextItem::operator==(const TextItem& value)const
+				{
+					return text==value.text;
+				}
+
+				bool TextItem::operator!=(const TextItem& value)const
+				{
+					return text!=value.text;
+				}
+
+				const WString& TextItem::GetText()const
+				{
+					return text;
+				}
+
+				bool TextItem::GetChecked()const
+				{
+					return checked;
+				}
+
+/***********************************************************************
+TextItemProvider
+***********************************************************************/
+				
+				const WString& TextItemProvider::GetText(int itemIndex)
+				{
+					return Get(itemIndex).GetText();
+				}
+
+				bool TextItemProvider::GetChecked(int itemIndex)
+				{
+					return Get(itemIndex).GetChecked();
+				}
+
+				void TextItemProvider::SetCheckedSilently(int itemIndex, bool value)
+				{
+					list[itemIndex].checked=value;
+				}
+
+				TextItemProvider::TextItemProvider()
+				{
+				}
+
+				TextItemProvider::~TextItemProvider()
+				{
+				}
+					
+				void TextItemProvider::SetText(int itemIndex, const WString& value)
+				{
+					list[itemIndex].text=value;
+					InvokeOnItemModified(itemIndex, 1, 1);
+				}
+
+				void TextItemProvider::SetChecked(int itemIndex, bool value)
+				{
+					SetCheckedSilently(itemIndex, value);
+					InvokeOnItemModified(itemIndex, 1, 1);
+				}
+
+				Interface* TextItemProvider::RequestView(const WString& identifier)
+				{
+					if(identifier==TextItemStyleProvider::ITextItemViewIdentifier)
+					{
+						return (TextItemStyleProvider::ITextItemView*)this;
+					}
+					else
+					{
+						return 0;
+					}
+				}
+
+				void TextItemProvider::ReleaseView(Interface* view)
+				{
 				}
 			}
 
