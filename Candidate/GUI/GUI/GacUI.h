@@ -12,6 +12,7 @@ Interfaces:
 #include "Controls\GuiBasicControls.h"
 #include "Controls\GuiTextControls.h"
 #include "Controls\GuiListControls.h"
+#include "Controls\ExtendedControls\GuiTextList.h"
 
 #include "Controls\GuiWin7Styles.h"
 
