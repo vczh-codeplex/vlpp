@@ -10,9 +10,6 @@ Interfaces:
 #define VCZH_PRESENTATION_ELEMENTS_GUIGRAPHICSEVENTRECEIVER
 
 #include "..\NativeWindow\GuiNativeWindow.h"
-#include "..\..\..\..\Library\Pointer.h"
-#include "..\..\..\..\Library\Function.h"
-#include "..\..\..\..\Library\Collections\List.h"
 
 namespace vl
 {

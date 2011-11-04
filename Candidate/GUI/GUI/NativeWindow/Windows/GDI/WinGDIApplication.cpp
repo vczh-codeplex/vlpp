@@ -7,7 +7,6 @@
 #endif
 
 #include"WinGDIApplication.h"
-#include "..\..\..\..\..\..\Library\Collections\Dictionary.h"
 
 namespace vl
 {

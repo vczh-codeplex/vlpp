@@ -10,8 +10,6 @@
 #endif
 
 #include "WinDirect2DApplication.h"
-#include "..\..\..\..\..\..\Library\Pointer.h"
-#include "..\..\..\..\..\..\Library\Collections\Dictionary.h"
 
 namespace vl
 {

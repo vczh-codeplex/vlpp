@@ -1,7 +1,4 @@
 #include "WinNativeWindow.h"
-#include "..\..\..\..\..\Library\Pointer.h"
-#include "..\..\..\..\..\Library\Collections\Dictionary.h"
-#include "..\..\..\..\..\Library\Collections\OperationCopyFrom.h"
 
 #pragma comment(lib, "Imm32.lib")
 

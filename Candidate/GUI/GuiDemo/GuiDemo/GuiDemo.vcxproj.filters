@@ -335,5 +335,8 @@
     <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiTextList.h">
       <Filter>GUI\Controls\ExtendedControls</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\GUI\GacVlppReferences.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

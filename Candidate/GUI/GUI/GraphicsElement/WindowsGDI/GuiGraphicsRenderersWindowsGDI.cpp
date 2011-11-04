@@ -1,7 +1,6 @@
 #ifdef GUI_GRAPHICS_RENDERER_GDI
 
 #include "GuiGraphicsRenderersWindowsGDI.h"
-#include "..\..\..\..\..\Library\Collections\OperationCopyFrom.h"
 
 namespace vl
 {
