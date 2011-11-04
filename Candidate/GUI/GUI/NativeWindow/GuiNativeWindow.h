@@ -75,6 +75,37 @@ System Object
 			virtual bool				SetText(const WString& value)=0;
 		};
 
+		class INativeImageProvider;
+
+		class INativeImage : public Interface
+		{
+		public:
+			enum FormatType
+			{
+				Bmp,
+				Gif,
+				Icon,
+				Jpeg,
+				Png,
+				Tiff,
+				Default,
+			};
+
+			virtual INativeImageProvider*		GetPrivider()=0;
+			virtual Size						GetSize()=0;
+			virtual FormatType					GetFormat()=0;
+			virtual bool						SupportFormat(FormatType format)=0;
+			virtual void						SaveToFile(const WString& path, FormatType format=INativeImage::Default)=0;
+			virtual void						SaveToMemoryRGBA(const unsigned char* buffer)=0;
+		};
+
+		class INativeImageProvider : public Interface
+		{
+		public:
+			virtual Ptr<INativeImage>			CreateImageFromFile(const WString& path, INativeImage::FormatType format=INativeImage::Default)=0;
+			virtual Ptr<INativeImage>			CreateImageFromMemoryRGBA(const unsigned char* buffer, int width, int height)=0;
+		};
+
 /***********************************************************************
 Native Window
 ***********************************************************************/
