@@ -402,6 +402,32 @@ Elements
 				Alignment::Type			GetVerticalAlignment();
 				void					SetAlignments(Alignment::Type horizontal, Alignment::Type vertical);
 			};
+
+			class GuiImageFrameElement : public Object, public IGuiGraphicsElement
+			{
+				DEFINE_GUI_GRAPHICS_ELEMENT(GuiImageFrameElement, L"ImageFrame");
+			protected:
+				Ptr<INativeImage>		image;
+				int						frameIndex;
+				Alignment::Type			hAlignment;
+				Alignment::Type			vAlignment;
+				bool					stretch;
+
+				GuiImageFrameElement();
+			public:
+				~GuiImageFrameElement();
+
+				Ptr<INativeImage>		GetImage();
+				int						GetFrameIndex();
+				void					SetImage(Ptr<INativeImage> _image, int _frameIndex=0);
+
+				Alignment::Type			GetHorizontalAlignment();
+				Alignment::Type			GetVerticalAlignment();
+				void					SetAlignments(Alignment::Type horizontal, Alignment::Type vertical);
+
+				bool					GetStretch();
+				void					SetStretch(bool value);
+			};
 		}
 	}
 }

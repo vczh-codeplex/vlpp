@@ -414,6 +414,19 @@ void SetupListControlWindow(GuiControlHost* host)
 }
 
 /***********************************************************************
+SetupToolstripWindow
+***********************************************************************/
+
+void SetupToolstripWindow(GuiControlHost* host)
+{
+	INativeImageProvider* imageProvider=GetCurrentController()->GetImageProvider();
+	Ptr<INativeImage> imageNew=imageProvider->CreateImageFromFile(L"Resources\\New.png");
+	Ptr<INativeImage> imageOpen=imageProvider->CreateImageFromFile(L"Resources\\Open.png");
+	Ptr<INativeImage> imageSave=imageProvider->CreateImageFromFile(L"Resources\\Save.png");
+	Ptr<INativeImage> imageGif=imageProvider->CreateImageFromFile(L"Resources\\Gif.gif");
+}
+
+/***********************************************************************
 GuiMain
 ***********************************************************************/
 
@@ -442,7 +455,8 @@ void GuiMain()
 	GuiControlHost host(new win7::Win7WindowStyle);
 	//SetupWindow(&host);
 	//SetupTextBoxWindow(&host);
-	SetupListControlWindow(&host);
+	//SetupListControlWindow(&host);
+	SetupToolstripWindow(&host);
 	host.SetNativeWindow(window);
 
 	GetCurrentController()->Run(window);

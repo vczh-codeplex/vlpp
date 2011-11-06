@@ -370,9 +370,86 @@ GuiSolidLabelElement
 
 			void GuiSolidLabelElement::SetAlignments(Alignment::Type horizontal, Alignment::Type vertical)
 			{
-				hAlignment=horizontal;
-				vAlignment=vertical;
-				renderer->OnElementStateChanged();
+				if(hAlignment!=horizontal || vAlignment!=vertical)
+				{
+					hAlignment=horizontal;
+					vAlignment=vertical;
+					renderer->OnElementStateChanged();
+				}
+			}
+
+/***********************************************************************
+GuiImageFrameElement
+***********************************************************************/
+
+			GuiImageFrameElement::GuiImageFrameElement()
+				:frameIndex(0)
+				,hAlignment(Alignment::Left)
+				,vAlignment(Alignment::Top)
+				,stretch(false)
+			{
+			}
+
+			GuiImageFrameElement::~GuiImageFrameElement()
+			{
+				renderer->Finalize();
+			}
+
+			Ptr<INativeImage> GuiImageFrameElement::GetImage()
+			{
+				return image;
+			}
+
+			int GuiImageFrameElement::GetFrameIndex()
+			{
+				return frameIndex;
+			}
+
+			void GuiImageFrameElement::SetImage(Ptr<INativeImage> _image, int _frameIndex)
+			{
+				if(image!=_image || frameIndex!=_frameIndex)
+				{
+					if(0<=_frameIndex && _frameIndex<_image->GetFrameCount())
+					{
+						image=_image;
+						frameIndex=_frameIndex;
+						renderer->OnElementStateChanged();
+					}
+				}
+			}
+
+			Alignment::Type GuiImageFrameElement::GetHorizontalAlignment()
+			{
+				return hAlignment;
+			}
+
+			Alignment::Type GuiImageFrameElement::GetVerticalAlignment()
+			{
+				return vAlignment;
+			}
+
+			void GuiImageFrameElement::SetAlignments(Alignment::Type horizontal, Alignment::Type vertical)
+			{
+				if(hAlignment!=horizontal || vAlignment!=vertical)
+				{
+					hAlignment=horizontal;
+					vAlignment=vertical;
+					renderer->OnElementStateChanged();
+				}
+			}
+
+			bool GuiImageFrameElement::GetStretch()
+			{
+				return stretch;
+			}
+
+			void GuiImageFrameElement::SetStretch(bool value)
+			{
+				if(stretch!=value)
+				{
+					stretch=value;
+					renderer->OnElementStateChanged();
+				}
 			}
 		}
 	}

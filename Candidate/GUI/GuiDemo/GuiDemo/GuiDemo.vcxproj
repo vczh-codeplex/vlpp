@@ -240,6 +240,12 @@
     <ClInclude Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDIApplication.h" />
     <ClInclude Include="..\..\GUI\NativeWindow\Windows\WinNativeWindow.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Gif.gif" />
+    <None Include="Resources\New.png" />
+    <None Include="Resources\Open.png" />
+    <None Include="Resources\Save.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

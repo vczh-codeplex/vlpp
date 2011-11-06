@@ -1,6 +1,7 @@
 #include "WinNativeWindow.h"
 
 #pragma comment(lib, "Imm32.lib")
+#pragma comment(lib, "WindowsCodecs.lib")
 
 namespace vl
 {
@@ -117,6 +118,10 @@ WindowsScreen
 				}
 			};
 
+/***********************************************************************
+WindowsCursor
+***********************************************************************/
+
 			class WindowsCursor : public Object, public INativeCursor
 			{
 			protected:
@@ -195,6 +200,10 @@ WindowsScreen
 				}
 			};
 
+/***********************************************************************
+WindowsClipboard
+***********************************************************************/
+
 			class WindowsClipboard : public Object, public INativeClipboard
 			{
 			protected:
@@ -265,6 +274,255 @@ WindowsScreen
 					return false;
 				}
 			};
+
+/***********************************************************************
+WindowsImage
+***********************************************************************/
+
+			class WindowsImageFrame : public Object, public INativeImageFrame
+			{
+			protected:
+				INativeImage*									image;
+				ComPtr<IWICBitmapFrameDecode>					frameDecode;
+				ComPtr<IWICBitmap>								frameBitmap;
+				Dictionary<void*, Ptr<INativeImageFrameCache>>	caches;
+			public:
+				WindowsImageFrame(INativeImage* _image, IWICBitmapFrameDecode* _frameDecode)
+					:image(_image)
+					,frameDecode(_frameDecode)
+				{
+					IWICImagingFactory* factory=GetWICImagingFactory();
+					IWICBitmap* bitmap=0;
+					HRESULT hr=factory->CreateBitmapFromSource(frameDecode.Obj(), WICBitmapCacheOnDemand, &bitmap);
+					if(SUCCEEDED(hr))
+					{
+						frameBitmap=bitmap;
+					}
+				}
+
+				~WindowsImageFrame()
+				{
+					for(int i=0;i<caches.Count();i++)
+					{
+						caches.Values()[i]->OnDetach(this);
+					}
+				}
+
+				INativeImage* GetImage()
+				{
+					return image;
+				}
+
+				Size GetSize()
+				{
+					UINT width=0;
+					UINT height=0;
+					frameBitmap->GetSize(&width, &height);
+					return Size(width, height);
+				}
+
+				bool SetCache(void* key, Ptr<INativeImageFrameCache> cache)
+				{
+					int index=caches.Keys().IndexOf(key);
+					if(index!=-1)
+					{
+						return false;
+					}
+					caches.Add(key, cache);
+					cache->OnAttach(this);
+					return true;
+				}
+
+				Ptr<INativeImageFrameCache> GetCache(void* key)
+				{
+					int index=caches.Keys().IndexOf(key);
+					return index==-1?0:caches.Values()[index];
+				}
+
+				Ptr<INativeImageFrameCache> RemoveCache(void* key)
+				{
+					int index=caches.Keys().IndexOf(key);
+					if(index==-1)
+					{
+						return 0;
+					}
+					Ptr<INativeImageFrameCache> cache=caches.Values()[index];
+					cache->OnDetach(this);
+					caches.Remove(key);
+					return cache;
+				}
+
+				IWICBitmapFrameDecode* GetFrameDecode()
+				{
+					return frameDecode.Obj();
+				}
+
+				IWICBitmap* GetFrameBitmap()
+				{
+					return frameBitmap.Obj();
+				}
+			};
+
+			class WindowsImage : public Object, public INativeImage
+			{
+			protected:
+				INativeImageProvider*					provider;
+				ComPtr<IWICBitmapDecoder>				bitmapDecoder;
+				Array<Ptr<WindowsImageFrame>>			frames;
+			public:
+				WindowsImage(INativeImageProvider* _provider, IWICBitmapDecoder* _bitmapDecoder)
+					:provider(_provider)
+					,bitmapDecoder(_bitmapDecoder)
+				{
+					UINT count=0;
+					bitmapDecoder->GetFrameCount(&count);
+					frames.Resize(count);
+				}
+
+				~WindowsImage()
+				{
+				}
+
+				INativeImageProvider* GetProvider()
+				{
+					return provider;
+				}
+
+				FormatType GetFormat()
+				{
+					GUID formatGUID;
+					HRESULT hr=bitmapDecoder->GetContainerFormat(&formatGUID);
+					if(SUCCEEDED(hr))
+					{
+						if(formatGUID==GUID_ContainerFormatBmp)
+						{
+							return INativeImage::Bmp;
+						}
+						else if(formatGUID==GUID_ContainerFormatPng)
+						{
+							return INativeImage::Png;
+						}
+						else if(formatGUID==GUID_ContainerFormatGif)
+						{
+							return INativeImage::Gif;
+						}
+						else if(formatGUID==GUID_ContainerFormatJpeg)
+						{
+							return INativeImage::Jpeg;
+						}
+						else if(formatGUID==GUID_ContainerFormatIco)
+						{
+							return INativeImage::Icon;
+						}
+						else if(formatGUID==GUID_ContainerFormatTiff)
+						{
+							return INativeImage::Tiff;
+						}
+						else if(formatGUID==GUID_ContainerFormatWmp)
+						{
+							return INativeImage::Wmp;
+						}
+					}
+					return INativeImage::Unknown;
+				}
+
+				int GetFrameCount()
+				{
+					return frames.Count();
+				}
+
+				INativeImageFrame* GetFrame(int index)
+				{
+					if(0<=index && index<GetFrameCount())
+					{
+						Ptr<WindowsImageFrame>& frame=frames[index];
+						if(!frame)
+						{
+							IWICBitmapFrameDecode* frameDecode=0;
+							HRESULT hr=bitmapDecoder->GetFrame(index, &frameDecode);
+							if(SUCCEEDED(hr))
+							{
+								frame=new WindowsImageFrame(this, frameDecode);
+							}
+						}
+						return frame.Obj();
+					}
+					else
+					{
+						return 0;
+					}
+				}
+
+				IWICBitmapDecoder* GetBitmapDecoder()
+				{
+					return bitmapDecoder.Obj();
+				}
+			};
+
+			class WindowsImageProvider : public Object, public INativeImageProvider
+			{
+			protected:
+				ComPtr<IWICImagingFactory>				imagingFactory;
+			public:
+				WindowsImageProvider()
+				{
+					IWICImagingFactory* factory=0;
+					HRESULT hr = CoCreateInstance(
+						CLSID_WICImagingFactory,
+						NULL,
+						CLSCTX_INPROC_SERVER,
+						IID_IWICImagingFactory,
+						(LPVOID*)&factory
+						);
+					if(SUCCEEDED(hr))
+					{
+						imagingFactory=factory;
+					}
+				}
+
+				~WindowsImageProvider()
+				{
+				}
+
+				Ptr<INativeImage> CreateImageFromFile(const WString& path)
+				{
+					IWICBitmapDecoder* bitmapDecoder=0;
+					HRESULT hr=imagingFactory->CreateDecoderFromFilename(
+						path.Buffer(),
+						NULL,
+						GENERIC_READ,
+						WICDecodeMetadataCacheOnDemand,
+						&bitmapDecoder);
+					if(SUCCEEDED(hr))
+					{
+						return new WindowsImage(this, bitmapDecoder);
+					}
+					else
+					{
+						return 0;
+					}
+				}
+
+				IWICImagingFactory* GetImagingFactory()
+				{
+					return imagingFactory.Obj();
+				}
+			};
+
+			IWICImagingFactory* GetWICImagingFactory()
+			{
+				return dynamic_cast<WindowsImageProvider*>(GetCurrentController()->GetImageProvider())->GetImagingFactory();
+			}
+
+			IWICBitmapDecoder* GetWICBitmapDecoder(INativeImage* image)
+			{
+				return dynamic_cast<WindowsImage*>(image)->GetBitmapDecoder();
+			}
+
+			IWICBitmap* GetWICBitmap(INativeImageFrame* frame)
+			{
+				return dynamic_cast<WindowsImageFrame*>(frame)->GetFrameBitmap();
+			}
 
 /***********************************************************************
 WindowsForm
@@ -1033,6 +1291,7 @@ WindowsController
 				List<INativeControllerListener*>	listeners;
 				INativeWindow*						mainWindow;
 				WindowsClipboard					clipboard;
+				WindowsImageProvider				imageProvider;
 
 				HHOOK								mouseHook;
 				bool								isTimerEnabled;
@@ -1342,6 +1601,11 @@ WindowsController
 				INativeClipboard* GetClipboard()
 				{
 					return &clipboard;
+				}
+
+				INativeImageProvider* GetImageProvider()
+				{
+					return &imageProvider;
 				}
 
 				//=======================================================================
