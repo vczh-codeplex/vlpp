@@ -417,13 +417,76 @@ void SetupListControlWindow(GuiControlHost* host)
 SetupToolstripWindow
 ***********************************************************************/
 
+GuiBoundsComposition* CreateImageFrame(Ptr<INativeImage> image, int frameIndex=0)
+{
+	GuiImageFrameElement* element=GuiImageFrameElement::Create();
+	element->SetImage(image, frameIndex);
+
+	GuiBoundsComposition* composition=new GuiBoundsComposition;
+	composition->SetOwnedElement(element);
+	composition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElement);
+	return composition;
+}
+
+class GifAnimation : public Object, public IGuiGraphicsAnimation
+{
+protected:
+	unsigned __int64			startTime;
+	GuiImageFrameElement*		element;
+public:
+	GifAnimation(GuiImageFrameElement* _element)
+		:element(_element)
+		,startTime(DateTime::LocalTime().totalMilliseconds)
+	{
+	}
+
+	int GetTotalLength()
+	{
+		return 1;
+	}
+
+	int GetCurrentPosition()
+	{
+		return 0;
+	}
+
+	void Play(int currentPosition, int totalLength)
+	{
+		unsigned __int64 ms=DateTime::LocalTime().totalMilliseconds-startTime;
+		int frameIndex=(ms/100)%element->GetImage()->GetFrameCount();
+		element->SetImage(element->GetImage(), frameIndex);
+	}
+
+	void Stop()
+	{
+	}
+};
+
 void SetupToolstripWindow(GuiControlHost* host)
 {
+	host->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 	INativeImageProvider* imageProvider=GetCurrentController()->GetImageProvider();
 	Ptr<INativeImage> imageNew=imageProvider->CreateImageFromFile(L"Resources\\New.png");
 	Ptr<INativeImage> imageOpen=imageProvider->CreateImageFromFile(L"Resources\\Open.png");
 	Ptr<INativeImage> imageSave=imageProvider->CreateImageFromFile(L"Resources\\Save.png");
 	Ptr<INativeImage> imageGif=imageProvider->CreateImageFromFile(L"Resources\\Gif.gif");
+
+	GuiBoundsComposition* image1=CreateImageFrame(imageNew);
+	GuiBoundsComposition* image2=CreateImageFrame(imageOpen);
+	GuiBoundsComposition* image3=CreateImageFrame(imageSave);
+	GuiBoundsComposition* image4=CreateImageFrame(imageGif);
+	
+	host->GetContainerComposition()->AddChild(image4);
+	host->GetContainerComposition()->AddChild(image1);
+	host->GetContainerComposition()->AddChild(image2);
+	host->GetContainerComposition()->AddChild(image3);
+
+	image1->SetBounds(Rect(Point(10, 10), imageNew->GetFrame(0)->GetSize()));
+	image2->SetBounds(Rect(Point(50, 10), imageOpen->GetFrame(0)->GetSize()));
+	image3->SetBounds(Rect(Point(90, 10), imageSave->GetFrame(0)->GetSize()));
+
+	Ptr<GifAnimation> animation=new GifAnimation(image4->GetOwnedElement().Cast<GuiImageFrameElement>().Obj());
+	host->GetGraphicsHost()->GetAnimationManager()->AddAnimation(animation);
 }
 
 /***********************************************************************

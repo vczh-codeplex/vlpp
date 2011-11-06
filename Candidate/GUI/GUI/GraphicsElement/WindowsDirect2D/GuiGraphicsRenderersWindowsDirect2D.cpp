@@ -475,6 +475,104 @@ GuiSolidLabelElementRenderer
 			}
 
 /***********************************************************************
+GuiImageFrameElementRenderer
+***********************************************************************/
+
+			void GuiImageFrameElementRenderer::UpdateBitmap(IWindowsDirect2DRenderTarget* renderTarget)
+			{
+				if(renderTarget && element->GetImage())
+				{
+					INativeImageFrame* frame=element->GetImage()->GetFrame(element->GetFrameIndex());
+					bitmap=renderTarget->GetBitmap(frame);
+					minSize=frame->GetSize();
+				}
+				else
+				{
+					bitmap=0;
+					minSize=Size(0, 0);
+				}
+			}
+
+			void GuiImageFrameElementRenderer::InitializeInternal()
+			{
+			}
+
+			void GuiImageFrameElementRenderer::FinalizeInternal()
+			{
+			}
+
+			void GuiImageFrameElementRenderer::RenderTargetChangedInternal(IWindowsDirect2DRenderTarget* oldRenderTarget, IWindowsDirect2DRenderTarget* newRenderTarget)
+			{
+				UpdateBitmap(newRenderTarget);
+			}
+
+			GuiImageFrameElementRenderer::GuiImageFrameElementRenderer()
+			{
+			}
+
+			void GuiImageFrameElementRenderer::Render(Rect bounds)
+			{
+				if(bitmap)
+				{
+					ID2D1RenderTarget* d2dRenderTarget=renderTarget->GetDirect2DRenderTarget();
+					D2D1_RECT_F source=D2D1::RectF(0, 0, (FLOAT)minSize.x, (FLOAT)minSize.y);
+					D2D1_RECT_F destination;
+					if(element->GetStretch())
+					{
+						destination=D2D1::RectF((FLOAT)bounds.x1, (FLOAT)bounds.y1, (FLOAT)bounds.x2, (FLOAT)bounds.y2);
+					}
+					else
+					{
+						int x=0;
+						int y=0;
+						switch(element->GetHorizontalAlignment())
+						{
+						case Alignment::Left:
+							x=bounds.Left();
+							break;
+						case Alignment::Center:
+							x=bounds.Left()+(bounds.Width()-minSize.x)/2;
+							break;
+						case Alignment::Right:
+							x=bounds.Right()-minSize.x;
+							break;
+						}
+						switch(element->GetVerticalAlignment())
+						{
+						case Alignment::Top:
+							y=bounds.Top();
+							break;
+						case Alignment::Center:
+							y=bounds.Top()+(bounds.Height()-minSize.y)/2;
+							break;
+						case Alignment::Bottom:
+							y=bounds.Bottom()-minSize.y;
+							break;
+						}
+						destination=D2D1::RectF((FLOAT)x, (FLOAT)y, (FLOAT)(x+minSize.x), (FLOAT)(y+minSize.y));
+					}
+					if(element->GetImage()->GetFormat()==INativeImage::Gif &&  element->GetFrameIndex()>0)
+					{
+						int max=element->GetFrameIndex();
+						for(int i=0;i<=max;i++)
+						{
+							ComPtr<ID2D1Bitmap> frameBitmap=renderTarget->GetBitmap(element->GetImage()->GetFrame(i));
+							d2dRenderTarget->DrawBitmap(frameBitmap.Obj(), destination, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, source);
+						}
+					}
+					else
+					{
+						d2dRenderTarget->DrawBitmap(bitmap.Obj(), destination, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, source);
+					}
+				}
+			}
+
+			void GuiImageFrameElementRenderer::OnElementStateChanged()
+			{
+				UpdateBitmap(renderTarget);
+			}
+
+/***********************************************************************
 GuiColorizedTextElementRenderer
 ***********************************************************************/
 

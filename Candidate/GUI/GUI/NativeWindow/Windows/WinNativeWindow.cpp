@@ -292,8 +292,35 @@ WindowsImage
 					,frameDecode(_frameDecode)
 				{
 					IWICImagingFactory* factory=GetWICImagingFactory();
+
+					ComPtr<IWICFormatConverter> converter;
+					{
+						IWICFormatConverter* formatConverter=0;
+						HRESULT hr=factory->CreateFormatConverter(&formatConverter);
+						if(SUCCEEDED(hr))
+						{
+							converter=formatConverter;
+							converter->Initialize(
+								frameDecode.Obj(),
+								GUID_WICPixelFormat32bppPBGRA,
+								WICBitmapDitherTypeNone,
+								NULL,
+								0.0f,
+								WICBitmapPaletteTypeCustom);
+						}
+					}
+
 					IWICBitmap* bitmap=0;
-					HRESULT hr=factory->CreateBitmapFromSource(frameDecode.Obj(), WICBitmapCacheOnDemand, &bitmap);
+					IWICBitmapSource* bitmapSource=0;
+					if(converter)
+					{
+						bitmapSource=converter.Obj();
+					}
+					else
+					{
+						bitmapSource=frameDecode.Obj();
+					}
+					HRESULT hr=factory->CreateBitmapFromSource(bitmapSource, WICBitmapCacheOnLoad, &bitmap);
 					if(SUCCEEDED(hr))
 					{
 						frameBitmap=bitmap;

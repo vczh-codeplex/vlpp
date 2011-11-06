@@ -223,8 +223,11 @@ WindiwsGDIRenderTarget
 				void OnAttach(INativeImageFrame* frame)
 				{
 					cachedFrame=frame;
-					ID2D1Bitmap* d2dBitmap=0;
-					HRESULT hr=renderTarget->GetDirect2DRenderTarget()->CreateBitmapFromWicBitmap(GetWICBitmap(frame), &d2dBitmap);
+ 					ID2D1Bitmap* d2dBitmap=0;
+					HRESULT hr=renderTarget->GetDirect2DRenderTarget()->CreateBitmapFromWicBitmap(
+						GetWICBitmap(frame),
+						&d2dBitmap
+						);
 					if(SUCCEEDED(hr))
 					{
 						bitmap=d2dBitmap;
@@ -293,7 +296,7 @@ WindiwsGDIRenderTarget
 					else
 					{
 						WindowsDirect2DImageFrameCache* d2dCache=new WindowsDirect2DImageFrameCache(this);
-						if(frame->SetCache(this, cache))
+						if(frame->SetCache(this, d2dCache))
 						{
 							return d2dCache->GetBitmap();
 						}
@@ -507,6 +510,7 @@ void NativeMain()
 	GuiSolidBackgroundElementRenderer::Register();
 	GuiGradientBackgroundElementRenderer::Register();
 	GuiSolidLabelElementRenderer::Register();
+	GuiImageFrameElementRenderer::Register();
 	GuiColorizedTextElementRenderer::Register();
 
 	GuiMain();
