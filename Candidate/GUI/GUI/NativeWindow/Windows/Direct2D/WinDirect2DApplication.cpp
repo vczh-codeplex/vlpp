@@ -149,6 +149,7 @@ using namespace vl::presentation::windows;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+	CoInitializeEx(NULL, COINIT_MULTITHREADED);
 	// create controller
 	INativeController* controller=CreateWindowsNativeController(hInstance);
 	SetCurrentController(controller);

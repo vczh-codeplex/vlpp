@@ -75,7 +75,31 @@ System Object
 			virtual bool				SetText(const WString& value)=0;
 		};
 
+/***********************************************************************
+Image Object
+***********************************************************************/
+
 		class INativeImageProvider;
+		class INativeImage;
+		class INativeImageFrame;
+
+		class INativeImageFrameCache : public Interface
+		{
+		public:
+			virtual void						OnAttach(INativeImageFrame* frame)=0;
+			virtual void						OnDetach(INativeImageFrame* frame)=0;
+		};
+
+		class INativeImageFrame : public Interface
+		{
+		public:
+			virtual INativeImage*				GetImage()=0;
+			virtual Size						GetSize()=0;
+
+			virtual bool						SetCache(void* key, Ptr<INativeImageFrameCache> cache)=0;
+			virtual Ptr<INativeImageFrameCache>	GetCache(void* key)=0;
+			virtual Ptr<INativeImageFrameCache>	RemoveCache(void* key)=0;
+		};
 
 		class INativeImage : public Interface
 		{
@@ -88,22 +112,20 @@ System Object
 				Jpeg,
 				Png,
 				Tiff,
-				Default,
+				Wmp,
+				Unknown,
 			};
 
-			virtual INativeImageProvider*		GetPrivider()=0;
-			virtual Size						GetSize()=0;
+			virtual INativeImageProvider*		GetProvider()=0;
 			virtual FormatType					GetFormat()=0;
-			virtual bool						SupportFormat(FormatType format)=0;
-			virtual void						SaveToFile(const WString& path, FormatType format=INativeImage::Default)=0;
-			virtual void						SaveToMemoryRGBA(const unsigned char* buffer)=0;
+			virtual int							GetFrameCount()=0;
+			virtual INativeImageFrame*			GetFrame(int index)=0;
 		};
 
 		class INativeImageProvider : public Interface
 		{
 		public:
-			virtual Ptr<INativeImage>			CreateImageFromFile(const WString& path, INativeImage::FormatType format=INativeImage::Default)=0;
-			virtual Ptr<INativeImage>			CreateImageFromMemoryRGBA(const unsigned char* buffer, int width, int height)=0;
+			virtual Ptr<INativeImage>			CreateImageFromFile(const WString& path)=0;
 		};
 
 /***********************************************************************
@@ -237,52 +259,53 @@ Native Window Provider
 		class INativeController : public Interface
 		{
 		public:
-			virtual INativeCursor*		GetSystemCursor(INativeCursor::SystemCursorType type)=0;
-			virtual INativeCursor*		GetDefaultSystemCursor()=0;
-			virtual INativeWindow*		CreateNativeWindow()=0;
-			virtual void				DestroyNativeWindow(INativeWindow* window)=0;
-			virtual INativeWindow*		GetMainWindow()=0;
-			virtual void				Run(INativeWindow* window)=0;
+			virtual INativeCursor*			GetSystemCursor(INativeCursor::SystemCursorType type)=0;
+			virtual INativeCursor*			GetDefaultSystemCursor()=0;
+			virtual INativeWindow*			CreateNativeWindow()=0;
+			virtual void					DestroyNativeWindow(INativeWindow* window)=0;
+			virtual INativeWindow*			GetMainWindow()=0;
+			virtual void					Run(INativeWindow* window)=0;
 
-			virtual FontProperties		GetDefaultFont()=0;
-			virtual void				SetDefaultFont(const FontProperties& value)=0;
+			virtual FontProperties			GetDefaultFont()=0;
+			virtual void					SetDefaultFont(const FontProperties& value)=0;
 
-			virtual bool				InstallListener(INativeControllerListener* listener)=0;
-			virtual bool				UninstallListener(INativeControllerListener* listener)=0;
+			virtual bool					InstallListener(INativeControllerListener* listener)=0;
+			virtual bool					UninstallListener(INativeControllerListener* listener)=0;
 
-			virtual void				StartHookMouse()=0;
-			virtual void				StopHookMouse()=0;
-			virtual bool				IsHookingMouse()=0;
+			virtual void					StartHookMouse()=0;
+			virtual void					StopHookMouse()=0;
+			virtual bool					IsHookingMouse()=0;
 
-			virtual void				StartTimer()=0;
-			virtual void				StopTimer()=0;
-			virtual bool				IsTimerEnabled()=0;
+			virtual void					StartTimer()=0;
+			virtual void					StopTimer()=0;
+			virtual bool					IsTimerEnabled()=0;
 
-			virtual INativeClipboard*	GetClipboard()=0;
+			virtual INativeClipboard*		GetClipboard()=0;
+			virtual INativeImageProvider*	GetImageProvider()=0;
 			
-			virtual int					GetScreenCount()=0;
-			virtual INativeScreen*		GetScreen(int index)=0;
-			virtual INativeScreen*		GetScreen(INativeWindow* window)=0;
-			virtual bool				IsKeyPressing(int code)=0;
-			virtual bool				IsKeyToggled(int code)=0;
+			virtual int						GetScreenCount()=0;
+			virtual INativeScreen*			GetScreen(int index)=0;
+			virtual INativeScreen*			GetScreen(INativeWindow* window)=0;
+			virtual bool					IsKeyPressing(int code)=0;
+			virtual bool					IsKeyToggled(int code)=0;
 		};
 
 		class INativeControllerListener : public Interface
 		{
 		public:
-			virtual void				LeftButtonDown(Point position);
-			virtual void				LeftButtonUp(Point position);
-			virtual void				RightButtonDown(Point position);
-			virtual void				RightButtonUp(Point position);
-			virtual void				MouseMoving(Point position);
-			virtual void				GlobalTimer();
-			virtual void				ClipboardUpdated();
-			virtual void				NativeWindowCreated(INativeWindow* window);
-			virtual void				NativeWindowDestroying(INativeWindow* window);
+			virtual void					LeftButtonDown(Point position);
+			virtual void					LeftButtonUp(Point position);
+			virtual void					RightButtonDown(Point position);
+			virtual void					RightButtonUp(Point position);
+			virtual void					MouseMoving(Point position);
+			virtual void					GlobalTimer();
+			virtual void					ClipboardUpdated();
+			virtual void					NativeWindowCreated(INativeWindow* window);
+			virtual void					NativeWindowDestroying(INativeWindow* window);
 		};
 
-		extern							INativeController* GetCurrentController();
-		extern void						SetCurrentController(INativeController* controller);
+		extern								INativeController* GetCurrentController();
+		extern void							SetCurrentController(INativeController* controller);
 	}
 }
 

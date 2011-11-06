@@ -339,4 +339,18 @@
       <Filter>GUI</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\New.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Open.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Save.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Gif.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

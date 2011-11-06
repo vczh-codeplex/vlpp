@@ -11,6 +11,7 @@ Interfaces:
 
 #include "..\GuiNativeWindow.h"
 #include <windows.h>
+#include <wincodec.h>
 
 namespace vl
 {
@@ -40,6 +41,10 @@ Windows Platform Native Controller
 			extern INativeController*						CreateWindowsNativeController(HINSTANCE hInstance);
 			extern IWindowsForm*							GetWindowsForm(INativeWindow* window);
 			extern void										DestroyWindowsNativeController(INativeController* controller);
+
+			extern IWICImagingFactory*						GetWICImagingFactory();
+			extern IWICBitmapDecoder*						GetWICBitmapDecoder(INativeImage* image);
+			extern IWICBitmap*								GetWICBitmap(INativeImageFrame* frame);
 		}
 	}
 }

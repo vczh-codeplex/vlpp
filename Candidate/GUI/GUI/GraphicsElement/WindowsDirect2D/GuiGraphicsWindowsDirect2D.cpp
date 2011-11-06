@@ -204,16 +204,61 @@ CachedResourceAllocator
 WindiwsGDIRenderTarget
 ***********************************************************************/
 
-			class WindowsDirect2DRenderTarget : public Object, public IWindowsDirect2DRenderTarget, public IWindowsFormGraphicsHandler
+			class WindowsDirect2DImageFrameCache : public Object, public INativeImageFrameCache
 			{
 			protected:
-				INativeWindow*				window;
-				ID2D1RenderTarget*			d2dRenderTarget;
-				List<Rect>					clippers;
-				int							clipperCoverWholeTargetCounter;
+				IWindowsDirect2DRenderTarget*	renderTarget;
+				INativeImageFrame*				cachedFrame;
+				ComPtr<ID2D1Bitmap>				bitmap;
+			public:
+				WindowsDirect2DImageFrameCache(IWindowsDirect2DRenderTarget* _renderTarget)
+					:renderTarget(_renderTarget)
+				{
+				}
 
-				CachedSolidBrushAllocator	solidBrushes;
-				CachedLinearBrushAllocator	linearBrushes;
+				~WindowsDirect2DImageFrameCache()
+				{
+				}
+
+				void OnAttach(INativeImageFrame* frame)
+				{
+					cachedFrame=frame;
+					ID2D1Bitmap* d2dBitmap=0;
+					HRESULT hr=renderTarget->GetDirect2DRenderTarget()->CreateBitmapFromWicBitmap(GetWICBitmap(frame), &d2dBitmap);
+					if(SUCCEEDED(hr))
+					{
+						bitmap=d2dBitmap;
+					}
+				}
+				
+				void OnDetach(INativeImageFrame* frame)
+				{
+					renderTarget->DestroyBitmapCache(cachedFrame);
+				}
+
+				INativeImageFrame* GetFrame()
+				{
+					return cachedFrame;
+				}
+
+				ComPtr<ID2D1Bitmap> GetBitmap()
+				{
+					return bitmap;
+				}
+			};
+
+			class WindowsDirect2DRenderTarget : public Object, public IWindowsDirect2DRenderTarget, public IWindowsFormGraphicsHandler
+			{
+				typedef SortedList<Ptr<WindowsDirect2DImageFrameCache>> ImageCacheList;
+			protected:
+				INativeWindow*					window;
+				ID2D1RenderTarget*				d2dRenderTarget;
+				List<Rect>						clippers;
+				int								clipperCoverWholeTargetCounter;
+
+				CachedSolidBrushAllocator		solidBrushes;
+				CachedLinearBrushAllocator		linearBrushes;
+				ImageCacheList					imageCaches;
 			public:
 				WindowsDirect2DRenderTarget(INativeWindow* _window)
 					:window(_window)
@@ -224,9 +269,45 @@ WindiwsGDIRenderTarget
 					linearBrushes.SetRenderTarget(this);
 				}
 
+				~WindowsDirect2DRenderTarget()
+				{
+					while(imageCaches.Count())
+					{
+						Ptr<WindowsDirect2DImageFrameCache> cache=imageCaches[imageCaches.Count()-1];
+						cache->GetFrame()->RemoveCache(this);
+					}
+				}
+
 				ID2D1RenderTarget* GetDirect2DRenderTarget()
 				{
 					return d2dRenderTarget?d2dRenderTarget:GetNativeWindowDirect2DRenderTarget(window);
+				}
+
+				ComPtr<ID2D1Bitmap> GetBitmap(INativeImageFrame* frame)
+				{
+					Ptr<INativeImageFrameCache> cache=frame->GetCache(this);
+					if(cache)
+					{
+						return cache.Cast<WindowsDirect2DImageFrameCache>()->GetBitmap();
+					}
+					else
+					{
+						WindowsDirect2DImageFrameCache* d2dCache=new WindowsDirect2DImageFrameCache(this);
+						if(frame->SetCache(this, cache))
+						{
+							return d2dCache->GetBitmap();
+						}
+						else
+						{
+							return 0;
+						}
+					}
+				}
+
+				void DestroyBitmapCache(INativeImageFrame* frame)
+				{
+					WindowsDirect2DImageFrameCache* cache=frame->GetCache(this).Cast<WindowsDirect2DImageFrameCache>().Obj();
+					imageCaches.Remove(cache);
 				}
 
 				void StartRendering()
