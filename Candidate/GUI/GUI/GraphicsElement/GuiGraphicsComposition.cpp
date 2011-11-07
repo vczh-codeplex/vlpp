@@ -58,42 +58,6 @@ GuiGraphicsComposition
 				}
 			}
 
-			Size GuiGraphicsComposition::AdjustMinClientSize(Size minSize)
-			{
-				return minSize;
-			}
-
-			Rect GuiGraphicsComposition::GetBoundsInternal(Rect expectedBounds, MinSizeLimitation limitation)
-			{
-				Size minSize;
-				if(limitation!=GuiGraphicsComposition::NoLimit)
-				{
-					if(ownedElement)
-					{
-						minSize=ownedElement->GetRenderer()->GetMinSize();
-					}
-				}
-				if(limitation==GuiGraphicsComposition::LimitToElementAndChildren)
-				{
-					int childCount=Children().Count();
-					for(int i=0;i<childCount;i++)
-					{
-						Rect childBounds=Children()[i]->GetMinNecessaryBounds();
-						if(minSize.x<childBounds.x2) minSize.x=childBounds.x2;
-						if(minSize.y<childBounds.y2) minSize.y=childBounds.y2;
-					}
-				}
-				minSize=AdjustMinClientSize(minSize);
-				
-				minSize.x+=margin.left+margin.right+internalMargin.left+internalMargin.right;
-				minSize.y+=margin.top+margin.bottom+internalMargin.top+internalMargin.bottom;
-				int w=expectedBounds.Width();
-				int h=expectedBounds.Height();
-				if(minSize.x<w) minSize.x=w;
-				if(minSize.y<h) minSize.y=h;
-				return Rect(expectedBounds.LeftTop(), minSize);
-			}
-
 			GuiGraphicsComposition::GuiGraphicsComposition()
 				:parent(0)
 				,visible(true)
@@ -463,7 +427,55 @@ GuiGraphicsComposition
 				return bounds;
 			}
 
-			Rect GuiGraphicsComposition::GetMinNecessaryBounds()
+/***********************************************************************
+GuiGraphicsSite
+***********************************************************************/
+
+			Size GuiGraphicsSite::AdjustMinClientSize(Size minSize)
+			{
+				return minSize;
+			}
+
+			Rect GuiGraphicsSite::GetBoundsInternal(Rect expectedBounds, MinSizeLimitation limitation)
+			{
+				Size minSize;
+				if(limitation!=GuiGraphicsComposition::NoLimit)
+				{
+					if(ownedElement)
+					{
+						minSize=ownedElement->GetRenderer()->GetMinSize();
+					}
+				}
+				if(limitation==GuiGraphicsComposition::LimitToElementAndChildren)
+				{
+					int childCount=Children().Count();
+					for(int i=0;i<childCount;i++)
+					{
+						Rect childBounds=Children()[i]->GetMinNecessaryBounds();
+						if(minSize.x<childBounds.x2) minSize.x=childBounds.x2;
+						if(minSize.y<childBounds.y2) minSize.y=childBounds.y2;
+					}
+				}
+				minSize=AdjustMinClientSize(minSize);
+				
+				minSize.x+=margin.left+margin.right+internalMargin.left+internalMargin.right;
+				minSize.y+=margin.top+margin.bottom+internalMargin.top+internalMargin.bottom;
+				int w=expectedBounds.Width();
+				int h=expectedBounds.Height();
+				if(minSize.x<w) minSize.x=w;
+				if(minSize.y<h) minSize.y=h;
+				return Rect(expectedBounds.LeftTop(), minSize);
+			}
+
+			GuiGraphicsSite::GuiGraphicsSite()
+			{
+			}
+
+			GuiGraphicsSite::~GuiGraphicsSite()
+			{
+			}
+
+			Rect GuiGraphicsSite::GetMinNecessaryBounds()
 			{
 				return GetBoundsInternal(Rect(), GetMinSizeLimitation());
 			}
@@ -495,14 +507,6 @@ GuiWindowComposition
 			Rect GuiWindowComposition::GetBounds()
 			{
 				return attachedWindow?Rect(Point(0, 0), attachedWindow->GetClientSize()):Rect();
-			}
-
-			void GuiWindowComposition::SetBounds(Rect value)
-			{
-				if(attachedWindow)
-				{
-					attachedWindow->SetClientSize(value.GetSize());
-				}
 			}
 
 			void GuiWindowComposition::SetMargin(Margin value)
@@ -1077,11 +1081,6 @@ GuiTableComposition
 				return result;
 			}
 
-			void GuiTableComposition::SetBounds(Rect value)
-			{
-				GuiBoundsComposition::SetBounds(value);
-			}
-
 /***********************************************************************
 GuiCellComposition
 ***********************************************************************/
@@ -1371,16 +1370,6 @@ GuiStackComposition
 				padding=value;
 			}
 
-			Rect GuiStackComposition::GetBounds()
-			{
-				return GuiBoundsComposition::GetBounds();
-			}
-
-			void GuiStackComposition::SetBounds(Rect value)
-			{
-				GuiBoundsComposition::SetBounds(value);
-			}
-
 /***********************************************************************
 GuiStackItemComposition
 ***********************************************************************/
@@ -1530,10 +1519,6 @@ GuiSideAlignedComposition
 				return Rect();
 			}
 
-			void GuiSideAlignedComposition::SetBounds(Rect value)
-			{
-			}
-
 /***********************************************************************
 GuiPartialViewComposition
 ***********************************************************************/
@@ -1616,9 +1601,14 @@ GuiPartialViewComposition
 				return Rect();
 			}
 
-			void GuiPartialViewComposition::SetBounds(Rect value)
+			Size GuiPartialViewComposition::GetMinSize()
 			{
-				minSize=value.GetSize();
+				return minSize;
+			}
+
+			void GuiPartialViewComposition::SetMinSize(Size value)
+			{
+				minSize=value;
 			}
 		}
 	}

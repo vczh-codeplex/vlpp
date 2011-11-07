@@ -65,8 +65,6 @@ Basic Construction
 				virtual void						OnChildRemoved(GuiGraphicsComposition* child);
 				virtual void						OnParentChanged(GuiGraphicsComposition* oldParent, GuiGraphicsComposition* newParent);
 				virtual void						OnRenderTargetChanged();
-				virtual Size						AdjustMinClientSize(Size minSize);
-				virtual Rect						GetBoundsInternal(Rect expectedBounds, MinSizeLimitation limitation);
 				
 				void								SetAssociatedControl(controls::GuiControl* control);
 				void								SetAssociatedHost(GuiGraphicsHost* host);
@@ -111,16 +109,27 @@ Basic Construction
 				virtual Margin						GetInternalMargin();
 				virtual void						SetInternalMargin(Margin value);
 				virtual Rect						GetClientArea();
-				virtual Rect						GetMinNecessaryBounds();
+				virtual Rect						GetMinNecessaryBounds()=0;
 				virtual Rect						GetBounds()=0;
-				virtual void						SetBounds(Rect value)=0;
+			};
+
+			class GuiGraphicsSite : public GuiGraphicsComposition
+			{
+			protected:
+				virtual Size						AdjustMinClientSize(Size minSize);
+				virtual Rect						GetBoundsInternal(Rect expectedBounds, MinSizeLimitation limitation);
+			public:
+				GuiGraphicsSite();
+				~GuiGraphicsSite();
+
+				Rect								GetMinNecessaryBounds();
 			};
 
 /***********************************************************************
 Basic Compositions
 ***********************************************************************/
 
-			class GuiWindowComposition : public GuiGraphicsComposition
+			class GuiWindowComposition : public GuiGraphicsSite
 			{
 			protected:
 				INativeWindow*						attachedWindow;
@@ -132,11 +141,10 @@ Basic Compositions
 				void								SetAttachedWindow(INativeWindow* window);
 
 				Rect								GetBounds();
-				void								SetBounds(Rect value);
 				void								SetMargin(Margin value);
 			};
 
-			class GuiBoundsComposition : public GuiGraphicsComposition
+			class GuiBoundsComposition : public GuiGraphicsSite
 			{
 			protected:
 				Rect								compositionBounds;
@@ -285,10 +293,9 @@ Table Compositions
 				void								UpdateCellBounds();
 				
 				Rect								GetBounds();
-				void								SetBounds(Rect value);
 			};
 
-			class GuiCellComposition : public GuiGraphicsComposition
+			class GuiCellComposition : public GuiGraphicsSite
 			{
 				friend class GuiTableComposition;
 			protected:
@@ -360,12 +367,9 @@ Stack Compositions
 				void								SetDirection(Direction value);
 				int									GetPadding();
 				void								SetPadding(int value);
-				
-				Rect								GetBounds();
-				void								SetBounds(Rect value);
 			};
 
-			class GuiStackItemComposition : public GuiGraphicsComposition
+			class GuiStackItemComposition : public GuiGraphicsSite
 			{
 				friend class GuiStackComposition;
 			protected:
@@ -385,7 +389,7 @@ Stack Compositions
 Specialized Compositions
 ***********************************************************************/
 
-			class GuiSideAlignedComposition : public GuiGraphicsComposition
+			class GuiSideAlignedComposition : public GuiGraphicsSite
 			{
 			public:
 				enum Direction
@@ -411,10 +415,9 @@ Specialized Compositions
 				void								SetMaxRatio(double value);
 
 				Rect								GetBounds();
-				void								SetBounds(Rect value);
 			};
 
-			class GuiPartialViewComposition : public GuiGraphicsComposition
+			class GuiPartialViewComposition : public GuiGraphicsSite
 			{
 			protected:
 				double								wRatio;
@@ -437,7 +440,8 @@ Specialized Compositions
 				void								SetHeightPageSize(double value);
 
 				Rect								GetBounds();
-				void								SetBounds(Rect value);
+				Size								GetMinSize();
+				void								SetMinSize(Size value);
 			};
 		}
 	}

@@ -1079,6 +1079,11 @@ GuiScrollContainer::StyleController
 				return controlContainerComposition;
 			}
 
+			void GuiScrollContainer::StyleController::MoveContainer(Point leftTop)
+			{
+				controlContainerComposition->SetBounds(Rect(leftTop, Size(0, 0)));
+			}
+
 /***********************************************************************
 GuiScrollContainer
 ***********************************************************************/
@@ -1095,12 +1100,14 @@ GuiScrollContainer
 
 			void GuiScrollContainer::UpdateView(Rect viewBounds)
 			{
-				styleController->GetContainerComposition()->SetBounds(Rect(Point(-viewBounds.x1, -viewBounds.y1), Size(0, 0)));
+				styleController->MoveContainer(Point(-viewBounds.x1, -viewBounds.y1));
 			}
 
 			GuiScrollContainer::GuiScrollContainer(GuiScrollContainer::IStyleProvider* styleProvider)
 				:GuiScrollView(new StyleController(styleProvider))
+				,styleController(0)
 			{
+				styleController=dynamic_cast<StyleController*>(GetStyleController());
 				GuiBoundsComposition* composition=dynamic_cast<GuiBoundsComposition*>(styleController->GetContainerComposition());
 				composition->BoundsChanged.AttachMethod(this, &GuiScrollContainer::OnControlContainerBoundsChanged);
 			}
