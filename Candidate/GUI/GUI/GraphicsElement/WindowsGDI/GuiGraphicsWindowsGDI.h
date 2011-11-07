@@ -38,6 +38,9 @@ namespace vl
 				virtual void								DestroyGdiFont(const FontProperties& fontProperties)=0;
 				virtual Ptr<elements::text::CharMeasurer>	CreateCharMeasurer(const FontProperties& fontProperties)=0;
 				virtual void								DestroyCharMeasurer(const FontProperties& fontProperties)=0;
+
+				virtual Ptr<windows::WinBitmap>				GetBitmap(INativeImageFrame* frame)=0;
+				virtual void								DestroyBitmapCache(INativeImageFrame* frame)=0;
 			};
 
 			extern IWindowsGDIResourceManager*			GetWindowsGDIResourceManager();

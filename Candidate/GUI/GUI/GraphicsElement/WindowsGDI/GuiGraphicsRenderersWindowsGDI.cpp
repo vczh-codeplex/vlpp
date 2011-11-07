@@ -432,6 +432,114 @@ GuiSolidLabelElementRenderer
 			}
 
 /***********************************************************************
+GuiImageFrameElementRenderer
+***********************************************************************/
+
+			void GuiImageFrameElementRenderer::UpdateBitmap()
+			{
+				if(renderTarget && element->GetImage())
+				{
+					IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+					INativeImageFrame* frame=element->GetImage()->GetFrame(element->GetFrameIndex());
+					bitmap=resourceManager->GetBitmap(frame);
+					minSize=frame->GetSize();
+				}
+				else
+				{
+					bitmap=0;
+					minSize=Size(0, 0);
+				}
+			}
+
+			void GuiImageFrameElementRenderer::InitializeInternal()
+			{
+				UpdateBitmap();
+			}
+
+			void GuiImageFrameElementRenderer::FinalizeInternal()
+			{
+			}
+
+			void GuiImageFrameElementRenderer::RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget)
+			{
+			}
+
+			GuiImageFrameElementRenderer::GuiImageFrameElementRenderer()
+			{
+			}
+
+			void GuiImageFrameElementRenderer::Render(Rect bounds)
+			{
+				if(bitmap)
+				{
+					WinDC* dc=renderTarget->GetDC();
+					Rect source(0, 0, minSize.x, minSize.y);
+					Rect destination;
+					if(element->GetStretch())
+					{
+						destination=Rect(bounds.x1, bounds.y1, bounds.x2, bounds.y2);
+					}
+					else
+					{
+						int x=0;
+						int y=0;
+						switch(element->GetHorizontalAlignment())
+						{
+						case Alignment::Left:
+							x=bounds.Left();
+							break;
+						case Alignment::Center:
+							x=bounds.Left()+(bounds.Width()-minSize.x)/2;
+							break;
+						case Alignment::Right:
+							x=bounds.Right()-minSize.x;
+							break;
+						}
+						switch(element->GetVerticalAlignment())
+						{
+						case Alignment::Top:
+							y=bounds.Top();
+							break;
+						case Alignment::Center:
+							y=bounds.Top()+(bounds.Height()-minSize.y)/2;
+							break;
+						case Alignment::Bottom:
+							y=bounds.Bottom()-minSize.y;
+							break;
+						}
+						destination=Rect(x, y, x+minSize.x, y+minSize.y);
+					}
+					if(element->GetImage()->GetFormat()==INativeImage::Gif &&  element->GetFrameIndex()>0)
+					{
+						IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+						int max=element->GetFrameIndex();
+						for(int i=0;i<=max;i++)
+						{
+							Ptr<WinBitmap> frameBitmap=resourceManager->GetBitmap(element->GetImage()->GetFrame(i));
+							dc->Draw(
+								destination.Left(), destination.Top(), destination.Width(), destination.Height(),
+								frameBitmap,
+								source.Left(), source.Top(), source.Width(), source.Height()
+								);
+						}
+					}
+					else
+					{
+						dc->Draw(
+							destination.Left(), destination.Top(), destination.Width(), destination.Height(),
+							bitmap,
+							source.Left(), source.Top(), source.Width(), source.Height()
+							);
+					}
+				}
+			}
+
+			void GuiImageFrameElementRenderer::OnElementStateChanged()
+			{
+				UpdateBitmap();
+			}
+
+/***********************************************************************
 GuiColorizedTextElementRenderer
 ***********************************************************************/
 
