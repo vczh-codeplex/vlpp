@@ -65,6 +65,7 @@ Basic Construction
 				virtual void						OnChildRemoved(GuiGraphicsComposition* child);
 				virtual void						OnParentChanged(GuiGraphicsComposition* oldParent, GuiGraphicsComposition* newParent);
 				virtual void						OnRenderTargetChanged();
+				virtual Size						AdjustMinClientSize(Size minSize);
 				virtual Rect						GetBoundsInternal(Rect expectedBounds, MinSizeLimitation limitation);
 				
 				void								SetAssociatedControl(controls::GuiControl* control);
@@ -143,6 +144,7 @@ Basic Compositions
 				Margin								alignmentToParent;
 				
 				virtual Rect						GetUnalignedBoundsForMinNecessaryBounds();
+				virtual Rect						CalculateUnalignedBounds();
 			public:
 				GuiBoundsComposition();
 				~GuiBoundsComposition();
@@ -316,6 +318,65 @@ Table Compositions
 				int									GetColumnSpan();
 				bool								SetSite(int _row, int _column, int _rowSpan, int _columnSpan);
 
+				Rect								GetBounds();
+				void								SetBounds(Rect value);
+			};
+
+/***********************************************************************
+Stack Compositions
+***********************************************************************/
+
+			class GuiStackComposition;
+			class GuiStackItemComposition;
+
+			class GuiStackComposition : public GuiBoundsComposition
+			{
+				friend class GuiStackItemComposition;
+
+				typedef collections::List<GuiStackItemComposition*>				ItemCompositionList;
+				typedef collections::IReadonlyList<GuiStackItemComposition*>	IItemCompositionList;
+			public:
+				enum Direction
+				{
+					Horizontal,
+					Vertical,
+				};
+			protected:
+				Direction							direction;
+				ItemCompositionList					stackItems;
+				int									padding;
+
+				void								OnChildInserted(GuiGraphicsComposition* child);
+				void								OnChildRemoved(GuiGraphicsComposition* child);
+				Size								AdjustMinClientSize(Size minSize);
+			public:
+				GuiStackComposition();
+				~GuiStackComposition();
+
+				const IItemCompositionList&			GetStackItems();
+				bool								InsertStackItem(int index, GuiStackItemComposition* item);
+
+				Direction							GetDirection();
+				void								SetDirection(Direction value);
+				int									GetPadding();
+				void								SetPadding(int value);
+				
+				Rect								GetBounds();
+				void								SetBounds(Rect value);
+			};
+
+			class GuiStackItemComposition : public GuiGraphicsComposition
+			{
+				friend class GuiStackComposition;
+			protected:
+				GuiStackComposition*				stackParent;
+				Rect								bounds;
+
+				void								OnParentChanged(GuiGraphicsComposition* oldParent, GuiGraphicsComposition* newParent);
+				Size								GetMinSize();
+			public:
+				GuiStackItemComposition();
+				~GuiStackItemComposition();
 				Rect								GetBounds();
 				void								SetBounds(Rect value);
 			};
