@@ -401,12 +401,13 @@ Scrolls
 					~StyleController();
 
 					elements::GuiGraphicsComposition*	GetContainerComposition();
+					void								MoveContainer(Point leftTop);
 				};
 
 			protected:
+				StyleController*						styleController;
 
 				void									OnControlContainerBoundsChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
-
 				Size									QueryFullSize();
 				void									UpdateView(Rect viewBounds);
 			public:
