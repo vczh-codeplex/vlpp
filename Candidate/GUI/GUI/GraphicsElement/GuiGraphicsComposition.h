@@ -428,6 +428,7 @@ Specialized Compositions
 				void								SetMaxRatio(double value);
 				
 				ParentSizeAffection					GetAffectionFromParent();
+				bool								IsSizeAffectParent();
 				Rect								GetBounds();
 			};
 
@@ -454,6 +455,7 @@ Specialized Compositions
 				void								SetHeightPageSize(double value);
 				
 				ParentSizeAffection					GetAffectionFromParent();
+				bool								IsSizeAffectParent();
 				Rect								GetBounds();
 				Size								GetMinSize();
 				void								SetMinSize(Size value);

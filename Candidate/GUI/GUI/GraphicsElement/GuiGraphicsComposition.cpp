@@ -1503,6 +1503,11 @@ GuiSideAlignedComposition
 				return GuiGraphicsComposition::TotallyDecidedByParent;
 			}
 
+			bool GuiSideAlignedComposition::IsSizeAffectParent()
+			{
+				return false;
+			}
+
 			Rect GuiSideAlignedComposition::GetBounds()
 			{
 				GuiGraphicsComposition* parent=GetParent();
@@ -1600,6 +1605,11 @@ GuiPartialViewComposition
 			GuiGraphicsComposition::ParentSizeAffection GuiPartialViewComposition::GetAffectionFromParent()
 			{
 				return GuiGraphicsComposition::TotallyDecidedByParent;
+			}
+
+			bool GuiPartialViewComposition::IsSizeAffectParent()
+			{
+				return false;
 			}
 
 			Rect GuiPartialViewComposition::GetBounds()
