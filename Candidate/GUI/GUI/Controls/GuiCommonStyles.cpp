@@ -150,11 +150,11 @@ CommonScrollStyle
 					{
 					case Horizontal:
 						handleBoundsComposition->SetAlignmentToParent(Margin(defaultSize, 0, defaultSize, 0));
-						handleComposition->SetMinSize(Size(defaultSize, 0));
+						handleComposition->SetPreferredMinSize(Size(defaultSize, 0));
 						break;
 					case Vertical:
 						handleBoundsComposition->SetAlignmentToParent(Margin(0, defaultSize, 0, defaultSize));
-						handleComposition->SetMinSize(Size(0, defaultSize));
+						handleComposition->SetPreferredMinSize(Size(0, defaultSize));
 						break;
 					}
 					

@@ -312,7 +312,7 @@ void SetupWindow(GuiControlHost* host)
 		GuiCellComposition* cell=new GuiCellComposition;
 		table->AddChild(cell);
 		cell->SetSite(1, i+1, 1, 1);
-		cell->SetBounds(Rect(Point(0, 0), Size(100, 0)));
+		cell->SetPreferredMinSize(Size(100, 0));
 
 		GuiButton* button=new GuiButton(new win7::Win7ButtonStyle());
 		cell->AddChild(button->GetBoundsComposition());
