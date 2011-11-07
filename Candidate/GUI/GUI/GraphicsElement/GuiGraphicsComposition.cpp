@@ -417,6 +417,16 @@ GuiGraphicsComposition
 				internalMargin=value;
 			}
 
+			Size GuiGraphicsComposition::GetPreferredMinSize()
+			{
+				return preferredMinSize;
+			}
+
+			void GuiGraphicsComposition::SetPreferredMinSize(Size value)
+			{
+				preferredMinSize=value;
+			}
+
 			Rect GuiGraphicsComposition::GetClientArea()
 			{
 				Rect bounds=GetBounds();
@@ -434,6 +444,9 @@ GuiGraphicsSite
 			Rect GuiGraphicsSite::GetBoundsInternal(Rect expectedBounds)
 			{
 				Size minSize=GetMinPreferredClientSize();
+				if(minSize.x<preferredMinSize.x) minSize.x=preferredMinSize.x;
+				if(minSize.y<preferredMinSize.y) minSize.y=preferredMinSize.y;
+
 				minSize.x+=margin.left+margin.right+internalMargin.left+internalMargin.right;
 				minSize.y+=margin.top+margin.bottom+internalMargin.top+internalMargin.bottom;
 				int w=expectedBounds.Width();
@@ -766,7 +779,7 @@ GuiTableComposition
 										}
 										if(accept)
 										{
-											int size=getSize(cell->GetMinSize());
+											int size=getSize(cell->GetPreferredBounds().GetSize());
 											int span=getSpan(cell);
 											for(int k=1;k<span;k++)
 											{
@@ -1185,11 +1198,6 @@ GuiCellComposition
 				}
 			}
 
-			Size GuiCellComposition::GetMinSize()
-			{
-				return GetBoundsInternal(bounds).GetSize();
-			}
-
 			GuiCellComposition::GuiCellComposition()
 				:row(-1)
 				,column(-1)
@@ -1270,13 +1278,8 @@ GuiCellComposition
 				}
 				else
 				{
-					return bounds;
+					return Rect();
 				}
-			}
-
-			void GuiCellComposition::SetBounds(Rect value)
-			{
-				bounds=value;
 			}
 
 /***********************************************************************
@@ -1623,9 +1626,9 @@ GuiPartialViewComposition
 					int pw=(int)(wPageSize*w);
 					int ph=(int)(hPageSize*h);
 
-					int ow=minSize.x-pw;
+					int ow=preferredMinSize.x-pw;
 					if(ow<0) ow=0;
-					int oh=minSize.y-ph;
+					int oh=preferredMinSize.y-ph;
 					if(oh<0) oh=0;
 
 					w-=ow;
@@ -1636,16 +1639,6 @@ GuiPartialViewComposition
 					return Rect(Point((int)(wRatio*w), (int)(hRatio*h)), Size(pw, ph));
 				}
 				return Rect();
-			}
-
-			Size GuiPartialViewComposition::GetMinSize()
-			{
-				return minSize;
-			}
-
-			void GuiPartialViewComposition::SetMinSize(Size value)
-			{
-				minSize=value;
 			}
 		}
 	}

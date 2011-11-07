@@ -58,13 +58,17 @@ Basic Construction
 				GuiGraphicsComposition*				parent;
 				Ptr<IGuiGraphicsElement>			ownedElement;
 				bool								visible;
-				MinSizeLimitation					minSizeLimitation;
 				IGuiGraphicsRenderTarget*			renderTarget;
-				Margin								margin, internalMargin;
+				MinSizeLimitation					minSizeLimitation;
+
 				Ptr<GuiGraphicsEventReceiver>		eventReceiver;
 				controls::GuiControl*				associatedControl;
 				GuiGraphicsHost*					associatedHost;
 				INativeCursor*						associatedCursor;
+
+				Margin								margin;
+				Margin								internalMargin;
+				Size								preferredMinSize;
 
 				virtual void						OnControlParentChanged(controls::GuiControl* control);
 				virtual void						OnChildInserted(GuiGraphicsComposition* child);
@@ -114,6 +118,8 @@ Basic Construction
 				virtual void						SetMargin(Margin value);
 				virtual Margin						GetInternalMargin();
 				virtual void						SetInternalMargin(Margin value);
+				virtual Size						GetPreferredMinSize();
+				virtual void						SetPreferredMinSize(Size value);
 				virtual Rect						GetClientArea();
 				
 				virtual ParentSizeAffection			GetAffectionFromParent()=0;
@@ -316,7 +322,6 @@ Table Compositions
 				int									column;
 				int									columnSpan;
 				GuiTableComposition*				tableParent;
-				Rect								bounds;
 				
 				void								ClearSitedCells(GuiTableComposition* table);
 				void								SetSitedCells(GuiTableComposition* table);
@@ -324,7 +329,6 @@ Table Compositions
 				bool								SetSiteInternal(int _row, int _column, int _rowSpan, int _columnSpan);
 				void								OnParentChanged(GuiGraphicsComposition* oldParent, GuiGraphicsComposition* newParent);
 				void								OnTableRowsAndColumnsChanged();
-				Size								GetMinSize();
 			public:
 				GuiCellComposition();
 				~GuiCellComposition();
@@ -338,7 +342,6 @@ Table Compositions
 				bool								SetSite(int _row, int _column, int _rowSpan, int _columnSpan);
 
 				Rect								GetBounds();
-				void								SetBounds(Rect value);
 			};
 
 /***********************************************************************
@@ -439,7 +442,6 @@ Specialized Compositions
 				double								wPageSize;
 				double								hRatio;
 				double								hPageSize;
-				Size								minSize;
 
 			public:
 				GuiPartialViewComposition();
@@ -457,8 +459,6 @@ Specialized Compositions
 				ParentSizeAffection					GetAffectionFromParent();
 				bool								IsSizeAffectParent();
 				Rect								GetBounds();
-				Size								GetMinSize();
-				void								SetMinSize(Size value);
 			};
 		}
 	}
