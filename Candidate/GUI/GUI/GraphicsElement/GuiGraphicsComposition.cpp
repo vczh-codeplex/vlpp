@@ -58,6 +58,11 @@ GuiGraphicsComposition
 				}
 			}
 
+			Size GuiGraphicsComposition::AdjustMinClientSize(Size minSize)
+			{
+				return minSize;
+			}
+
 			Rect GuiGraphicsComposition::GetBoundsInternal(Rect expectedBounds, MinSizeLimitation limitation)
 			{
 				Size minSize;
@@ -78,6 +83,7 @@ GuiGraphicsComposition
 						if(minSize.y<childBounds.y2) minSize.y=childBounds.y2;
 					}
 				}
+				minSize=AdjustMinClientSize(minSize);
 				
 				minSize.x+=margin.left+margin.right+internalMargin.left+internalMargin.right;
 				minSize.y+=margin.top+margin.bottom+internalMargin.top+internalMargin.bottom;
@@ -512,6 +518,11 @@ GuiBoundsComposition
 				return GetBoundsInternal(compositionBounds, GetMinSizeLimitation());
 			}
 
+			Rect GuiBoundsComposition::CalculateUnalignedBounds()
+			{
+				return GetBoundsInternal(compositionBounds, GetMinSizeLimitation());
+			}
+
 			GuiBoundsComposition::GuiBoundsComposition()
 			{
 				BoundsChanged.SetAssociatedComposition(this);
@@ -553,7 +564,7 @@ GuiBoundsComposition
 
 			Rect GuiBoundsComposition::GetBounds()
 			{
-				Rect result=GetBoundsInternal(compositionBounds, GetMinSizeLimitation());
+				Rect result=CalculateUnalignedBounds();
 				if(GetParent() && IsAlignedToParent())
 				{
 					Size clientSize=GetParent()->GetClientArea().GetSize();
@@ -1249,6 +1260,185 @@ GuiCellComposition
 			}
 
 			void GuiCellComposition::SetBounds(Rect value)
+			{
+				bounds=value;
+			}
+
+/***********************************************************************
+GuiStackComposition
+***********************************************************************/
+
+			void GuiStackComposition::OnChildInserted(GuiGraphicsComposition* child)
+			{
+				GuiStackItemComposition* item=dynamic_cast<GuiStackItemComposition*>(child);
+				if(item && !stackItems.Contains(item))
+				{
+					stackItems.Add(item);
+				}
+			}
+
+			void GuiStackComposition::OnChildRemoved(GuiGraphicsComposition* child)
+			{
+				GuiStackItemComposition* item=dynamic_cast<GuiStackItemComposition*>(child);
+				if(item)
+				{
+					stackItems.Remove(item);
+				}
+			}
+			
+			Size GuiStackComposition::AdjustMinClientSize(Size minSize)
+			{
+				if(GetMinSizeLimitation()==GuiGraphicsComposition::LimitToElementAndChildren)
+				{
+					int x=0;
+					int y=0;
+					int extraPadding=0;
+					if(stackItems.Count()>0)
+					{
+						extraPadding+=(stackItems.Count()-1)*padding;
+					}
+					for(int i=0;i<stackItems.Count();i++)
+					{
+						Size size=stackItems[i]->GetMinSize();
+						x+=size.x;
+						y+=size.y;
+					}
+					x+=extraPadding;
+					y+=extraPadding;
+					switch(direction)
+					{
+					case Horizontal:
+						{
+							if(minSize.x<x) minSize.x=x;
+						}
+						break;
+					case Vertical:
+						{
+							if(minSize.y<y) minSize.y=y;
+						}
+						break;
+					}
+				}
+				return GuiBoundsComposition::AdjustMinClientSize(minSize);
+			}
+
+			GuiStackComposition::GuiStackComposition()
+				:direction(Horizontal)
+				,padding(0)
+			{
+			}
+
+			GuiStackComposition::~GuiStackComposition()
+			{
+			}
+
+			const GuiStackComposition::IItemCompositionList& GuiStackComposition::GetStackItems()
+			{
+				return stackItems.Wrap();
+			}
+
+			bool GuiStackComposition::InsertStackItem(int index, GuiStackItemComposition* item)
+			{
+				index=stackItems.Insert(index, item);
+				if(!AddChild(item))
+				{
+					stackItems.RemoveAt(index);
+					return false;
+				}
+				else
+				{
+					return true;
+				}
+			}
+
+			GuiStackComposition::Direction GuiStackComposition::GetDirection()
+			{
+				return direction;
+			}
+
+			void GuiStackComposition::SetDirection(Direction value)
+			{
+				direction=value;
+			}
+
+			int GuiStackComposition::GetPadding()
+			{
+				return padding;
+			}
+
+			void GuiStackComposition::SetPadding(int value)
+			{
+				padding=value;
+			}
+
+			Rect GuiStackComposition::GetBounds()
+			{
+				return GuiBoundsComposition::GetBounds();
+			}
+
+			void GuiStackComposition::SetBounds(Rect value)
+			{
+				GuiBoundsComposition::SetBounds(value);
+			}
+
+/***********************************************************************
+GuiStackItemComposition
+***********************************************************************/
+
+			void GuiStackItemComposition::OnParentChanged(GuiGraphicsComposition* oldParent, GuiGraphicsComposition* newParent)
+			{
+				stackParent=newParent==0?0:dynamic_cast<GuiStackComposition*>(newParent);
+			}
+
+			Size GuiStackItemComposition::GetMinSize()
+			{
+				return GetBoundsInternal(bounds, GetMinSizeLimitation()).GetSize();
+			}
+
+			GuiStackItemComposition::GuiStackItemComposition()
+			{
+				SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+			}
+
+			GuiStackItemComposition::~GuiStackItemComposition()
+			{
+			}
+
+			Rect GuiStackItemComposition::GetBounds()
+			{
+				if(stackParent)
+				{
+					int index=stackParent->stackItems.IndexOf(this);
+					if(index!=-1)
+					{
+						int sum=index*stackParent->GetPadding();
+						switch(stackParent->GetDirection())
+						{
+						case GuiStackComposition::Horizontal:
+							{
+								for(int i=0;i<index;i++)
+								{
+									sum+=stackParent->stackItems[i]->GetMinSize().x;
+								}
+								return Rect(Point(sum, 0), Size(GetMinSize().x, stackParent->GetClientArea().Height()));
+							}
+							break;
+						case GuiStackComposition::Vertical:
+							{
+								for(int i=0;i<index;i++)
+								{
+									sum+=stackParent->stackItems[i]->GetMinSize().y;
+								}
+								return Rect(Point(0, sum), Size(stackParent->GetClientArea().Width(), GetMinSize().y));
+							}
+							break;
+						}
+					}
+				}
+				return bounds;
+			}
+
+			void GuiStackItemComposition::SetBounds(Rect value)
 			{
 				bounds=value;
 			}
