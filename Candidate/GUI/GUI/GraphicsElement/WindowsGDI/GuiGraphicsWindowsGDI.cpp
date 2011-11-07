@@ -231,14 +231,65 @@ CachedResourceAllocator
 WindowsGDIResourceManager
 ***********************************************************************/
 
+			class WindowsGDIImageFrameCache : public Object, public INativeImageFrameCache
+			{
+			protected:
+				IWindowsGDIResourceManager*			resourceManager;
+				INativeImageFrame*					cachedFrame;
+				Ptr<WinBitmap>						bitmap;
+			public:
+				WindowsGDIImageFrameCache(IWindowsGDIResourceManager* _resourceManager)
+					:resourceManager(_resourceManager)
+				{
+				}
+
+				~WindowsGDIImageFrameCache()
+				{
+				}
+
+				void OnAttach(INativeImageFrame* frame)
+				{
+					cachedFrame=frame;
+					Size size=frame->GetSize();
+					bitmap=new WinBitmap(size.x, size.y, WinBitmap::vbb32Bits, true);
+
+					IWICBitmap* wicBitmap=GetWICBitmap(frame);
+					WICRect rect;
+					rect.X=0;
+					rect.Y=0;
+					rect.Width=size.x;
+					rect.Height=size.y;
+					wicBitmap->CopyPixels(&rect, bitmap->GetLineBytes(), bitmap->GetLineBytes()*size.y, (BYTE*)bitmap->GetScanLines()[0]);
+
+					bitmap->BuildAlphaChannel(false);
+				}
+				
+				void OnDetach(INativeImageFrame* frame)
+				{
+					resourceManager->DestroyBitmapCache(cachedFrame);
+				}
+
+				INativeImageFrame* GetFrame()
+				{
+					return cachedFrame;
+				}
+
+				Ptr<WinBitmap> GetBitmap()
+				{
+					return bitmap;
+				}
+			};
+
 			class WindowsGDIResourceManager : public GuiGraphicsResourceManager, public IWindowsGDIResourceManager, public INativeControllerListener
 			{
+				typedef SortedList<Ptr<WindowsGDIImageFrameCache>> ImageCacheList;
 			protected:
 				SortedList<Ptr<WindowsGDIRenderTarget>>		renderTargets;
 				CachedPenAllocator							pens;
 				CachedBrushAllocator						brushes;
 				CachedFontAllocator							fonts;
 				CachedCharMeasurerAllocator					charMeasurers;
+				ImageCacheList								imageCaches;
 			public:
 				IGuiGraphicsRenderTarget* GetRenderTarget(INativeWindow* window)
 				{
@@ -299,6 +350,33 @@ WindowsGDIResourceManager
 				{
 					charMeasurers.Destroy(fontProperties);
 				}
+
+				Ptr<windows::WinBitmap> GetBitmap(INativeImageFrame* frame)
+				{
+					Ptr<INativeImageFrameCache> cache=frame->GetCache(this);
+					if(cache)
+					{
+						return cache.Cast<WindowsGDIImageFrameCache>()->GetBitmap();
+					}
+					else
+					{
+						WindowsGDIImageFrameCache* gdiCache=new WindowsGDIImageFrameCache(this);
+						if(frame->SetCache(this, gdiCache))
+						{
+							return gdiCache->GetBitmap();
+						}
+						else
+						{
+							return 0;
+						}
+					}
+				}
+
+				void DestroyBitmapCache(INativeImageFrame* frame)
+				{
+					WindowsGDIImageFrameCache* cache=frame->GetCache(this).Cast<WindowsGDIImageFrameCache>().Obj();
+					imageCaches.Remove(cache);
+				}
 			};
 		}
 
@@ -343,6 +421,7 @@ void NativeMain()
 	GuiSolidBackgroundElementRenderer::Register();
 	GuiGradientBackgroundElementRenderer::Register();
 	GuiSolidLabelElementRenderer::Register();
+	GuiImageFrameElementRenderer::Register();
 	GuiColorizedTextElementRenderer::Register();
 
 	GuiMain();

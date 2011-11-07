@@ -118,6 +118,24 @@ Renderers
 				void					OnElementStateChanged();
 			};
 
+			class GuiImageFrameElementRenderer : public Object, public IGuiGraphicsRenderer
+			{
+				DEFINE_GUI_GRAPHICS_RENDERER(GuiImageFrameElement, GuiImageFrameElementRenderer, IWindowsGDIRenderTarget)
+			protected:
+				Ptr<windows::WinBitmap>		bitmap;
+
+				void					UpdateBitmap();
+
+				void					InitializeInternal();
+				void					FinalizeInternal();
+				void					RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget);
+			public:
+				GuiImageFrameElementRenderer();
+
+				void					Render(Rect bounds);
+				void					OnElementStateChanged();
+			};
+
 			class GuiColorizedTextElementRenderer : public Object, public IGuiGraphicsRenderer, protected GuiColorizedTextElement::ICallback
 			{
 				DEFINE_GUI_GRAPHICS_RENDERER(GuiColorizedTextElement, GuiColorizedTextElementRenderer, IWindowsGDIRenderTarget)
