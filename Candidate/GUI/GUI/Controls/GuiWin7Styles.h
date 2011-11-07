@@ -169,8 +169,8 @@ Animation
 					bool									stopped;\
 				public:\
 					TransferringAnimation(TSTYLECONTROLLER* _style, const TSTATE& begin);\
-					void									Play(int currentPosition, int totalLength);\
-					void									Stop();\
+					void									Play(int currentPosition, int totalLength)override;\
+					void									Stop()override;\
 					void									Transfer(const TSTATE& end);\
 				};\
 
@@ -186,12 +186,12 @@ Containers
 				Win7WindowStyle();
 				~Win7WindowStyle();
 
-				elements::GuiBoundsComposition*				GetBoundsComposition();
-				elements::GuiGraphicsComposition*			GetContainerComposition();
-				void										SetFocusableComposition(elements::GuiGraphicsComposition* value);
-				void										SetText(const WString& value);
-				void										SetFont(const FontProperties& value);
-				void										SetVisuallyEnabled(bool value);
+				elements::GuiBoundsComposition*				GetBoundsComposition()override;
+				elements::GuiGraphicsComposition*			GetContainerComposition()override;
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value)override;
+				void										SetText(const WString& value)override;
+				void										SetFont(const FontProperties& value)override;
+				void										SetVisuallyEnabled(bool value)override;
 			};
 
 			class Win7GroupBoxStyle : public Object, public controls::GuiControl::IStyleController
@@ -213,12 +213,12 @@ Containers
 				Win7GroupBoxStyle();
 				~Win7GroupBoxStyle();
 
-				elements::GuiBoundsComposition*				GetBoundsComposition();
-				elements::GuiGraphicsComposition*			GetContainerComposition();
-				void										SetFocusableComposition(elements::GuiGraphicsComposition* value);
-				void										SetText(const WString& value);
-				void										SetFont(const FontProperties& value);
-				void										SetVisuallyEnabled(bool value);
+				elements::GuiBoundsComposition*				GetBoundsComposition()override;
+				elements::GuiGraphicsComposition*			GetContainerComposition()override;
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value)override;
+				void										SetText(const WString& value)override;
+				void										SetFont(const FontProperties& value)override;
+				void										SetVisuallyEnabled(bool value)override;
 			};
 
 /***********************************************************************
@@ -242,13 +242,13 @@ Buttons
 				Win7ButtonStyle(bool verticalGradient=true);
 				~Win7ButtonStyle();
 
-				elements::GuiBoundsComposition*				GetBoundsComposition();
-				elements::GuiGraphicsComposition*			GetContainerComposition();
-				void										SetFocusableComposition(elements::GuiGraphicsComposition* value);
-				void										SetText(const WString& value);
-				void										SetFont(const FontProperties& value);
-				void										SetVisuallyEnabled(bool value);
-				void										Transfer(controls::GuiButton::ControlState value);
+				elements::GuiBoundsComposition*				GetBoundsComposition()override;
+				elements::GuiGraphicsComposition*			GetContainerComposition()override;
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value)override;
+				void										SetText(const WString& value)override;
+				void										SetFont(const FontProperties& value)override;
+				void										SetVisuallyEnabled(bool value)override;
+				void										Transfer(controls::GuiButton::ControlState value)override;
 
 				bool										GetTransparentWhenInactive();
 				void										SetTransparentWhenInactive(bool value);
@@ -278,14 +278,14 @@ Buttons
 				Win7CheckBoxStyle(BulletStyle bulletStyle, bool backgroundVisible=true);
 				~Win7CheckBoxStyle();
 
-				elements::GuiBoundsComposition*				GetBoundsComposition();
-				elements::GuiGraphicsComposition*			GetContainerComposition();
-				void										SetFocusableComposition(elements::GuiGraphicsComposition* value);
-				void										SetText(const WString& value);
-				void										SetFont(const FontProperties& value);
-				void										SetVisuallyEnabled(bool value);
-				void										SetSelected(bool value);
-				void										Transfer(controls::GuiButton::ControlState value);
+				elements::GuiBoundsComposition*				GetBoundsComposition()override;
+				elements::GuiGraphicsComposition*			GetContainerComposition()override;
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value)override;
+				void										SetText(const WString& value)override;
+				void										SetFont(const FontProperties& value)override;
+				void										SetVisuallyEnabled(bool value)override;
+				void										SetSelected(bool value)override;
+				void										Transfer(controls::GuiButton::ControlState value)override;
 			};
 
 			class Win7SelectableItemStyle : public Object, public controls::GuiSelectableButton::IStyleController
@@ -304,14 +304,14 @@ Buttons
 				Win7SelectableItemStyle();
 				~Win7SelectableItemStyle();
 
-				elements::GuiBoundsComposition*				GetBoundsComposition();
-				elements::GuiGraphicsComposition*			GetContainerComposition();
-				void										SetFocusableComposition(elements::GuiGraphicsComposition* value);
-				void										SetText(const WString& value);
-				void										SetFont(const FontProperties& value);
-				void										SetVisuallyEnabled(bool value);
-				void										SetSelected(bool value);
-				void										Transfer(controls::GuiButton::ControlState value);
+				elements::GuiBoundsComposition*				GetBoundsComposition()override;
+				elements::GuiGraphicsComposition*			GetContainerComposition()override;
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value)override;
+				void										SetText(const WString& value)override;
+				void										SetFont(const FontProperties& value)override;
+				void										SetVisuallyEnabled(bool value)override;
+				void										SetSelected(bool value)override;
+				void										Transfer(controls::GuiButton::ControlState value)override;
 			};
 
 /***********************************************************************
@@ -327,7 +327,7 @@ Scrolls
 				controls::GuiButton::IStyleController*		CreateDecreaseButtonStyle(Direction direction);
 				controls::GuiButton::IStyleController*		CreateIncreaseButtonStyle(Direction direction);
 				controls::GuiButton::IStyleController*		CreateHandleButtonStyle(Direction direction);
-				void										InstallBackground(elements::GuiGraphicsComposition* boundsComposition, Direction direction);
+				void										InstallBackground(elements::GuiGraphicsComposition* boundsComposition, Direction direction)override;
 			public:
 				Win7ScrollStyle(Direction _direction);
 				~Win7ScrollStyle();
@@ -342,9 +342,9 @@ Scrolls
 				static const int							HandleShort=10;
 
 			protected:
-				controls::GuiButton::IStyleController*		CreateHandleButtonStyle(Direction direction);
-				void										InstallBackground(elements::GuiGraphicsComposition* boundsComposition, Direction direction);
-				void										InstallTrack(elements::GuiGraphicsComposition* trackComposition, Direction direction);
+				controls::GuiButton::IStyleController*		CreateHandleButtonStyle(Direction direction)override;
+				void										InstallBackground(elements::GuiGraphicsComposition* boundsComposition, Direction direction)override;
+				void										InstallTrack(elements::GuiGraphicsComposition* trackComposition, Direction direction)override;
 			public:
 				Win7TrackStyle(Direction _direction);
 				~Win7TrackStyle();
@@ -353,16 +353,16 @@ Scrolls
 			class Win7ScrollViewProvider : public Object, public controls::GuiScrollView::IStyleProvider
 			{
 			public:
-				void										AssociateStyleController(controls::GuiControl::IStyleController* controller);
-				void										SetFocusableComposition(elements::GuiGraphicsComposition* value);
-				void										SetText(const WString& value);
-				void										SetFont(const FontProperties& value);
-				void										SetVisuallyEnabled(bool value);
+				void										AssociateStyleController(controls::GuiControl::IStyleController* controller)override;
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value)override;
+				void										SetText(const WString& value)override;
+				void										SetFont(const FontProperties& value)override;
+				void										SetVisuallyEnabled(bool value)override;
 
-				controls::GuiScroll::IStyleController*		CreateHorizontalScrollStyle();
-				controls::GuiScroll::IStyleController*		CreateVerticalScrollStyle();
-				int											GetDefaultScrollSize();
-				elements::GuiGraphicsComposition*			InstallBackground(elements::GuiBoundsComposition* boundsComposition);
+				controls::GuiScroll::IStyleController*		CreateHorizontalScrollStyle()override;
+				controls::GuiScroll::IStyleController*		CreateVerticalScrollStyle()override;
+				int											GetDefaultScrollSize()override;
+				elements::GuiGraphicsComposition*			InstallBackground(elements::GuiBoundsComposition* boundsComposition)override;
 			};
 
 			class Win7TextBoxBackground : public Object
@@ -407,10 +407,10 @@ Scrolls
 				Win7MultilineTextBoxProvider();
 				~Win7MultilineTextBoxProvider();
 				
-				void										AssociateStyleController(controls::GuiControl::IStyleController* controller);
-				void										SetFocusableComposition(elements::GuiGraphicsComposition* value);
-				void										SetVisuallyEnabled(bool value);
-				elements::GuiGraphicsComposition*			InstallBackground(elements::GuiBoundsComposition* boundsComposition);
+				void										AssociateStyleController(controls::GuiControl::IStyleController* controller)override;
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value)override;
+				void										SetVisuallyEnabled(bool value)override;
+				elements::GuiGraphicsComposition*			InstallBackground(elements::GuiBoundsComposition* boundsComposition)override;
 			};
 
 			class Win7SinglelineTextBoxProvider : public Object, public controls::GuiSinglelineTextBox::IStyleProvider
@@ -422,12 +422,12 @@ Scrolls
 				Win7SinglelineTextBoxProvider();
 				~Win7SinglelineTextBoxProvider();
 
-				void										AssociateStyleController(controls::GuiControl::IStyleController* controller);
-				void										SetFocusableComposition(elements::GuiGraphicsComposition* value);
-				void										SetText(const WString& value);
-				void										SetFont(const FontProperties& value);
-				void										SetVisuallyEnabled(bool value);
-				elements::GuiGraphicsComposition*			InstallBackground(elements::GuiBoundsComposition* boundsComposition);
+				void										AssociateStyleController(controls::GuiControl::IStyleController* controller)override;
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value)override;
+				void										SetText(const WString& value)override;
+				void										SetFont(const FontProperties& value)override;
+				void										SetVisuallyEnabled(bool value)override;
+				elements::GuiGraphicsComposition*			InstallBackground(elements::GuiBoundsComposition* boundsComposition)override;
 			};
 
 /***********************************************************************
@@ -440,8 +440,8 @@ Lists
 				Win7TextListProvider();
 				~Win7TextListProvider();
 
-				controls::GuiSelectableButton::IStyleController*		CreateBackgroundStyleController();
-				controls::GuiSelectableButton::IStyleController*		CreateBulletStyleController();
+				controls::GuiSelectableButton::IStyleController*		CreateBackgroundStyleController()override;
+				controls::GuiSelectableButton::IStyleController*		CreateBulletStyleController()override;
 			};
 
 			class Win7CheckTextListProvider : public Win7TextListProvider
@@ -450,7 +450,7 @@ Lists
 				Win7CheckTextListProvider();
 				~Win7CheckTextListProvider();
 
-				controls::GuiSelectableButton::IStyleController*		CreateBulletStyleController();
+				controls::GuiSelectableButton::IStyleController*		CreateBulletStyleController()override;
 			};
 
 			class Win7RadioTextListProvider : public Win7TextListProvider
@@ -459,7 +459,7 @@ Lists
 				Win7RadioTextListProvider();
 				~Win7RadioTextListProvider();
 
-				controls::GuiSelectableButton::IStyleController*		CreateBulletStyleController();
+				controls::GuiSelectableButton::IStyleController*		CreateBulletStyleController()override;
 			};
 		}
 	}

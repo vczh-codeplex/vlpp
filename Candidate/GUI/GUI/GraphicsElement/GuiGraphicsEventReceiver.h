@@ -46,7 +46,7 @@ Event
 					{
 					}
 
-					void Execute(GuiGraphicsComposition* sender, T& argument)
+					void Execute(GuiGraphicsComposition* sender, T& argument)override
 					{
 						handler(sender, argument);
 					}

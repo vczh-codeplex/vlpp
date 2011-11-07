@@ -138,10 +138,10 @@ Basic Construction
 				GuiGraphicsSite();
 				~GuiGraphicsSite();
 				
-				ParentSizeAffection					GetAffectionFromParent();
-				bool								IsSizeAffectParent();
-				Size								GetMinPreferredClientSize();
-				Rect								GetPreferredBounds();
+				ParentSizeAffection					GetAffectionFromParent()override;
+				bool								IsSizeAffectParent()override;
+				Size								GetMinPreferredClientSize()override;
+				Rect								GetPreferredBounds()override;
 			};
 
 /***********************************************************************
@@ -159,8 +159,8 @@ Basic Compositions
 				INativeWindow*						GetAttachedWindow();
 				void								SetAttachedWindow(INativeWindow* window);
 
-				Rect								GetBounds();
-				void								SetMargin(Margin value);
+				Rect								GetBounds()override;
+				void								SetMargin(Margin value)override;
 			};
 
 			class GuiBoundsComposition : public GuiGraphicsSite
@@ -176,9 +176,9 @@ Basic Compositions
 
 				GuiNotifyEvent						BoundsChanged;
 				
-				ParentSizeAffection					GetAffectionFromParent();
-				Rect								GetPreferredBounds();
-				Rect								GetBounds();
+				ParentSizeAffection					GetAffectionFromParent()override;
+				Rect								GetPreferredBounds()override;
+				Rect								GetBounds()override;
 				void								SetBounds(Rect value);
 
 				void								ClearAlignmentToParent();
@@ -289,7 +289,7 @@ Table Compositions
 				
 				void								UpdateCellBoundsInternal();
 				void								UpdateTableContentMinSize();
-				void								OnRenderTargetChanged();
+				void								OnRenderTargetChanged()override;
 			public:
 				GuiTableComposition();
 				~GuiTableComposition();
@@ -309,8 +309,8 @@ Table Compositions
 				Rect								GetCellArea();
 				void								UpdateCellBounds();
 				
-				Size								GetMinPreferredClientSize();
-				Rect								GetBounds();
+				Size								GetMinPreferredClientSize()override;
+				Rect								GetBounds()override;
 			};
 
 			class GuiCellComposition : public GuiGraphicsSite
@@ -327,7 +327,7 @@ Table Compositions
 				void								SetSitedCells(GuiTableComposition* table);
 				void								ResetSiteInternal();
 				bool								SetSiteInternal(int _row, int _column, int _rowSpan, int _columnSpan);
-				void								OnParentChanged(GuiGraphicsComposition* oldParent, GuiGraphicsComposition* newParent);
+				void								OnParentChanged(GuiGraphicsComposition* oldParent, GuiGraphicsComposition* newParent)override;
 				void								OnTableRowsAndColumnsChanged();
 			public:
 				GuiCellComposition();
@@ -341,7 +341,7 @@ Table Compositions
 				int									GetColumnSpan();
 				bool								SetSite(int _row, int _column, int _rowSpan, int _columnSpan);
 
-				Rect								GetBounds();
+				Rect								GetBounds()override;
 			};
 
 /***********************************************************************
@@ -368,8 +368,8 @@ Stack Compositions
 				ItemCompositionList					stackItems;
 				int									padding;
 
-				void								OnChildInserted(GuiGraphicsComposition* child);
-				void								OnChildRemoved(GuiGraphicsComposition* child);
+				void								OnChildInserted(GuiGraphicsComposition* child)override;
+				void								OnChildRemoved(GuiGraphicsComposition* child)override;
 			public:
 				GuiStackComposition();
 				~GuiStackComposition();
@@ -382,7 +382,7 @@ Stack Compositions
 				int									GetPadding();
 				void								SetPadding(int value);
 
-				Size								GetMinPreferredClientSize();
+				Size								GetMinPreferredClientSize()override;
 			};
 
 			class GuiStackItemComposition : public GuiGraphicsSite
@@ -392,12 +392,12 @@ Stack Compositions
 				GuiStackComposition*				stackParent;
 				Rect								bounds;
 
-				void								OnParentChanged(GuiGraphicsComposition* oldParent, GuiGraphicsComposition* newParent);
+				void								OnParentChanged(GuiGraphicsComposition* oldParent, GuiGraphicsComposition* newParent)override;
 				Size								GetMinSize();
 			public:
 				GuiStackItemComposition();
 				~GuiStackItemComposition();
-				Rect								GetBounds();
+				Rect								GetBounds()override;
 				void								SetBounds(Rect value);
 			};
 
@@ -430,9 +430,9 @@ Specialized Compositions
 				double								GetMaxRatio();
 				void								SetMaxRatio(double value);
 				
-				ParentSizeAffection					GetAffectionFromParent();
-				bool								IsSizeAffectParent();
-				Rect								GetBounds();
+				ParentSizeAffection					GetAffectionFromParent()override;
+				bool								IsSizeAffectParent()override;
+				Rect								GetBounds()override;
 			};
 
 			class GuiPartialViewComposition : public GuiGraphicsSite
@@ -456,9 +456,9 @@ Specialized Compositions
 				void								SetHeightRatio(double value);
 				void								SetHeightPageSize(double value);
 				
-				ParentSizeAffection					GetAffectionFromParent();
-				bool								IsSizeAffectParent();
-				Rect								GetBounds();
+				ParentSizeAffection					GetAffectionFromParent()override;
+				bool								IsSizeAffectParent()override;
+				Rect								GetBounds()override;
 			};
 		}
 	}

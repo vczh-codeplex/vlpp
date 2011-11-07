@@ -48,26 +48,26 @@ WindiwsGDIRenderTarget
 				{
 				}
 
-				WinDC* GetDC()
+				WinDC* GetDC()override
 				{
 					return dc?dc:GetNativeWindowDC(window);
 				}
 
-				void StartRendering()
+				void StartRendering()override
 				{
 					dc=GetNativeWindowDC(window);
 				}
 
-				void StopRendering()
+				void StopRendering()override
 				{
 					dc=0;
 				}
 
-				void RedrawContent()
+				void RedrawContent()override
 				{
 				}
 
-				void PushClipper(Rect clipper)
+				void PushClipper(Rect clipper)override
 				{
 					if(clipperCoverWholeTargetCounter>0)
 					{
@@ -95,7 +95,7 @@ WindiwsGDIRenderTarget
 					ApplyClipper();
 				}
 
-				void PopClipper()
+				void PopClipper()override
 				{
 					if(clippers.Count()>0)
 					{
@@ -111,7 +111,7 @@ WindiwsGDIRenderTarget
 					}
 				}
 
-				Rect GetClipper()
+				Rect GetClipper()override
 				{
 					if(clippers.Count()==0)
 					{
@@ -123,7 +123,7 @@ WindiwsGDIRenderTarget
 					}
 				}
 
-				bool IsClipperCoverWholeTarget()
+				bool IsClipperCoverWholeTarget()override
 				{
 					return clipperCoverWholeTargetCounter>0;
 				}
@@ -247,7 +247,7 @@ WindowsGDIResourceManager
 				{
 				}
 
-				void OnAttach(INativeImageFrame* frame)
+				void OnAttach(INativeImageFrame* frame)override
 				{
 					cachedFrame=frame;
 					Size size=frame->GetSize();
@@ -264,7 +264,7 @@ WindowsGDIResourceManager
 					bitmap->BuildAlphaChannel(false);
 				}
 				
-				void OnDetach(INativeImageFrame* frame)
+				void OnDetach(INativeImageFrame* frame)override
 				{
 					resourceManager->DestroyBitmapCache(cachedFrame);
 				}
@@ -296,14 +296,14 @@ WindowsGDIResourceManager
 					return dynamic_cast<IGuiGraphicsRenderTarget*>(GetWindowsForm(window)->GetGraphicsHandler());
 				}
 
-				void NativeWindowCreated(INativeWindow* window)
+				void NativeWindowCreated(INativeWindow* window)override
 				{
 					WindowsGDIRenderTarget* renderTarget=new WindowsGDIRenderTarget(window);
 					renderTargets.Add(renderTarget);
 					GetWindowsForm(window)->SetGraphicsHandler(renderTarget);
 				}
 
-				void NativeWindowDestroying(INativeWindow* window)
+				void NativeWindowDestroying(INativeWindow* window)override
 				{
 					IWindowsForm* form=GetWindowsForm(window);
 					WindowsGDIRenderTarget* renderTarget=dynamic_cast<WindowsGDIRenderTarget*>(form->GetGraphicsHandler());
@@ -311,47 +311,47 @@ WindowsGDIResourceManager
 					renderTargets.Remove(renderTarget);
 				}
 
-				Ptr<windows::WinPen> CreateGdiPen(Color color)
+				Ptr<windows::WinPen> CreateGdiPen(Color color)override
 				{
 					return pens.Create(color);
 				}
 
-				void DestroyGdiPen(Color color)
+				void DestroyGdiPen(Color color)override
 				{
 					pens.Destroy(color);
 				}
 
-				Ptr<windows::WinBrush> CreateGdiBrush(Color color)
+				Ptr<windows::WinBrush> CreateGdiBrush(Color color)override
 				{
 					return brushes.Create(color);
 				}
 
-				void DestroyGdiBrush(Color color)
+				void DestroyGdiBrush(Color color)override
 				{
 					brushes.Destroy(color);
 				}
 
-				Ptr<windows::WinFont> CreateGdiFont(const FontProperties& fontProperties)
+				Ptr<windows::WinFont> CreateGdiFont(const FontProperties& fontProperties)override
 				{
 					return fonts.Create(fontProperties);
 				}
 
-				void DestroyGdiFont(const FontProperties& fontProperties)
+				void DestroyGdiFont(const FontProperties& fontProperties)override
 				{
 					fonts.Destroy(fontProperties);
 				}
 
-				Ptr<elements::text::CharMeasurer> CreateCharMeasurer(const FontProperties& fontProperties)
+				Ptr<elements::text::CharMeasurer> CreateCharMeasurer(const FontProperties& fontProperties)override
 				{
 					return charMeasurers.Create(fontProperties);
 				}
 
-				void DestroyCharMeasurer(const FontProperties& fontProperties)
+				void DestroyCharMeasurer(const FontProperties& fontProperties)override
 				{
 					charMeasurers.Destroy(fontProperties);
 				}
 
-				Ptr<windows::WinBitmap> GetBitmap(INativeImageFrame* frame)
+				Ptr<windows::WinBitmap> GetBitmap(INativeImageFrame* frame)override
 				{
 					Ptr<INativeImageFrameCache> cache=frame->GetCache(this);
 					if(cache)
@@ -372,7 +372,7 @@ WindowsGDIResourceManager
 					}
 				}
 
-				void DestroyBitmapCache(INativeImageFrame* frame)
+				void DestroyBitmapCache(INativeImageFrame* frame)override
 				{
 					WindowsGDIImageFrameCache* cache=frame->GetCache(this).Cast<WindowsGDIImageFrameCache>().Obj();
 					imageCaches.Remove(cache);

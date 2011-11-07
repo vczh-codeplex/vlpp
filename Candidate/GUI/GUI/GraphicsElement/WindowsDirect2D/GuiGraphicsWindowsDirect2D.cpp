@@ -220,7 +220,7 @@ WindiwsGDIRenderTarget
 				{
 				}
 
-				void OnAttach(INativeImageFrame* frame)
+				void OnAttach(INativeImageFrame* frame)override
 				{
 					cachedFrame=frame;
  					ID2D1Bitmap* d2dBitmap=0;
@@ -234,7 +234,7 @@ WindiwsGDIRenderTarget
 					}
 				}
 				
-				void OnDetach(INativeImageFrame* frame)
+				void OnDetach(INativeImageFrame* frame)override
 				{
 					renderTarget->DestroyBitmapCache(cachedFrame);
 				}
@@ -281,12 +281,12 @@ WindiwsGDIRenderTarget
 					}
 				}
 
-				ID2D1RenderTarget* GetDirect2DRenderTarget()
+				ID2D1RenderTarget* GetDirect2DRenderTarget()override
 				{
 					return d2dRenderTarget?d2dRenderTarget:GetNativeWindowDirect2DRenderTarget(window);
 				}
 
-				ComPtr<ID2D1Bitmap> GetBitmap(INativeImageFrame* frame)
+				ComPtr<ID2D1Bitmap> GetBitmap(INativeImageFrame* frame)override
 				{
 					Ptr<INativeImageFrameCache> cache=frame->GetCache(this);
 					if(cache)
@@ -307,30 +307,30 @@ WindiwsGDIRenderTarget
 					}
 				}
 
-				void DestroyBitmapCache(INativeImageFrame* frame)
+				void DestroyBitmapCache(INativeImageFrame* frame)override
 				{
 					WindowsDirect2DImageFrameCache* cache=frame->GetCache(this).Cast<WindowsDirect2DImageFrameCache>().Obj();
 					imageCaches.Remove(cache);
 				}
 
-				void StartRendering()
+				void StartRendering()override
 				{
 					d2dRenderTarget=GetNativeWindowDirect2DRenderTarget(window);
 					d2dRenderTarget->BeginDraw();
 					d2dRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
 				}
 
-				void StopRendering()
+				void StopRendering()override
 				{
 					d2dRenderTarget->EndDraw();
 					d2dRenderTarget=0;
 				}
 
-				void RedrawContent()
+				void RedrawContent()override
 				{
 				}
 
-				void PushClipper(Rect clipper)
+				void PushClipper(Rect clipper)override
 				{
 					if(clipperCoverWholeTargetCounter>0)
 					{
@@ -361,7 +361,7 @@ WindiwsGDIRenderTarget
 					}
 				}
 
-				void PopClipper()
+				void PopClipper()override
 				{
 					if(clippers.Count()>0)
 					{
@@ -377,7 +377,7 @@ WindiwsGDIRenderTarget
 					}
 				}
 
-				Rect GetClipper()
+				Rect GetClipper()override
 				{
 					if(clippers.Count()==0)
 					{
@@ -389,27 +389,27 @@ WindiwsGDIRenderTarget
 					}
 				}
 
-				bool IsClipperCoverWholeTarget()
+				bool IsClipperCoverWholeTarget()override
 				{
 					return clipperCoverWholeTargetCounter>0;
 				}
 
-				ID2D1SolidColorBrush* CreateDirect2DBrush(Color color)
+				ID2D1SolidColorBrush* CreateDirect2DBrush(Color color)override
 				{
 					return solidBrushes.Create(color).Obj();
 				}
 
-				void DestroyDirect2DBrush(Color color)
+				void DestroyDirect2DBrush(Color color)override
 				{
 					solidBrushes.Destroy(color);
 				}
 
-				ID2D1LinearGradientBrush* CreateDirect2DLinearBrush(Color c1, Color c2)
+				ID2D1LinearGradientBrush* CreateDirect2DLinearBrush(Color c1, Color c2)override
 				{
 					return linearBrushes.Create(Pair<Color, Color>(c1, c2)).Obj();
 				}
 
-				void DestroyDirect2DLinearBrush(Color c1, Color c2)
+				void DestroyDirect2DLinearBrush(Color c1, Color c2)override
 				{
 					linearBrushes.Destroy(Pair<Color, Color>(c1, c2));
 				}
@@ -432,14 +432,14 @@ WindowsGDIResourceManager
 					return dynamic_cast<IGuiGraphicsRenderTarget*>(GetWindowsForm(window)->GetGraphicsHandler());
 				}
 
-				void NativeWindowCreated(INativeWindow* window)
+				void NativeWindowCreated(INativeWindow* window)override
 				{
 					WindowsDirect2DRenderTarget* renderTarget=new WindowsDirect2DRenderTarget(window);
 					renderTargets.Add(renderTarget);
 					GetWindowsForm(window)->SetGraphicsHandler(renderTarget);
 				}
 
-				void NativeWindowDestroying(INativeWindow* window)
+				void NativeWindowDestroying(INativeWindow* window)override
 				{
 					IWindowsForm* form=GetWindowsForm(window);
 					WindowsDirect2DRenderTarget* renderTarget=dynamic_cast<WindowsDirect2DRenderTarget*>(form->GetGraphicsHandler());
@@ -447,22 +447,22 @@ WindowsGDIResourceManager
 					renderTargets.Remove(renderTarget);
 				}
 
-				IDWriteTextFormat* CreateDirect2DTextFormat(const FontProperties& fontProperties)
+				IDWriteTextFormat* CreateDirect2DTextFormat(const FontProperties& fontProperties)override
 				{
 					return textFormats.Create(fontProperties).Obj();
 				}
 
-				void DestroyDirect2DTextFormat(const FontProperties& fontProperties)
+				void DestroyDirect2DTextFormat(const FontProperties& fontProperties)override
 				{
 					textFormats.Destroy(fontProperties);
 				}
 
-				Ptr<elements::text::CharMeasurer> CreateDirect2DCharMeasurer(const FontProperties& fontProperties)
+				Ptr<elements::text::CharMeasurer> CreateDirect2DCharMeasurer(const FontProperties& fontProperties)override
 				{
 					return charMeasurers.Create(fontProperties);
 				}
 
-				void DestroyDirect2DCharMeasurer(const FontProperties& fontProperties)
+				void DestroyDirect2DCharMeasurer(const FontProperties& fontProperties)override
 				{
 					charMeasurers.Destroy(fontProperties);
 				}

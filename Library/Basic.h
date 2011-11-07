@@ -58,6 +58,10 @@ typedef signed __int64	pos_t;
 #define UI64TOW_S	_ui64tow_s
 #endif
 
+#ifndef _MSC_VER
+#define override
+#endif
+
 #define VCZH_NO_OLD_OS
 
 /***********************************************************************

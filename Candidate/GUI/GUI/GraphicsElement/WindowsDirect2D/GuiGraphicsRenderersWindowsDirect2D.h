@@ -32,8 +32,8 @@ namespace vl
 				void					RenderTargetChangedInternal(IWindowsDirect2DRenderTarget* oldRenderTarget, IWindowsDirect2DRenderTarget* newRenderTarget);\
 			public:\
 				TRENDERER();\
-				void					Render(Rect bounds);\
-				void					OnElementStateChanged();\
+				void					Render(Rect bounds)override;\
+				void					OnElementStateChanged()override;\
 
 /***********************************************************************
 Renderers
@@ -67,8 +67,8 @@ Renderers
 			public:
 				Gui3DBorderElementRenderer();
 
-				void					Render(Rect bounds);
-				void					OnElementStateChanged();
+				void					Render(Rect bounds)override;
+				void					OnElementStateChanged()override;
 			};
 
 			class GuiSolidBackgroundElementRenderer : public Object, public IGuiGraphicsRenderer
@@ -104,8 +104,8 @@ Renderers
 			public:
 				GuiSolidLabelElementRenderer();
 
-				void					Render(Rect bounds);
-				void					OnElementStateChanged();
+				void					Render(Rect bounds)override;
+				void					OnElementStateChanged()override;
 			};
 
 			class GuiImageFrameElementRenderer : public Object, public IGuiGraphicsRenderer
@@ -122,8 +122,8 @@ Renderers
 			public:
 				GuiImageFrameElementRenderer();
 
-				void					Render(Rect bounds);
-				void					OnElementStateChanged();
+				void					Render(Rect bounds)override;
+				void					OnElementStateChanged()override;
 			};
 
 			class GuiColorizedTextElementRenderer : public Object, public IGuiGraphicsRenderer, protected GuiColorizedTextElement::ICallback
@@ -170,8 +170,8 @@ Renderers
 				void					FinalizeInternal();
 				void					RenderTargetChangedInternal(IWindowsDirect2DRenderTarget* oldRenderTarget, IWindowsDirect2DRenderTarget* newRenderTarget);
 			public:
-				void					Render(Rect bounds);
-				void					OnElementStateChanged();
+				void					Render(Rect bounds)override;
+				void					OnElementStateChanged()override;
 			};
 		}
 	}

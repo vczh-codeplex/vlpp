@@ -174,8 +174,6 @@ Buttons
 				~GuiButton();
 
 				elements::GuiNotifyEvent				Clicked;
-
-				elements::GuiGraphicsComposition*		GetFocusableComposition();
 			};
 
 			class GuiSelectableButton : public GuiButton
@@ -208,7 +206,7 @@ Buttons
 					MutexGroupController();
 					~MutexGroupController();
 
-					void								OnSelectedChanged(GuiSelectableButton* button);
+					void								OnSelectedChanged(GuiSelectableButton* button)override;
 				};
 
 			protected:
@@ -271,14 +269,14 @@ Scrolls
 					CommandExecutor(GuiScroll* _scroll);
 					~CommandExecutor();
 
-					void								SmallDecrease();
-					void								SmallIncrease();
-					void								BigDecrease();
-					void								BigIncrease();
+					void								SmallDecrease()override;
+					void								SmallIncrease()override;
+					void								BigDecrease()override;
+					void								BigIncrease()override;
 
-					void								SetTotalSize(int value);
-					void								SetPageSize(int value);
-					void								SetPosition(int value);
+					void								SetTotalSize(int value)override;
+					void								SetPageSize(int value)override;
+					void								SetPosition(int value)override;
 				};
 
 				IStyleController*						styleController;
@@ -353,12 +351,12 @@ Scrolls
 					bool								GetVerticalAlwaysVisible();
 					void								SetVerticalAlwaysVisible(bool value);
 
-					elements::GuiBoundsComposition*		GetBoundsComposition();
-					elements::GuiGraphicsComposition*	GetContainerComposition();
-					void								SetFocusableComposition(elements::GuiGraphicsComposition* value);
-					void								SetText(const WString& value);
-					void								SetFont(const FontProperties& value);
-					void								SetVisuallyEnabled(bool value);
+					elements::GuiBoundsComposition*		GetBoundsComposition()override;
+					elements::GuiGraphicsComposition*	GetContainerComposition()override;
+					void								SetFocusableComposition(elements::GuiGraphicsComposition* value)override;
+					void								SetText(const WString& value)override;
+					void								SetFont(const FontProperties& value)override;
+					void								SetVisuallyEnabled(bool value)override;
 				};
 			protected:
 
@@ -400,7 +398,7 @@ Scrolls
 					StyleController(GuiScrollView::IStyleProvider* styleProvider);
 					~StyleController();
 
-					elements::GuiGraphicsComposition*	GetContainerComposition();
+					elements::GuiGraphicsComposition*	GetContainerComposition()override;
 					void								MoveContainer(Point leftTop);
 				};
 
@@ -408,8 +406,8 @@ Scrolls
 				StyleController*						styleController;
 
 				void									OnControlContainerBoundsChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
-				Size									QueryFullSize();
-				void									UpdateView(Rect viewBounds);
+				Size									QueryFullSize()override;
+				void									UpdateView(Rect viewBounds)override;
 			public:
 				GuiScrollContainer(GuiScrollContainer::IStyleProvider* styleProvider);
 				~GuiScrollContainer();

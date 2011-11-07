@@ -50,11 +50,11 @@ Common Operations
 					DefaultCallback(elements::GuiColorizedTextElement* _textElement, elements::GuiGraphicsComposition* _textComposition);
 					~DefaultCallback();
 
-					TextPos									GetLeftWord(TextPos pos);
-					TextPos									GetRightWord(TextPos pos);
-					void									GetWord(TextPos pos, TextPos& begin, TextPos& end);
-					int										GetPageRows();
-					bool									BeforeModify(TextPos& start, TextPos& end, const WString& originalText, WString& inputText);
+					TextPos									GetLeftWord(TextPos pos)override;
+					TextPos									GetRightWord(TextPos pos)override;
+					void									GetWord(TextPos pos, TextPos& begin, TextPos& end)override;
+					int										GetPageRows()override;
+					bool									BeforeModify(TextPos& start, TextPos& end, const WString& originalText, WString& inputText)override;
 				};
 			protected:
 				elements::GuiColorizedTextElement*			textElement;
@@ -176,12 +176,12 @@ TextBox
 					elements::GuiGraphicsComposition*		GetTextComposition();
 					GuiTextElementOperator*					GetTextElementOperator();
 					void									SetViewPosition(Point value);
-					void									SetFocusableComposition(elements::GuiGraphicsComposition* value);
+					void									SetFocusableComposition(elements::GuiGraphicsComposition* value)override;
 
 					WString									GetText();
-					void									SetText(const WString& value);
-					void									SetFont(const FontProperties& value);
-					void									SetVisuallyEnabled(bool value);
+					void									SetText(const WString& value)override;
+					void									SetFont(const FontProperties& value)override;
+					void									SetVisuallyEnabled(bool value)override;
 				};
 
 				class TextElementOperatorCallback : public GuiTextElementOperator::DefaultCallback
@@ -192,26 +192,26 @@ TextBox
 				public:
 					TextElementOperatorCallback(GuiMultilineTextBox* _textControl);
 
-					void									AfterModify(TextPos originalStart, TextPos originalEnd, const WString& originalText, TextPos inputStart, TextPos inputEnd, const WString& inputText);
-					void									ScrollToView(Point point);
-					int										GetTextMargin();
+					void									AfterModify(TextPos originalStart, TextPos originalEnd, const WString& originalText, TextPos inputStart, TextPos inputEnd, const WString& inputText)override;
+					void									ScrollToView(Point point)override;
+					int										GetTextMargin()override;
 				};
 
 			protected:
 				StyleController*							styleController;
 
 				void										CalculateViewAndSetScroll();
-				void										OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget);
-				Size										QueryFullSize();
-				void										UpdateView(Rect viewBounds);
+				void										OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget)override;
+				Size										QueryFullSize()override;
+				void										UpdateView(Rect viewBounds)override;
 				void										OnBoundsMouseButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
 			public:
 				GuiMultilineTextBox(GuiMultilineTextBox::IStyleProvider* styleProvider);
 				~GuiMultilineTextBox();
 
-				const WString&								GetText();
-				void										SetText(const WString& value);
-				void										SetFont(const FontProperties& value);
+				const WString&								GetText()override;
+				void										SetText(const WString& value)override;
+				void										SetFont(const FontProperties& value)override;
 			};
 
 			class GuiSinglelineTextBox : public GuiControl, public GuiTextBoxCommonInterface
@@ -268,23 +268,23 @@ TextBox
 				public:
 					TextElementOperatorCallback(GuiSinglelineTextBox* _textControl);
 
-					bool									BeforeModify(TextPos& start, TextPos& end, const WString& originalText, WString& inputText);
-					void									AfterModify(TextPos originalStart, TextPos originalEnd, const WString& originalText, TextPos inputStart, TextPos inputEnd, const WString& inputText);
-					void									ScrollToView(Point point);
-					int										GetTextMargin();
+					bool									BeforeModify(TextPos& start, TextPos& end, const WString& originalText, WString& inputText)override;
+					void									AfterModify(TextPos originalStart, TextPos originalEnd, const WString& originalText, TextPos inputStart, TextPos inputEnd, const WString& inputText)override;
+					void									ScrollToView(Point point)override;
+					int										GetTextMargin()override;
 				};
 			protected:
 				StyleController*							styleController;
 				
-				void										OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget);
+				void										OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget)override;
 				void										OnBoundsMouseButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
 			public:
 				GuiSinglelineTextBox(GuiSinglelineTextBox::IStyleProvider* styleProvider);
 				~GuiSinglelineTextBox();
 
-				const WString&								GetText();
-				void										SetText(const WString& value);
-				void										SetFont(const FontProperties& value);
+				const WString&								GetText()override;
+				void										SetText(const WString& value)override;
+				void										SetFont(const FontProperties& value)override;
 			};
 		}
 	}

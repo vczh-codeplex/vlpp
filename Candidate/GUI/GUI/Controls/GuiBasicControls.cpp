@@ -439,11 +439,6 @@ GuiButton
 				}
 			}
 
-			elements::GuiGraphicsComposition* GuiButton::GetFocusableComposition()
-			{
-				return boundsComposition;
-			}
-
 			GuiButton::GuiButton(IStyleController* _styleController)
 				:GuiControl(_styleController)
 				,styleController(_styleController)
