@@ -437,7 +437,7 @@ GuiImageFrameElementRenderer
 
 			void GuiImageFrameElementRenderer::UpdateBitmap()
 			{
-				if(renderTarget && element->GetImage())
+				if(element->GetImage())
 				{
 					IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
 					INativeImageFrame* frame=element->GetImage()->GetFrame(element->GetFrameIndex());
