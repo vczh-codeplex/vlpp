@@ -236,7 +236,7 @@ GuiGraphicsHost
 				if(previousClientSize!=size)
 				{
 					previousClientSize=size;
-					minSize=windowComposition->GetMinNecessaryBounds().GetSize();
+					minSize=windowComposition->GetPreferredBounds().GetSize();
 					Render();
 				}
 			}
@@ -484,7 +484,7 @@ GuiGraphicsHost
 						nativeWindow->InstallListener(this);
 						GetCurrentController()->InstallListener(this);
 						previousClientSize=nativeWindow->GetClientSize();
-						minSize=windowComposition->GetMinNecessaryBounds().GetSize();
+						minSize=windowComposition->GetPreferredBounds().GetSize();
 						nativeWindow->SetCaretPoint(caretPoint);
 					}
 				}
