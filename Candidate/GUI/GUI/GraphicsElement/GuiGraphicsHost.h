@@ -131,8 +131,8 @@ Helpers
 				~GuiTimeBasedAnimation();
 
 				void							Restart(int totalMilliseconds=-1);
-				int								GetTotalLength();
-				int								GetCurrentPosition();
+				int								GetTotalLength()override;
+				int								GetCurrentPosition()override;
 			};
 		}
 	}

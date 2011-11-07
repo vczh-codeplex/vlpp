@@ -65,16 +65,16 @@ Scrolls
 				CommonScrollStyle(Direction _direction);
 				~CommonScrollStyle();
 
-				elements::GuiBoundsComposition*						GetBoundsComposition();
-				elements::GuiGraphicsComposition*					GetContainerComposition();
-				void												SetFocusableComposition(elements::GuiGraphicsComposition* value);
-				void												SetText(const WString& value);
-				void												SetFont(const FontProperties& value);
-				void												SetVisuallyEnabled(bool value);
-				void												SetCommandExecutor(controls::GuiScroll::ICommandExecutor* value);
-				void												SetTotalSize(int value);
-				void												SetPageSize(int value);
-				void												SetPosition(int value);
+				elements::GuiBoundsComposition*						GetBoundsComposition()override;
+				elements::GuiGraphicsComposition*					GetContainerComposition()override;
+				void												SetFocusableComposition(elements::GuiGraphicsComposition* value)override;
+				void												SetText(const WString& value)override;
+				void												SetFont(const FontProperties& value)override;
+				void												SetVisuallyEnabled(bool value)override;
+				void												SetCommandExecutor(controls::GuiScroll::ICommandExecutor* value)override;
+				void												SetTotalSize(int value)override;
+				void												SetPageSize(int value)override;
+				void												SetPosition(int value)override;
 			};
 
 			class CommonTrackStyle : public Object, public controls::GuiScroll::IStyleController
@@ -111,16 +111,16 @@ Scrolls
 				CommonTrackStyle(Direction _direction);
 				~CommonTrackStyle();
 
-				elements::GuiBoundsComposition*						GetBoundsComposition();
-				elements::GuiGraphicsComposition*					GetContainerComposition();
-				void												SetFocusableComposition(elements::GuiGraphicsComposition* value);
-				void												SetText(const WString& value);
-				void												SetFont(const FontProperties& value);
-				void												SetVisuallyEnabled(bool value);
-				void												SetCommandExecutor(controls::GuiScroll::ICommandExecutor* value);
-				void												SetTotalSize(int value);
-				void												SetPageSize(int value);
-				void												SetPosition(int value);
+				elements::GuiBoundsComposition*						GetBoundsComposition()override;
+				elements::GuiGraphicsComposition*					GetContainerComposition()override;
+				void												SetFocusableComposition(elements::GuiGraphicsComposition* value)override;
+				void												SetText(const WString& value)override;
+				void												SetFont(const FontProperties& value)override;
+				void												SetVisuallyEnabled(bool value)override;
+				void												SetCommandExecutor(controls::GuiScroll::ICommandExecutor* value)override;
+				void												SetTotalSize(int value)override;
+				void												SetPageSize(int value)override;
+				void												SetPosition(int value)override;
 			};
 		}
 	}

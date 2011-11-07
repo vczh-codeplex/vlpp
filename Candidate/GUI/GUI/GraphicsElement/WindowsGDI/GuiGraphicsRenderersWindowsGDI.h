@@ -36,8 +36,8 @@ Renderers
 				void					FinalizeInternal();
 				void					RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget);
 			public:
-				void					Render(Rect bounds);
-				void					OnElementStateChanged();
+				void					Render(Rect bounds)override;
+				void					OnElementStateChanged()override;
 			};
 
 			class GuiRoundBorderElementRenderer : public Object, public IGuiGraphicsRenderer
@@ -52,8 +52,8 @@ Renderers
 				void					FinalizeInternal();
 				void					RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget);
 			public:
-				void					Render(Rect bounds);
-				void					OnElementStateChanged();
+				void					Render(Rect bounds)override;
+				void					OnElementStateChanged()override;
 			};
 
 			class Gui3DBorderElementRenderer : public Object, public IGuiGraphicsRenderer
@@ -69,8 +69,8 @@ Renderers
 				void					FinalizeInternal();
 				void					RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget);
 			public:
-				void					Render(Rect bounds);
-				void					OnElementStateChanged();
+				void					Render(Rect bounds)override;
+				void					OnElementStateChanged()override;
 			};
 
 			class GuiSolidBackgroundElementRenderer : public Object, public IGuiGraphicsRenderer
@@ -85,8 +85,8 @@ Renderers
 				void					FinalizeInternal();
 				void					RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget);
 			public:
-				void					Render(Rect bounds);
-				void					OnElementStateChanged();
+				void					Render(Rect bounds)override;
+				void					OnElementStateChanged()override;
 			};
 
 			class GuiGradientBackgroundElementRenderer : public Object, public IGuiGraphicsRenderer
@@ -97,8 +97,8 @@ Renderers
 				void					FinalizeInternal();
 				void					RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget);
 			public:
-				void					Render(Rect bounds);
-				void					OnElementStateChanged();
+				void					Render(Rect bounds)override;
+				void					OnElementStateChanged()override;
 			};
 
 			class GuiSolidLabelElementRenderer : public Object, public IGuiGraphicsRenderer
@@ -114,8 +114,8 @@ Renderers
 				void					FinalizeInternal();
 				void					RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget);
 			public:
-				void					Render(Rect bounds);
-				void					OnElementStateChanged();
+				void					Render(Rect bounds)override;
+				void					OnElementStateChanged()override;
 			};
 
 			class GuiImageFrameElementRenderer : public Object, public IGuiGraphicsRenderer
@@ -132,8 +132,8 @@ Renderers
 			public:
 				GuiImageFrameElementRenderer();
 
-				void					Render(Rect bounds);
-				void					OnElementStateChanged();
+				void					Render(Rect bounds)override;
+				void					OnElementStateChanged()override;
 			};
 
 			class GuiColorizedTextElementRenderer : public Object, public IGuiGraphicsRenderer, protected GuiColorizedTextElement::ICallback
@@ -174,8 +174,8 @@ Renderers
 				void					FinalizeInternal();
 				void					RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget);
 			public:
-				void					Render(Rect bounds);
-				void					OnElementStateChanged();
+				void					Render(Rect bounds)override;
+				void					OnElementStateChanged()override;
 			};
 		}
 	}

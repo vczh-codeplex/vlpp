@@ -76,13 +76,13 @@ TextList Style Provider
 					TextItemStyleProvider(ITextItemStyleProvider* _textItemStyleProvider);
 					~TextItemStyleProvider();
 
-					void										AttachListControl(GuiListControl* value);
-					void										DetachListControl();
-					int											GetItemStyleId(int itemIndex);
-					GuiListControl::IItemStyleController*		CreateItemStyle(int styleId);
-					void										DestroyItemStyle(GuiListControl::IItemStyleController* style);
-					void										Install(GuiListControl::IItemStyleController* style, int itemIndex);
-					void										SetStyleSelected(GuiListControl::IItemStyleController* style, bool value);
+					void										AttachListControl(GuiListControl* value)override;
+					void										DetachListControl()override;
+					int											GetItemStyleId(int itemIndex)override;
+					GuiListControl::IItemStyleController*		CreateItemStyle(int styleId)override;
+					void										DestroyItemStyle(GuiListControl::IItemStyleController* style)override;
+					void										Install(GuiListControl::IItemStyleController* style, int itemIndex)override;
+					void										SetStyleSelected(GuiListControl::IItemStyleController* style, bool value)override;
 				};
 
 /***********************************************************************
@@ -112,9 +112,9 @@ TextList Data Source
 				class TextItemProvider : public ListProvider<TextItem>, protected TextItemStyleProvider::ITextItemView
 				{
 				protected:
-					const WString&								GetText(int itemIndex);
-					bool										GetChecked(int itemIndex);
-					void										SetCheckedSilently(int itemIndex, bool value);
+					const WString&								GetText(int itemIndex)override;
+					bool										GetChecked(int itemIndex)override;
+					void										SetCheckedSilently(int itemIndex, bool value)override;
 				public:
 					TextItemProvider();
 					~TextItemProvider();

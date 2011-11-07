@@ -130,11 +130,11 @@ Helpers
 				{\
 					return dynamic_cast<TELEMENT*>(GetGuiGraphicsResourceManager()->GetElementFactory(TELEMENT::GetElementTypeName())->Create());\
 				}\
-				IGuiGraphicsElementFactory* GetFactory()\
+				IGuiGraphicsElementFactory* GetFactory()override\
 				{\
 					return factory;\
 				}\
-				IGuiGraphicsRenderer* GetRenderer()\
+				IGuiGraphicsRenderer* GetRenderer()override\
 				{\
 					return renderer.Obj();\
 				}\
@@ -163,26 +163,26 @@ Helpers
 				{\
 					RegisterFactories(new TELEMENT::Factory, new TRENDERER::Factory);\
 				}\
-				IGuiGraphicsRendererFactory* GetFactory()\
+				IGuiGraphicsRendererFactory* GetFactory()override\
 				{\
 					return factory;\
 				}\
-				void Initialize(IGuiGraphicsElement* _element)\
+				void Initialize(IGuiGraphicsElement* _element)override\
 				{\
 					element=dynamic_cast<TELEMENT*>(_element);\
 					InitializeInternal();\
 				}\
-				void Finalize()\
+				void Finalize()override\
 				{\
 					FinalizeInternal();\
 				}\
-				void SetRenderTarget(IGuiGraphicsRenderTarget* _renderTarget)\
+				void SetRenderTarget(IGuiGraphicsRenderTarget* _renderTarget)override\
 				{\
 					TTARGET* oldRenderTarget=renderTarget;\
 					renderTarget=dynamic_cast<TTARGET*>(_renderTarget);\
 					RenderTargetChangedInternal(oldRenderTarget, renderTarget);\
 				}\
-				Size GetMinSize()\
+				Size GetMinSize()override\
 				{\
 					return minSize;\
 				}\

@@ -116,13 +116,13 @@ List Control
 
 					void										ClearCache();
 
-					void										OnAttached(IItemProvider* provider);
-					void										OnItemModified(int start, int count, int newCount);
-					IItemStyleController*						RequestItem(int itemIndex);
-					void										ReleaseItem(IItemStyleController* style);
-					void										SetViewLocation(Point value);
-					elements::GuiGraphicsComposition*			GetContainerComposition();
-					void										OnTotalSizeChanged();
+					void										OnAttached(IItemProvider* provider)override;
+					void										OnItemModified(int start, int count, int newCount)override;
+					IItemStyleController*						RequestItem(int itemIndex)override;
+					void										ReleaseItem(IItemStyleController* style)override;
+					void										SetViewLocation(Point value)override;
+					elements::GuiGraphicsComposition*			GetContainerComposition()override;
+					void										OnTotalSizeChanged()override;
 				};
 
 				Ptr<ItemCallback>								callback;
@@ -134,9 +134,9 @@ List Control
 				virtual void									OnStyleInstalled(int itemIndex, IItemStyleController* style);
 				virtual void									OnStyleUninstalled(IItemStyleController* style);
 				
-				void											OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget);
-				Size											QueryFullSize();
-				void											UpdateView(Rect viewBounds);
+				void											OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget)override;
+				Size											QueryFullSize()override;
+				void											UpdateView(Rect viewBounds)override;
 				
 				void											OnBoundsMouseButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
 				void											SetStyleProviderAndArranger(Ptr<IItemStyleProvider> styleProvider, Ptr<IItemArranger> arranger);
@@ -187,9 +187,9 @@ List Control
 				VisibleStyleMap									visibleStyles;
 				bool											multiSelect;
 
-				void											OnItemModified(int start, int count, int newCount);
-				void											OnStyleInstalled(int itemIndex, IItemStyleController* style);
-				void											OnStyleUninstalled(IItemStyleController* style);
+				void											OnItemModified(int start, int count, int newCount)override;
+				void											OnStyleInstalled(int itemIndex, IItemStyleController* style)override;
+				void											OnStyleUninstalled(IItemStyleController* style)override;
 				virtual void									OnItemSelectionChanged(int itemIndex, bool value);
 				virtual void									OnItemSelectionCleared();
 			public:
@@ -198,7 +198,7 @@ List Control
 
 				elements::GuiNotifyEvent						SelectionChanged;
 
-				Ptr<GuiListControl::IItemStyleProvider>			SetStyleProvider(Ptr<GuiListControl::IItemStyleProvider> value);
+				Ptr<GuiListControl::IItemStyleProvider>			SetStyleProvider(Ptr<GuiListControl::IItemStyleProvider> value)override;
 
 				bool											GetMultiSelect();
 				void											SetMultiSelect(bool value);
@@ -233,16 +233,16 @@ Predefined ItemArranger
 					FixedHeightItemArranger();
 					~FixedHeightItemArranger();
 
-					void										OnAttached(GuiListControl::IItemProvider* provider);
-					void										OnItemModified(int start, int count, int newCount);
-					void										AttachListControl(GuiListControl* value);
-					void										DetachListControl();
-					GuiListControl::IItemArrangerCallback*		GetCallback();
-					void										SetCallback(GuiListControl::IItemArrangerCallback* value);
-					Size										GetTotalSize();
-					GuiListControl::IItemStyleController*		GetVisibleStyle(int itemIndex);
-					int											GetVisibleIndex(GuiListControl::IItemStyleController* style);
-					void										OnViewChanged(Rect bounds);
+					void										OnAttached(GuiListControl::IItemProvider* provider)override;
+					void										OnItemModified(int start, int count, int newCount)override;
+					void										AttachListControl(GuiListControl* value)override;
+					void										DetachListControl()override;
+					GuiListControl::IItemArrangerCallback*		GetCallback()override;
+					void										SetCallback(GuiListControl::IItemArrangerCallback* value)override;
+					Size										GetTotalSize()override;
+					GuiListControl::IItemStyleController*		GetVisibleStyle(int itemIndex)override;
+					int											GetVisibleIndex(GuiListControl::IItemStyleController* style)override;
+					void										OnViewChanged(Rect bounds)override;
 				};
 			}
 
@@ -268,13 +268,13 @@ Predefined ItemStyleController
 				public:
 					~ItemStyleControllerBase();
 					
-					GuiListControl::IItemStyleProvider*			GetStyleProvider();
-					int											GetItemStyleId();
-					elements::GuiBoundsComposition*				GetBoundsComposition();
-					bool										IsCacheable();
-					bool										IsInstalled();
-					void										OnInstalled();
-					void										OnUninstalled();
+					GuiListControl::IItemStyleProvider*			GetStyleProvider()override;
+					int											GetItemStyleId()override;
+					elements::GuiBoundsComposition*				GetBoundsComposition()override;
+					bool										IsCacheable()override;
+					bool										IsInstalled()override;
+					void										OnInstalled()override;
+					void										OnUninstalled()override;
 				};
 			}
 
