@@ -587,7 +587,7 @@ FixedHeightItemArranger
 									GuiListControl::IItemStyleController* style=callback->RequestItem(i);
 									callback->GetContainerComposition()->AddChild(style->GetBoundsComposition());
 									visibleStyles.Add(style);
-									int styleHeight=style->GetBoundsComposition()->GetMinNecessaryBounds().Height();
+									int styleHeight=style->GetBoundsComposition()->GetPreferredBounds().Height();
 									if(newRowHeight<styleHeight)
 									{
 										newRowHeight=styleHeight;

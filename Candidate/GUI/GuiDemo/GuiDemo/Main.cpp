@@ -99,7 +99,6 @@ void SetupMainPanel(GuiControlHost* host, GuiCellComposition* cell)
 			groupBox->GetContainerComposition()->AddChild(checkBox->GetBoundsComposition());
 			checkBox->GetBoundsComposition()->SetAlignmentToParent(Margin(10, 5, 10, -1));
 			checkBox->SetText(L"CheckBox 1");
-			Rect bounds=checkBox->GetBoundsComposition()->GetMinNecessaryBounds();
 		}
 		{
 			GuiSelectableButton* checkBox=new GuiSelectableButton(new win7::Win7SelectableItemStyle());

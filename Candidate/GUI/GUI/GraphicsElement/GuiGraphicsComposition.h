@@ -46,6 +46,13 @@ Basic Construction
 					LimitToElement,
 					LimitToElementAndChildren,
 				};
+
+				enum ParentSizeAffection
+				{
+					NotAffectedByParent,
+					AffectedByParent,
+					TotallyDecidedByParent,
+				};
 			protected:
 				CompositionList						children;
 				GuiGraphicsComposition*				parent;
@@ -59,15 +66,14 @@ Basic Construction
 				GuiGraphicsHost*					associatedHost;
 				INativeCursor*						associatedCursor;
 
-				void								OnControlParentChanged(controls::GuiControl* control);
-
+				virtual void						OnControlParentChanged(controls::GuiControl* control);
 				virtual void						OnChildInserted(GuiGraphicsComposition* child);
 				virtual void						OnChildRemoved(GuiGraphicsComposition* child);
 				virtual void						OnParentChanged(GuiGraphicsComposition* oldParent, GuiGraphicsComposition* newParent);
 				virtual void						OnRenderTargetChanged();
 				
-				void								SetAssociatedControl(controls::GuiControl* control);
-				void								SetAssociatedHost(GuiGraphicsHost* host);
+				virtual void						SetAssociatedControl(controls::GuiControl* control);
+				virtual void						SetAssociatedHost(GuiGraphicsHost* host);
 			public:
 				GuiGraphicsComposition();
 				~GuiGraphicsComposition();
@@ -109,20 +115,27 @@ Basic Construction
 				virtual Margin						GetInternalMargin();
 				virtual void						SetInternalMargin(Margin value);
 				virtual Rect						GetClientArea();
-				virtual Rect						GetMinNecessaryBounds()=0;
+				
+				virtual ParentSizeAffection			GetAffectionFromParent()=0;
+				virtual bool						IsSizeAffectParent()=0;
+				virtual Size						GetMinPreferredClientSize()=0;
+				virtual Rect						GetPreferredBounds()=0;
 				virtual Rect						GetBounds()=0;
 			};
 
 			class GuiGraphicsSite : public GuiGraphicsComposition
 			{
 			protected:
-				virtual Size						AdjustMinClientSize(Size minSize);
-				virtual Rect						GetBoundsInternal(Rect expectedBounds, MinSizeLimitation limitation);
+
+				virtual Rect						GetBoundsInternal(Rect expectedBounds);
 			public:
 				GuiGraphicsSite();
 				~GuiGraphicsSite();
-
-				Rect								GetMinNecessaryBounds();
+				
+				ParentSizeAffection					GetAffectionFromParent();
+				bool								IsSizeAffectParent();
+				Size								GetMinPreferredClientSize();
+				Rect								GetPreferredBounds();
 			};
 
 /***********************************************************************
@@ -151,15 +164,14 @@ Basic Compositions
 				Rect								previousBounds;
 				Margin								alignmentToParent;
 				
-				virtual Rect						GetUnalignedBoundsForMinNecessaryBounds();
-				virtual Rect						CalculateUnalignedBounds();
 			public:
 				GuiBoundsComposition();
 				~GuiBoundsComposition();
 
 				GuiNotifyEvent						BoundsChanged;
-
-				Rect								GetMinNecessaryBounds();
+				
+				ParentSizeAffection					GetAffectionFromParent();
+				Rect								GetPreferredBounds();
 				Rect								GetBounds();
 				void								SetBounds(Rect value);
 
@@ -269,7 +281,6 @@ Table Compositions
 														int max
 														);
 				
-				Rect								GetUnalignedBoundsForMinNecessaryBounds();
 				void								UpdateCellBoundsInternal();
 				void								UpdateTableContentMinSize();
 				void								OnRenderTargetChanged();
@@ -292,6 +303,7 @@ Table Compositions
 				Rect								GetCellArea();
 				void								UpdateCellBounds();
 				
+				Size								GetMinPreferredClientSize();
 				Rect								GetBounds();
 			};
 
@@ -355,7 +367,6 @@ Stack Compositions
 
 				void								OnChildInserted(GuiGraphicsComposition* child);
 				void								OnChildRemoved(GuiGraphicsComposition* child);
-				Size								AdjustMinClientSize(Size minSize);
 			public:
 				GuiStackComposition();
 				~GuiStackComposition();
@@ -367,6 +378,8 @@ Stack Compositions
 				void								SetDirection(Direction value);
 				int									GetPadding();
 				void								SetPadding(int value);
+
+				Size								GetMinPreferredClientSize();
 			};
 
 			class GuiStackItemComposition : public GuiGraphicsSite
@@ -413,7 +426,8 @@ Specialized Compositions
 				void								SetMaxLength(int value);
 				double								GetMaxRatio();
 				void								SetMaxRatio(double value);
-
+				
+				ParentSizeAffection					GetAffectionFromParent();
 				Rect								GetBounds();
 			};
 
@@ -438,7 +452,8 @@ Specialized Compositions
 				void								SetWidthPageSize(double value);
 				void								SetHeightRatio(double value);
 				void								SetHeightPageSize(double value);
-
+				
+				ParentSizeAffection					GetAffectionFromParent();
 				Rect								GetBounds();
 				Size								GetMinSize();
 				void								SetMinSize(Size value);

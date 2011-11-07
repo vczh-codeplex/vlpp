@@ -431,33 +431,9 @@ GuiGraphicsComposition
 GuiGraphicsSite
 ***********************************************************************/
 
-			Size GuiGraphicsSite::AdjustMinClientSize(Size minSize)
+			Rect GuiGraphicsSite::GetBoundsInternal(Rect expectedBounds)
 			{
-				return minSize;
-			}
-
-			Rect GuiGraphicsSite::GetBoundsInternal(Rect expectedBounds, MinSizeLimitation limitation)
-			{
-				Size minSize;
-				if(limitation!=GuiGraphicsComposition::NoLimit)
-				{
-					if(ownedElement)
-					{
-						minSize=ownedElement->GetRenderer()->GetMinSize();
-					}
-				}
-				if(limitation==GuiGraphicsComposition::LimitToElementAndChildren)
-				{
-					int childCount=Children().Count();
-					for(int i=0;i<childCount;i++)
-					{
-						Rect childBounds=Children()[i]->GetMinNecessaryBounds();
-						if(minSize.x<childBounds.x2) minSize.x=childBounds.x2;
-						if(minSize.y<childBounds.y2) minSize.y=childBounds.y2;
-					}
-				}
-				minSize=AdjustMinClientSize(minSize);
-				
+				Size minSize=GetMinPreferredClientSize();
 				minSize.x+=margin.left+margin.right+internalMargin.left+internalMargin.right;
 				minSize.y+=margin.top+margin.bottom+internalMargin.top+internalMargin.bottom;
 				int w=expectedBounds.Width();
@@ -475,9 +451,46 @@ GuiGraphicsSite
 			{
 			}
 
-			Rect GuiGraphicsSite::GetMinNecessaryBounds()
+			GuiGraphicsComposition::ParentSizeAffection GuiGraphicsSite::GetAffectionFromParent()
 			{
-				return GetBoundsInternal(Rect(), GetMinSizeLimitation());
+				return GuiGraphicsComposition::NotAffectedByParent;
+			}
+
+			bool GuiGraphicsSite::IsSizeAffectParent()
+			{
+				return true;
+			}
+
+			Size GuiGraphicsSite::GetMinPreferredClientSize()
+			{
+				Size minSize;
+				if(minSizeLimitation!=GuiGraphicsComposition::NoLimit)
+				{
+					if(ownedElement)
+					{
+						minSize=ownedElement->GetRenderer()->GetMinSize();
+					}
+				}
+				if(minSizeLimitation==GuiGraphicsComposition::LimitToElementAndChildren)
+				{
+					int childCount=Children().Count();
+					for(int i=0;i<childCount;i++)
+					{
+						GuiGraphicsComposition* child=children[i];
+						if(child->GetVisible() && child->IsSizeAffectParent())
+						{
+							Rect childBounds=child->GetPreferredBounds();
+							if(minSize.x<childBounds.x2) minSize.x=childBounds.x2;
+							if(minSize.y<childBounds.y2) minSize.y=childBounds.y2;
+						}
+					}
+				}
+				return minSize;
+			}
+
+			Rect GuiGraphicsSite::GetPreferredBounds()
+			{
+				return GetBoundsInternal(Rect(Point(0, 0), GetMinPreferredClientSize()));
 			}
 
 /***********************************************************************
@@ -517,16 +530,6 @@ GuiWindowComposition
 GuiBoundsComposition
 ***********************************************************************/
 
-			Rect GuiBoundsComposition::GetUnalignedBoundsForMinNecessaryBounds()
-			{
-				return GetBoundsInternal(compositionBounds, GetMinSizeLimitation());
-			}
-
-			Rect GuiBoundsComposition::CalculateUnalignedBounds()
-			{
-				return GetBoundsInternal(compositionBounds, GetMinSizeLimitation());
-			}
-
 			GuiBoundsComposition::GuiBoundsComposition()
 			{
 				BoundsChanged.SetAssociatedComposition(this);
@@ -537,9 +540,25 @@ GuiBoundsComposition
 			{
 			}
 
-			Rect GuiBoundsComposition::GetMinNecessaryBounds()
+			GuiGraphicsComposition::ParentSizeAffection GuiBoundsComposition::GetAffectionFromParent()
 			{
-				Rect result=GetUnalignedBoundsForMinNecessaryBounds();
+				if(alignmentToParent==Margin(-1, -1, -1, -1))
+				{
+					return GuiGraphicsComposition::NotAffectedByParent;
+				}
+				else if(alignmentToParent.left!=-1 || alignmentToParent.top!=-1 || alignmentToParent.right!=-1 || alignmentToParent.bottom!=-1)
+				{
+					return GuiGraphicsComposition::TotallyDecidedByParent;
+				}
+				else
+				{
+					return GuiGraphicsComposition::AffectedByParent;
+				}
+			}
+
+			Rect GuiBoundsComposition::GetPreferredBounds()
+			{
+				Rect result=GetBoundsInternal(compositionBounds);
 				if(GetParent() && IsAlignedToParent())
 				{
 					if(alignmentToParent.left>=0)
@@ -568,7 +587,7 @@ GuiBoundsComposition
 
 			Rect GuiBoundsComposition::GetBounds()
 			{
-				Rect result=CalculateUnalignedBounds();
+				Rect result=GetPreferredBounds();
 				if(GetParent() && IsAlignedToParent())
 				{
 					Size clientSize=GetParent()->GetClientArea().GetSize();
@@ -824,14 +843,6 @@ GuiTableComposition
 				return max-right;
 			}
 
-			Rect GuiTableComposition::GetUnalignedBoundsForMinNecessaryBounds()
-			{
-				Rect bounds=GuiBoundsComposition::GetUnalignedBoundsForMinNecessaryBounds();
-				int w=margin.left+margin.right+internalMargin.left+internalMargin.right+tableContentMinSize.x;
-				int h=margin.top+margin.bottom+internalMargin.top+internalMargin.bottom+tableContentMinSize.y;
-				return Rect(bounds.LeftTop(), Size(w, h));
-			}
-
 			void GuiTableComposition::UpdateCellBoundsInternal()
 			{
 				Array<int> rowOffsets, columnOffsets, rowSizes, columnSizes;
@@ -1062,6 +1073,11 @@ GuiTableComposition
 				UpdateTableContentMinSize();
 			}
 
+			Size GuiTableComposition::GetMinPreferredClientSize()
+			{
+				return tableContentMinSize;
+			}
+
 			Rect GuiTableComposition::GetBounds()
 			{
 				Rect result;
@@ -1171,7 +1187,7 @@ GuiCellComposition
 
 			Size GuiCellComposition::GetMinSize()
 			{
-				return GetBoundsInternal(bounds, GetMinSizeLimitation()).GetSize();
+				return GetBoundsInternal(bounds).GetSize();
 			}
 
 			GuiCellComposition::GuiCellComposition()
@@ -1284,42 +1300,6 @@ GuiStackComposition
 					stackItems.Remove(item);
 				}
 			}
-			
-			Size GuiStackComposition::AdjustMinClientSize(Size minSize)
-			{
-				if(GetMinSizeLimitation()==GuiGraphicsComposition::LimitToElementAndChildren)
-				{
-					int x=0;
-					int y=0;
-					int extraPadding=0;
-					if(stackItems.Count()>0)
-					{
-						extraPadding+=(stackItems.Count()-1)*padding;
-					}
-					for(int i=0;i<stackItems.Count();i++)
-					{
-						Size size=stackItems[i]->GetMinSize();
-						x+=size.x;
-						y+=size.y;
-					}
-					x+=extraPadding;
-					y+=extraPadding;
-					switch(direction)
-					{
-					case Horizontal:
-						{
-							if(minSize.x<x) minSize.x=x;
-						}
-						break;
-					case Vertical:
-						{
-							if(minSize.y<y) minSize.y=y;
-						}
-						break;
-					}
-				}
-				return GuiBoundsComposition::AdjustMinClientSize(minSize);
-			}
 
 			GuiStackComposition::GuiStackComposition()
 				:direction(Horizontal)
@@ -1369,6 +1349,43 @@ GuiStackComposition
 			{
 				padding=value;
 			}
+			
+			Size GuiStackComposition::GetMinPreferredClientSize()
+			{
+				Size minSize=GuiBoundsComposition::GetMinPreferredClientSize();
+				if(GetMinSizeLimitation()==GuiGraphicsComposition::LimitToElementAndChildren)
+				{
+					int x=0;
+					int y=0;
+					int extraPadding=0;
+					if(stackItems.Count()>0)
+					{
+						extraPadding+=(stackItems.Count()-1)*padding;
+					}
+					for(int i=0;i<stackItems.Count();i++)
+					{
+						Size size=stackItems[i]->GetMinSize();
+						x+=size.x;
+						y+=size.y;
+					}
+					x+=extraPadding;
+					y+=extraPadding;
+					switch(direction)
+					{
+					case Horizontal:
+						{
+							if(minSize.x<x) minSize.x=x;
+						}
+						break;
+					case Vertical:
+						{
+							if(minSize.y<y) minSize.y=y;
+						}
+						break;
+					}
+				}
+				return minSize;
+			}
 
 /***********************************************************************
 GuiStackItemComposition
@@ -1381,7 +1398,7 @@ GuiStackItemComposition
 
 			Size GuiStackItemComposition::GetMinSize()
 			{
-				return GetBoundsInternal(bounds, GetMinSizeLimitation()).GetSize();
+				return GetBoundsInternal(bounds).GetSize();
 			}
 
 			GuiStackItemComposition::GuiStackItemComposition()
@@ -1481,6 +1498,11 @@ GuiSideAlignedComposition
 					value;
 			}
 
+			GuiGraphicsComposition::ParentSizeAffection GuiSideAlignedComposition::GetAffectionFromParent()
+			{
+				return GuiGraphicsComposition::TotallyDecidedByParent;
+			}
+
 			Rect GuiSideAlignedComposition::GetBounds()
 			{
 				GuiGraphicsComposition* parent=GetParent();
@@ -1573,6 +1595,11 @@ GuiPartialViewComposition
 			void GuiPartialViewComposition::SetHeightPageSize(double value)
 			{
 				hPageSize=value;
+			}
+
+			GuiGraphicsComposition::ParentSizeAffection GuiPartialViewComposition::GetAffectionFromParent()
+			{
+				return GuiGraphicsComposition::TotallyDecidedByParent;
 			}
 
 			Rect GuiPartialViewComposition::GetBounds()
