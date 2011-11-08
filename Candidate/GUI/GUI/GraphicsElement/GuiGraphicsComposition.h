@@ -366,8 +366,11 @@ Stack Compositions
 			protected:
 				Direction							direction;
 				ItemCompositionList					stackItems;
+				collections::Array<Rect>			stackItemBounds;
+				Size								stackItemTotalSize;
 				int									padding;
 
+				void								UpdateStackItemBounds();
 				void								OnChildInserted(GuiGraphicsComposition* child)override;
 				void								OnChildRemoved(GuiGraphicsComposition* child)override;
 			public:
@@ -383,6 +386,7 @@ Stack Compositions
 				void								SetPadding(int value);
 
 				Size								GetMinPreferredClientSize()override;
+				Rect								GetBounds()override;
 			};
 
 			class GuiStackItemComposition : public GuiGraphicsSite
@@ -397,6 +401,9 @@ Stack Compositions
 			public:
 				GuiStackItemComposition();
 				~GuiStackItemComposition();
+				
+				ParentSizeAffection					GetAffectionFromParent()override;
+				bool								IsSizeAffectParent()override;
 				Rect								GetBounds()override;
 				void								SetBounds(Rect value);
 			};

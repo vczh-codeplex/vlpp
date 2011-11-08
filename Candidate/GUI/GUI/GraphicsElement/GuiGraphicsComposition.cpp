@@ -1286,6 +1286,43 @@ GuiCellComposition
 GuiStackComposition
 ***********************************************************************/
 
+			void GuiStackComposition::UpdateStackItemBounds()
+			{
+				if(stackItemBounds.Count()!=stackItems.Count())
+				{
+					stackItemBounds.Resize(stackItems.Count());
+				}
+
+				stackItemTotalSize=Size(0, 0);
+				switch(direction)
+				{
+				case GuiStackComposition::Horizontal:
+					{
+						for(int i=0;i<stackItems.Count();i++)
+						{
+							Size itemSize=stackItems[i]->GetMinSize();
+							if(i>0) stackItemTotalSize.x+=padding;
+							if(stackItemTotalSize.y<itemSize.y) stackItemTotalSize.y=itemSize.y;
+							stackItemBounds[i]=Rect(Point(stackItemTotalSize.x, 0), Size(itemSize.x, 0));
+							stackItemTotalSize.x+=itemSize.x;
+						}
+					}
+					break;
+				case GuiStackComposition::Vertical:
+					{
+						for(int i=0;i<stackItems.Count();i++)
+						{
+							Size itemSize=stackItems[i]->GetMinSize();
+							if(i>0) stackItemTotalSize.y+=padding;
+							if(stackItemTotalSize.x<itemSize.x) stackItemTotalSize.x=itemSize.x;
+							stackItemBounds[i]=Rect(Point(0, stackItemTotalSize.y), Size(0, itemSize.y));
+							stackItemTotalSize.y+=itemSize.y;
+						}
+					}
+					break;
+				}
+			}
+
 			void GuiStackComposition::OnChildInserted(GuiGraphicsComposition* child)
 			{
 				GuiStackItemComposition* item=dynamic_cast<GuiStackItemComposition*>(child);
@@ -1356,38 +1393,38 @@ GuiStackComposition
 			Size GuiStackComposition::GetMinPreferredClientSize()
 			{
 				Size minSize=GuiBoundsComposition::GetMinPreferredClientSize();
+				UpdateStackItemBounds();
 				if(GetMinSizeLimitation()==GuiGraphicsComposition::LimitToElementAndChildren)
 				{
-					int x=0;
-					int y=0;
-					int extraPadding=0;
-					if(stackItems.Count()>0)
-					{
-						extraPadding+=(stackItems.Count()-1)*padding;
-					}
-					for(int i=0;i<stackItems.Count();i++)
-					{
-						Size size=stackItems[i]->GetMinSize();
-						x+=size.x;
-						y+=size.y;
-					}
-					x+=extraPadding;
-					y+=extraPadding;
-					switch(direction)
-					{
-					case Horizontal:
-						{
-							if(minSize.x<x) minSize.x=x;
-						}
-						break;
-					case Vertical:
-						{
-							if(minSize.y<y) minSize.y=y;
-						}
-						break;
-					}
+					if(minSize.x<stackItemTotalSize.x) minSize.x=stackItemTotalSize.x;
+					if(minSize.y<stackItemTotalSize.y) minSize.y=stackItemTotalSize.y;
 				}
 				return minSize;
+			}
+
+			Rect GuiStackComposition::GetBounds()
+			{
+				Rect bounds=GuiBoundsComposition::GetBounds();
+				switch(direction)
+				{
+				case Horizontal:
+					{
+						for(int i=0;i<stackItemBounds.Count();i++)
+						{
+							stackItemBounds[i].y2=stackItemBounds[i].y1+bounds.Height();
+						}
+					}
+					break;
+				case Vertical:
+					{
+						for(int i=0;i<stackItemBounds.Count();i++)
+						{
+							stackItemBounds[i].x2=stackItemBounds[i].x1+bounds.Width();
+						}
+					}
+					break;
+				}
+				return bounds;
 			}
 
 /***********************************************************************
@@ -1413,6 +1450,16 @@ GuiStackItemComposition
 			{
 			}
 
+			GuiGraphicsComposition::ParentSizeAffection GuiStackItemComposition::GetAffectionFromParent()
+			{
+				return GuiGraphicsComposition::AffectedByParent;
+			}
+
+			bool GuiStackItemComposition::IsSizeAffectParent()
+			{
+				return false;
+			}
+
 			Rect GuiStackItemComposition::GetBounds()
 			{
 				if(stackParent)
@@ -1420,28 +1467,7 @@ GuiStackItemComposition
 					int index=stackParent->stackItems.IndexOf(this);
 					if(index!=-1)
 					{
-						int sum=index*stackParent->GetPadding();
-						switch(stackParent->GetDirection())
-						{
-						case GuiStackComposition::Horizontal:
-							{
-								for(int i=0;i<index;i++)
-								{
-									sum+=stackParent->stackItems[i]->GetMinSize().x;
-								}
-								return Rect(Point(sum, 0), Size(GetMinSize().x, stackParent->GetClientArea().Height()));
-							}
-							break;
-						case GuiStackComposition::Vertical:
-							{
-								for(int i=0;i<index;i++)
-								{
-									sum+=stackParent->stackItems[i]->GetMinSize().y;
-								}
-								return Rect(Point(0, sum), Size(stackParent->GetClientArea().Width(), GetMinSize().y));
-							}
-							break;
-						}
+						return stackParent->stackItemBounds[index];
 					}
 				}
 				return bounds;
