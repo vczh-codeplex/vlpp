@@ -7,9 +7,9 @@ Clases:
 	GuiControl::IStyleController
 		Win7WindowStyle
 		Win7GroupBoxStyle
-	GuiButton::IStyleController
-		Win7ButtonStyle(vertical|horizontal)
 	GuiSelectableButton::IStyleController
+		Win7ButtonStyle(vertical|horizontal)
+		Win7SelectableItemStyle
 		Win7CheckBoxStyle(check|radio)
 	GuiScroll::IStyleController
 		Win7ScrollStyle
@@ -19,6 +19,10 @@ Clases:
 		Win7MultilineTextBoxProvider
 	GuiSinglelineTextBox::IStyleProvider
 		Win7SinglelineTextBoxProvider
+	list::TextItemStyleProvider::ITextItemStyleProvider
+		Win7TextListProvider
+		Win7CheckTextListProvider
+		Win7RadioTextListProvider
 ***********************************************************************/
 
 #ifndef VCZH_PRESENTATION_CONTROLS_GUIWIN7STYLES
@@ -86,6 +90,11 @@ Button Configuration
 				static Win7ButtonColors						CheckedActive(bool selected);
 				static Win7ButtonColors						CheckedPressed(bool selected);
 				static Win7ButtonColors						CheckedDisabled(bool selected);
+
+				static Win7ButtonColors						ToolstripButtonNormal();
+				static Win7ButtonColors						ToolstripButtonActive();
+				static Win7ButtonColors						ToolstripButtonPressed();
+				static Win7ButtonColors						ToolstripButtonDisabled();
 			};
 
 			struct Win7ButtonElements
@@ -144,7 +153,7 @@ Button Configuration
 			};
 
 /***********************************************************************
-Helpers
+Helper Functions
 ***********************************************************************/
 			
 			extern int										Win7GetColorAnimationLength();
@@ -175,7 +184,7 @@ Animation
 				};\
 
 /***********************************************************************
-Containers
+Container
 ***********************************************************************/
 
 			class Win7WindowStyle : public Object, public controls::GuiControl::IStyleController
@@ -222,25 +231,26 @@ Containers
 			};
 
 /***********************************************************************
-Buttons
+Button
 ***********************************************************************/
 
-			class Win7ButtonStyle : public Object, public controls::GuiButton::IStyleController
+			class Win7ButtonStyleBase : public Object, public controls::GuiSelectableButton::IStyleController
 			{
 			protected:
-				DEFINE_TRANSFERRING_ANIMATION(Win7ButtonColors, Win7ButtonStyle)
+				DEFINE_TRANSFERRING_ANIMATION(Win7ButtonColors, Win7ButtonStyleBase)
 
 				Win7ButtonElements							elements;
 				Ptr<TransferringAnimation>					transferringAnimation;
 				controls::GuiButton::ControlState			controlStyle;
 				bool										isVisuallyEnabled;
+				bool										isSelected;
 				bool										transparentWhenInactive;
 				bool										transparentWhenDisabled;
 
-				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled);
+				virtual void								TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected)=0;
 			public:
-				Win7ButtonStyle(bool verticalGradient=true);
-				~Win7ButtonStyle();
+				Win7ButtonStyleBase(bool verticalGradient, const Win7ButtonColors& initialColor, Alignment::Type horizontal, Alignment::Type vertical);
+				~Win7ButtonStyleBase();
 
 				elements::GuiBoundsComposition*				GetBoundsComposition()override;
 				elements::GuiGraphicsComposition*			GetContainerComposition()override;
@@ -248,12 +258,42 @@ Buttons
 				void										SetText(const WString& value)override;
 				void										SetFont(const FontProperties& value)override;
 				void										SetVisuallyEnabled(bool value)override;
+				void										SetSelected(bool value)override;
 				void										Transfer(controls::GuiButton::ControlState value)override;
 
 				bool										GetTransparentWhenInactive();
 				void										SetTransparentWhenInactive(bool value);
 				bool										GetTransparentWhenDisabled();
 				void										SetTransparentWhenDisabled(bool value);
+				bool										GetAutoSizeForText();
+				void										SetAutoSizeForText(bool value);
+			};
+
+			class Win7ButtonStyle : public Win7ButtonStyleBase
+			{
+			protected:
+				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected)override;
+			public:
+				Win7ButtonStyle(bool verticalGradient=true);
+				~Win7ButtonStyle();
+			};
+
+			class Win7SelectableItemStyle : public Win7ButtonStyleBase
+			{
+			protected:
+				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected)override;
+			public:
+				Win7SelectableItemStyle();
+				~Win7SelectableItemStyle();
+			};
+
+			class Win7ToolstripButtonStyle : public Win7ButtonStyleBase
+			{
+			protected:
+				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected)override;
+			public:
+				Win7ToolstripButtonStyle(bool transparent);
+				~Win7ToolstripButtonStyle();
 			};
 
 			class Win7CheckBoxStyle : public Object, public controls::GuiSelectableButton::IStyleController
@@ -288,34 +328,8 @@ Buttons
 				void										Transfer(controls::GuiButton::ControlState value)override;
 			};
 
-			class Win7SelectableItemStyle : public Object, public controls::GuiSelectableButton::IStyleController
-			{
-			protected:
-				DEFINE_TRANSFERRING_ANIMATION(Win7ButtonColors, Win7SelectableItemStyle)
-
-				Win7ButtonElements							elements;
-				Ptr<TransferringAnimation>					transferringAnimation;
-				controls::GuiButton::ControlState			controlStyle;
-				bool										isVisuallyEnabled;
-				bool										isSelected;
-
-				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected);
-			public:
-				Win7SelectableItemStyle();
-				~Win7SelectableItemStyle();
-
-				elements::GuiBoundsComposition*				GetBoundsComposition()override;
-				elements::GuiGraphicsComposition*			GetContainerComposition()override;
-				void										SetFocusableComposition(elements::GuiGraphicsComposition* value)override;
-				void										SetText(const WString& value)override;
-				void										SetFont(const FontProperties& value)override;
-				void										SetVisuallyEnabled(bool value)override;
-				void										SetSelected(bool value)override;
-				void										Transfer(controls::GuiButton::ControlState value)override;
-			};
-
 /***********************************************************************
-Scrolls
+Scroll
 ***********************************************************************/
 
 			class Win7ScrollStyle : public common_styles::CommonScrollStyle
@@ -350,6 +364,10 @@ Scrolls
 				~Win7TrackStyle();
 			};
 
+/***********************************************************************
+ScrollView
+***********************************************************************/
+
 			class Win7ScrollViewProvider : public Object, public controls::GuiScrollView::IStyleProvider
 			{
 			public:
@@ -364,6 +382,10 @@ Scrolls
 				int											GetDefaultScrollSize()override;
 				elements::GuiGraphicsComposition*			InstallBackground(elements::GuiBoundsComposition* boundsComposition)override;
 			};
+
+/***********************************************************************
+TextBox
+***********************************************************************/
 
 			class Win7TextBoxBackground : public Object
 			{
@@ -431,7 +453,7 @@ Scrolls
 			};
 
 /***********************************************************************
-Lists
+List
 ***********************************************************************/
 
 			class Win7TextListProvider : public Object, public controls::list::TextItemStyleProvider::ITextItemStyleProvider

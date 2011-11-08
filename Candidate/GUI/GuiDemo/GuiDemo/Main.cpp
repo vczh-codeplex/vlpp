@@ -465,31 +465,53 @@ void SetupToolstripWindow(GuiControlHost* host)
 {
 	host->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 	INativeImageProvider* imageProvider=GetCurrentController()->GetImageProvider();
-	Ptr<INativeImage> imageGif=imageProvider->CreateImageFromFile(L"Resources\\Gif.gif");
-	Ptr<INativeImage> imageButtons[]=
+
+	GuiStackComposition* toolStack=new GuiStackComposition;
 	{
-		imageProvider->CreateImageFromFile(L"Resources\\New.png"),
-		imageProvider->CreateImageFromFile(L"Resources\\Open.png"),
-		imageProvider->CreateImageFromFile(L"Resources\\Save.png"),
-	};
+		toolStack->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+		
+		Ptr<INativeImage> imageButtons[]=
+		{
+			imageProvider->CreateImageFromFile(L"Resources\\New.png"),
+			imageProvider->CreateImageFromFile(L"Resources\\Open.png"),
+			imageProvider->CreateImageFromFile(L"Resources\\Save.png"),
+		};
 
-	GuiBoundsComposition* picGif=CreateImageFrame(imageGif);
-	host->GetContainerComposition()->AddChild(picGif);
+		for(int i=0;i<sizeof(imageButtons)/sizeof(*imageButtons);i++)
+		{
+			GuiBoundsComposition* imageComposition=CreateImageFrame(imageButtons[i]);
+			imageComposition->SetAlignmentToParent(Margin(3, 3, 3, 3));
+			GuiButton* button=new GuiButton(new win7::Win7ToolstripButtonStyle(false));
+			button->GetContainerComposition()->AddChild(imageComposition);
 
-	GuiStackComposition* stack=new GuiStackComposition;
-	stack->SetInternalMargin(Margin(10, 10, 10, 10));
-	stack->SetPadding(10);
-	stack->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
-	for(int i=0;i<sizeof(imageButtons)/sizeof(*imageButtons);i++)
+			GuiStackItemComposition* item=new GuiStackItemComposition;
+			item->AddChild(button->GetBoundsComposition());
+			toolStack->AddChild(item);
+		}
+	}
+	
+	GuiBoundsComposition* picGif=0;
+	{
+		Ptr<INativeImage> imageGif=imageProvider->CreateImageFromFile(L"Resources\\Gif.gif");
+		picGif=CreateImageFrame(imageGif);
+		Ptr<GifAnimation> animation=new GifAnimation(picGif->GetOwnedElement().Cast<GuiImageFrameElement>().Obj());
+		host->GetGraphicsHost()->GetAnimationManager()->AddAnimation(animation);
+	}
+
+	GuiStackComposition* windowStack=new GuiStackComposition;
+	windowStack->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+	windowStack->SetDirection(GuiStackComposition::Vertical);
 	{
 		GuiStackItemComposition* item=new GuiStackItemComposition;
-		item->AddChild(CreateImageFrame(imageButtons[i]));
-		stack->AddChild(item);
+		item->AddChild(toolStack);
+		windowStack->AddChild(item);
 	}
-	host->GetContainerComposition()->AddChild(stack);
-
-	Ptr<GifAnimation> animation=new GifAnimation(picGif->GetOwnedElement().Cast<GuiImageFrameElement>().Obj());
-	host->GetGraphicsHost()->GetAnimationManager()->AddAnimation(animation);
+	{
+		GuiStackItemComposition* item=new GuiStackItemComposition;
+		item->AddChild(picGif);
+		windowStack->AddChild(item);
+	}
+	host->GetContainerComposition()->AddChild(windowStack);
 }
 
 /***********************************************************************
@@ -519,10 +541,10 @@ void GuiMain()
 		));
 
 	GuiControlHost host(new win7::Win7WindowStyle);
-	SetupWindow(&host);
+	//SetupWindow(&host);
 	//SetupTextBoxWindow(&host);
 	//SetupListControlWindow(&host);
-	//SetupToolstripWindow(&host);
+	SetupToolstripWindow(&host);
 	host.SetNativeWindow(window);
 
 	GetCurrentController()->Run(window);
