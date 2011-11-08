@@ -334,6 +334,68 @@ Win7ButtonColors
 				return colors;
 			}
 
+			//---------------------------------------------------------
+
+			Win7ButtonColors Win7ButtonColors::MenuBarButtonNormal()
+			{
+				Win7ButtonColors colors=
+				{
+					Color(176, 176, 176),
+					Color(234, 238, 247),
+					Color(246, 248, 250),
+					Color(211, 217, 231),
+					Color(199, 204, 218),
+					Color(224, 228, 243),
+					Win7GetSystemTextColor(true),
+				};
+				return colors;
+			}
+
+			Win7ButtonColors Win7ButtonColors::MenuBarButtonActive()
+			{
+				Win7ButtonColors colors=
+				{
+					Color(176, 176, 176),
+					Color(234, 238, 247),
+					Color(246, 248, 250),
+					Color(211, 217, 231),
+					Color(199, 204, 218),
+					Color(224, 228, 243),
+					Win7GetSystemTextColor(true),
+				};
+				return colors;
+			}
+
+			Win7ButtonColors Win7ButtonColors::MenuBarButtonPressed()
+			{
+				Win7ButtonColors colors=
+				{
+					Color(88, 88, 89),
+					Color(159, 160, 162),
+					Color(200, 202, 208),
+					Color(205, 209, 219),
+					Color(197, 204, 221),
+					Color(213, 218, 233),
+					Win7GetSystemTextColor(true),
+				};
+				return colors;
+			}
+
+			Win7ButtonColors Win7ButtonColors::MenuBarButtonDisabled()
+			{
+				Win7ButtonColors colors=
+				{
+					Color(176, 176, 176),
+					Color(234, 238, 247),
+					Color(246, 248, 250),
+					Color(211, 217, 231),
+					Color(199, 204, 218),
+					Color(224, 228, 243),
+					Win7GetSystemTextColor(false),
+				};
+				return colors;
+			}
+
 /***********************************************************************
 Win7ButtonElements
 ***********************************************************************/
@@ -661,7 +723,7 @@ Helpers
 
 			void Win7SetFont(GuiSolidLabelElement* element, GuiBoundsComposition* composition, const FontProperties& fontProperties)
 			{
-				int margin=fontProperties.size/2;
+				int margin=3;
 				element->SetFont(fontProperties);
 				composition->SetMargin(Margin(margin, margin, margin, margin));
 			}
@@ -692,18 +754,27 @@ Animation
 				,colorCurrent(begin)\
 				,style(_style)\
 				,stopped(true)\
+				,enableAnimation(true)\
 			{\
 			}\
 			void TSTYLECONTROLLER::TransferringAnimation::Stop()\
 			{\
 				stopped=true;\
 			}\
+			bool TSTYLECONTROLLER::TransferringAnimation::GetEnableAnimation()\
+			{\
+				return enableAnimation;\
+			}\
+			void TSTYLECONTROLLER::TransferringAnimation::SetEnableAnimation(bool value)\
+			{\
+				enableAnimation=value;\
+			}\
 			void TSTYLECONTROLLER::TransferringAnimation::Transfer(const TSTATE& end)\
 			{\
 				if(colorEnd!=end)\
 				{\
 					GuiGraphicsHost* host=HOST_GETTER(style);\
-					if(host)\
+					if(enableAnimation && host)\
 					{\
 						Restart(Win7GetColorAnimationLength());\
 						if(stopped)\
@@ -773,6 +844,78 @@ Win7WindowStyle
 			}
 
 			void Win7WindowStyle::SetVisuallyEnabled(bool value)
+			{
+			}
+
+/***********************************************************************
+Win7MenuBarStyle
+***********************************************************************/
+
+			Win7MenuBarStyle::Win7MenuBarStyle()
+			{
+				GuiTableComposition* table=new GuiTableComposition;
+				table->SetAlignmentToParent(Margin(0, 0, 0, 1));
+				table->SetRowsAndColumns(2, 1);
+				table->SetRowOption(0, GuiCellOption::PercentageOption(0.5));
+				table->SetRowOption(1, GuiCellOption::PercentageOption(0.5));
+				table->SetColumnOption(0, GuiCellOption::PercentageOption(1.0));
+				{
+					GuiGradientBackgroundElement* gradient=GuiGradientBackgroundElement::Create();
+					gradient->SetDirection(GuiGradientBackgroundElement::Vertical);
+					gradient->SetColors(Color(252, 253, 254), Color(229, 234, 245));
+
+					GuiCellComposition* cell=new GuiCellComposition;
+					table->AddChild(cell);
+					cell->SetSite(0, 0, 1, 1);
+					cell->SetOwnedElement(gradient);
+				}
+				{
+					GuiGradientBackgroundElement* gradient=GuiGradientBackgroundElement::Create();
+					gradient->SetDirection(GuiGradientBackgroundElement::Vertical);
+					gradient->SetColors(Color(212, 219, 237), Color(225, 230, 246));
+
+					GuiCellComposition* cell=new GuiCellComposition;
+					table->AddChild(cell);
+					cell->SetSite(1, 0, 1, 1);
+					cell->SetOwnedElement(gradient);
+				}
+
+				boundsComposition=new GuiBoundsComposition;
+				{
+					GuiSolidBackgroundElement* solid=GuiSolidBackgroundElement::Create();
+					solid->SetColor(Color(182, 188, 204));
+					boundsComposition->SetOwnedElement(solid);
+				}
+				boundsComposition->AddChild(table);
+			}
+
+			Win7MenuBarStyle::~Win7MenuBarStyle()
+			{
+			}
+
+			elements::GuiBoundsComposition* Win7MenuBarStyle::GetBoundsComposition()
+			{
+				return boundsComposition;
+			}
+
+			elements::GuiGraphicsComposition* Win7MenuBarStyle::GetContainerComposition()
+			{
+				return boundsComposition;
+			}
+
+			void Win7MenuBarStyle::SetFocusableComposition(elements::GuiGraphicsComposition* value)
+			{
+			}
+
+			void Win7MenuBarStyle::SetText(const WString& value)
+			{
+			}
+
+			void Win7MenuBarStyle::SetFont(const FontProperties& value)
+			{
+			}
+
+			void Win7MenuBarStyle::SetVisuallyEnabled(bool value)
 			{
 			}
 
@@ -1099,7 +1242,7 @@ Win7SelectableItemStyle
 			}
 
 /***********************************************************************
-Win7ButtonStyle
+Win7ToolstripButtonStyle
 ***********************************************************************/
 
 			void Win7ToolstripButtonStyle::TransferInternal(GuiButton::ControlState value, bool enabled, bool selected)
@@ -1145,6 +1288,64 @@ Win7ButtonStyle
 
 			Win7ToolstripButtonStyle::~Win7ToolstripButtonStyle()
 			{
+			}
+
+/***********************************************************************
+Win7MenuBarButtonStyle
+***********************************************************************/
+
+			void Win7MenuBarButtonStyle::TransferInternal(GuiButton::ControlState value, bool enabled, bool selected)
+			{
+				Win7ButtonColors targetColor;
+				if(enabled)
+				{
+					switch(value)
+					{
+					case GuiButton::Normal:
+						targetColor=Win7ButtonColors::MenuBarButtonNormal();
+						if(transparentWhenInactive)
+						{
+							targetColor.SetAlphaWithoutText(0);
+						}
+						break;
+					case GuiButton::Active:
+						targetColor=Win7ButtonColors::MenuBarButtonActive();
+						break;
+					case GuiButton::Pressed:
+						targetColor=Win7ButtonColors::MenuBarButtonPressed();
+						break;
+					}
+				}
+				else
+				{
+					targetColor=Win7ButtonColors::MenuBarButtonDisabled();
+					if(transparentWhenDisabled)
+					{
+						targetColor.SetAlphaWithoutText(0);
+					}
+				}
+				transferringAnimation->Transfer(targetColor);
+			}
+
+			Win7MenuBarButtonStyle::Win7MenuBarButtonStyle()
+				:Win7ButtonStyleBase(true, Win7ButtonColors::MenuBarButtonNormal(), Alignment::Center, Alignment::Center)
+			{
+				SetTransparentWhenInactive(true);
+				SetTransparentWhenDisabled(true);
+				transferringAnimation->SetEnableAnimation(false);
+			}
+
+			Win7MenuBarButtonStyle::~Win7MenuBarButtonStyle()
+			{
+			}
+
+			void Win7MenuBarButtonStyle::SetFont(const FontProperties& value)
+			{
+				Win7ButtonStyleBase::SetFont(value);
+				Margin margin=elements.textComposition->GetMargin();
+				margin.left*=3;
+				margin.right*=3;
+				elements.textComposition->SetMargin(margin);
 			}
 
 /***********************************************************************
