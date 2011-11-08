@@ -95,6 +95,11 @@ Button Configuration
 				static Win7ButtonColors						ToolstripButtonActive();
 				static Win7ButtonColors						ToolstripButtonPressed();
 				static Win7ButtonColors						ToolstripButtonDisabled();
+
+				static Win7ButtonColors						MenuBarButtonNormal();
+				static Win7ButtonColors						MenuBarButtonActive();
+				static Win7ButtonColors						MenuBarButtonPressed();
+				static Win7ButtonColors						MenuBarButtonDisabled();
 			};
 
 			struct Win7ButtonElements
@@ -176,10 +181,13 @@ Animation
 					TSTATE									colorCurrent;\
 					TSTYLECONTROLLER*						style;\
 					bool									stopped;\
+					bool									enableAnimation;\
 				public:\
 					TransferringAnimation(TSTYLECONTROLLER* _style, const TSTATE& begin);\
 					void									Play(int currentPosition, int totalLength)override;\
 					void									Stop()override;\
+					bool									GetEnableAnimation();\
+					void									SetEnableAnimation(bool value);\
 					void									Transfer(const TSTATE& end);\
 				};\
 
@@ -194,6 +202,22 @@ Container
 			public:
 				Win7WindowStyle();
 				~Win7WindowStyle();
+
+				elements::GuiBoundsComposition*				GetBoundsComposition()override;
+				elements::GuiGraphicsComposition*			GetContainerComposition()override;
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value)override;
+				void										SetText(const WString& value)override;
+				void										SetFont(const FontProperties& value)override;
+				void										SetVisuallyEnabled(bool value)override;
+			};
+
+			class Win7MenuBarStyle : public Object, public controls::GuiControl::IStyleController
+			{
+			protected:
+				elements::GuiBoundsComposition*				boundsComposition;
+			public:
+				Win7MenuBarStyle();
+				~Win7MenuBarStyle();
 
 				elements::GuiBoundsComposition*				GetBoundsComposition()override;
 				elements::GuiGraphicsComposition*			GetContainerComposition()override;
@@ -294,6 +318,17 @@ Button
 			public:
 				Win7ToolstripButtonStyle(bool transparent);
 				~Win7ToolstripButtonStyle();
+			};
+
+			class Win7MenuBarButtonStyle : public Win7ButtonStyleBase
+			{
+			protected:
+				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected)override;
+			public:
+				Win7MenuBarButtonStyle();
+				~Win7MenuBarButtonStyle();
+
+				void										SetFont(const FontProperties& value)override;
 			};
 
 			class Win7CheckBoxStyle : public Object, public controls::GuiSelectableButton::IStyleController

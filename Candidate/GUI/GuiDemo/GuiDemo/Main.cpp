@@ -466,17 +466,30 @@ void SetupToolstripWindow(GuiControlHost* host)
 	host->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 	INativeImageProvider* imageProvider=GetCurrentController()->GetImageProvider();
 
+	GuiStackComposition* menuStack=new GuiStackComposition;
+	{
+		menuStack->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+		const wchar_t* menuText[]={L"File", L"Edit", L"Format", L"View", L"Help"};
+		for(int i=0;i<sizeof(menuText)/sizeof(*menuText);i++)
+		{
+			GuiButton* button=new GuiButton(new win7::Win7MenuBarButtonStyle);
+			button->SetText(menuText[i]);
+
+			GuiStackItemComposition* item=new GuiStackItemComposition;
+			item->AddChild(button->GetBoundsComposition());
+			menuStack->AddChild(item);
+		}
+	}
+
 	GuiStackComposition* toolStack=new GuiStackComposition;
 	{
 		toolStack->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
-		
 		Ptr<INativeImage> imageButtons[]=
 		{
 			imageProvider->CreateImageFromFile(L"Resources\\New.png"),
 			imageProvider->CreateImageFromFile(L"Resources\\Open.png"),
 			imageProvider->CreateImageFromFile(L"Resources\\Save.png"),
 		};
-
 		for(int i=0;i<sizeof(imageButtons)/sizeof(*imageButtons);i++)
 		{
 			GuiBoundsComposition* imageComposition=CreateImageFrame(imageButtons[i]);
@@ -501,6 +514,17 @@ void SetupToolstripWindow(GuiControlHost* host)
 	GuiStackComposition* windowStack=new GuiStackComposition;
 	windowStack->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 	windowStack->SetDirection(GuiStackComposition::Vertical);
+	windowStack->SetAlignmentToParent(Margin(0, 0, 0, 0));
+	{
+		GuiControl* menuBar=new GuiControl(new win7::Win7MenuBarStyle);
+		menuBar->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+		menuBar->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+		menuBar->GetContainerComposition()->AddChild(menuStack);
+
+		GuiStackItemComposition* item=new GuiStackItemComposition;
+		item->AddChild(menuBar->GetBoundsComposition());
+		windowStack->AddChild(item);
+	}
 	{
 		GuiStackItemComposition* item=new GuiStackItemComposition;
 		item->AddChild(toolStack);
