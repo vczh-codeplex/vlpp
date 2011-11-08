@@ -58,6 +58,8 @@ Win7ButtonColors
 				return result;
 			}
 
+			//---------------------------------------------------------
+
 			Win7ButtonColors Win7ButtonColors::ButtonNormal()
 			{
 				Win7ButtonColors colors=
@@ -118,6 +120,8 @@ Win7ButtonColors
 				return colors;
 			}
 
+			//---------------------------------------------------------
+
 			Win7ButtonColors Win7ButtonColors::ItemNormal()
 			{
 				Win7ButtonColors colors=
@@ -177,6 +181,8 @@ Win7ButtonColors
 				};
 				return colors;
 			}
+
+			//---------------------------------------------------------
 
 			Win7ButtonColors Win7ButtonColors::CheckedNormal(bool selected)
 			{
@@ -263,6 +269,68 @@ Win7ButtonColors
 					colors.bulletLight.a=0;
 					colors.bulletDark.a=0;
 				}
+				return colors;
+			}
+
+			//---------------------------------------------------------
+
+			Win7ButtonColors Win7ButtonColors::ToolstripButtonNormal()
+			{
+				Win7ButtonColors colors=
+				{
+					Win7GetSystemWindowColor(),
+					Win7GetSystemWindowColor(),
+					Win7GetSystemWindowColor(),
+					Win7GetSystemWindowColor(),
+					Win7GetSystemWindowColor(),
+					Win7GetSystemWindowColor(),
+					Win7GetSystemTextColor(true),
+				};
+				return colors;
+			}
+
+			Win7ButtonColors Win7ButtonColors::ToolstripButtonActive()
+			{
+				Win7ButtonColors colors=
+				{
+					Color(168, 168, 168),
+					Color(248, 248, 248),
+					Color(250, 250, 250),
+					Color(232, 232, 232),
+					Color(218, 218, 218),
+					Color(240, 240, 240),
+					Win7GetSystemTextColor(true),
+				};
+				return colors;
+			}
+
+			Win7ButtonColors Win7ButtonColors::ToolstripButtonPressed()
+			{
+				Win7ButtonColors colors=
+				{
+					Color(84, 84, 84),
+					Color(156, 156, 156),
+					Color(240, 240, 240),
+					Color(228, 228, 228),
+					Color(222, 222, 222),
+					Color(230, 230, 230),
+					Win7GetSystemTextColor(true),
+				};
+				return colors;
+			}
+
+			Win7ButtonColors Win7ButtonColors::ToolstripButtonDisabled()
+			{
+				Win7ButtonColors colors=
+				{
+					Win7GetSystemWindowColor(),
+					Win7GetSystemWindowColor(),
+					Win7GetSystemWindowColor(),
+					Win7GetSystemWindowColor(),
+					Win7GetSystemWindowColor(),
+					Win7GetSystemWindowColor(),
+					Win7GetSystemTextColor(false),
+				};
 				return colors;
 			}
 
@@ -831,16 +899,126 @@ Win7GroupBoxStyle
 			}
 
 /***********************************************************************
-Win7ButtonStyle
+Win7ButtonStyleBase
 ***********************************************************************/
 
-			IMPLEMENT_TRANSFERRING_ANIMATION(Win7ButtonColors, Win7ButtonStyle)
+			IMPLEMENT_TRANSFERRING_ANIMATION(Win7ButtonColors, Win7ButtonStyleBase)
 			{
 				colorCurrent=Win7ButtonColors::Blend(colorBegin, colorEnd, currentPosition, totalLength);
 				style->elements.Apply(colorCurrent);
 			}
 
-			void Win7ButtonStyle::TransferInternal(GuiButton::ControlState value, bool enabled)
+			Win7ButtonStyleBase::Win7ButtonStyleBase(bool verticalGradient, const Win7ButtonColors& initialColor, Alignment::Type horizontal, Alignment::Type vertical)
+				:controlStyle(GuiButton::Normal)
+				,isVisuallyEnabled(true)
+				,isSelected(false)
+				,transparentWhenInactive(false)
+				,transparentWhenDisabled(false)
+			{
+				elements=Win7ButtonElements::Create(verticalGradient, horizontal, vertical);
+				elements.Apply(initialColor);
+				transferringAnimation=new TransferringAnimation(this, initialColor);
+			}
+
+			Win7ButtonStyleBase::~Win7ButtonStyleBase()
+			{
+			}
+
+			elements::GuiBoundsComposition* Win7ButtonStyleBase::GetBoundsComposition()
+			{
+				return elements.mainComposition;
+			}
+
+			elements::GuiGraphicsComposition* Win7ButtonStyleBase::GetContainerComposition()
+			{
+				return elements.mainComposition;
+			}
+
+			void Win7ButtonStyleBase::SetFocusableComposition(elements::GuiGraphicsComposition* value)
+			{
+			}
+
+			void Win7ButtonStyleBase::SetText(const WString& value)
+			{
+				elements.textElement->SetText(value);
+			}
+
+			void Win7ButtonStyleBase::SetFont(const FontProperties& value)
+			{
+				Win7SetFont(elements.textElement, elements.textComposition, value);
+			}
+
+			void Win7ButtonStyleBase::SetVisuallyEnabled(bool value)
+			{
+				if(isVisuallyEnabled!=value)
+				{
+					isVisuallyEnabled=value;
+					TransferInternal(controlStyle, isVisuallyEnabled, isSelected);
+				}
+			}
+
+			void Win7ButtonStyleBase::SetSelected(bool value)
+			{
+				if(isSelected!=value)
+				{
+					isSelected=value;
+					TransferInternal(controlStyle, isVisuallyEnabled, isSelected);
+				}
+			}
+
+			void Win7ButtonStyleBase::Transfer(GuiButton::ControlState value)
+			{
+				if(controlStyle!=value)
+				{
+					controlStyle=value;
+					TransferInternal(controlStyle, isVisuallyEnabled, isSelected);
+				}
+			}
+
+			bool Win7ButtonStyleBase::GetTransparentWhenInactive()
+			{
+				return transparentWhenInactive;
+			}
+
+			void Win7ButtonStyleBase::SetTransparentWhenInactive(bool value)
+			{
+				transparentWhenInactive=value;
+				TransferInternal(controlStyle, isVisuallyEnabled, isSelected);
+			}
+
+			bool Win7ButtonStyleBase::GetTransparentWhenDisabled()
+			{
+				return transparentWhenDisabled;
+			}
+
+			void Win7ButtonStyleBase::SetTransparentWhenDisabled(bool value)
+			{
+				transparentWhenDisabled=value;
+				TransferInternal(controlStyle, isVisuallyEnabled, isSelected);
+			}
+
+			bool Win7ButtonStyleBase::GetAutoSizeForText()
+			{
+				return elements.textComposition->GetMinSizeLimitation()!=GuiGraphicsComposition::NoLimit;
+			}
+
+			void Win7ButtonStyleBase::SetAutoSizeForText(bool value)
+			{
+				if(value)
+				{
+					elements.textComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElement);
+				}
+				else
+				{
+					elements.textComposition->SetMinSizeLimitation(GuiGraphicsComposition::NoLimit);
+				}
+			}
+
+/***********************************************************************
+Win7ButtonStyle
+***********************************************************************/
+
+			void Win7ButtonStyle::TransferInternal(GuiButton::ControlState value, bool enabled, bool selected)
 			{
 				Win7ButtonColors targetColor;
 				if(enabled)
@@ -874,83 +1052,99 @@ Win7ButtonStyle
 			}
 
 			Win7ButtonStyle::Win7ButtonStyle(bool verticalGradient)
-				:controlStyle(GuiButton::Normal)
-				,isVisuallyEnabled(true)
-				,transparentWhenInactive(false)
-				,transparentWhenDisabled(false)
+				:Win7ButtonStyleBase(verticalGradient, Win7ButtonColors::ButtonNormal(), Alignment::Center, Alignment::Center)
 			{
-				Win7ButtonColors initialColor=Win7ButtonColors::ButtonNormal();
-				elements=Win7ButtonElements::Create(verticalGradient);
-				elements.Apply(initialColor);
-				transferringAnimation=new TransferringAnimation(this, initialColor);
 			}
 
 			Win7ButtonStyle::~Win7ButtonStyle()
 			{
 			}
 
-			elements::GuiBoundsComposition* Win7ButtonStyle::GetBoundsComposition()
-			{
-				return elements.mainComposition;
-			}
+/***********************************************************************
+Win7SelectableItemStyle
+***********************************************************************/
 
-			elements::GuiGraphicsComposition* Win7ButtonStyle::GetContainerComposition()
+			void Win7SelectableItemStyle::TransferInternal(GuiButton::ControlState value, bool enabled, bool selected)
 			{
-				return elements.mainComposition;
-			}
-
-			void Win7ButtonStyle::SetFocusableComposition(elements::GuiGraphicsComposition* value)
-			{
-			}
-
-			void Win7ButtonStyle::SetText(const WString& value)
-			{
-				elements.textElement->SetText(value);
-			}
-
-			void Win7ButtonStyle::SetFont(const FontProperties& value)
-			{
-				Win7SetFont(elements.textElement, elements.textComposition, value);
-			}
-
-			void Win7ButtonStyle::SetVisuallyEnabled(bool value)
-			{
-				if(isVisuallyEnabled!=value)
+				if(!enabled)
 				{
-					isVisuallyEnabled=value;
-					TransferInternal(controlStyle, isVisuallyEnabled);
+					transferringAnimation->Transfer(Win7ButtonColors::ItemDisabled());
+				}
+				else if(selected)
+				{
+					transferringAnimation->Transfer(Win7ButtonColors::ItemSelected());
+				}
+				else
+				{
+					switch(value)
+					{
+					case GuiButton::Normal:
+						transferringAnimation->Transfer(Win7ButtonColors::ItemNormal());
+						break;
+					case GuiButton::Active:
+					case GuiButton::Pressed:
+						transferringAnimation->Transfer(Win7ButtonColors::ItemActive());
+						break;
+					}
 				}
 			}
 
-			void Win7ButtonStyle::Transfer(GuiButton::ControlState value)
+			Win7SelectableItemStyle::Win7SelectableItemStyle()
+				:Win7ButtonStyleBase(true, Win7ButtonColors::ItemNormal(), Alignment::Left, Alignment::Center)
 			{
-				if(controlStyle!=value)
+			}
+
+			Win7SelectableItemStyle::~Win7SelectableItemStyle()
+			{
+			}
+
+/***********************************************************************
+Win7ButtonStyle
+***********************************************************************/
+
+			void Win7ToolstripButtonStyle::TransferInternal(GuiButton::ControlState value, bool enabled, bool selected)
+			{
+				Win7ButtonColors targetColor;
+				if(enabled)
 				{
-					controlStyle=value;
-					TransferInternal(controlStyle, isVisuallyEnabled);
+					switch(value)
+					{
+					case GuiButton::Normal:
+						targetColor=Win7ButtonColors::ToolstripButtonNormal();
+						if(transparentWhenInactive)
+						{
+							targetColor.SetAlphaWithoutText(0);
+						}
+						break;
+					case GuiButton::Active:
+						targetColor=Win7ButtonColors::ToolstripButtonActive();
+						break;
+					case GuiButton::Pressed:
+						targetColor=Win7ButtonColors::ToolstripButtonPressed();
+						break;
+					}
 				}
+				else
+				{
+					targetColor=Win7ButtonColors::ToolstripButtonDisabled();
+					if(transparentWhenDisabled)
+					{
+						targetColor.SetAlphaWithoutText(0);
+					}
+				}
+				transferringAnimation->Transfer(targetColor);
 			}
 
-			bool Win7ButtonStyle::GetTransparentWhenInactive()
+			Win7ToolstripButtonStyle::Win7ToolstripButtonStyle(bool transparent)
+				:Win7ButtonStyleBase(true, Win7ButtonColors::ToolstripButtonNormal(), Alignment::Center, Alignment::Center)
 			{
-				return transparentWhenInactive;
+				SetAutoSizeForText(false);
+				SetTransparentWhenInactive(transparent);
+				SetTransparentWhenDisabled(transparent);
 			}
 
-			void Win7ButtonStyle::SetTransparentWhenInactive(bool value)
+			Win7ToolstripButtonStyle::~Win7ToolstripButtonStyle()
 			{
-				transparentWhenInactive=value;
-				TransferInternal(controlStyle, isVisuallyEnabled);
-			}
-
-			bool Win7ButtonStyle::GetTransparentWhenDisabled()
-			{
-				return transparentWhenDisabled;
-			}
-
-			void Win7ButtonStyle::SetTransparentWhenDisabled(bool value)
-			{
-				transparentWhenDisabled=value;
-				TransferInternal(controlStyle, isVisuallyEnabled);
 			}
 
 /***********************************************************************
@@ -1044,107 +1238,6 @@ Win7CheckBoxStyle
 			}
 
 			void Win7CheckBoxStyle::Transfer(GuiButton::ControlState value)
-			{
-				if(controlStyle!=value)
-				{
-					controlStyle=value;
-					TransferInternal(controlStyle, isVisuallyEnabled, isSelected);
-				}
-			}
-
-/***********************************************************************
-Win7SelectableItemStyle
-***********************************************************************/
-
-			IMPLEMENT_TRANSFERRING_ANIMATION(Win7ButtonColors, Win7SelectableItemStyle)
-			{
-				colorCurrent=Win7ButtonColors::Blend(colorBegin, colorEnd, currentPosition, totalLength);
-				style->elements.Apply(colorCurrent);
-			}
-
-			void Win7SelectableItemStyle::TransferInternal(GuiButton::ControlState value, bool enabled, bool selected)
-			{
-				if(!enabled)
-				{
-					transferringAnimation->Transfer(Win7ButtonColors::ItemDisabled());
-				}
-				else if(selected)
-				{
-					transferringAnimation->Transfer(Win7ButtonColors::ItemSelected());
-				}
-				else
-				{
-					switch(value)
-					{
-					case GuiButton::Normal:
-						transferringAnimation->Transfer(Win7ButtonColors::ItemNormal());
-						break;
-					case GuiButton::Active:
-					case GuiButton::Pressed:
-						transferringAnimation->Transfer(Win7ButtonColors::ItemActive());
-						break;
-					}
-				}
-			}
-
-			Win7SelectableItemStyle::Win7SelectableItemStyle()
-				:controlStyle(GuiButton::Normal)
-				,isVisuallyEnabled(true)
-				,isSelected(false)
-			{
-				Win7ButtonColors initialColor=Win7ButtonColors::ItemNormal();
-				elements=Win7ButtonElements::Create(true, Alignment::Left, Alignment::Center);
-				elements.Apply(initialColor);
-				transferringAnimation=new TransferringAnimation(this, initialColor);
-			}
-
-			Win7SelectableItemStyle::~Win7SelectableItemStyle()
-			{
-			}
-
-			elements::GuiBoundsComposition* Win7SelectableItemStyle::GetBoundsComposition()
-			{
-				return elements.mainComposition;
-			}
-
-			elements::GuiGraphicsComposition* Win7SelectableItemStyle::GetContainerComposition()
-			{
-				return elements.mainComposition;
-			}
-
-			void Win7SelectableItemStyle::SetFocusableComposition(elements::GuiGraphicsComposition* value)
-			{
-			}
-
-			void Win7SelectableItemStyle::SetText(const WString& value)
-			{
-				elements.textElement->SetText(value);
-			}
-
-			void Win7SelectableItemStyle::SetFont(const FontProperties& value)
-			{
-				Win7SetFont(elements.textElement, elements.textComposition, value);
-			}
-
-			void Win7SelectableItemStyle::SetVisuallyEnabled(bool value)
-			{
-				if(isVisuallyEnabled!=value)
-				{
-					isVisuallyEnabled=value;
-					TransferInternal(controlStyle, isVisuallyEnabled, isSelected);
-				}
-			}
-
-			void Win7SelectableItemStyle::SetSelected(bool value)
-			{
-				if(isSelected!=value)
-				{
-					isSelected=value;
-					TransferInternal(controlStyle, isVisuallyEnabled, isSelected);
-				}
-			}
-
-			void Win7SelectableItemStyle::Transfer(GuiButton::ControlState value)
 			{
 				if(controlStyle!=value)
 				{
