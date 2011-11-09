@@ -69,37 +69,37 @@ Host
 
 				void							MouseCapture(const NativeWindowMouseInfo& info);
 				void							MouseUncapture(const NativeWindowMouseInfo& info);
-			private:
 				void							OnCharInput(const NativeWindowCharInfo& info, GuiGraphicsComposition* composition, GuiCharEvent GuiGraphicsEventReceiver::* eventReceiverEvent);
 				void							OnKeyInput(const NativeWindowKeyInfo& info, GuiGraphicsComposition* composition, GuiKeyEvent GuiGraphicsEventReceiver::* eventReceiverEvent);
 				void							RaiseMouseEvent(GuiMouseEventArgs& arguments, GuiGraphicsComposition* composition, GuiMouseEvent GuiGraphicsEventReceiver::* eventReceiverEvent);
 				void							OnMouseInput(const NativeWindowMouseInfo& info, GuiMouseEvent GuiGraphicsEventReceiver::* eventReceiverEvent);
+				
+			private:
+				void							Moving(Rect& bounds)override;
+				void							Moved()override;
 
-				void							Moving(Rect& bounds);
-				void							Moved();
+				void							LeftButtonDown(const NativeWindowMouseInfo& info)override;
+				void							LeftButtonUp(const NativeWindowMouseInfo& info)override;
+				void							LeftButtonDoubleClick(const NativeWindowMouseInfo& info)override;
+				void							RightButtonDown(const NativeWindowMouseInfo& info)override;
+				void							RightButtonUp(const NativeWindowMouseInfo& info)override;
+				void							RightButtonDoubleClick(const NativeWindowMouseInfo& info)override;
+				void							MiddleButtonDown(const NativeWindowMouseInfo& info)override;
+				void							MiddleButtonUp(const NativeWindowMouseInfo& info)override;
+				void							MiddleButtonDoubleClick(const NativeWindowMouseInfo& info)override;
+				void							HorizontalWheel(const NativeWindowMouseInfo& info)override;
+				void							VerticalWheel(const NativeWindowMouseInfo& info)override;
+				void							MouseMoving(const NativeWindowMouseInfo& info)override;
+				void							MouseEntered()override;
+				void							MouseLeaved()override;
 
-				void							LeftButtonDown(const NativeWindowMouseInfo& info);
-				void							LeftButtonUp(const NativeWindowMouseInfo& info);
-				void							LeftButtonDoubleClick(const NativeWindowMouseInfo& info);
-				void							RightButtonDown(const NativeWindowMouseInfo& info);
-				void							RightButtonUp(const NativeWindowMouseInfo& info);
-				void							RightButtonDoubleClick(const NativeWindowMouseInfo& info);
-				void							MiddleButtonDown(const NativeWindowMouseInfo& info);
-				void							MiddleButtonUp(const NativeWindowMouseInfo& info);
-				void							MiddleButtonDoubleClick(const NativeWindowMouseInfo& info);
-				void							HorizontalWheel(const NativeWindowMouseInfo& info);
-				void							VerticalWheel(const NativeWindowMouseInfo& info);
-				void							MouseMoving(const NativeWindowMouseInfo& info);
-				void							MouseEntered();
-				void							MouseLeaved();
+				void							KeyDown(const NativeWindowKeyInfo& info)override;
+				void							KeyUp(const NativeWindowKeyInfo& info)override;
+				void							SysKeyDown(const NativeWindowKeyInfo& info)override;
+				void							SysKeyUp(const NativeWindowKeyInfo& info)override;
+				void							Char(const NativeWindowCharInfo& info)override;
 
-				void							KeyDown(const NativeWindowKeyInfo& info);
-				void							KeyUp(const NativeWindowKeyInfo& info);
-				void							SysKeyDown(const NativeWindowKeyInfo& info);
-				void							SysKeyUp(const NativeWindowKeyInfo& info);
-				void							Char(const NativeWindowCharInfo& info);
-
-				void							GlobalTimer();
+				void							GlobalTimer()override;
 			public:
 				GuiGraphicsHost();
 				~GuiGraphicsHost();
