@@ -10,6 +10,7 @@ Interfaces:
 #define VCZH_PRESENTATION_GACUI
 
 #include "Controls\GuiBasicControls.h"
+#include "Controls\GuiWindowControls.h"
 #include "Controls\GuiTextControls.h"
 #include "Controls\GuiListControls.h"
 #include "Controls\ExtendedControls\GuiTextList.h"

@@ -112,33 +112,6 @@ Basic Construction
 				GuiControlHost*							GetControlHost();
 			};
 
-			class GuiControlHost : public GuiControl
-			{
-			protected:
-				elements::GuiGraphicsHost*				host;
-				collections::List<GuiComponent*>		components;
-			public:
-				GuiControlHost(GuiControl::IStyleController* _styleController);
-				~GuiControlHost();
-
-				elements::GuiGraphicsHost*				GetGraphicsHost();
-				elements::GuiGraphicsComposition*		GetMainComposition();
-				INativeWindow*							GetNativeWindow();
-				void									SetNativeWindow(INativeWindow* window);
-				void									Render();
-
-				bool									AddComponent(GuiComponent* component);
-				bool									RemoveComponent(GuiComponent* component);
-				bool									ContainsComponent(GuiComponent* component);
-
-				void									Show();
-				void									ShowRestored();
-				void									ShowMaximized();
-				void									ShowMinimized();
-				void									Hide();
-				void									Close();
-			};
-
 /***********************************************************************
 Buttons
 ***********************************************************************/

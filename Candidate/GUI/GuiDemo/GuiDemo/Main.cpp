@@ -544,19 +544,19 @@ GuiMain
 
 void GuiMain()
 {
-	INativeWindow* window=GetCurrentController()->CreateNativeWindow();
+	GuiWindow window(new win7::Win7WindowStyle);
 #ifdef GUI_GRAPHICS_RENDERER_GDI
-	window->SetTitle(L"Vczh GUI Demo (GDI)");
+	window.SetText(L"Vczh GUI Demo (GDI)");
 #endif
 #ifdef GUI_GRAPHICS_RENDERER_DIRECT2D
-	window->SetTitle(L"Vczh GUI Demo (Direct2D)");
+	window.SetText(L"Vczh GUI Demo (Direct2D)");
 #endif
-	window->SetClientSize(Size(800, 600));
+	window.SetClientSize(Size(800, 600));
 
-	INativeScreen* screen=GetCurrentController()->GetScreen(window);
-	Rect windowBounds=window->GetBounds();
+	INativeScreen* screen=window.GetRelatedScreen();
+	Rect windowBounds=window.GetBounds();
 	Rect screenBounds=screen->GetClientBounds();
-	window->SetBounds(Rect(
+	window.SetBounds(Rect(
 		Point(
 			screenBounds.Left()+(screenBounds.Width()-windowBounds.Width())/2,
 			screenBounds.Top()+(screenBounds.Height()-windowBounds.Height())/2
@@ -564,12 +564,10 @@ void GuiMain()
 		windowBounds.GetSize()
 		));
 
-	GuiControlHost host(new win7::Win7WindowStyle);
 	//SetupWindow(&host);
 	//SetupTextBoxWindow(&host);
 	//SetupListControlWindow(&host);
-	SetupToolstripWindow(&host);
-	host.SetNativeWindow(window);
+	SetupToolstripWindow(&window);
 
-	GetCurrentController()->Run(window);
+	GetCurrentController()->Run(window.GetNativeWindow());
 }
