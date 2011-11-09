@@ -564,9 +564,9 @@ void GuiMain()
 		windowBounds.GetSize()
 		));
 
-	//SetupWindow(&host);
-	//SetupTextBoxWindow(&host);
-	//SetupListControlWindow(&host);
+	//SetupWindow(&window);
+	//SetupTextBoxWindow(&window);
+	//SetupListControlWindow(&window);
 	SetupToolstripWindow(&window);
 
 	GetCurrentController()->Run(window.GetNativeWindow());
