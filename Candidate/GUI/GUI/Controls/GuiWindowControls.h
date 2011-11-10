@@ -110,6 +110,54 @@ Window
 				GuiWindow(GuiControl::IStyleController* _styleController);
 				~GuiWindow();
 			};
+
+			class GuiPopup : public GuiWindow
+			{
+			public:
+				GuiPopup(GuiControl::IStyleController* _styleController);
+				~GuiPopup();
+			};
+
+			class GuiMenu : public GuiPopup
+			{
+			public:
+				GuiMenu(GuiControl::IStyleController* _styleController);
+				~GuiMenu();
+			};
+
+/***********************************************************************
+GuiMenuButton
+***********************************************************************/
+
+			class GuiMenuButton : public GuiButton
+			{
+			public:
+				class IStyleController : public GuiButton::IStyleController
+				{
+				public:
+					virtual GuiMenu::IStyleController*	CreateSubMenuStyleController()=0;
+					virtual void						SetSubMenuOpening(bool value)=0;
+				};
+			protected:
+				IStyleController*						styleController;
+				GuiMenu*								subMenu;
+
+				void									OnSubMenuWindowOpened(elements::GuiGraphicsComposition* sender, elements::GuiNotifyEvent& arguments);
+				void									OnSubMenuWindowClosed(elements::GuiGraphicsComposition* sender, elements::GuiNotifyEvent& arguments);
+			public:
+				GuiMenuButton(IStyleController* _styleController);
+				~GuiMenuButton();
+
+				elements::GuiNotifyEvent				SubMenuOpeningChanged;
+
+				bool									IsSubMenuExists();
+				GuiMenu*								GetSubMenu();
+				void									CreateSubMenu(GuiMenu::IStyleController* subMenuStyleController=0);
+				void									DestroySubMenu();
+
+				bool									GetSubMenuOpening();
+				void									SetSubMenuOpening(bool value);
+			};
 		}
 	}
 }

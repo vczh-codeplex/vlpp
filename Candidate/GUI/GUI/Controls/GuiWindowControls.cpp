@@ -521,6 +521,110 @@ GuiWindow
 					GetCurrentController()->DestroyNativeWindow(window);
 				}
 			}
+
+/***********************************************************************
+GuiPopup
+***********************************************************************/
+
+			GuiPopup::GuiPopup(GuiControl::IStyleController* _styleController)
+				:GuiWindow(_styleController)
+			{
+			}
+
+			GuiPopup::~GuiPopup()
+			{
+			}
+
+/***********************************************************************
+GuiWindow
+***********************************************************************/
+
+			GuiMenu::GuiMenu(GuiControl::IStyleController* _styleController)
+				:GuiPopup(_styleController)
+			{
+			}
+
+			GuiMenu::~GuiMenu()
+			{
+			}
+
+/***********************************************************************
+GuiMenuButton
+***********************************************************************/
+
+			void GuiMenuButton::OnSubMenuWindowOpened(elements::GuiGraphicsComposition* sender, elements::GuiNotifyEvent& arguments)
+			{
+				SubMenuOpeningChanged.Execute(GetNotifyEventArguments());
+				styleController->SetSubMenuOpening(true);
+			}
+
+			void GuiMenuButton::OnSubMenuWindowClosed(elements::GuiGraphicsComposition* sender, elements::GuiNotifyEvent& arguments)
+			{
+				SubMenuOpeningChanged.Execute(GetNotifyEventArguments());
+				styleController->SetSubMenuOpening(false);
+			}
+
+			GuiMenuButton::GuiMenuButton(IStyleController* _styleController)
+				:GuiButton(_styleController)
+				,styleController(_styleController)
+				,subMenu(0)
+			{
+				SubMenuOpeningChanged.SetAssociatedComposition(boundsComposition);
+			}
+
+			GuiMenuButton::~GuiMenuButton()
+			{
+				if(subMenu)
+				{
+					delete subMenu;
+				}
+			}
+
+			bool GuiMenuButton::IsSubMenuExists()
+			{
+				return subMenu!=0;
+			}
+
+			GuiMenu* GuiMenuButton::GetSubMenu()
+			{
+				return subMenu;
+			}
+
+			void GuiMenuButton::CreateSubMenu(GuiMenu::IStyleController* subMenuStyleController)
+			{
+				if(!subMenu)
+				{
+					subMenu=new GuiMenu(subMenuStyleController?subMenuStyleController:styleController->CreateSubMenuStyleController());
+				}
+			}
+
+			void GuiMenuButton::DestroySubMenu()
+			{
+				if(subMenu)
+				{
+					delete subMenu;
+					subMenu=0;
+				}
+			}
+
+			bool GuiMenuButton::GetSubMenuOpening()
+			{
+				if(subMenu)
+				{
+					return subMenu->GetVisible();
+				}
+				else
+				{
+					return false;
+				}
+			}
+
+			void GuiMenuButton::SetSubMenuOpening(bool value)
+			{
+				if(subMenu)
+				{
+				}
+			}
 		}
 	}
 }
