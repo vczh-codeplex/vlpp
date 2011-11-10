@@ -472,7 +472,7 @@ void SetupToolstripWindow(GuiControlHost* host)
 		const wchar_t* menuText[]={L"File", L"Edit", L"Format", L"View", L"Help"};
 		for(int i=0;i<sizeof(menuText)/sizeof(*menuText);i++)
 		{
-			GuiButton* button=new GuiButton(new win7::Win7MenuBarButtonStyle);
+			GuiMenuButton* button=new GuiMenuButton(new win7::Win7MenuBarButtonStyle);
 			button->SetText(menuText[i]);
 
 			GuiStackItemComposition* item=new GuiStackItemComposition;

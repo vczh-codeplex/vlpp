@@ -11,6 +11,10 @@ Clases:
 		Win7ButtonStyle(vertical|horizontal)
 		Win7SelectableItemStyle
 		Win7CheckBoxStyle(check|radio)
+		Win7ToolstripButtonStyle
+	GuiMenuButton::IStyleController
+		Win7MenuBarButtonStyle
+		Win7MenuItemButtonStyle
 	GuiScroll::IStyleController
 		Win7ScrollStyle
 		Win7TrackStyle
@@ -320,17 +324,6 @@ Button
 				~Win7ToolstripButtonStyle();
 			};
 
-			class Win7MenuBarButtonStyle : public Win7ButtonStyleBase
-			{
-			protected:
-				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected)override;
-			public:
-				Win7MenuBarButtonStyle();
-				~Win7MenuBarButtonStyle();
-
-				void										SetFont(const FontProperties& value)override;
-			};
-
 			class Win7CheckBoxStyle : public Object, public controls::GuiSelectableButton::IStyleController
 			{
 			public:
@@ -360,6 +353,37 @@ Button
 				void										SetFont(const FontProperties& value)override;
 				void										SetVisuallyEnabled(bool value)override;
 				void										SetSelected(bool value)override;
+				void										Transfer(controls::GuiButton::ControlState value)override;
+			};
+
+/***********************************************************************
+MenuButton
+***********************************************************************/
+
+			class Win7MenuBarButtonStyle : public Object, public controls::GuiMenuButton::IStyleController
+			{
+			protected:
+				DEFINE_TRANSFERRING_ANIMATION(Win7ButtonColors, Win7MenuBarButtonStyle)
+
+				Win7ButtonElements							elements;
+				Ptr<TransferringAnimation>					transferringAnimation;
+				controls::GuiButton::ControlState			controlStyle;
+				bool										isVisuallyEnabled;
+				bool										isOpening;
+
+				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool opening);
+			public:
+				Win7MenuBarButtonStyle();
+				~Win7MenuBarButtonStyle();
+
+				elements::GuiBoundsComposition*				GetBoundsComposition()override;
+				elements::GuiGraphicsComposition*			GetContainerComposition()override;
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value)override;
+				void										SetText(const WString& value)override;
+				void										SetFont(const FontProperties& value)override;
+				void										SetVisuallyEnabled(bool value)override;
+				controls::GuiMenu::IStyleController*		CreateSubMenuStyleController()override;
+				void										SetSubMenuOpening(bool value)override;
 				void										Transfer(controls::GuiButton::ControlState value)override;
 			};
 

@@ -1294,7 +1294,13 @@ Win7ToolstripButtonStyle
 Win7MenuBarButtonStyle
 ***********************************************************************/
 
-			void Win7MenuBarButtonStyle::TransferInternal(GuiButton::ControlState value, bool enabled, bool selected)
+			IMPLEMENT_TRANSFERRING_ANIMATION(Win7ButtonColors, Win7MenuBarButtonStyle)
+			{
+				colorCurrent=Win7ButtonColors::Blend(colorBegin, colorEnd, currentPosition, totalLength);
+				style->elements.Apply(colorCurrent);
+			}
+
+			void Win7MenuBarButtonStyle::TransferInternal(GuiButton::ControlState value, bool enabled, bool opening)
 			{
 				Win7ButtonColors targetColor;
 				if(enabled)
@@ -1303,10 +1309,7 @@ Win7MenuBarButtonStyle
 					{
 					case GuiButton::Normal:
 						targetColor=Win7ButtonColors::MenuBarButtonNormal();
-						if(transparentWhenInactive)
-						{
-							targetColor.SetAlphaWithoutText(0);
-						}
+						targetColor.SetAlphaWithoutText(0);
 						break;
 					case GuiButton::Active:
 						targetColor=Win7ButtonColors::MenuBarButtonActive();
@@ -1319,19 +1322,22 @@ Win7MenuBarButtonStyle
 				else
 				{
 					targetColor=Win7ButtonColors::MenuBarButtonDisabled();
-					if(transparentWhenDisabled)
-					{
-						targetColor.SetAlphaWithoutText(0);
-					}
+					targetColor.SetAlphaWithoutText(0);
 				}
 				transferringAnimation->Transfer(targetColor);
 			}
 
 			Win7MenuBarButtonStyle::Win7MenuBarButtonStyle()
-				:Win7ButtonStyleBase(true, Win7ButtonColors::MenuBarButtonNormal(), Alignment::Center, Alignment::Center)
+				:controlStyle(GuiButton::Normal)
+				,isVisuallyEnabled(true)
+				,isOpening(false)
 			{
-				SetTransparentWhenInactive(true);
-				SetTransparentWhenDisabled(true);
+				Win7ButtonColors initialColor=Win7ButtonColors::MenuBarButtonNormal();
+				initialColor.SetAlphaWithoutText(0);
+
+				elements=Win7ButtonElements::Create(true, Alignment::Center, Alignment::Center);
+				elements.Apply(initialColor);
+				transferringAnimation=new TransferringAnimation(this, initialColor);
 				transferringAnimation->SetEnableAnimation(false);
 			}
 
@@ -1339,13 +1345,64 @@ Win7MenuBarButtonStyle
 			{
 			}
 
+			elements::GuiBoundsComposition* Win7MenuBarButtonStyle::GetBoundsComposition()
+			{
+				return elements.mainComposition;
+			}
+
+			elements::GuiGraphicsComposition* Win7MenuBarButtonStyle::GetContainerComposition()
+			{
+				return elements.mainComposition;
+			}
+
+			void Win7MenuBarButtonStyle::SetFocusableComposition(elements::GuiGraphicsComposition* value)
+			{
+			}
+
+			void Win7MenuBarButtonStyle::SetText(const WString& value)
+			{
+				elements.textElement->SetText(value);
+			}
+
 			void Win7MenuBarButtonStyle::SetFont(const FontProperties& value)
 			{
-				Win7ButtonStyleBase::SetFont(value);
+				Win7SetFont(elements.textElement, elements.textComposition, value);
 				Margin margin=elements.textComposition->GetMargin();
 				margin.left*=3;
 				margin.right*=3;
 				elements.textComposition->SetMargin(margin);
+			}
+
+			void Win7MenuBarButtonStyle::SetVisuallyEnabled(bool value)
+			{
+				if(isVisuallyEnabled!=value)
+				{
+					isVisuallyEnabled=value;
+					TransferInternal(controlStyle, isVisuallyEnabled, isOpening);
+				}
+			}
+
+			controls::GuiMenu::IStyleController* Win7MenuBarButtonStyle::CreateSubMenuStyleController()
+			{
+				return new Win7WindowStyle;
+			}
+
+			void Win7MenuBarButtonStyle::SetSubMenuOpening(bool value)
+			{
+				if(isOpening!=value)
+				{
+					isOpening=value;
+					TransferInternal(controlStyle, isVisuallyEnabled, isOpening);
+				}
+			}
+
+			void Win7MenuBarButtonStyle::Transfer(GuiButton::ControlState value)
+			{
+				if(controlStyle!=value)
+				{
+					controlStyle=value;
+					TransferInternal(controlStyle, isVisuallyEnabled, isOpening);
+				}
 			}
 
 /***********************************************************************
