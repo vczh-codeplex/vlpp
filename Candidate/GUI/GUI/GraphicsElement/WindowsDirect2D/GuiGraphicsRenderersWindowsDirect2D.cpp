@@ -217,6 +217,103 @@ Gui3DBorderElementRenderer
 			}
 
 /***********************************************************************
+Gui3DSplitterElementRenderer
+***********************************************************************/
+
+			void Gui3DSplitterElementRenderer::CreateBrush(IWindowsDirect2DRenderTarget* _renderTarget)
+			{
+				if(_renderTarget)
+				{
+					oldColor1=element->GetColor1();
+					oldColor2=element->GetColor2();
+					brush1=_renderTarget->CreateDirect2DBrush(oldColor1);
+					brush2=_renderTarget->CreateDirect2DBrush(oldColor2);
+				}
+			}
+
+			void Gui3DSplitterElementRenderer::DestroyBrush(IWindowsDirect2DRenderTarget* _renderTarget)
+			{
+				if(_renderTarget)
+				{
+					if(brush1)
+					{
+						_renderTarget->DestroyDirect2DBrush(oldColor1);
+						brush1=0;
+					}
+					if(brush2)
+					{
+						_renderTarget->DestroyDirect2DBrush(oldColor2);
+						brush2=0;
+					}
+				}
+			}
+
+			void Gui3DSplitterElementRenderer::InitializeInternal()
+			{
+			}
+
+			void Gui3DSplitterElementRenderer::FinalizeInternal()
+			{
+				DestroyBrush(renderTarget);
+			}
+
+			void Gui3DSplitterElementRenderer::RenderTargetChangedInternal(IWindowsDirect2DRenderTarget* oldRenderTarget, IWindowsDirect2DRenderTarget* newRenderTarget)
+			{
+				DestroyBrush(oldRenderTarget);
+				CreateBrush(newRenderTarget);
+			}
+
+			Gui3DSplitterElementRenderer::Gui3DSplitterElementRenderer()
+				:brush1(0)
+				,brush2(0)
+			{
+			}
+
+			void Gui3DSplitterElementRenderer::Render(Rect bounds)
+			{
+				D2D1_POINT_2F p11, p12, p21, p22;
+				switch(element->GetDirection())
+				{
+				case Gui3DSplitterElement::Horizontal:
+					{
+						int y=bounds.y1+bounds.Height()/2-1;
+						p11=D2D1::Point2F((FLOAT)bounds.x1, (FLOAT)y+0.5f);
+						p12=D2D1::Point2F((FLOAT)bounds.x2, (FLOAT)y+0.5f);
+						p21=D2D1::Point2F((FLOAT)bounds.x1, (FLOAT)y+1.5f);
+						p22=D2D1::Point2F((FLOAT)bounds.x2, (FLOAT)y+1.5f);
+					}
+					break;
+				case Gui3DSplitterElement::Vertical:
+					{
+						int x=bounds.x1+bounds.Width()/2-1;
+						p11=D2D1::Point2F((FLOAT)x+0.5f, (FLOAT)bounds.y1-0.0f);
+						p12=D2D1::Point2F((FLOAT)x+0.5f, (FLOAT)bounds.y2+0.0f);
+						p21=D2D1::Point2F((FLOAT)x+1.5f, (FLOAT)bounds.y1-0.0f);
+						p22=D2D1::Point2F((FLOAT)x+1.5f, (FLOAT)bounds.y2+0.0f);
+					}
+					break;
+				}
+				ID2D1RenderTarget* d2dRenderTarget=renderTarget->GetDirect2DRenderTarget();
+
+				d2dRenderTarget->DrawLine(p11, p12, brush1);
+				d2dRenderTarget->DrawLine(p21, p22, brush2);
+			}
+
+			void Gui3DSplitterElementRenderer::OnElementStateChanged()
+			{
+				if(renderTarget)
+				{
+					Color color1=element->GetColor1();
+					Color color2=element->GetColor2();
+					if(oldColor1!=color1 || oldColor2!=color2)
+					{
+						DestroyBrush(renderTarget);
+						CreateBrush(renderTarget);
+					}
+				}
+			}
+
+/***********************************************************************
 GuiSolidBackgroundElementRenderer
 ***********************************************************************/
 			

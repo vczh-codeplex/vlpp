@@ -1467,6 +1467,10 @@ GuiStackItemComposition
 					int index=stackParent->stackItems.IndexOf(this);
 					if(index!=-1)
 					{
+						if(stackParent->stackItemBounds.Count()==0)
+						{
+							stackParent->UpdateStackItemBounds();
+						}
 						return stackParent->stackItemBounds[index];
 					}
 				}

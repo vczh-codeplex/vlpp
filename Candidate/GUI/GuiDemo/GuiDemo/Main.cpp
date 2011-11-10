@@ -522,6 +522,7 @@ void SetupToolstripWindow(GuiControlHost* host)
 			GuiMenuButton* button=new GuiMenuButton(new win7::Win7MenuItemButtonStyle);
 			button->SetText(menuText[i]);
 			button->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+			button->SetEnabled(i<4);
 
 			GuiStackItemComposition* item=new GuiStackItemComposition;
 			item->AddChild(button->GetBoundsComposition());

@@ -141,6 +141,22 @@ Button Configuration
 				void										Apply(const Win7ButtonColors& colors);
 			};
 
+			struct Win7MenuItemButtonElements
+			{
+				elements::GuiRoundBorderElement*			borderElement;
+				elements::GuiSolidBackgroundElement*		backgroundElement;
+				elements::GuiGradientBackgroundElement*		gradientElement;
+				elements::Gui3DSplitterElement*				splitterElement;
+				elements::GuiCellComposition*				splitterComposition;
+				elements::GuiSolidLabelElement*				textElement;
+				elements::GuiBoundsComposition*				textComposition;
+				elements::GuiBoundsComposition*				mainComposition;
+
+				static Win7MenuItemButtonElements			Create();
+				void										Apply(const Win7ButtonColors& colors);
+				void										SetActive(bool value);
+			};
+
 			struct Win7TextBoxColors
 			{
 				Color										borderColor;
@@ -392,7 +408,7 @@ MenuButton
 			class Win7MenuItemButtonStyle : public Object, public controls::GuiMenuButton::IStyleController
 			{
 			protected:
-				Win7ButtonElements							elements;
+				Win7MenuItemButtonElements					elements;
 				controls::GuiButton::ControlState			controlStyle;
 				bool										isVisuallyEnabled;
 				bool										isOpening;

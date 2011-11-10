@@ -328,6 +328,32 @@ Elements
 				void					SetColors(Color value1, Color value2);
 			};
 
+			class Gui3DSplitterElement : public Object, public IGuiGraphicsElement
+			{
+				DEFINE_GUI_GRAPHICS_ELEMENT(Gui3DSplitterElement, L"3DSplitter")
+			public:
+				enum Direction
+				{
+					Horizontal,
+					Vertical,
+				};
+			protected:
+				Color					color1;
+				Color					color2;
+				Direction				direction;
+
+				Gui3DSplitterElement();
+			public:
+				~Gui3DSplitterElement();
+
+				Color					GetColor1();
+				Color					GetColor2();
+				void					SetColors(Color value1, Color value2);
+
+				Direction				GetDirection();
+				void					SetDirection(Direction value);
+			};
+
 			class GuiSolidBackgroundElement : public Object, public IGuiGraphicsElement
 			{
 				DEFINE_GUI_GRAPHICS_ELEMENT(GuiSolidBackgroundElement, L"SolidBackground")

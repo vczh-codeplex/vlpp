@@ -418,6 +418,7 @@ void NativeMain()
 	GuiSolidBorderElementRenderer::Register();
 	GuiRoundBorderElementRenderer::Register();
 	Gui3DBorderElementRenderer::Register();
+	Gui3DSplitterElementRenderer::Register();
 	GuiSolidBackgroundElementRenderer::Register();
 	GuiGradientBackgroundElementRenderer::Register();
 	GuiSolidLabelElementRenderer::Register();

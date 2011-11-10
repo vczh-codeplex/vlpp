@@ -176,6 +176,89 @@ Gui3DBorderElementRenderer
 			}
 
 /***********************************************************************
+Gui3DSplitterElementRenderer
+***********************************************************************/
+
+			void Gui3DSplitterElementRenderer::InitializeInternal()
+			{
+				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+				oldColor1=element->GetColor1();
+				oldColor2=element->GetColor2();
+				pen1=resourceManager->CreateGdiPen(oldColor1);
+				pen2=resourceManager->CreateGdiPen(oldColor2);
+			}
+
+			void Gui3DSplitterElementRenderer::FinalizeInternal()
+			{
+				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+				resourceManager->DestroyGdiPen(oldColor1);
+				resourceManager->DestroyGdiPen(oldColor2);
+			}
+
+			void Gui3DSplitterElementRenderer::RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget)
+			{
+			}
+
+			void Gui3DSplitterElementRenderer::Render(Rect bounds)
+			{
+				Point p11, p12, p21, p22;
+				switch(element->GetDirection())
+				{
+				case Gui3DSplitterElement::Horizontal:
+					{
+						int y=bounds.y1+bounds.Height()/2-1;
+						p11=Point(bounds.x1, y);
+						p12=Point(bounds.x2, y);
+						p21=Point(bounds.x1, y+1);
+						p22=Point(bounds.x2, y+1);
+					}
+					break;
+				case Gui3DSplitterElement::Vertical:
+					{
+						int x=bounds.x1+bounds.Width()/2-1;
+						p11=Point(x, bounds.y1);
+						p12=Point(x, bounds.y2);
+						p21=Point(x+1, bounds.y1);
+						p22=Point(x+1, bounds.y2);
+					}
+					break;
+				}
+				if(oldColor1.a>0)
+				{
+					renderTarget->GetDC()->SetPen(pen1);
+					renderTarget->GetDC()->MoveTo(p11.x, p11.y);
+					renderTarget->GetDC()->LineTo(p12.x, p12.y);
+				}
+				if(oldColor2.a>0)
+				{
+					renderTarget->GetDC()->SetPen(pen2);
+					renderTarget->GetDC()->MoveTo(p21.x, p21.y);
+					renderTarget->GetDC()->LineTo(p22.x, p22.y);
+				}
+			}
+
+			void Gui3DSplitterElementRenderer::OnElementStateChanged()
+			{
+				Color color1=element->GetColor1();
+				if(oldColor1!=color1)
+				{
+					IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+					resourceManager->DestroyGdiPen(oldColor1);
+					oldColor1=color1;
+					pen1=resourceManager->CreateGdiPen(oldColor1);
+				}
+
+				Color color2=element->GetColor2();
+				if(oldColor2!=color2)
+				{
+					IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+					resourceManager->DestroyGdiPen(oldColor2);
+					oldColor2=color2;
+					pen2=resourceManager->CreateGdiPen(oldColor2);
+				}
+			}
+
+/***********************************************************************
 GuiSolidBackgroundElementRenderer
 ***********************************************************************/
 
