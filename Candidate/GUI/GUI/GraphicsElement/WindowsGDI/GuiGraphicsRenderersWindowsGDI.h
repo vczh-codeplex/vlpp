@@ -73,6 +73,23 @@ Renderers
 				void					OnElementStateChanged()override;
 			};
 
+			class Gui3DSplitterElementRenderer : public Object, public IGuiGraphicsRenderer
+			{
+				DEFINE_GUI_GRAPHICS_RENDERER(Gui3DSplitterElement, Gui3DSplitterElementRenderer, IWindowsGDIRenderTarget)
+			protected:
+				Color					oldColor1;
+				Color					oldColor2;
+				Ptr<windows::WinPen>	pen1;
+				Ptr<windows::WinPen>	pen2;
+
+				void					InitializeInternal();
+				void					FinalizeInternal();
+				void					RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget);
+			public:
+				void					Render(Rect bounds)override;
+				void					OnElementStateChanged()override;
+			};
+
 			class GuiSolidBackgroundElementRenderer : public Object, public IGuiGraphicsRenderer
 			{
 				DEFINE_GUI_GRAPHICS_RENDERER(GuiSolidBackgroundElement, GuiSolidBackgroundElementRenderer, IWindowsGDIRenderTarget)

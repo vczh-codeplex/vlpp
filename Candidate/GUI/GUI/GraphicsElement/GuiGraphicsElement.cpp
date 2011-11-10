@@ -201,6 +201,54 @@ Gui3DBorderElement
 			}
 
 /***********************************************************************
+Gui3DSplitterElement
+***********************************************************************/
+
+			Gui3DSplitterElement::Gui3DSplitterElement()
+				:direction(Horizontal)
+			{
+			}
+
+			Gui3DSplitterElement::~Gui3DSplitterElement()
+			{
+				renderer->Finalize();
+			}
+
+			Color Gui3DSplitterElement::GetColor1()
+			{
+				return color1;
+			}
+
+			Color Gui3DSplitterElement::GetColor2()
+			{
+				return color2;
+			}
+
+			void Gui3DSplitterElement::SetColors(Color value1, Color value2)
+			{
+				if(color1!=value1 || color2!=value2)
+				{
+					color1=value1;
+					color2=value2;
+					renderer->OnElementStateChanged();
+				}
+			}
+
+			Gui3DSplitterElement::Direction Gui3DSplitterElement::GetDirection()
+			{
+				return direction;
+			}
+
+			void Gui3DSplitterElement::SetDirection(Direction value)
+			{
+				if(direction!=value)
+				{
+					direction=value;
+					renderer->OnElementStateChanged();
+				}
+			}
+
+/***********************************************************************
 GuiSolidBackgroundElement
 ***********************************************************************/
 

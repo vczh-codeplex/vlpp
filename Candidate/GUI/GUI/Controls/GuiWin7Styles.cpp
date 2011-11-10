@@ -705,6 +705,101 @@ Win7CheckedButtonElements
 			}
 
 /***********************************************************************
+Win7MenuItemButtonElements
+***********************************************************************/
+
+			Win7MenuItemButtonElements Win7MenuItemButtonElements::Create()
+			{
+				Win7MenuItemButtonElements button;
+				{
+					button.mainComposition=new GuiBoundsComposition;
+					button.mainComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+				}
+				{
+					GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
+					button.backgroundElement=element;
+
+					GuiBoundsComposition* composition=new GuiBoundsComposition;
+					button.mainComposition->AddChild(composition);
+					composition->SetAlignmentToParent(Margin(1, 1, 1, 1));
+					composition->SetOwnedElement(element);
+				}
+				{
+					GuiRoundBorderElement* element=GuiRoundBorderElement::Create();
+					button.borderElement=element;
+					element->SetRadius(2);
+
+					GuiBoundsComposition* composition=new GuiBoundsComposition;
+					button.mainComposition->AddChild(composition);
+					composition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+					composition->SetOwnedElement(element);
+				}
+				{
+					GuiGradientBackgroundElement* element=GuiGradientBackgroundElement::Create();
+					button.gradientElement=element;
+					element->SetDirection(GuiGradientBackgroundElement::Vertical);
+
+					GuiBoundsComposition* composition=new GuiBoundsComposition;
+					button.mainComposition->AddChild(composition);
+					composition->SetAlignmentToParent(Margin(2, 2, 2, 2));
+					composition->SetOwnedElement(element);
+				}
+				{
+					GuiTableComposition* table=new GuiTableComposition;
+					button.mainComposition->AddChild(table);
+					table->SetAlignmentToParent(Margin(2, 0, 2, 0));
+					table->SetRowsAndColumns(1, 3);
+
+					table->SetRowOption(0, GuiCellOption::PercentageOption(1.0));
+					table->SetColumnOption(0, GuiCellOption::AbsoluteOption(24));
+					table->SetColumnOption(1, GuiCellOption::AbsoluteOption(2));
+					table->SetColumnOption(2, GuiCellOption::MinSizeOption());
+
+					{
+						GuiCellComposition* cell=new GuiCellComposition;
+						table->AddChild(cell);
+						cell->SetSite(0, 1, 1, 1);
+						button.splitterComposition=cell;
+
+						Gui3DSplitterElement* element=Gui3DSplitterElement::Create();
+						button.splitterElement=element;
+						element->SetDirection(Gui3DSplitterElement::Vertical);
+						cell->SetOwnedElement(element);
+					}
+					{
+						GuiCellComposition* cell=new GuiCellComposition;
+						table->AddChild(cell);
+						cell->SetSite(0, 2, 1, 1);
+
+						Win7CreateSolidLabelElement(button.textElement, button.textComposition, Alignment::Left, Alignment::Center);
+						cell->AddChild(button.textComposition);
+					}
+				}
+				return button;
+			}
+
+			void Win7MenuItemButtonElements::Apply(const Win7ButtonColors& colors)
+			{
+				borderElement->SetColor(colors.borderColor);
+				backgroundElement->SetColor(colors.backgroundColor);
+				gradientElement->SetColors(colors.g1, colors.g2);
+				splitterElement->SetColors(colors.g3, colors.g4);
+				textElement->SetColor(colors.textColor);
+			}
+
+			void Win7MenuItemButtonElements::SetActive(bool value)
+			{
+				if(value)
+				{
+					splitterComposition->SetMargin(Margin(0, 1, 0, 2));
+				}
+				else
+				{
+					splitterComposition->SetMargin(Margin(0, 0, 0, 0));
+				}
+			}
+
+/***********************************************************************
 Win7TextBoxColors
 ***********************************************************************/
 
@@ -1571,11 +1666,13 @@ Win7MenuBarButtonStyle
 			void Win7MenuItemButtonStyle::TransferInternal(GuiButton::ControlState value, bool enabled, bool opening)
 			{
 				Win7ButtonColors targetColor;
+				bool active=false;
 				if(enabled)
 				{
 					if(opening)
 					{
 						targetColor=Win7ButtonColors::MenuItemButtonNormalActive();
+						active=true;
 					}
 					else
 					{
@@ -1587,6 +1684,7 @@ Win7MenuBarButtonStyle
 						case GuiButton::Active:
 						case GuiButton::Pressed:
 							targetColor=Win7ButtonColors::MenuItemButtonNormalActive();
+							active=true;
 							break;
 						}
 					}
@@ -1601,10 +1699,12 @@ Win7MenuBarButtonStyle
 					case GuiButton::Active:
 					case GuiButton::Pressed:
 						targetColor=Win7ButtonColors::MenuItemButtonDisabledActive();
+						active=true;
 						break;
 					}
 				}
 				elements.Apply(targetColor);
+				elements.SetActive(active);
 			}
 
 			Win7MenuItemButtonStyle::Win7MenuItemButtonStyle()
@@ -1612,7 +1712,7 @@ Win7MenuBarButtonStyle
 				,isVisuallyEnabled(true)
 				,isOpening(false)
 			{
-				elements=Win7ButtonElements::Create(true, Alignment::Center, Alignment::Center);
+				elements=Win7MenuItemButtonElements::Create();
 				elements.Apply(Win7ButtonColors::MenuItemButtonNormal());
 			}
 
@@ -1642,10 +1742,6 @@ Win7MenuBarButtonStyle
 			void Win7MenuItemButtonStyle::SetFont(const FontProperties& value)
 			{
 				Win7SetFont(elements.textElement, elements.textComposition, value);
-				Margin margin=elements.textComposition->GetMargin();
-				margin.left*=3;
-				margin.right*=3;
-				elements.textComposition->SetMargin(margin);
 			}
 
 			void Win7MenuItemButtonStyle::SetVisuallyEnabled(bool value)

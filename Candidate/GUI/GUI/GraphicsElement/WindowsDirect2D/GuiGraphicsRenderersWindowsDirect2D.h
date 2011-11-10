@@ -71,6 +71,27 @@ Renderers
 				void					OnElementStateChanged()override;
 			};
 
+			class Gui3DSplitterElementRenderer : public Object, public IGuiGraphicsRenderer
+			{
+				DEFINE_GUI_GRAPHICS_RENDERER(Gui3DSplitterElement, Gui3DSplitterElementRenderer, IWindowsDirect2DRenderTarget)
+			protected:
+				Color					oldColor1;
+				Color					oldColor2;
+				ID2D1SolidColorBrush*	brush1;
+				ID2D1SolidColorBrush*	brush2;
+
+				void					CreateBrush(IWindowsDirect2DRenderTarget* _renderTarget);
+				void					DestroyBrush(IWindowsDirect2DRenderTarget* _renderTarget);
+				void					InitializeInternal();
+				void					FinalizeInternal();
+				void					RenderTargetChangedInternal(IWindowsDirect2DRenderTarget* oldRenderTarget, IWindowsDirect2DRenderTarget* newRenderTarget);
+			public:
+				Gui3DSplitterElementRenderer();
+
+				void					Render(Rect bounds)override;
+				void					OnElementStateChanged()override;
+			};
+
 			class GuiSolidBackgroundElementRenderer : public Object, public IGuiGraphicsRenderer
 			{
 				DEFINE_BRUSH_ELEMENT_RENDERER(GuiSolidBackgroundElement, GuiSolidBackgroundElementRenderer, ID2D1SolidColorBrush, Color)
