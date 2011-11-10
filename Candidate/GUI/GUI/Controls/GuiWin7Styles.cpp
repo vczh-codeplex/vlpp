@@ -1225,8 +1225,10 @@ Win7SelectableItemStyle
 						transferringAnimation->Transfer(Win7ButtonColors::ItemNormal());
 						break;
 					case GuiButton::Active:
-					case GuiButton::Pressed:
 						transferringAnimation->Transfer(Win7ButtonColors::ItemActive());
+						break;
+					case GuiButton::Pressed:
+						transferringAnimation->Transfer(Win7ButtonColors::ItemSelected());
 						break;
 					}
 				}
@@ -1303,7 +1305,16 @@ Win7MenuBarButtonStyle
 			void Win7MenuBarButtonStyle::TransferInternal(GuiButton::ControlState value, bool enabled, bool opening)
 			{
 				Win7ButtonColors targetColor;
-				if(enabled)
+				if(!enabled)
+				{
+					targetColor=Win7ButtonColors::MenuBarButtonDisabled();
+					targetColor.SetAlphaWithoutText(0);
+				}
+				else if(opening)
+				{
+					targetColor=Win7ButtonColors::MenuBarButtonPressed();
+				}
+				else
 				{
 					switch(value)
 					{
@@ -1318,11 +1329,6 @@ Win7MenuBarButtonStyle
 						targetColor=Win7ButtonColors::MenuBarButtonPressed();
 						break;
 					}
-				}
-				else
-				{
-					targetColor=Win7ButtonColors::MenuBarButtonDisabled();
-					targetColor.SetAlphaWithoutText(0);
 				}
 				transferringAnimation->Transfer(targetColor);
 			}
