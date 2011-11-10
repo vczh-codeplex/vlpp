@@ -519,7 +519,7 @@ void SetupToolstripWindow(GuiControlHost* host)
 		const wchar_t* menuText[]={L"New...", L"Open...", L"Save", L"Save As...", L"Page Setting...", L"Print...", L"Exit"};
 		for(int i=0;i<sizeof(menuText)/sizeof(*menuText);i++)
 		{
-			GuiMenuButton* button=new GuiMenuButton(new win7::Win7MenuBarButtonStyle);
+			GuiMenuButton* button=new GuiMenuButton(new win7::Win7MenuItemButtonStyle);
 			button->SetText(menuText[i]);
 			button->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
 

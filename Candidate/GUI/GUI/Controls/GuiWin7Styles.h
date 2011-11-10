@@ -104,6 +104,11 @@ Button Configuration
 				static Win7ButtonColors						MenuBarButtonActive();
 				static Win7ButtonColors						MenuBarButtonPressed();
 				static Win7ButtonColors						MenuBarButtonDisabled();
+
+				static Win7ButtonColors						MenuItemButtonNormal();
+				static Win7ButtonColors						MenuItemButtonNormalActive();
+				static Win7ButtonColors						MenuItemButtonDisabled();
+				static Win7ButtonColors						MenuItemButtonDisabledActive();
 			};
 
 			struct Win7ButtonElements
@@ -363,10 +368,7 @@ MenuButton
 			class Win7MenuBarButtonStyle : public Object, public controls::GuiMenuButton::IStyleController
 			{
 			protected:
-				DEFINE_TRANSFERRING_ANIMATION(Win7ButtonColors, Win7MenuBarButtonStyle)
-
 				Win7ButtonElements							elements;
-				Ptr<TransferringAnimation>					transferringAnimation;
 				controls::GuiButton::ControlState			controlStyle;
 				bool										isVisuallyEnabled;
 				bool										isOpening;
@@ -375,6 +377,30 @@ MenuButton
 			public:
 				Win7MenuBarButtonStyle();
 				~Win7MenuBarButtonStyle();
+
+				elements::GuiBoundsComposition*				GetBoundsComposition()override;
+				elements::GuiGraphicsComposition*			GetContainerComposition()override;
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value)override;
+				void										SetText(const WString& value)override;
+				void										SetFont(const FontProperties& value)override;
+				void										SetVisuallyEnabled(bool value)override;
+				controls::GuiMenu::IStyleController*		CreateSubMenuStyleController()override;
+				void										SetSubMenuOpening(bool value)override;
+				void										Transfer(controls::GuiButton::ControlState value)override;
+			};
+
+			class Win7MenuItemButtonStyle : public Object, public controls::GuiMenuButton::IStyleController
+			{
+			protected:
+				Win7ButtonElements							elements;
+				controls::GuiButton::ControlState			controlStyle;
+				bool										isVisuallyEnabled;
+				bool										isOpening;
+
+				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool opening);
+			public:
+				Win7MenuItemButtonStyle();
+				~Win7MenuItemButtonStyle();
 
 				elements::GuiBoundsComposition*				GetBoundsComposition()override;
 				elements::GuiGraphicsComposition*			GetContainerComposition()override;
