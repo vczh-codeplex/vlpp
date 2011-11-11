@@ -226,6 +226,33 @@ GuiControlHost
 				}
 			}
 
+			bool GuiControlHost::GetEnabledActivate()
+			{
+				if(host->GetNativeWindow())
+				{
+					return host->GetNativeWindow()->IsEnabledActivate();
+				}
+				else
+				{
+					return false;
+				}
+			}
+
+			void GuiControlHost::SetEnabledActivate(bool value)
+			{
+				if(host->GetNativeWindow())
+				{
+					if(value)
+					{
+						host->GetNativeWindow()->EnableActivate();
+					}
+					else
+					{
+						host->GetNativeWindow()->DisableActivate();
+					}
+				}
+			}
+
 			bool GuiControlHost::GetMaximizedBox()
 			{
 				if(host->GetNativeWindow())
@@ -346,6 +373,26 @@ GuiControlHost
 				}
 			}
 
+			bool GuiControlHost::GetTopMost()
+			{
+				if(host->GetNativeWindow())
+				{
+					return host->GetNativeWindow()->GetTopMost();
+				}
+				else
+				{
+					return false;
+				}
+			}
+
+			void GuiControlHost::SetTopMost(bool topmost)
+			{
+				if(host->GetNativeWindow())
+				{
+					host->GetNativeWindow()->SetTopMost(topmost);
+				}
+			}
+
 			bool GuiControlHost::AddComponent(GuiComponent* component)
 			{
 				if(components.Contains(component))
@@ -452,6 +499,14 @@ GuiControlHost
 				}
 			}
 
+			void GuiControlHost::ShowDeactivated()
+			{
+				if(host->GetNativeWindow())
+				{
+					host->GetNativeWindow()->ShowDeactivated();
+				}
+			}
+
 			void GuiControlHost::ShowRestored()
 			{
 				if(host->GetNativeWindow())
@@ -542,6 +597,8 @@ GuiPopup
 				SetMinimizedBox(false);
 				SetMaximizedBox(false);
 				SetSizeBox(false);
+				SetTitleBar(false);
+				SetShowInTaskBar(false);
 				GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 			}
 
@@ -596,6 +653,7 @@ GuiPopup
 						}
 					}
 					SetBounds(Rect(location, GetBounds().GetSize()));
+					bool value=GetNativeWindow()->IsEnabledActivate();
 					Show();
 				}
 			}

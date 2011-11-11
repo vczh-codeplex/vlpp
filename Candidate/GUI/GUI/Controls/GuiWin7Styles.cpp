@@ -1005,6 +1005,67 @@ Win7WindowStyle
 			}
 
 /***********************************************************************
+Win7MenuStyle
+***********************************************************************/
+
+			Win7MenuStyle::Win7MenuStyle()
+			{
+				{
+					GuiSolidBorderElement* element=GuiSolidBorderElement::Create();
+					element->SetColor(Color(151, 151, 151));
+					boundsComposition=new GuiBoundsComposition;
+					boundsComposition->SetOwnedElement(element);
+				}
+				{
+					GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
+					element->SetColor(Color(245, 245, 245));
+					GuiBoundsComposition* subBorder=new GuiBoundsComposition;
+					subBorder->SetOwnedElement(element);
+					subBorder->SetAlignmentToParent(Margin(1, 1, 1, 1));
+					boundsComposition->AddChild(subBorder);
+				}
+				{
+					GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
+					element->SetColor(Win7GetSystemWindowColor());
+					containerComposition=new GuiBoundsComposition;
+					containerComposition->SetOwnedElement(element);
+					containerComposition->SetAlignmentToParent(Margin(3, 3, 3, 3));
+					containerComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+					boundsComposition->AddChild(containerComposition);
+				}
+			}
+
+			Win7MenuStyle::~Win7MenuStyle()
+			{
+			}
+
+			elements::GuiBoundsComposition* Win7MenuStyle::GetBoundsComposition()
+			{
+				return boundsComposition;
+			}
+
+			elements::GuiGraphicsComposition* Win7MenuStyle::GetContainerComposition()
+			{
+				return containerComposition;
+			}
+
+			void Win7MenuStyle::SetFocusableComposition(elements::GuiGraphicsComposition* value)
+			{
+			}
+
+			void Win7MenuStyle::SetText(const WString& value)
+			{
+			}
+
+			void Win7MenuStyle::SetFont(const FontProperties& value)
+			{
+			}
+
+			void Win7MenuStyle::SetVisuallyEnabled(bool value)
+			{
+			}
+
+/***********************************************************************
 Win7MenuBarStyle
 ***********************************************************************/
 
@@ -1638,7 +1699,7 @@ Win7MenuBarButtonStyle
 
 			controls::GuiMenu::IStyleController* Win7MenuBarButtonStyle::CreateSubMenuStyleController()
 			{
-				return new Win7WindowStyle;
+				return new Win7MenuStyle;
 			}
 
 			void Win7MenuBarButtonStyle::SetSubMenuOpening(bool value)
@@ -1755,7 +1816,7 @@ Win7MenuBarButtonStyle
 
 			controls::GuiMenu::IStyleController* Win7MenuItemButtonStyle::CreateSubMenuStyleController()
 			{
-				return new Win7WindowStyle;
+				return new Win7MenuStyle;
 			}
 
 			void Win7MenuItemButtonStyle::SetSubMenuOpening(bool value)

@@ -66,6 +66,8 @@ Control Host
 				void									SetActivated();
 				bool									GetShowInTaskBar();
 				void									SetShowInTaskBar(bool value);
+				bool									GetEnabledActivate();
+				void									SetEnabledActivate(bool value);
 
 				bool									GetMaximizedBox();
 				void									SetMaximizedBox(bool visible);
@@ -79,6 +81,8 @@ Control Host
 				void									SetIconVisible(bool visible);
 				bool									GetTitleBar();
 				void									SetTitleBar(bool visible);
+				bool									GetTopMost();
+				void									SetTopMost(bool topmost);
 
 				bool									AddComponent(GuiComponent* component);
 				bool									RemoveComponent(GuiComponent* component);
@@ -93,6 +97,7 @@ Control Host
 
 				INativeScreen*							GetRelatedScreen();
 				void									Show();
+				void									ShowDeactivated();
 				void									ShowRestored();
 				void									ShowMaximized();
 				void									ShowMinimized();
