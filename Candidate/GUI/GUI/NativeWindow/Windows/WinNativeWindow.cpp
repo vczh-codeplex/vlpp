@@ -575,7 +575,7 @@ WindowsForm
 
 				void InternalSetExStyle(DWORD exStyle)
 				{
-					SetWindowLongPtr(handle,GWL_EXSTYLE,exStyle);
+					LONG result=SetWindowLongPtr(handle,GWL_EXSTYLE,exStyle);
 					SetWindowPos(handle,0,0,0,0,0,SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED);
 				}
 
@@ -1140,6 +1140,11 @@ WindowsForm
 					ShowWindow(handle, SW_SHOWNORMAL);
 				}
 
+				void ShowDeactivated()
+				{
+					ShowWindow(handle, SW_SHOWNOACTIVATE);
+				}
+
 				void ShowRestored()
 				{
 					ShowWindow(handle, SW_RESTORE);
@@ -1215,6 +1220,21 @@ WindowsForm
 					return GetExStyle(WS_EX_APPWINDOW);
 				}
 
+				void EnableActivate()
+				{
+					SetExStyle(WS_EX_NOACTIVATE, false);
+				}
+
+				void DisableActivate()
+				{
+					SetExStyle(WS_EX_NOACTIVATE, true);
+				}
+
+				bool IsEnabledActivate()
+				{
+					return !GetExStyle(WS_EX_NOACTIVATE);
+				}
+
 				bool RequireCapture()
 				{
 					SetCapture(handle);
@@ -1285,6 +1305,16 @@ WindowsForm
 				void SetTitleBar(bool visible)
 				{
 					SetStyle(WS_CAPTION, visible);
+				}
+
+				bool GetTopMost()
+				{
+					return GetExStyle(WS_EX_TOPMOST);
+				}
+
+				void SetTopMost(bool topmost)
+				{
+					SetWindowPos(handle,(topmost?HWND_TOPMOST:HWND_NOTOPMOST),0,0,0,0,SWP_NOSIZE | SWP_NOMOVE | SWP_FRAMECHANGED);
 				}
 
 				bool InstallListener(INativeWindowListener* listener)

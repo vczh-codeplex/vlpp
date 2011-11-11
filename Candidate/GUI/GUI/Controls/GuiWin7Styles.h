@@ -236,6 +236,23 @@ Container
 				void										SetVisuallyEnabled(bool value)override;
 			};
 
+			class Win7MenuStyle : public Object, public controls::GuiControl::IStyleController
+			{
+			protected:
+				elements::GuiBoundsComposition*				boundsComposition;
+				elements::GuiBoundsComposition*				containerComposition;
+			public:
+				Win7MenuStyle();
+				~Win7MenuStyle();
+
+				elements::GuiBoundsComposition*				GetBoundsComposition()override;
+				elements::GuiGraphicsComposition*			GetContainerComposition()override;
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value)override;
+				void										SetText(const WString& value)override;
+				void										SetFont(const FontProperties& value)override;
+				void										SetVisuallyEnabled(bool value)override;
+			};
+
 			class Win7MenuBarStyle : public Object, public controls::GuiControl::IStyleController
 			{
 			protected:

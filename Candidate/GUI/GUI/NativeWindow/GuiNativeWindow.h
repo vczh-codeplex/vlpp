@@ -148,21 +148,30 @@ Native Window
 			virtual void				SetCaretPoint(Point point)=0;
 
 			virtual void				Show()=0;
+			virtual void				ShowDeactivated()=0;
 			virtual void				ShowRestored()=0;
 			virtual void				ShowMaximized()=0;
 			virtual void				ShowMinimized()=0;
 			virtual void				Hide()=0;
 			virtual bool				IsVisible()=0;
+
 			virtual void				Enable()=0;
 			virtual void				Disable()=0;
 			virtual bool				IsEnabled()=0;
+
 			virtual void				SetFocus()=0;
 			virtual bool				IsFocused()=0;
 			virtual void				SetActivate()=0;
 			virtual bool				IsActivated()=0;
+
 			virtual void				ShowInTaskBar()=0;
 			virtual void				HideInTaskBar()=0;
 			virtual bool				IsAppearedInTaskBar()=0;
+
+			virtual void				EnableActivate()=0;
+			virtual void				DisableActivate()=0;
+			virtual bool				IsEnabledActivate()=0;
+
 			virtual bool				RequireCapture()=0;
 			virtual bool				ReleaseCapture()=0;
 
@@ -178,6 +187,8 @@ Native Window
 			virtual void				SetIconVisible(bool visible)=0;
 			virtual bool				GetTitleBar()=0;
 			virtual void				SetTitleBar(bool visible)=0;
+			virtual bool				GetTopMost()=0;
+			virtual void				SetTopMost(bool topmost)=0;
 
 			virtual bool				InstallListener(INativeWindowListener* listener)=0;
 			virtual bool				UninstallListener(INativeWindowListener* listener)=0;

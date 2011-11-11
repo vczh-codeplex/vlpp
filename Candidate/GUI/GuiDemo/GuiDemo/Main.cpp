@@ -504,7 +504,7 @@ void SetupToolstripWindow(GuiControlHost* host)
 			case 0:
 				{
 					button->CreateSubMenu();
-					button->GetSubMenu()->GetBoundsComposition()->AddChild(fileMenuStack);
+					button->GetSubMenu()->GetContainerComposition()->AddChild(fileMenuStack);
 				}
 				break;
 			}
