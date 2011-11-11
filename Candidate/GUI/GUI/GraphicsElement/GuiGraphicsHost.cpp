@@ -205,6 +205,10 @@ GuiGraphicsHost
 			void GuiGraphicsHost::Moving(Rect& bounds, bool fixSizeOnly)
 			{
 				Rect oldBounds=nativeWindow->GetBounds();
+				if(minSize==Size(0, 0))
+				{
+					minSize=windowComposition->GetPreferredBounds().GetSize();
+				}
 				Size minWindowSize=minSize+(oldBounds.GetSize()-nativeWindow->GetClientSize());
 				if(bounds.Width()<minWindowSize.x)
 				{

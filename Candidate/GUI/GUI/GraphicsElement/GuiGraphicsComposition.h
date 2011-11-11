@@ -369,8 +369,10 @@ Stack Compositions
 				collections::Array<Rect>			stackItemBounds;
 				Size								stackItemTotalSize;
 				int									padding;
+				Rect								previousBounds;
 
 				void								UpdateStackItemBounds();
+				void								FixStackItemSizes();
 				void								OnChildInserted(GuiGraphicsComposition* child)override;
 				void								OnChildRemoved(GuiGraphicsComposition* child)override;
 			public:
