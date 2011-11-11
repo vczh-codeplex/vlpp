@@ -1326,6 +1326,31 @@ GuiStackComposition
 					}
 					break;
 				}
+
+				FixStackItemSizes();
+			}
+
+			void GuiStackComposition::FixStackItemSizes()
+			{
+				switch(direction)
+				{
+				case Horizontal:
+					{
+						for(int i=0;i<stackItemBounds.Count();i++)
+						{
+							stackItemBounds[i].y2=stackItemBounds[i].y1+previousBounds.Height();
+						}
+					}
+					break;
+				case Vertical:
+					{
+						for(int i=0;i<stackItemBounds.Count();i++)
+						{
+							stackItemBounds[i].x2=stackItemBounds[i].x1+previousBounds.Width();
+						}
+					}
+					break;
+				}
 			}
 
 			void GuiStackComposition::OnChildInserted(GuiGraphicsComposition* child)
@@ -1410,25 +1435,8 @@ GuiStackComposition
 			Rect GuiStackComposition::GetBounds()
 			{
 				Rect bounds=GuiBoundsComposition::GetBounds();
-				switch(direction)
-				{
-				case Horizontal:
-					{
-						for(int i=0;i<stackItemBounds.Count();i++)
-						{
-							stackItemBounds[i].y2=stackItemBounds[i].y1+bounds.Height();
-						}
-					}
-					break;
-				case Vertical:
-					{
-						for(int i=0;i<stackItemBounds.Count();i++)
-						{
-							stackItemBounds[i].x2=stackItemBounds[i].x1+bounds.Width();
-						}
-					}
-					break;
-				}
+				previousBounds=bounds;
+				FixStackItemSizes();
 				return bounds;
 			}
 
