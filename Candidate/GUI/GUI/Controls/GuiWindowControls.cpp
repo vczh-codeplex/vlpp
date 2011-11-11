@@ -694,6 +694,7 @@ GuiPopup
 								locations[3]=Point(controlBounds.x2, controlBounds.y2-size.y);
 							}
 
+							window->SetParent(controlWindow);
 							for(int i=0;i<4;i++)
 							{
 								if(!IsClippedByScreen(locations[i]))
