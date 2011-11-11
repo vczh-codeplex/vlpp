@@ -202,13 +202,20 @@ GuiGraphicsHost
 				}
 			}
 
-			void GuiGraphicsHost::Moving(Rect& bounds)
+			void GuiGraphicsHost::Moving(Rect& bounds, bool fixSizeOnly)
 			{
 				Rect oldBounds=nativeWindow->GetBounds();
 				Size minWindowSize=minSize+(oldBounds.GetSize()-nativeWindow->GetClientSize());
 				if(bounds.Width()<minWindowSize.x)
 				{
-					if(oldBounds.x1!=bounds.x1)
+					if(fixSizeOnly)
+					{
+						if(bounds.Width()<minWindowSize.x)
+						{
+							bounds.x2=bounds.x1+minWindowSize.x;
+						}
+					}
+					else if(oldBounds.x1!=bounds.x1)
 					{
 						bounds.x1=oldBounds.x2-minWindowSize.x;
 					}
@@ -219,7 +226,14 @@ GuiGraphicsHost
 				}
 				if(bounds.Height()<minWindowSize.y)
 				{
-					if(oldBounds.y1!=bounds.y1)
+					if(fixSizeOnly)
+					{
+						if(bounds.Height()<minWindowSize.y)
+						{
+							bounds.y2=bounds.y1+minWindowSize.y;
+						}
+					}
+					else if(oldBounds.y1!=bounds.y1)
 					{
 						bounds.y1=oldBounds.y2-minWindowSize.y;
 					}

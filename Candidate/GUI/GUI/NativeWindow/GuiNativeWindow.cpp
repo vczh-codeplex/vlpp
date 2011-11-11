@@ -9,7 +9,7 @@ namespace vl
 INativeWindowListener
 ***********************************************************************/
 
-		void INativeWindowListener::Moving(Rect& bounds)
+		void INativeWindowListener::Moving(Rect& bounds, bool fixSizeOnly)
 		{
 		}
 

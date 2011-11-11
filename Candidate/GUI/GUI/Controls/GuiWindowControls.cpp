@@ -501,6 +501,16 @@ GuiControlHost
 				}
 			}
 
+			bool GuiControlHost::GetOpening()
+			{
+				INativeWindow* window=host->GetNativeWindow();
+				if(window)
+				{
+					return window->IsVisible();
+				}
+				return false;
+			}
+
 /***********************************************************************
 GuiWindow
 ***********************************************************************/
@@ -529,10 +539,115 @@ GuiPopup
 			GuiPopup::GuiPopup(GuiControl::IStyleController* _styleController)
 				:GuiWindow(_styleController)
 			{
+				SetMinimizedBox(false);
+				SetMaximizedBox(false);
+				SetSizeBox(false);
+				GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 			}
 
 			GuiPopup::~GuiPopup()
 			{
+			}
+
+			bool GuiPopup::IsClippedByScreen(Point location)
+			{
+				SetBounds(Rect(location, GetBounds().GetSize()));
+				INativeWindow* window=GetNativeWindow();
+				if(window)
+				{
+					INativeScreen* screen=GetCurrentController()->GetScreen(window);
+					if(screen)
+					{
+						Rect screenBounds=screen->GetClientBounds();
+						Rect windowBounds=window->GetBounds();
+						return !screenBounds.Contains(windowBounds.LeftTop()) || !screenBounds.Contains(windowBounds.RightBottom());
+					}
+				}
+				return true;
+			}
+
+			void GuiPopup::ShowPopup(Point location)
+			{
+				INativeWindow* window=GetNativeWindow();
+				if(window)
+				{
+					INativeScreen* screen=GetCurrentController()->GetScreen(window);
+					if(screen)
+					{
+						Rect screenBounds=screen->GetClientBounds();
+						Size size=window->GetBounds().GetSize();
+
+						if(location.x<screenBounds.x1)
+						{
+							location.x=screenBounds.x1;
+						}
+						else if(location.x+size.x>screenBounds.x2)
+						{
+							location.x=screenBounds.x2-size.x;
+						}
+
+						if(location.y<screenBounds.y1)
+						{
+							location.y=screenBounds.y1;
+						}
+						else if(location.y+size.y>screenBounds.y2)
+						{
+							location.y=screenBounds.y2-size.y;
+						}
+					}
+					SetBounds(Rect(location, GetBounds().GetSize()));
+					Show();
+				}
+			}
+
+			void GuiPopup::ShowPopup(GuiControl* control, bool preferredTopBottomSide)
+			{
+				INativeWindow* window=GetNativeWindow();
+				if(window)
+				{
+					Point locations[4];
+					Size size=window->GetBounds().GetSize();
+					Rect controlBounds=control->GetBoundsComposition()->GetGlobalBounds();
+
+					GuiControlHost* controlHost=control->GetBoundsComposition()->GetRelatedControlHost();
+					if(controlHost)
+					{
+						INativeWindow* controlWindow=controlHost->GetNativeWindow();
+						if(controlWindow)
+						{
+							Point controlClientOffset=controlWindow->GetClientBoundsInScreen().LeftTop();
+							controlBounds.x1+=controlClientOffset.x;
+							controlBounds.x2+=controlClientOffset.x;
+							controlBounds.y1+=controlClientOffset.y;
+							controlBounds.y2+=controlClientOffset.y;
+
+							if(preferredTopBottomSide)
+							{
+								locations[0]=Point(controlBounds.x1, controlBounds.y2);
+								locations[1]=Point(controlBounds.x2-size.x, controlBounds.y2);
+								locations[2]=Point(controlBounds.x1, controlBounds.y1-size.y);
+								locations[3]=Point(controlBounds.x2-size.x, controlBounds.y1-size.y);
+							}
+							else
+							{
+								locations[0]=Point(controlBounds.x1-size.x, controlBounds.y1);
+								locations[1]=Point(controlBounds.x1-size.x, controlBounds.y2-size.y);
+								locations[0]=Point(controlBounds.x2, controlBounds.y1);
+								locations[1]=Point(controlBounds.x2, controlBounds.y2-size.y);
+							}
+
+							for(int i=0;i<4;i++)
+							{
+								if(!IsClippedByScreen(locations[i]))
+								{
+									ShowPopup(locations[i]);
+									return;
+								}
+							}
+							ShowPopup(locations[0]);
+						}
+					}
+				}
 			}
 
 /***********************************************************************
@@ -552,16 +667,24 @@ GuiWindow
 GuiMenuButton
 ***********************************************************************/
 
-			void GuiMenuButton::OnSubMenuWindowOpened(elements::GuiGraphicsComposition* sender, elements::GuiNotifyEvent& arguments)
+			void GuiMenuButton::OnSubMenuWindowOpened(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 			{
 				SubMenuOpeningChanged.Execute(GetNotifyEventArguments());
 				styleController->SetSubMenuOpening(true);
 			}
 
-			void GuiMenuButton::OnSubMenuWindowClosed(elements::GuiGraphicsComposition* sender, elements::GuiNotifyEvent& arguments)
+			void GuiMenuButton::OnSubMenuWindowClosed(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 			{
 				SubMenuOpeningChanged.Execute(GetNotifyEventArguments());
 				styleController->SetSubMenuOpening(false);
+			}
+
+			void GuiMenuButton::OnClicked(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
+			{
+				if(!GetSubMenuOpening())
+				{
+					SetSubMenuOpening(true);
+				}
 			}
 
 			GuiMenuButton::GuiMenuButton(IStyleController* _styleController)
@@ -570,6 +693,7 @@ GuiMenuButton
 				,subMenu(0)
 			{
 				SubMenuOpeningChanged.SetAssociatedComposition(boundsComposition);
+				Clicked.AttachMethod(this, &GuiMenuButton::OnClicked);
 			}
 
 			GuiMenuButton::~GuiMenuButton()
@@ -595,6 +719,8 @@ GuiMenuButton
 				if(!subMenu)
 				{
 					subMenu=new GuiMenu(subMenuStyleController?subMenuStyleController:styleController->CreateSubMenuStyleController());
+					subMenu->WindowOpened.AttachMethod(this, &GuiMenuButton::OnSubMenuWindowOpened);
+					subMenu->WindowClosed.AttachMethod(this, &GuiMenuButton::OnSubMenuWindowClosed);
 				}
 			}
 
@@ -611,7 +737,7 @@ GuiMenuButton
 			{
 				if(subMenu)
 				{
-					return subMenu->GetVisible();
+					return subMenu->GetOpening();
 				}
 				else
 				{
@@ -623,7 +749,26 @@ GuiMenuButton
 			{
 				if(subMenu)
 				{
+					if(value)
+					{
+						subMenu->SetClientSize(preferredMenuClientSize);
+						subMenu->ShowPopup(this, true);
+					}
+					else
+					{
+						subMenu->Close();
+					}
 				}
+			}
+
+			Size GuiMenuButton::GetPreferredMenuClientSize()
+			{
+				return preferredMenuClientSize;
+			}
+
+			void GuiMenuButton::SetPreferredMenuClientSize(Size value)
+			{
+				preferredMenuClientSize=value;
 			}
 		}
 	}

@@ -75,7 +75,7 @@ Host
 				void							OnMouseInput(const NativeWindowMouseInfo& info, GuiMouseEvent GuiGraphicsEventReceiver::* eventReceiverEvent);
 				
 			private:
-				void							Moving(Rect& bounds)override;
+				void							Moving(Rect& bounds, bool fixSizeOnly)override;
 				void							Moved()override;
 
 				void							LeftButtonDown(const NativeWindowMouseInfo& info)override;
