@@ -708,10 +708,18 @@ WindowsForm
 						INativeWindowListener* listener=copiedListeners[i];
 						if(listeners.Contains(listener))
 						{
-							listener->Destroying();
+							listener->Destroyed();
 						}
 					}
 					DestroyWindow(handle);
+				}
+
+				void InvokeDestroying()
+				{
+					for(int i=0;i<listeners.Count();i++)
+					{
+						listeners[i]->Destroying();
+					}
 				}
 
 				bool HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& result)
@@ -1447,6 +1455,7 @@ WindowsController
 				void DestroyNativeWindow(INativeWindow* window)
 				{
 					WindowsForm* windowsForm=dynamic_cast<WindowsForm*>(window);
+					windowsForm->InvokeDestroying();
 					if(windowsForm!=0 && windows.Keys().Contains(windowsForm->GetWindowHandle()))
 					{
 						for(int i=0;i<listeners.Count();i++)

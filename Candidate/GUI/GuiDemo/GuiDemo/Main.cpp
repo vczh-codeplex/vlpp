@@ -466,6 +466,25 @@ void SetupToolstripWindow(GuiControlHost* host)
 	host->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 	INativeImageProvider* imageProvider=GetCurrentController()->GetImageProvider();
 
+	GuiStackComposition* fileMenuStack=new GuiStackComposition;
+	{
+		fileMenuStack->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+		fileMenuStack->SetDirection(GuiStackComposition::Vertical);
+		fileMenuStack->SetAlignmentToParent(Margin(0, 0, 0, 0));
+		const wchar_t* menuText[]={L"New...", L"Open...", L"Save", L"Save As...", L"Page Setting...", L"Print...", L"Exit"};
+		for(int i=0;i<sizeof(menuText)/sizeof(*menuText);i++)
+		{
+			GuiMenuButton* button=new GuiMenuButton(new win7::Win7MenuItemButtonStyle);
+			button->SetText(menuText[i]);
+			button->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+			button->SetEnabled(i<4);
+
+			GuiStackItemComposition* item=new GuiStackItemComposition;
+			item->AddChild(button->GetBoundsComposition());
+			fileMenuStack->AddChild(item);
+		}
+	}
+
 	GuiStackComposition* menuStack=new GuiStackComposition;
 	{
 		menuStack->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
@@ -479,6 +498,16 @@ void SetupToolstripWindow(GuiControlHost* host)
 			GuiStackItemComposition* item=new GuiStackItemComposition;
 			item->AddChild(button->GetBoundsComposition());
 			menuStack->AddChild(item);
+
+			switch(i)
+			{
+			case 0:
+				{
+					button->CreateSubMenu();
+					button->GetSubMenu()->GetBoundsComposition()->AddChild(fileMenuStack);
+				}
+				break;
+			}
 		}
 	}
 
@@ -512,24 +541,6 @@ void SetupToolstripWindow(GuiControlHost* host)
 		host->GetGraphicsHost()->GetAnimationManager()->AddAnimation(animation);
 	}
 
-	GuiStackComposition* fileMenuStack=new GuiStackComposition;
-	{
-		fileMenuStack->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
-		fileMenuStack->SetDirection(GuiStackComposition::Vertical);
-		const wchar_t* menuText[]={L"New...", L"Open...", L"Save", L"Save As...", L"Page Setting...", L"Print...", L"Exit"};
-		for(int i=0;i<sizeof(menuText)/sizeof(*menuText);i++)
-		{
-			GuiMenuButton* button=new GuiMenuButton(new win7::Win7MenuItemButtonStyle);
-			button->SetText(menuText[i]);
-			button->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
-			button->SetEnabled(i<4);
-
-			GuiStackItemComposition* item=new GuiStackItemComposition;
-			item->AddChild(button->GetBoundsComposition());
-			fileMenuStack->AddChild(item);
-		}
-	}
-
 	GuiStackComposition* windowStack=new GuiStackComposition;
 	windowStack->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 	windowStack->SetDirection(GuiStackComposition::Vertical);
@@ -552,11 +563,6 @@ void SetupToolstripWindow(GuiControlHost* host)
 	{
 		GuiStackItemComposition* item=new GuiStackItemComposition;
 		item->AddChild(picGif);
-		windowStack->AddChild(item);
-	}
-	{
-		GuiStackItemComposition* item=new GuiStackItemComposition;
-		item->AddChild(fileMenuStack);
 		windowStack->AddChild(item);
 	}
 	host->GetContainerComposition()->AddChild(windowStack);
