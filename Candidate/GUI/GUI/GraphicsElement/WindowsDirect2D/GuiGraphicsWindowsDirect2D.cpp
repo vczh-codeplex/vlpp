@@ -295,9 +295,10 @@ WindiwsGDIRenderTarget
 					}
 					else
 					{
-						WindowsDirect2DImageFrameCache* d2dCache=new WindowsDirect2DImageFrameCache(this);
+						Ptr<WindowsDirect2DImageFrameCache> d2dCache=new WindowsDirect2DImageFrameCache(this);
 						if(frame->SetCache(this, d2dCache))
 						{
+							imageCaches.Add(d2dCache);
 							return d2dCache->GetBitmap();
 						}
 						else

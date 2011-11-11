@@ -61,6 +61,10 @@ INativeWindowListener
 		{
 		}
 
+		void INativeWindowListener::Destroyed()
+		{
+		}
+
 		void INativeWindowListener::LeftButtonDown(const NativeWindowMouseInfo& info)
 		{
 		}

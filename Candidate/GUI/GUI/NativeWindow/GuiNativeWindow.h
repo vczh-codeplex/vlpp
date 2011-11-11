@@ -229,6 +229,7 @@ Native Window
 			virtual void				Closed();
 			virtual void				Paint();
 			virtual void				Destroying();
+			virtual void				Destroyed();
 
 			virtual void				LeftButtonDown(const NativeWindowMouseInfo& info);
 			virtual void				LeftButtonUp(const NativeWindowMouseInfo& info);

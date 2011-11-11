@@ -53,6 +53,14 @@ namespace vl
 					}
 				}
 			}
+
+			static void ClearObjects(T* dest, vint count)
+			{
+				for(int i=0;i<count;i++)
+				{
+					dest[i]=T();
+				}
+			}
 		public:
 		};
 		
@@ -66,6 +74,10 @@ namespace vl
 				{
 					memmove(dest, source, sizeof(T)*count);
 				}
+			}
+
+			static void ClearObjects(T* dest, vint count)
+			{
 			}
 		public:
 		};
@@ -109,8 +121,12 @@ namespace vl
 				count=newCount;
 			}
 
-			void ReleaseUnnecessaryBuffer()
+			void ReleaseUnnecessaryBuffer(vint previousCount)
 			{
+				if(buffer && count<previousCount)
+				{
+					ClearObjects(&buffer[count], previousCount-count);
+				}
 				if(lessMemoryMode && count<=capacity/2)
 				{
 					vint newCapacity=capacity*5/8;
@@ -162,31 +178,38 @@ namespace vl
 
 			bool RemoveAt(vint index)
 			{
+				vint previousCount=count;
 				CHECK_ERROR(index>=0 && index<count, L"ListBase<T, K>::RemoveAt(vint)#参数index越界。");
 				CopyObjects(buffer+index,buffer+index+1,count-index-1);
 				count--;
-				ReleaseUnnecessaryBuffer();
+				ReleaseUnnecessaryBuffer(previousCount);
 				return true;
 			}
 
 			bool RemoveRange(vint index, vint _count)
 			{
+				vint previousCount=count;
 				CHECK_ERROR(index>=0 && index<=count, L"ListBase<T, K>::RemoveRange(vint, vint)#参数index越界。");
 				CHECK_ERROR(index+_count>=0 && index+_count<=count, L"ListBase<T,K>::RemoveRange(vint, vint)#参数_count越界。");
 				CopyObjects(buffer+index, buffer+index+_count, count-index-_count);
 				count-=_count;
-				ReleaseUnnecessaryBuffer();
+				ReleaseUnnecessaryBuffer(previousCount);
 				return true;
 			}
 
 			bool Clear()
 			{
+				vint previousCount=count;
 				count=0;
 				if(lessMemoryMode)
 				{
 					capacity=0;
 					delete[] buffer;
 					buffer=0;
+				}
+				else
+				{
+					ReleaseUnnecessaryBuffer(previousCount);
 				}
 				return true;
 			}
