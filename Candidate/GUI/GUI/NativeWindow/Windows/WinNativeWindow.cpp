@@ -562,6 +562,7 @@ WindowsForm
 				WString								title;
 				WindowsCursor*						cursor;
 				Point								caretPoint;
+				INativeWindow*						parentWindow;
 				List<INativeWindowListener*>		listeners;
 				int									mouseLastX;
 				int									mouseLastY;
@@ -689,6 +690,7 @@ WindowsForm
 			public:
 				WindowsForm(HWND parent, WString className, HINSTANCE hInstance)
 					:cursor(0)
+					,parentWindow(0)
 					,mouseLastX(-1)
 					,mouseLastY(-1)
 					,mouseHoving(false)
@@ -1133,6 +1135,25 @@ WindowsForm
 				{
 					caretPoint=point;
 					UpdateCompositionForContent();
+				}
+
+				INativeWindow* GetParent()
+				{
+					return parentWindow;
+				}
+
+				void SetParent(INativeWindow* parent)
+				{
+					parentWindow=parent;
+					if(parentWindow)
+					{
+						HWND parentHandle=dynamic_cast<WindowsForm*>(parent)->handle;
+						SetWindowLongPtr(handle, GWL_HWNDPARENT, (LONG_PTR)parentHandle);
+					}
+					else
+					{
+						SetWindowLongPtr(handle, GWL_HWNDPARENT, NULL);
+					}
 				}
 
 				void Show()
