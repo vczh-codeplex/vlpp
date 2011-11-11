@@ -732,7 +732,7 @@ WindowsForm
 							Rect bounds(rawBounds->left, rawBounds->top, rawBounds->right, rawBounds->bottom);
 							for(int i=0;i<listeners.Count();i++)
 							{
-								listeners[i]->Moving(bounds);
+								listeners[i]->Moving(bounds, false);
 							}
 							if(		rawBounds->left!=bounds.Left()
 								||	rawBounds->top!=bounds.Top()
@@ -1055,19 +1055,17 @@ WindowsForm
 
 				void SetBounds(const Rect& bounds)
 				{
-					MoveWindow(handle, bounds.Left(), bounds.Top(), bounds.Width(), bounds.Height(), TRUE);
+					Rect newBounds=bounds;
+					for(int i=0;i<listeners.Count();i++)
+					{
+						listeners[i]->Moving(newBounds, true);
+					}
+					MoveWindow(handle, newBounds.Left(), newBounds.Top(), newBounds.Width(), newBounds.Height(), FALSE);
 				}
 
 				Size GetClientSize()
 				{
-					RECT required={0,0,0,0};
-					RECT bounds;
-					GetWindowRect(handle, &bounds);
-					AdjustWindowRect(&required, GetWindowLongPtr(handle, GWL_STYLE), FALSE);
-					return Size(
-						(bounds.right-bounds.left)-(required.right-required.left)
-						,(bounds.bottom-bounds.top)-(required.bottom-required.top)
-						);
+					return GetClientBoundsInScreen().GetSize();
 				}
 
 				void SetClientSize(Size size)
@@ -1076,7 +1074,25 @@ WindowsForm
 					RECT bounds;
 					GetWindowRect(handle, &bounds);
 					AdjustWindowRect(&required, GetWindowLongPtr(handle, GWL_STYLE), FALSE);
-					MoveWindow(handle, bounds.left, bounds.top, required.right-required.left, required.bottom-required.top, TRUE);
+					SetBounds(Rect(Point(bounds.left, bounds.top), Size(required.right-required.left, required.bottom-required.top)));
+				}
+
+				Rect GetClientBoundsInScreen()
+				{
+					RECT required={0,0,0,0};
+					RECT bounds;
+					GetWindowRect(handle, &bounds);
+					AdjustWindowRect(&required, GetWindowLongPtr(handle, GWL_STYLE), FALSE);
+					return Rect(
+						Point(
+							(bounds.left-required.left),
+							(bounds.top-required.top)
+							),
+						Size(
+							(bounds.right-bounds.left)-(required.right-required.left),
+							(bounds.bottom-bounds.top)-(required.bottom-required.top)
+							)
+						);
 				}
 
 				WString GetTitle()

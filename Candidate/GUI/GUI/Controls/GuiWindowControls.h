@@ -98,6 +98,7 @@ Control Host
 				void									ShowMinimized();
 				void									Hide();
 				void									Close();
+				bool									GetOpening();
 			};
 
 /***********************************************************************
@@ -116,6 +117,10 @@ Window
 			public:
 				GuiPopup(GuiControl::IStyleController* _styleController);
 				~GuiPopup();
+
+				bool									IsClippedByScreen(Point location);
+				void									ShowPopup(Point location);
+				void									ShowPopup(GuiControl* control, bool preferredTopBottomSide);
 			};
 
 			class GuiMenu : public GuiPopup
@@ -141,9 +146,11 @@ GuiMenuButton
 			protected:
 				IStyleController*						styleController;
 				GuiMenu*								subMenu;
+				Size									preferredMenuClientSize;
 
-				void									OnSubMenuWindowOpened(elements::GuiGraphicsComposition* sender, elements::GuiNotifyEvent& arguments);
-				void									OnSubMenuWindowClosed(elements::GuiGraphicsComposition* sender, elements::GuiNotifyEvent& arguments);
+				void									OnSubMenuWindowOpened(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+				void									OnSubMenuWindowClosed(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+				void									OnClicked(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 			public:
 				GuiMenuButton(IStyleController* _styleController);
 				~GuiMenuButton();
@@ -157,6 +164,9 @@ GuiMenuButton
 
 				bool									GetSubMenuOpening();
 				void									SetSubMenuOpening(bool value);
+
+				Size									GetPreferredMenuClientSize();
+				void									SetPreferredMenuClientSize(Size value);
 			};
 		}
 	}

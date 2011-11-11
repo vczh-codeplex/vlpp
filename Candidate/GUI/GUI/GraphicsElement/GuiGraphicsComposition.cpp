@@ -372,10 +372,15 @@ GuiGraphicsComposition
 				GuiGraphicsComposition* composition=this;
 				while(composition)
 				{
-					if(composition->GetParent()==0)
+					if(composition->GetAssociatedControl())
 					{
-						return dynamic_cast<GuiControlHost*>(composition->GetAssociatedControl());
+						GuiControlHost* controlHost=dynamic_cast<GuiControlHost*>(composition->GetAssociatedControl());
+						if(controlHost)
+						{
+							return controlHost;
+						}
 					}
+					composition=composition->GetParent();
 				}
 				return 0;
 			}

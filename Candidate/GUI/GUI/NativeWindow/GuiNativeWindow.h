@@ -139,6 +139,7 @@ Native Window
 			virtual void				SetBounds(const Rect& bounds)=0;
 			virtual Size				GetClientSize()=0;
 			virtual void				SetClientSize(Size size)=0;
+			virtual Rect				GetClientBoundsInScreen()=0;
 			virtual WString				GetTitle()=0;
 			virtual void				SetTitle(WString title)=0;
 			virtual INativeCursor*		GetWindowCursor()=0;
@@ -216,7 +217,7 @@ Native Window
 		class INativeWindowListener : public Interface
 		{
 		public:
-			virtual void				Moving(Rect& bounds);
+			virtual void				Moving(Rect& bounds, bool fixSizeOnly);
 			virtual void				Moved();
 			virtual void				Enabled();
 			virtual void				Disabled();
