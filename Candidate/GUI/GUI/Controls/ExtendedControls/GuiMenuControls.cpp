@@ -11,18 +11,122 @@ namespace vl
 GuiWindow
 ***********************************************************************/
 
-			GuiMenu::GuiMenu(GuiControl::IStyleController* _styleController)
-				:GuiPopup(_styleController)
+			const wchar_t* IGuiMenuService::Identifier = L"vl::presentation::controls::IGuiMenuService";
+
+			IGuiMenuService::IGuiMenuService()
+				:openingMenu(0)
 			{
+			}
+
+			GuiMenu* IGuiMenuService::GetOpeningMenu()
+			{
+				return openingMenu;
+			}
+
+			void IGuiMenuService::MenuOpened(GuiMenu* menu)
+			{
+				if(openingMenu!=menu && openingMenu)
+				{
+					openingMenu->Hide();
+				}
+				openingMenu=menu;
+			}
+
+			void IGuiMenuService::MenuClosed(GuiMenu* menu)
+			{
+				if(openingMenu==menu)
+				{
+					openingMenu=0;
+				}
+			}
+
+/***********************************************************************
+GuiWindow
+***********************************************************************/
+
+			IGuiMenuService* GuiMenu::GetParent()
+			{
+				return parentMenuService;
+			}
+
+			IGuiMenuService::Direction GuiMenu::GetPreferredDirection()
+			{
+				return IGuiMenuService::Vertical;
+			}
+
+			bool GuiMenu::IsActiveState()
+			{
+				return true;
+			}
+
+			void GuiMenu::OnWindowOpened(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
+			{
+				if(parentMenuService)
+				{
+					parentMenuService->MenuOpened(this);
+				}
+			}
+
+			void GuiMenu::OnWindowClosed(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
+			{
+				if(parentMenuService)
+				{
+					parentMenuService->MenuClosed(this);
+				}
+			}
+
+			GuiMenu::GuiMenu(GuiControl::IStyleController* _styleController, GuiControl* _owner)
+				:GuiPopup(_styleController)
+				,owner(_owner)
+				,parentMenuService(0)
+			{
+				UpdateMenuService();
+				WindowOpened.AttachMethod(this, &GuiMenu::OnWindowOpened);
+				WindowClosed.AttachMethod(this, &GuiMenu::OnWindowClosed);
 			}
 
 			GuiMenu::~GuiMenu()
 			{
 			}
 
+			void GuiMenu::UpdateMenuService()
+			{
+				if(owner)
+				{
+					parentMenuService=owner->QueryService<IGuiMenuService>();
+				}
+			}
+
+			Interface* GuiMenu::QueryService(const WString& identifier)
+			{
+				if(identifier==IGuiMenuService::Identifier)
+				{
+					return (IGuiMenuService*)this;
+				}
+				else
+				{
+					return GuiPopup::QueryService(identifier);
+				}
+			}
+
 /***********************************************************************
 GuiMenuBar
 ***********************************************************************/
+
+			IGuiMenuService* GuiMenuBar::GetParent()
+			{
+				return 0;
+			}
+
+			IGuiMenuService::Direction GuiMenuBar::GetPreferredDirection()
+			{
+				return IGuiMenuService::Horizontal;
+			}
+
+			bool GuiMenuBar::IsActiveState()
+			{
+				return GetOpeningMenu()!=0;
+			}
 
 			GuiMenuBar::GuiMenuBar(GuiControl::IStyleController* _styleController)
 				:GuiControl(_styleController)
@@ -33,9 +137,31 @@ GuiMenuBar
 			{
 			}
 
+			Interface* GuiMenuBar::QueryService(const WString& identifier)
+			{
+				if(identifier==IGuiMenuService::Identifier)
+				{
+					return (IGuiMenuService*)this;
+				}
+				else
+				{
+					return GuiControl::QueryService(identifier);
+				}
+			}
+
 /***********************************************************************
 GuiMenuButton
 ***********************************************************************/
+
+			void GuiMenuButton::OnParentLineChanged()
+			{
+				GuiButton::OnParentLineChanged();
+				ownerMenuService=QueryService<IGuiMenuService>();
+				if(subMenu)
+				{
+					subMenu->UpdateMenuService();
+				}
+			}
 
 			void GuiMenuButton::OnSubMenuWindowOpened(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 			{
@@ -47,6 +173,14 @@ GuiMenuButton
 			{
 				SubMenuOpeningChanged.Execute(GetNotifyEventArguments());
 				styleController->SetSubMenuOpening(false);
+			}
+
+			void GuiMenuButton::OnMouseEnter(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
+			{
+				if(ownerMenuService && ownerMenuService->IsActiveState() && !GetSubMenuOpening())
+				{
+					SetSubMenuOpening(true);
+				}
 			}
 
 			void GuiMenuButton::OnClicked(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
@@ -61,9 +195,11 @@ GuiMenuButton
 				:GuiButton(_styleController)
 				,styleController(_styleController)
 				,subMenu(0)
+				,ownerMenuService(0)
 			{
 				SubMenuOpeningChanged.SetAssociatedComposition(boundsComposition);
 				Clicked.AttachMethod(this, &GuiMenuButton::OnClicked);
+				GetEventReceiver()->mouseEnter.AttachMethod(this, &GuiMenuButton::OnMouseEnter);
 			}
 
 			GuiMenuButton::~GuiMenuButton()
@@ -88,7 +224,7 @@ GuiMenuButton
 			{
 				if(!subMenu)
 				{
-					subMenu=new GuiMenu(subMenuStyleController?subMenuStyleController:styleController->CreateSubMenuStyleController());
+					subMenu=new GuiMenu(subMenuStyleController?subMenuStyleController:styleController->CreateSubMenuStyleController(), this);
 					subMenu->WindowOpened.AttachMethod(this, &GuiMenuButton::OnSubMenuWindowOpened);
 					subMenu->WindowClosed.AttachMethod(this, &GuiMenuButton::OnSubMenuWindowClosed);
 				}
@@ -122,7 +258,8 @@ GuiMenuButton
 					if(value)
 					{
 						subMenu->SetClientSize(preferredMenuClientSize);
-						subMenu->ShowPopup(this, true);
+						IGuiMenuService::Direction direction=ownerMenuService?ownerMenuService->GetPreferredDirection():IGuiMenuService::Horizontal;
+						subMenu->ShowPopup(this, direction==IGuiMenuService::Horizontal);
 					}
 					else
 					{

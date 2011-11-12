@@ -98,6 +98,14 @@ Basic Construction
 				virtual void							SetText(const WString& value);
 				virtual const FontProperties&			GetFont();
 				virtual void							SetFont(const FontProperties& value);
+
+				virtual Interface*						QueryService(const WString& identifier);
+
+				template<typename T>
+				T* QueryService()
+				{
+					return dynamic_cast<T*>(QueryService(T::Identifier));
+				}
 			};
 
 			class GuiComponent : public Object

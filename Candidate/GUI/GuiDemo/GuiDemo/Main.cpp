@@ -461,29 +461,46 @@ public:
 	}
 };
 
-void SetupToolstripWindow(GuiControlHost* host)
+GuiStackComposition* CreateSubMenu(const wchar_t** menuText, int count)
 {
-	host->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
-	INativeImageProvider* imageProvider=GetCurrentController()->GetImageProvider();
+	GuiStackComposition* menuStack=new GuiStackComposition;
+	menuStack->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+	menuStack->SetDirection(GuiStackComposition::Vertical);
+	menuStack->SetAlignmentToParent(Margin(0, 0, 0, 0));
 
-	GuiStackComposition* fileMenuStack=new GuiStackComposition;
+	for(int i=0;i<count;i++)
 	{
-		fileMenuStack->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
-		fileMenuStack->SetDirection(GuiStackComposition::Vertical);
-		fileMenuStack->SetAlignmentToParent(Margin(0, 0, 0, 0));
-		const wchar_t* menuText[]={L"New...", L"Open...", L"Save", L"Save As...", L"Page Setting...", L"Print...", L"Exit"};
-		for(int i=0;i<sizeof(menuText)/sizeof(*menuText);i++)
+		GuiControl* menuItem=0;
+		if(wcscmp(menuText[i], L"-")==0)
+		{
+			GuiControl* splitter=new GuiControl(new win7::Win7MenuSplitterStyle);
+			menuItem=splitter;
+		}
+		else
 		{
 			GuiMenuButton* button=new GuiMenuButton(new win7::Win7MenuItemButtonStyle);
 			button->SetText(menuText[i]);
 			button->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
 			button->SetEnabled(i<4);
-
-			GuiStackItemComposition* item=new GuiStackItemComposition;
-			item->AddChild(button->GetBoundsComposition());
-			fileMenuStack->AddChild(item);
+			menuItem=button;
 		}
+		GuiStackItemComposition* item=new GuiStackItemComposition;
+		item->AddChild(menuItem->GetBoundsComposition());
+		menuStack->AddChild(item);
 	}
+	return menuStack;
+}
+
+void SetupToolstripWindow(GuiControlHost* host)
+{
+	host->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+	INativeImageProvider* imageProvider=GetCurrentController()->GetImageProvider();
+
+	const wchar_t* fileMenuText[]={L"New...", L"Open...", L"Save", L"Save As...", L"-", L"Page Setting...", L"Print...", L"-", L"Exit"};
+	const wchar_t* editMenuText[]={L"Undo", L"-", L"Cut", L"Copy", L"Paste", L"Delete", L"-", L"Find...", L"Find Next", L"Replace...", L"Go to...", L"-", L"Select All", L"Time/Date"};
+	const wchar_t* formatMenuText[]={L"Wrap Text", L"Font..."};
+	const wchar_t* viewMenuText[]={L"Status Bar"};
+	const wchar_t* helpMenuText[]={L"View Help", L"About Notepad"};
 
 	GuiStackComposition* menuStack=new GuiStackComposition;
 	{
@@ -498,14 +515,24 @@ void SetupToolstripWindow(GuiControlHost* host)
 			GuiStackItemComposition* item=new GuiStackItemComposition;
 			item->AddChild(button->GetBoundsComposition());
 			menuStack->AddChild(item);
-
+			
+			button->CreateSubMenu();
 			switch(i)
 			{
 			case 0:
-				{
-					button->CreateSubMenu();
-					button->GetSubMenu()->GetContainerComposition()->AddChild(fileMenuStack);
-				}
+				button->GetSubMenu()->GetContainerComposition()->AddChild(CreateSubMenu(fileMenuText, sizeof(fileMenuText)/sizeof(*fileMenuText)));
+				break;
+			case 1:
+				button->GetSubMenu()->GetContainerComposition()->AddChild(CreateSubMenu(editMenuText, sizeof(editMenuText)/sizeof(*editMenuText)));
+				break;
+			case 2:
+				button->GetSubMenu()->GetContainerComposition()->AddChild(CreateSubMenu(formatMenuText, sizeof(formatMenuText)/sizeof(*formatMenuText)));
+				break;
+			case 3:
+				button->GetSubMenu()->GetContainerComposition()->AddChild(CreateSubMenu(viewMenuText, sizeof(viewMenuText)/sizeof(*viewMenuText)));
+				break;
+			case 4:
+				button->GetSubMenu()->GetContainerComposition()->AddChild(CreateSubMenu(helpMenuText, sizeof(helpMenuText)/sizeof(*helpMenuText)));
 				break;
 			}
 		}

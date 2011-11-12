@@ -19,21 +19,71 @@ namespace vl
 		{
 
 /***********************************************************************
+Menu Service
+***********************************************************************/
+
+			class GuiMenu;
+
+			class IGuiMenuService : public Interface
+			{
+			public:
+				static const wchar_t*					Identifier;
+
+				enum Direction
+				{
+					Horizontal,
+					Vertical,
+				};
+			protected:
+				GuiMenu*								openingMenu;
+			public:
+				IGuiMenuService();
+
+				virtual IGuiMenuService*				GetParent()=0;
+				virtual Direction						GetPreferredDirection()=0;
+				virtual bool							IsActiveState()=0;
+
+				virtual GuiMenu*						GetOpeningMenu();
+				virtual void							MenuOpened(GuiMenu* menu);
+				virtual void							MenuClosed(GuiMenu* menu);
+			};
+
+/***********************************************************************
 Menu
 ***********************************************************************/
 
-			class GuiMenu : public GuiPopup
+			class GuiMenu : public GuiPopup, private IGuiMenuService
 			{
+			private:
+				IGuiMenuService*						parentMenuService;
+
+				IGuiMenuService*						GetParent();
+				Direction								GetPreferredDirection();
+				bool									IsActiveState();
+			protected:
+				GuiControl*								owner;
+
+				void									OnWindowOpened(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+				void									OnWindowClosed(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 			public:
-				GuiMenu(GuiControl::IStyleController* _styleController);
+				GuiMenu(GuiControl::IStyleController* _styleController, GuiControl* _owner);
 				~GuiMenu();
+
+				void									UpdateMenuService();
+				vl::Interface*							QueryService(const WString& identifier)override;
 			};
 
-			class GuiMenuBar : public GuiControl
+			class GuiMenuBar : public GuiControl, private IGuiMenuService
 			{
+			private:
+				IGuiMenuService*						GetParent();
+				Direction								GetPreferredDirection();
+				bool									IsActiveState();
 			public:
 				GuiMenuBar(GuiControl::IStyleController* _styleController);
 				~GuiMenuBar();
+				
+				Interface*								QueryService(const WString& identifier)override;
 			};
 
 /***********************************************************************
@@ -53,9 +103,12 @@ MenuButton
 				IStyleController*						styleController;
 				GuiMenu*								subMenu;
 				Size									preferredMenuClientSize;
+				IGuiMenuService*						ownerMenuService;
 
+				void									OnParentLineChanged()override;
 				void									OnSubMenuWindowOpened(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 				void									OnSubMenuWindowClosed(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+				void									OnMouseEnter(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 				void									OnClicked(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 			public:
 				GuiMenuButton(IStyleController* _styleController);
