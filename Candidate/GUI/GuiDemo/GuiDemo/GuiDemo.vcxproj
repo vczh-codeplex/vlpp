@@ -164,11 +164,11 @@
     <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiMenuControls.cpp" />
     <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiTextListControls.cpp" />
     <ClCompile Include="..\..\GUI\Controls\GuiBasicControls.cpp" />
-    <ClCompile Include="..\..\GUI\Controls\GuiCommonStyles.cpp" />
     <ClCompile Include="..\..\GUI\Controls\GuiListControls.cpp" />
     <ClCompile Include="..\..\GUI\Controls\GuiTextControls.cpp" />
-    <ClCompile Include="..\..\GUI\Controls\GuiWin7Styles.cpp" />
     <ClCompile Include="..\..\GUI\Controls\GuiWindowControls.cpp" />
+    <ClCompile Include="..\..\GUI\Controls\Styles\GuiCommonStyles.cpp" />
+    <ClCompile Include="..\..\GUI\Controls\Styles\GuiWin7Styles.cpp" />
     <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsComposition.cpp" />
     <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsElement.cpp" />
     <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsEventReceiver.cpp" />
@@ -221,11 +221,11 @@
     <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiMenuControls.h" />
     <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiTextListControls.h" />
     <ClInclude Include="..\..\GUI\Controls\GuiBasicControls.h" />
-    <ClInclude Include="..\..\GUI\Controls\GuiCommonStyles.h" />
     <ClInclude Include="..\..\GUI\Controls\GuiListControls.h" />
     <ClInclude Include="..\..\GUI\Controls\GuiTextControls.h" />
-    <ClInclude Include="..\..\GUI\Controls\GuiWin7Styles.h" />
     <ClInclude Include="..\..\GUI\Controls\GuiWindowControls.h" />
+    <ClInclude Include="..\..\GUI\Controls\Styles\GuiCommonStyles.h" />
+    <ClInclude Include="..\..\GUI\Controls\Styles\GuiWin7Styles.h" />
     <ClInclude Include="..\..\GUI\GacUI.h" />
     <ClInclude Include="..\..\GUI\GacVlppReferences.h" />
     <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsComposition.h" />

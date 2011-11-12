@@ -147,9 +147,6 @@
     <ClCompile Include="..\..\GUI\Controls\GuiBasicControls.cpp">
       <Filter>GUI\Controls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\GUI\Controls\GuiWin7Styles.cpp">
-      <Filter>GUI\Controls</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\Direct2D\WinDirect2DApplication.cpp">
       <Filter>GUI\NativeWindow\Windows\Direct2D</Filter>
     </ClCompile>
@@ -158,9 +155,6 @@
     </ClCompile>
     <ClCompile Include="..\..\GUI\GraphicsElement\WindowsDirect2D\GuiGraphicsRenderersWindowsDirect2D.cpp">
       <Filter>GUI\GraphicsElement\WindowsDirect2D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\GUI\Controls\GuiCommonStyles.cpp">
-      <Filter>GUI\Controls</Filter>
     </ClCompile>
     <ClCompile Include="TestCases.cpp">
       <Filter>Source Files</Filter>
@@ -182,6 +176,12 @@
     </ClCompile>
     <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiTextListControls.cpp">
       <Filter>GUI\Controls\ExtendedControls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\Controls\Styles\GuiCommonStyles.cpp">
+      <Filter>GUI\Controls\Styles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\Controls\Styles\GuiWin7Styles.cpp">
+      <Filter>GUI\Controls\Styles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -314,9 +314,6 @@
     <ClInclude Include="..\..\GUI\Controls\GuiBasicControls.h">
       <Filter>GUI\Controls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\GUI\Controls\GuiWin7Styles.h">
-      <Filter>GUI\Controls</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\GUI\NativeWindow\Windows\Direct2D\WinDirect2DApplication.h">
       <Filter>GUI\NativeWindow\Windows\Direct2D</Filter>
     </ClInclude>
@@ -325,9 +322,6 @@
     </ClInclude>
     <ClInclude Include="..\..\GUI\GraphicsElement\WindowsDirect2D\GuiGraphicsRenderersWindowsDirect2D.h">
       <Filter>GUI\GraphicsElement\WindowsDirect2D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\GUI\Controls\GuiCommonStyles.h">
-      <Filter>GUI\Controls</Filter>
     </ClInclude>
     <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsTextElement.h">
       <Filter>GUI\GraphicsElement</Filter>
@@ -352,6 +346,12 @@
     </ClInclude>
     <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiTextListControls.h">
       <Filter>GUI\Controls\ExtendedControls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\Controls\Styles\GuiCommonStyles.h">
+      <Filter>GUI\Controls\Styles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\Controls\Styles\GuiWin7Styles.h">
+      <Filter>GUI\Controls\Styles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

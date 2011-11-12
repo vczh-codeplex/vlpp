@@ -16,7 +16,7 @@ Interfaces:
 #include "Controls\ExtendedControls\GuiTextListControls.h"
 #include "Controls\ExtendedControls\GuiMenuControls.h"
 
-#include "Controls\GuiWin7Styles.h"
+#include "Controls\Styles\GuiWin7Styles.h"
 
 using namespace vl;
 using namespace vl::presentation;
