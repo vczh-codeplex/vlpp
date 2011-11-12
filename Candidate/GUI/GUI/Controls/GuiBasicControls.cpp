@@ -14,15 +14,32 @@ GuiControl
 
 			void GuiControl::OnChildInserted(GuiControl* control)
 			{
+				GuiControl* oldParent=control->parent;
 				children.Add(control);
 				control->parent=this;
+				control->OnParentChanged(oldParent, control->parent);
 				control->UpdateVisuallyEnabled();
 			}
 
 			void GuiControl::OnChildRemoved(GuiControl* control)
 			{
+				GuiControl* oldParent=control->parent;
 				control->parent=0;
 				children.Remove(control);
+				control->OnParentChanged(oldParent, control->parent);
+			}
+
+			void GuiControl::OnParentChanged(GuiControl* oldParent, GuiControl* newParent)
+			{
+				OnParentLineChanged();
+			}
+
+			void GuiControl::OnParentLineChanged()
+			{
+				for(int i=0;i<children.Count();i++)
+				{
+					children[i]->OnParentLineChanged();
+				}
 			}
 
 			void GuiControl::OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget)

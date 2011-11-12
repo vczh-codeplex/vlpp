@@ -6,8 +6,8 @@ GacUI::Control System
 Interfaces:
 ***********************************************************************/
 
-#ifndef VCZH_PRESENTATION_CONTROLS_GUITEXTLIST
-#define VCZH_PRESENTATION_CONTROLS_GUITEXTLIST
+#ifndef VCZH_PRESENTATION_CONTROLS_GUITEXTLISTCONTROLS
+#define VCZH_PRESENTATION_CONTROLS_GUITEXTLISTCONTROLS
 
 #include "..\GuiListControls.h"
 

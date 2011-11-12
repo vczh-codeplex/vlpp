@@ -13,7 +13,8 @@ Interfaces:
 #include "Controls\GuiWindowControls.h"
 #include "Controls\GuiTextControls.h"
 #include "Controls\GuiListControls.h"
-#include "Controls\ExtendedControls\GuiTextList.h"
+#include "Controls\ExtendedControls\GuiTextListControls.h"
+#include "Controls\ExtendedControls\GuiMenuControls.h"
 
 #include "Controls\GuiWin7Styles.h"
 

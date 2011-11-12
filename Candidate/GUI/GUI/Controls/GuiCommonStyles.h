@@ -13,7 +13,8 @@ Interfaces:
 #include "GuiTextControls.h"
 #include "GuiListControls.h"
 #include "GuiWindowControls.h"
-#include "ExtendedControls\GuiTextList.h"
+#include "ExtendedControls\GuiTextListControls.h"
+#include "ExtendedControls\GuiMenuControls.h"
 
 namespace vl
 {
