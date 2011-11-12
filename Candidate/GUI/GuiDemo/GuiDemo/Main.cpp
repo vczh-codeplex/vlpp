@@ -546,7 +546,7 @@ void SetupToolstripWindow(GuiControlHost* host)
 	windowStack->SetDirection(GuiStackComposition::Vertical);
 	windowStack->SetAlignmentToParent(Margin(0, 0, 0, 0));
 	{
-		GuiControl* menuBar=new GuiControl(new win7::Win7MenuBarStyle);
+		GuiMenuBar* menuBar=new GuiMenuBar(new win7::Win7MenuBarStyle);
 		menuBar->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 		menuBar->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
 		menuBar->GetContainerComposition()->AddChild(menuStack);

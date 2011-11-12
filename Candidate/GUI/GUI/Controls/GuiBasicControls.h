@@ -64,6 +64,8 @@ Basic Construction
 
 				virtual void							OnChildInserted(GuiControl* control);
 				virtual void							OnChildRemoved(GuiControl* control);
+				virtual void							OnParentChanged(GuiControl* oldParent, GuiControl* newParent);
+				virtual void							OnParentLineChanged();
 				virtual void							OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget);
 				virtual void							UpdateVisuallyEnabled();
 				void									SetFocusableComposition(elements::GuiGraphicsComposition* value);

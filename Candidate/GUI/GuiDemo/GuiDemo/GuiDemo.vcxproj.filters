@@ -76,6 +76,9 @@
     <Filter Include="GUI\Controls\ExtendedControls">
       <UniqueIdentifier>{e25cb3d6-f85e-4cc6-bb1b-6698cd0a6500}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI\Controls\Styles">
+      <UniqueIdentifier>{cfa6186f-9d77-43f4-b03b-35a3a226b17b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -171,11 +174,14 @@
     <ClCompile Include="..\..\GUI\Controls\GuiListControls.cpp">
       <Filter>GUI\Controls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiTextList.cpp">
-      <Filter>GUI\Controls\ExtendedControls</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\GUI\Controls\GuiWindowControls.cpp">
       <Filter>GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiMenuControls.cpp">
+      <Filter>GUI\Controls\ExtendedControls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiTextListControls.cpp">
+      <Filter>GUI\Controls\ExtendedControls</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -335,14 +341,17 @@
     <ClInclude Include="..\..\GUI\GacUI.h">
       <Filter>GUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiTextList.h">
-      <Filter>GUI\Controls\ExtendedControls</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\GUI\GacVlppReferences.h">
       <Filter>GUI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\GUI\Controls\GuiWindowControls.h">
       <Filter>GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiMenuControls.h">
+      <Filter>GUI\Controls\ExtendedControls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiTextListControls.h">
+      <Filter>GUI\Controls\ExtendedControls</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

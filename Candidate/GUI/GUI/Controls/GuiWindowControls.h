@@ -127,52 +127,6 @@ Window
 				void									ShowPopup(Point location);
 				void									ShowPopup(GuiControl* control, bool preferredTopBottomSide);
 			};
-
-			class GuiMenu : public GuiPopup
-			{
-			public:
-				GuiMenu(GuiControl::IStyleController* _styleController);
-				~GuiMenu();
-			};
-
-/***********************************************************************
-GuiMenuButton
-***********************************************************************/
-
-			class GuiMenuButton : public GuiButton
-			{
-			public:
-				class IStyleController : public GuiButton::IStyleController
-				{
-				public:
-					virtual GuiMenu::IStyleController*	CreateSubMenuStyleController()=0;
-					virtual void						SetSubMenuOpening(bool value)=0;
-				};
-			protected:
-				IStyleController*						styleController;
-				GuiMenu*								subMenu;
-				Size									preferredMenuClientSize;
-
-				void									OnSubMenuWindowOpened(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
-				void									OnSubMenuWindowClosed(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
-				void									OnClicked(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
-			public:
-				GuiMenuButton(IStyleController* _styleController);
-				~GuiMenuButton();
-
-				elements::GuiNotifyEvent				SubMenuOpeningChanged;
-
-				bool									IsSubMenuExists();
-				GuiMenu*								GetSubMenu();
-				void									CreateSubMenu(GuiMenu::IStyleController* subMenuStyleController=0);
-				void									DestroySubMenu();
-
-				bool									GetSubMenuOpening();
-				void									SetSubMenuOpening(bool value);
-
-				Size									GetPreferredMenuClientSize();
-				void									SetPreferredMenuClientSize(Size value);
-			};
 		}
 	}
 }
