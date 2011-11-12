@@ -6,12 +6,15 @@ GacUI::Control Styles::Windows7 Styles
 Clases:
 	GuiControl::IStyleController
 		Win7WindowStyle
+		Win7MenuStyle
+		Win7MenuSplitterStyle
+		Win7MenuBarStyle
 		Win7GroupBoxStyle
 	GuiSelectableButton::IStyleController
 		Win7ButtonStyle(vertical|horizontal)
 		Win7SelectableItemStyle
-		Win7CheckBoxStyle(check|radio)
 		Win7ToolstripButtonStyle
+		Win7CheckBoxStyle(check|radio)
 	GuiMenuButton::IStyleController
 		Win7MenuBarButtonStyle
 		Win7MenuItemButtonStyle
@@ -244,6 +247,22 @@ Container
 			public:
 				Win7MenuStyle();
 				~Win7MenuStyle();
+
+				elements::GuiBoundsComposition*				GetBoundsComposition()override;
+				elements::GuiGraphicsComposition*			GetContainerComposition()override;
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value)override;
+				void										SetText(const WString& value)override;
+				void										SetFont(const FontProperties& value)override;
+				void										SetVisuallyEnabled(bool value)override;
+			};
+
+			class Win7MenuSplitterStyle : public Object, public controls::GuiControl::IStyleController
+			{
+			protected:
+				elements::GuiBoundsComposition*				boundsComposition;
+			public:
+				Win7MenuSplitterStyle();
+				~Win7MenuSplitterStyle();
 
 				elements::GuiBoundsComposition*				GetBoundsComposition()override;
 				elements::GuiGraphicsComposition*			GetContainerComposition()override;

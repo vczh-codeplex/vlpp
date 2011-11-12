@@ -1069,6 +1069,78 @@ Win7MenuStyle
 Win7MenuBarStyle
 ***********************************************************************/
 
+			Win7MenuSplitterStyle::Win7MenuSplitterStyle()
+			{
+				Color dark=Win7ButtonColors::MenuItemButtonNormal().g3;
+				Color bright=Win7ButtonColors::MenuItemButtonNormal().g4;
+
+				GuiTableComposition* table=new GuiTableComposition;
+				table->SetAlignmentToParent(Margin(0, 0, 0, 0));
+				table->SetRowsAndColumns(1, 3);
+				table->SetPreferredMinSize(Size(0, 6));
+
+				table->SetRowOption(0, GuiCellOption::PercentageOption(1.0));
+				table->SetColumnOption(0, GuiCellOption::AbsoluteOption(26));
+				table->SetColumnOption(1, GuiCellOption::AbsoluteOption(2));
+				table->SetColumnOption(2, GuiCellOption::MinSizeOption());
+
+				{
+					GuiCellComposition* cell=new GuiCellComposition;
+					table->AddChild(cell);
+					cell->SetSite(0, 1, 1, 1);
+
+					Gui3DSplitterElement* element=Gui3DSplitterElement::Create();
+					element->SetDirection(Gui3DSplitterElement::Vertical);
+					element->SetColors(dark, bright);
+					cell->SetOwnedElement(element);
+				}
+				{
+					GuiCellComposition* cell=new GuiCellComposition;
+					table->AddChild(cell);
+					cell->SetSite(0, 2, 1, 1);
+
+					Gui3DSplitterElement* element=Gui3DSplitterElement::Create();
+					element->SetDirection(Gui3DSplitterElement::Horizontal);
+					element->SetColors(dark, bright);
+					cell->SetOwnedElement(element);
+				}
+				boundsComposition=table;
+			}
+
+			Win7MenuSplitterStyle::~Win7MenuSplitterStyle()
+			{
+			}
+
+			elements::GuiBoundsComposition* Win7MenuSplitterStyle::GetBoundsComposition()
+			{
+				return boundsComposition;
+			}
+
+			elements::GuiGraphicsComposition* Win7MenuSplitterStyle::GetContainerComposition()
+			{
+				return boundsComposition;
+			}
+
+			void Win7MenuSplitterStyle::SetFocusableComposition(elements::GuiGraphicsComposition* value)
+			{
+			}
+
+			void Win7MenuSplitterStyle::SetText(const WString& value)
+			{
+			}
+
+			void Win7MenuSplitterStyle::SetFont(const FontProperties& value)
+			{
+			}
+
+			void Win7MenuSplitterStyle::SetVisuallyEnabled(bool value)
+			{
+			}
+
+/***********************************************************************
+Win7MenuBarStyle
+***********************************************************************/
+
 			Win7MenuBarStyle::Win7MenuBarStyle()
 			{
 				GuiTableComposition* table=new GuiTableComposition;
@@ -1721,7 +1793,7 @@ Win7MenuBarButtonStyle
 			}
 
 /***********************************************************************
-Win7MenuBarButtonStyle
+Win7MenuItemButtonStyle
 ***********************************************************************/
 
 			void Win7MenuItemButtonStyle::TransferInternal(GuiButton::ControlState value, bool enabled, bool opening)

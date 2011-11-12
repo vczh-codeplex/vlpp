@@ -114,7 +114,7 @@ TextItemStyleProvider::TextItemStyleController
 TextItemStyleProvider
 ***********************************************************************/
 
-				const wchar_t* TextItemStyleProvider::ITextItemViewIdentifier = L"vl::presentation::controls::list::TextItemStyleProvider::ITextItemView";
+				const wchar_t* TextItemStyleProvider::ITextItemView::Identifier = L"vl::presentation::controls::list::TextItemStyleProvider::ITextItemView";
 
 				void TextItemStyleProvider::OnStyleCheckedChanged(TextItemStyleController* style)
 				{
@@ -139,7 +139,7 @@ TextItemStyleProvider
 				void TextItemStyleProvider::AttachListControl(GuiListControl* value)
 				{
 					listControl=value;
-					textItemView=dynamic_cast<ITextItemView*>(value->GetItemProvider()->RequestView(ITextItemViewIdentifier));
+					textItemView=dynamic_cast<ITextItemView*>(value->GetItemProvider()->RequestView(ITextItemView::Identifier));
 				}
 
 				void TextItemStyleProvider::DetachListControl()
@@ -269,7 +269,7 @@ TextItemProvider
 
 				Interface* TextItemProvider::RequestView(const WString& identifier)
 				{
-					if(identifier==TextItemStyleProvider::ITextItemViewIdentifier)
+					if(identifier==TextItemStyleProvider::ITextItemView::Identifier)
 					{
 						return (TextItemStyleProvider::ITextItemView*)this;
 					}

@@ -37,12 +37,13 @@ TextList Style Provider
 					class ITextItemView : public Interface
 					{
 					public:
+						static const wchar_t*					Identifier;
+
 						virtual const WString&					GetText(int itemIndex)=0;
 						virtual bool							GetChecked(int itemIndex)=0;
 						virtual void							SetCheckedSilently(int itemIndex, bool value)=0;
 					};
 
-					static const wchar_t*						ITextItemViewIdentifier;
 				protected:
 					class TextItemStyleController : public ItemStyleControllerBase
 					{

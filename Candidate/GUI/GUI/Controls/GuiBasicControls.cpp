@@ -225,6 +225,18 @@ GuiControl
 				}
 			}
 
+			Interface* GuiControl::QueryService(const WString& identifier)
+			{
+				if(parent)
+				{
+					return parent->QueryService(identifier);
+				}
+				else
+				{
+					return 0;
+				}
+			}
+
 /***********************************************************************
 GuiComponent
 ***********************************************************************/
