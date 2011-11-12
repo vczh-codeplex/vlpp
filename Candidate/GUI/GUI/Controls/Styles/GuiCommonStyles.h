@@ -9,12 +9,12 @@ Interfaces:
 #ifndef VCZH_PRESENTATION_CONTROLS_GUICOMMONSTYLES
 #define VCZH_PRESENTATION_CONTROLS_GUICOMMONSTYLES
 
-#include "GuiBasicControls.h"
-#include "GuiTextControls.h"
-#include "GuiListControls.h"
-#include "GuiWindowControls.h"
-#include "ExtendedControls\GuiTextListControls.h"
-#include "ExtendedControls\GuiMenuControls.h"
+#include "..\GuiBasicControls.h"
+#include "..\GuiTextControls.h"
+#include "..\GuiListControls.h"
+#include "..\GuiWindowControls.h"
+#include "..\ExtendedControls\GuiTextListControls.h"
+#include "..\ExtendedControls\GuiMenuControls.h"
 
 namespace vl
 {
