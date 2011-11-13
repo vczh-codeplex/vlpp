@@ -777,6 +777,7 @@ Win7MenuItemButtonElements
 					}
 					{
 						GuiSolidLabelElement* element=GuiSolidLabelElement::Create();
+						button.subMenuTextElement=element;
 						element->SetAlignments(Alignment::Center, Alignment::Center);
 						{
 							FontProperties font;
@@ -805,6 +806,7 @@ Win7MenuItemButtonElements
 				gradientElement->SetColors(colors.g1, colors.g2);
 				splitterElement->SetColors(colors.g3, colors.g4);
 				textElement->SetColor(colors.textColor);
+				subMenuTextElement->SetColor(colors.textColor);
 			}
 
 			void Win7MenuItemButtonElements::SetActive(bool value)
