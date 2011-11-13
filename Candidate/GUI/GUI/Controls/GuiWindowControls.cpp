@@ -544,13 +544,13 @@ GuiControlHost
 				INativeWindow* window=host->GetNativeWindow();
 				if(window)
 				{
-					SetNativeWindow(0);
 					if(GetCurrentController()->GetMainWindow()==window)
 					{
 						window->Hide();
 					}
 					else
 					{
+						SetNativeWindow(0);
 						GetCurrentController()->DestroyNativeWindow(window);
 					}
 				}
@@ -654,7 +654,7 @@ GuiPopup
 					}
 					SetBounds(Rect(location, GetBounds().GetSize()));
 					bool value=GetNativeWindow()->IsEnabledActivate();
-					Show();
+					ShowDeactivated();
 				}
 			}
 
@@ -688,10 +688,10 @@ GuiPopup
 							}
 							else
 							{
-								locations[0]=Point(controlBounds.x1-size.x, controlBounds.y1);
-								locations[1]=Point(controlBounds.x1-size.x, controlBounds.y2-size.y);
-								locations[2]=Point(controlBounds.x2, controlBounds.y1);
-								locations[3]=Point(controlBounds.x2, controlBounds.y2-size.y);
+								locations[0]=Point(controlBounds.x2, controlBounds.y1);
+								locations[1]=Point(controlBounds.x2, controlBounds.y2-size.y);
+								locations[2]=Point(controlBounds.x1-size.x, controlBounds.y1);
+								locations[3]=Point(controlBounds.x1-size.x, controlBounds.y2-size.y);
 							}
 
 							window->SetParent(controlWindow);

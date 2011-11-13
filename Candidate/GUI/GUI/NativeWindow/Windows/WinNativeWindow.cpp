@@ -1164,6 +1164,7 @@ WindowsForm
 				void ShowDeactivated()
 				{
 					ShowWindow(handle, SW_SHOWNOACTIVATE);
+					SetWindowPos(handle,HWND_TOP,0,0,0,0,SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
 				}
 
 				void ShowRestored()

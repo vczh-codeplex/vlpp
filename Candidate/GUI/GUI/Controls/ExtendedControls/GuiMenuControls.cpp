@@ -72,6 +72,11 @@ GuiWindow
 				if(parentMenuService)
 				{
 					parentMenuService->MenuClosed(this);
+					GuiMenu* openingSubMenu=GetOpeningMenu();
+					if(openingSubMenu)
+					{
+						openingSubMenu->Hide();
+					}
 				}
 			}
 
@@ -153,6 +158,22 @@ GuiMenuBar
 GuiMenuButton
 ***********************************************************************/
 
+			void GuiMenuButton::OpenSubMenuInternal()
+			{
+				if(!GetSubMenuOpening())
+				{
+					if(ownerMenuService)
+					{
+						GuiMenu* openingSiblingMenu=ownerMenuService->GetOpeningMenu();
+						if(openingSiblingMenu)
+						{
+							openingSiblingMenu->Hide();
+						}
+					}
+					SetSubMenuOpening(true);
+				}
+			}
+
 			void GuiMenuButton::OnParentLineChanged()
 			{
 				GuiButton::OnParentLineChanged();
@@ -177,17 +198,17 @@ GuiMenuButton
 
 			void GuiMenuButton::OnMouseEnter(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 			{
-				if(ownerMenuService && ownerMenuService->IsActiveState() && !GetSubMenuOpening())
+				if(ownerMenuService && ownerMenuService->IsActiveState())
 				{
-					SetSubMenuOpening(true);
+					OpenSubMenuInternal();
 				}
 			}
 
 			void GuiMenuButton::OnClicked(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 			{
-				if(!GetSubMenuOpening())
+				if(GetSubMenu())
 				{
-					SetSubMenuOpening(true);
+					OpenSubMenuInternal();
 				}
 			}
 
@@ -227,6 +248,7 @@ GuiMenuButton
 					subMenu=new GuiMenu(subMenuStyleController?subMenuStyleController:styleController->CreateSubMenuStyleController(), this);
 					subMenu->WindowOpened.AttachMethod(this, &GuiMenuButton::OnSubMenuWindowOpened);
 					subMenu->WindowClosed.AttachMethod(this, &GuiMenuButton::OnSubMenuWindowClosed);
+					styleController->SetSubMenuExisting(true);
 				}
 			}
 
@@ -236,6 +258,7 @@ GuiMenuButton
 				{
 					delete subMenu;
 					subMenu=0;
+					styleController->SetSubMenuExisting(false);
 				}
 			}
 

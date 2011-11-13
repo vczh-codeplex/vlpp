@@ -748,12 +748,13 @@ Win7MenuItemButtonElements
 					GuiTableComposition* table=new GuiTableComposition;
 					button.mainComposition->AddChild(table);
 					table->SetAlignmentToParent(Margin(2, 0, 2, 0));
-					table->SetRowsAndColumns(1, 3);
+					table->SetRowsAndColumns(1, 4);
 
 					table->SetRowOption(0, GuiCellOption::PercentageOption(1.0));
 					table->SetColumnOption(0, GuiCellOption::AbsoluteOption(24));
 					table->SetColumnOption(1, GuiCellOption::AbsoluteOption(2));
-					table->SetColumnOption(2, GuiCellOption::MinSizeOption());
+					table->SetColumnOption(2, GuiCellOption::PercentageOption(1.0));
+					table->SetColumnOption(3, GuiCellOption::AbsoluteOption(10));
 
 					{
 						GuiCellComposition* cell=new GuiCellComposition;
@@ -773,6 +774,25 @@ Win7MenuItemButtonElements
 
 						Win7CreateSolidLabelElement(button.textElement, button.textComposition, Alignment::Left, Alignment::Center);
 						cell->AddChild(button.textComposition);
+					}
+					{
+						GuiSolidLabelElement* element=GuiSolidLabelElement::Create();
+						element->SetAlignments(Alignment::Center, Alignment::Center);
+						{
+							FontProperties font;
+							font.fontFamily=L"Wingdings 3";
+							font.size=10;
+							element->SetFont(font);
+						}
+						element->SetText((wchar_t)0x7D);
+
+						GuiCellComposition* cell=new GuiCellComposition;
+						button.subMenuTextComposition=cell;
+						cell->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElement);
+						table->AddChild(cell);
+						cell->SetSite(0, 3, 1, 1);
+						cell->SetOwnedElement(element);
+						cell->SetVisible(false);
 					}
 				}
 				return button;
@@ -797,6 +817,11 @@ Win7MenuItemButtonElements
 				{
 					splitterComposition->SetMargin(Margin(0, 0, 0, 0));
 				}
+			}
+
+			void Win7MenuItemButtonElements::SetSubMenuExisting(bool value)
+			{
+				subMenuTextComposition->SetVisible(value);
 			}
 
 /***********************************************************************
@@ -1774,6 +1799,10 @@ Win7MenuBarButtonStyle
 				return new Win7MenuStyle;
 			}
 
+			void Win7MenuBarButtonStyle::SetSubMenuExisting(bool value)
+			{
+			}
+
 			void Win7MenuBarButtonStyle::SetSubMenuOpening(bool value)
 			{
 				if(isOpening!=value)
@@ -1889,6 +1918,11 @@ Win7MenuItemButtonStyle
 			controls::GuiMenu::IStyleController* Win7MenuItemButtonStyle::CreateSubMenuStyleController()
 			{
 				return new Win7MenuStyle;
+			}
+
+			void Win7MenuItemButtonStyle::SetSubMenuExisting(bool value)
+			{
+				elements.SetSubMenuExisting(value);
 			}
 
 			void Win7MenuItemButtonStyle::SetSubMenuOpening(bool value)
