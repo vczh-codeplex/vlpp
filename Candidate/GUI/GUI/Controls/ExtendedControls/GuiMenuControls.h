@@ -64,6 +64,7 @@ Menu
 			protected:
 				GuiControl*								owner;
 
+				void									MouseClickedOnOtherWindow(GuiWindow* window)override;
 				void									OnWindowOpened(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 				void									OnWindowClosed(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 			public:

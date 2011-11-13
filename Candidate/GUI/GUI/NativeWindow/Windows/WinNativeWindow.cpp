@@ -1826,6 +1826,23 @@ WindowsController
 				{
 					return WinIsKeyToggled(code);
 				}
+
+				INativeWindow* GetWindow(Point location)
+				{
+					POINT p;
+					p.x=location.x;
+					p.y=location.y;
+					HWND handle=WindowFromPoint(p);
+					int index=windows.Keys().IndexOf(handle);
+					if(index==-1)
+					{
+						return 0;
+					}
+					else
+					{
+						return windows.Values()[index];
+					}
+				}
 			};
 
 /***********************************************************************

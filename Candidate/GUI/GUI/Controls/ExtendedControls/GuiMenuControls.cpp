@@ -79,6 +79,15 @@ GuiWindow
 				}
 			}
 
+			void GuiMenu::MouseClickedOnOtherWindow(GuiWindow* window)
+			{
+				GuiMenu* targetMenu=dynamic_cast<GuiMenu*>(window);
+				if(!targetMenu)
+				{
+					Hide();
+				}
+			}
+
 			void GuiMenu::OnWindowClosed(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 			{
 				if(parentMenuService)

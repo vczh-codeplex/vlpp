@@ -163,6 +163,7 @@
     <ClCompile Include="..\..\..\..\Library\String.cpp" />
     <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiMenuControls.cpp" />
     <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiTextListControls.cpp" />
+    <ClCompile Include="..\..\GUI\Controls\GuiApplication.cpp" />
     <ClCompile Include="..\..\GUI\Controls\GuiBasicControls.cpp" />
     <ClCompile Include="..\..\GUI\Controls\GuiListControls.cpp" />
     <ClCompile Include="..\..\GUI\Controls\GuiTextControls.cpp" />
@@ -220,6 +221,7 @@
     <ClInclude Include="..\..\..\..\Library\String.h" />
     <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiMenuControls.h" />
     <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiTextListControls.h" />
+    <ClInclude Include="..\..\GUI\Controls\GuiApplication.h" />
     <ClInclude Include="..\..\GUI\Controls\GuiBasicControls.h" />
     <ClInclude Include="..\..\GUI\Controls\GuiListControls.h" />
     <ClInclude Include="..\..\GUI\Controls\GuiTextControls.h" />

@@ -1,4 +1,5 @@
 #include "GuiWindowControls.h"
+#include "GuiApplication.h"
 
 namespace vl
 {
@@ -570,15 +571,21 @@ GuiControlHost
 GuiWindow
 ***********************************************************************/
 
+			void GuiWindow::MouseClickedOnOtherWindow(GuiWindow* window)
+			{
+			}
+
 			GuiWindow::GuiWindow(GuiControl::IStyleController* _styleController)
 				:GuiControlHost(_styleController)
 			{
 				INativeWindow* window=GetCurrentController()->CreateNativeWindow();
 				SetNativeWindow(window);
+				GetApplication()->RegisterWindow(this);
 			}
 
 			GuiWindow::~GuiWindow()
 			{
+				GetApplication()->UnregisterWindow(this);
 				INativeWindow* window=host->GetNativeWindow();
 				if(window)
 				{
@@ -590,6 +597,11 @@ GuiWindow
 /***********************************************************************
 GuiPopup
 ***********************************************************************/
+
+			void GuiPopup::MouseClickedOnOtherWindow(GuiWindow* window)
+			{
+				Hide();
+			}
 
 			GuiPopup::GuiPopup(GuiControl::IStyleController* _styleController)
 				:GuiWindow(_styleController)

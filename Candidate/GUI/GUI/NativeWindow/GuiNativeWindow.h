@@ -305,8 +305,10 @@ Native Window Provider
 			virtual int						GetScreenCount()=0;
 			virtual INativeScreen*			GetScreen(int index)=0;
 			virtual INativeScreen*			GetScreen(INativeWindow* window)=0;
+
 			virtual bool					IsKeyPressing(int code)=0;
 			virtual bool					IsKeyToggled(int code)=0;
+			virtual INativeWindow*			GetWindow(Point location)=0;
 		};
 
 		class INativeControllerListener : public Interface
@@ -329,6 +331,8 @@ Native Window Provider
 }
 
 extern void NativeMain();
+extern void GuiApplicationMain();
+extern void GuiMain();
 
 /***********************************************************************
 Native Window Provider

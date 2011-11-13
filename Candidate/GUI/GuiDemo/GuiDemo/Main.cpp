@@ -644,5 +644,5 @@ void GuiMain()
 	//SetupListControlWindow(&window);
 	SetupToolstripWindow(&window);
 
-	GetCurrentController()->Run(window.GetNativeWindow());
+	GetApplication()->Run(&window);
 }
