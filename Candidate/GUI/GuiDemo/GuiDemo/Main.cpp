@@ -461,7 +461,8 @@ public:
 	}
 };
 
-GuiStackComposition* CreateSubMenu(const wchar_t** menuText, int count)
+template<int count>
+GuiStackComposition* CreateSubMenu(const wchar_t* (&menuText)[count])
 {
 	GuiStackComposition* menuStack=new GuiStackComposition;
 	menuStack->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
@@ -491,12 +492,25 @@ GuiStackComposition* CreateSubMenu(const wchar_t** menuText, int count)
 	return menuStack;
 }
 
+void CreateSubMenu(GuiMenu* menu, int index, GuiStackComposition* subMenu)
+{
+	GuiStackComposition* menuStack=dynamic_cast<GuiStackComposition*>(menu->GetContainerComposition()->Children()[0]);
+	GuiMenuButton* button=dynamic_cast<GuiMenuButton*>(menuStack->GetStackItems()[index]->Children()[0]->GetAssociatedControl());
+	if(!button->GetSubMenu())
+	{
+		button->CreateSubMenu();
+		button->GetSubMenu()->GetContainerComposition()->AddChild(subMenu);
+	}
+}
+
 void SetupToolstripWindow(GuiControlHost* host)
 {
 	host->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 	INativeImageProvider* imageProvider=GetCurrentController()->GetImageProvider();
 
-	const wchar_t* fileMenuText[]={L"New...", L"Open...", L"Save", L"Save As...", L"-", L"Page Setting...", L"Print...", L"-", L"Exit"};
+	const wchar_t* fileMenuText[]={L"New", L"Open", L"Save", L"Save As...", L"-", L"Page Setting...", L"Print...", L"-", L"Exit"};
+	const wchar_t* fileNewMenuText[]={L"Project...", L"Web Site...", L"Team Project...", L"File...", L"Project From Existing Code..."};
+	const wchar_t* fileOpenMenuText[]={L"Project/Solution...", L"Web Site...", L"Team Project...", L"File...", L"Convert..."};
 	const wchar_t* editMenuText[]={L"Undo", L"-", L"Cut", L"Copy", L"Paste", L"Delete", L"-", L"Find...", L"Find Next", L"Replace...", L"Go to...", L"-", L"Select All", L"Time/Date"};
 	const wchar_t* formatMenuText[]={L"Wrap Text", L"Font..."};
 	const wchar_t* viewMenuText[]={L"Status Bar"};
@@ -520,19 +534,21 @@ void SetupToolstripWindow(GuiControlHost* host)
 			switch(i)
 			{
 			case 0:
-				button->GetSubMenu()->GetContainerComposition()->AddChild(CreateSubMenu(fileMenuText, sizeof(fileMenuText)/sizeof(*fileMenuText)));
+				button->GetSubMenu()->GetContainerComposition()->AddChild(CreateSubMenu(fileMenuText));
+				CreateSubMenu(button->GetSubMenu(), 0, CreateSubMenu(fileNewMenuText));
+				CreateSubMenu(button->GetSubMenu(), 1, CreateSubMenu(fileOpenMenuText));
 				break;
 			case 1:
-				button->GetSubMenu()->GetContainerComposition()->AddChild(CreateSubMenu(editMenuText, sizeof(editMenuText)/sizeof(*editMenuText)));
+				button->GetSubMenu()->GetContainerComposition()->AddChild(CreateSubMenu(editMenuText));
 				break;
 			case 2:
-				button->GetSubMenu()->GetContainerComposition()->AddChild(CreateSubMenu(formatMenuText, sizeof(formatMenuText)/sizeof(*formatMenuText)));
+				button->GetSubMenu()->GetContainerComposition()->AddChild(CreateSubMenu(formatMenuText));
 				break;
 			case 3:
-				button->GetSubMenu()->GetContainerComposition()->AddChild(CreateSubMenu(viewMenuText, sizeof(viewMenuText)/sizeof(*viewMenuText)));
+				button->GetSubMenu()->GetContainerComposition()->AddChild(CreateSubMenu(viewMenuText));
 				break;
 			case 4:
-				button->GetSubMenu()->GetContainerComposition()->AddChild(CreateSubMenu(helpMenuText, sizeof(helpMenuText)/sizeof(*helpMenuText)));
+				button->GetSubMenu()->GetContainerComposition()->AddChild(CreateSubMenu(helpMenuText));
 				break;
 			}
 		}

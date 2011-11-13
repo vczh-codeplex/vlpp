@@ -153,11 +153,13 @@ Button Configuration
 				elements::GuiCellComposition*				splitterComposition;
 				elements::GuiSolidLabelElement*				textElement;
 				elements::GuiBoundsComposition*				textComposition;
+				elements::GuiGraphicsComposition*			subMenuTextComposition;
 				elements::GuiBoundsComposition*				mainComposition;
 
 				static Win7MenuItemButtonElements			Create();
 				void										Apply(const Win7ButtonColors& colors);
 				void										SetActive(bool value);
+				void										SetSubMenuExisting(bool value);
 			};
 
 			struct Win7TextBoxColors
@@ -437,6 +439,7 @@ MenuButton
 				void										SetFont(const FontProperties& value)override;
 				void										SetVisuallyEnabled(bool value)override;
 				controls::GuiMenu::IStyleController*		CreateSubMenuStyleController()override;
+				void										SetSubMenuExisting(bool value)override;
 				void										SetSubMenuOpening(bool value)override;
 				void										Transfer(controls::GuiButton::ControlState value)override;
 			};
@@ -461,6 +464,7 @@ MenuButton
 				void										SetFont(const FontProperties& value)override;
 				void										SetVisuallyEnabled(bool value)override;
 				controls::GuiMenu::IStyleController*		CreateSubMenuStyleController()override;
+				void										SetSubMenuExisting(bool value)override;
 				void										SetSubMenuOpening(bool value)override;
 				void										Transfer(controls::GuiButton::ControlState value)override;
 			};

@@ -97,6 +97,7 @@ MenuButton
 				{
 				public:
 					virtual GuiMenu::IStyleController*	CreateSubMenuStyleController()=0;
+					virtual void						SetSubMenuExisting(bool value)=0;
 					virtual void						SetSubMenuOpening(bool value)=0;
 				};
 			protected:
@@ -105,6 +106,7 @@ MenuButton
 				Size									preferredMenuClientSize;
 				IGuiMenuService*						ownerMenuService;
 
+				void									OpenSubMenuInternal();
 				void									OnParentLineChanged()override;
 				void									OnSubMenuWindowOpened(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 				void									OnSubMenuWindowClosed(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
