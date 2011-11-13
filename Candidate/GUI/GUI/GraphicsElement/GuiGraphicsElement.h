@@ -458,6 +458,4 @@ Elements
 	}
 }
 
-extern void GuiMain();
-
 #endif

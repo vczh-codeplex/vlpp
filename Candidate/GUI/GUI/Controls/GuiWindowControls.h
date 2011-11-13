@@ -112,6 +112,9 @@ Window
 
 			class GuiWindow : public GuiControlHost
 			{
+				friend class GuiApplication;
+			protected:
+				virtual void							MouseClickedOnOtherWindow(GuiWindow* window);
 			public:
 				GuiWindow(GuiControl::IStyleController* _styleController);
 				~GuiWindow();
@@ -119,6 +122,8 @@ Window
 
 			class GuiPopup : public GuiWindow
 			{
+			protected:
+				void									MouseClickedOnOtherWindow(GuiWindow* window)override;
 			public:
 				GuiPopup(GuiControl::IStyleController* _styleController);
 				~GuiPopup();

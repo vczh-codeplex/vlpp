@@ -195,6 +195,4 @@ ColorizedText
 	}
 }
 
-extern void GuiMain();
-
 #endif

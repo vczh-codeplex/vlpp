@@ -515,7 +515,7 @@ void NativeMain()
 	GuiImageFrameElementRenderer::Register();
 	GuiColorizedTextElementRenderer::Register();
 
-	GuiMain();
+	GuiApplicationMain();
 	SetWindowsDirect2DResourceManager(0);
 	SetGuiGraphicsResourceManager(0);
 }
