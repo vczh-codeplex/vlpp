@@ -18,6 +18,18 @@ GuiWindow
 			{
 			}
 
+			void IGuiMenuService::MenuItemExecuted()
+			{
+				if(openingMenu)
+				{
+					openingMenu->Hide();
+				}
+				if(GetParent())
+				{
+					GetParent()->MenuItemExecuted();
+				}
+			}
+
 			GuiMenu* IGuiMenuService::GetOpeningMenu()
 			{
 				return openingMenu;
@@ -198,9 +210,12 @@ GuiMenuButton
 
 			void GuiMenuButton::OnMouseEnter(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 			{
-				if(ownerMenuService && ownerMenuService->IsActiveState())
+				if(GetVisuallyEnabled())
 				{
-					OpenSubMenuInternal();
+					if(ownerMenuService && ownerMenuService->IsActiveState())
+					{
+						OpenSubMenuInternal();
+					}
 				}
 			}
 
@@ -209,6 +224,10 @@ GuiMenuButton
 				if(GetSubMenu())
 				{
 					OpenSubMenuInternal();
+				}
+				else if(ownerMenuService)
+				{
+					ownerMenuService->MenuItemExecuted();
 				}
 			}
 

@@ -511,6 +511,7 @@ void SetupToolstripWindow(GuiControlHost* host)
 	const wchar_t* fileMenuText[]={L"New", L"Open", L"Save", L"Save As...", L"-", L"Page Setting...", L"Print...", L"-", L"Exit"};
 	const wchar_t* fileNewMenuText[]={L"Project...", L"Web Site...", L"Team Project...", L"File...", L"Project From Existing Code..."};
 	const wchar_t* fileOpenMenuText[]={L"Project/Solution...", L"Web Site...", L"Team Project...", L"File...", L"Convert..."};
+	const wchar_t* filePrintMenuText[]={L"Print", L"Don't Print"};
 	const wchar_t* editMenuText[]={L"Undo", L"-", L"Cut", L"Copy", L"Paste", L"Delete", L"-", L"Find...", L"Find Next", L"Replace...", L"Go to...", L"-", L"Select All", L"Time/Date"};
 	const wchar_t* formatMenuText[]={L"Wrap Text", L"Font..."};
 	const wchar_t* viewMenuText[]={L"Status Bar"};
@@ -537,6 +538,7 @@ void SetupToolstripWindow(GuiControlHost* host)
 				button->GetSubMenu()->GetContainerComposition()->AddChild(CreateSubMenu(fileMenuText));
 				CreateSubMenu(button->GetSubMenu(), 0, CreateSubMenu(fileNewMenuText));
 				CreateSubMenu(button->GetSubMenu(), 1, CreateSubMenu(fileOpenMenuText));
+				CreateSubMenu(button->GetSubMenu(), 6, CreateSubMenu(filePrintMenuText));
 				break;
 			case 1:
 				button->GetSubMenu()->GetContainerComposition()->AddChild(CreateSubMenu(editMenuText));

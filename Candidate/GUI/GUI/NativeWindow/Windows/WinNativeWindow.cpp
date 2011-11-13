@@ -562,7 +562,7 @@ WindowsForm
 				WString								title;
 				WindowsCursor*						cursor;
 				Point								caretPoint;
-				INativeWindow*						parentWindow;
+				WindowsForm*						parentWindow;
 				List<INativeWindowListener*>		listeners;
 				int									mouseLastX;
 				int									mouseLastY;
@@ -1144,15 +1144,18 @@ WindowsForm
 
 				void SetParent(INativeWindow* parent)
 				{
-					parentWindow=parent;
-					if(parentWindow)
+					WindowsForm* window=dynamic_cast<WindowsForm*>(parent);
+					if(window)
 					{
-						HWND parentHandle=dynamic_cast<WindowsForm*>(parent)->handle;
-						SetWindowLongPtr(handle, GWL_HWNDPARENT, (LONG_PTR)parentHandle);
-					}
-					else
-					{
-						SetWindowLongPtr(handle, GWL_HWNDPARENT, NULL);
+						parentWindow=window;
+						if(parentWindow)
+						{
+							SetWindowLongPtr(handle, GWL_HWNDPARENT, (LONG_PTR)window->handle);
+						}
+						else
+						{
+							SetWindowLongPtr(handle, GWL_HWNDPARENT, NULL);
+						}
 					}
 				}
 

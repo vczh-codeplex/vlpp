@@ -43,6 +43,7 @@ Menu Service
 				virtual Direction						GetPreferredDirection()=0;
 				virtual bool							IsActiveState()=0;
 
+				virtual void							MenuItemExecuted();
 				virtual GuiMenu*						GetOpeningMenu();
 				virtual void							MenuOpened(GuiMenu* menu);
 				virtual void							MenuClosed(GuiMenu* menu);

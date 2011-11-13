@@ -153,6 +153,7 @@ Button Configuration
 				elements::GuiCellComposition*				splitterComposition;
 				elements::GuiSolidLabelElement*				textElement;
 				elements::GuiBoundsComposition*				textComposition;
+				elements::GuiSolidLabelElement*				subMenuTextElement;
 				elements::GuiGraphicsComposition*			subMenuTextComposition;
 				elements::GuiBoundsComposition*				mainComposition;
 
