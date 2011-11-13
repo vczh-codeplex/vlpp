@@ -563,6 +563,7 @@ WindowsForm
 				WindowsCursor*						cursor;
 				Point								caretPoint;
 				WindowsForm*						parentWindow;
+				bool								alwaysPassFocusToParent;
 				List<INativeWindowListener*>		listeners;
 				int									mouseLastX;
 				int									mouseLastY;
@@ -691,6 +692,7 @@ WindowsForm
 				WindowsForm(HWND parent, WString className, HINSTANCE hInstance)
 					:cursor(0)
 					,parentWindow(0)
+					,alwaysPassFocusToParent(false)
 					,mouseLastX(-1)
 					,mouseLastY(-1)
 					,mouseHoving(false)
@@ -726,6 +728,20 @@ WindowsForm
 
 				bool HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& result)
 				{
+					bool transferFocusEvent=false;
+					switch(uMsg)
+					{
+					case WM_LBUTTONDOWN:
+					case WM_LBUTTONUP:
+					case WM_LBUTTONDBLCLK:
+					case WM_RBUTTONDOWN:
+					case WM_RBUTTONUP:
+					case WM_RBUTTONDBLCLK:
+					case WM_MBUTTONDOWN:
+					case WM_MBUTTONUP:
+					case WM_MBUTTONDBLCLK:
+						transferFocusEvent=true;
+					}
 					switch(uMsg)
 					{
 					case WM_MOVING:case WM_SIZING:
@@ -1030,6 +1046,10 @@ WindowsForm
 						UpdateCompositionForContent();
 						break;
 					}
+					if(transferFocusEvent && alwaysPassFocusToParent && parentWindow && IsFocused())
+					{
+						parentWindow->SetFocus();
+					}
 					return false;
 				}
 
@@ -1157,6 +1177,16 @@ WindowsForm
 							SetWindowLongPtr(handle, GWL_HWNDPARENT, NULL);
 						}
 					}
+				}
+
+				bool GetAlwaysPassFocusToParent()
+				{
+					return alwaysPassFocusToParent;
+				}
+
+				void SetAlwaysPassFocusToParent(bool value)
+				{
+					alwaysPassFocusToParent=value;
 				}
 
 				void Show()

@@ -140,14 +140,18 @@ Native Window
 			virtual Size				GetClientSize()=0;
 			virtual void				SetClientSize(Size size)=0;
 			virtual Rect				GetClientBoundsInScreen()=0;
+
 			virtual WString				GetTitle()=0;
 			virtual void				SetTitle(WString title)=0;
 			virtual INativeCursor*		GetWindowCursor()=0;
 			virtual void				SetWindowCursor(INativeCursor* cursor)=0;
 			virtual Point				GetCaretPoint()=0;
 			virtual void				SetCaretPoint(Point point)=0;
+
 			virtual INativeWindow*		GetParent()=0;
 			virtual void				SetParent(INativeWindow* parent)=0;
+			virtual bool				GetAlwaysPassFocusToParent()=0;
+			virtual void				SetAlwaysPassFocusToParent(bool value)=0;
 
 			virtual void				Show()=0;
 			virtual void				ShowDeactivated()=0;

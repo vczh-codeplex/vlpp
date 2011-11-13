@@ -111,6 +111,7 @@ MenuButton
 				void									OnParentLineChanged()override;
 				void									OnSubMenuWindowOpened(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 				void									OnSubMenuWindowClosed(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+				void									OnLeftButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
 				void									OnMouseEnter(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 				void									OnClicked(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 			public:

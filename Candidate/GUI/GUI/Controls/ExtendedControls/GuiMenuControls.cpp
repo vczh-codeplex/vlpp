@@ -97,6 +97,7 @@ GuiWindow
 				,owner(_owner)
 				,parentMenuService(0)
 			{
+				GetNativeWindow()->SetAlwaysPassFocusToParent(true);
 				UpdateMenuService();
 				WindowOpened.AttachMethod(this, &GuiMenu::OnWindowOpened);
 				WindowClosed.AttachMethod(this, &GuiMenu::OnWindowClosed);
@@ -208,6 +209,17 @@ GuiMenuButton
 				styleController->SetSubMenuOpening(false);
 			}
 
+			void GuiMenuButton::OnLeftButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments)
+			{
+				if(!GetSubMenu() && GetVisuallyEnabled())
+				{
+					if(ownerMenuService)
+					{
+						ownerMenuService->MenuItemExecuted();
+					}
+				}
+			}
+
 			void GuiMenuButton::OnMouseEnter(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 			{
 				if(GetVisuallyEnabled())
@@ -225,10 +237,6 @@ GuiMenuButton
 				{
 					OpenSubMenuInternal();
 				}
-				else if(ownerMenuService)
-				{
-					ownerMenuService->MenuItemExecuted();
-				}
 			}
 
 			GuiMenuButton::GuiMenuButton(IStyleController* _styleController)
@@ -239,6 +247,7 @@ GuiMenuButton
 			{
 				SubMenuOpeningChanged.SetAssociatedComposition(boundsComposition);
 				Clicked.AttachMethod(this, &GuiMenuButton::OnClicked);
+				GetEventReceiver()->leftButtonDown.AttachMethod(this, &GuiMenuButton::OnLeftButtonDown);
 				GetEventReceiver()->mouseEnter.AttachMethod(this, &GuiMenuButton::OnMouseEnter);
 			}
 
