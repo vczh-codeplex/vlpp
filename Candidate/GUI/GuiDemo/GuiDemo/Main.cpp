@@ -625,22 +625,22 @@ void SetupTabPageWindow(GuiControlHost* controlHost, GuiControl* container)
 	{
 		GuiTabPage* page=tab->CreatePage();
 		page->SetText(L"Basic");
-		//SetupWindow(controlHost, page->GetContainer());
+		SetupWindow(controlHost, page->GetContainer());
 	}
 	{
 		GuiTabPage* page=tab->CreatePage();
 		page->SetText(L"Text Box");
-		//SetupTextBoxWindow(controlHost, page->GetContainer());
+		SetupTextBoxWindow(controlHost, page->GetContainer());
 	}
 	{
 		GuiTabPage* page=tab->CreatePage();
 		page->SetText(L"List Control");
-		//SetupListControlWindow(controlHost, page->GetContainer());
+		SetupListControlWindow(controlHost, page->GetContainer());
 	}
 	{
 		GuiTabPage* page=tab->CreatePage();
 		page->SetText(L"Toolstrip");
-		//SetupToolstripWindow(controlHost, page->GetContainer());
+		SetupToolstripWindow(controlHost, page->GetContainer());
 	}
 	container->GetContainerComposition()->AddChild(tab->GetBoundsComposition());
 }
@@ -658,8 +658,9 @@ void GuiMain()
 #ifdef GUI_GRAPHICS_RENDERER_DIRECT2D
 	window.SetText(L"Vczh GUI Demo (Direct2D)");
 #endif
-	window.SetClientSize(Size(800, 600));
+	SetupTabPageWindow(&window, &window);
 
+	window.SetClientSize(Size(800, 600));
 	INativeScreen* screen=window.GetRelatedScreen();
 	Rect windowBounds=window.GetBounds();
 	Rect screenBounds=screen->GetClientBounds();
@@ -670,12 +671,6 @@ void GuiMain()
 			),
 		windowBounds.GetSize()
 		));
-
-	//SetupWindow(&window, &window);
-	//SetupTextBoxWindow(&window, &window);
-	//SetupListControlWindow(&window, &window);
-	//SetupToolstripWindow(&window, &window);
-	SetupTabPageWindow(&window, &window);
 
 	GetApplication()->Run(&window);
 }

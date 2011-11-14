@@ -1692,6 +1692,7 @@ Win7SelectableItemStyle
 			Win7SelectableItemStyle::Win7SelectableItemStyle()
 				:Win7ButtonStyleBase(true, Win7ButtonColors::ItemNormal(), Alignment::Left, Alignment::Center)
 			{
+				transferringAnimation->SetEnableAnimation(false);
 			}
 
 			Win7SelectableItemStyle::~Win7SelectableItemStyle()
