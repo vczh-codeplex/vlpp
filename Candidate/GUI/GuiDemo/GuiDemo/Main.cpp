@@ -625,22 +625,22 @@ void SetupTabPageWindow(GuiControlHost* controlHost, GuiControl* container)
 	{
 		GuiTabPage* page=tab->CreatePage();
 		page->SetText(L"Basic");
-		SetupWindow(controlHost, page->GetContainer());
+		//SetupWindow(controlHost, page->GetContainer());
 	}
 	{
 		GuiTabPage* page=tab->CreatePage();
 		page->SetText(L"Text Box");
-		SetupTextBoxWindow(controlHost, page->GetContainer());
+		//SetupTextBoxWindow(controlHost, page->GetContainer());
 	}
 	{
 		GuiTabPage* page=tab->CreatePage();
 		page->SetText(L"List Control");
-		SetupListControlWindow(controlHost, page->GetContainer());
+		//SetupListControlWindow(controlHost, page->GetContainer());
 	}
 	{
 		GuiTabPage* page=tab->CreatePage();
 		page->SetText(L"Toolstrip");
-		SetupToolstripWindow(controlHost, page->GetContainer());
+		//SetupToolstripWindow(controlHost, page->GetContainer());
 	}
 	container->GetContainerComposition()->AddChild(tab->GetBoundsComposition());
 }
