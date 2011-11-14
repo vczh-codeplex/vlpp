@@ -4,7 +4,7 @@
 SetupWindow
 ***********************************************************************/
 
-void SetupMainPanel(GuiControlHost* host, GuiCellComposition* cell)
+void SetupMainPanel(GuiControlHost* controlHost, GuiControl* container, GuiCellComposition* cell)
 {
 	{
 		GuiControl* groupBox=new GuiControl(new win7::Win7GroupBoxStyle);
@@ -108,7 +108,7 @@ void SetupMainPanel(GuiControlHost* host, GuiCellComposition* cell)
 		}
 		{
 			GuiSelectableButton::MutexGroupController* controller=new GuiSelectableButton::MutexGroupController;
-			host->AddComponent(controller);
+			controlHost->AddComponent(controller);
 
 			for(int i=0;i<3;i++)
 			{
@@ -215,12 +215,12 @@ void SetupMainPanel(GuiControlHost* host, GuiCellComposition* cell)
 	}
 }
 
-void SetupWindow(GuiControlHost* host)
+void SetupWindow(GuiControlHost* controlHost, GuiControl* container)
 {
-	host->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+	container->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 	GuiTableComposition* table=new GuiTableComposition;
 	table->SetAlignmentToParent(Margin(0, 0, 0, 0));
-	host->GetContainerComposition()->AddChild(table);
+	container->GetContainerComposition()->AddChild(table);
 	table->SetRowsAndColumns(2, 3);
 	table->SetCellPadding(5);
 	table->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
@@ -254,7 +254,7 @@ void SetupWindow(GuiControlHost* host)
 				GuiCellComposition* cell=new GuiCellComposition;
 				mainTable->AddChild(cell);
 				cell->SetSite(0, 0, 1, 1);
-				SetupMainPanel(host, cell);
+				SetupMainPanel(controlHost, container, cell);
 			}
 			{
 				GuiCellComposition* cell=new GuiCellComposition;
@@ -319,12 +319,12 @@ void SetupWindow(GuiControlHost* host)
 		button->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
 		button->SetText(buttonTexts[i]);
 
-		button->Clicked.AttachLambda([host](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
+		button->Clicked.AttachLambda([controlHost](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
 		{
 			GuiButton* button=dynamic_cast<GuiButton*>(sender->GetAssociatedControl());
 			if(button->GetText()==L"Close")
 			{
-				host->Close();
+				controlHost->Close();
 			}
 		});
 	}
@@ -337,24 +337,24 @@ SetupTextBoxWindow
 int textBoxTextChangedCounter=0;
 int textBoxSelectionChangedCounter=0;
 
-void SetupTextBoxWindow(GuiControlHost* host)
+void SetupTextBoxWindow(GuiControlHost* controlHost, GuiControl* container)
 {
-	host->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+	container->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 	GuiMultilineTextBox* textBox=new GuiMultilineTextBox(new win7::Win7MultilineTextBoxProvider);
 	textBox->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
 	textBox->GetBoundsComposition()->SetBounds(Rect(0, 0, 300, 200));
-	host->GetBoundsComposition()->AddChild(textBox->GetBoundsComposition());
+	container->GetBoundsComposition()->AddChild(textBox->GetBoundsComposition());
 
-	textBox->TextChanged.AttachLambda([host](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
+	textBox->TextChanged.AttachLambda([controlHost](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
 	{
 		textBoxTextChangedCounter++;
-		host->GetNativeWindow()->SetTitle(L"TextChanged["+itow(textBoxTextChangedCounter)+L"], SelectionChanged["+itow(textBoxSelectionChangedCounter)+L"]");
+		controlHost->GetNativeWindow()->SetTitle(L"TextChanged["+itow(textBoxTextChangedCounter)+L"], SelectionChanged["+itow(textBoxSelectionChangedCounter)+L"]");
 	});
 
-	textBox->SelectionChanged.AttachLambda([host](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
+	textBox->SelectionChanged.AttachLambda([controlHost](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
 	{
 		textBoxSelectionChangedCounter++;
-		host->GetNativeWindow()->SetTitle(L"TextChanged["+itow(textBoxTextChangedCounter)+L"], SelectionChanged["+itow(textBoxSelectionChangedCounter)+L"]");
+		controlHost->GetNativeWindow()->SetTitle(L"TextChanged["+itow(textBoxTextChangedCounter)+L"], SelectionChanged["+itow(textBoxSelectionChangedCounter)+L"]");
 	});
 }
 
@@ -362,16 +362,16 @@ void SetupTextBoxWindow(GuiControlHost* host)
 SetupListControlWindow
 ***********************************************************************/
 
-void SetupListControlWindow(GuiControlHost* host)
+void SetupListControlWindow(GuiControlHost* controlHost, GuiControl* container)
 {
-	host->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+	container->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 	GuiTextList* listControl=0;
 	{
 		listControl=new GuiTextList(new win7::Win7MultilineTextBoxProvider, new win7::Win7TextListProvider);
 		listControl->GetBoundsComposition()->SetAlignmentToParent(Margin(200, 5, 5, 5));
 		listControl->GetBoundsComposition()->SetBounds(Rect(0, 0, 300, 200));
 		listControl->SetHorizontalAlwaysVisible(false);
-		host->GetBoundsComposition()->AddChild(listControl->GetBoundsComposition());
+		container->GetBoundsComposition()->AddChild(listControl->GetBoundsComposition());
 
 		for(int i=0;i<20;i++)
 		{
@@ -384,7 +384,7 @@ void SetupListControlWindow(GuiControlHost* host)
 		typeList->GetBoundsComposition()->SetAlignmentToParent(Margin(5, 5, -1, 5));
 		typeList->GetBoundsComposition()->SetBounds(Rect(0, 0, 190, 200));
 		typeList->SetHorizontalAlwaysVisible(false);
-		host->GetBoundsComposition()->AddChild(typeList->GetBoundsComposition());
+		container->GetBoundsComposition()->AddChild(typeList->GetBoundsComposition());
 
 		typeList->GetItems().Add(L"Text List");
 		typeList->GetItems().Add(L"Check List");
@@ -503,9 +503,9 @@ void CreateSubMenu(GuiMenu* menu, int index, GuiStackComposition* subMenu)
 	}
 }
 
-void SetupToolstripWindow(GuiControlHost* host)
+void SetupToolstripWindow(GuiControlHost* controlHost, GuiControl* container)
 {
-	host->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+	container->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 	INativeImageProvider* imageProvider=GetCurrentController()->GetImageProvider();
 
 	const wchar_t* fileMenuText[]={L"New", L"Open", L"Save", L"Save As...", L"-", L"Page Setting...", L"Print...", L"-", L"Exit"};
@@ -583,7 +583,7 @@ void SetupToolstripWindow(GuiControlHost* host)
 		Ptr<INativeImage> imageGif=imageProvider->CreateImageFromFile(L"Resources\\Gif.gif");
 		picGif=CreateImageFrame(imageGif);
 		Ptr<GifAnimation> animation=new GifAnimation(picGif->GetOwnedElement().Cast<GuiImageFrameElement>().Obj());
-		host->GetGraphicsHost()->GetAnimationManager()->AddAnimation(animation);
+		controlHost->GetGraphicsHost()->GetAnimationManager()->AddAnimation(animation);
 	}
 
 	GuiStackComposition* windowStack=new GuiStackComposition;
@@ -610,7 +610,39 @@ void SetupToolstripWindow(GuiControlHost* host)
 		item->AddChild(picGif);
 		windowStack->AddChild(item);
 	}
-	host->GetContainerComposition()->AddChild(windowStack);
+	container->GetContainerComposition()->AddChild(windowStack);
+}
+
+/***********************************************************************
+SetupTabPageWindow
+***********************************************************************/
+
+void SetupTabPageWindow(GuiControlHost* controlHost, GuiControl* container)
+{
+	container->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+	GuiTab* tab=new GuiTab(new win7::Win7TabStyle);
+	tab->GetBoundsComposition()->SetAlignmentToParent(Margin(6, 6, 6, 6));
+	{
+		GuiTabPage* page=tab->CreatePage();
+		page->SetText(L"Basic");
+		SetupWindow(controlHost, page->GetContainer());
+	}
+	{
+		GuiTabPage* page=tab->CreatePage();
+		page->SetText(L"Text Box");
+		SetupTextBoxWindow(controlHost, page->GetContainer());
+	}
+	{
+		GuiTabPage* page=tab->CreatePage();
+		page->SetText(L"List Control");
+		SetupListControlWindow(controlHost, page->GetContainer());
+	}
+	{
+		GuiTabPage* page=tab->CreatePage();
+		page->SetText(L"Toolstrip");
+		SetupToolstripWindow(controlHost, page->GetContainer());
+	}
+	container->GetContainerComposition()->AddChild(tab->GetBoundsComposition());
 }
 
 /***********************************************************************
@@ -639,10 +671,11 @@ void GuiMain()
 		windowBounds.GetSize()
 		));
 
-	//SetupWindow(&window);
-	//SetupTextBoxWindow(&window);
-	//SetupListControlWindow(&window);
-	SetupToolstripWindow(&window);
+	//SetupWindow(&window, &window);
+	//SetupTextBoxWindow(&window, &window);
+	//SetupListControlWindow(&window, &window);
+	//SetupToolstripWindow(&window, &window);
+	SetupTabPageWindow(&window, &window);
 
 	GetApplication()->Run(&window);
 }

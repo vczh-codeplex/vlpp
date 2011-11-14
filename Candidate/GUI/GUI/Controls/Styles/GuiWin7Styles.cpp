@@ -458,13 +458,47 @@ Win7ButtonColors
 				return colors;
 			}
 
+			//---------------------------------------------------------
+
+			Win7ButtonColors Win7ButtonColors::TabPageHeaderNormal()
+			{
+				Win7ButtonColors colors=
+				{
+					Color(137, 140, 149),
+					Color(243, 243, 243),
+					Color(242, 242, 242),
+					Color(235, 235, 235),
+					Color(219, 219, 219),
+					Color(207, 207, 207),
+					Win7GetSystemTextColor(true),
+				};
+				return colors;
+			}
+
+			Win7ButtonColors Win7ButtonColors::TabPageHeaderActive()
+			{
+				Win7ButtonColors colors=
+				{
+					Color(60, 127, 177),
+					Color(233, 245, 252),
+					Color(234, 246, 253),
+					Color(217, 240, 252),
+					Color(188, 229, 252),
+					Color(167, 217, 245),
+					Win7GetSystemTextColor(true),
+				};
+				return colors;
+			}
+
 /***********************************************************************
 Win7ButtonElements
 ***********************************************************************/
 
-			Win7ButtonElements Win7ButtonElements::Create(bool verticalGradient, Alignment::Type horizontal, Alignment::Type vertical)
+			Win7ButtonElements Win7ButtonElements::Create(bool verticalGradient, bool roundBorder, Alignment::Type horizontal, Alignment::Type vertical)
 			{
 				Win7ButtonElements button;
+				button.rectBorderElement=0;
+				button.roundBorderElement=0;
 				{
 					button.mainComposition=new GuiBoundsComposition;
 					button.mainComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
@@ -478,10 +512,21 @@ Win7ButtonElements
 					composition->SetAlignmentToParent(Margin(1, 1, 1, 1));
 					composition->SetOwnedElement(element);
 				}
+				if(roundBorder)
 				{
 					GuiRoundBorderElement* element=GuiRoundBorderElement::Create();
-					button.borderElement=element;
+					button.roundBorderElement=element;
 					element->SetRadius(2);
+
+					GuiBoundsComposition* composition=new GuiBoundsComposition;
+					button.mainComposition->AddChild(composition);
+					composition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+					composition->SetOwnedElement(element);
+				}
+				else
+				{
+					GuiSolidBorderElement* element=GuiSolidBorderElement::Create();
+					button.rectBorderElement=element;
 
 					GuiBoundsComposition* composition=new GuiBoundsComposition;
 					button.mainComposition->AddChild(composition);
@@ -543,7 +588,14 @@ Win7ButtonElements
 
 			void Win7ButtonElements::Apply(const Win7ButtonColors& colors)
 			{
-				borderElement->SetColor(colors.borderColor);
+				if(rectBorderElement)
+				{
+					rectBorderElement->SetColor(colors.borderColor);
+				}
+				if(roundBorderElement)
+				{
+					roundBorderElement->SetColor(colors.borderColor);
+				}
 				backgroundElement->SetColor(colors.backgroundColor);
 				topGradientElement->SetColors(colors.g1, colors.g2);
 				bottomGradientElement->SetColors(colors.g3, colors.g4);
@@ -895,6 +947,11 @@ Helpers
 				return Color(240, 240, 240);
 			}
 
+			Color Win7GetSystemTabContentColor()
+			{
+				return Color(255, 255, 255);
+			}
+
 			Color Win7GetSystemBorderColor()
 			{
 				return Color(100, 100, 100);
@@ -989,45 +1046,58 @@ Animation
 	IMPLEMENT_TRANSFERRING_ANIMATION_BASE(TSTATE, TSTYLECONTROLLER, DEFAULT_TRANSFERRING_ANIMATION_HOST_GETTER)
 
 /***********************************************************************
-Win7WindowStyle
+Win7EmptyStyle
 ***********************************************************************/
 
-			Win7WindowStyle::Win7WindowStyle()
+			Win7EmptyStyle::Win7EmptyStyle(Color color)
 			{
 				GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
-				element->SetColor(Win7GetSystemWindowColor());
+				element->SetColor(color);
 				
 				boundsComposition=new GuiBoundsComposition;
 				boundsComposition->SetOwnedElement(element);
 			}
 
+			Win7EmptyStyle::~Win7EmptyStyle()
+			{
+			}
+
+			elements::GuiBoundsComposition* Win7EmptyStyle::GetBoundsComposition()
+			{
+				return boundsComposition;
+			}
+
+			elements::GuiGraphicsComposition* Win7EmptyStyle::GetContainerComposition()
+			{
+				return boundsComposition;
+			}
+
+			void Win7EmptyStyle::SetFocusableComposition(elements::GuiGraphicsComposition* value)
+			{
+			}
+
+			void Win7EmptyStyle::SetText(const WString& value)
+			{
+			}
+
+			void Win7EmptyStyle::SetFont(const FontProperties& value)
+			{
+			}
+
+			void Win7EmptyStyle::SetVisuallyEnabled(bool value)
+			{
+			}
+
+/***********************************************************************
+Win7WindowStyle
+***********************************************************************/
+
+			Win7WindowStyle::Win7WindowStyle()
+				:Win7EmptyStyle(Win7GetSystemWindowColor())
+			{
+			}
+
 			Win7WindowStyle::~Win7WindowStyle()
-			{
-			}
-
-			elements::GuiBoundsComposition* Win7WindowStyle::GetBoundsComposition()
-			{
-				return boundsComposition;
-			}
-
-			elements::GuiGraphicsComposition* Win7WindowStyle::GetContainerComposition()
-			{
-				return boundsComposition;
-			}
-
-			void Win7WindowStyle::SetFocusableComposition(elements::GuiGraphicsComposition* value)
-			{
-			}
-
-			void Win7WindowStyle::SetText(const WString& value)
-			{
-			}
-
-			void Win7WindowStyle::SetFont(const FontProperties& value)
-			{
-			}
-
-			void Win7WindowStyle::SetVisuallyEnabled(bool value)
 			{
 			}
 
@@ -1089,78 +1159,6 @@ Win7MenuStyle
 			}
 
 			void Win7MenuStyle::SetVisuallyEnabled(bool value)
-			{
-			}
-
-/***********************************************************************
-Win7MenuBarStyle
-***********************************************************************/
-
-			Win7MenuSplitterStyle::Win7MenuSplitterStyle()
-			{
-				Color dark=Win7ButtonColors::MenuItemButtonNormal().g3;
-				Color bright=Win7ButtonColors::MenuItemButtonNormal().g4;
-
-				GuiTableComposition* table=new GuiTableComposition;
-				table->SetAlignmentToParent(Margin(0, 0, 0, 0));
-				table->SetRowsAndColumns(1, 3);
-				table->SetPreferredMinSize(Size(0, 6));
-
-				table->SetRowOption(0, GuiCellOption::PercentageOption(1.0));
-				table->SetColumnOption(0, GuiCellOption::AbsoluteOption(26));
-				table->SetColumnOption(1, GuiCellOption::AbsoluteOption(2));
-				table->SetColumnOption(2, GuiCellOption::MinSizeOption());
-
-				{
-					GuiCellComposition* cell=new GuiCellComposition;
-					table->AddChild(cell);
-					cell->SetSite(0, 1, 1, 1);
-
-					Gui3DSplitterElement* element=Gui3DSplitterElement::Create();
-					element->SetDirection(Gui3DSplitterElement::Vertical);
-					element->SetColors(dark, bright);
-					cell->SetOwnedElement(element);
-				}
-				{
-					GuiCellComposition* cell=new GuiCellComposition;
-					table->AddChild(cell);
-					cell->SetSite(0, 2, 1, 1);
-
-					Gui3DSplitterElement* element=Gui3DSplitterElement::Create();
-					element->SetDirection(Gui3DSplitterElement::Horizontal);
-					element->SetColors(dark, bright);
-					cell->SetOwnedElement(element);
-				}
-				boundsComposition=table;
-			}
-
-			Win7MenuSplitterStyle::~Win7MenuSplitterStyle()
-			{
-			}
-
-			elements::GuiBoundsComposition* Win7MenuSplitterStyle::GetBoundsComposition()
-			{
-				return boundsComposition;
-			}
-
-			elements::GuiGraphicsComposition* Win7MenuSplitterStyle::GetContainerComposition()
-			{
-				return boundsComposition;
-			}
-
-			void Win7MenuSplitterStyle::SetFocusableComposition(elements::GuiGraphicsComposition* value)
-			{
-			}
-
-			void Win7MenuSplitterStyle::SetText(const WString& value)
-			{
-			}
-
-			void Win7MenuSplitterStyle::SetFont(const FontProperties& value)
-			{
-			}
-
-			void Win7MenuSplitterStyle::SetVisuallyEnabled(bool value)
 			{
 			}
 
@@ -1359,6 +1357,146 @@ Win7GroupBoxStyle
 			}
 
 /***********************************************************************
+Win7TabStyle
+***********************************************************************/
+
+			void Win7TabStyle::OnHeaderButtonClicked(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
+			{
+				if(commandExecutor)
+				{
+					int index=headerButtons.IndexOf(dynamic_cast<GuiSelectableButton*>(sender->GetAssociatedControl()));
+					if(index!=-1)
+					{
+						commandExecutor->ShowTab(index);
+					}
+				}
+			}
+
+			Win7TabStyle::Win7TabStyle()
+				:commandExecutor(0)
+			{
+				boundsComposition=new GuiTableComposition;
+				boundsComposition->SetRowsAndColumns(2, 1);
+				boundsComposition->SetRowOption(0, GuiCellOption::MinSizeOption());
+				boundsComposition->SetRowOption(1, GuiCellOption::PercentageOption(1.0));
+				boundsComposition->SetColumnOption(0, GuiCellOption::PercentageOption(1.0));
+				{
+					GuiCellComposition* cell=new GuiCellComposition;
+					boundsComposition->AddChild(cell);
+					cell->SetSite(0, 0, 1, 1);
+
+					tabHeaderComposition=new GuiStackComposition;
+					tabHeaderComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+					tabHeaderComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+					cell->AddChild(tabHeaderComposition);
+				}
+				{
+					GuiCellComposition* cell=new GuiCellComposition;
+					boundsComposition->AddChild(cell);
+					cell->SetSite(1, 0, 1, 1);
+
+					containerComposition=new GuiBoundsComposition;
+					containerComposition->SetAlignmentToParent(Margin(1, 1, 1, 1));
+					containerComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+					cell->AddChild(containerComposition);
+
+					{
+						GuiSolidBorderElement* element=GuiSolidBorderElement::Create();
+						element->SetColor(Win7ButtonColors::TabPageHeaderNormal().borderColor);
+						cell->SetOwnedElement(element);
+					}
+					{
+						GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
+						element->SetColor(Win7GetSystemTabContentColor());
+						containerComposition->SetOwnedElement(element);
+					}
+				}
+
+				headerController=new GuiSelectableButton::MutexGroupController;
+			}
+
+			Win7TabStyle::~Win7TabStyle()
+			{
+			}
+
+			elements::GuiBoundsComposition* Win7TabStyle::GetBoundsComposition()
+			{
+				return boundsComposition;
+			}
+
+			elements::GuiGraphicsComposition* Win7TabStyle::GetContainerComposition()
+			{
+				return containerComposition;
+			}
+
+			void Win7TabStyle::SetFocusableComposition(elements::GuiGraphicsComposition* value)
+			{
+			}
+
+			void Win7TabStyle::SetText(const WString& value)
+			{
+			}
+
+			void Win7TabStyle::SetFont(const FontProperties& value)
+			{
+				headerFont=value;
+			}
+
+			void Win7TabStyle::SetVisuallyEnabled(bool value)
+			{
+			}
+
+			void Win7TabStyle::SetCommandExecutor(controls::GuiTab::ICommandExecutor* value)
+			{
+				commandExecutor=value;
+			}
+
+			void Win7TabStyle::InsertTab(int index)
+			{
+				GuiSelectableButton* button=new GuiSelectableButton(new Win7SelectableItemStyle);
+				button->SetAutoSelection(false);
+				button->SetFont(headerFont);
+				button->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+				button->SetGroupController(headerController.Obj());
+				button->Clicked.AttachMethod(this, &Win7TabStyle::OnHeaderButtonClicked);
+
+				GuiStackItemComposition* item=new GuiStackItemComposition;
+				item->AddChild(button->GetBoundsComposition());
+				tabHeaderComposition->InsertStackItem(index, item);
+				headerButtons.Insert(index, button);
+			}
+
+			void Win7TabStyle::SetTabText(int index, const WString& value)
+			{
+				headerButtons[index]->SetText(value);
+			}
+
+			void Win7TabStyle::RemoveTab(int index)
+			{
+				GuiStackItemComposition* item=tabHeaderComposition->GetStackItems()[index];
+				GuiSelectableButton* button=headerButtons[index];
+
+				tabHeaderComposition->RemoveChild(item);
+				item->RemoveChild(button->GetBoundsComposition());
+				headerButtons.RemoveAt(index);
+
+				delete item;
+				delete button;
+			}
+
+			void Win7TabStyle::SetSelectedTab(int index)
+			{
+				headerButtons[index]->SetSelected(true);
+			}
+
+			controls::GuiControl::IStyleController* Win7TabStyle::CreateTabPageStyleController()
+			{
+				GuiControl::IStyleController* style=new Win7EmptyStyle(Win7GetSystemTabContentColor());
+				style->GetBoundsComposition()->SetAlignmentToParent(Margin(2, 2, 2, 2));
+				return style;
+			}
+
+/***********************************************************************
 Win7ButtonStyleBase
 ***********************************************************************/
 
@@ -1375,7 +1513,7 @@ Win7ButtonStyleBase
 				,transparentWhenInactive(false)
 				,transparentWhenDisabled(false)
 			{
-				elements=Win7ButtonElements::Create(verticalGradient, horizontal, vertical);
+				elements=Win7ButtonElements::Create(verticalGradient, true, horizontal, vertical);
 				elements.Apply(initialColor);
 				transferringAnimation=new TransferringAnimation(this, initialColor);
 			}
@@ -1751,7 +1889,7 @@ Win7MenuBarButtonStyle
 				Win7ButtonColors initialColor=Win7ButtonColors::MenuBarButtonNormal();
 				initialColor.SetAlphaWithoutText(0);
 
-				elements=Win7ButtonElements::Create(true, Alignment::Center, Alignment::Center);
+				elements=Win7ButtonElements::Create(true, true, Alignment::Center, Alignment::Center);
 				elements.Apply(initialColor);
 			}
 
@@ -1943,6 +2081,78 @@ Win7MenuItemButtonStyle
 					controlStyle=value;
 					TransferInternal(controlStyle, isVisuallyEnabled, isOpening);
 				}
+			}
+
+/***********************************************************************
+Win7MenuSplitterStyle
+***********************************************************************/
+
+			Win7MenuSplitterStyle::Win7MenuSplitterStyle()
+			{
+				Color dark=Win7ButtonColors::MenuItemButtonNormal().g3;
+				Color bright=Win7ButtonColors::MenuItemButtonNormal().g4;
+
+				GuiTableComposition* table=new GuiTableComposition;
+				table->SetAlignmentToParent(Margin(0, 0, 0, 0));
+				table->SetRowsAndColumns(1, 3);
+				table->SetPreferredMinSize(Size(0, 6));
+
+				table->SetRowOption(0, GuiCellOption::PercentageOption(1.0));
+				table->SetColumnOption(0, GuiCellOption::AbsoluteOption(26));
+				table->SetColumnOption(1, GuiCellOption::AbsoluteOption(2));
+				table->SetColumnOption(2, GuiCellOption::MinSizeOption());
+
+				{
+					GuiCellComposition* cell=new GuiCellComposition;
+					table->AddChild(cell);
+					cell->SetSite(0, 1, 1, 1);
+
+					Gui3DSplitterElement* element=Gui3DSplitterElement::Create();
+					element->SetDirection(Gui3DSplitterElement::Vertical);
+					element->SetColors(dark, bright);
+					cell->SetOwnedElement(element);
+				}
+				{
+					GuiCellComposition* cell=new GuiCellComposition;
+					table->AddChild(cell);
+					cell->SetSite(0, 2, 1, 1);
+
+					Gui3DSplitterElement* element=Gui3DSplitterElement::Create();
+					element->SetDirection(Gui3DSplitterElement::Horizontal);
+					element->SetColors(dark, bright);
+					cell->SetOwnedElement(element);
+				}
+				boundsComposition=table;
+			}
+
+			Win7MenuSplitterStyle::~Win7MenuSplitterStyle()
+			{
+			}
+
+			elements::GuiBoundsComposition* Win7MenuSplitterStyle::GetBoundsComposition()
+			{
+				return boundsComposition;
+			}
+
+			elements::GuiGraphicsComposition* Win7MenuSplitterStyle::GetContainerComposition()
+			{
+				return boundsComposition;
+			}
+
+			void Win7MenuSplitterStyle::SetFocusableComposition(elements::GuiGraphicsComposition* value)
+			{
+			}
+
+			void Win7MenuSplitterStyle::SetText(const WString& value)
+			{
+			}
+
+			void Win7MenuSplitterStyle::SetFont(const FontProperties& value)
+			{
+			}
+
+			void Win7MenuSplitterStyle::SetVisuallyEnabled(bool value)
+			{
 			}
 
 /***********************************************************************
