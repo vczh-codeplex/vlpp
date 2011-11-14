@@ -15,12 +15,14 @@ GuiTabPage
 				,owner(_owner)
 			{
 				TextChanged.SetAssociatedComposition(container->GetBoundsComposition());
-				container->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
 			}
 
 			GuiTabPage::~GuiTabPage()
 			{
-				delete container;
+				if(!container->GetParent())
+				{
+					delete container;
+				}
 			}
 
 			GuiControl* GuiTabPage::GetContainer()
@@ -82,9 +84,9 @@ GuiTab
 
 			GuiTab::~GuiTab()
 			{
-				while(tabPages.Count())
+				for(int i=0;i<tabPages.Count();i++)
 				{
-					RemovePage(tabPages[0]);
+					delete tabPages[i];
 				}
 			}
 
@@ -108,6 +110,7 @@ GuiTab
 				{
 					SetSelectedPage(page);
 				}
+				page->GetContainer()->SetVisible(page==selectedPage);
 				return page;
 			}
 
@@ -155,7 +158,12 @@ GuiTab
 						selectedPage=value;
 						for(int i=0;i<tabPages.Count();i++)
 						{
-							tabPages[i]->GetContainer()->SetVisible(tabPages[i]==value);
+							bool selected=tabPages[i]==value;
+							tabPages[i]->GetContainer()->SetVisible(selected);
+							if(selected)
+							{
+								styleController->SetSelectedTab(i);
+							}
 						}
 						SelectedPageChanged.Execute(GetNotifyEventArguments());
 					}

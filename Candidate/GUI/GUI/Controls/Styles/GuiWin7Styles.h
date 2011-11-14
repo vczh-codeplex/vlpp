@@ -112,11 +112,15 @@ Button Configuration
 				static Win7ButtonColors						MenuItemButtonNormalActive();
 				static Win7ButtonColors						MenuItemButtonDisabled();
 				static Win7ButtonColors						MenuItemButtonDisabledActive();
+
+				static Win7ButtonColors						TabPageHeaderNormal();
+				static Win7ButtonColors						TabPageHeaderActive();
 			};
 
 			struct Win7ButtonElements
 			{
-				elements::GuiRoundBorderElement*			borderElement;
+				elements::GuiSolidBorderElement*			rectBorderElement;
+				elements::GuiRoundBorderElement*			roundBorderElement;
 				elements::GuiSolidBackgroundElement*		backgroundElement;
 				elements::GuiGradientBackgroundElement*		topGradientElement;
 				elements::GuiGradientBackgroundElement*		bottomGradientElement;
@@ -124,7 +128,7 @@ Button Configuration
 				elements::GuiBoundsComposition*				textComposition;
 				elements::GuiBoundsComposition*				mainComposition;
 
-				static Win7ButtonElements					Create(bool verticalGradient, Alignment::Type horizontal=Alignment::Center, Alignment::Type vertical=Alignment::Center);
+				static Win7ButtonElements					Create(bool verticalGradient, bool roundBorder, Alignment::Type horizontal=Alignment::Center, Alignment::Type vertical=Alignment::Center);
 				void										Apply(const Win7ButtonColors& colors);
 			};
 
@@ -194,6 +198,7 @@ Helper Functions
 			
 			extern int										Win7GetColorAnimationLength();
 			extern Color									Win7GetSystemWindowColor();
+			extern Color									Win7GetSystemTabContentColor();
 			extern Color									Win7GetSystemBorderColor();
 			extern Color									Win7GetSystemTextColor(bool enabled);
 			extern void										Win7SetFont(elements::GuiSolidLabelElement* element, elements::GuiBoundsComposition* composition, const FontProperties& fontProperties);
@@ -226,13 +231,13 @@ Animation
 Container
 ***********************************************************************/
 
-			class Win7WindowStyle : public Object, public controls::GuiControl::IStyleController
+			class Win7EmptyStyle : public Object, public controls::GuiControl::IStyleController
 			{
 			protected:
 				elements::GuiBoundsComposition*				boundsComposition;
 			public:
-				Win7WindowStyle();
-				~Win7WindowStyle();
+				Win7EmptyStyle(Color color);
+				~Win7EmptyStyle();
 
 				elements::GuiBoundsComposition*				GetBoundsComposition()override;
 				elements::GuiGraphicsComposition*			GetContainerComposition()override;
@@ -240,6 +245,13 @@ Container
 				void										SetText(const WString& value)override;
 				void										SetFont(const FontProperties& value)override;
 				void										SetVisuallyEnabled(bool value)override;
+			};
+
+			class Win7WindowStyle : public Win7EmptyStyle
+			{
+			public:
+				Win7WindowStyle();
+				~Win7WindowStyle();
 			};
 
 			class Win7MenuStyle : public Object, public controls::GuiControl::IStyleController
@@ -250,22 +262,6 @@ Container
 			public:
 				Win7MenuStyle();
 				~Win7MenuStyle();
-
-				elements::GuiBoundsComposition*				GetBoundsComposition()override;
-				elements::GuiGraphicsComposition*			GetContainerComposition()override;
-				void										SetFocusableComposition(elements::GuiGraphicsComposition* value)override;
-				void										SetText(const WString& value)override;
-				void										SetFont(const FontProperties& value)override;
-				void										SetVisuallyEnabled(bool value)override;
-			};
-
-			class Win7MenuSplitterStyle : public Object, public controls::GuiControl::IStyleController
-			{
-			protected:
-				elements::GuiBoundsComposition*				boundsComposition;
-			public:
-				Win7MenuSplitterStyle();
-				~Win7MenuSplitterStyle();
 
 				elements::GuiBoundsComposition*				GetBoundsComposition()override;
 				elements::GuiGraphicsComposition*			GetContainerComposition()override;
@@ -316,6 +312,38 @@ Container
 				void										SetText(const WString& value)override;
 				void										SetFont(const FontProperties& value)override;
 				void										SetVisuallyEnabled(bool value)override;
+			};
+
+			class Win7TabStyle : public Object, public controls::GuiTab::IStyleController
+			{
+			protected:
+				elements::GuiTableComposition*				boundsComposition;
+				elements::GuiBoundsComposition*				containerComposition;
+				elements::GuiStackComposition*				tabHeaderComposition;
+				FontProperties								headerFont;
+				controls::GuiTab::ICommandExecutor*			commandExecutor;
+
+				Ptr<controls::GuiSelectableButton::MutexGroupController>	headerController;
+				collections::List<controls::GuiSelectableButton*>			headerButtons;
+
+				void										OnHeaderButtonClicked(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+			public:
+				Win7TabStyle();
+				~Win7TabStyle();
+
+				elements::GuiBoundsComposition*				GetBoundsComposition();
+				elements::GuiGraphicsComposition*			GetContainerComposition();
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value);
+				void										SetText(const WString& value);
+				void										SetFont(const FontProperties& value);
+				void										SetVisuallyEnabled(bool value);
+
+				void										SetCommandExecutor(controls::GuiTab::ICommandExecutor* value);
+				void										InsertTab(int index);
+				void										SetTabText(int index, const WString& value);
+				void										RemoveTab(int index);
+				void										SetSelectedTab(int index);
+				controls::GuiControl::IStyleController*		CreateTabPageStyleController();
 			};
 
 /***********************************************************************
@@ -468,6 +496,22 @@ MenuButton
 				void										SetSubMenuExisting(bool value)override;
 				void										SetSubMenuOpening(bool value)override;
 				void										Transfer(controls::GuiButton::ControlState value)override;
+			};
+
+			class Win7MenuSplitterStyle : public Object, public controls::GuiControl::IStyleController
+			{
+			protected:
+				elements::GuiBoundsComposition*				boundsComposition;
+			public:
+				Win7MenuSplitterStyle();
+				~Win7MenuSplitterStyle();
+
+				elements::GuiBoundsComposition*				GetBoundsComposition()override;
+				elements::GuiGraphicsComposition*			GetContainerComposition()override;
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value)override;
+				void										SetText(const WString& value)override;
+				void										SetFont(const FontProperties& value)override;
+				void										SetVisuallyEnabled(bool value)override;
 			};
 
 /***********************************************************************
