@@ -8,7 +8,6 @@ Interfaces:
 
 #ifndef VCZH_PRESENTATION_ELEMENTS_GUIGRAPHICSWINDOWSDIRECT2D
 #define VCZH_PRESENTATION_ELEMENTS_GUIGRAPHICSWINDOWSDIRECT2D
-#ifdef GUI_GRAPHICS_RENDERER_DIRECT2D
 
 #include "..\..\NativeWindow\Windows\Direct2D\WinDirect2DApplication.h"
 #include "..\GuiGraphicsElement.h"
@@ -49,5 +48,4 @@ namespace vl
 	}
 }
 
-#endif
 #endif

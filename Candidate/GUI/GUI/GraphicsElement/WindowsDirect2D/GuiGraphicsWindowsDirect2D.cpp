@@ -1,7 +1,6 @@
-#ifdef GUI_GRAPHICS_RENDERER_DIRECT2D
-
 #include "GuiGraphicsWindowsDirect2D.h"
 #include "GuiGraphicsRenderersWindowsDirect2D.h"
+#include "..\..\Controls\GuiApplication.h"
 #include <math.h>
 
 namespace vl
@@ -497,7 +496,7 @@ using namespace vl::presentation;
 using namespace vl::presentation::elements;
 using namespace vl::presentation::elements_windows_d2d;
 
-void NativeMain()
+void RendererMainDirect2D()
 {
 	WindowsDirect2DResourceManager resourceManager;
 	SetGuiGraphicsResourceManager(&resourceManager);
@@ -520,4 +519,8 @@ void NativeMain()
 	SetGuiGraphicsResourceManager(0);
 }
 
-#endif
+int SetupWindowsDirect2DRenderer()
+{
+	HINSTANCE hInstance=(HINSTANCE)GetModuleHandle(NULL);
+	return WinMainDirect2D(hInstance, &RendererMainDirect2D);
+}

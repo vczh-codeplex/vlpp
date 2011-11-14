@@ -189,6 +189,9 @@
     <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiContainerControls.cpp">
       <Filter>GUI\Controls\ExtendedControls</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\GUI\GacUI_WinMain.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Library\Basic.h">

@@ -1,7 +1,6 @@
-#ifdef GUI_GRAPHICS_RENDERER_GDI
-
 #include "GuiGraphicsWindowsGDI.h"
 #include "GuiGraphicsRenderersWindowsGDI.h"
+#include "..\..\Controls\GuiApplication.h"
 
 namespace vl
 {
@@ -407,7 +406,7 @@ using namespace vl::presentation;
 using namespace vl::presentation::elements;
 using namespace vl::presentation::elements_windows_gdi;
 
-void NativeMain()
+void RendererMainGDI()
 {
 	WindowsGDIResourceManager resourceManager;
 	SetGuiGraphicsResourceManager(&resourceManager);
@@ -430,4 +429,8 @@ void NativeMain()
 	SetGuiGraphicsResourceManager(0);
 }
 
-#endif
+int SetupWindowsGDIRenderer()
+{
+	HINSTANCE hInstance=(HINSTANCE)GetModuleHandle(NULL);
+	return WinMainGDI(hInstance, &RendererMainGDI);
+}

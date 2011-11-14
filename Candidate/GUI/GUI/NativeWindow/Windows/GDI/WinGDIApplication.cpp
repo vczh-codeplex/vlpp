@@ -1,5 +1,3 @@
-#ifdef GUI_GRAPHICS_RENDERER_GDI
-
 #if _DEBUG
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
@@ -122,7 +120,7 @@ using namespace vl;
 using namespace vl::presentation;
 using namespace vl::presentation::windows;
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+int WinMainGDI(HINSTANCE hInstance, void(*RendererMain)())
 {
 	CoInitializeEx(NULL, COINIT_MULTITHREADED);
 	// create controller
@@ -134,7 +132,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		controller->InstallListener(&listener);
 		gdiListener=&listener;
 		// main
-		NativeMain();
+		RendererMain();
 		// uninstall listener
 		gdiListener=0;
 		controller->UninstallListener(&listener);
@@ -146,5 +144,3 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #endif
 	return 0;
 }
-
-#endif

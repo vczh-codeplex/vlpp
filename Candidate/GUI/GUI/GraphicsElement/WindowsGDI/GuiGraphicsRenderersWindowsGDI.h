@@ -7,8 +7,7 @@ Interfaces:
 ***********************************************************************/
 
 #ifndef VCZH_PRESENTATION_ELEMENTS_GUIGRAPHICSRENDERERSWINDOWSGDI
-#define VCZH_PRESENTATION_ELEMENTS_GUIGRAPHICSRENDERERSWINDOWSGDI
-#ifdef GUI_GRAPHICS_RENDERER_GDI
+#define VCZH_PRESENTATION_ELEMENTS_GUIGRAPHICSRENDERERSWINDOWSGD
 
 #include "GuiGraphicsWindowsGDI.h"
 
@@ -198,5 +197,4 @@ Renderers
 	}
 }
 
-#endif
 #endif
