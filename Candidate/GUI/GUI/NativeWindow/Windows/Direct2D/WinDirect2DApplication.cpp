@@ -1,5 +1,3 @@
-#ifdef GUI_GRAPHICS_RENDERER_DIRECT2D
-
 #pragma comment(lib, "d2d1.lib")
 #pragma comment(lib, "dwrite.lib")
 
@@ -148,7 +146,7 @@ using namespace vl;
 using namespace vl::presentation;
 using namespace vl::presentation::windows;
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+int WinMainDirect2D(HINSTANCE hInstance, void(*RendererMain)())
 {
 	CoInitializeEx(NULL, COINIT_MULTITHREADED);
 	// create controller
@@ -160,7 +158,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		controller->InstallListener(&listener);
 		direct2DListener=&listener;
 		// main
-		NativeMain();
+		RendererMain();
 		// uninstall listener
 		direct2DListener=0;
 		controller->UninstallListener(&listener);
@@ -172,5 +170,3 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #endif
 	return 0;
 }
-
-#endif

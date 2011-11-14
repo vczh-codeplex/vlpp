@@ -330,10 +330,6 @@ Native Window Provider
 	}
 }
 
-extern void NativeMain();
-extern void GuiApplicationMain();
-extern void GuiMain();
-
 /***********************************************************************
 Native Window Provider
 ***********************************************************************/

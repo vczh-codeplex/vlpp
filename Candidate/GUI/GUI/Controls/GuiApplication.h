@@ -47,4 +47,6 @@ namespace vl
 	}
 }
 
+extern void GuiApplicationMain();
+
 #endif

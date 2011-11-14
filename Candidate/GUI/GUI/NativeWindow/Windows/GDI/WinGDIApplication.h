@@ -7,7 +7,6 @@ Interfaces:
 ***********************************************************************/
 #ifndef VCZH_PRESENTATION_WINDOWS_GDI_WINGDIAPPLICATION
 #define VCZH_PRESENTATION_WINDOWS_GDI_WINGDIAPPLICATION
-#ifdef GUI_GRAPHICS_RENDERER_GDI
 
 #include "WinGDI.h"
 #include "..\WinNativeWindow.h"
@@ -23,5 +22,6 @@ namespace vl
 	}
 }
 
-#endif
+extern int WinMainGDI(HINSTANCE hInstance, void(*RendererMain)());
+
 #endif

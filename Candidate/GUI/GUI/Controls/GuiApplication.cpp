@@ -1,5 +1,7 @@
 #include "GuiApplication.h"
 
+extern void GuiMain();
+
 namespace vl
 {
 	namespace presentation

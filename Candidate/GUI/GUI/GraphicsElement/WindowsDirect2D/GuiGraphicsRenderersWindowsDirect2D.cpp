@@ -1,5 +1,3 @@
-#ifdef GUI_GRAPHICS_RENDERER_DIRECT2D
-
 #include <math.h>
 #include "GuiGraphicsRenderersWindowsDirect2D.h"
 
@@ -898,5 +896,3 @@ GuiColorizedTextElementRenderer
 		}
 	}
 }
-
-#endif

@@ -171,6 +171,7 @@
     <ClCompile Include="..\..\GUI\Controls\GuiWindowControls.cpp" />
     <ClCompile Include="..\..\GUI\Controls\Styles\GuiCommonStyles.cpp" />
     <ClCompile Include="..\..\GUI\Controls\Styles\GuiWin7Styles.cpp" />
+    <ClCompile Include="..\..\GUI\GacUI_WinMain.cpp" />
     <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsComposition.cpp" />
     <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsElement.cpp" />
     <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsEventReceiver.cpp" />

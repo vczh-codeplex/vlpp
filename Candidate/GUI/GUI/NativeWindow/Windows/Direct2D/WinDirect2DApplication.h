@@ -7,7 +7,6 @@ Interfaces:
 ***********************************************************************/
 #ifndef VCZH_PRESENTATION_WINDOWS_GDI_WINDIRECT2DAPPLICATION
 #define VCZH_PRESENTATION_WINDOWS_GDI_WINDIRECT2DAPPLICATION
-#ifdef GUI_GRAPHICS_RENDERER_DIRECT2D
 
 #include <D2D1.h>
 #include <DWrite.h>
@@ -26,5 +25,6 @@ namespace vl
 	}
 }
 
-#endif
+extern int WinMainDirect2D(HINSTANCE hInstance, void(*RendererMain)());
+
 #endif

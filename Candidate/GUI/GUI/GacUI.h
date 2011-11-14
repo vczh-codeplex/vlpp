@@ -25,4 +25,7 @@ using namespace vl::presentation;
 using namespace vl::presentation::elements;
 using namespace vl::presentation::controls;
 
+extern int SetupWindowsGDIRenderer();
+extern int SetupWindowsDirect2DRenderer();
+
 #endif
