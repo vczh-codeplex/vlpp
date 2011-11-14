@@ -1355,6 +1355,7 @@ GuiStackComposition
 
 			void GuiStackComposition::OnChildInserted(GuiGraphicsComposition* child)
 			{
+				GuiBoundsComposition::OnChildInserted(child);
 				GuiStackItemComposition* item=dynamic_cast<GuiStackItemComposition*>(child);
 				if(item && !stackItems.Contains(item))
 				{
@@ -1364,6 +1365,7 @@ GuiStackComposition
 
 			void GuiStackComposition::OnChildRemoved(GuiGraphicsComposition* child)
 			{
+				GuiBoundsComposition::OnChildRemoved(child);
 				GuiStackItemComposition* item=dynamic_cast<GuiStackItemComposition*>(child);
 				if(item)
 				{
@@ -1446,6 +1448,7 @@ GuiStackItemComposition
 
 			void GuiStackItemComposition::OnParentChanged(GuiGraphicsComposition* oldParent, GuiGraphicsComposition* newParent)
 			{
+				GuiGraphicsSite::OnParentChanged(oldParent, newParent);
 				stackParent=newParent==0?0:dynamic_cast<GuiStackComposition*>(newParent);
 			}
 
