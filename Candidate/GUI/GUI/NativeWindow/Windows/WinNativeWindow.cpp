@@ -1046,16 +1046,19 @@ WindowsForm
 						UpdateCompositionForContent();
 						break;
 					}
-					if(transferFocusEvent && IsFocused())
+					if(IsWindow(hwnd)!=0)
 					{
-						WindowsForm* window=this;
-						while(window->parentWindow && window->alwaysPassFocusToParent)
+						if(transferFocusEvent && IsFocused())
 						{
-							window=window->parentWindow;
-						}
-						if(window!=this)
-						{
-							window->SetFocus();
+							WindowsForm* window=this;
+							while(window->parentWindow && window->alwaysPassFocusToParent)
+							{
+								window=window->parentWindow;
+							}
+							if(window!=this)
+							{
+								window->SetFocus();
+							}
 						}
 					}
 					return false;
