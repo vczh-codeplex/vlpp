@@ -495,7 +495,7 @@ GuiGraphicsSite
 					for(int i=0;i<childCount;i++)
 					{
 						GuiGraphicsComposition* child=children[i];
-						if(child->GetVisible() && child->IsSizeAffectParent())
+						if(child->IsSizeAffectParent())
 						{
 							Rect childBounds=child->GetPreferredBounds();
 							if(minSize.x<childBounds.x2) minSize.x=childBounds.x2;
