@@ -370,6 +370,7 @@ Stack Compositions
 				Size								stackItemTotalSize;
 				int									padding;
 				Rect								previousBounds;
+				Margin								extraMargin;
 
 				void								UpdateStackItemBounds();
 				void								FixStackItemSizes();
@@ -389,6 +390,9 @@ Stack Compositions
 
 				Size								GetMinPreferredClientSize()override;
 				Rect								GetBounds()override;
+
+				Margin								GetExtraMargin();
+				void								SetExtraMargin(Margin value);
 			};
 
 			class GuiStackItemComposition : public GuiGraphicsSite
@@ -397,6 +401,7 @@ Stack Compositions
 			protected:
 				GuiStackComposition*				stackParent;
 				Rect								bounds;
+				Margin								extraMargin;
 
 				void								OnParentChanged(GuiGraphicsComposition* oldParent, GuiGraphicsComposition* newParent)override;
 				Size								GetMinSize();
@@ -408,6 +413,9 @@ Stack Compositions
 				bool								IsSizeAffectParent()override;
 				Rect								GetBounds()override;
 				void								SetBounds(Rect value);
+
+				Margin								GetExtraMargin();
+				void								SetExtraMargin(Margin value);
 			};
 
 /***********************************************************************

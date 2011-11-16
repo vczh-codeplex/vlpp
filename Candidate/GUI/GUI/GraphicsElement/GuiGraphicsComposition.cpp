@@ -1299,6 +1299,8 @@ GuiStackComposition
 				}
 
 				stackItemTotalSize=Size(0, 0);
+				int x=extraMargin.left?extraMargin.left:0;
+				int y=extraMargin.top?extraMargin.top:0;
 				switch(direction)
 				{
 				case GuiStackComposition::Horizontal:
@@ -1308,7 +1310,7 @@ GuiStackComposition
 							Size itemSize=stackItems[i]->GetMinSize();
 							if(i>0) stackItemTotalSize.x+=padding;
 							if(stackItemTotalSize.y<itemSize.y) stackItemTotalSize.y=itemSize.y;
-							stackItemBounds[i]=Rect(Point(stackItemTotalSize.x, 0), Size(itemSize.x, 0));
+							stackItemBounds[i]=Rect(Point(stackItemTotalSize.x+x, y), Size(itemSize.x, 0));
 							stackItemTotalSize.x+=itemSize.x;
 						}
 					}
@@ -1320,7 +1322,7 @@ GuiStackComposition
 							Size itemSize=stackItems[i]->GetMinSize();
 							if(i>0) stackItemTotalSize.y+=padding;
 							if(stackItemTotalSize.x<itemSize.x) stackItemTotalSize.x=itemSize.x;
-							stackItemBounds[i]=Rect(Point(0, stackItemTotalSize.y), Size(0, itemSize.y));
+							stackItemBounds[i]=Rect(Point(x, stackItemTotalSize.y+y), Size(0, itemSize.y));
 							stackItemTotalSize.y+=itemSize.y;
 						}
 					}
@@ -1336,17 +1338,25 @@ GuiStackComposition
 				{
 				case Horizontal:
 					{
+						int y=0;
+						if(extraMargin.top>0) y+=extraMargin.top;
+						if(extraMargin.bottom>0) y+=extraMargin.bottom;
+
 						for(int i=0;i<stackItemBounds.Count();i++)
 						{
-							stackItemBounds[i].y2=stackItemBounds[i].y1+previousBounds.Height();
+							stackItemBounds[i].y2=stackItemBounds[i].y1+previousBounds.Height()-y;
 						}
 					}
 					break;
 				case Vertical:
 					{
+						int x=0;
+						if(extraMargin.left>0) x+=extraMargin.left;
+						if(extraMargin.right>0) x+=extraMargin.right;
+
 						for(int i=0;i<stackItemBounds.Count();i++)
 						{
-							stackItemBounds[i].x2=stackItemBounds[i].x1+previousBounds.Width();
+							stackItemBounds[i].x2=stackItemBounds[i].x1+previousBounds.Width()-x;
 						}
 					}
 					break;
@@ -1431,7 +1441,13 @@ GuiStackComposition
 					if(minSize.x<stackItemTotalSize.x) minSize.x=stackItemTotalSize.x;
 					if(minSize.y<stackItemTotalSize.y) minSize.y=stackItemTotalSize.y;
 				}
-				return minSize;
+				int x=0;
+				int y=0;
+				if(extraMargin.left>0) x+=extraMargin.left;
+				if(extraMargin.right>0) x+=extraMargin.right;
+				if(extraMargin.top>0) y+=extraMargin.top;
+				if(extraMargin.bottom>0) y+=extraMargin.bottom;
+				return minSize+Size(x, y);
 			}
 
 			Rect GuiStackComposition::GetBounds()
@@ -1440,6 +1456,16 @@ GuiStackComposition
 				previousBounds=bounds;
 				FixStackItemSizes();
 				return bounds;
+			}
+
+			Margin GuiStackComposition::GetExtraMargin()
+			{
+				return extraMargin;
+			}
+
+			void GuiStackComposition::SetExtraMargin(Margin value)
+			{
+				extraMargin=value;
 			}
 
 /***********************************************************************
@@ -1478,6 +1504,7 @@ GuiStackItemComposition
 
 			Rect GuiStackItemComposition::GetBounds()
 			{
+				Rect result=bounds;
 				if(stackParent)
 				{
 					int index=stackParent->stackItems.IndexOf(this);
@@ -1487,15 +1514,29 @@ GuiStackItemComposition
 						{
 							stackParent->UpdateStackItemBounds();
 						}
-						return stackParent->stackItemBounds[index];
+						result=stackParent->stackItemBounds[index];
 					}
 				}
-				return bounds;
+				result.x1-=extraMargin.left;
+				result.y1-=extraMargin.top;
+				result.x2+=extraMargin.right;
+				result.y2+=extraMargin.bottom;
+				return result;
 			}
 
 			void GuiStackItemComposition::SetBounds(Rect value)
 			{
 				bounds=value;
+			}
+
+			Margin GuiStackItemComposition::GetExtraMargin()
+			{
+				return extraMargin;
+			}
+
+			void GuiStackItemComposition::SetExtraMargin(Margin value)
+			{
+				extraMargin=value;
 			}
 
 /***********************************************************************
