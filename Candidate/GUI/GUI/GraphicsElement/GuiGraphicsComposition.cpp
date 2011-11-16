@@ -641,7 +641,7 @@ GuiBoundsComposition
 					else if(alignmentToParent.bottom>=0)
 					{
 						int height=result.Height();
-						result.y2=clientSize.x-alignmentToParent.bottom;
+						result.y2=clientSize.y-alignmentToParent.bottom;
 						result.y1=result.y2-height;
 					}
 				}

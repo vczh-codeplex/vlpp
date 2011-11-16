@@ -1449,7 +1449,7 @@ Win7TabStyle
 					tabContentTopLineComposition=new GuiBoundsComposition;
 					tabContentTopLineComposition->SetOwnedElement(element);
 					tabContentTopLineComposition->SetAlignmentToParent(Margin(0, -1, 0, 0));
-					tabContentTopLineComposition->SetBounds(Rect(Point(0, 0), Size(0, 3)));
+					tabContentTopLineComposition->SetPreferredMinSize(Size(0, 1));
 					tabHeaderComposition->AddChild(tabContentTopLineComposition);
 				}
 				{
