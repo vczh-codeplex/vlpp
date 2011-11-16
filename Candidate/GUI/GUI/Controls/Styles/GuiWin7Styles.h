@@ -115,6 +115,7 @@ Button Configuration
 
 				static Win7ButtonColors						TabPageHeaderNormal();
 				static Win7ButtonColors						TabPageHeaderActive();
+				static Win7ButtonColors						TabPageHeaderSelected();
 			};
 
 			struct Win7ButtonElements
@@ -127,6 +128,8 @@ Button Configuration
 				elements::GuiSolidLabelElement*				textElement;
 				elements::GuiBoundsComposition*				textComposition;
 				elements::GuiBoundsComposition*				mainComposition;
+				elements::GuiBoundsComposition*				backgroundComposition;
+				elements::GuiTableComposition*				gradientComposition;
 
 				static Win7ButtonElements					Create(bool verticalGradient, bool roundBorder, Alignment::Type horizontal=Alignment::Center, Alignment::Type vertical=Alignment::Center);
 				void										Apply(const Win7ButtonColors& colors);
@@ -320,6 +323,7 @@ Container
 				elements::GuiTableComposition*				boundsComposition;
 				elements::GuiBoundsComposition*				containerComposition;
 				elements::GuiStackComposition*				tabHeaderComposition;
+				elements::GuiBoundsComposition*				tabContentTopLineComposition;
 				FontProperties								headerFont;
 				controls::GuiTab::ICommandExecutor*			commandExecutor;
 
@@ -327,6 +331,7 @@ Container
 				collections::List<controls::GuiSelectableButton*>			headerButtons;
 
 				void										OnHeaderButtonClicked(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+				void										UpdateHeaderZOrder();
 			public:
 				Win7TabStyle();
 				~Win7TabStyle();
@@ -365,7 +370,7 @@ Button
 
 				virtual void								TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected)=0;
 			public:
-				Win7ButtonStyleBase(bool verticalGradient, const Win7ButtonColors& initialColor, Alignment::Type horizontal, Alignment::Type vertical);
+				Win7ButtonStyleBase(bool verticalGradient, bool roundBorder, const Win7ButtonColors& initialColor, Alignment::Type horizontal, Alignment::Type vertical);
 				~Win7ButtonStyleBase();
 
 				elements::GuiBoundsComposition*				GetBoundsComposition()override;
@@ -401,6 +406,17 @@ Button
 			public:
 				Win7SelectableItemStyle();
 				~Win7SelectableItemStyle();
+			};
+
+			class Win7TabPageHeaderStyle : public Win7ButtonStyleBase
+			{
+			protected:
+				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected)override;
+			public:
+				Win7TabPageHeaderStyle();
+				~Win7TabPageHeaderStyle();
+
+				void										SetFont(const FontProperties& value)override;
 			};
 
 			class Win7ToolstripButtonStyle : public Win7ButtonStyleBase

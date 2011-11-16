@@ -490,6 +490,21 @@ Win7ButtonColors
 				return colors;
 			}
 
+			Win7ButtonColors Win7ButtonColors::TabPageHeaderSelected()
+			{
+				Win7ButtonColors colors=
+				{
+					Color(137, 140, 149),
+					Win7GetSystemTabContentColor(),
+					Win7GetSystemTabContentColor(),
+					Win7GetSystemTabContentColor(),
+					Win7GetSystemTabContentColor(),
+					Win7GetSystemTabContentColor(),
+					Win7GetSystemTextColor(true),
+				};
+				return colors;
+			}
+
 /***********************************************************************
 Win7ButtonElements
 ***********************************************************************/
@@ -503,38 +518,54 @@ Win7ButtonElements
 					button.mainComposition=new GuiBoundsComposition;
 					button.mainComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 				}
-				{
-					GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
-					button.backgroundElement=element;
-
-					GuiBoundsComposition* composition=new GuiBoundsComposition;
-					button.mainComposition->AddChild(composition);
-					composition->SetAlignmentToParent(Margin(1, 1, 1, 1));
-					composition->SetOwnedElement(element);
-				}
 				if(roundBorder)
 				{
-					GuiRoundBorderElement* element=GuiRoundBorderElement::Create();
-					button.roundBorderElement=element;
-					element->SetRadius(2);
+					{
+						GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
+						button.backgroundElement=element;
 
-					GuiBoundsComposition* composition=new GuiBoundsComposition;
-					button.mainComposition->AddChild(composition);
-					composition->SetAlignmentToParent(Margin(0, 0, 0, 0));
-					composition->SetOwnedElement(element);
+						GuiBoundsComposition* composition=new GuiBoundsComposition;
+						button.backgroundComposition=composition;
+						button.mainComposition->AddChild(composition);
+						composition->SetAlignmentToParent(Margin(1, 1, 1, 1));
+						composition->SetOwnedElement(element);
+					}
+					{
+						GuiRoundBorderElement* element=GuiRoundBorderElement::Create();
+						button.roundBorderElement=element;
+						element->SetRadius(2);
+
+						GuiBoundsComposition* composition=new GuiBoundsComposition;
+						button.mainComposition->AddChild(composition);
+						composition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+						composition->SetOwnedElement(element);
+					}
 				}
 				else
 				{
-					GuiSolidBorderElement* element=GuiSolidBorderElement::Create();
-					button.rectBorderElement=element;
+					{
+						GuiSolidBorderElement* element=GuiSolidBorderElement::Create();
+						button.rectBorderElement=element;
 
-					GuiBoundsComposition* composition=new GuiBoundsComposition;
-					button.mainComposition->AddChild(composition);
-					composition->SetAlignmentToParent(Margin(0, 0, 0, 0));
-					composition->SetOwnedElement(element);
+						GuiBoundsComposition* composition=new GuiBoundsComposition;
+						button.mainComposition->AddChild(composition);
+						composition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+						composition->SetOwnedElement(element);
+					}
+					{
+						GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
+						button.backgroundElement=element;
+
+						GuiBoundsComposition* composition=new GuiBoundsComposition;
+						button.backgroundComposition=composition;
+						button.mainComposition->AddChild(composition);
+						composition->SetAlignmentToParent(Margin(1, 1, 1, 1));
+						composition->SetOwnedElement(element);
+					}
 				}
 				{
 					GuiTableComposition* table=new GuiTableComposition;
+					button.gradientComposition=table;
 					table->SetAlignmentToParent(Margin(2, 2, 2, 2));
 					button.mainComposition->AddChild(table);
 					if(verticalGradient)
@@ -1372,6 +1403,26 @@ Win7TabStyle
 				}
 			}
 
+			void Win7TabStyle::UpdateHeaderZOrder()
+			{
+				int itemCount=tabHeaderComposition->GetStackItems().Count();
+				int childCount=tabHeaderComposition->Children().Count();
+				for(int i=0;i<itemCount;i++)
+				{
+					GuiStackItemComposition* item=tabHeaderComposition->GetStackItems()[i];
+					if(headerButtons[i]->GetSelected())
+					{
+						tabHeaderComposition->MoveChild(item, childCount-1);
+						item->SetExtraMargin(Margin(2, 2, 2, 0));
+					}
+					else
+					{
+						item->SetExtraMargin(Margin(0, 0, 0, 0));
+					}
+				}
+				tabHeaderComposition->MoveChild(tabContentTopLineComposition, childCount-2);
+			}
+
 			Win7TabStyle::Win7TabStyle()
 				:commandExecutor(0)
 			{
@@ -1386,9 +1437,20 @@ Win7TabStyle
 					cell->SetSite(0, 0, 1, 1);
 
 					tabHeaderComposition=new GuiStackComposition;
+					tabHeaderComposition->SetExtraMargin(Margin(2, 2, 2, 0));
 					tabHeaderComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
 					tabHeaderComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 					cell->AddChild(tabHeaderComposition);
+				}
+				{
+					GuiSolidBackgroundElement* element=GuiSolidBackgroundElement::Create();
+					element->SetColor(Win7ButtonColors::TabPageHeaderNormal().borderColor);
+
+					tabContentTopLineComposition=new GuiBoundsComposition;
+					tabContentTopLineComposition->SetOwnedElement(element);
+					tabContentTopLineComposition->SetAlignmentToParent(Margin(0, -1, 0, 0));
+					tabContentTopLineComposition->SetBounds(Rect(Point(0, 0), Size(0, 3)));
+					tabHeaderComposition->AddChild(tabContentTopLineComposition);
 				}
 				{
 					GuiCellComposition* cell=new GuiCellComposition;
@@ -1396,7 +1458,7 @@ Win7TabStyle
 					cell->SetSite(1, 0, 1, 1);
 
 					containerComposition=new GuiBoundsComposition;
-					containerComposition->SetAlignmentToParent(Margin(1, 1, 1, 1));
+					containerComposition->SetAlignmentToParent(Margin(1, 0, 1, 1));
 					containerComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 					cell->AddChild(containerComposition);
 
@@ -1453,7 +1515,7 @@ Win7TabStyle
 
 			void Win7TabStyle::InsertTab(int index)
 			{
-				GuiSelectableButton* button=new GuiSelectableButton(new Win7SelectableItemStyle);
+				GuiSelectableButton* button=new GuiSelectableButton(new Win7TabPageHeaderStyle);
 				button->SetAutoSelection(false);
 				button->SetFont(headerFont);
 				button->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
@@ -1464,6 +1526,7 @@ Win7TabStyle
 				item->AddChild(button->GetBoundsComposition());
 				tabHeaderComposition->InsertStackItem(index, item);
 				headerButtons.Insert(index, button);
+				UpdateHeaderZOrder();
 			}
 
 			void Win7TabStyle::SetTabText(int index, const WString& value)
@@ -1487,6 +1550,7 @@ Win7TabStyle
 			void Win7TabStyle::SetSelectedTab(int index)
 			{
 				headerButtons[index]->SetSelected(true);
+				UpdateHeaderZOrder();
 			}
 
 			controls::GuiControl::IStyleController* Win7TabStyle::CreateTabPageStyleController()
@@ -1506,14 +1570,14 @@ Win7ButtonStyleBase
 				style->elements.Apply(colorCurrent);
 			}
 
-			Win7ButtonStyleBase::Win7ButtonStyleBase(bool verticalGradient, const Win7ButtonColors& initialColor, Alignment::Type horizontal, Alignment::Type vertical)
+			Win7ButtonStyleBase::Win7ButtonStyleBase(bool verticalGradient, bool roundBorder, const Win7ButtonColors& initialColor, Alignment::Type horizontal, Alignment::Type vertical)
 				:controlStyle(GuiButton::Normal)
 				,isVisuallyEnabled(true)
 				,isSelected(false)
 				,transparentWhenInactive(false)
 				,transparentWhenDisabled(false)
 			{
-				elements=Win7ButtonElements::Create(verticalGradient, true, horizontal, vertical);
+				elements=Win7ButtonElements::Create(verticalGradient, roundBorder, horizontal, vertical);
 				elements.Apply(initialColor);
 				transferringAnimation=new TransferringAnimation(this, initialColor);
 			}
@@ -1650,7 +1714,7 @@ Win7ButtonStyle
 			}
 
 			Win7ButtonStyle::Win7ButtonStyle(bool verticalGradient)
-				:Win7ButtonStyleBase(verticalGradient, Win7ButtonColors::ButtonNormal(), Alignment::Center, Alignment::Center)
+				:Win7ButtonStyleBase(verticalGradient, true, Win7ButtonColors::ButtonNormal(), Alignment::Center, Alignment::Center)
 			{
 			}
 
@@ -1690,13 +1754,67 @@ Win7SelectableItemStyle
 			}
 
 			Win7SelectableItemStyle::Win7SelectableItemStyle()
-				:Win7ButtonStyleBase(true, Win7ButtonColors::ItemNormal(), Alignment::Left, Alignment::Center)
+				:Win7ButtonStyleBase(true, true, Win7ButtonColors::ItemNormal(), Alignment::Left, Alignment::Center)
 			{
 				transferringAnimation->SetEnableAnimation(false);
 			}
 
 			Win7SelectableItemStyle::~Win7SelectableItemStyle()
 			{
+			}
+
+/***********************************************************************
+Win7TabPageHeaderStyle
+***********************************************************************/
+
+			void Win7TabPageHeaderStyle::TransferInternal(GuiButton::ControlState value, bool enabled, bool selected)
+			{
+				if(selected)
+				{
+					transferringAnimation->Transfer(Win7ButtonColors::TabPageHeaderSelected());
+				}
+				else
+				{
+					switch(value)
+					{
+					case GuiButton::Normal:
+						transferringAnimation->Transfer(Win7ButtonColors::TabPageHeaderNormal());
+						break;
+					case GuiButton::Active:
+					case GuiButton::Pressed:
+						transferringAnimation->Transfer(Win7ButtonColors::TabPageHeaderActive());
+						break;
+					}
+				}
+			}
+
+			Win7TabPageHeaderStyle::Win7TabPageHeaderStyle()
+				:Win7ButtonStyleBase(true, false, Win7ButtonColors::TabPageHeaderNormal(), Alignment::Left, Alignment::Center)
+			{
+				transferringAnimation->SetEnableAnimation(false);
+				{
+					Margin margin=elements.backgroundComposition->GetAlignmentToParent();
+					margin.bottom=0;
+					elements.backgroundComposition->SetAlignmentToParent(margin);
+				}
+				{
+					Margin margin=elements.gradientComposition->GetAlignmentToParent();
+					margin.bottom=0;
+					elements.gradientComposition->SetAlignmentToParent(margin);
+				}
+			}
+
+			Win7TabPageHeaderStyle::~Win7TabPageHeaderStyle()
+			{
+			}
+
+			void Win7TabPageHeaderStyle::SetFont(const FontProperties& value)
+			{
+				Win7ButtonStyleBase::SetFont(value);
+				Margin margin=elements.textComposition->GetMargin();
+				margin.left*=2;
+				margin.right*=2;
+				elements.textComposition->SetMargin(margin);
 			}
 
 /***********************************************************************
@@ -1737,7 +1855,7 @@ Win7ToolstripButtonStyle
 			}
 
 			Win7ToolstripButtonStyle::Win7ToolstripButtonStyle(bool transparent)
-				:Win7ButtonStyleBase(true, Win7ButtonColors::ToolstripButtonNormal(), Alignment::Center, Alignment::Center)
+				:Win7ButtonStyleBase(true, true, Win7ButtonColors::ToolstripButtonNormal(), Alignment::Center, Alignment::Center)
 			{
 				SetAutoSizeForText(false);
 				SetTransparentWhenInactive(transparent);
