@@ -373,7 +373,7 @@ void SetupListControlWindow(GuiControlHost* controlHost, GuiControl* container)
 		listControl->SetHorizontalAlwaysVisible(false);
 		container->GetBoundsComposition()->AddChild(listControl->GetBoundsComposition());
 
-		for(int i=0;i<20;i++)
+		for(int i=0;i<30;i++)
 		{
 			listControl->GetItems().Add(L"Text Item "+itow(i+1));
 			listControl->GetItems().SetChecked(i, i%2==0);

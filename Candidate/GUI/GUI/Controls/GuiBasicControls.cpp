@@ -916,11 +916,24 @@ GuiScrollView
 				if(!supressScrolling)
 				{
 					Size fullSize=QueryFullSize();
-					styleController->AdjustView(fullSize);
-					styleController->AdjustView(fullSize);
-					supressScrolling=true;
-					CallUpdateView();
-					supressScrolling=false;
+					while(true)
+					{
+						styleController->AdjustView(fullSize);
+						styleController->AdjustView(fullSize);
+						supressScrolling=true;
+						CallUpdateView();
+						supressScrolling=false;
+
+						Size newSize=QueryFullSize();
+						if(fullSize==newSize)
+						{
+							break;
+						}
+						else
+						{
+							fullSize=newSize;
+						}
+					}
 				}
 			}
 

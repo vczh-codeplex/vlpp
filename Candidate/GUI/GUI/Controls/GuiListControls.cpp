@@ -432,6 +432,14 @@ RangedItemArrangerBase
 					viewBounds=Rect(0, 0, 0, 0);
 				}
 
+				void RangedItemArrangerBase::RearrangeItemBounds()
+				{
+				}
+
+				void RangedItemArrangerBase::ItemContentUpdated(int start, int count)
+				{
+				}
+
 				RangedItemArrangerBase::RangedItemArrangerBase()
 					:callback(0)
 					,startIndex(0)
@@ -449,6 +457,38 @@ RangedItemArrangerBase
 					if(provider)
 					{
 						OnItemModified(0, 0, provider->Count());
+					}
+				}
+
+				void RangedItemArrangerBase::OnItemModified(int start, int count, int newCount)
+				{
+					if(callback)
+					{
+						if(count==newCount)
+						{
+							for(int i=0;i<visibleStyles.Count();i++)
+							{
+								int index=startIndex+i;
+								if(start<=index && index<start+count)
+								{
+									GuiListControl::IItemStyleController* style=visibleStyles[i];
+									callback->GetContainerComposition()->RemoveChild(style->GetBoundsComposition());
+									callback->ReleaseItem(style);
+
+									style=callback->RequestItem(index);
+									callback->GetContainerComposition()->AddChild(style->GetBoundsComposition());
+									visibleStyles[i]=style;
+								}
+							}
+							ItemContentUpdated(start, count);
+							RearrangeItemBounds();
+						}
+						else
+						{
+							ClearStyles();
+							callback->OnTotalSizeChanged();
+							callback->SetViewLocation(Point(0, 0));
+						}
 					}
 				}
 
@@ -496,6 +536,8 @@ RangedItemArrangerBase
 FixedHeightItemArranger
 ***********************************************************************/
 
+				// need to refactor this two item arrangers
+
 				void FixedHeightItemArranger::ClearStyles()
 				{
 					rowHeight=1;
@@ -513,6 +555,33 @@ FixedHeightItemArranger
 					}
 				}
 
+				void FixedHeightItemArranger::ItemContentUpdated(int start, int count)
+				{
+					int offset=viewBounds.Top()-rowHeight*startIndex;
+					int newRowHeight=rowHeight;
+					for(int i=0;i<count;i++)
+					{
+						GuiListControl::IItemStyleController* style=GetVisibleStyle(i);
+						if(style)
+						{
+							int styleHeight=style->GetBoundsComposition()->GetPreferredBounds().Height();
+							if(newRowHeight<styleHeight)
+							{
+								newRowHeight=styleHeight;
+							}
+						}
+					}
+
+					if(rowHeight!=newRowHeight)
+					{
+						rowHeight=newRowHeight;
+						suppressOnViewChanged=true;
+						callback->OnTotalSizeChanged();
+						callback->SetViewLocation(Point(0, rowHeight*startIndex+offset));
+						suppressOnViewChanged=false;
+					}
+				}
+
 				FixedHeightItemArranger::FixedHeightItemArranger()
 					:rowHeight(1)
 				{
@@ -520,53 +589,6 @@ FixedHeightItemArranger
 
 				FixedHeightItemArranger::~FixedHeightItemArranger()
 				{
-				}
-
-				void FixedHeightItemArranger::OnItemModified(int start, int count, int newCount)
-				{
-					if(callback)
-					{
-						if(count==newCount)
-						{
-							int offset=viewBounds.Top()-rowHeight*startIndex;
-							int newRowHeight=rowHeight;
-
-							for(int i=0;i<visibleStyles.Count();i++)
-							{
-								int index=startIndex+i;
-								if(start<=index && index<start+count)
-								{
-									GuiListControl::IItemStyleController* style=visibleStyles[i];
-									callback->GetContainerComposition()->RemoveChild(style->GetBoundsComposition());
-									callback->ReleaseItem(style);
-
-									style=callback->RequestItem(index);
-									callback->GetContainerComposition()->AddChild(style->GetBoundsComposition());
-									int styleHeight=style->GetBoundsComposition()->GetPreferredBounds().Height();
-									if(newRowHeight<styleHeight)
-									{
-										newRowHeight=styleHeight;
-									}
-								}
-							}
-
-							if(rowHeight!=newRowHeight)
-							{
-								rowHeight=newRowHeight;
-								suppressOnViewChanged=true;
-								callback->OnTotalSizeChanged();
-								callback->SetViewLocation(Point(0, rowHeight*startIndex+offset));
-								suppressOnViewChanged=false;
-							}
-							RearrangeItemBounds();
-						}
-						else
-						{
-							ClearStyles();
-							callback->OnTotalSizeChanged();
-							callback->SetViewLocation(Point(0, 0));
-						}
-					}
 				}
 
 				Size FixedHeightItemArranger::GetTotalSize()
