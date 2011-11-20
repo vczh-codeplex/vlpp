@@ -215,7 +215,7 @@ Predefined ItemArranger
 
 			namespace list
 			{
-				class FixedHeightItemArranger : public Object, public GuiListControl::IItemArranger
+				class RangedItemArrangerBase : public Object, public GuiListControl::IItemArranger
 				{
 					typedef collections::List<GuiListControl::IItemStyleController*>		StyleList;
 				protected:
@@ -223,25 +223,38 @@ Predefined ItemArranger
 					GuiListControl::IItemProvider*				itemProvider;
 					Rect										viewBounds;
 					int											startIndex;
-					int											rowHeight;
 					StyleList									visibleStyles;
 					bool										suppressOnViewChanged;
 
-					void										ClearStyles();
-					void										RearrangeItemBounds();
+					virtual void								ClearStyles();
+					virtual void								RearrangeItemBounds()=0;
 				public:
-					FixedHeightItemArranger();
-					~FixedHeightItemArranger();
+					RangedItemArrangerBase();
+					~RangedItemArrangerBase();
 
 					void										OnAttached(GuiListControl::IItemProvider* provider)override;
-					void										OnItemModified(int start, int count, int newCount)override;
 					void										AttachListControl(GuiListControl* value)override;
 					void										DetachListControl()override;
 					GuiListControl::IItemArrangerCallback*		GetCallback()override;
 					void										SetCallback(GuiListControl::IItemArrangerCallback* value)override;
-					Size										GetTotalSize()override;
 					GuiListControl::IItemStyleController*		GetVisibleStyle(int itemIndex)override;
 					int											GetVisibleIndex(GuiListControl::IItemStyleController* style)override;
+				};
+
+				class FixedHeightItemArranger : public RangedItemArrangerBase
+				{
+					typedef collections::List<GuiListControl::IItemStyleController*>		StyleList;
+				protected:
+					int											rowHeight;
+
+					void										ClearStyles()override;
+					void										RearrangeItemBounds()override;
+				public:
+					FixedHeightItemArranger();
+					~FixedHeightItemArranger();
+
+					void										OnItemModified(int start, int count, int newCount)override;
+					Size										GetTotalSize()override;
 					void										OnViewChanged(Rect bounds)override;
 				};
 			}
