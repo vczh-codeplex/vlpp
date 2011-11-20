@@ -413,13 +413,12 @@ GuiSelectableListControl
 			{
 
 /***********************************************************************
-FixedHeightItemArranger
+RangedItemArrangerBase
 ***********************************************************************/
 
-				void FixedHeightItemArranger::ClearStyles()
+				void RangedItemArrangerBase::ClearStyles()
 				{
 					startIndex=0;
-					rowHeight=1;
 					if(callback)
 					{
 						for(int i=0;i<visibleStyles.Count();i++)
@@ -431,6 +430,76 @@ FixedHeightItemArranger
 					}
 					visibleStyles.Clear();
 					viewBounds=Rect(0, 0, 0, 0);
+				}
+
+				RangedItemArrangerBase::RangedItemArrangerBase()
+					:callback(0)
+					,startIndex(0)
+					,suppressOnViewChanged(false)
+				{
+				}
+
+				RangedItemArrangerBase::~RangedItemArrangerBase()
+				{
+				}
+
+				void RangedItemArrangerBase::OnAttached(GuiListControl::IItemProvider* provider)
+				{
+					itemProvider=provider;
+					if(provider)
+					{
+						OnItemModified(0, 0, provider->Count());
+					}
+				}
+
+				void RangedItemArrangerBase::AttachListControl(GuiListControl* value)
+				{
+				}
+
+				void RangedItemArrangerBase::DetachListControl()
+				{
+				}
+
+				GuiListControl::IItemArrangerCallback* RangedItemArrangerBase::GetCallback()
+				{
+					return callback;
+				}
+
+				void RangedItemArrangerBase::SetCallback(GuiListControl::IItemArrangerCallback* value)
+				{
+					if(!value)
+					{
+						ClearStyles();
+					}
+					callback=value;
+				}
+
+				GuiListControl::IItemStyleController* RangedItemArrangerBase::GetVisibleStyle(int itemIndex)
+				{
+					if(startIndex<=itemIndex && itemIndex<startIndex+visibleStyles.Count())
+					{
+						return visibleStyles[itemIndex-startIndex];
+					}
+					else
+					{
+						return 0;
+					}
+				}
+
+				int RangedItemArrangerBase::GetVisibleIndex(GuiListControl::IItemStyleController* style)
+				{
+					int index=visibleStyles.IndexOf(style);
+					return index==-1?-1:index+startIndex;
+				}
+
+/***********************************************************************
+FixedHeightItemArranger
+***********************************************************************/
+
+				void FixedHeightItemArranger::ClearStyles()
+				{
+					rowHeight=1;
+					RangedItemArrangerBase::ClearStyles();
 				}
 
 				void FixedHeightItemArranger::RearrangeItemBounds()
@@ -445,31 +514,11 @@ FixedHeightItemArranger
 				}
 
 				FixedHeightItemArranger::FixedHeightItemArranger()
-					:callback(0)
-					,startIndex(0)
-					,rowHeight(1)
-					,suppressOnViewChanged(false)
+					:rowHeight(1)
 				{
 				}
 
 				FixedHeightItemArranger::~FixedHeightItemArranger()
-				{
-				}
-
-				void FixedHeightItemArranger::OnAttached(GuiListControl::IItemProvider* provider)
-				{
-					itemProvider=provider;
-					if(provider)
-					{
-						OnItemModified(0, 0, provider->Count());
-					}
-				}
-
-				void FixedHeightItemArranger::AttachListControl(GuiListControl* value)
-				{
-				}
-
-				void FixedHeightItemArranger::DetachListControl()
 				{
 				}
 
@@ -493,6 +542,11 @@ FixedHeightItemArranger
 
 									style=callback->RequestItem(index);
 									callback->GetContainerComposition()->AddChild(style->GetBoundsComposition());
+									int styleHeight=style->GetBoundsComposition()->GetPreferredBounds().Height();
+									if(newRowHeight<styleHeight)
+									{
+										newRowHeight=styleHeight;
+									}
 								}
 							}
 
@@ -515,20 +569,6 @@ FixedHeightItemArranger
 					}
 				}
 
-				GuiListControl::IItemArrangerCallback* FixedHeightItemArranger::GetCallback()
-				{
-					return callback;
-				}
-
-				void FixedHeightItemArranger::SetCallback(GuiListControl::IItemArrangerCallback* value)
-				{
-					if(!value)
-					{
-						ClearStyles();
-					}
-					callback=value;
-				}
-
 				Size FixedHeightItemArranger::GetTotalSize()
 				{
 					if(callback)
@@ -539,24 +579,6 @@ FixedHeightItemArranger
 					{
 						return Size(0, 0);
 					}
-				}
-
-				GuiListControl::IItemStyleController* FixedHeightItemArranger::GetVisibleStyle(int itemIndex)
-				{
-					if(startIndex<=itemIndex && itemIndex<startIndex+visibleStyles.Count())
-					{
-						return visibleStyles[itemIndex-startIndex];
-					}
-					else
-					{
-						return 0;
-					}
-				}
-
-				int FixedHeightItemArranger::GetVisibleIndex(GuiListControl::IItemStyleController* style)
-				{
-					int index=visibleStyles.IndexOf(style);
-					return index==-1?-1:index+startIndex;
 				}
 
 				void FixedHeightItemArranger::OnViewChanged(Rect bounds)
