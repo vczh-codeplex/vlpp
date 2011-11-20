@@ -227,12 +227,14 @@ Predefined ItemArranger
 					bool										suppressOnViewChanged;
 
 					virtual void								ClearStyles();
-					virtual void								RearrangeItemBounds()=0;
+					virtual void								RearrangeItemBounds();
+					virtual void								ItemContentUpdated(int start, int count);
 				public:
 					RangedItemArrangerBase();
 					~RangedItemArrangerBase();
 
 					void										OnAttached(GuiListControl::IItemProvider* provider)override;
+					void										OnItemModified(int start, int count, int newCount)override;
 					void										AttachListControl(GuiListControl* value)override;
 					void										DetachListControl()override;
 					GuiListControl::IItemArrangerCallback*		GetCallback()override;
@@ -249,11 +251,11 @@ Predefined ItemArranger
 
 					void										ClearStyles()override;
 					void										RearrangeItemBounds()override;
+					void										ItemContentUpdated(int start, int count)override;
 				public:
 					FixedHeightItemArranger();
 					~FixedHeightItemArranger();
 
-					void										OnItemModified(int start, int count, int newCount)override;
 					Size										GetTotalSize()override;
 					void										OnViewChanged(Rect bounds)override;
 				};
