@@ -224,11 +224,11 @@ Predefined ItemArranger
 					Rect										viewBounds;
 					int											startIndex;
 					StyleList									visibleStyles;
-					bool										suppressOnViewChanged;
 
 					virtual void								ClearStyles();
-					virtual void								RearrangeItemBounds();
-					virtual void								ItemContentUpdated(int start, int count);
+					virtual void								OnStylesCleared()=0;
+					virtual Size								OnCalculateTotalSize()=0;
+					virtual void								OnViewChangedInternal(Rect oldBounds, Rect newBounds)=0;
 				public:
 					RangedItemArrangerBase();
 					~RangedItemArrangerBase();
@@ -239,8 +239,10 @@ Predefined ItemArranger
 					void										DetachListControl()override;
 					GuiListControl::IItemArrangerCallback*		GetCallback()override;
 					void										SetCallback(GuiListControl::IItemArrangerCallback* value)override;
+					Size										GetTotalSize()override;
 					GuiListControl::IItemStyleController*		GetVisibleStyle(int itemIndex)override;
 					int											GetVisibleIndex(GuiListControl::IItemStyleController* style)override;
+					void										OnViewChanged(Rect bounds)override;
 				};
 
 				class FixedHeightItemArranger : public RangedItemArrangerBase
@@ -248,16 +250,15 @@ Predefined ItemArranger
 					typedef collections::List<GuiListControl::IItemStyleController*>		StyleList;
 				protected:
 					int											rowHeight;
+					bool										suppressOnViewChanged;
 
-					void										ClearStyles()override;
-					void										RearrangeItemBounds()override;
-					void										ItemContentUpdated(int start, int count)override;
+					void										RearrangeItemBounds();
+					void										OnStylesCleared()override;
+					Size										OnCalculateTotalSize()override;
+					void										OnViewChangedInternal(Rect oldBounds, Rect newBounds)override;
 				public:
 					FixedHeightItemArranger();
 					~FixedHeightItemArranger();
-
-					Size										GetTotalSize()override;
-					void										OnViewChanged(Rect bounds)override;
 				};
 			}
 
