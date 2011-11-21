@@ -110,6 +110,7 @@ Helpers
 
 			void GuiApplicationInitialize()
 			{
+				GetCurrentController()->StartTimer();
 				GetCurrentController()->StartHookMouse();
 				GuiApplication app;
 				application=&app;
