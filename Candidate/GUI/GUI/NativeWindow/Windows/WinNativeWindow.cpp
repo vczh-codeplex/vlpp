@@ -558,17 +558,6 @@ WindowsForm
 			class WindowsForm : public Object, public INativeWindow, public IWindowsForm
 			{
 			protected:
-				HWND								handle;
-				WString								title;
-				WindowsCursor*						cursor;
-				Point								caretPoint;
-				WindowsForm*						parentWindow;
-				bool								alwaysPassFocusToParent;
-				List<INativeWindowListener*>		listeners;
-				int									mouseLastX;
-				int									mouseLastY;
-				int									mouseHoving;
-				IWindowsFormGraphicsHandler*		graphicsHandler;
 				
 				DWORD InternalGetExStyle()
 				{
@@ -688,45 +677,7 @@ WindowsForm
 					ImmReleaseContext(handle, imc);
 				}
 
-			public:
-				WindowsForm(HWND parent, WString className, HINSTANCE hInstance)
-					:cursor(0)
-					,parentWindow(0)
-					,alwaysPassFocusToParent(false)
-					,mouseLastX(-1)
-					,mouseLastY(-1)
-					,mouseHoving(false)
-					,graphicsHandler(0)
-				{
-					DWORD exStyle=WS_EX_APPWINDOW | WS_EX_CONTROLPARENT;
-					DWORD style=WS_BORDER | WS_CAPTION | WS_SIZEBOX | WS_SYSMENU | WS_POPUP | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_MAXIMIZEBOX | WS_MINIMIZEBOX;
-					handle=CreateWindowEx(exStyle, className.Buffer(), L"", style, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, parent, NULL, hInstance, NULL);
-				}
-
-				~WindowsForm()
-				{
-					List<INativeWindowListener*> copiedListeners;
-					CopyFrom(copiedListeners.Wrap(), listeners.Wrap());
-					for(int i=0;i<copiedListeners.Count();i++)
-					{
-						INativeWindowListener* listener=copiedListeners[i];
-						if(listeners.Contains(listener))
-						{
-							listener->Destroyed();
-						}
-					}
-					DestroyWindow(handle);
-				}
-
-				void InvokeDestroying()
-				{
-					for(int i=0;i<listeners.Count();i++)
-					{
-						listeners[i]->Destroying();
-					}
-				}
-
-				bool HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& result)
+				bool HandleMessageInternal(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& result)
 				{
 					bool transferFocusEvent=false;
 					switch(uMsg)
@@ -1062,6 +1013,60 @@ WindowsForm
 						}
 					}
 					return false;
+				}
+			protected:
+				HWND								handle;
+				WString								title;
+				WindowsCursor*						cursor;
+				Point								caretPoint;
+				WindowsForm*						parentWindow;
+				bool								alwaysPassFocusToParent;
+				List<INativeWindowListener*>		listeners;
+				int									mouseLastX;
+				int									mouseLastY;
+				int									mouseHoving;
+				IWindowsFormGraphicsHandler*		graphicsHandler;
+			public:
+				WindowsForm(HWND parent, WString className, HINSTANCE hInstance)
+					:cursor(0)
+					,parentWindow(0)
+					,alwaysPassFocusToParent(false)
+					,mouseLastX(-1)
+					,mouseLastY(-1)
+					,mouseHoving(false)
+					,graphicsHandler(0)
+				{
+					DWORD exStyle=WS_EX_APPWINDOW | WS_EX_CONTROLPARENT;
+					DWORD style=WS_BORDER | WS_CAPTION | WS_SIZEBOX | WS_SYSMENU | WS_POPUP | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_MAXIMIZEBOX | WS_MINIMIZEBOX;
+					handle=CreateWindowEx(exStyle, className.Buffer(), L"", style, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, parent, NULL, hInstance, NULL);
+				}
+
+				~WindowsForm()
+				{
+					List<INativeWindowListener*> copiedListeners;
+					CopyFrom(copiedListeners.Wrap(), listeners.Wrap());
+					for(int i=0;i<copiedListeners.Count();i++)
+					{
+						INativeWindowListener* listener=copiedListeners[i];
+						if(listeners.Contains(listener))
+						{
+							listener->Destroyed();
+						}
+					}
+					DestroyWindow(handle);
+				}
+
+				void InvokeDestroying()
+				{
+					for(int i=0;i<listeners.Count();i++)
+					{
+						listeners[i]->Destroying();
+					}
+				}
+
+				bool HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& result)
+				{
+					return HandleMessageInternal(hwnd, uMsg, wParam, lParam, result);
 				}
 
 				HWND GetWindowHandle()
