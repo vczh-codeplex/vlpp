@@ -430,20 +430,12 @@ RangedItemArrangerBase
 					}
 					visibleStyles.Clear();
 					viewBounds=Rect(0, 0, 0, 0);
-				}
-
-				void RangedItemArrangerBase::RearrangeItemBounds()
-				{
-				}
-
-				void RangedItemArrangerBase::ItemContentUpdated(int start, int count)
-				{
+					OnStylesCleared();
 				}
 
 				RangedItemArrangerBase::RangedItemArrangerBase()
 					:callback(0)
 					,startIndex(0)
-					,suppressOnViewChanged(false)
 				{
 				}
 
@@ -464,31 +456,55 @@ RangedItemArrangerBase
 				{
 					if(callback)
 					{
-						if(count==newCount)
+						int visibleCount=visibleStyles.Count();
+						SortedList<GuiListControl::IItemStyleController*> reusedStyles;
+						for(int i=0;i<visibleCount;i++)
 						{
-							for(int i=0;i<visibleStyles.Count();i++)
+							int index=startIndex+i;
+							int oldIndex=-1;
+							if(index<start)
 							{
-								int index=startIndex+i;
-								if(start<=index && index<start+count)
-								{
-									GuiListControl::IItemStyleController* style=visibleStyles[i];
-									callback->GetContainerComposition()->RemoveChild(style->GetBoundsComposition());
-									callback->ReleaseItem(style);
+								oldIndex=i;
+							}
+							else if(index>=start+newCount)
+							{
+								oldIndex=index-newCount+count;
+							}
 
-									style=callback->RequestItem(index);
-									callback->GetContainerComposition()->AddChild(style->GetBoundsComposition());
-									visibleStyles[i]=style;
+							if(oldIndex!=-1)
+							{
+								if(oldIndex>=startIndex && oldIndex<startIndex+visibleCount)
+								{
+									GuiListControl::IItemStyleController* style=visibleStyles[oldIndex-startIndex];
+									reusedStyles.Add(style);
+									visibleStyles.Add(style);
+								}
+								else
+								{
+									oldIndex=-1;
 								}
 							}
-							ItemContentUpdated(start, count);
-							RearrangeItemBounds();
+							if(oldIndex==-1)
+							{
+								GuiListControl::IItemStyleController* style=callback->RequestItem(index);
+								callback->GetContainerComposition()->AddChild(style->GetBoundsComposition());
+								visibleStyles.Add(style);
+							}
 						}
-						else
+
+						for(int i=0;i<visibleCount;i++)
 						{
-							ClearStyles();
-							callback->OnTotalSizeChanged();
-							callback->SetViewLocation(Point(0, 0));
+							GuiListControl::IItemStyleController* style=visibleStyles[i];
+							if(!reusedStyles.Contains(style))
+							{
+								callback->GetContainerComposition()->RemoveChild(style->GetBoundsComposition());
+								callback->ReleaseItem(style);
+							}
 						}
+						visibleStyles.RemoveRange(0, visibleCount);
+
+						callback->OnTotalSizeChanged();
+						callback->SetViewLocation(viewBounds.LeftTop());
 					}
 				}
 
@@ -514,6 +530,11 @@ RangedItemArrangerBase
 					callback=value;
 				}
 
+				Size RangedItemArrangerBase::GetTotalSize()
+				{
+					return OnCalculateTotalSize();
+				}
+
 				GuiListControl::IItemStyleController* RangedItemArrangerBase::GetVisibleStyle(int itemIndex)
 				{
 					if(startIndex<=itemIndex && itemIndex<startIndex+visibleStyles.Count())
@@ -532,17 +553,19 @@ RangedItemArrangerBase
 					return index==-1?-1:index+startIndex;
 				}
 
+				void RangedItemArrangerBase::OnViewChanged(Rect bounds)
+				{
+					Rect oldBounds=viewBounds;
+					viewBounds=bounds;
+					if(callback)
+					{
+						OnViewChangedInternal(oldBounds, viewBounds);
+					}
+				}
+
 /***********************************************************************
 FixedHeightItemArranger
 ***********************************************************************/
-
-				// need to refactor this two item arrangers
-
-				void FixedHeightItemArranger::ClearStyles()
-				{
-					rowHeight=1;
-					RangedItemArrangerBase::ClearStyles();
-				}
 
 				void FixedHeightItemArranger::RearrangeItemBounds()
 				{
@@ -555,43 +578,13 @@ FixedHeightItemArranger
 					}
 				}
 
-				void FixedHeightItemArranger::ItemContentUpdated(int start, int count)
+				void FixedHeightItemArranger::OnStylesCleared()
 				{
-					int offset=viewBounds.Top()-rowHeight*startIndex;
-					int newRowHeight=rowHeight;
-					for(int i=0;i<count;i++)
-					{
-						GuiListControl::IItemStyleController* style=GetVisibleStyle(i);
-						if(style)
-						{
-							int styleHeight=style->GetBoundsComposition()->GetPreferredBounds().Height();
-							if(newRowHeight<styleHeight)
-							{
-								newRowHeight=styleHeight;
-							}
-						}
-					}
-
-					if(rowHeight!=newRowHeight)
-					{
-						rowHeight=newRowHeight;
-						suppressOnViewChanged=true;
-						callback->OnTotalSizeChanged();
-						callback->SetViewLocation(Point(0, rowHeight*startIndex+offset));
-						suppressOnViewChanged=false;
-					}
+					rowHeight=1;
+					RangedItemArrangerBase::ClearStyles();
 				}
 
-				FixedHeightItemArranger::FixedHeightItemArranger()
-					:rowHeight(1)
-				{
-				}
-
-				FixedHeightItemArranger::~FixedHeightItemArranger()
-				{
-				}
-
-				Size FixedHeightItemArranger::GetTotalSize()
+				Size FixedHeightItemArranger::OnCalculateTotalSize()
 				{
 					if(callback)
 					{
@@ -603,20 +596,18 @@ FixedHeightItemArranger
 					}
 				}
 
-				void FixedHeightItemArranger::OnViewChanged(Rect bounds)
+				void FixedHeightItemArranger::OnViewChangedInternal(Rect oldBounds, Rect newBounds)
 				{
 					if(callback)
 					{
-						Rect oldViewBounds=viewBounds;
-						viewBounds=bounds;
 						if(!suppressOnViewChanged)
 						{
 							int oldVisibleCount=visibleStyles.Count();
 							int newRowHeight=rowHeight;
-							int newStartIndex=bounds.Top()/rowHeight;
+							int newStartIndex=newBounds.Top()/rowHeight;
 
 							int endIndex=startIndex+visibleStyles.Count()-1;
-							int newEndIndex=(bounds.Bottom()-1)/newRowHeight;
+							int newEndIndex=(newBounds.Bottom()-1)/newRowHeight;
 							int itemCount=itemProvider->Count();
 
 							for(int i=newStartIndex;i<=newEndIndex && i<itemCount;i++)
@@ -635,7 +626,7 @@ FixedHeightItemArranger
 									if(newRowHeight<styleHeight)
 									{
 										newRowHeight=styleHeight;
-										newEndIndex=(bounds.Bottom()-1)/newRowHeight;
+										newEndIndex=(newBounds.Bottom()-1)/newRowHeight;
 									}
 								}
 							}
@@ -654,7 +645,7 @@ FixedHeightItemArranger
 
 							if(rowHeight!=newRowHeight)
 							{
-								int offset=oldViewBounds.Top()-rowHeight*startIndex;
+								int offset=oldBounds.Top()-rowHeight*startIndex;
 								rowHeight=newRowHeight;
 								suppressOnViewChanged=true;
 								callback->OnTotalSizeChanged();
@@ -665,6 +656,16 @@ FixedHeightItemArranger
 							RearrangeItemBounds();
 						}
 					}
+				}
+
+				FixedHeightItemArranger::FixedHeightItemArranger()
+					:rowHeight(1)
+					,suppressOnViewChanged(false)
+				{
+				}
+
+				FixedHeightItemArranger::~FixedHeightItemArranger()
+				{
 				}
 
 /***********************************************************************
