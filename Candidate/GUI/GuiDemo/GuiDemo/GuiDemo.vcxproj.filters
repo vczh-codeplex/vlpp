@@ -192,6 +192,9 @@
     <ClCompile Include="..\..\GUI\GacUI_WinMain.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiListViewControls.cpp">
+      <Filter>GUI\Controls\ExtendedControls</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Library\Basic.h">
@@ -366,6 +369,9 @@
       <Filter>GUI\Controls</Filter>
     </ClInclude>
     <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiContainerControls.h">
+      <Filter>GUI\Controls\ExtendedControls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiListViewControls.h">
       <Filter>GUI\Controls\ExtendedControls</Filter>
     </ClInclude>
   </ItemGroup>
