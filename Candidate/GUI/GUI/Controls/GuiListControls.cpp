@@ -581,7 +581,6 @@ FixedHeightItemArranger
 				void FixedHeightItemArranger::OnStylesCleared()
 				{
 					rowHeight=1;
-					RangedItemArrangerBase::ClearStyles();
 				}
 
 				Size FixedHeightItemArranger::OnCalculateTotalSize()
