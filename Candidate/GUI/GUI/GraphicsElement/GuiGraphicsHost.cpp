@@ -459,9 +459,8 @@ GuiGraphicsHost
 						focusedComposition->GetEventReceiver()->caretNotify.Execute(GuiEventArgs(focusedComposition));
 					}
 				}
-
+				
 				Render();
-				nativeWindow->RedrawContent();
 			}
 
 			GuiGraphicsHost::GuiGraphicsHost()
@@ -515,9 +514,13 @@ GuiGraphicsHost
 
 			void GuiGraphicsHost::Render()
 			{
-				windowComposition->GetRenderTarget()->StartRendering();
-				windowComposition->Render(Size());
-				windowComposition->GetRenderTarget()->StopRendering();
+				if(nativeWindow && nativeWindow->IsVisible())
+				{
+					windowComposition->GetRenderTarget()->StartRendering();
+					windowComposition->Render(Size());
+					windowComposition->GetRenderTarget()->StopRendering();
+					nativeWindow->RedrawContent();
+				}
 			}
 
 			bool GuiGraphicsHost::SetFocus(GuiGraphicsComposition* composition)

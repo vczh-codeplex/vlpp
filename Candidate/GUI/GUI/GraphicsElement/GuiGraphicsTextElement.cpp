@@ -179,7 +179,7 @@ text::TextLines
 				TextLines::TextLines()
 					:charMeasurer(0)
 					,renderTarget(0)
-					,tabWidth(0)
+					,tabWidth(1)
 					,tabSpaceCount(4)
 				{
 					TextLine line;
@@ -452,9 +452,9 @@ text::TextLines
 					{
 						tabWidth=tabSpaceCount*charMeasurer->MeasureWidth(L' ');
 					}
-					else
+					if(tabWidth==0)
 					{
-						tabWidth=0;
+						tabWidth=1;
 					}
 				}
 
