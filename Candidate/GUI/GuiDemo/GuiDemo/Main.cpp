@@ -709,6 +709,11 @@ void SetupTabPageWindow(GuiControlHost* controlHost, GuiControl* container)
 	}
 	{
 		GuiTabPage* page=tab->CreatePage();
+		page->SetText(L"Toolstrip");
+		SetupToolstripWindow(controlHost, page->GetContainer());
+	}
+	{
+		GuiTabPage* page=tab->CreatePage();
 		page->SetText(L"List View (not completed)");
 		SetupListviewWindow(controlHost, page->GetContainer());
 	}
@@ -716,11 +721,6 @@ void SetupTabPageWindow(GuiControlHost* controlHost, GuiControl* container)
 		GuiTabPage* page=tab->CreatePage();
 		page->SetText(L"Tree View (not completed)");
 		SetupTreeviewWindow(controlHost, page->GetContainer());
-	}
-	{
-		GuiTabPage* page=tab->CreatePage();
-		page->SetText(L"Toolstrip");
-		SetupToolstripWindow(controlHost, page->GetContainer());
 	}
 	{
 		GuiTabPage* page=tab->CreatePage();
