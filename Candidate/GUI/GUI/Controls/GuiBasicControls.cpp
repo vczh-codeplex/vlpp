@@ -261,6 +261,35 @@ GuiComponent
 			}
 
 /***********************************************************************
+GuiImageData
+***********************************************************************/
+
+			GuiImageData::GuiImageData()
+				:frameIndex(-1)
+			{
+			}
+
+			GuiImageData::GuiImageData(Ptr<INativeImage> _image, int _frameIndex)
+				:image(_image)
+				,frameIndex(_frameIndex)
+			{
+			}
+
+			GuiImageData::~GuiImageData()
+			{
+			}
+
+			Ptr<INativeImage> GuiImageData::GetImage()
+			{
+				return image;
+			}
+
+			int GuiImageData::GetFrameIndex()
+			{
+				return frameIndex;
+			}
+
+/***********************************************************************
 GuiButton
 ***********************************************************************/
 

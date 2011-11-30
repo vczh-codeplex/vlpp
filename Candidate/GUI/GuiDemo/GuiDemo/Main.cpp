@@ -419,9 +419,9 @@ SetupListviewWindow
 void SetupListviewWindow(GuiControlHost* controlHost, GuiControl* container)
 {
 	container->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
-	GuiTextList* listControl=0;
+	GuiListView* listControl=0;
 	{
-		listControl=new GuiTextList(new win7::Win7MultilineTextBoxProvider, new win7::Win7TextListProvider);
+		listControl=new GuiListView(new win7::Win7MultilineTextBoxProvider);
 		listControl->GetBoundsComposition()->SetAlignmentToParent(Margin(200, 5, 5, 5));
 		listControl->GetBoundsComposition()->SetBounds(Rect(0, 0, 300, 200));
 		listControl->SetHorizontalAlwaysVisible(false);
@@ -449,16 +449,28 @@ void SetupListviewWindow(GuiControlHost* controlHost, GuiControl* container)
 				switch(typeList->GetSelectedItems()[0])
 				{
 				case 0:
+					listControl->SetStyleProvider(0);
+					listControl->SetArranger(0);
 					break;
 				case 1:
+					listControl->SetStyleProvider(0);
+					listControl->SetArranger(0);
 					break;
 				case 2:
+					listControl->SetStyleProvider(0);
+					listControl->SetArranger(0);
 					break;
 				case 3:
+					listControl->SetStyleProvider(0);
+					listControl->SetArranger(0);
 					break;
 				case 4:
+					listControl->SetStyleProvider(0);
+					listControl->SetArranger(0);
 					break;
 				case 5:
+					listControl->SetStyleProvider(0);
+					listControl->SetArranger(0);
 					break;
 				}
 			}

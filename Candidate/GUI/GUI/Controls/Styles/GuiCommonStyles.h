@@ -15,6 +15,7 @@ Interfaces:
 #include "..\GuiWindowControls.h"
 #include "..\ExtendedControls\GuiContainerControls.h"
 #include "..\ExtendedControls\GuiTextListControls.h"
+#include "..\ExtendedControls\GuiListViewControls.h"
 #include "..\ExtendedControls\GuiMenuControls.h"
 
 namespace vl

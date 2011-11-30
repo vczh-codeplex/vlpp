@@ -122,6 +122,21 @@ Basic Construction
 				GuiControlHost*							GetControlHost();
 			};
 
+			class GuiImageData
+			{
+			protected:
+				Ptr<INativeImage>				image;
+				int								frameIndex;
+
+			public:
+				GuiImageData();
+				GuiImageData(Ptr<INativeImage> _image, int _frameIndex);
+				~GuiImageData();
+
+				Ptr<INativeImage>				GetImage();
+				int								GetFrameIndex();
+			};
+
 /***********************************************************************
 Buttons
 ***********************************************************************/
