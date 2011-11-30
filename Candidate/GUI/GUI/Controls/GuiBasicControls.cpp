@@ -797,6 +797,11 @@ GuiScrollView::StyleController
 				UpdateTable();
 			}
 
+			GuiScrollView::IStyleProvider* GuiScrollView::StyleController::GetStyleProvider()
+			{
+				return styleProvider.Obj();
+			}
+
 			GuiScroll* GuiScrollView::StyleController::GetHorizontalScroll()
 			{
 				return horizontalScroll;

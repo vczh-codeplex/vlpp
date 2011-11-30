@@ -33,14 +33,14 @@ List Control
 				// Callback Interfaces
 				//-----------------------------------------------------------
 
-				class IItemProviderCallback : public Interface
+				class IItemProviderCallback : public virtual Interface
 				{
 				public:
 					virtual void								OnAttached(IItemProvider* provider)=0;
 					virtual void								OnItemModified(int start, int count, int newCount)=0;
 				};
 
-				class IItemArrangerCallback : public Interface
+				class IItemArrangerCallback : public virtual Interface
 				{
 				public:
 					virtual IItemStyleController*				RequestItem(int itemIndex)=0;
@@ -54,7 +54,7 @@ List Control
 				// Provider Interfaces
 				//-----------------------------------------------------------
 
-				class IItemProvider : public Interface
+				class IItemProvider : public virtual Interface
 				{
 				public:
 					virtual bool								AttachCallback(IItemProviderCallback* value)=0;
@@ -64,7 +64,7 @@ List Control
 					virtual void								ReleaseView(Interface* view)=0;
 				};
 
-				class IItemStyleController : public Interface
+				class IItemStyleController : public virtual Interface
 				{
 				public:
 					virtual IItemStyleProvider*					GetStyleProvider()=0;
@@ -76,7 +76,7 @@ List Control
 					virtual void								OnUninstalled()=0;
 				};
 
-				class IItemStyleProvider : public Interface
+				class IItemStyleProvider : public virtual Interface
 				{
 				public:
 					virtual void								AttachListControl(GuiListControl* value)=0;
@@ -87,7 +87,7 @@ List Control
 					virtual void								Install(IItemStyleController* style, int itemIndex)=0;
 				};
 
-				class IItemArranger : public IItemProviderCallback
+				class IItemArranger : public virtual IItemProviderCallback
 				{
 				public:
 					virtual void								AttachListControl(GuiListControl* value)=0;
@@ -154,7 +154,7 @@ List Control
 			class GuiSelectableListControl : public GuiListControl
 			{
 			public:
-				class IItemStyleProvider : public GuiListControl::IItemStyleProvider
+				class IItemStyleProvider : public virtual GuiListControl::IItemStyleProvider
 				{
 				public:
 					virtual void								SetStyleSelected(IItemStyleController* style, bool value)=0;
@@ -215,7 +215,7 @@ Predefined ItemArranger
 
 			namespace list
 			{
-				class RangedItemArrangerBase : public Object, public GuiListControl::IItemArranger
+				class RangedItemArrangerBase : public Object, virtual public GuiListControl::IItemArranger
 				{
 					typedef collections::List<GuiListControl::IItemStyleController*>		StyleList;
 				protected:
@@ -268,7 +268,7 @@ Predefined ItemStyleController
 
 			namespace list
 			{
-				class ItemStyleControllerBase : public Object, public GuiListControl::IItemStyleController
+				class ItemStyleControllerBase : public Object, public virtual GuiListControl::IItemStyleController
 				{
 				protected:
 					GuiListControl::IItemStyleProvider*			provider;
@@ -300,7 +300,7 @@ Predefined ItemProvider
 
 			namespace list
 			{
-				class ItemProviderBase : public Object, public GuiListControl::IItemProvider
+				class ItemProviderBase : public Object, public virtual GuiListControl::IItemProvider
 				{
 				protected:
 					collections::List<GuiListControl::IItemProviderCallback*>	callbacks;

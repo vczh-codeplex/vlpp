@@ -421,11 +421,23 @@ void SetupListviewWindow(GuiControlHost* controlHost, GuiControl* container)
 	container->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 	GuiListView* listControl=0;
 	{
-		listControl=new GuiListView(new win7::Win7MultilineTextBoxProvider);
+		listControl=new GuiListView(new win7::Win7ListViewProvider);
 		listControl->GetBoundsComposition()->SetAlignmentToParent(Margin(200, 5, 5, 5));
 		listControl->GetBoundsComposition()->SetBounds(Rect(0, 0, 300, 200));
 		listControl->SetHorizontalAlwaysVisible(false);
 		container->GetBoundsComposition()->AddChild(listControl->GetBoundsComposition());
+		
+		INativeImageProvider* imageProvider=GetCurrentController()->GetImageProvider();
+		Ptr<INativeImage> largeImage=imageProvider->CreateImageFromFile(L"Resources\\New.png");
+		Ptr<GuiImageData> largeImageData=new GuiImageData(largeImage, 0);
+
+		for(int i=0;i<30;i++)
+		{
+			Ptr<list::ListViewItem> item=new list::ListViewItem;
+			item->text=L"List View Item "+itow(i+1);
+			item->largeImage=largeImageData;
+			listControl->GetItems().Add(item);
+		}
 	}
 	{
 		GuiTextList* typeList=new GuiTextList(new win7::Win7MultilineTextBoxProvider, new win7::Win7TextListProvider);

@@ -29,7 +29,7 @@ namespace vl
 Scrolls
 ***********************************************************************/
 
-			class CommonScrollStyle : public Object, public controls::GuiScroll::IStyleController
+			class CommonScrollStyle : public Object, public virtual controls::GuiScroll::IStyleController
 			{
 			public:
 				enum Direction
@@ -81,7 +81,7 @@ Scrolls
 				void												SetPosition(int value)override;
 			};
 
-			class CommonTrackStyle : public Object, public controls::GuiScroll::IStyleController
+			class CommonTrackStyle : public Object, public virtual controls::GuiScroll::IStyleController
 			{
 			public:
 				enum Direction

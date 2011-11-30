@@ -17,6 +17,8 @@ namespace vl
 	{
 		namespace controls
 		{
+			class GuiTextList;
+
 			namespace list
 			{
 
@@ -65,12 +67,10 @@ TextList Style Provider
 						const WString&							GetText();
 						void									SetText(const WString& value);
 					};
-					
-					friend class collections::ReadonlyListEnumerator<TextItemStyleController*>;
 
 					Ptr<ITextItemStyleProvider>					textItemStyleProvider;
 					ITextItemView*								textItemView;
-					GuiListControl*								listControl;
+					GuiTextList*								listControl;
 
 					void										OnStyleCheckedChanged(TextItemStyleController* style);
 				public:

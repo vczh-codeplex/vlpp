@@ -54,7 +54,7 @@ Tab Control
 					virtual void								ShowTab(int index)=0;
 				};
 
-				class IStyleController : public GuiControl::IStyleController
+				class IStyleController : public virtual GuiControl::IStyleController
 				{
 				public:
 					virtual void								SetCommandExecutor(ICommandExecutor* value)=0;

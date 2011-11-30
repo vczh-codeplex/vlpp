@@ -27,7 +27,7 @@ Basic Construction
 				friend class elements::GuiGraphicsComposition;
 				typedef collections::List<GuiControl*>		ControlList;
 			public:
-				class IStyleController : public Interface
+				class IStyleController : public virtual Interface
 				{
 				public:
 					virtual elements::GuiBoundsComposition*		GetBoundsComposition()=0;
@@ -38,7 +38,7 @@ Basic Construction
 					virtual void								SetVisuallyEnabled(bool value)=0;
 				};
 
-				class IStyleProvider : public Interface
+				class IStyleProvider : public virtual Interface
 				{
 				public:
 					virtual void								AssociateStyleController(IStyleController* controller)=0;
@@ -151,7 +151,7 @@ Buttons
 					Pressed,
 				};
 
-				class IStyleController : public GuiControl::IStyleController
+				class IStyleController : virtual public GuiControl::IStyleController
 				{
 				public:
 					virtual void						Transfer(ControlState value)=0;
@@ -177,7 +177,7 @@ Buttons
 			class GuiSelectableButton : public GuiButton
 			{
 			public:
-				class IStyleController : public GuiButton::IStyleController
+				class IStyleController : public virtual GuiButton::IStyleController
 				{
 				public:
 					virtual void						SetSelected(bool value)=0;
@@ -250,7 +250,7 @@ Scrolls
 					virtual void						SetPosition(int value)=0;
 				};
 
-				class IStyleController : public GuiControl::IStyleController
+				class IStyleController : public virtual GuiControl::IStyleController
 				{
 				public:
 					virtual void						SetCommandExecutor(ICommandExecutor* value)=0;
@@ -308,7 +308,7 @@ Scrolls
 			class GuiScrollView : public GuiControl
 			{
 			public:
-				class IStyleProvider : public GuiControl::IStyleProvider
+				class IStyleProvider : public virtual GuiControl::IStyleProvider
 				{
 				public:
 					virtual GuiScroll::IStyleController*		CreateHorizontalScrollStyle()=0;
@@ -338,6 +338,7 @@ Scrolls
 
 					void								SetScrollView(GuiScrollView* _scrollView);
 					void								AdjustView(Size fullSize);
+					IStyleProvider*						GetStyleProvider();
 
 					GuiScroll*							GetHorizontalScroll();
 					GuiScroll*							GetVerticalScroll();
