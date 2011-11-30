@@ -334,6 +334,19 @@ Predefined ItemProvider
 					{
 					}
 
+					bool NotifyUpdate(int start, int count=1)
+					{
+						if(start<0 || start>=proxy->Count() || count<=0 || start+count>proxy->Count())
+						{
+							return false;
+						}
+						else
+						{
+							InvokeOnItemModified(start, count, count);
+							return true;
+						}
+					}
+
 					collections::IEnumerator<T>* CreateEnumerator()const
 					{
 						return proxy->CreateEnumerator();

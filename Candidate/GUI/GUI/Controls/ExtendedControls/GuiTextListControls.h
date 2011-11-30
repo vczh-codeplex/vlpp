@@ -123,8 +123,8 @@ TextList Data Source
 					void										SetText(int itemIndex, const WString& value);
 					void										SetChecked(int itemIndex, bool value);
 
-					Interface*									RequestView(const WString& identifier);
-					void										ReleaseView(Interface* view);
+					Interface*									RequestView(const WString& identifier)override;
+					void										ReleaseView(Interface* view)override;
 				};
 			}
 

@@ -17,7 +17,7 @@ namespace vl
 	{
 		namespace controls
 		{
-			namespace listview
+			namespace list
 			{
 
 /***********************************************************************
@@ -28,10 +28,38 @@ ListView Style Provider
 ListView Data Source
 ***********************************************************************/
 
+				class ListViewItem
+				{
+				public:
+					Ptr<GuiImageData>							smallImage;
+					Ptr<GuiImageData>							largeImage;
+					WString										text;
+					collections::List<WString>					subItems;
+				};
+
+				class ListViewItemProvider : public ListProvider<Ptr<ListViewItem>>
+				{
+				public:
+					ListViewItemProvider();
+					~ListViewItemProvider();
+
+					Interface*									RequestView(const WString& identifier)override;
+					void										ReleaseView(Interface* view)override;
+				};
+			}
+
 /***********************************************************************
 ListView Control
 ***********************************************************************/
-			}
+
+			class GuiListView : public GuiSelectableListControl
+			{
+			protected:
+				list::ListViewItemProvider*							items;
+			public:
+				GuiListView(IStyleProvider* _styleProvider);
+				~GuiListView();
+			};
 		}
 	}
 }
