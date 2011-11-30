@@ -2753,6 +2753,23 @@ Win7RadioTextListProvider
 			{
 				return new Win7CheckBoxStyle(Win7CheckBoxStyle::RadioButton, false);
 			}
+
+/***********************************************************************
+Win7SinglelineTextBoxProvider
+***********************************************************************/
+
+			Win7ListViewProvider::Win7ListViewProvider()
+			{
+			}
+
+			Win7ListViewProvider::~Win7ListViewProvider()
+			{
+			}
+
+			controls::GuiSelectableButton::IStyleController* Win7ListViewProvider::CreateItemBackground()
+			{
+				return new Win7SelectableItemStyle;
+			}
 		}
 	}
 }

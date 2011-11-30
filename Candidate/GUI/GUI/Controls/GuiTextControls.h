@@ -219,7 +219,7 @@ TextBox
 			public:
 				static const int							TextMargin=3;
 
-				class IStyleProvider : public GuiControl::IStyleProvider
+				class IStyleProvider : public virtual GuiControl::IStyleProvider
 				{
 				public:
 					virtual elements::GuiGraphicsComposition*		InstallBackground(elements::GuiBoundsComposition* background)=0;

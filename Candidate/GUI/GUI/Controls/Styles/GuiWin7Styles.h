@@ -234,7 +234,7 @@ Animation
 Container
 ***********************************************************************/
 
-			class Win7EmptyStyle : public Object, public controls::GuiControl::IStyleController
+			class Win7EmptyStyle : public Object, public virtual controls::GuiControl::IStyleController
 			{
 			protected:
 				elements::GuiBoundsComposition*				boundsComposition;
@@ -257,7 +257,7 @@ Container
 				~Win7WindowStyle();
 			};
 
-			class Win7MenuStyle : public Object, public controls::GuiControl::IStyleController
+			class Win7MenuStyle : public Object, public virtual controls::GuiControl::IStyleController
 			{
 			protected:
 				elements::GuiBoundsComposition*				boundsComposition;
@@ -274,7 +274,7 @@ Container
 				void										SetVisuallyEnabled(bool value)override;
 			};
 
-			class Win7MenuBarStyle : public Object, public controls::GuiControl::IStyleController
+			class Win7MenuBarStyle : public Object, public virtual controls::GuiControl::IStyleController
 			{
 			protected:
 				elements::GuiBoundsComposition*				boundsComposition;
@@ -290,7 +290,7 @@ Container
 				void										SetVisuallyEnabled(bool value)override;
 			};
 
-			class Win7GroupBoxStyle : public Object, public controls::GuiControl::IStyleController
+			class Win7GroupBoxStyle : public Object, public virtual controls::GuiControl::IStyleController
 			{
 			protected:
 				DEFINE_TRANSFERRING_ANIMATION(Color, Win7GroupBoxStyle)
@@ -317,7 +317,7 @@ Container
 				void										SetVisuallyEnabled(bool value)override;
 			};
 
-			class Win7TabStyle : public Object, public controls::GuiTab::IStyleController
+			class Win7TabStyle : public Object, public virtual controls::GuiTab::IStyleController
 			{
 			protected:
 				elements::GuiTableComposition*				boundsComposition;
@@ -355,7 +355,7 @@ Container
 Button
 ***********************************************************************/
 
-			class Win7ButtonStyleBase : public Object, public controls::GuiSelectableButton::IStyleController
+			class Win7ButtonStyleBase : public Object, public virtual controls::GuiSelectableButton::IStyleController
 			{
 			protected:
 				DEFINE_TRANSFERRING_ANIMATION(Win7ButtonColors, Win7ButtonStyleBase)
@@ -428,7 +428,7 @@ Button
 				~Win7ToolstripButtonStyle();
 			};
 
-			class Win7CheckBoxStyle : public Object, public controls::GuiSelectableButton::IStyleController
+			class Win7CheckBoxStyle : public Object, public virtual controls::GuiSelectableButton::IStyleController
 			{
 			public:
 				enum BulletStyle
@@ -464,7 +464,7 @@ Button
 MenuButton
 ***********************************************************************/
 
-			class Win7MenuBarButtonStyle : public Object, public controls::GuiMenuButton::IStyleController
+			class Win7MenuBarButtonStyle : public Object, public virtual controls::GuiMenuButton::IStyleController
 			{
 			protected:
 				Win7ButtonElements							elements;
@@ -489,7 +489,7 @@ MenuButton
 				void										Transfer(controls::GuiButton::ControlState value)override;
 			};
 
-			class Win7MenuItemButtonStyle : public Object, public controls::GuiMenuButton::IStyleController
+			class Win7MenuItemButtonStyle : public Object, public virtual controls::GuiMenuButton::IStyleController
 			{
 			protected:
 				Win7MenuItemButtonElements					elements;
@@ -514,7 +514,7 @@ MenuButton
 				void										Transfer(controls::GuiButton::ControlState value)override;
 			};
 
-			class Win7MenuSplitterStyle : public Object, public controls::GuiControl::IStyleController
+			class Win7MenuSplitterStyle : public Object, public virtual controls::GuiControl::IStyleController
 			{
 			protected:
 				elements::GuiBoundsComposition*				boundsComposition;
@@ -570,7 +570,7 @@ Scroll
 ScrollView
 ***********************************************************************/
 
-			class Win7ScrollViewProvider : public Object, public controls::GuiScrollView::IStyleProvider
+			class Win7ScrollViewProvider : public Object, public virtual controls::GuiScrollView::IStyleProvider
 			{
 			public:
 				void										AssociateStyleController(controls::GuiControl::IStyleController* controller)override;
@@ -637,7 +637,7 @@ TextBox
 				elements::GuiGraphicsComposition*			InstallBackground(elements::GuiBoundsComposition* boundsComposition)override;
 			};
 
-			class Win7SinglelineTextBoxProvider : public Object, public controls::GuiSinglelineTextBox::IStyleProvider
+			class Win7SinglelineTextBoxProvider : public Object, public virtual controls::GuiSinglelineTextBox::IStyleProvider
 			{
 			protected:
 				Win7TextBoxBackground						background;
@@ -658,7 +658,7 @@ TextBox
 List
 ***********************************************************************/
 
-			class Win7TextListProvider : public Object, public controls::list::TextItemStyleProvider::ITextItemStyleProvider
+			class Win7TextListProvider : public Object, public virtual controls::list::TextItemStyleProvider::ITextItemStyleProvider
 			{
 			public:
 				Win7TextListProvider();
@@ -685,6 +685,18 @@ List
 
 				controls::GuiSelectableButton::IStyleController*		CreateBulletStyleController()override;
 			};
+
+#pragma warning(push)
+#pragma warning(disable:4250)
+			class Win7ListViewProvider : public Win7MultilineTextBoxProvider, public virtual controls::GuiListView::IStyleProvider
+			{
+			public:
+				Win7ListViewProvider();
+				~Win7ListViewProvider();
+
+				controls::GuiSelectableButton::IStyleController*		CreateItemBackground()override;
+			};
+#pragma warning(pop)
 		}
 	}
 }
