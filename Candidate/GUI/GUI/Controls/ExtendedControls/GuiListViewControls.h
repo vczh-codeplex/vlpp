@@ -17,19 +17,76 @@ namespace vl
 	{
 		namespace controls
 		{
-			class GuiListView;
+			class GuiListViewBase;
 
 			namespace list
 			{
 
 /***********************************************************************
-ListView Style Provider
+ListView Base
 ***********************************************************************/
 
-				class ListViewItemStyleProvider : public Object, public GuiSelectableListControl::IItemStyleProvider
+				class ListViewItemStyleProviderBase: public Object, public GuiSelectableListControl::IItemStyleProvider
+				{
+				protected:
+					class ListViewItemStyleController : public ItemStyleControllerBase
+					{
+					protected:
+						GuiSelectableButton*					backgroundButton;
+						ListViewItemStyleProviderBase*			listViewItemStyleProvider;
+
+					public:
+						ListViewItemStyleController(ListViewItemStyleProviderBase* provider);
+						~ListViewItemStyleController();
+
+						bool									GetSelected();
+						void									SetSelected(bool value);
+					};
+
+					GuiListViewBase*							listControl;
+
+				public:
+					ListViewItemStyleProviderBase();
+					~ListViewItemStyleProviderBase();
+
+					void										AttachListControl(GuiListControl* value)override;
+					void										DetachListControl()override;
+					int											GetItemStyleId(int itemIndex)override;
+					void										DestroyItemStyle(GuiListControl::IItemStyleController* style)override;
+					void										SetStyleSelected(GuiListControl::IItemStyleController* style, bool value)override;
+				};
+			}
+
+			class GuiListViewBase : public GuiSelectableListControl
+			{
+				friend class list::ListViewItemStyleProviderBase;
+			public:
+				class IStyleProvider : public virtual GuiSelectableListControl::IStyleProvider
 				{
 				public:
-					class IListViewItemView : public Interface
+					virtual GuiSelectableButton::IStyleController*		CreateItemBackground()=0;
+				};
+
+			protected:
+				IStyleProvider*									styleProvider;
+
+			public:
+				GuiListViewBase(IStyleProvider* _styleProvider, GuiListControl::IItemProvider* _itemProvider);
+				~GuiListViewBase();
+				
+				Ptr<GuiListControl::IItemStyleProvider>			SetStyleProvider(Ptr<GuiListControl::IItemStyleProvider> value);
+			};
+
+/***********************************************************************
+ListView
+***********************************************************************/
+
+			namespace list
+			{
+				class ListViewItemStyleProvider : public ListViewItemStyleProviderBase
+				{
+				public:
+					class IListViewItemView : public virtual Interface
 					{
 					public:
 						static const wchar_t*					Identifier;
@@ -40,40 +97,45 @@ ListView Style Provider
 						virtual WString							GetSubItem(int itemIndex, int index)=0;
 					};
 
+					class IListViewItemContent : public virtual Interface
+					{
+					public:
+						virtual elements::GuiBoundsComposition*	GetContentComposition()=0;
+						virtual void							Install(IListViewItemView* view, int itemIndex)=0;
+					};
+
+					class IListViewItemContentProvider : public virtual Interface
+					{
+					public:
+						virtual GuiListControl::IItemArranger*	CreatePreferredArranger()=0;
+						virtual IListViewItemContent*			CreateItemContent()=0;
+					};
 				protected:
-					class ListViewItemStyleController : public ItemStyleControllerBase
+
+					class ListViewContentItemStyleController : public ListViewItemStyleController
 					{
 					protected:
-						GuiSelectableButton*					backgroundButton;
 						ListViewItemStyleProvider*				listViewItemStyleProvider;
-
+						Ptr<IListViewItemContent>				content;
 					public:
-						ListViewItemStyleController(ListViewItemStyleProvider* provider);
-						~ListViewItemStyleController();
+						ListViewContentItemStyleController(ListViewItemStyleProvider* provider);
+						~ListViewContentItemStyleController();
 
-						bool									GetSelected();
-						void									SetSelected(bool value);
+						void									Install(IListViewItemView* view, int itemIndex);
 					};
 
 					IListViewItemView*							listViewItemView;
-					GuiListView*								listControl;
+					Ptr<IListViewItemContentProvider>			listViewItemContentProvider;
 
 				public:
-					ListViewItemStyleProvider();
+					ListViewItemStyleProvider(IListViewItemContentProvider* itemContentProvider);
 					~ListViewItemStyleProvider();
 
 					void										AttachListControl(GuiListControl* value)override;
 					void										DetachListControl()override;
-					int											GetItemStyleId(int itemIndex)override;
 					GuiListControl::IItemStyleController*		CreateItemStyle(int styleId)override;
-					void										DestroyItemStyle(GuiListControl::IItemStyleController* style)override;
 					void										Install(GuiListControl::IItemStyleController* style, int itemIndex)override;
-					void										SetStyleSelected(GuiListControl::IItemStyleController* style, bool value)override;
 				};
-
-/***********************************************************************
-ListView Data Source
-***********************************************************************/
 
 				class ListViewItem
 				{
@@ -84,7 +146,7 @@ ListView Data Source
 					collections::List<WString>					subItems;
 				};
 
-				class ListViewItemProvider : public ListProvider<Ptr<ListViewItem>>, protected ListViewItemStyleProvider::IListViewItemView
+				class ListViewItemProvider : public ListProvider<Ptr<ListViewItem>>, protected virtual ListViewItemStyleProvider::IListViewItemView
 				{
 				protected:
 					Ptr<GuiImageData>							GetSmallImage(int itemIndex)override;
@@ -100,29 +162,47 @@ ListView Data Source
 				};
 			}
 
-/***********************************************************************
-ListView Control
-***********************************************************************/
-
-			class GuiListView : public GuiSelectableListControl
+			class GuiListView : public GuiListViewBase
 			{
-				friend class list::ListViewItemStyleProvider;
-			public:
-				class IStyleProvider : public virtual GuiSelectableListControl::IStyleProvider
-				{
-				public:
-					virtual GuiSelectableButton::IStyleController*		CreateItemBackground()=0;
-				};
 			protected:
 				list::ListViewItemProvider*						items;
-				IStyleProvider*									styleProvider;
 			public:
 				GuiListView(IStyleProvider* _styleProvider);
 				~GuiListView();
 				
-				Ptr<GuiListControl::IItemStyleProvider>			SetStyleProvider(Ptr<GuiListControl::IItemStyleProvider> value);
 				list::ListViewItemProvider&						GetItems();
+				void											ChangeItemStyle(list::ListViewItemStyleProvider::IListViewItemContentProvider* contentProvider);
 			};
+
+/***********************************************************************
+ListView ItemStyles
+***********************************************************************/
+
+			namespace list
+			{
+				class ListViewBigIconContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
+				{
+				protected:
+					class ItemContent : public Object, public virtual ListViewItemStyleProvider::IListViewItemContent
+					{
+					protected:
+						elements::GuiBoundsComposition*					contentComposition;
+
+					public:
+						ItemContent();
+						~ItemContent();
+
+						elements::GuiBoundsComposition*					GetContentComposition()override;
+						void											Install(ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
+					};
+				public:
+					ListViewBigIconContentProvider();
+					~ListViewBigIconContentProvider();
+
+					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
+					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent()override;
+				};
+			}
 		}
 	}
 }
