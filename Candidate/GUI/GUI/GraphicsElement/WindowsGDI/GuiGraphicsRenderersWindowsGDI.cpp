@@ -470,14 +470,18 @@ GuiSolidLabelElementRenderer
 					renderTarget->GetDC()->SetFont(font);
 					renderTarget->GetDC()->SetTextColor(RGB(color.r, color.g, color.b));
 
-					UINT format=0;
+					UINT format=DT_NOPREFIX;
 					RECT rect;
 					rect.left=bounds.Left();
 					rect.top=bounds.Top();
 					rect.right=bounds.Right();
 					rect.bottom=bounds.Bottom();
 
-					if(!element->GetMultiline() && !element->GetWrapLine())
+					if(element->GetMultiline() || element->GetWrapLine())
+					{
+						format|=DT_EDITCONTROL;
+					}
+					else
 					{
 						format|=DT_SINGLELINE;
 						switch(element->GetVerticalAlignment())
