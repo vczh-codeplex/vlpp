@@ -108,7 +108,7 @@ ListView
 					{
 					public:
 						virtual GuiListControl::IItemArranger*	CreatePreferredArranger()=0;
-						virtual IListViewItemContent*			CreateItemContent()=0;
+						virtual IListViewItemContent*			CreateItemContent(const FontProperties& font)=0;
 					};
 				protected:
 
@@ -191,7 +191,7 @@ ListView ItemStyles
 						elements::GuiSolidLabelElement*					text;
 
 					public:
-						ItemContent();
+						ItemContent(const FontProperties& font);
 						~ItemContent();
 
 						elements::GuiBoundsComposition*					GetContentComposition()override;
@@ -202,7 +202,7 @@ ListView ItemStyles
 					~ListViewBigIconContentProvider();
 
 					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
-					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent()override;
+					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent(const FontProperties& font)override;
 				};
 				
 				class ListViewSmallIconContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
@@ -216,7 +216,7 @@ ListView ItemStyles
 						elements::GuiSolidLabelElement*					text;
 
 					public:
-						ItemContent();
+						ItemContent(const FontProperties& font);
 						~ItemContent();
 
 						elements::GuiBoundsComposition*					GetContentComposition()override;
@@ -227,7 +227,7 @@ ListView ItemStyles
 					~ListViewSmallIconContentProvider();
 
 					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
-					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent()override;
+					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent(const FontProperties& font)override;
 				};
 				
 				class ListViewListContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
@@ -241,7 +241,7 @@ ListView ItemStyles
 						elements::GuiSolidLabelElement*					text;
 
 					public:
-						ItemContent();
+						ItemContent(const FontProperties& font);
 						~ItemContent();
 
 						elements::GuiBoundsComposition*					GetContentComposition()override;
@@ -252,7 +252,7 @@ ListView ItemStyles
 					~ListViewListContentProvider();
 
 					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
-					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent()override;
+					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent(const FontProperties& font)override;
 				};
 				
 				class ListViewDetailContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
@@ -264,7 +264,7 @@ ListView ItemStyles
 						elements::GuiBoundsComposition*					contentComposition;
 
 					public:
-						ItemContent();
+						ItemContent(const FontProperties& font);
 						~ItemContent();
 
 						elements::GuiBoundsComposition*					GetContentComposition()override;
@@ -275,7 +275,7 @@ ListView ItemStyles
 					~ListViewDetailContentProvider();
 
 					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
-					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent()override;
+					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent(const FontProperties& font)override;
 				};
 				
 				class ListViewTileContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
@@ -287,7 +287,7 @@ ListView ItemStyles
 						elements::GuiBoundsComposition*					contentComposition;
 
 					public:
-						ItemContent();
+						ItemContent(const FontProperties& font);
 						~ItemContent();
 
 						elements::GuiBoundsComposition*					GetContentComposition()override;
@@ -298,7 +298,7 @@ ListView ItemStyles
 					~ListViewTileContentProvider();
 
 					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
-					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent()override;
+					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent(const FontProperties& font)override;
 				};
 				
 				class ListViewInformationContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
@@ -310,7 +310,7 @@ ListView ItemStyles
 						elements::GuiBoundsComposition*					contentComposition;
 
 					public:
-						ItemContent();
+						ItemContent(const FontProperties& font);
 						~ItemContent();
 
 						elements::GuiBoundsComposition*					GetContentComposition()override;
@@ -321,7 +321,7 @@ ListView ItemStyles
 					~ListViewInformationContentProvider();
 
 					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
-					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent()override;
+					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent(const FontProperties& font)override;
 				};
 			}
 		}

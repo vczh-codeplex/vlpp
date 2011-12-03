@@ -410,6 +410,9 @@ Elements
 				WString					text;
 				Alignment::Type			hAlignment;
 				Alignment::Type			vAlignment;
+				bool					wrapLine;
+				bool					ellipse;
+				bool					multiline;
 
 				GuiSolidLabelElement();
 			public:
@@ -427,6 +430,15 @@ Elements
 				Alignment::Type			GetHorizontalAlignment();
 				Alignment::Type			GetVerticalAlignment();
 				void					SetAlignments(Alignment::Type horizontal, Alignment::Type vertical);
+
+				bool					GetWrapLine();
+				void					SetWrapLine(bool value);
+
+				bool					GetEllipse();
+				void					SetEllipse(bool value);
+
+				bool					GetMultiline();
+				void					SetMultiline(bool value);
 			};
 
 			class GuiImageFrameElement : public Object, public IGuiGraphicsElement

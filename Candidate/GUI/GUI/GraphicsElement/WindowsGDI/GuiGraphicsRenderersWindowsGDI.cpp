@@ -469,33 +469,53 @@ GuiSolidLabelElementRenderer
 				{
 					renderTarget->GetDC()->SetFont(font);
 					renderTarget->GetDC()->SetTextColor(RGB(color.r, color.g, color.b));
-					int x=0;
-					int y=0;
+
+					UINT format=0;
+					RECT rect;
+					rect.left=bounds.Left();
+					rect.top=bounds.Top();
+					rect.right=bounds.Right();
+					rect.bottom=bounds.Bottom();
+
+					if(!element->GetMultiline() && !element->GetWrapLine())
+					{
+						format|=DT_SINGLELINE;
+						switch(element->GetVerticalAlignment())
+						{
+						case Alignment::Top:
+							format|=DT_TOP;
+							break;
+						case Alignment::Center:
+							format|=DT_VCENTER;
+							break;
+						case Alignment::Bottom:
+							format|=DT_BOTTOM;
+							break;
+						}
+					}
+
 					switch(element->GetHorizontalAlignment())
 					{
 					case Alignment::Left:
-						x=bounds.Left();
+						format|=DT_LEFT;
 						break;
 					case Alignment::Center:
-						x=bounds.Left()+(bounds.Width()-minSize.x)/2;
+						format|=DT_CENTER;
 						break;
 					case Alignment::Right:
-						x=bounds.Right()-minSize.x;
+						format|=DT_RIGHT;
 						break;
 					}
-					switch(element->GetVerticalAlignment())
+
+					if(element->GetWrapLine())
 					{
-					case Alignment::Top:
-						y=bounds.Top();
-						break;
-					case Alignment::Center:
-						y=bounds.Top()+(bounds.Height()-minSize.y)/2;
-						break;
-					case Alignment::Bottom:
-						y=bounds.Bottom()-minSize.y;
-						break;
+						format|=DT_WORDBREAK;
 					}
-					renderTarget->GetDC()->DrawString(x, y, element->GetText());
+					if(element->GetEllipse())
+					{
+						format|=DT_END_ELLIPSIS;
+					}
+					renderTarget->GetDC()->DrawString(rect, element->GetText(), format);
 				}
 			}
 
