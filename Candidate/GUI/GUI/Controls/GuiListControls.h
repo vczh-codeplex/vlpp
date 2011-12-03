@@ -260,6 +260,22 @@ Predefined ItemArranger
 					FixedHeightItemArranger();
 					~FixedHeightItemArranger();
 				};
+
+				class FixedSizeMultiColumnItemArranger : public RangedItemArrangerBase
+				{
+					typedef collections::List<GuiListControl::IItemStyleController*>		StyleList;
+				protected:
+					int											rowHeight;
+					bool										suppressOnViewChanged;
+
+					void										RearrangeItemBounds();
+					void										OnStylesCleared()override;
+					Size										OnCalculateTotalSize()override;
+					void										OnViewChangedInternal(Rect oldBounds, Rect newBounds)override;
+				public:
+					FixedSizeMultiColumnItemArranger();
+					~FixedSizeMultiColumnItemArranger();
+				};
 			}
 
 /***********************************************************************

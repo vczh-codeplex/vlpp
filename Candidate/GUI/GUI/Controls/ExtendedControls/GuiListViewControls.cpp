@@ -117,7 +117,7 @@ ListViewItemStyleProvider::ListViewContentItemStyleController
 					:ListViewItemStyleController(provider)
 					,listViewItemStyleProvider(provider)
 				{
-					content=listViewItemStyleProvider->listViewItemContentProvider->CreateItemContent();
+					content=listViewItemStyleProvider->listViewItemContentProvider->CreateItemContent(backgroundButton->GetFont());
 					GuiBoundsComposition* composition=content->GetContentComposition();
 					composition->SetAlignmentToParent(Margin(0, 0, 0, 0));
 					backgroundButton->GetContainerComposition()->AddChild(composition);
@@ -263,7 +263,7 @@ GuiListView
 ListViewBigIconContentProvider
 ***********************************************************************/
 
-				ListViewBigIconContentProvider::ItemContent::ItemContent()
+				ListViewBigIconContentProvider::ItemContent::ItemContent(const FontProperties& font)
 					:contentComposition(0)
 				{
 					contentComposition=new GuiBoundsComposition;
@@ -292,11 +292,15 @@ ListViewBigIconContentProvider
 					{
 						GuiCellComposition* cell=new GuiCellComposition;
 						table->AddChild(cell);
+						cell->SetMinSizeLimitation(GuiGraphicsComposition::NoLimit);
 						cell->SetSite(1, 0, 1, 3);
-						cell->SetPreferredMinSize(Size(64, 32));
+						cell->SetPreferredMinSize(Size(64, 40));
 
 						text=GuiSolidLabelElement::Create();
 						text->SetAlignments(Alignment::Center, Alignment::Top);
+						text->SetFont(font);
+						text->SetWrapLine(true);
+						text->SetEllipse(true);
 						cell->SetOwnedElement(text);
 					}
 				}
@@ -334,19 +338,19 @@ ListViewBigIconContentProvider
 
 				GuiListControl::IItemArranger* ListViewBigIconContentProvider::CreatePreferredArranger()
 				{
-					return new FixedHeightItemArranger;
+					return new FixedSizeMultiColumnItemArranger;
 				}
 
-				ListViewItemStyleProvider::IListViewItemContent* ListViewBigIconContentProvider::CreateItemContent()
+				ListViewItemStyleProvider::IListViewItemContent* ListViewBigIconContentProvider::CreateItemContent(const FontProperties& font)
 				{
-					return new ItemContent;
+					return new ItemContent(font);
 				}
 				
 /***********************************************************************
 ListViewSmallIconContentProvider
 ***********************************************************************/
 
-				ListViewSmallIconContentProvider::ItemContent::ItemContent()
+				ListViewSmallIconContentProvider::ItemContent::ItemContent(const FontProperties& font)
 					:contentComposition(0)
 				{
 					contentComposition=new GuiBoundsComposition;
@@ -361,7 +365,7 @@ ListViewSmallIconContentProvider
 					table->SetColumnOption(0, GuiCellOption::MinSizeOption());
 					table->SetColumnOption(1, GuiCellOption::MinSizeOption());
 					table->SetAlignmentToParent(Margin(0, 0, 0, 0));
-					table->SetCellPadding(1);
+					table->SetCellPadding(2);
 					{
 						GuiCellComposition* cell=new GuiCellComposition;
 						table->AddChild(cell);
@@ -375,11 +379,14 @@ ListViewSmallIconContentProvider
 					{
 						GuiCellComposition* cell=new GuiCellComposition;
 						table->AddChild(cell);
+						cell->SetMinSizeLimitation(GuiGraphicsComposition::NoLimit);
 						cell->SetSite(0, 1, 3, 1);
 						cell->SetPreferredMinSize(Size(192, 16));
 
 						text=GuiSolidLabelElement::Create();
 						text->SetAlignments(Alignment::Left, Alignment::Center);
+						text->SetFont(font);
+						text->SetEllipse(true);
 						cell->SetOwnedElement(text);
 					}
 				}
@@ -417,19 +424,19 @@ ListViewSmallIconContentProvider
 
 				GuiListControl::IItemArranger* ListViewSmallIconContentProvider::CreatePreferredArranger()
 				{
-					return new FixedHeightItemArranger;
+					return new FixedSizeMultiColumnItemArranger;
 				}
 
-				ListViewItemStyleProvider::IListViewItemContent* ListViewSmallIconContentProvider::CreateItemContent()
+				ListViewItemStyleProvider::IListViewItemContent* ListViewSmallIconContentProvider::CreateItemContent(const FontProperties& font)
 				{
-					return new ItemContent;
+					return new ItemContent(font);
 				}
 				
 /***********************************************************************
 ListViewListContentProvider
 ***********************************************************************/
 
-				ListViewListContentProvider::ItemContent::ItemContent()
+				ListViewListContentProvider::ItemContent::ItemContent(const FontProperties& font)
 					:contentComposition(0)
 				{
 					contentComposition=new GuiBoundsComposition;
@@ -444,7 +451,7 @@ ListViewListContentProvider
 					table->SetColumnOption(0, GuiCellOption::MinSizeOption());
 					table->SetColumnOption(1, GuiCellOption::MinSizeOption());
 					table->SetAlignmentToParent(Margin(0, 0, 0, 0));
-					table->SetCellPadding(1);
+					table->SetCellPadding(2);
 					{
 						GuiCellComposition* cell=new GuiCellComposition;
 						table->AddChild(cell);
@@ -463,6 +470,7 @@ ListViewListContentProvider
 
 						text=GuiSolidLabelElement::Create();
 						text->SetAlignments(Alignment::Left, Alignment::Center);
+						text->SetFont(font);
 						cell->SetOwnedElement(text);
 					}
 				}
@@ -503,16 +511,16 @@ ListViewListContentProvider
 					return new FixedHeightItemArranger;
 				}
 
-				ListViewItemStyleProvider::IListViewItemContent* ListViewListContentProvider::CreateItemContent()
+				ListViewItemStyleProvider::IListViewItemContent* ListViewListContentProvider::CreateItemContent(const FontProperties& font)
 				{
-					return new ItemContent;
+					return new ItemContent(font);
 				}
 				
 /***********************************************************************
 ListViewDetailContentProvider
 ***********************************************************************/
 
-				ListViewDetailContentProvider::ItemContent::ItemContent()
+				ListViewDetailContentProvider::ItemContent::ItemContent(const FontProperties& font)
 					:contentComposition(0)
 				{
 					contentComposition=new GuiBoundsComposition;
@@ -544,16 +552,16 @@ ListViewDetailContentProvider
 					return new FixedHeightItemArranger;
 				}
 
-				ListViewItemStyleProvider::IListViewItemContent* ListViewDetailContentProvider::CreateItemContent()
+				ListViewItemStyleProvider::IListViewItemContent* ListViewDetailContentProvider::CreateItemContent(const FontProperties& font)
 				{
-					return new ItemContent;
+					return new ItemContent(font);
 				}
 				
 /***********************************************************************
 ListViewTileContentProvider
 ***********************************************************************/
 
-				ListViewTileContentProvider::ItemContent::ItemContent()
+				ListViewTileContentProvider::ItemContent::ItemContent(const FontProperties& font)
 					:contentComposition(0)
 				{
 					contentComposition=new GuiBoundsComposition;
@@ -582,19 +590,19 @@ ListViewTileContentProvider
 
 				GuiListControl::IItemArranger* ListViewTileContentProvider::CreatePreferredArranger()
 				{
-					return new FixedHeightItemArranger;
+					return new FixedSizeMultiColumnItemArranger;
 				}
 
-				ListViewItemStyleProvider::IListViewItemContent* ListViewTileContentProvider::CreateItemContent()
+				ListViewItemStyleProvider::IListViewItemContent* ListViewTileContentProvider::CreateItemContent(const FontProperties& font)
 				{
-					return new ItemContent;
+					return new ItemContent(font);
 				}
 				
 /***********************************************************************
 ListViewInformationContentProvider
 ***********************************************************************/
 
-				ListViewInformationContentProvider::ItemContent::ItemContent()
+				ListViewInformationContentProvider::ItemContent::ItemContent(const FontProperties& font)
 					:contentComposition(0)
 				{
 					contentComposition=new GuiBoundsComposition;
@@ -626,9 +634,9 @@ ListViewInformationContentProvider
 					return new FixedHeightItemArranger;
 				}
 
-				ListViewItemStyleProvider::IListViewItemContent* ListViewInformationContentProvider::CreateItemContent()
+				ListViewItemStyleProvider::IListViewItemContent* ListViewInformationContentProvider::CreateItemContent(const FontProperties& font)
 				{
-					return new ItemContent;
+					return new ItemContent(font);
 				}
 			}
 		}

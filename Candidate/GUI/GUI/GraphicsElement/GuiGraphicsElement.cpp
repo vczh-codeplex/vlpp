@@ -354,6 +354,9 @@ GuiSolidLabelElement
 				:color(0, 0, 0)
 				,hAlignment(Alignment::Left)
 				,vAlignment(Alignment::Top)
+				,wrapLine(false)
+				,ellipse(false)
+				,multiline(false)
 			{
 				fontProperties.fontFamily=L"Lucida Console";
 				fontProperties.size=12;
@@ -422,6 +425,48 @@ GuiSolidLabelElement
 				{
 					hAlignment=horizontal;
 					vAlignment=vertical;
+					renderer->OnElementStateChanged();
+				}
+			}
+
+			bool GuiSolidLabelElement::GetWrapLine()
+			{
+				return wrapLine;
+			}
+
+			void GuiSolidLabelElement::SetWrapLine(bool value)
+			{
+				if(wrapLine!=value)
+				{
+					wrapLine=value;
+					renderer->OnElementStateChanged();
+				}
+			}
+
+			bool GuiSolidLabelElement::GetEllipse()
+			{
+				return ellipse;
+			}
+
+			void GuiSolidLabelElement::SetEllipse(bool value)
+			{
+				if(ellipse!=value)
+				{
+					ellipse=value;
+					renderer->OnElementStateChanged();
+				}
+			}
+
+			bool GuiSolidLabelElement::GetMultiline()
+			{
+				return multiline;
+			}
+
+			void GuiSolidLabelElement::SetMultiline(bool value)
+			{
+				if(multiline!=value)
+				{
+					multiline=value;
 					renderer->OnElementStateChanged();
 				}
 			}

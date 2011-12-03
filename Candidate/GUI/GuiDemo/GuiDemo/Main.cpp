@@ -433,7 +433,7 @@ void SetupListviewWindow(GuiControlHost* controlHost, GuiControl* container)
 		Ptr<INativeImage> smallImage=imageProvider->CreateImageFromFile(L"Resources\\NewSmall.png");
 		Ptr<GuiImageData> smallImageData=new GuiImageData(smallImage, 0);
 
-		for(int i=0;i<30;i++)
+		for(int i=0;i<100;i++)
 		{
 			Ptr<list::ListViewItem> item=new list::ListViewItem;
 			item->text=L"List View Item "+itow(i+1);

@@ -668,6 +668,109 @@ FixedHeightItemArranger
 				}
 
 /***********************************************************************
+FixedSizeMultiColumnItemArranger
+***********************************************************************/
+
+				void FixedSizeMultiColumnItemArranger::RearrangeItemBounds()
+				{
+					int y0=-viewBounds.Top();
+					for(int i=0;i<visibleStyles.Count();i++)
+					{
+						GuiListControl::IItemStyleController* style=visibleStyles[i];
+						style->GetBoundsComposition()->SetBounds(Rect(Point(0, y0+(startIndex+i)*rowHeight), Size(0, rowHeight)));
+					}
+				}
+
+				void FixedSizeMultiColumnItemArranger::OnStylesCleared()
+				{
+					rowHeight=1;
+				}
+
+				Size FixedSizeMultiColumnItemArranger::OnCalculateTotalSize()
+				{
+					if(callback)
+					{
+						return Size(0, rowHeight*itemProvider->Count());
+					}
+					else
+					{
+						return Size(0, 0);
+					}
+				}
+
+				void FixedSizeMultiColumnItemArranger::OnViewChangedInternal(Rect oldBounds, Rect newBounds)
+				{
+					if(callback)
+					{
+						if(!suppressOnViewChanged)
+						{
+							int oldVisibleCount=visibleStyles.Count();
+							int newRowHeight=rowHeight;
+							int newStartIndex=newBounds.Top()/rowHeight;
+
+							int endIndex=startIndex+visibleStyles.Count()-1;
+							int newEndIndex=(newBounds.Bottom()-1)/newRowHeight;
+							int itemCount=itemProvider->Count();
+
+							for(int i=newStartIndex;i<=newEndIndex && i<itemCount;i++)
+							{
+								if(startIndex<=i && i<=endIndex)
+								{
+									GuiListControl::IItemStyleController* style=visibleStyles[i-startIndex];
+									visibleStyles.Add(style);
+								}
+								else
+								{
+									GuiListControl::IItemStyleController* style=callback->RequestItem(i);
+									callback->GetContainerComposition()->AddChild(style->GetBoundsComposition());
+									visibleStyles.Add(style);
+									int styleHeight=style->GetBoundsComposition()->GetPreferredBounds().Height();
+									if(newRowHeight<styleHeight)
+									{
+										newRowHeight=styleHeight;
+										newEndIndex=(newBounds.Bottom()-1)/newRowHeight;
+									}
+								}
+							}
+
+							for(int i=0;i<oldVisibleCount;i++)
+							{
+								int index=startIndex+i;
+								if(index<newStartIndex || newEndIndex<index)
+								{
+									GuiListControl::IItemStyleController* style=visibleStyles[i];
+									callback->GetContainerComposition()->RemoveChild(style->GetBoundsComposition());
+									callback->ReleaseItem(style);
+								}
+							}
+							visibleStyles.RemoveRange(0, oldVisibleCount);
+
+							if(rowHeight!=newRowHeight)
+							{
+								int offset=oldBounds.Top()-rowHeight*startIndex;
+								rowHeight=newRowHeight;
+								suppressOnViewChanged=true;
+								callback->OnTotalSizeChanged();
+								callback->SetViewLocation(Point(0, rowHeight*newStartIndex+offset));
+								suppressOnViewChanged=false;
+							}
+							startIndex=newStartIndex;
+							RearrangeItemBounds();
+						}
+					}
+				}
+
+				FixedSizeMultiColumnItemArranger::FixedSizeMultiColumnItemArranger()
+					:rowHeight(1)
+					,suppressOnViewChanged(false)
+				{
+				}
+
+				FixedSizeMultiColumnItemArranger::~FixedSizeMultiColumnItemArranger()
+				{
+				}
+
+/***********************************************************************
 ItemStyleControllerBase
 ***********************************************************************/
 
