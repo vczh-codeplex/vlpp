@@ -428,7 +428,7 @@ GuiSolidLabelElementRenderer
 
 			void GuiSolidLabelElementRenderer::UpdateMinSize()
 			{
-				if(renderTarget)
+				if(renderTarget && !element->GetEllipse() && !element->GetMultiline() && !element->GetWrapLine())
 				{
 					renderTarget->GetDC()->SetFont(font);
 					const WString& text=element->GetText();
