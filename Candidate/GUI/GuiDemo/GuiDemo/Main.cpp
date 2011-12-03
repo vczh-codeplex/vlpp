@@ -446,8 +446,13 @@ void SetupListviewWindow(GuiControlHost* controlHost, GuiControl* container)
 			}
 			item->largeImage=largeImageData;
 			item->smallImage=smallImageData;
+			item->subItems.Add(L"Description of "+item->text);
+			item->subItems.Add(itow(i+1));
+			item->subItems.Add(i<10?L"Long":L"Short");
 			listControl->GetItems().Add(item);
 		}
+		listControl->GetItems().GetDataColumns().Add(0);
+		listControl->GetItems().GetDataColumns().Add(2);
 	}
 	{
 		GuiTextList* typeList=new GuiTextList(new win7::Win7MultilineTextBoxProvider, new win7::Win7TextListProvider);
