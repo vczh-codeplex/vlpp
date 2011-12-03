@@ -267,6 +267,38 @@ ListViewBigIconContentProvider
 					:contentComposition(0)
 				{
 					contentComposition=new GuiBoundsComposition;
+					contentComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+
+					GuiTableComposition* table=new GuiTableComposition;
+					contentComposition->AddChild(table);
+					table->SetRowsAndColumns(2, 3);
+					table->SetRowOption(0, GuiCellOption::MinSizeOption());
+					table->SetRowOption(1, GuiCellOption::MinSizeOption());
+					table->SetColumnOption(0, GuiCellOption::PercentageOption(0.5));
+					table->SetColumnOption(1, GuiCellOption::MinSizeOption());
+					table->SetColumnOption(2, GuiCellOption::PercentageOption(0.5));
+					table->SetAlignmentToParent(Margin(0, 0, 0, 0));
+					table->SetCellPadding(5);
+					{
+						GuiCellComposition* cell=new GuiCellComposition;
+						table->AddChild(cell);
+						cell->SetSite(0, 1, 1, 1);
+						cell->SetPreferredMinSize(Size(32, 32));
+
+						image=GuiImageFrameElement::Create();
+						image->SetStretch(true);
+						cell->SetOwnedElement(image);
+					}
+					{
+						GuiCellComposition* cell=new GuiCellComposition;
+						table->AddChild(cell);
+						cell->SetSite(1, 0, 1, 3);
+						cell->SetPreferredMinSize(Size(64, 32));
+
+						text=GuiSolidLabelElement::Create();
+						text->SetAlignments(Alignment::Center, Alignment::Top);
+						cell->SetOwnedElement(text);
+					}
 				}
 
 				ListViewBigIconContentProvider::ItemContent::~ItemContent()
@@ -280,6 +312,16 @@ ListViewBigIconContentProvider
 
 				void ListViewBigIconContentProvider::ItemContent::Install(ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
 				{
+					Ptr<GuiImageData> imageData=view->GetLargeImage(itemIndex);
+					if(imageData)
+					{
+						image->SetImage(imageData->GetImage(), imageData->GetFrameIndex());
+					}
+					else
+					{
+						image->SetImage(0);
+					}
+					text->SetText(view->GetText(itemIndex));
 				}
 
 				ListViewBigIconContentProvider::ListViewBigIconContentProvider()
@@ -296,6 +338,295 @@ ListViewBigIconContentProvider
 				}
 
 				ListViewItemStyleProvider::IListViewItemContent* ListViewBigIconContentProvider::CreateItemContent()
+				{
+					return new ItemContent;
+				}
+				
+/***********************************************************************
+ListViewSmallIconContentProvider
+***********************************************************************/
+
+				ListViewSmallIconContentProvider::ItemContent::ItemContent()
+					:contentComposition(0)
+				{
+					contentComposition=new GuiBoundsComposition;
+					contentComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+
+					GuiTableComposition* table=new GuiTableComposition;
+					contentComposition->AddChild(table);
+					table->SetRowsAndColumns(3, 2);
+					table->SetRowOption(0, GuiCellOption::PercentageOption(0.5));
+					table->SetRowOption(1, GuiCellOption::MinSizeOption());
+					table->SetRowOption(2, GuiCellOption::PercentageOption(0.5));
+					table->SetColumnOption(0, GuiCellOption::MinSizeOption());
+					table->SetColumnOption(1, GuiCellOption::MinSizeOption());
+					table->SetAlignmentToParent(Margin(0, 0, 0, 0));
+					table->SetCellPadding(1);
+					{
+						GuiCellComposition* cell=new GuiCellComposition;
+						table->AddChild(cell);
+						cell->SetSite(1, 0, 1, 1);
+						cell->SetPreferredMinSize(Size(16, 16));
+
+						image=GuiImageFrameElement::Create();
+						image->SetStretch(true);
+						cell->SetOwnedElement(image);
+					}
+					{
+						GuiCellComposition* cell=new GuiCellComposition;
+						table->AddChild(cell);
+						cell->SetSite(0, 1, 3, 1);
+						cell->SetPreferredMinSize(Size(192, 16));
+
+						text=GuiSolidLabelElement::Create();
+						text->SetAlignments(Alignment::Left, Alignment::Center);
+						cell->SetOwnedElement(text);
+					}
+				}
+
+				ListViewSmallIconContentProvider::ItemContent::~ItemContent()
+				{
+				}
+
+				elements::GuiBoundsComposition* ListViewSmallIconContentProvider::ItemContent::GetContentComposition()
+				{
+					return contentComposition;
+				}
+
+				void ListViewSmallIconContentProvider::ItemContent::Install(ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
+				{
+					Ptr<GuiImageData> imageData=view->GetSmallImage(itemIndex);
+					if(imageData)
+					{
+						image->SetImage(imageData->GetImage(), imageData->GetFrameIndex());
+					}
+					else
+					{
+						image->SetImage(0);
+					}
+					text->SetText(view->GetText(itemIndex));
+				}
+
+				ListViewSmallIconContentProvider::ListViewSmallIconContentProvider()
+				{
+				}
+
+				ListViewSmallIconContentProvider::~ListViewSmallIconContentProvider()
+				{
+				}
+
+				GuiListControl::IItemArranger* ListViewSmallIconContentProvider::CreatePreferredArranger()
+				{
+					return new FixedHeightItemArranger;
+				}
+
+				ListViewItemStyleProvider::IListViewItemContent* ListViewSmallIconContentProvider::CreateItemContent()
+				{
+					return new ItemContent;
+				}
+				
+/***********************************************************************
+ListViewListContentProvider
+***********************************************************************/
+
+				ListViewListContentProvider::ItemContent::ItemContent()
+					:contentComposition(0)
+				{
+					contentComposition=new GuiBoundsComposition;
+					contentComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+
+					GuiTableComposition* table=new GuiTableComposition;
+					contentComposition->AddChild(table);
+					table->SetRowsAndColumns(3, 2);
+					table->SetRowOption(0, GuiCellOption::PercentageOption(0.5));
+					table->SetRowOption(1, GuiCellOption::MinSizeOption());
+					table->SetRowOption(2, GuiCellOption::PercentageOption(0.5));
+					table->SetColumnOption(0, GuiCellOption::MinSizeOption());
+					table->SetColumnOption(1, GuiCellOption::MinSizeOption());
+					table->SetAlignmentToParent(Margin(0, 0, 0, 0));
+					table->SetCellPadding(1);
+					{
+						GuiCellComposition* cell=new GuiCellComposition;
+						table->AddChild(cell);
+						cell->SetSite(1, 0, 1, 1);
+						cell->SetPreferredMinSize(Size(16, 16));
+
+						image=GuiImageFrameElement::Create();
+						image->SetStretch(true);
+						cell->SetOwnedElement(image);
+					}
+					{
+						GuiCellComposition* cell=new GuiCellComposition;
+						table->AddChild(cell);
+						cell->SetSite(0, 1, 3, 1);
+						cell->SetPreferredMinSize(Size(192, 16));
+
+						text=GuiSolidLabelElement::Create();
+						text->SetAlignments(Alignment::Left, Alignment::Center);
+						cell->SetOwnedElement(text);
+					}
+				}
+
+				ListViewListContentProvider::ItemContent::~ItemContent()
+				{
+				}
+
+				elements::GuiBoundsComposition* ListViewListContentProvider::ItemContent::GetContentComposition()
+				{
+					return contentComposition;
+				}
+
+				void ListViewListContentProvider::ItemContent::Install(ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
+				{
+					Ptr<GuiImageData> imageData=view->GetSmallImage(itemIndex);
+					if(imageData)
+					{
+						image->SetImage(imageData->GetImage(), imageData->GetFrameIndex());
+					}
+					else
+					{
+						image->SetImage(0);
+					}
+					text->SetText(view->GetText(itemIndex));
+				}
+
+				ListViewListContentProvider::ListViewListContentProvider()
+				{
+				}
+
+				ListViewListContentProvider::~ListViewListContentProvider()
+				{
+				}
+
+				GuiListControl::IItemArranger* ListViewListContentProvider::CreatePreferredArranger()
+				{
+					return new FixedHeightItemArranger;
+				}
+
+				ListViewItemStyleProvider::IListViewItemContent* ListViewListContentProvider::CreateItemContent()
+				{
+					return new ItemContent;
+				}
+				
+/***********************************************************************
+ListViewDetailContentProvider
+***********************************************************************/
+
+				ListViewDetailContentProvider::ItemContent::ItemContent()
+					:contentComposition(0)
+				{
+					contentComposition=new GuiBoundsComposition;
+				}
+
+				ListViewDetailContentProvider::ItemContent::~ItemContent()
+				{
+				}
+
+				elements::GuiBoundsComposition* ListViewDetailContentProvider::ItemContent::GetContentComposition()
+				{
+					return contentComposition;
+				}
+
+				void ListViewDetailContentProvider::ItemContent::Install(ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
+				{
+				}
+
+				ListViewDetailContentProvider::ListViewDetailContentProvider()
+				{
+				}
+
+				ListViewDetailContentProvider::~ListViewDetailContentProvider()
+				{
+				}
+
+				GuiListControl::IItemArranger* ListViewDetailContentProvider::CreatePreferredArranger()
+				{
+					return new FixedHeightItemArranger;
+				}
+
+				ListViewItemStyleProvider::IListViewItemContent* ListViewDetailContentProvider::CreateItemContent()
+				{
+					return new ItemContent;
+				}
+				
+/***********************************************************************
+ListViewTileContentProvider
+***********************************************************************/
+
+				ListViewTileContentProvider::ItemContent::ItemContent()
+					:contentComposition(0)
+				{
+					contentComposition=new GuiBoundsComposition;
+				}
+
+				ListViewTileContentProvider::ItemContent::~ItemContent()
+				{
+				}
+
+				elements::GuiBoundsComposition* ListViewTileContentProvider::ItemContent::GetContentComposition()
+				{
+					return contentComposition;
+				}
+
+				void ListViewTileContentProvider::ItemContent::Install(ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
+				{
+				}
+
+				ListViewTileContentProvider::ListViewTileContentProvider()
+				{
+				}
+
+				ListViewTileContentProvider::~ListViewTileContentProvider()
+				{
+				}
+
+				GuiListControl::IItemArranger* ListViewTileContentProvider::CreatePreferredArranger()
+				{
+					return new FixedHeightItemArranger;
+				}
+
+				ListViewItemStyleProvider::IListViewItemContent* ListViewTileContentProvider::CreateItemContent()
+				{
+					return new ItemContent;
+				}
+				
+/***********************************************************************
+ListViewInformationContentProvider
+***********************************************************************/
+
+				ListViewInformationContentProvider::ItemContent::ItemContent()
+					:contentComposition(0)
+				{
+					contentComposition=new GuiBoundsComposition;
+				}
+
+				ListViewInformationContentProvider::ItemContent::~ItemContent()
+				{
+				}
+
+				elements::GuiBoundsComposition* ListViewInformationContentProvider::ItemContent::GetContentComposition()
+				{
+					return contentComposition;
+				}
+
+				void ListViewInformationContentProvider::ItemContent::Install(ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
+				{
+				}
+
+				ListViewInformationContentProvider::ListViewInformationContentProvider()
+				{
+				}
+
+				ListViewInformationContentProvider::~ListViewInformationContentProvider()
+				{
+				}
+
+				GuiListControl::IItemArranger* ListViewInformationContentProvider::CreatePreferredArranger()
+				{
+					return new FixedHeightItemArranger;
+				}
+
+				ListViewItemStyleProvider::IListViewItemContent* ListViewInformationContentProvider::CreateItemContent()
 				{
 					return new ItemContent;
 				}

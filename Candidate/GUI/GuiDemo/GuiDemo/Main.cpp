@@ -430,12 +430,15 @@ void SetupListviewWindow(GuiControlHost* controlHost, GuiControl* container)
 		INativeImageProvider* imageProvider=GetCurrentController()->GetImageProvider();
 		Ptr<INativeImage> largeImage=imageProvider->CreateImageFromFile(L"Resources\\New.png");
 		Ptr<GuiImageData> largeImageData=new GuiImageData(largeImage, 0);
+		Ptr<INativeImage> smallImage=imageProvider->CreateImageFromFile(L"Resources\\NewSmall.png");
+		Ptr<GuiImageData> smallImageData=new GuiImageData(smallImage, 0);
 
 		for(int i=0;i<30;i++)
 		{
 			Ptr<list::ListViewItem> item=new list::ListViewItem;
 			item->text=L"List View Item "+itow(i+1);
 			item->largeImage=largeImageData;
+			item->smallImage=smallImageData;
 			listControl->GetItems().Add(item);
 		}
 	}
@@ -461,28 +464,22 @@ void SetupListviewWindow(GuiControlHost* controlHost, GuiControl* container)
 				switch(typeList->GetSelectedItems()[0])
 				{
 				case 0:
-					listControl->SetStyleProvider(0);
-					listControl->SetArranger(0);
+					listControl->ChangeItemStyle(new list::ListViewBigIconContentProvider);
 					break;
 				case 1:
-					listControl->SetStyleProvider(0);
-					listControl->SetArranger(0);
+					listControl->ChangeItemStyle(new list::ListViewSmallIconContentProvider);
 					break;
 				case 2:
-					listControl->SetStyleProvider(0);
-					listControl->SetArranger(0);
+					listControl->ChangeItemStyle(new list::ListViewListContentProvider);
 					break;
 				case 3:
-					listControl->SetStyleProvider(0);
-					listControl->SetArranger(0);
+					listControl->ChangeItemStyle(new list::ListViewDetailContentProvider);
 					break;
 				case 4:
-					listControl->SetStyleProvider(0);
-					listControl->SetArranger(0);
+					listControl->ChangeItemStyle(new list::ListViewTileContentProvider);
 					break;
 				case 5:
-					listControl->SetStyleProvider(0);
-					listControl->SetArranger(0);
+					listControl->ChangeItemStyle(new list::ListViewInformationContentProvider);
 					break;
 				}
 			}

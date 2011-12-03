@@ -187,6 +187,8 @@ ListView ItemStyles
 					{
 					protected:
 						elements::GuiBoundsComposition*					contentComposition;
+						elements::GuiImageFrameElement*					image;
+						elements::GuiSolidLabelElement*					text;
 
 					public:
 						ItemContent();
@@ -198,6 +200,125 @@ ListView ItemStyles
 				public:
 					ListViewBigIconContentProvider();
 					~ListViewBigIconContentProvider();
+
+					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
+					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent()override;
+				};
+				
+				class ListViewSmallIconContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
+				{
+				protected:
+					class ItemContent : public Object, public virtual ListViewItemStyleProvider::IListViewItemContent
+					{
+					protected:
+						elements::GuiBoundsComposition*					contentComposition;
+						elements::GuiImageFrameElement*					image;
+						elements::GuiSolidLabelElement*					text;
+
+					public:
+						ItemContent();
+						~ItemContent();
+
+						elements::GuiBoundsComposition*					GetContentComposition()override;
+						void											Install(ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
+					};
+				public:
+					ListViewSmallIconContentProvider();
+					~ListViewSmallIconContentProvider();
+
+					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
+					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent()override;
+				};
+				
+				class ListViewListContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
+				{
+				protected:
+					class ItemContent : public Object, public virtual ListViewItemStyleProvider::IListViewItemContent
+					{
+					protected:
+						elements::GuiBoundsComposition*					contentComposition;
+						elements::GuiImageFrameElement*					image;
+						elements::GuiSolidLabelElement*					text;
+
+					public:
+						ItemContent();
+						~ItemContent();
+
+						elements::GuiBoundsComposition*					GetContentComposition()override;
+						void											Install(ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
+					};
+				public:
+					ListViewListContentProvider();
+					~ListViewListContentProvider();
+
+					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
+					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent()override;
+				};
+				
+				class ListViewDetailContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
+				{
+				protected:
+					class ItemContent : public Object, public virtual ListViewItemStyleProvider::IListViewItemContent
+					{
+					protected:
+						elements::GuiBoundsComposition*					contentComposition;
+
+					public:
+						ItemContent();
+						~ItemContent();
+
+						elements::GuiBoundsComposition*					GetContentComposition()override;
+						void											Install(ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
+					};
+				public:
+					ListViewDetailContentProvider();
+					~ListViewDetailContentProvider();
+
+					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
+					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent()override;
+				};
+				
+				class ListViewTileContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
+				{
+				protected:
+					class ItemContent : public Object, public virtual ListViewItemStyleProvider::IListViewItemContent
+					{
+					protected:
+						elements::GuiBoundsComposition*					contentComposition;
+
+					public:
+						ItemContent();
+						~ItemContent();
+
+						elements::GuiBoundsComposition*					GetContentComposition()override;
+						void											Install(ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
+					};
+				public:
+					ListViewTileContentProvider();
+					~ListViewTileContentProvider();
+
+					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
+					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent()override;
+				};
+				
+				class ListViewInformationContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
+				{
+				protected:
+					class ItemContent : public Object, public virtual ListViewItemStyleProvider::IListViewItemContent
+					{
+					protected:
+						elements::GuiBoundsComposition*					contentComposition;
+
+					public:
+						ItemContent();
+						~ItemContent();
+
+						elements::GuiBoundsComposition*					GetContentComposition()override;
+						void											Install(ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
+					};
+				public:
+					ListViewInformationContentProvider();
+					~ListViewInformationContentProvider();
 
 					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
 					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent()override;
