@@ -95,6 +95,9 @@ ListView
 						virtual Ptr<GuiImageData>				GetLargeImage(int itemIndex)=0;
 						virtual WString							GetText(int itemIndex)=0;
 						virtual WString							GetSubItem(int itemIndex, int index)=0;
+
+						virtual int								GetDataColumnCount()=0;
+						virtual int								GetDataColumn(int index)=0;
 					};
 
 					class IListViewItemContent : public virtual Interface
@@ -149,16 +152,21 @@ ListView
 				class ListViewItemProvider : public ListProvider<Ptr<ListViewItem>>, protected virtual ListViewItemStyleProvider::IListViewItemView
 				{
 				protected:
+					collections::List<int>						dataColumns;
+
 					Ptr<GuiImageData>							GetSmallImage(int itemIndex)override;
 					Ptr<GuiImageData>							GetLargeImage(int itemIndex)override;
 					WString										GetText(int itemIndex)override;
 					WString										GetSubItem(int itemIndex, int index)override;
+					int											GetDataColumnCount()override;
+					int											GetDataColumn(int index)override;
 				public:
 					ListViewItemProvider();
 					~ListViewItemProvider();
 
 					Interface*									RequestView(const WString& identifier)override;
 					void										ReleaseView(Interface* view)override;
+					collections::IList<int>&					GetDataColumns();
 				};
 			}
 

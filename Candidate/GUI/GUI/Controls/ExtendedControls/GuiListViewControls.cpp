@@ -204,6 +204,16 @@ ListViewItemProvider
 					}
 				}
 
+				int ListViewItemProvider::GetDataColumnCount()
+				{
+					return dataColumns.Count();
+				}
+
+				int ListViewItemProvider::GetDataColumn(int index)
+				{
+					return dataColumns[index];
+				}
+
 				ListViewItemProvider::ListViewItemProvider()
 				{
 				}
@@ -226,6 +236,11 @@ ListViewItemProvider
 
 				void ListViewItemProvider::ReleaseView(Interface* view)
 				{
+				}
+
+				collections::IList<int>& ListViewItemProvider::GetDataColumns()
+				{
+					return dataColumns.Wrap();
 				}
 			}
 
