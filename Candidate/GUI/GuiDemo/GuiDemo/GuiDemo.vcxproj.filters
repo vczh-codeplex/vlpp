@@ -388,5 +388,11 @@
     <None Include="Resources\Gif.gif">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Resources\SaveSmall.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\NewSmall.png">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
