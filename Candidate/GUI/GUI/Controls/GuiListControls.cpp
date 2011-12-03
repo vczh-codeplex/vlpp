@@ -796,19 +796,9 @@ FixedSizeMultiColumnItemArranger
 
 							if(itemSize!=newItemSize)
 							{
-								int oldCols=oldBounds.Width()/itemSize.x;
-								if(oldCols<1) oldCols=1;
-								int oldRows=startIndex/oldCols;
-								int offset=oldBounds.Top()-itemSize.y*oldRows;
-								
-								int newCols=newBounds.Width()/newItemSize.x;
-								if(newCols<1) newCols=1;
-								int newRows=newStartIndex/newCols;
-
 								itemSize=newItemSize;
 								suppressOnViewChanged=true;
 								callback->OnTotalSizeChanged();
-								callback->SetViewLocation(Point(0, itemSize.y*newRows+offset));
 								suppressOnViewChanged=false;
 							}
 							startIndex=newStartIndex;
