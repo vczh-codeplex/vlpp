@@ -106,11 +106,11 @@ Renderers
 			{
 				DEFINE_GUI_GRAPHICS_RENDERER(GuiSolidLabelElement, GuiSolidLabelElementRenderer, IWindowsDirect2DRenderTarget)
 			protected:
-				Color					oldColor;
-				FontProperties			oldFont;
-				WString					oldText;
-				ID2D1SolidColorBrush*	brush;
-				IDWriteTextFormat*		textFormat;
+				Color							oldColor;
+				FontProperties					oldFont;
+				WString							oldText;
+				ID2D1SolidColorBrush*			brush;
+				Direct2DTextFormatPackage*		textFormat;
 
 				void					CreateBrush(IWindowsDirect2DRenderTarget* _renderTarget);
 				void					DestroyBrush(IWindowsDirect2DRenderTarget* _renderTarget);
@@ -171,11 +171,11 @@ Renderers
 
 				typedef collections::Array<ColorEntryResource>			ColorArray;
 			protected:
-				FontProperties			oldFont;
-				IDWriteTextFormat*		textFormat;
-				ColorArray				colors;
-				Color					oldCaretColor;
-				ID2D1SolidColorBrush*	caretBrush;
+				FontProperties					oldFont;
+				Direct2DTextFormatPackage*		textFormat;
+				ColorArray						colors;
+				Color							oldCaretColor;
+				ID2D1SolidColorBrush*			caretBrush;
 				
 				void					CreateTextBrush(IWindowsDirect2DRenderTarget* _renderTarget);
 				void					DestroyTextBrush(IWindowsDirect2DRenderTarget* _renderTarget);

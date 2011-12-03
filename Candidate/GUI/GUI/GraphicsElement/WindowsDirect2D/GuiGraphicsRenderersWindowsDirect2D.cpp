@@ -451,7 +451,7 @@ GuiSolidLabelElementRenderer
 					HRESULT hr=GetDirectWriteFactory()->CreateTextLayout(
 						oldText.Buffer(),
 						oldText.Length(),
-						textFormat,
+						textFormat->textFormat.Obj(),
 						0,
 						0,
 						&textLayout);
@@ -530,7 +530,7 @@ GuiSolidLabelElementRenderer
 					d2dRenderTarget->DrawText(
 						oldText.Buffer(),
 						oldText.Length(),
-						textFormat,
+						textFormat->textFormat.Obj(),
 						D2D1::RectF((FLOAT)x, (FLOAT)y, (FLOAT)x+1, (FLOAT)y+1),
 						brush,
 						D2D1_DRAW_TEXT_OPTIONS_NO_SNAP,
@@ -540,38 +540,30 @@ GuiSolidLabelElementRenderer
 				else
 				{
 					IDWriteFactory* dwriteFactory=GetDirectWriteFactory();
-					DWRITE_WORD_WRAPPING wrapping=textFormat->GetWordWrapping();
-					DWRITE_TEXT_ALIGNMENT alignment=textFormat->GetTextAlignment();
+					DWRITE_WORD_WRAPPING wrapping=textFormat->textFormat->GetWordWrapping();
+					DWRITE_TEXT_ALIGNMENT alignment=textFormat->textFormat->GetTextAlignment();
 					DWRITE_TRIMMING trimming;
 					IDWriteInlineObject* inlineObject;
-					textFormat->GetTrimming(&trimming, &inlineObject);
+					textFormat->textFormat->GetTrimming(&trimming, &inlineObject);
 
 					if(element->GetWrapLine())
 					{
-						textFormat->SetWordWrapping(DWRITE_WORD_WRAPPING_WRAP);
+						textFormat->textFormat->SetWordWrapping(DWRITE_WORD_WRAPPING_WRAP);
 					}
 					if(element->GetEllipse())
 					{
-						DWRITE_TRIMMING ellipse;
-						ellipse.granularity=DWRITE_TRIMMING_GRANULARITY_CHARACTER;
-						ellipse.delimiter=0;
-						ellipse.delimiterCount=0;
-
-						IDWriteInlineObject* ellipseInlineObject;
-						dwriteFactory->CreateEllipsisTrimmingSign(textFormat, &ellipseInlineObject);
-						textFormat->SetTrimming(&ellipse, ellipseInlineObject);
-						ellipseInlineObject->Release();
+						textFormat->textFormat->SetTrimming(&textFormat->trimming, textFormat->ellipseInlineObject.Obj());
 					}
 					switch(element->GetHorizontalAlignment())
 					{
 					case Alignment::Left:
-						textFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
+						textFormat->textFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
 						break;
 					case Alignment::Center:
-						textFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
+						textFormat->textFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
 						break;
 					case Alignment::Right:
-						textFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_TRAILING);
+						textFormat->textFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_TRAILING);
 						break;
 					}
 
@@ -579,16 +571,16 @@ GuiSolidLabelElementRenderer
 					d2dRenderTarget->DrawText(
 						oldText.Buffer(),
 						oldText.Length(),
-						textFormat,
+						textFormat->textFormat.Obj(),
 						D2D1::RectF((FLOAT)bounds.Left(), (FLOAT)bounds.Top(), (FLOAT)bounds.Right(), (FLOAT)bounds.Bottom()),
 						brush,
-						D2D1_DRAW_TEXT_OPTIONS_CLIP,
+						D2D1_DRAW_TEXT_OPTIONS_NO_SNAP,
 						DWRITE_MEASURING_MODE_GDI_NATURAL
 						);
 
-					textFormat->SetWordWrapping(wrapping);
-					textFormat->SetTextAlignment(alignment);
-					textFormat->SetTrimming(&trimming, inlineObject);
+					textFormat->textFormat->SetWordWrapping(wrapping);
+					textFormat->textFormat->SetTextAlignment(alignment);
+					textFormat->textFormat->SetTrimming(&trimming, inlineObject);
 				}
 			}
 
@@ -906,7 +898,7 @@ GuiColorizedTextElementRenderer
 								d2dRenderTarget->DrawText(
 									&line.text[column],
 									1,
-									textFormat,
+									textFormat->textFormat.Obj(),
 									D2D1::RectF((FLOAT)tx, (FLOAT)ty, (FLOAT)tx+1, (FLOAT)ty+1),
 									color.textBrush,
 									D2D1_DRAW_TEXT_OPTIONS_NO_SNAP,
