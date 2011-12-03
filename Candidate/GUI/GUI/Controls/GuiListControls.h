@@ -265,10 +265,11 @@ Predefined ItemArranger
 				{
 					typedef collections::List<GuiListControl::IItemStyleController*>		StyleList;
 				protected:
-					int											rowHeight;
+					Size										itemSize;
 					bool										suppressOnViewChanged;
 
 					void										RearrangeItemBounds();
+					void										CalculateRange(Size itemSize, Rect bounds, int count, int& start, int& end);
 					void										OnStylesCleared()override;
 					Size										OnCalculateTotalSize()override;
 					void										OnViewChangedInternal(Rect oldBounds, Rect newBounds)override;
