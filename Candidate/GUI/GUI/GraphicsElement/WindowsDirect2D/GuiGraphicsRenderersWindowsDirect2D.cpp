@@ -445,7 +445,7 @@ GuiSolidLabelElementRenderer
 
 			void GuiSolidLabelElementRenderer::UpdateMinSize()
 			{
-				if(renderTarget)
+				if(renderTarget && !element->GetEllipse() && !element->GetMultiline() && !element->GetWrapLine())
 				{
 					IDWriteTextLayout* textLayout=0;
 					HRESULT hr=GetDirectWriteFactory()->CreateTextLayout(
@@ -497,43 +497,99 @@ GuiSolidLabelElementRenderer
 
 			void GuiSolidLabelElementRenderer::Render(Rect bounds)
 			{
-				int x=0;
-				int y=0;
-				switch(element->GetHorizontalAlignment())
+				if(!element->GetEllipse() && !element->GetMultiline() && !element->GetWrapLine())
 				{
-				case Alignment::Left:
-					x=bounds.Left();
-					break;
-				case Alignment::Center:
-					x=bounds.Left()+(bounds.Width()-minSize.x)/2;
-					break;
-				case Alignment::Right:
-					x=bounds.Right()-minSize.x;
-					break;
-				}
-				switch(element->GetVerticalAlignment())
-				{
-				case Alignment::Top:
-					y=bounds.Top();
-					break;
-				case Alignment::Center:
-					y=bounds.Top()+(bounds.Height()-minSize.y)/2;
-					break;
-				case Alignment::Bottom:
-					y=bounds.Bottom()-minSize.y;
-					break;
-				}
+					int x=0;
+					int y=0;
+					switch(element->GetHorizontalAlignment())
+					{
+					case Alignment::Left:
+						x=bounds.Left();
+						break;
+					case Alignment::Center:
+						x=bounds.Left()+(bounds.Width()-minSize.x)/2;
+						break;
+					case Alignment::Right:
+						x=bounds.Right()-minSize.x;
+						break;
+					}
+					switch(element->GetVerticalAlignment())
+					{
+					case Alignment::Top:
+						y=bounds.Top();
+						break;
+					case Alignment::Center:
+						y=bounds.Top()+(bounds.Height()-minSize.y)/2;
+						break;
+					case Alignment::Bottom:
+						y=bounds.Bottom()-minSize.y;
+						break;
+					}
 
-				ID2D1RenderTarget* d2dRenderTarget=renderTarget->GetDirect2DRenderTarget();
-				d2dRenderTarget->DrawText(
-					oldText.Buffer(),
-					oldText.Length(),
-					textFormat,
-					D2D1::RectF((FLOAT)x, (FLOAT)y, (FLOAT)x+1, (FLOAT)y+1),
-					brush,
-					D2D1_DRAW_TEXT_OPTIONS_NO_SNAP,
-					DWRITE_MEASURING_MODE_GDI_NATURAL
-					);
+					ID2D1RenderTarget* d2dRenderTarget=renderTarget->GetDirect2DRenderTarget();
+					d2dRenderTarget->DrawText(
+						oldText.Buffer(),
+						oldText.Length(),
+						textFormat,
+						D2D1::RectF((FLOAT)x, (FLOAT)y, (FLOAT)x+1, (FLOAT)y+1),
+						brush,
+						D2D1_DRAW_TEXT_OPTIONS_NO_SNAP,
+						DWRITE_MEASURING_MODE_GDI_NATURAL
+						);
+				}
+				else
+				{
+					IDWriteFactory* dwriteFactory=GetDirectWriteFactory();
+					DWRITE_WORD_WRAPPING wrapping=textFormat->GetWordWrapping();
+					DWRITE_TEXT_ALIGNMENT alignment=textFormat->GetTextAlignment();
+					DWRITE_TRIMMING trimming;
+					IDWriteInlineObject* inlineObject;
+					textFormat->GetTrimming(&trimming, &inlineObject);
+
+					if(element->GetWrapLine())
+					{
+						textFormat->SetWordWrapping(DWRITE_WORD_WRAPPING_WRAP);
+					}
+					if(element->GetEllipse())
+					{
+						DWRITE_TRIMMING ellipse;
+						ellipse.granularity=DWRITE_TRIMMING_GRANULARITY_CHARACTER;
+						ellipse.delimiter=0;
+						ellipse.delimiterCount=0;
+
+						IDWriteInlineObject* ellipseInlineObject;
+						dwriteFactory->CreateEllipsisTrimmingSign(textFormat, &ellipseInlineObject);
+						textFormat->SetTrimming(&ellipse, ellipseInlineObject);
+						ellipseInlineObject->Release();
+					}
+					switch(element->GetHorizontalAlignment())
+					{
+					case Alignment::Left:
+						textFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
+						break;
+					case Alignment::Center:
+						textFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
+						break;
+					case Alignment::Right:
+						textFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_TRAILING);
+						break;
+					}
+
+					ID2D1RenderTarget* d2dRenderTarget=renderTarget->GetDirect2DRenderTarget();
+					d2dRenderTarget->DrawText(
+						oldText.Buffer(),
+						oldText.Length(),
+						textFormat,
+						D2D1::RectF((FLOAT)bounds.Left(), (FLOAT)bounds.Top(), (FLOAT)bounds.Right(), (FLOAT)bounds.Bottom()),
+						brush,
+						D2D1_DRAW_TEXT_OPTIONS_CLIP,
+						DWRITE_MEASURING_MODE_GDI_NATURAL
+						);
+
+					textFormat->SetWordWrapping(wrapping);
+					textFormat->SetTextAlignment(alignment);
+					textFormat->SetTrimming(&trimming, inlineObject);
+				}
 			}
 
 			void GuiSolidLabelElementRenderer::OnElementStateChanged()
