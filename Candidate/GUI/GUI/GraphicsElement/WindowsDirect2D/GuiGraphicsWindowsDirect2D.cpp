@@ -107,7 +107,8 @@ CachedResourceAllocator
 
 			class CachedTextFormatAllocator
 			{
-				DEFINE_CACHED_RESOURCE_ALLOCATOR(FontProperties, ComPtr<IDWriteTextFormat>)
+			private:
+				DEFINE_CACHED_RESOURCE_ALLOCATOR(FontProperties, Ptr<Direct2DTextFormatPackage>)
 			public:
 
 				static ComPtr<IDWriteTextFormat> CreateDirect2DFont(const FontProperties& fontProperties)
@@ -134,9 +135,18 @@ CachedResourceAllocator
 					}
 				}
 
-				ComPtr<IDWriteTextFormat> CreateInternal(const FontProperties& fontProperties)
+				Ptr<Direct2DTextFormatPackage> CreateInternal(const FontProperties& fontProperties)
 				{
-					return CreateDirect2DFont(fontProperties);
+					Ptr<Direct2DTextFormatPackage> textFormat=new Direct2DTextFormatPackage;
+					textFormat->textFormat=CreateDirect2DFont(fontProperties);
+					textFormat->trimming.granularity=DWRITE_TRIMMING_GRANULARITY_CHARACTER;
+					textFormat->trimming.delimiter=0;
+					textFormat->trimming.delimiterCount=0;
+
+					IDWriteInlineObject* ellipseInlineObject=0;
+					GetDirectWriteFactory()->CreateEllipsisTrimmingSign(textFormat->textFormat.Obj(), &ellipseInlineObject);
+					textFormat->ellipseInlineObject=ellipseInlineObject;
+					return textFormat;
 				}
 			};
 
@@ -145,7 +155,7 @@ CachedResourceAllocator
 				DEFINE_CACHED_RESOURCE_ALLOCATOR(FontProperties, Ptr<text::CharMeasurer>)
 
 			protected:
-				class GdiCharMeasurer : public text::CharMeasurer
+				class Direct2DCharMeasurer : public text::CharMeasurer
 				{
 				protected:
 					ComPtr<IDWriteTextFormat>		font;
@@ -185,7 +195,7 @@ CachedResourceAllocator
 						return MeasureInternal(L' ', renderTarget).y;
 					}
 				public:
-					GdiCharMeasurer(ComPtr<IDWriteTextFormat> _font, int _size)
+					Direct2DCharMeasurer(ComPtr<IDWriteTextFormat> _font, int _size)
 						:text::CharMeasurer(_size)
 						,size(_size)
 						,font(_font)
@@ -195,7 +205,7 @@ CachedResourceAllocator
 			public:
 				Ptr<text::CharMeasurer> CreateInternal(const FontProperties& value)
 				{
-					return new GdiCharMeasurer(CachedTextFormatAllocator::CreateDirect2DFont(value), value.size);
+					return new Direct2DCharMeasurer(CachedTextFormatAllocator::CreateDirect2DFont(value), value.size);
 				}
 			};
 
@@ -447,7 +457,7 @@ WindowsGDIResourceManager
 					renderTargets.Remove(renderTarget);
 				}
 
-				IDWriteTextFormat* CreateDirect2DTextFormat(const FontProperties& fontProperties)override
+				Direct2DTextFormatPackage* CreateDirect2DTextFormat(const FontProperties& fontProperties)override
 				{
 					return textFormats.Create(fontProperties).Obj();
 				}

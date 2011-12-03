@@ -32,10 +32,18 @@ namespace vl
 				virtual void								DestroyDirect2DLinearBrush(Color c1, Color c2)=0;
 			};
 
+			class Direct2DTextFormatPackage
+			{
+			public:
+				ComPtr<IDWriteTextFormat>		textFormat;
+				DWRITE_TRIMMING					trimming;
+				ComPtr<IDWriteInlineObject>		ellipseInlineObject;
+			};
+
 			class IWindowsDirect2DResourceManager : public Interface
 			{
 			public:
-				virtual IDWriteTextFormat*					CreateDirect2DTextFormat(const FontProperties& fontProperties)=0;
+				virtual Direct2DTextFormatPackage*			CreateDirect2DTextFormat(const FontProperties& fontProperties)=0;
 				virtual void								DestroyDirect2DTextFormat(const FontProperties& fontProperties)=0;
 				virtual Ptr<elements::text::CharMeasurer>	CreateDirect2DCharMeasurer(const FontProperties& fontProperties)=0;
 				virtual void								DestroyDirect2DCharMeasurer(const FontProperties& fontProperties)=0;
