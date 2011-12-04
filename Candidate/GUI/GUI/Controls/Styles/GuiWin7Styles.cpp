@@ -2780,6 +2780,11 @@ Win7SinglelineTextBoxProvider
 			{
 				return Win7GetSystemTextColor(false);
 			}
+
+			Color Win7ListViewProvider::GetItemSeparatorColor()
+			{
+				return Color(220, 220, 220);
+			}
 		}
 	}
 }

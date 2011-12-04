@@ -451,8 +451,6 @@ void SetupListviewWindow(GuiControlHost* controlHost, GuiControl* container)
 			item->subItems.Add(i<10?L"Long":L"Short");
 			listControl->GetItems().Add(item);
 		}
-		listControl->GetItems().GetDataColumns().Add(0);
-		listControl->GetItems().GetDataColumns().Add(2);
 		listControl->GetItems().GetColumns().Add(L"Name");
 		listControl->GetItems().GetColumns().Add(L"Description");
 		listControl->GetItems().GetColumns().Add(L"Index");
@@ -470,13 +468,14 @@ void SetupListviewWindow(GuiControlHost* controlHost, GuiControl* container)
 		typeList->GetItems().Add(L"List (not completed)");
 		typeList->GetItems().Add(L"Detail (not completed)");
 		typeList->GetItems().Add(L"Tile");
-		typeList->GetItems().Add(L"Information (not completed)");
+		typeList->GetItems().Add(L"Information");
 		typeList->SetSelected(0, true);
 
 		typeList->SelectionChanged.AttachLambda([listControl, typeList](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
 		{
 			if(typeList->GetSelectedItems().Count()>0)
 			{
+				listControl->GetItems().GetDataColumns().Clear();
 				switch(typeList->GetSelectedItems()[0])
 				{
 				case 0:
@@ -492,9 +491,13 @@ void SetupListviewWindow(GuiControlHost* controlHost, GuiControl* container)
 					listControl->ChangeItemStyle(new list::ListViewDetailContentProvider);
 					break;
 				case 4:
+					listControl->GetItems().GetDataColumns().Add(0);
+					listControl->GetItems().GetDataColumns().Add(2);
 					listControl->ChangeItemStyle(new list::ListViewTileContentProvider);
 					break;
 				case 5:
+					listControl->GetItems().GetDataColumns().Add(1);
+					listControl->GetItems().GetDataColumns().Add(2);
 					listControl->ChangeItemStyle(new list::ListViewInformationContentProvider);
 					break;
 				}
