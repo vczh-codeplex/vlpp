@@ -902,23 +902,23 @@ ListViewInformationContentProvider
 							dataTable->AddChild(cell);
 							cell->SetSite(0, 0, 1, 1);
 
-							text=GuiSolidLabelElement::Create();
-							text->SetFont(baselineFont);
-							text->SetText(view->GetColumnText(view->GetDataColumn(i)+1)+L": ");
-							text->SetColor(styleProvider->GetSecondaryTextColor());
-							cell->SetOwnedElement(text);
+							GuiSolidLabelElement* textColumn=GuiSolidLabelElement::Create();
+							textColumn->SetFont(baselineFont);
+							textColumn->SetText(view->GetColumnText(view->GetDataColumn(i)+1)+L": ");
+							textColumn->SetColor(styleProvider->GetSecondaryTextColor());
+							cell->SetOwnedElement(textColumn);
 						}
 						{
 							GuiCellComposition* cell=new GuiCellComposition;
 							dataTable->AddChild(cell);
 							cell->SetSite(0, 1, 1, 1);
 
-							text=GuiSolidLabelElement::Create();
-							text->SetFont(baselineFont);
-							text->SetEllipse(true);
-							text->SetText(view->GetSubItem(itemIndex, view->GetDataColumn(i)));
-							text->SetColor(styleProvider->GetPrimaryTextColor());
-							cell->SetOwnedElement(text);
+							GuiSolidLabelElement* textData=GuiSolidLabelElement::Create();
+							textData->SetFont(baselineFont);
+							textData->SetEllipse(true);
+							textData->SetText(view->GetSubItem(itemIndex, view->GetDataColumn(i)));
+							textData->SetColor(styleProvider->GetPrimaryTextColor());
+							cell->SetOwnedElement(textData);
 						}
 					}
 				}
