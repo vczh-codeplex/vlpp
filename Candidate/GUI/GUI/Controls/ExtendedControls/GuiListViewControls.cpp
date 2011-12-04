@@ -283,7 +283,7 @@ GuiListView
 ListViewBigIconContentProvider
 ***********************************************************************/
 
-				ListViewBigIconContentProvider::ItemContent::ItemContent(const FontProperties& font)
+				ListViewBigIconContentProvider::ItemContent::ItemContent(Size iconSize, const FontProperties& font)
 					:contentComposition(0)
 				{
 					contentComposition=new GuiBoundsComposition;
@@ -303,7 +303,7 @@ ListViewBigIconContentProvider
 						GuiCellComposition* cell=new GuiCellComposition;
 						table->AddChild(cell);
 						cell->SetSite(0, 1, 1, 1);
-						cell->SetPreferredMinSize(Size(32, 32));
+						cell->SetPreferredMinSize(iconSize);
 
 						image=GuiImageFrameElement::Create();
 						image->SetStretch(true);
@@ -349,7 +349,8 @@ ListViewBigIconContentProvider
 					text->SetColor(styleProvider->GetPrimaryTextColor());
 				}
 
-				ListViewBigIconContentProvider::ListViewBigIconContentProvider()
+				ListViewBigIconContentProvider::ListViewBigIconContentProvider(Size _iconSize)
+					:iconSize(_iconSize)
 				{
 				}
 
@@ -364,14 +365,14 @@ ListViewBigIconContentProvider
 
 				ListViewItemStyleProvider::IListViewItemContent* ListViewBigIconContentProvider::CreateItemContent(const FontProperties& font)
 				{
-					return new ItemContent(font);
+					return new ItemContent(iconSize, font);
 				}
 				
 /***********************************************************************
 ListViewSmallIconContentProvider
 ***********************************************************************/
 
-				ListViewSmallIconContentProvider::ItemContent::ItemContent(const FontProperties& font)
+				ListViewSmallIconContentProvider::ItemContent::ItemContent(Size iconSize, const FontProperties& font)
 					:contentComposition(0)
 				{
 					contentComposition=new GuiBoundsComposition;
@@ -391,7 +392,7 @@ ListViewSmallIconContentProvider
 						GuiCellComposition* cell=new GuiCellComposition;
 						table->AddChild(cell);
 						cell->SetSite(1, 0, 1, 1);
-						cell->SetPreferredMinSize(Size(16, 16));
+						cell->SetPreferredMinSize(iconSize);
 
 						image=GuiImageFrameElement::Create();
 						image->SetStretch(true);
@@ -435,7 +436,8 @@ ListViewSmallIconContentProvider
 					text->SetColor(styleProvider->GetPrimaryTextColor());
 				}
 
-				ListViewSmallIconContentProvider::ListViewSmallIconContentProvider()
+				ListViewSmallIconContentProvider::ListViewSmallIconContentProvider(Size _iconSize)
+					:iconSize(_iconSize)
 				{
 				}
 
@@ -450,14 +452,14 @@ ListViewSmallIconContentProvider
 
 				ListViewItemStyleProvider::IListViewItemContent* ListViewSmallIconContentProvider::CreateItemContent(const FontProperties& font)
 				{
-					return new ItemContent(font);
+					return new ItemContent(iconSize, font);
 				}
 				
 /***********************************************************************
 ListViewListContentProvider
 ***********************************************************************/
 
-				ListViewListContentProvider::ItemContent::ItemContent(const FontProperties& font)
+				ListViewListContentProvider::ItemContent::ItemContent(Size iconSize, const FontProperties& font)
 					:contentComposition(0)
 				{
 					contentComposition=new GuiBoundsComposition;
@@ -477,7 +479,7 @@ ListViewListContentProvider
 						GuiCellComposition* cell=new GuiCellComposition;
 						table->AddChild(cell);
 						cell->SetSite(1, 0, 1, 1);
-						cell->SetPreferredMinSize(Size(16, 16));
+						cell->SetPreferredMinSize(iconSize);
 
 						image=GuiImageFrameElement::Create();
 						image->SetStretch(true);
@@ -520,7 +522,8 @@ ListViewListContentProvider
 					text->SetColor(styleProvider->GetPrimaryTextColor());
 				}
 
-				ListViewListContentProvider::ListViewListContentProvider()
+				ListViewListContentProvider::ListViewListContentProvider(Size _iconSize)
+					:iconSize(_iconSize)
 				{
 				}
 
@@ -535,14 +538,14 @@ ListViewListContentProvider
 
 				ListViewItemStyleProvider::IListViewItemContent* ListViewListContentProvider::CreateItemContent(const FontProperties& font)
 				{
-					return new ItemContent(font);
+					return new ItemContent(iconSize, font);
 				}
 				
 /***********************************************************************
 ListViewDetailContentProvider
 ***********************************************************************/
 
-				ListViewDetailContentProvider::ItemContent::ItemContent(const FontProperties& font)
+				ListViewDetailContentProvider::ItemContent::ItemContent(Size iconSize, const FontProperties& font)
 					:contentComposition(0)
 				{
 					contentComposition=new GuiBoundsComposition;
@@ -561,7 +564,8 @@ ListViewDetailContentProvider
 				{
 				}
 
-				ListViewDetailContentProvider::ListViewDetailContentProvider()
+				ListViewDetailContentProvider::ListViewDetailContentProvider(Size _iconSize)
+					:iconSize(_iconSize)
 				{
 				}
 
@@ -576,14 +580,47 @@ ListViewDetailContentProvider
 
 				ListViewItemStyleProvider::IListViewItemContent* ListViewDetailContentProvider::CreateItemContent(const FontProperties& font)
 				{
-					return new ItemContent(font);
+					return new ItemContent(iconSize, font);
 				}
 				
 /***********************************************************************
 ListViewTileContentProvider
 ***********************************************************************/
 
-				ListViewTileContentProvider::ItemContent::ItemContent(const FontProperties& font)
+				void ListViewTileContentProvider::ItemContent::RemoveTextElement(int textRow)
+				{
+					GuiCellComposition* cell=textTable->GetSitedCell(textRow+1, 0);
+					textTable->RemoveChild(cell);
+					delete cell;
+				}
+
+				elements::GuiSolidLabelElement* ListViewTileContentProvider::ItemContent::CreateTextElement(int textRow, const FontProperties& font)
+				{
+					GuiCellComposition* cell=new GuiCellComposition;
+					textTable->AddChild(cell);
+					cell->SetSite(textRow+1, 0, 1, 1);
+
+					elements::GuiSolidLabelElement* textElement=GuiSolidLabelElement::Create();
+					textElement->SetAlignments(Alignment::Left, Alignment::Center);
+					textElement->SetFont(font);
+					textElement->SetEllipse(true);
+					cell->SetOwnedElement(textElement);
+					return textElement;
+				}
+
+				void ListViewTileContentProvider::ItemContent::ResetTextTable(int textRows)
+				{
+					textTable->SetRowsAndColumns(textRows+2, 1);
+					textTable->SetRowOption(0, GuiCellOption::PercentageOption(0.5));
+					for(int i=0;i<textRows;i++)
+					{
+						textTable->SetRowOption(i+1, GuiCellOption::MinSizeOption());
+					}
+					textTable->SetRowOption(textRows+1, GuiCellOption::PercentageOption(0.5));
+					textTable->SetColumnOption(0, GuiCellOption::PercentageOption(1.0));
+				}
+
+				ListViewTileContentProvider::ItemContent::ItemContent(Size iconSize, const FontProperties& font)
 					:contentComposition(0)
 				{
 					contentComposition=new GuiBoundsComposition;
@@ -598,12 +635,12 @@ ListViewTileContentProvider
 					table->SetColumnOption(0, GuiCellOption::MinSizeOption());
 					table->SetColumnOption(1, GuiCellOption::MinSizeOption());
 					table->SetAlignmentToParent(Margin(0, 0, 0, 0));
-					table->SetCellPadding(2);
+					table->SetCellPadding(4);
 					{
 						GuiCellComposition* cell=new GuiCellComposition;
 						table->AddChild(cell);
 						cell->SetSite(1, 0, 1, 1);
-						cell->SetPreferredMinSize(Size(32, 32));
+						cell->SetPreferredMinSize(iconSize);
 
 						image=GuiImageFrameElement::Create();
 						image->SetStretch(true);
@@ -613,26 +650,15 @@ ListViewTileContentProvider
 						GuiCellComposition* cell=new GuiCellComposition;
 						table->AddChild(cell);
 						cell->SetSite(0, 1, 3, 1);
-						cell->SetPreferredMinSize(Size(192, 0));
+						cell->SetPreferredMinSize(Size(224, 0));
 
 						textTable=new GuiTableComposition;
-						textTable->SetRowsAndColumns(3, 1);
-						textTable->SetRowOption(0, GuiCellOption::PercentageOption(0.5));
-						textTable->SetRowOption(1, GuiCellOption::MinSizeOption());
-						textTable->SetRowOption(2, GuiCellOption::PercentageOption(0.5));
-						textTable->SetColumnOption(0, GuiCellOption::PercentageOption(1.0));
+						textTable->SetCellPadding(1);
+						ResetTextTable(1);
 						textTable->SetAlignmentToParent(Margin(0, 0, 0, 0));
 						cell->AddChild(textTable);
 						{
-							GuiCellComposition* cell=new GuiCellComposition;
-							textTable->AddChild(cell);
-							cell->SetSite(1, 0, 1, 1);
-
-							text=GuiSolidLabelElement::Create();
-							text->SetAlignments(Alignment::Left, Alignment::Center);
-							text->SetFont(font);
-							text->SetEllipse(true);
-							cell->SetOwnedElement(text);
+							text=CreateTextElement(0, font);
 						}
 					}
 				}
@@ -659,9 +685,24 @@ ListViewTileContentProvider
 					}
 					text->SetText(view->GetText(itemIndex));
 					text->SetColor(styleProvider->GetPrimaryTextColor());
+
+					for(int i=0;i<dataTexts.Count();i++)
+					{
+						RemoveTextElement(i+1);
+					}
+					int dataColumnCount=view->GetDataColumnCount();
+					ResetTextTable(dataColumnCount+1);
+					dataTexts.Resize(dataColumnCount);
+					for(int i=0;i<dataColumnCount;i++)
+					{
+						dataTexts[i]=CreateTextElement(i+1, text->GetFont());
+						dataTexts[i]->SetText(view->GetSubItem(itemIndex, view->GetDataColumn(i)));
+						dataTexts[i]->SetColor(styleProvider->GetSecondaryTextColor());
+					}
 				}
 
-				ListViewTileContentProvider::ListViewTileContentProvider()
+				ListViewTileContentProvider::ListViewTileContentProvider(Size _iconSize)
+					:iconSize(_iconSize)
 				{
 				}
 
@@ -676,14 +717,14 @@ ListViewTileContentProvider
 
 				ListViewItemStyleProvider::IListViewItemContent* ListViewTileContentProvider::CreateItemContent(const FontProperties& font)
 				{
-					return new ItemContent(font);
+					return new ItemContent(iconSize, font);
 				}
 				
 /***********************************************************************
 ListViewInformationContentProvider
 ***********************************************************************/
 
-				ListViewInformationContentProvider::ItemContent::ItemContent(const FontProperties& font)
+				ListViewInformationContentProvider::ItemContent::ItemContent(Size iconSize, const FontProperties& font)
 					:contentComposition(0)
 				{
 					contentComposition=new GuiBoundsComposition;
@@ -702,7 +743,8 @@ ListViewInformationContentProvider
 				{
 				}
 
-				ListViewInformationContentProvider::ListViewInformationContentProvider()
+				ListViewInformationContentProvider::ListViewInformationContentProvider(Size _iconSize)
+					:iconSize(_iconSize)
 				{
 				}
 
@@ -717,7 +759,7 @@ ListViewInformationContentProvider
 
 				ListViewItemStyleProvider::IListViewItemContent* ListViewInformationContentProvider::CreateItemContent(const FontProperties& font)
 				{
-					return new ItemContent(font);
+					return new ItemContent(iconSize, font);
 				}
 			}
 		}

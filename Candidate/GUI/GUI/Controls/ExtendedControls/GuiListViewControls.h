@@ -201,14 +201,16 @@ ListView ItemStyles
 						elements::GuiSolidLabelElement*					text;
 
 					public:
-						ItemContent(const FontProperties& font);
+						ItemContent(Size iconSize, const FontProperties& font);
 						~ItemContent();
 
 						elements::GuiBoundsComposition*					GetContentComposition()override;
 						void											Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
 					};
+
+					Size												iconSize;
 				public:
-					ListViewBigIconContentProvider();
+					ListViewBigIconContentProvider(Size _iconSize=Size(32, 32));
 					~ListViewBigIconContentProvider();
 
 					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
@@ -226,14 +228,16 @@ ListView ItemStyles
 						elements::GuiSolidLabelElement*					text;
 
 					public:
-						ItemContent(const FontProperties& font);
+						ItemContent(Size iconSize, const FontProperties& font);
 						~ItemContent();
 
 						elements::GuiBoundsComposition*					GetContentComposition()override;
 						void											Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
 					};
+
+					Size												iconSize;
 				public:
-					ListViewSmallIconContentProvider();
+					ListViewSmallIconContentProvider(Size _iconSize=Size(16, 16));
 					~ListViewSmallIconContentProvider();
 
 					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
@@ -251,14 +255,16 @@ ListView ItemStyles
 						elements::GuiSolidLabelElement*					text;
 
 					public:
-						ItemContent(const FontProperties& font);
+						ItemContent(Size iconSize, const FontProperties& font);
 						~ItemContent();
 
 						elements::GuiBoundsComposition*					GetContentComposition()override;
 						void											Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
 					};
+
+					Size												iconSize;
 				public:
-					ListViewListContentProvider();
+					ListViewListContentProvider(Size _iconSize=Size(16, 16));
 					~ListViewListContentProvider();
 
 					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
@@ -274,14 +280,16 @@ ListView ItemStyles
 						elements::GuiBoundsComposition*					contentComposition;
 
 					public:
-						ItemContent(const FontProperties& font);
+						ItemContent(Size iconSize, const FontProperties& font);
 						~ItemContent();
 
 						elements::GuiBoundsComposition*					GetContentComposition()override;
 						void											Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
 					};
+
+					Size												iconSize;
 				public:
-					ListViewDetailContentProvider();
+					ListViewDetailContentProvider(Size _iconSize=Size(16, 16));
 					~ListViewDetailContentProvider();
 
 					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
@@ -301,15 +309,20 @@ ListView ItemStyles
 						elements::GuiTableComposition*					textTable;
 						DataTextElementArray							dataTexts;
 
+						void											RemoveTextElement(int textRow);
+						elements::GuiSolidLabelElement*					CreateTextElement(int textRow, const FontProperties& font);
+						void											ResetTextTable(int textRows);
 					public:
-						ItemContent(const FontProperties& font);
+						ItemContent(Size iconSize, const FontProperties& font);
 						~ItemContent();
 
 						elements::GuiBoundsComposition*					GetContentComposition()override;
 						void											Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
 					};
+
+					Size												iconSize;
 				public:
-					ListViewTileContentProvider();
+					ListViewTileContentProvider(Size _iconSize=Size(32, 32));
 					~ListViewTileContentProvider();
 
 					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
@@ -325,14 +338,16 @@ ListView ItemStyles
 						elements::GuiBoundsComposition*					contentComposition;
 
 					public:
-						ItemContent(const FontProperties& font);
+						ItemContent(Size iconSize, const FontProperties& font);
 						~ItemContent();
 
 						elements::GuiBoundsComposition*					GetContentComposition()override;
 						void											Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
 					};
+
+					Size												iconSize;
 				public:
-					ListViewInformationContentProvider();
+					ListViewInformationContentProvider(Size _iconSize=Size(32, 32));
 					~ListViewInformationContentProvider();
 
 					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
