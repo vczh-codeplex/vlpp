@@ -20,7 +20,7 @@ ListViewItemStyleProviderBase::TextItemStyleController
 					,backgroundButton(0)
 					,listViewItemStyleProvider(provider)
 				{
-					backgroundButton=new GuiSelectableButton(listViewItemStyleProvider->listControl->styleProvider->CreateItemBackground());
+					backgroundButton=new GuiSelectableButton(listViewItemStyleProvider->listControl->GetListViewStyleProvider()->CreateItemBackground());
 					backgroundButton->SetAutoSelection(false);
 					Initialize(backgroundButton->GetBoundsComposition(), backgroundButton);
 				}
@@ -94,6 +94,11 @@ GuiListViewBase
 			{
 			}
 
+			GuiListViewBase::IStyleProvider* GuiListViewBase::GetListViewStyleProvider()
+			{
+				return styleProvider;
+			}
+
 			Ptr<GuiListControl::IItemStyleProvider> GuiListViewBase::SetStyleProvider(Ptr<GuiListControl::IItemStyleProvider> value)
 			{
 				if(value.Cast<list::ListViewItemStyleProvider>())
@@ -129,7 +134,7 @@ ListViewItemStyleProvider::ListViewContentItemStyleController
 
 				void ListViewItemStyleProvider::ListViewContentItemStyleController::Install(IListViewItemView* view, int itemIndex)
 				{
-					content->Install(view, itemIndex);
+					content->Install(listViewItemStyleProvider->listControl->GetListViewStyleProvider(), view, itemIndex);
 				}
 
 /***********************************************************************
@@ -329,7 +334,7 @@ ListViewBigIconContentProvider
 					return contentComposition;
 				}
 
-				void ListViewBigIconContentProvider::ItemContent::Install(ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
+				void ListViewBigIconContentProvider::ItemContent::Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
 				{
 					Ptr<GuiImageData> imageData=view->GetLargeImage(itemIndex);
 					if(imageData)
@@ -341,6 +346,7 @@ ListViewBigIconContentProvider
 						image->SetImage(0);
 					}
 					text->SetText(view->GetText(itemIndex));
+					text->SetColor(styleProvider->GetPrimaryTextColor());
 				}
 
 				ListViewBigIconContentProvider::ListViewBigIconContentProvider()
@@ -394,9 +400,8 @@ ListViewSmallIconContentProvider
 					{
 						GuiCellComposition* cell=new GuiCellComposition;
 						table->AddChild(cell);
-						cell->SetMinSizeLimitation(GuiGraphicsComposition::NoLimit);
 						cell->SetSite(0, 1, 3, 1);
-						cell->SetPreferredMinSize(Size(192, 16));
+						cell->SetPreferredMinSize(Size(192, 0));
 
 						text=GuiSolidLabelElement::Create();
 						text->SetAlignments(Alignment::Left, Alignment::Center);
@@ -415,7 +420,7 @@ ListViewSmallIconContentProvider
 					return contentComposition;
 				}
 
-				void ListViewSmallIconContentProvider::ItemContent::Install(ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
+				void ListViewSmallIconContentProvider::ItemContent::Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
 				{
 					Ptr<GuiImageData> imageData=view->GetSmallImage(itemIndex);
 					if(imageData)
@@ -427,6 +432,7 @@ ListViewSmallIconContentProvider
 						image->SetImage(0);
 					}
 					text->SetText(view->GetText(itemIndex));
+					text->SetColor(styleProvider->GetPrimaryTextColor());
 				}
 
 				ListViewSmallIconContentProvider::ListViewSmallIconContentProvider()
@@ -481,7 +487,7 @@ ListViewListContentProvider
 						GuiCellComposition* cell=new GuiCellComposition;
 						table->AddChild(cell);
 						cell->SetSite(0, 1, 3, 1);
-						cell->SetPreferredMinSize(Size(192, 16));
+						cell->SetPreferredMinSize(Size(192, 0));
 
 						text=GuiSolidLabelElement::Create();
 						text->SetAlignments(Alignment::Left, Alignment::Center);
@@ -499,7 +505,7 @@ ListViewListContentProvider
 					return contentComposition;
 				}
 
-				void ListViewListContentProvider::ItemContent::Install(ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
+				void ListViewListContentProvider::ItemContent::Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
 				{
 					Ptr<GuiImageData> imageData=view->GetSmallImage(itemIndex);
 					if(imageData)
@@ -511,6 +517,7 @@ ListViewListContentProvider
 						image->SetImage(0);
 					}
 					text->SetText(view->GetText(itemIndex));
+					text->SetColor(styleProvider->GetPrimaryTextColor());
 				}
 
 				ListViewListContentProvider::ListViewListContentProvider()
@@ -550,7 +557,7 @@ ListViewDetailContentProvider
 					return contentComposition;
 				}
 
-				void ListViewDetailContentProvider::ItemContent::Install(ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
+				void ListViewDetailContentProvider::ItemContent::Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
 				{
 				}
 
@@ -580,6 +587,54 @@ ListViewTileContentProvider
 					:contentComposition(0)
 				{
 					contentComposition=new GuiBoundsComposition;
+					contentComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+
+					GuiTableComposition* table=new GuiTableComposition;
+					contentComposition->AddChild(table);
+					table->SetRowsAndColumns(3, 2);
+					table->SetRowOption(0, GuiCellOption::PercentageOption(0.5));
+					table->SetRowOption(1, GuiCellOption::MinSizeOption());
+					table->SetRowOption(2, GuiCellOption::PercentageOption(0.5));
+					table->SetColumnOption(0, GuiCellOption::MinSizeOption());
+					table->SetColumnOption(1, GuiCellOption::MinSizeOption());
+					table->SetAlignmentToParent(Margin(0, 0, 0, 0));
+					table->SetCellPadding(2);
+					{
+						GuiCellComposition* cell=new GuiCellComposition;
+						table->AddChild(cell);
+						cell->SetSite(1, 0, 1, 1);
+						cell->SetPreferredMinSize(Size(32, 32));
+
+						image=GuiImageFrameElement::Create();
+						image->SetStretch(true);
+						cell->SetOwnedElement(image);
+					}
+					{
+						GuiCellComposition* cell=new GuiCellComposition;
+						table->AddChild(cell);
+						cell->SetSite(0, 1, 3, 1);
+						cell->SetPreferredMinSize(Size(192, 0));
+
+						textTable=new GuiTableComposition;
+						textTable->SetRowsAndColumns(3, 1);
+						textTable->SetRowOption(0, GuiCellOption::PercentageOption(0.5));
+						textTable->SetRowOption(1, GuiCellOption::MinSizeOption());
+						textTable->SetRowOption(2, GuiCellOption::PercentageOption(0.5));
+						textTable->SetColumnOption(0, GuiCellOption::PercentageOption(1.0));
+						textTable->SetAlignmentToParent(Margin(0, 0, 0, 0));
+						cell->AddChild(textTable);
+						{
+							GuiCellComposition* cell=new GuiCellComposition;
+							textTable->AddChild(cell);
+							cell->SetSite(1, 0, 1, 1);
+
+							text=GuiSolidLabelElement::Create();
+							text->SetAlignments(Alignment::Left, Alignment::Center);
+							text->SetFont(font);
+							text->SetEllipse(true);
+							cell->SetOwnedElement(text);
+						}
+					}
 				}
 
 				ListViewTileContentProvider::ItemContent::~ItemContent()
@@ -591,8 +646,19 @@ ListViewTileContentProvider
 					return contentComposition;
 				}
 
-				void ListViewTileContentProvider::ItemContent::Install(ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
+				void ListViewTileContentProvider::ItemContent::Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
 				{
+					Ptr<GuiImageData> imageData=view->GetLargeImage(itemIndex);
+					if(imageData)
+					{
+						image->SetImage(imageData->GetImage(), imageData->GetFrameIndex());
+					}
+					else
+					{
+						image->SetImage(0);
+					}
+					text->SetText(view->GetText(itemIndex));
+					text->SetColor(styleProvider->GetPrimaryTextColor());
 				}
 
 				ListViewTileContentProvider::ListViewTileContentProvider()
@@ -632,7 +698,7 @@ ListViewInformationContentProvider
 					return contentComposition;
 				}
 
-				void ListViewInformationContentProvider::ItemContent::Install(ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
+				void ListViewInformationContentProvider::ItemContent::Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
 				{
 				}
 

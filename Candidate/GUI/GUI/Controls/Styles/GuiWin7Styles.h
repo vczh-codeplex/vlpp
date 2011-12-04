@@ -695,6 +695,8 @@ List
 				~Win7ListViewProvider();
 
 				controls::GuiSelectableButton::IStyleController*		CreateItemBackground()override;
+				Color													GetPrimaryTextColor()override;
+				Color													GetSecondaryTextColor()override;
 			};
 #pragma warning(pop)
 		}

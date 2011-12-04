@@ -428,7 +428,7 @@ GuiSolidLabelElementRenderer
 
 			void GuiSolidLabelElementRenderer::UpdateMinSize()
 			{
-				if(renderTarget && !element->GetEllipse() && !element->GetMultiline() && !element->GetWrapLine())
+				if(renderTarget && !element->GetMultiline() && !element->GetWrapLine())
 				{
 					renderTarget->GetDC()->SetFont(font);
 					const WString& text=element->GetText();
@@ -436,7 +436,7 @@ GuiSolidLabelElementRenderer
 						?renderTarget->GetDC()->MeasureBuffer(L" ")
 						:renderTarget->GetDC()->MeasureString(text)
 						;
-					minSize=Size(size.cx, size.cy);
+					minSize=Size((element->GetEllipse()?0:size.cx), size.cy);
 				}
 				else
 				{
