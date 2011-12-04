@@ -2770,6 +2770,16 @@ Win7SinglelineTextBoxProvider
 			{
 				return new Win7SelectableItemStyle;
 			}
+
+			Color Win7ListViewProvider::GetPrimaryTextColor()
+			{
+				return Win7GetSystemTextColor(true);
+			}
+
+			Color Win7ListViewProvider::GetSecondaryTextColor()
+			{
+				return Win7GetSystemTextColor(false);
+			}
 		}
 	}
 }

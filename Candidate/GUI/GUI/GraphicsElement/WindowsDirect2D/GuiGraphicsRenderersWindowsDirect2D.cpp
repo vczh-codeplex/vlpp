@@ -445,7 +445,7 @@ GuiSolidLabelElementRenderer
 
 			void GuiSolidLabelElementRenderer::UpdateMinSize()
 			{
-				if(renderTarget && !element->GetEllipse() && !element->GetMultiline() && !element->GetWrapLine())
+				if(renderTarget && !element->GetMultiline() && !element->GetWrapLine())
 				{
 					IDWriteTextLayout* textLayout=0;
 					HRESULT hr=GetDirectWriteFactory()->CreateTextLayout(
@@ -461,7 +461,7 @@ GuiSolidLabelElementRenderer
 						hr=textLayout->GetMetrics(&metrics);
 						if(!FAILED(hr))
 						{
-							minSize=Size((int)ceil(metrics.widthIncludingTrailingWhitespace), (int)ceil(metrics.height));
+							minSize=Size((element->GetEllipse()?0:(int)ceil(metrics.widthIncludingTrailingWhitespace)), (int)ceil(metrics.height));
 						}
 						textLayout->Release();
 						return;

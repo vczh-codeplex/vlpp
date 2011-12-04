@@ -59,12 +59,13 @@ ListView Base
 
 			class GuiListViewBase : public GuiSelectableListControl
 			{
-				friend class list::ListViewItemStyleProviderBase;
 			public:
 				class IStyleProvider : public virtual GuiSelectableListControl::IStyleProvider
 				{
 				public:
 					virtual GuiSelectableButton::IStyleController*		CreateItemBackground()=0;
+					virtual Color										GetPrimaryTextColor()=0;
+					virtual Color										GetSecondaryTextColor()=0;
 				};
 
 			protected:
@@ -74,6 +75,7 @@ ListView Base
 				GuiListViewBase(IStyleProvider* _styleProvider, GuiListControl::IItemProvider* _itemProvider);
 				~GuiListViewBase();
 				
+				IStyleProvider*									GetListViewStyleProvider();
 				Ptr<GuiListControl::IItemStyleProvider>			SetStyleProvider(Ptr<GuiListControl::IItemStyleProvider> value);
 			};
 
@@ -104,7 +106,7 @@ ListView
 					{
 					public:
 						virtual elements::GuiBoundsComposition*	GetContentComposition()=0;
-						virtual void							Install(IListViewItemView* view, int itemIndex)=0;
+						virtual void							Install(GuiListViewBase::IStyleProvider* styleProvider, IListViewItemView* view, int itemIndex)=0;
 					};
 
 					class IListViewItemContentProvider : public virtual Interface
@@ -203,7 +205,7 @@ ListView ItemStyles
 						~ItemContent();
 
 						elements::GuiBoundsComposition*					GetContentComposition()override;
-						void											Install(ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
+						void											Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
 					};
 				public:
 					ListViewBigIconContentProvider();
@@ -228,7 +230,7 @@ ListView ItemStyles
 						~ItemContent();
 
 						elements::GuiBoundsComposition*					GetContentComposition()override;
-						void											Install(ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
+						void											Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
 					};
 				public:
 					ListViewSmallIconContentProvider();
@@ -253,7 +255,7 @@ ListView ItemStyles
 						~ItemContent();
 
 						elements::GuiBoundsComposition*					GetContentComposition()override;
-						void											Install(ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
+						void											Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
 					};
 				public:
 					ListViewListContentProvider();
@@ -276,7 +278,7 @@ ListView ItemStyles
 						~ItemContent();
 
 						elements::GuiBoundsComposition*					GetContentComposition()override;
-						void											Install(ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
+						void											Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
 					};
 				public:
 					ListViewDetailContentProvider();
@@ -291,15 +293,20 @@ ListView ItemStyles
 				protected:
 					class ItemContent : public Object, public virtual ListViewItemStyleProvider::IListViewItemContent
 					{
+						typedef collections::Array<elements::GuiSolidLabelElement*>		DataTextElementArray;
 					protected:
 						elements::GuiBoundsComposition*					contentComposition;
+						elements::GuiImageFrameElement*					image;
+						elements::GuiSolidLabelElement*					text;
+						elements::GuiTableComposition*					textTable;
+						DataTextElementArray							dataTexts;
 
 					public:
 						ItemContent(const FontProperties& font);
 						~ItemContent();
 
 						elements::GuiBoundsComposition*					GetContentComposition()override;
-						void											Install(ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
+						void											Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
 					};
 				public:
 					ListViewTileContentProvider();
@@ -322,7 +329,7 @@ ListView ItemStyles
 						~ItemContent();
 
 						elements::GuiBoundsComposition*					GetContentComposition()override;
-						void											Install(ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
+						void											Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
 					};
 				public:
 					ListViewInformationContentProvider();
