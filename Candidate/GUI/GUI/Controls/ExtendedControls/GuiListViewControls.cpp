@@ -791,7 +791,7 @@ ListViewInformationContentProvider
 						GuiCellComposition* cell=new GuiCellComposition;
 						table->AddChild(cell);
 						cell->SetSite(0, 2, 3, 1);
-						cell->SetPreferredMinSize(Size(192, 0));
+						cell->SetPreferredMinSize(Size(224, 0));
 
 						textTable=new GuiTableComposition;
 						textTable->SetCellPadding(1);
@@ -845,11 +845,36 @@ ListViewInformationContentProvider
 						textTable->AddChild(cell);
 						cell->SetSite(i, 0, 1, 1);
 
-						text=GuiSolidLabelElement::Create();
-						text->SetFont(baselineFont);
-						text->SetEllipse(true);
-						text->SetText(view->GetSubItem(itemIndex, view->GetDataColumn(i)));
-						cell->SetOwnedElement(text);
+						GuiTableComposition* dataTable=new GuiTableComposition;
+						dataTable->SetRowsAndColumns(1, 2);
+						dataTable->SetRowOption(0, GuiCellOption::MinSizeOption());
+						dataTable->SetColumnOption(0, GuiCellOption::MinSizeOption());
+						dataTable->SetColumnOption(1, GuiCellOption::PercentageOption(1.0));
+						dataTable->SetAlignmentToParent(Margin(0, 0, 0, 0));
+						cell->AddChild(dataTable);
+						{
+							GuiCellComposition* cell=new GuiCellComposition;
+							dataTable->AddChild(cell);
+							cell->SetSite(0, 0, 1, 1);
+
+							text=GuiSolidLabelElement::Create();
+							text->SetFont(baselineFont);
+							text->SetText(view->GetColumnText(view->GetDataColumn(i)+1)+L": ");
+							text->SetColor(styleProvider->GetSecondaryTextColor());
+							cell->SetOwnedElement(text);
+						}
+						{
+							GuiCellComposition* cell=new GuiCellComposition;
+							dataTable->AddChild(cell);
+							cell->SetSite(0, 1, 1, 1);
+
+							text=GuiSolidLabelElement::Create();
+							text->SetFont(baselineFont);
+							text->SetEllipse(true);
+							text->SetText(view->GetSubItem(itemIndex, view->GetDataColumn(i)));
+							text->SetColor(styleProvider->GetPrimaryTextColor());
+							cell->SetOwnedElement(text);
+						}
 					}
 				}
 
