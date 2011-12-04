@@ -453,6 +453,10 @@ void SetupListviewWindow(GuiControlHost* controlHost, GuiControl* container)
 		}
 		listControl->GetItems().GetDataColumns().Add(0);
 		listControl->GetItems().GetDataColumns().Add(2);
+		listControl->GetItems().GetColumns().Add(L"Name");
+		listControl->GetItems().GetColumns().Add(L"Description");
+		listControl->GetItems().GetColumns().Add(L"Index");
+		listControl->GetItems().GetColumns().Add(L"Type");
 	}
 	{
 		GuiTextList* typeList=new GuiTextList(new win7::Win7MultilineTextBoxProvider, new win7::Win7TextListProvider);

@@ -100,6 +100,9 @@ ListView
 
 						virtual int								GetDataColumnCount()=0;
 						virtual int								GetDataColumn(int index)=0;
+
+						virtual int								GetColumnCount()=0;
+						virtual WString							GetColumnText(int index)=0;
 					};
 
 					class IListViewItemContent : public virtual Interface
@@ -155,6 +158,7 @@ ListView
 				{
 				protected:
 					collections::List<int>						dataColumns;
+					collections::List<WString>					columns;
 
 					Ptr<GuiImageData>							GetSmallImage(int itemIndex)override;
 					Ptr<GuiImageData>							GetLargeImage(int itemIndex)override;
@@ -162,6 +166,8 @@ ListView
 					WString										GetSubItem(int itemIndex, int index)override;
 					int											GetDataColumnCount()override;
 					int											GetDataColumn(int index)override;
+					int											GetColumnCount()override;
+					WString										GetColumnText(int index)override;
 				public:
 					ListViewItemProvider();
 					~ListViewItemProvider();
@@ -169,6 +175,7 @@ ListView
 					Interface*									RequestView(const WString& identifier)override;
 					void										ReleaseView(Interface* view)override;
 					collections::IList<int>&					GetDataColumns();
+					collections::IList<WString>&				GetColumns();
 				};
 			}
 
@@ -334,8 +341,14 @@ ListView ItemStyles
 				protected:
 					class ItemContent : public Object, public virtual ListViewItemStyleProvider::IListViewItemContent
 					{
+						typedef collections::Array<elements::GuiSolidLabelElement*>		DataTextElementArray;
 					protected:
+						FontProperties									baselineFont;
 						elements::GuiBoundsComposition*					contentComposition;
+						elements::GuiImageFrameElement*					image;
+						elements::GuiSolidLabelElement*					text;
+						elements::GuiTableComposition*					textTable;
+						DataTextElementArray							dataTexts;
 
 					public:
 						ItemContent(Size iconSize, const FontProperties& font);

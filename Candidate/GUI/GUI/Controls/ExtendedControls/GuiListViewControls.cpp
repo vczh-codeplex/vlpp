@@ -219,6 +219,23 @@ ListViewItemProvider
 					return dataColumns[index];
 				}
 
+				int ListViewItemProvider::GetColumnCount()
+				{
+					return columns.Count();
+				}
+
+				WString ListViewItemProvider::GetColumnText(int index)
+				{
+					if(index<0 || index>=columns.Count())
+					{
+						return L"";
+					}
+					else
+					{
+						return columns[index];
+					}
+				}
+
 				ListViewItemProvider::ListViewItemProvider()
 				{
 				}
@@ -246,6 +263,11 @@ ListViewItemProvider
 				collections::IList<int>& ListViewItemProvider::GetDataColumns()
 				{
 					return dataColumns.Wrap();
+				}
+
+				collections::IList<WString>& ListViewItemProvider::GetColumns()
+				{
+					return columns.Wrap();
 				}
 			}
 
@@ -726,8 +748,56 @@ ListViewInformationContentProvider
 
 				ListViewInformationContentProvider::ItemContent::ItemContent(Size iconSize, const FontProperties& font)
 					:contentComposition(0)
+					,baselineFont(font)
 				{
 					contentComposition=new GuiBoundsComposition;
+					contentComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+
+					GuiTableComposition* table=new GuiTableComposition;
+					contentComposition->AddChild(table);
+					table->SetRowsAndColumns(3, 3);
+					table->SetRowOption(0, GuiCellOption::PercentageOption(0.5));
+					table->SetRowOption(1, GuiCellOption::MinSizeOption());
+					table->SetRowOption(2, GuiCellOption::PercentageOption(0.5));
+					table->SetColumnOption(0, GuiCellOption::MinSizeOption());
+					table->SetColumnOption(1, GuiCellOption::PercentageOption(1.0));
+					table->SetColumnOption(2, GuiCellOption::MinSizeOption());
+					table->SetAlignmentToParent(Margin(0, 0, 0, 0));
+					table->SetCellPadding(4);
+					{
+						GuiCellComposition* cell=new GuiCellComposition;
+						table->AddChild(cell);
+						cell->SetSite(1, 0, 1, 1);
+						cell->SetPreferredMinSize(iconSize);
+
+						image=GuiImageFrameElement::Create();
+						image->SetStretch(true);
+						cell->SetOwnedElement(image);
+					}
+					{
+						GuiCellComposition* cell=new GuiCellComposition;
+						table->AddChild(cell);
+						cell->SetSite(0, 1, 3, 1);
+
+						FontProperties textFont=font;
+						textFont.size=(int)(textFont.size*1.2);
+
+						text=GuiSolidLabelElement::Create();
+						text->SetFont(textFont);
+						text->SetEllipse(true);
+						cell->SetOwnedElement(text);
+					}
+					{
+						GuiCellComposition* cell=new GuiCellComposition;
+						table->AddChild(cell);
+						cell->SetSite(0, 2, 3, 1);
+						cell->SetPreferredMinSize(Size(192, 0));
+
+						textTable=new GuiTableComposition;
+						textTable->SetCellPadding(1);
+						textTable->SetAlignmentToParent(Margin(0, 0, 0, 0));
+						cell->AddChild(textTable);
+					}
 				}
 
 				ListViewInformationContentProvider::ItemContent::~ItemContent()
@@ -741,6 +811,46 @@ ListViewInformationContentProvider
 
 				void ListViewInformationContentProvider::ItemContent::Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
 				{
+					Ptr<GuiImageData> imageData=view->GetLargeImage(itemIndex);
+					if(imageData)
+					{
+						image->SetImage(imageData->GetImage(), imageData->GetFrameIndex());
+					}
+					else
+					{
+						image->SetImage(0);
+					}
+					text->SetText(view->GetText(itemIndex));
+					text->SetColor(styleProvider->GetPrimaryTextColor());
+
+					for(int i=0;i<dataTexts.Count();i++)
+					{
+						GuiCellComposition* cell=textTable->GetSitedCell(i, 0);
+						textTable->RemoveChild(cell);
+						delete cell;
+					}
+
+					int dataColumnCount=view->GetDataColumnCount();
+					dataTexts.Resize(dataColumnCount);
+					textTable->SetRowsAndColumns(dataColumnCount, 1);
+					textTable->SetColumnOption(0, GuiCellOption::PercentageOption(1.0));
+					for(int i=0;i<dataColumnCount;i++)
+					{
+						textTable->SetRowOption(i, GuiCellOption::MinSizeOption());
+					}
+					
+					for(int i=0;i<dataColumnCount;i++)
+					{
+						GuiCellComposition* cell=new GuiCellComposition;
+						textTable->AddChild(cell);
+						cell->SetSite(i, 0, 1, 1);
+
+						text=GuiSolidLabelElement::Create();
+						text->SetFont(baselineFont);
+						text->SetEllipse(true);
+						text->SetText(view->GetSubItem(itemIndex, view->GetDataColumn(i)));
+						cell->SetOwnedElement(text);
+					}
 				}
 
 				ListViewInformationContentProvider::ListViewInformationContentProvider(Size _iconSize)
