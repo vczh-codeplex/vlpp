@@ -126,6 +126,13 @@ ListViewItemStyleProvider::ListViewContentItemStyleController
 					GuiBoundsComposition* composition=content->GetContentComposition();
 					composition->SetAlignmentToParent(Margin(0, 0, 0, 0));
 					backgroundButton->GetContainerComposition()->AddChild(composition);
+
+					GuiBoundsComposition* decorator=content->GetBackgroundDecorator();
+					if(decorator)
+					{
+						backgroundButton->GetBoundsComposition()->AddChild(decorator);
+						backgroundButton->GetBoundsComposition()->MoveChild(decorator, 0);
+					}
 				}
 
 				ListViewItemStyleProvider::ListViewContentItemStyleController::~ListViewContentItemStyleController()
@@ -356,6 +363,11 @@ ListViewBigIconContentProvider
 					return contentComposition;
 				}
 
+				elements::GuiBoundsComposition* ListViewBigIconContentProvider::ItemContent::GetBackgroundDecorator()
+				{
+					return 0;
+				}
+
 				void ListViewBigIconContentProvider::ItemContent::Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
 				{
 					Ptr<GuiImageData> imageData=view->GetLargeImage(itemIndex);
@@ -441,6 +453,11 @@ ListViewSmallIconContentProvider
 				elements::GuiBoundsComposition* ListViewSmallIconContentProvider::ItemContent::GetContentComposition()
 				{
 					return contentComposition;
+				}
+
+				elements::GuiBoundsComposition* ListViewSmallIconContentProvider::ItemContent::GetBackgroundDecorator()
+				{
+					return 0;
 				}
 
 				void ListViewSmallIconContentProvider::ItemContent::Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
@@ -529,6 +546,11 @@ ListViewListContentProvider
 					return contentComposition;
 				}
 
+				elements::GuiBoundsComposition* ListViewListContentProvider::ItemContent::GetBackgroundDecorator()
+				{
+					return 0;
+				}
+
 				void ListViewListContentProvider::ItemContent::Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
 				{
 					Ptr<GuiImageData> imageData=view->GetSmallImage(itemIndex);
@@ -580,6 +602,11 @@ ListViewDetailContentProvider
 				elements::GuiBoundsComposition* ListViewDetailContentProvider::ItemContent::GetContentComposition()
 				{
 					return contentComposition;
+				}
+
+				elements::GuiBoundsComposition* ListViewDetailContentProvider::ItemContent::GetBackgroundDecorator()
+				{
+					return 0;
 				}
 
 				void ListViewDetailContentProvider::ItemContent::Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
@@ -694,6 +721,11 @@ ListViewTileContentProvider
 					return contentComposition;
 				}
 
+				elements::GuiBoundsComposition* ListViewTileContentProvider::ItemContent::GetBackgroundDecorator()
+				{
+					return 0;
+				}
+
 				void ListViewTileContentProvider::ItemContent::Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
 				{
 					Ptr<GuiImageData> imageData=view->GetLargeImage(itemIndex);
@@ -752,6 +784,13 @@ ListViewInformationContentProvider
 				{
 					contentComposition=new GuiBoundsComposition;
 					contentComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+					{
+						bottomLine=GuiSolidBackgroundElement::Create();
+						bottomLineComposition=new GuiBoundsComposition;
+						bottomLineComposition->SetOwnedElement(bottomLine);
+						bottomLineComposition->SetAlignmentToParent(Margin(8, -1, 8, 0));
+						bottomLineComposition->SetPreferredMinSize(Size(0, 1));
+					}
 
 					GuiTableComposition* table=new GuiTableComposition;
 					contentComposition->AddChild(table);
@@ -794,7 +833,7 @@ ListViewInformationContentProvider
 						cell->SetPreferredMinSize(Size(224, 0));
 
 						textTable=new GuiTableComposition;
-						textTable->SetCellPadding(1);
+						textTable->SetCellPadding(4);
 						textTable->SetAlignmentToParent(Margin(0, 0, 0, 0));
 						cell->AddChild(textTable);
 					}
@@ -807,6 +846,11 @@ ListViewInformationContentProvider
 				elements::GuiBoundsComposition* ListViewInformationContentProvider::ItemContent::GetContentComposition()
 				{
 					return contentComposition;
+				}
+
+				elements::GuiBoundsComposition* ListViewInformationContentProvider::ItemContent::GetBackgroundDecorator()
+				{
+					return bottomLineComposition;
 				}
 
 				void ListViewInformationContentProvider::ItemContent::Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
@@ -822,6 +866,7 @@ ListViewInformationContentProvider
 					}
 					text->SetText(view->GetText(itemIndex));
 					text->SetColor(styleProvider->GetPrimaryTextColor());
+					bottomLine->SetColor(styleProvider->GetItemSeparatorColor());
 
 					for(int i=0;i<dataTexts.Count();i++)
 					{

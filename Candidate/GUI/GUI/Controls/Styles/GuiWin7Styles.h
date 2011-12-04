@@ -697,6 +697,7 @@ List
 				controls::GuiSelectableButton::IStyleController*		CreateItemBackground()override;
 				Color													GetPrimaryTextColor()override;
 				Color													GetSecondaryTextColor()override;
+				Color													GetItemSeparatorColor()override;
 			};
 #pragma warning(pop)
 		}
