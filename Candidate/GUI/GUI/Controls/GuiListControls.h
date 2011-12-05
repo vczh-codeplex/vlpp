@@ -247,7 +247,6 @@ Predefined ItemArranger
 
 				class FixedHeightItemArranger : public RangedItemArrangerBase
 				{
-					typedef collections::List<GuiListControl::IItemStyleController*>		StyleList;
 				protected:
 					int											rowHeight;
 					bool										suppressOnViewChanged;
@@ -263,7 +262,6 @@ Predefined ItemArranger
 
 				class FixedSizeMultiColumnItemArranger : public RangedItemArrangerBase
 				{
-					typedef collections::List<GuiListControl::IItemStyleController*>		StyleList;
 				protected:
 					Size										itemSize;
 					bool										suppressOnViewChanged;
@@ -276,6 +274,22 @@ Predefined ItemArranger
 				public:
 					FixedSizeMultiColumnItemArranger();
 					~FixedSizeMultiColumnItemArranger();
+				};
+
+				class FixHeightMultiColumnItemArranger : public RangedItemArrangerBase
+				{
+				protected:
+					int											itemHeight;
+					bool										suppressOnViewChanged;
+
+					void										RearrangeItemBounds();
+					void										CalculateRange(int itemHeight, Rect bounds, int& rows, int& startColumn);
+					void										OnStylesCleared()override;
+					Size										OnCalculateTotalSize()override;
+					void										OnViewChangedInternal(Rect oldBounds, Rect newBounds)override;
+				public:
+					FixHeightMultiColumnItemArranger();
+					~FixHeightMultiColumnItemArranger();
 				};
 			}
 

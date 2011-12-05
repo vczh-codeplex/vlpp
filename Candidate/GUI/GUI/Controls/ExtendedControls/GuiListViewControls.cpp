@@ -528,7 +528,7 @@ ListViewListContentProvider
 						GuiCellComposition* cell=new GuiCellComposition;
 						table->AddChild(cell);
 						cell->SetSite(0, 1, 3, 1);
-						cell->SetPreferredMinSize(Size(192, 0));
+						cell->SetMargin(Margin(0, 0, 16, 0));
 
 						text=GuiSolidLabelElement::Create();
 						text->SetAlignments(Alignment::Left, Alignment::Center);
@@ -577,7 +577,7 @@ ListViewListContentProvider
 
 				GuiListControl::IItemArranger* ListViewListContentProvider::CreatePreferredArranger()
 				{
-					return new FixedHeightItemArranger;
+					return new FixHeightMultiColumnItemArranger;
 				}
 
 				ListViewItemStyleProvider::IListViewItemContent* ListViewListContentProvider::CreateItemContent(const FontProperties& font)
