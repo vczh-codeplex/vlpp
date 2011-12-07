@@ -32,8 +32,10 @@ Tab Control
 				GuiTab*											owner;
 				WString											text;
 				
-				GuiTabPage(GuiTab* _owner, GuiControl::IStyleController* _styleController);
+				GuiTabPage();
 				~GuiTabPage();
+
+				bool											AssociateTab(GuiTab* _owner, GuiControl::IStyleController* _styleController);
 			public:
 				elements::GuiNotifyEvent						TextChanged;
 
@@ -61,6 +63,7 @@ Tab Control
 					virtual void								InsertTab(int index)=0;
 					virtual void								SetTabText(int index, const WString& value)=0;
 					virtual void								RemoveTab(int index)=0;
+					virtual void								MoveTab(int oldIndex, int newIndex)=0;
 					virtual void								SetSelectedTab(int index)=0;
 					virtual GuiControl::IStyleController*		CreateTabPageStyleController()=0;
 				};
@@ -87,7 +90,9 @@ Tab Control
 				elements::GuiNotifyEvent						SelectedPageChanged;
 
 				GuiTabPage*										CreatePage(int index=-1);
+				bool											CreatePage(GuiTabPage* page, int index=-1);
 				bool											RemovePage(GuiTabPage* value);
+				bool											MovePage(GuiTabPage* page, int newIndex);
 				const collections::IReadonlyList<GuiTabPage*>&	GetPages();
 
 				GuiTabPage*										GetSelectedPage();

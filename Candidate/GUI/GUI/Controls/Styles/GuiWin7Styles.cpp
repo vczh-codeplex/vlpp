@@ -1547,6 +1547,18 @@ Win7TabStyle
 				delete button;
 			}
 
+			void Win7TabStyle::MoveTab(int oldIndex, int newIndex)
+			{
+				GuiStackItemComposition* item=tabHeaderComposition->GetStackItems()[oldIndex];
+				tabHeaderComposition->RemoveChild(item);
+				tabHeaderComposition->InsertStackItem(newIndex, item);
+
+				GuiSelectableButton* button=headerButtons[oldIndex];
+				headerButtons.RemoveAt(oldIndex);
+				headerButtons.Insert(newIndex, button);
+				UpdateHeaderZOrder();
+			}
+
 			void Win7TabStyle::SetSelectedTab(int index)
 			{
 				headerButtons[index]->SetSelected(true);

@@ -768,6 +768,7 @@ void SetupTabPageWindow(GuiControlHost* controlHost, GuiControl* container)
 		SetupRibbonWindow(controlHost, page->GetContainer());
 	}
 	container->GetContainerComposition()->AddChild(tab->GetBoundsComposition());
+	tab->MovePage(tab->GetPages()[4], 3);
 }
 
 /***********************************************************************
