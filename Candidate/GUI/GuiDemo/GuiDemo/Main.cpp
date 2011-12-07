@@ -425,6 +425,7 @@ void SetupListviewWindow(GuiControlHost* controlHost, GuiControl* container)
 		listControl->GetBoundsComposition()->SetAlignmentToParent(Margin(200, 5, 5, 5));
 		listControl->GetBoundsComposition()->SetBounds(Rect(0, 0, 300, 200));
 		listControl->SetHorizontalAlwaysVisible(false);
+		listControl->SetVerticalAlwaysVisible(false);
 		container->GetBoundsComposition()->AddChild(listControl->GetBoundsComposition());
 		
 		INativeImageProvider* imageProvider=GetCurrentController()->GetImageProvider();
