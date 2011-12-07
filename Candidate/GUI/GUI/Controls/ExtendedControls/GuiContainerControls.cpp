@@ -10,11 +10,10 @@ namespace vl
 GuiTabPage
 ***********************************************************************/
 
-			GuiTabPage::GuiTabPage(GuiTab* _owner, GuiControl::IStyleController* _styleController)
-				:container(new GuiControl(_styleController))
-				,owner(_owner)
+			GuiTabPage::GuiTabPage()
+				:container(0)
+				,owner(0)
 			{
-				TextChanged.SetAssociatedComposition(container->GetBoundsComposition());
 			}
 
 			GuiTabPage::~GuiTabPage()
@@ -22,6 +21,21 @@ GuiTabPage
 				if(!container->GetParent())
 				{
 					delete container;
+				}
+			}
+
+			bool GuiTabPage::AssociateTab(GuiTab* _owner, GuiControl::IStyleController* _styleController)
+			{
+				if(owner)
+				{
+					return false;
+				}
+				else
+				{
+					container=new GuiControl(_styleController);
+					owner=_owner;
+					TextChanged.SetAssociatedComposition(container->GetBoundsComposition());
+					return true;
 				}
 			}
 
@@ -92,6 +106,20 @@ GuiTab
 
 			GuiTabPage* GuiTab::CreatePage(int index)
 			{
+				GuiTabPage* page=new GuiTabPage();
+				if(CreatePage(page, index))
+				{
+					return page;
+				}
+				else
+				{
+					delete page;
+					return 0;
+				}
+			}
+
+			bool GuiTab::CreatePage(GuiTabPage* page, int index)
+			{
 				if(index>=0 && index>=tabPages.Count())
 				{
 					index=tabPages.Count()-1;
@@ -101,17 +129,23 @@ GuiTab
 					index=-1;
 				}
 
-				GuiTabPage* page=new GuiTabPage(this, styleController->CreateTabPageStyleController());
-				index=index==-1?tabPages.Add(page):tabPages.Insert(index, page);
-				GetContainerComposition()->AddChild(page->GetContainer()->GetBoundsComposition());
-				styleController->InsertTab(index);
-				
-				if(!selectedPage)
+				if(page->AssociateTab(this, styleController->CreateTabPageStyleController()))
 				{
-					SetSelectedPage(page);
+					index=index==-1?tabPages.Add(page):tabPages.Insert(index, page);
+					GetContainerComposition()->AddChild(page->GetContainer()->GetBoundsComposition());
+					styleController->InsertTab(index);
+				
+					if(!selectedPage)
+					{
+						SetSelectedPage(page);
+					}
+					page->GetContainer()->SetVisible(page==selectedPage);
+					return true;
 				}
-				page->GetContainer()->SetVisible(page==selectedPage);
-				return page;
+				else
+				{
+					return false;
+				}
 			}
 
 			bool GuiTab::RemovePage(GuiTabPage* value)
@@ -137,6 +171,18 @@ GuiTab
 				{
 					return false;
 				}
+			}
+
+			bool GuiTab::MovePage(GuiTabPage* page, int newIndex)
+			{
+				if(!page) return false;
+				int index=tabPages.IndexOf(page);
+				if(index==-1) return false;
+				tabPages.RemoveAt(index);
+				tabPages.Insert(newIndex, page);
+				styleController->MoveTab(index, newIndex);
+				styleController->SetSelectedTab(tabPages.IndexOf(selectedPage));
+				return true;
 			}
 
 			const collections::IReadonlyList<GuiTabPage*>& GuiTab::GetPages()

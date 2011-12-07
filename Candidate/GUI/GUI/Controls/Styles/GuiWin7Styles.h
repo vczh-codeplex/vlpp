@@ -336,19 +336,20 @@ Container
 				Win7TabStyle();
 				~Win7TabStyle();
 
-				elements::GuiBoundsComposition*				GetBoundsComposition();
-				elements::GuiGraphicsComposition*			GetContainerComposition();
-				void										SetFocusableComposition(elements::GuiGraphicsComposition* value);
-				void										SetText(const WString& value);
-				void										SetFont(const FontProperties& value);
-				void										SetVisuallyEnabled(bool value);
+				elements::GuiBoundsComposition*				GetBoundsComposition()override;
+				elements::GuiGraphicsComposition*			GetContainerComposition()override;
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value)override;
+				void										SetText(const WString& value)override;
+				void										SetFont(const FontProperties& value)override;
+				void										SetVisuallyEnabled(bool value)override;
 
-				void										SetCommandExecutor(controls::GuiTab::ICommandExecutor* value);
-				void										InsertTab(int index);
-				void										SetTabText(int index, const WString& value);
-				void										RemoveTab(int index);
-				void										SetSelectedTab(int index);
-				controls::GuiControl::IStyleController*		CreateTabPageStyleController();
+				void										SetCommandExecutor(controls::GuiTab::ICommandExecutor* value)override;
+				void										InsertTab(int index)override;
+				void										SetTabText(int index, const WString& value)override;
+				void										RemoveTab(int index)override;
+				void										MoveTab(int oldIndex, int newIndex)override;
+				void										SetSelectedTab(int index)override;
+				controls::GuiControl::IStyleController*		CreateTabPageStyleController()override;
 			};
 
 /***********************************************************************
