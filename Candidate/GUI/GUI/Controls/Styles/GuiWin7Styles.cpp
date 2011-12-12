@@ -1735,101 +1735,6 @@ Win7ButtonStyle
 			}
 
 /***********************************************************************
-Win7SelectableItemStyle
-***********************************************************************/
-
-			void Win7SelectableItemStyle::TransferInternal(GuiButton::ControlState value, bool enabled, bool selected)
-			{
-				if(!enabled)
-				{
-					transferringAnimation->Transfer(Win7ButtonColors::ItemDisabled());
-				}
-				else if(selected)
-				{
-					transferringAnimation->Transfer(Win7ButtonColors::ItemSelected());
-				}
-				else
-				{
-					switch(value)
-					{
-					case GuiButton::Normal:
-						transferringAnimation->Transfer(Win7ButtonColors::ItemNormal());
-						break;
-					case GuiButton::Active:
-						transferringAnimation->Transfer(Win7ButtonColors::ItemActive());
-						break;
-					case GuiButton::Pressed:
-						transferringAnimation->Transfer(Win7ButtonColors::ItemSelected());
-						break;
-					}
-				}
-			}
-
-			Win7SelectableItemStyle::Win7SelectableItemStyle()
-				:Win7ButtonStyleBase(true, true, Win7ButtonColors::ItemNormal(), Alignment::Left, Alignment::Center)
-			{
-				transferringAnimation->SetEnableAnimation(false);
-			}
-
-			Win7SelectableItemStyle::~Win7SelectableItemStyle()
-			{
-			}
-
-/***********************************************************************
-Win7TabPageHeaderStyle
-***********************************************************************/
-
-			void Win7TabPageHeaderStyle::TransferInternal(GuiButton::ControlState value, bool enabled, bool selected)
-			{
-				if(selected)
-				{
-					transferringAnimation->Transfer(Win7ButtonColors::TabPageHeaderSelected());
-				}
-				else
-				{
-					switch(value)
-					{
-					case GuiButton::Normal:
-						transferringAnimation->Transfer(Win7ButtonColors::TabPageHeaderNormal());
-						break;
-					case GuiButton::Active:
-					case GuiButton::Pressed:
-						transferringAnimation->Transfer(Win7ButtonColors::TabPageHeaderActive());
-						break;
-					}
-				}
-			}
-
-			Win7TabPageHeaderStyle::Win7TabPageHeaderStyle()
-				:Win7ButtonStyleBase(true, false, Win7ButtonColors::TabPageHeaderNormal(), Alignment::Left, Alignment::Center)
-			{
-				transferringAnimation->SetEnableAnimation(false);
-				{
-					Margin margin=elements.backgroundComposition->GetAlignmentToParent();
-					margin.bottom=0;
-					elements.backgroundComposition->SetAlignmentToParent(margin);
-				}
-				{
-					Margin margin=elements.gradientComposition->GetAlignmentToParent();
-					margin.bottom=0;
-					elements.gradientComposition->SetAlignmentToParent(margin);
-				}
-			}
-
-			Win7TabPageHeaderStyle::~Win7TabPageHeaderStyle()
-			{
-			}
-
-			void Win7TabPageHeaderStyle::SetFont(const FontProperties& value)
-			{
-				Win7ButtonStyleBase::SetFont(value);
-				Margin margin=elements.textComposition->GetMargin();
-				margin.left*=2;
-				margin.right*=2;
-				elements.textComposition->SetMargin(margin);
-			}
-
-/***********************************************************************
 Win7ToolstripButtonStyle
 ***********************************************************************/
 
@@ -1969,6 +1874,378 @@ Win7CheckBoxStyle
 			}
 
 			void Win7CheckBoxStyle::Transfer(GuiButton::ControlState value)
+			{
+				if(controlStyle!=value)
+				{
+					controlStyle=value;
+					TransferInternal(controlStyle, isVisuallyEnabled, isSelected);
+				}
+			}
+
+/***********************************************************************
+Win7SelectableItemStyle
+***********************************************************************/
+
+			void Win7SelectableItemStyle::TransferInternal(GuiButton::ControlState value, bool enabled, bool selected)
+			{
+				if(!enabled)
+				{
+					transferringAnimation->Transfer(Win7ButtonColors::ItemDisabled());
+				}
+				else if(selected)
+				{
+					transferringAnimation->Transfer(Win7ButtonColors::ItemSelected());
+				}
+				else
+				{
+					switch(value)
+					{
+					case GuiButton::Normal:
+						transferringAnimation->Transfer(Win7ButtonColors::ItemNormal());
+						break;
+					case GuiButton::Active:
+						transferringAnimation->Transfer(Win7ButtonColors::ItemActive());
+						break;
+					case GuiButton::Pressed:
+						transferringAnimation->Transfer(Win7ButtonColors::ItemSelected());
+						break;
+					}
+				}
+			}
+
+			Win7SelectableItemStyle::Win7SelectableItemStyle()
+				:Win7ButtonStyleBase(true, true, Win7ButtonColors::ItemNormal(), Alignment::Left, Alignment::Center)
+			{
+				transferringAnimation->SetEnableAnimation(false);
+			}
+
+			Win7SelectableItemStyle::~Win7SelectableItemStyle()
+			{
+			}
+
+/***********************************************************************
+Win7TabPageHeaderStyle
+***********************************************************************/
+
+			void Win7TabPageHeaderStyle::TransferInternal(GuiButton::ControlState value, bool enabled, bool selected)
+			{
+				if(selected)
+				{
+					transferringAnimation->Transfer(Win7ButtonColors::TabPageHeaderSelected());
+				}
+				else
+				{
+					switch(value)
+					{
+					case GuiButton::Normal:
+						transferringAnimation->Transfer(Win7ButtonColors::TabPageHeaderNormal());
+						break;
+					case GuiButton::Active:
+					case GuiButton::Pressed:
+						transferringAnimation->Transfer(Win7ButtonColors::TabPageHeaderActive());
+						break;
+					}
+				}
+			}
+
+			Win7TabPageHeaderStyle::Win7TabPageHeaderStyle()
+				:Win7ButtonStyleBase(true, false, Win7ButtonColors::TabPageHeaderNormal(), Alignment::Left, Alignment::Center)
+			{
+				transferringAnimation->SetEnableAnimation(false);
+				{
+					Margin margin=elements.backgroundComposition->GetAlignmentToParent();
+					margin.bottom=0;
+					elements.backgroundComposition->SetAlignmentToParent(margin);
+				}
+				{
+					Margin margin=elements.gradientComposition->GetAlignmentToParent();
+					margin.bottom=0;
+					elements.gradientComposition->SetAlignmentToParent(margin);
+				}
+			}
+
+			Win7TabPageHeaderStyle::~Win7TabPageHeaderStyle()
+			{
+			}
+
+			void Win7TabPageHeaderStyle::SetFont(const FontProperties& value)
+			{
+				Win7ButtonStyleBase::SetFont(value);
+				Margin margin=elements.textComposition->GetMargin();
+				margin.left*=2;
+				margin.right*=2;
+				elements.textComposition->SetMargin(margin);
+			}
+
+/***********************************************************************
+Win7ListViewColumnDropDownStyle
+***********************************************************************/
+
+			void Win7ListViewColumnDropDownStyle::TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected)
+			{
+				if(!enabled) value=GuiButton::Normal;
+				switch(value)
+				{
+				case GuiButton::Normal:
+					{
+						leftBorderComposition->SetVisible(true);
+						borderComposition->SetVisible(false);
+						gradientComposition->SetVisible(false);
+
+						leftBorderElement->SetColors(Color(223, 234, 247), Color(252, 252, 252));
+					}
+					break;
+				case GuiButton::Active:
+				case GuiButton::Pressed:
+					{
+						leftBorderComposition->SetVisible(false);
+						borderComposition->SetVisible(true);
+						gradientComposition->SetVisible(true);
+
+						borderElement->SetColor(Color(192, 203, 217));
+						gradientElement->SetColors(Color(230, 241, 255), Color(224, 226, 253));
+					}
+					break;
+				}
+			}
+
+			Win7ListViewColumnDropDownStyle::Win7ListViewColumnDropDownStyle()
+				:controlStyle(GuiButton::Normal)
+				,isVisuallyEnabled(true)
+				,isSelected(false)
+			{
+				mainComposition=new GuiBoundsComposition;
+				mainComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+
+				leftBorderElement=GuiGradientBackgroundElement::Create();
+				leftBorderElement->SetDirection(GuiGradientBackgroundElement::Vertical);
+				leftBorderComposition=new GuiBoundsComposition;
+				leftBorderComposition->SetOwnedElement(leftBorderElement);
+				leftBorderComposition->SetAlignmentToParent(Margin(0, 1, -1, 1));
+				leftBorderComposition->SetPreferredMinSize(Size(1, 1));
+				mainComposition->AddChild(leftBorderComposition);
+
+				borderElement=GuiSolidBorderElement::Create();
+				borderComposition=new GuiBoundsComposition;
+				borderComposition->SetOwnedElement(borderElement);
+				borderComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+				mainComposition->AddChild(borderComposition);
+
+				gradientElement=GuiGradientBackgroundElement::Create();
+				gradientElement->SetDirection(GuiGradientBackgroundElement::Vertical);
+				gradientComposition=new GuiBoundsComposition;
+				gradientComposition->SetOwnedElement(gradientElement);
+				gradientComposition->SetAlignmentToParent(Margin(2, 2, 2, 2));
+				gradientComposition->SetPreferredMinSize(Size(0, 4));
+				mainComposition->AddChild(gradientComposition);
+
+				textElement=GuiSolidLabelElement::Create();
+				textElement->SetColor(Color(76, 96, 122));
+				textElement->SetText((wchar_t)0xF080);
+				textElement->SetAlignments(Alignment::Center, Alignment::Center);
+				textComposition=new GuiBoundsComposition;
+				textComposition->SetOwnedElement(textElement);
+				textComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+				textComposition->SetAlignmentToParent(Margin(3, 3, 3, 3));
+				mainComposition->AddChild(textComposition);
+				
+				FontProperties font;
+				font.fontFamily=L"Wingdings 3";
+				font.size=Win7ScrollStyle::ArrowSize;
+				textElement->SetFont(font);
+
+				TransferInternal(controlStyle, isVisuallyEnabled, isSelected);
+			}
+
+			Win7ListViewColumnDropDownStyle::~Win7ListViewColumnDropDownStyle()
+			{
+			}
+
+			elements::GuiBoundsComposition* Win7ListViewColumnDropDownStyle::GetBoundsComposition()
+			{
+				return mainComposition;
+			}
+
+			elements::GuiGraphicsComposition* Win7ListViewColumnDropDownStyle::GetContainerComposition()
+			{
+				return mainComposition;
+			}
+
+			void Win7ListViewColumnDropDownStyle::SetFocusableComposition(elements::GuiGraphicsComposition* value)
+			{
+			}
+
+			void Win7ListViewColumnDropDownStyle::SetText(const WString& value)
+			{
+			}
+
+			void Win7ListViewColumnDropDownStyle::SetFont(const FontProperties& value)
+			{
+			}
+
+			void Win7ListViewColumnDropDownStyle::SetVisuallyEnabled(bool value)
+			{
+				if(isVisuallyEnabled!=value)
+				{
+					isVisuallyEnabled=value;
+					TransferInternal(controlStyle, isVisuallyEnabled, isSelected);
+				}
+			}
+
+			void Win7ListViewColumnDropDownStyle::SetSelected(bool value)
+			{
+				if(isSelected!=value)
+				{
+					isSelected=value;
+					TransferInternal(controlStyle, isVisuallyEnabled, isSelected);
+				}
+			}
+
+			void Win7ListViewColumnDropDownStyle::Transfer(GuiButton::ControlState value)
+			{
+				if(controlStyle!=value)
+				{
+					controlStyle=value;
+					TransferInternal(controlStyle, isVisuallyEnabled, isSelected);
+				}
+			}
+
+/***********************************************************************
+Win7ButtonStyleBase
+***********************************************************************/
+
+			void Win7ListViewColumnHeaderStyle::TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected)
+			{
+				if(!enabled) value=GuiButton::Normal;
+				switch(value)
+				{
+				case GuiButton::Normal:
+					{
+						rightBorderComposition->SetVisible(true);
+						borderComposition->SetVisible(false);
+						gradientComposition->SetVisible(false);
+
+						backgroundElement->SetColor(Color(252, 252, 252));
+						rightBorderElement->SetColors(Color(223, 234, 247), Color(252, 252, 252));
+					}
+					break;
+				case GuiButton::Active:
+					{
+						rightBorderComposition->SetVisible(false);
+						borderComposition->SetVisible(true);
+						gradientComposition->SetVisible(true);
+						gradientComposition->SetAlignmentToParent(Margin(2, 2, 2, 2));
+
+						backgroundElement->SetColor(Color(252, 252, 252));
+						borderElement->SetColor(Color(223, 233, 246));
+						gradientElement->SetColors(Color(243, 248, 253), Color(239, 243, 249));
+					}
+					break;
+				case GuiButton::Pressed:
+					{
+						rightBorderComposition->SetVisible(false);
+						borderComposition->SetVisible(true);
+						gradientComposition->SetVisible(true);
+						gradientComposition->SetAlignmentToParent(Margin(1, 0, 1, -1));
+
+						backgroundElement->SetColor(Color(246, 247, 248));
+						borderElement->SetColor(Color(192, 203, 217));
+						gradientElement->SetColors(Color(193, 204, 218), Color(252, 252, 252));
+					}
+					break;
+				}
+			}
+
+			Win7ListViewColumnHeaderStyle::Win7ListViewColumnHeaderStyle()
+				:controlStyle(GuiButton::Normal)
+				,isVisuallyEnabled(true)
+				,isSelected(false)
+			{
+				backgroundElement=GuiSolidBackgroundElement::Create();
+				mainComposition=new GuiBoundsComposition;
+				mainComposition->SetOwnedElement(backgroundElement);
+				mainComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+
+				rightBorderElement=GuiGradientBackgroundElement::Create();
+				rightBorderElement->SetDirection(GuiGradientBackgroundElement::Vertical);
+				rightBorderComposition=new GuiBoundsComposition;
+				rightBorderComposition->SetOwnedElement(rightBorderElement);
+				rightBorderComposition->SetAlignmentToParent(Margin(-1, 0, 0, 0));
+				rightBorderComposition->SetPreferredMinSize(Size(1, 1));
+				mainComposition->AddChild(rightBorderComposition);
+
+				borderElement=GuiSolidBorderElement::Create();
+				borderComposition=new GuiBoundsComposition;
+				borderComposition->SetOwnedElement(borderElement);
+				borderComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+				mainComposition->AddChild(borderComposition);
+
+				gradientElement=GuiGradientBackgroundElement::Create();
+				gradientElement->SetDirection(GuiGradientBackgroundElement::Vertical);
+				gradientComposition=new GuiBoundsComposition;
+				gradientComposition->SetOwnedElement(gradientElement);
+				gradientComposition->SetAlignmentToParent(Margin(2, 2, 2, 2));
+				gradientComposition->SetPreferredMinSize(Size(0, 4));
+				mainComposition->AddChild(gradientComposition);
+
+				textElement=GuiSolidLabelElement::Create();
+				textElement->SetColor(Color(76, 96, 122));
+				textComposition=new GuiBoundsComposition;
+				textComposition->SetOwnedElement(textElement);
+				textComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+				textComposition->SetAlignmentToParent(Margin(15, 7, 18, 5));
+				mainComposition->AddChild(textComposition);
+
+				TransferInternal(controlStyle, isVisuallyEnabled, isSelected);
+			}
+
+			Win7ListViewColumnHeaderStyle::~Win7ListViewColumnHeaderStyle()
+			{
+			}
+
+			elements::GuiBoundsComposition* Win7ListViewColumnHeaderStyle::GetBoundsComposition()
+			{
+				return mainComposition;
+			}
+
+			elements::GuiGraphicsComposition* Win7ListViewColumnHeaderStyle::GetContainerComposition()
+			{
+				return mainComposition;
+			}
+
+			void Win7ListViewColumnHeaderStyle::SetFocusableComposition(elements::GuiGraphicsComposition* value)
+			{
+			}
+
+			void Win7ListViewColumnHeaderStyle::SetText(const WString& value)
+			{
+				textElement->SetText(value);
+			}
+
+			void Win7ListViewColumnHeaderStyle::SetFont(const FontProperties& value)
+			{
+				textElement->SetFont(value);
+			}
+
+			void Win7ListViewColumnHeaderStyle::SetVisuallyEnabled(bool value)
+			{
+				if(isVisuallyEnabled!=value)
+				{
+					isVisuallyEnabled=value;
+					TransferInternal(controlStyle, isVisuallyEnabled, isSelected);
+				}
+			}
+
+			void Win7ListViewColumnHeaderStyle::SetSelected(bool value)
+			{
+				if(isSelected!=value)
+				{
+					isSelected=value;
+					TransferInternal(controlStyle, isVisuallyEnabled, isSelected);
+				}
+			}
+
+			void Win7ListViewColumnHeaderStyle::Transfer(GuiButton::ControlState value)
 			{
 				if(controlStyle!=value)
 				{

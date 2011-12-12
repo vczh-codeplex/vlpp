@@ -144,6 +144,33 @@ void SetupMainPanel(GuiControlHost* controlHost, GuiControl* container, GuiCellC
 			textBox->GetBoundsComposition()->SetBounds(Rect(Point(210, 245), Size(200, 27)));
 			textBox->SetText(L"Singleline TextBox");
 		}
+		{
+			GuiButton* buttonHeader=new GuiButton(new win7::Win7ListViewColumnHeaderStyle());
+			cell->AddChild(buttonHeader->GetBoundsComposition());
+			buttonHeader->GetBoundsComposition()->SetBounds(Rect(Point(210, 280), Size(200, 25)));
+			buttonHeader->SetText(L"ListView Header");
+		}
+		{
+			GuiButton* buttonHeader=new GuiButton(new win7::Win7ListViewColumnHeaderStyle());
+			cell->AddChild(buttonHeader->GetBoundsComposition());
+			buttonHeader->GetBoundsComposition()->SetBounds(Rect(Point(210, 315), Size(200, 25)));
+			buttonHeader->SetText(L"ListView Header DropDown");
+
+			GuiButton* buttonDropDown=new GuiButton(new win7::Win7ListViewColumnDropDownStyle());
+			buttonDropDown->GetBoundsComposition()->SetAlignmentToParent(Margin(-1, 0, 0, 0));
+			buttonDropDown->SetVisible(false);
+			buttonHeader->GetBoundsComposition()->AddChild(buttonDropDown->GetBoundsComposition());
+
+			buttonHeader->GetBoundsComposition()->GetEventReceiver()->mouseEnter.AttachLambda([buttonDropDown](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
+			{
+				buttonDropDown->SetVisible(true);
+			});
+
+			buttonHeader->GetBoundsComposition()->GetEventReceiver()->mouseLeave.AttachLambda([buttonDropDown](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
+			{
+				buttonDropDown->SetVisible(false);
+			});
+		}
 	}
 	{
 		GuiScrollContainer* scrollView=new GuiScrollContainer(new win7::Win7ScrollViewProvider);

@@ -183,9 +183,6 @@
     <ClCompile Include="..\..\GUI\Controls\Styles\GuiWin7Styles.cpp">
       <Filter>GUI\Controls\Styles</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\GUI\Controls\GuiApplication.cpp">
-      <Filter>GUI\Controls</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiContainerControls.cpp">
       <Filter>GUI\Controls\ExtendedControls</Filter>
     </ClCompile>
@@ -194,6 +191,9 @@
     </ClCompile>
     <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiListViewControls.cpp">
       <Filter>GUI\Controls\ExtendedControls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\Controls\GuiApplication.cpp">
+      <Filter>GUI\Controls</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
