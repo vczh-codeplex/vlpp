@@ -400,26 +400,6 @@ Button
 				~Win7ButtonStyle();
 			};
 
-			class Win7SelectableItemStyle : public Win7ButtonStyleBase
-			{
-			protected:
-				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected)override;
-			public:
-				Win7SelectableItemStyle();
-				~Win7SelectableItemStyle();
-			};
-
-			class Win7TabPageHeaderStyle : public Win7ButtonStyleBase
-			{
-			protected:
-				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected)override;
-			public:
-				Win7TabPageHeaderStyle();
-				~Win7TabPageHeaderStyle();
-
-				void										SetFont(const FontProperties& value)override;
-			};
-
 			class Win7ToolstripButtonStyle : public Win7ButtonStyleBase
 			{
 			protected:
@@ -462,7 +442,98 @@ Button
 			};
 
 /***********************************************************************
-MenuButton
+Misc Buttons
+***********************************************************************/
+
+			class Win7SelectableItemStyle : public Win7ButtonStyleBase
+			{
+			protected:
+				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected)override;
+			public:
+				Win7SelectableItemStyle();
+				~Win7SelectableItemStyle();
+			};
+
+			class Win7TabPageHeaderStyle : public Win7ButtonStyleBase
+			{
+			protected:
+				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected)override;
+			public:
+				Win7TabPageHeaderStyle();
+				~Win7TabPageHeaderStyle();
+
+				void										SetFont(const FontProperties& value)override;
+			};
+
+			class Win7ListViewColumnDropDownStyle : public Object, public virtual controls::GuiSelectableButton::IStyleController
+			{
+			protected:
+				controls::GuiButton::ControlState			controlStyle;
+				bool										isVisuallyEnabled;
+				bool										isSelected;
+
+				elements::GuiBoundsComposition*				mainComposition;
+				elements::GuiBoundsComposition*				leftBorderComposition;
+				elements::GuiBoundsComposition*				borderComposition;
+				elements::GuiBoundsComposition*				gradientComposition;
+				elements::GuiBoundsComposition*				textComposition;
+
+				elements::GuiGradientBackgroundElement*		leftBorderElement;
+				elements::GuiSolidBorderElement*			borderElement;
+				elements::GuiGradientBackgroundElement*		gradientElement;
+				elements::GuiSolidLabelElement*				textElement;
+
+				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected);
+			public:
+				Win7ListViewColumnDropDownStyle();
+				~Win7ListViewColumnDropDownStyle();
+
+				elements::GuiBoundsComposition*				GetBoundsComposition()override;
+				elements::GuiGraphicsComposition*			GetContainerComposition()override;
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value)override;
+				void										SetText(const WString& value)override;
+				void										SetFont(const FontProperties& value)override;
+				void										SetVisuallyEnabled(bool value)override;
+				void										SetSelected(bool value)override;
+				void										Transfer(controls::GuiButton::ControlState value)override;
+			};
+
+			class Win7ListViewColumnHeaderStyle : public Object, public virtual controls::GuiSelectableButton::IStyleController
+			{
+			protected:
+				controls::GuiButton::ControlState			controlStyle;
+				bool										isVisuallyEnabled;
+				bool										isSelected;
+
+				elements::GuiBoundsComposition*				mainComposition;
+				elements::GuiBoundsComposition*				rightBorderComposition;
+				elements::GuiBoundsComposition*				borderComposition;
+				elements::GuiBoundsComposition*				gradientComposition;
+				elements::GuiBoundsComposition*				textComposition;
+
+				elements::GuiSolidBackgroundElement*		backgroundElement;
+				elements::GuiGradientBackgroundElement*		rightBorderElement;
+				elements::GuiSolidBorderElement*			borderElement;
+				elements::GuiGradientBackgroundElement*		gradientElement;
+				elements::GuiSolidLabelElement*				textElement;
+
+				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected);
+			public:
+				Win7ListViewColumnHeaderStyle();
+				~Win7ListViewColumnHeaderStyle();
+
+				elements::GuiBoundsComposition*				GetBoundsComposition()override;
+				elements::GuiGraphicsComposition*			GetContainerComposition()override;
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value)override;
+				void										SetText(const WString& value)override;
+				void										SetFont(const FontProperties& value)override;
+				void										SetVisuallyEnabled(bool value)override;
+				void										SetSelected(bool value)override;
+				void										Transfer(controls::GuiButton::ControlState value)override;
+			};
+
+/***********************************************************************
+Menu Button
 ***********************************************************************/
 
 			class Win7MenuBarButtonStyle : public Object, public virtual controls::GuiMenuButton::IStyleController
