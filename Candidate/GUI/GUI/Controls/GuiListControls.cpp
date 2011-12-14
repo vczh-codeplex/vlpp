@@ -67,6 +67,7 @@ GuiListControl::ItemCallback
 				listControl->itemStyleProvider->Install(style, itemIndex);
 				style->OnInstalled();
 				installedStyles.Add(style);
+				listControl->GetContainerComposition()->AddChild(style->GetBoundsComposition());
 				listControl->OnStyleInstalled(itemIndex, style);
 				return style;
 			}
@@ -77,6 +78,7 @@ GuiListControl::ItemCallback
 				if(index!=-1)
 				{
 					listControl->OnStyleUninstalled(style);
+					listControl->GetContainerComposition()->RemoveChild(style->GetBoundsComposition());
 					installedStyles.RemoveAt(index);
 					style->OnUninstalled();
 					if(style->IsCacheable())
@@ -96,9 +98,19 @@ GuiListControl::ItemCallback
 				listControl->GetVerticalScroll()->SetPosition(value.y);
 			}
 
-			elements::GuiGraphicsComposition* GuiListControl::ItemCallback::GetContainerComposition()
+			Size GuiListControl::ItemCallback::GetStylePreferredSize(IItemStyleController* style)
 			{
-				return listControl->GetContainerComposition();
+				return style->GetBoundsComposition()->GetPreferredBounds().GetSize();
+			}
+
+			void GuiListControl::ItemCallback::SetStyleAlignmentToParent(IItemStyleController* style, Margin margin)
+			{
+				style->GetBoundsComposition()->SetAlignmentToParent(margin);
+			}
+
+			void GuiListControl::ItemCallback::SetStyleBounds(IItemStyleController* style, Rect bounds)
+			{
+				return style->GetBoundsComposition()->SetBounds(bounds);
 			}
 
 			void GuiListControl::ItemCallback::OnTotalSizeChanged()
@@ -424,7 +436,6 @@ RangedItemArrangerBase
 						for(int i=0;i<visibleStyles.Count();i++)
 						{
 							GuiListControl::IItemStyleController* style=visibleStyles[i];
-							callback->GetContainerComposition()->RemoveChild(style->GetBoundsComposition());
 							callback->ReleaseItem(style);
 						}
 					}
@@ -487,7 +498,6 @@ RangedItemArrangerBase
 							if(oldIndex==-1)
 							{
 								GuiListControl::IItemStyleController* style=callback->RequestItem(index);
-								callback->GetContainerComposition()->AddChild(style->GetBoundsComposition());
 								visibleStyles.Add(style);
 							}
 						}
@@ -497,7 +507,6 @@ RangedItemArrangerBase
 							GuiListControl::IItemStyleController* style=visibleStyles[i];
 							if(!reusedStyles.Contains(style))
 							{
-								callback->GetContainerComposition()->RemoveChild(style->GetBoundsComposition());
 								callback->ReleaseItem(style);
 							}
 						}
@@ -573,8 +582,8 @@ FixedHeightItemArranger
 					for(int i=0;i<visibleStyles.Count();i++)
 					{
 						GuiListControl::IItemStyleController* style=visibleStyles[i];
-						style->GetBoundsComposition()->SetAlignmentToParent(Margin(0, -1, 0, -1));
-						style->GetBoundsComposition()->SetBounds(Rect(Point(0, y0+(startIndex+i)*rowHeight), Size(0, rowHeight)));
+						callback->SetStyleAlignmentToParent(style, Margin(0, -1, 0, -1));
+						callback->SetStyleBounds(style, Rect(Point(0, y0+(startIndex+i)*rowHeight), Size(0, rowHeight)));
 					}
 				}
 
@@ -619,9 +628,8 @@ FixedHeightItemArranger
 								else
 								{
 									GuiListControl::IItemStyleController* style=callback->RequestItem(i);
-									callback->GetContainerComposition()->AddChild(style->GetBoundsComposition());
 									visibleStyles.Add(style);
-									int styleHeight=style->GetBoundsComposition()->GetPreferredBounds().Height();
+									int styleHeight=callback->GetStylePreferredSize(style).y;
 									if(newRowHeight<styleHeight)
 									{
 										newRowHeight=styleHeight;
@@ -636,7 +644,6 @@ FixedHeightItemArranger
 								if(index<newStartIndex || newEndIndex<index)
 								{
 									GuiListControl::IItemStyleController* style=visibleStyles[i];
-									callback->GetContainerComposition()->RemoveChild(style->GetBoundsComposition());
 									callback->ReleaseItem(style);
 								}
 							}
@@ -682,7 +689,7 @@ FixedSizeMultiColumnItemArranger
 						GuiListControl::IItemStyleController* style=visibleStyles[i];
 						int row=(startIndex+i)/rowItems;
 						int col=(startIndex+i)%rowItems;
-						style->GetBoundsComposition()->SetBounds(Rect(Point(col*itemSize.x, y0+row*itemSize.y), itemSize));
+						callback->SetStyleBounds(style, Rect(Point(col*itemSize.x, y0+row*itemSize.y), itemSize));
 					}
 				}
 
@@ -754,7 +761,6 @@ FixedSizeMultiColumnItemArranger
 									else if(i<previousStartIndex || i>previousEndIndex)
 									{
 										GuiListControl::IItemStyleController* style=callback->RequestItem(i);
-										callback->GetContainerComposition()->AddChild(style->GetBoundsComposition());
 
 										if(i<previousStartIndex)
 										{
@@ -765,7 +771,7 @@ FixedSizeMultiColumnItemArranger
 											visibleStyles.Add(style);
 										}
 										
-										Size styleSize=style->GetBoundsComposition()->GetPreferredBounds().GetSize();
+										Size styleSize=callback->GetStylePreferredSize(style);
 										if(newItemSize.x<styleSize.x) newItemSize.x=styleSize.x;
 										if(newItemSize.y<styleSize.y) newItemSize.y=styleSize.y;
 									}
@@ -788,7 +794,6 @@ FixedSizeMultiColumnItemArranger
 								if(index<newStartIndex || newEndIndex<index)
 								{
 									GuiListControl::IItemStyleController* style=visibleStyles[i];
-									callback->GetContainerComposition()->RemoveChild(style->GetBoundsComposition());
 									callback->ReleaseItem(style);
 								}
 							}
@@ -919,7 +924,6 @@ FixHeightMultiColumnItemArranger
 									else if(i<previousStartIndex || i>previousEndIndex)
 									{
 										GuiListControl::IItemStyleController* style=callback->RequestItem(i);
-										callback->GetContainerComposition()->AddChild(style->GetBoundsComposition());
 
 										if(i<previousStartIndex)
 										{
@@ -953,7 +957,6 @@ FixHeightMultiColumnItemArranger
 								if(index<newStartIndex || newEndIndex<index)
 								{
 									GuiListControl::IItemStyleController* style=visibleStyles[i];
-									callback->GetContainerComposition()->RemoveChild(style->GetBoundsComposition());
 									callback->ReleaseItem(style);
 								}
 							}
