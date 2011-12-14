@@ -102,6 +102,19 @@ List Control
 					virtual void								OnViewChanged(Rect bounds)=0;
 				};
 
+				class IItemCoordinateTransformer : public virtual Interface
+				{
+				public:
+					virtual Size								RealSizeToVirtualSize(Size size)=0;
+					virtual Size								VirtualSizeToRealSize(Size size)=0;
+					virtual Point								RealPointToVirtualPoint(Size realFullSize, Point point)=0;
+					virtual Point								VirtualPointToRealPoint(Size realFullSize, Point point)=0;
+					virtual Rect								RealRectToVirtualRect(Size realFullSize, Rect rect)=0;
+					virtual Rect								VirtualRectToRealRect(Size realFullSize, Rect rect)=0;
+					virtual Margin								RealMarginToVirtualMargin(Margin margin)=0;
+					virtual Margin								VirtualMarginToRealMargin(Margin margin)=0;
+				};
+
 			protected:
 				class ItemCallback : public IItemProviderCallback, public IItemArrangerCallback
 				{
@@ -133,6 +146,8 @@ List Control
 				Ptr<IItemProvider>								itemProvider;
 				Ptr<IItemStyleProvider>							itemStyleProvider;
 				Ptr<IItemArranger>								itemArranger;
+				Ptr<IItemCoordinateTransformer>					itemCoordinateTransformer;
+				Size											fullSize;
 
 				virtual void									OnItemModified(int start, int count, int newCount);
 				virtual void									OnStyleInstalled(int itemIndex, IItemStyleController* style);
@@ -153,6 +168,8 @@ List Control
 				virtual Ptr<IItemStyleProvider>					SetStyleProvider(Ptr<IItemStyleProvider> value);
 				virtual IItemArranger*							GetArranger();
 				virtual Ptr<IItemArranger>						SetArranger(Ptr<IItemArranger> value);
+				virtual IItemCoordinateTransformer*				GetCoordinateTransformer();
+				virtual Ptr<IItemCoordinateTransformer>			SetCoordinateTransformer(Ptr<IItemCoordinateTransformer> value);
 			};
 
 			class GuiSelectableListControl : public GuiListControl
@@ -211,6 +228,29 @@ List Control
 				bool											GetSelected(int itemIndex);
 				void											SetSelected(int itemIndex, bool value);
 				void											ClearSelection();
+			};
+
+/***********************************************************************
+Predefined ItemCoordinateTransformer
+***********************************************************************/
+
+			namespace list
+			{
+				class DefaultItemCoordinateTransformer : public Object, virtual public GuiListControl::IItemCoordinateTransformer
+				{
+				public:
+					DefaultItemCoordinateTransformer();
+					~DefaultItemCoordinateTransformer();
+
+					Size										RealSizeToVirtualSize(Size size)override;
+					Size										VirtualSizeToRealSize(Size size)override;
+					Point										RealPointToVirtualPoint(Size realFullSize, Point point)override;
+					Point										VirtualPointToRealPoint(Size realFullSize, Point point)override;
+					Rect										RealRectToVirtualRect(Size realFullSize, Rect rect)override;
+					Rect										VirtualRectToRealRect(Size realFullSize, Rect rect)override;
+					Margin										RealMarginToVirtualMargin(Margin margin)override;
+					Margin										VirtualMarginToRealMargin(Margin margin)override;
+				};
 			};
 
 /***********************************************************************

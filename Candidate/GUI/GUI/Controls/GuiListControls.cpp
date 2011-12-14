@@ -94,23 +94,28 @@ GuiListControl::ItemCallback
 
 			void GuiListControl::ItemCallback::SetViewLocation(Point value)
 			{
-				listControl->GetHorizontalScroll()->SetPosition(value.x);
-				listControl->GetVerticalScroll()->SetPosition(value.y);
+				Rect virtualRect(value, listControl->GetViewSize());
+				Rect realRect=listControl->itemCoordinateTransformer->VirtualRectToRealRect(listControl->fullSize, virtualRect);
+				listControl->GetHorizontalScroll()->SetPosition(realRect.Left());
+				listControl->GetVerticalScroll()->SetPosition(realRect.Top());
 			}
 
 			Size GuiListControl::ItemCallback::GetStylePreferredSize(IItemStyleController* style)
 			{
-				return style->GetBoundsComposition()->GetPreferredBounds().GetSize();
+				Size size=style->GetBoundsComposition()->GetPreferredBounds().GetSize();
+				return listControl->itemCoordinateTransformer->RealSizeToVirtualSize(size);
 			}
 
 			void GuiListControl::ItemCallback::SetStyleAlignmentToParent(IItemStyleController* style, Margin margin)
 			{
-				style->GetBoundsComposition()->SetAlignmentToParent(margin);
+				Margin newMargin=listControl->itemCoordinateTransformer->VirtualMarginToRealMargin(margin);
+				style->GetBoundsComposition()->SetAlignmentToParent(newMargin);
 			}
 
 			void GuiListControl::ItemCallback::SetStyleBounds(IItemStyleController* style, Rect bounds)
 			{
-				return style->GetBoundsComposition()->SetBounds(bounds);
+				Rect newRect=listControl->itemCoordinateTransformer->VirtualRectToRealRect(listControl->fullSize, bounds);
+				return style->GetBoundsComposition()->SetBounds(newRect);
 			}
 
 			void GuiListControl::ItemCallback::OnTotalSizeChanged()
@@ -145,14 +150,17 @@ GuiListControl
 
 			Size GuiListControl::QueryFullSize()
 			{
-				return itemArranger?itemArranger->GetTotalSize():Size(0, 0);
+				Size virtualSize=itemArranger?itemArranger->GetTotalSize():Size(0, 0);
+				fullSize=itemCoordinateTransformer->VirtualSizeToRealSize(virtualSize);
+				return fullSize;
 			}
 
 			void GuiListControl::UpdateView(Rect viewBounds)
 			{
 				if(itemArranger)
 				{
-					itemArranger->OnViewChanged(viewBounds);
+					Rect newBounds=itemCoordinateTransformer->RealRectToVirtualRect(fullSize, viewBounds);
+					itemArranger->OnViewChanged(newBounds);
 				}
 			}
 
@@ -200,6 +208,7 @@ GuiListControl
 			{
 				callback=new ItemCallback(this);
 				itemProvider->AttachCallback(callback.Obj());
+				itemCoordinateTransformer=new list::DefaultItemCoordinateTransformer;
 
 				if(acceptFocus)
 				{
@@ -245,6 +254,19 @@ GuiListControl
 			{
 				Ptr<IItemArranger> old=itemArranger;
 				SetStyleProviderAndArranger(itemStyleProvider, value);
+				return old;
+			}
+
+			GuiListControl::IItemCoordinateTransformer* GuiListControl::GetCoordinateTransformer()
+			{
+				return itemCoordinateTransformer.Obj();
+			}
+
+			Ptr<GuiListControl::IItemCoordinateTransformer> GuiListControl::SetCoordinateTransformer(Ptr<IItemCoordinateTransformer> value)
+			{
+				Ptr<IItemCoordinateTransformer> old=itemCoordinateTransformer;
+				itemCoordinateTransformer=value;
+				SetStyleProviderAndArranger(itemStyleProvider, itemArranger);
 				return old;
 			}
 
@@ -423,6 +445,58 @@ GuiSelectableListControl
 
 			namespace list
 			{
+
+/***********************************************************************
+DefaultItemCoordinateTransformer
+***********************************************************************/
+
+				DefaultItemCoordinateTransformer::DefaultItemCoordinateTransformer()
+				{
+				}
+
+				DefaultItemCoordinateTransformer::~DefaultItemCoordinateTransformer()
+				{
+				}
+
+				Size DefaultItemCoordinateTransformer::RealSizeToVirtualSize(Size size)
+				{
+					return size;
+				}
+
+				Size DefaultItemCoordinateTransformer::VirtualSizeToRealSize(Size size)
+				{
+					return size;
+				}
+
+				Point DefaultItemCoordinateTransformer::RealPointToVirtualPoint(Size realFullSize, Point point)
+				{
+					return point;
+				}
+
+				Point DefaultItemCoordinateTransformer::VirtualPointToRealPoint(Size realFullSize, Point point)
+				{
+					return point;
+				}
+
+				Rect DefaultItemCoordinateTransformer::RealRectToVirtualRect(Size realFullSize, Rect rect)
+				{
+					return rect;
+				}
+
+				Rect DefaultItemCoordinateTransformer::VirtualRectToRealRect(Size realFullSize, Rect rect)
+				{
+					return rect;
+				}
+
+				Margin DefaultItemCoordinateTransformer::RealMarginToVirtualMargin(Margin margin)
+				{
+					return margin;
+				}
+
+				Margin DefaultItemCoordinateTransformer::VirtualMarginToRealMargin(Margin margin)
+				{
+					return margin;
+				}
 
 /***********************************************************************
 RangedItemArrangerBase

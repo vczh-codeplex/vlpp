@@ -907,7 +907,7 @@ GuiScrollView
 
 			void GuiScrollView::CallUpdateView()
 			{
-				Size viewSize=styleController->GetInternalContainerComposition()->GetBounds().GetSize();
+				Size viewSize=GetViewSize();
 				UpdateView(Rect(
 					Point(
 						styleController->GetHorizontalScroll()->GetPosition(),
@@ -969,6 +969,12 @@ GuiScrollView
 						}
 					}
 				}
+			}
+
+			Size GuiScrollView::GetViewSize()
+			{
+				Size viewSize=styleController->GetInternalContainerComposition()->GetBounds().GetSize();
+				return viewSize;
 			}
 
 			GuiScroll* GuiScrollView::GetHorizontalScroll()
