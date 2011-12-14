@@ -916,9 +916,9 @@ FixHeightMultiColumnItemArranger
 							currentWidth=0;
 						}
 						GuiListControl::IItemStyleController* style=visibleStyles[i];
-						int itemWidth=style->GetBoundsComposition()->GetPreferredBounds().Width();
+						int itemWidth=callback->GetStylePreferredSize(style).y;
 						if(currentWidth<itemWidth) currentWidth=itemWidth;
-						style->GetBoundsComposition()->SetBounds(Rect(Point(totalWidth, itemHeight*column), Size(0, 0)));
+						callback->SetStyleBounds(style, Rect(Point(totalWidth, itemHeight*column), Size(0, 0)));
 					}
 				}
 
@@ -1008,7 +1008,7 @@ FixHeightMultiColumnItemArranger
 											visibleStyles.Add(style);
 										}
 										
-										Size styleSize=style->GetBoundsComposition()->GetPreferredBounds().GetSize();
+										Size styleSize=callback->GetStylePreferredSize(style);
 										if(currentWidth<styleSize.x) currentWidth=styleSize.x;
 										if(newItemHeight<styleSize.y) newItemHeight=styleSize.y;
 										if(currentItemHeight!=newItemHeight) break;
