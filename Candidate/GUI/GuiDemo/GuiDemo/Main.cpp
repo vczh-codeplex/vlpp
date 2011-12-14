@@ -440,6 +440,72 @@ void SetupListControlWindow(GuiControlHost* controlHost, GuiControl* container)
 }
 
 /***********************************************************************
+SetupListDirectionWindow
+***********************************************************************/
+
+void SetupListDirectionWindow(GuiControlHost* controlHost, GuiControl* container)
+{
+	container->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+	GuiTextList* listControl=0;
+	{
+		listControl=new GuiTextList(new win7::Win7MultilineTextBoxProvider, new win7::Win7TextListProvider);
+		listControl->GetBoundsComposition()->SetAlignmentToParent(Margin(200, 5, 5, 5));
+		listControl->GetBoundsComposition()->SetBounds(Rect(0, 0, 300, 200));
+		listControl->SetHorizontalAlwaysVisible(false);
+		container->GetBoundsComposition()->AddChild(listControl->GetBoundsComposition());
+
+		for(int i=0;i<30;i++)
+		{
+			listControl->GetItems().Add(L"Text Item "+itow(i+1));
+			listControl->GetItems().SetChecked(i, i%2==0);
+		}
+	}
+	{
+		GuiTextList* typeList=new GuiTextList(new win7::Win7MultilineTextBoxProvider, new win7::Win7TextListProvider);
+		typeList->GetBoundsComposition()->SetAlignmentToParent(Margin(5, 5, -1, 5));
+		typeList->GetBoundsComposition()->SetBounds(Rect(0, 0, 190, 200));
+		typeList->SetHorizontalAlwaysVisible(false);
+		container->GetBoundsComposition()->AddChild(typeList->GetBoundsComposition());
+
+		typeList->GetItems().Add(L"Left Down");
+		typeList->GetItems().Add(L"Right Down");
+		typeList->GetItems().Add(L"Left Up");
+		typeList->GetItems().Add(L"Right Up");
+		typeList->GetItems().Add(L"Down Left");
+		typeList->GetItems().Add(L"Down Right");
+		typeList->GetItems().Add(L"Up Left");
+		typeList->GetItems().Add(L"Up Right");
+		typeList->SetSelected(0, true);
+
+		typeList->SelectionChanged.AttachLambda([listControl, typeList](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
+		{
+			if(typeList->GetSelectedItems().Count()>0)
+			{
+				switch(typeList->GetSelectedItems()[0])
+				{
+				case 0:
+					break;
+				case 1:
+					break;
+				case 2:
+					break;
+				case 3:
+					break;
+				case 4:
+					break;
+				case 5:
+					break;
+				case 6:
+					break;
+				case 7:
+					break;
+				}
+			}
+		});
+	}
+}
+
+/***********************************************************************
 SetupListviewWindow
 ***********************************************************************/
 
@@ -755,6 +821,34 @@ void SetupRibbonWindow(GuiControlHost* controlHost, GuiControl* container)
 SetupTabPageWindow
 ***********************************************************************/
 
+void SetupTabPageListControlWindow(GuiControlHost* controlHost, GuiControl* container)
+{
+	container->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+	GuiTab* tab=new GuiTab(new win7::Win7TabStyle);
+	tab->GetBoundsComposition()->SetAlignmentToParent(Margin(6, 6, 6, 6));
+	{
+		GuiTabPage* page=tab->CreatePage();
+		page->SetText(L"Text List");
+		SetupListControlWindow(controlHost, page->GetContainer());
+	}
+	{
+		GuiTabPage* page=tab->CreatePage();
+		page->SetText(L"List Direction (not completed)");
+		SetupListDirectionWindow(controlHost, page->GetContainer());
+	}
+	{
+		GuiTabPage* page=tab->CreatePage();
+		page->SetText(L"List View (not completed)");
+		SetupListviewWindow(controlHost, page->GetContainer());
+	}
+	{
+		GuiTabPage* page=tab->CreatePage();
+		page->SetText(L"Tree View (not completed)");
+		SetupTreeviewWindow(controlHost, page->GetContainer());
+	}
+	container->GetContainerComposition()->AddChild(tab->GetBoundsComposition());
+}
+
 void SetupTabPageWindow(GuiControlHost* controlHost, GuiControl* container)
 {
 	container->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
@@ -773,7 +867,7 @@ void SetupTabPageWindow(GuiControlHost* controlHost, GuiControl* container)
 	{
 		GuiTabPage* page=tab->CreatePage();
 		page->SetText(L"List Control");
-		SetupListControlWindow(controlHost, page->GetContainer());
+		SetupTabPageListControlWindow(controlHost, page->GetContainer());
 	}
 	{
 		GuiTabPage* page=tab->CreatePage();
@@ -782,21 +876,11 @@ void SetupTabPageWindow(GuiControlHost* controlHost, GuiControl* container)
 	}
 	{
 		GuiTabPage* page=tab->CreatePage();
-		page->SetText(L"List View (not completed)");
-		SetupListviewWindow(controlHost, page->GetContainer());
-	}
-	{
-		GuiTabPage* page=tab->CreatePage();
-		page->SetText(L"Tree View (not completed)");
-		SetupTreeviewWindow(controlHost, page->GetContainer());
-	}
-	{
-		GuiTabPage* page=tab->CreatePage();
 		page->SetText(L"Ribbon (not completed)");
 		SetupRibbonWindow(controlHost, page->GetContainer());
 	}
 	container->GetContainerComposition()->AddChild(tab->GetBoundsComposition());
-	tab->MovePage(tab->GetPages()[4], 3);
+	tab->MovePage(tab->GetPages()[3], 2);
 }
 
 /***********************************************************************
