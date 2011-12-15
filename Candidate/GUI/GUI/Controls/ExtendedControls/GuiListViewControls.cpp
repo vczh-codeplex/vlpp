@@ -577,7 +577,7 @@ ListViewListContentProvider
 
 				GuiListControl::IItemArranger* ListViewListContentProvider::CreatePreferredArranger()
 				{
-					return new FixHeightMultiColumnItemArranger;
+					return new FixedHeightMultiColumnItemArranger;
 				}
 
 				ListViewItemStyleProvider::IListViewItemContent* ListViewListContentProvider::CreateItemContent(const FontProperties& font)

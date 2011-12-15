@@ -815,6 +815,7 @@ FixedHeightItemArranger
 							int oldVisibleCount=visibleStyles.Count();
 							int newRowHeight=rowHeight;
 							int newStartIndex=newBounds.Top()/rowHeight;
+							if(newStartIndex<0) newStartIndex=0;
 
 							int endIndex=startIndex+visibleStyles.Count()-1;
 							int newEndIndex=(newBounds.Bottom()-1)/newRowHeight;
@@ -1026,10 +1027,10 @@ FixedSizeMultiColumnItemArranger
 				}
 
 /***********************************************************************
-FixHeightMultiColumnItemArranger
+FixedHeightMultiColumnItemArranger
 ***********************************************************************/
 
-				void FixHeightMultiColumnItemArranger::RearrangeItemBounds()
+				void FixedHeightMultiColumnItemArranger::RearrangeItemBounds()
 				{
 					int rows=0;
 					int startColumn=0;
@@ -1051,19 +1052,19 @@ FixHeightMultiColumnItemArranger
 					}
 				}
 
-				void FixHeightMultiColumnItemArranger::CalculateRange(int itemHeight, Rect bounds, int& rows, int& startColumn)
+				void FixedHeightMultiColumnItemArranger::CalculateRange(int itemHeight, Rect bounds, int& rows, int& startColumn)
 				{
 					rows=bounds.Height()/itemHeight;
 					if(rows<1) rows=1;
 					startColumn=bounds.Left()/bounds.Width();
 				}
 
-				void FixHeightMultiColumnItemArranger::OnStylesCleared()
+				void FixedHeightMultiColumnItemArranger::OnStylesCleared()
 				{
 					itemHeight=1;
 				}
 
-				Size FixHeightMultiColumnItemArranger::OnCalculateTotalSize()
+				Size FixedHeightMultiColumnItemArranger::OnCalculateTotalSize()
 				{
 					if(callback)
 					{
@@ -1079,7 +1080,7 @@ FixHeightMultiColumnItemArranger
 					}
 				}
 
-				void FixHeightMultiColumnItemArranger::OnViewChangedInternal(Rect oldBounds, Rect newBounds)
+				void FixedHeightMultiColumnItemArranger::OnViewChangedInternal(Rect oldBounds, Rect newBounds)
 				{
 					if(callback)
 					{
@@ -1178,13 +1179,13 @@ FixHeightMultiColumnItemArranger
 					}
 				}
 
-				FixHeightMultiColumnItemArranger::FixHeightMultiColumnItemArranger()
+				FixedHeightMultiColumnItemArranger::FixedHeightMultiColumnItemArranger()
 					:itemHeight(1)
 					,suppressOnViewChanged(false)
 				{
 				}
 
-				FixHeightMultiColumnItemArranger::~FixHeightMultiColumnItemArranger()
+				FixedHeightMultiColumnItemArranger::~FixedHeightMultiColumnItemArranger()
 				{
 				}
 

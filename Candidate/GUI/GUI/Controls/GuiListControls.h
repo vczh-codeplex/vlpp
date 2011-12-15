@@ -352,7 +352,7 @@ Predefined ItemArranger
 					~FixedSizeMultiColumnItemArranger();
 				};
 
-				class FixHeightMultiColumnItemArranger : public RangedItemArrangerBase
+				class FixedHeightMultiColumnItemArranger : public RangedItemArrangerBase
 				{
 				protected:
 					int											itemHeight;
@@ -364,8 +364,8 @@ Predefined ItemArranger
 					Size										OnCalculateTotalSize()override;
 					void										OnViewChangedInternal(Rect oldBounds, Rect newBounds)override;
 				public:
-					FixHeightMultiColumnItemArranger();
-					~FixHeightMultiColumnItemArranger();
+					FixedHeightMultiColumnItemArranger();
+					~FixedHeightMultiColumnItemArranger();
 				};
 			}
 
