@@ -378,6 +378,7 @@ Scrolls
 
 				void									CalculateView();
 				Size									GetViewSize();
+				Rect									GetViewBounds();
 
 				GuiScroll*								GetHorizontalScroll();
 				GuiScroll*								GetVerticalScroll();

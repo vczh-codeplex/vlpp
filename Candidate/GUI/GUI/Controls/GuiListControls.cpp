@@ -114,7 +114,7 @@ GuiListControl::ItemCallback
 
 			void GuiListControl::ItemCallback::SetStyleBounds(IItemStyleController* style, Rect bounds)
 			{
-				Rect newRect=listControl->itemCoordinateTransformer->VirtualRectToRealRect(listControl->fullSize, bounds);
+				Rect newRect=listControl->itemCoordinateTransformer->VirtualRectToRealRect(listControl->GetViewSize(), bounds);
 				return style->GetBoundsComposition()->SetBounds(newRect);
 			}
 
@@ -499,6 +499,134 @@ DefaultItemCoordinateTransformer
 				}
 
 /***********************************************************************
+AxisAlignedItemCoordinateTransformer
+***********************************************************************/
+
+				AxisAlignedItemCoordinateTransformer::AxisAlignedItemCoordinateTransformer(Alignment _alignment)
+					:alignment(_alignment)
+				{
+				}
+
+				AxisAlignedItemCoordinateTransformer::~AxisAlignedItemCoordinateTransformer()
+				{
+				}
+
+				AxisAlignedItemCoordinateTransformer::Alignment AxisAlignedItemCoordinateTransformer::GetAlignment()
+				{
+					return alignment;
+				}
+
+				Size AxisAlignedItemCoordinateTransformer::RealSizeToVirtualSize(Size size)
+				{
+					switch(alignment)
+					{
+					case LeftDown:
+					case RightDown:
+					case LeftUp:
+					case RightUp:
+						return Size(size.x, size.y);
+					case DownLeft:
+					case DownRight:
+					case UpLeft:
+					case UpRight:
+						return Size(size.y, size.x);
+					}
+					return size;
+				}
+
+				Size AxisAlignedItemCoordinateTransformer::VirtualSizeToRealSize(Size size)
+				{
+					return RealSizeToVirtualSize(size);
+				}
+
+				Point AxisAlignedItemCoordinateTransformer::RealPointToVirtualPoint(Size realFullSize, Point point)
+				{
+					Rect rect(point, Size(0, 0));
+					return RealRectToVirtualRect(realFullSize, rect).LeftTop();
+				}
+
+				Point AxisAlignedItemCoordinateTransformer::VirtualPointToRealPoint(Size realFullSize, Point point)
+				{
+					Rect rect(point, Size(0, 0));
+					return VirtualRectToRealRect(realFullSize, rect).LeftTop();
+				}
+
+				Rect AxisAlignedItemCoordinateTransformer::RealRectToVirtualRect(Size realFullSize, Rect rect)
+				{
+					realFullSize=RealSizeToVirtualSize(realFullSize);
+					int x1=rect.x1;
+					int x2=realFullSize.x-rect.x2;
+					int y1=rect.y1;
+					int y2=realFullSize.y-rect.y2;
+					int w=rect.Width();
+					int h=rect.Height();
+					switch(alignment)
+					{
+					case LeftDown:
+						return Rect(Point(x1, y1), Size(w, h));
+					case RightDown:
+						return Rect(Point(x2, y1), Size(w, h));
+					case LeftUp:
+						return Rect(Point(x1, y2), Size(w, h));
+					case RightUp:
+						return Rect(Point(x2, y2), Size(w, h));
+					case DownLeft:
+						return Rect(Point(y1, x1), Size(h, w));
+					case DownRight:
+						return Rect(Point(y1, x2), Size(h, w));
+					case UpLeft:
+						return Rect(Point(y2, x1), Size(h, w));
+					case UpRight:
+						return Rect(Point(y2, x2), Size(h, w));
+					}
+					return rect;
+				}
+
+				Rect AxisAlignedItemCoordinateTransformer::VirtualRectToRealRect(Size realFullSize, Rect rect)
+				{
+					int x1=rect.x1;
+					int x2=realFullSize.x-rect.x2;
+					int y1=rect.y1;
+					int y2=realFullSize.y-rect.y2;
+					int w=rect.Width();
+					int h=rect.Height();
+					switch(alignment)
+					{
+					case LeftDown:
+						return Rect(Point(x1, y1), Size(w, h));
+					case RightDown:
+						return Rect(Point(x2, y1), Size(w, h));
+					case LeftUp:
+						return Rect(Point(x1, y2), Size(w, h));
+					case RightUp:
+						return Rect(Point(x2, y2), Size(w, h));
+					case DownLeft:
+						return Rect(Point(y1, x1), Size(h, w));
+					case DownRight:
+						return Rect(Point(y2, x1), Size(h, w));
+					case UpLeft:
+						return Rect(Point(y1, x2), Size(h, w));
+					case UpRight:
+						return Rect(Point(y2, x2), Size(h, w));
+					}
+					return rect;
+				}
+
+				Margin AxisAlignedItemCoordinateTransformer::RealMarginToVirtualMargin(Margin margin)
+				{
+					Rect rect(margin.left, margin.top, margin.right, margin.bottom);
+					rect=RealRectToVirtualRect(Size(0, 0), rect);
+					return Margin(rect.x1, rect.y1, rect.x2, rect.y2);
+				}
+
+				Margin AxisAlignedItemCoordinateTransformer::VirtualMarginToRealMargin(Margin margin)
+				{
+					Rect rect(margin.left, margin.top, margin.right, margin.bottom);
+					rect=VirtualRectToRealRect(Size(0, 0), rect);
+					return Margin(rect.x1, rect.y1, rect.x2, rect.y2);
+				}
+
+/***********************************************************************
 RangedItemArrangerBase
 ***********************************************************************/
 
@@ -770,6 +898,7 @@ FixedSizeMultiColumnItemArranger
 				void FixedSizeMultiColumnItemArranger::CalculateRange(Size itemSize, Rect bounds, int count, int& start, int& end)
 				{
 					int startRow=bounds.Top()/itemSize.y;
+					if(startRow<0) startRow=0;
 					int endRow=(bounds.Bottom()-1)/itemSize.y;
 					int cols=bounds.Width()/itemSize.x;
 					if(cols<1) cols=1;
