@@ -601,13 +601,13 @@ AxisAlignedItemCoordinateTransformer
 					case RightUp:
 						return Rect(Point(x1, y2), Size(w, h));
 					case DownLeft:
-						return Rect(Point(y1, x2), Size(h, w));
-					case DownRight:
-						return Rect(Point(y2, x2), Size(h, w));
-					case UpLeft:
-						return Rect(Point(y1, x1), Size(h, w));
-					case UpRight:
 						return Rect(Point(y2, x1), Size(h, w));
+					case DownRight:
+						return Rect(Point(y1, x1), Size(h, w));
+					case UpLeft:
+						return Rect(Point(y2, x2), Size(h, w));
+					case UpRight:
+						return Rect(Point(y1, x2), Size(h, w));
 					}
 					return rect;
 				}
