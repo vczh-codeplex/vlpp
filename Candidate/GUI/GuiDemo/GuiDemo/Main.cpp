@@ -476,14 +476,14 @@ void SetupListDirectionWindow(GuiControlHost* controlHost, GuiControl* container
 		typeList->SetHorizontalAlwaysVisible(false);
 		container->GetBoundsComposition()->AddChild(typeList->GetBoundsComposition());
 
-		typeList->GetItems().Add(L"Left Down");
 		typeList->GetItems().Add(L"Right Down");
-		typeList->GetItems().Add(L"Left Up");
+		typeList->GetItems().Add(L"Left Down");
 		typeList->GetItems().Add(L"Right Up");
-		typeList->GetItems().Add(L"Down Left");
+		typeList->GetItems().Add(L"Left Up");
 		typeList->GetItems().Add(L"Down Right");
-		typeList->GetItems().Add(L"Up Left");
+		typeList->GetItems().Add(L"Down Left");
 		typeList->GetItems().Add(L"Up Right");
+		typeList->GetItems().Add(L"Up Left");
 		typeList->SetSelected(0, true);
 
 		typeList->SelectionChanged.AttachLambda([listControl, typeList](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
@@ -493,28 +493,28 @@ void SetupListDirectionWindow(GuiControlHost* controlHost, GuiControl* container
 				switch(typeList->GetSelectedItems()[0])
 				{
 				case 0:
-					listControl->SetCoordinateTransformer(new list::AxisAlignedItemCoordinateTransformer(list::AxisAlignedItemCoordinateTransformer::LeftDown));
-					break;
-				case 1:
 					listControl->SetCoordinateTransformer(new list::AxisAlignedItemCoordinateTransformer(list::AxisAlignedItemCoordinateTransformer::RightDown));
 					break;
-				case 2:
-					listControl->SetCoordinateTransformer(new list::AxisAlignedItemCoordinateTransformer(list::AxisAlignedItemCoordinateTransformer::LeftUp));
+				case 1:
+					listControl->SetCoordinateTransformer(new list::AxisAlignedItemCoordinateTransformer(list::AxisAlignedItemCoordinateTransformer::LeftDown));
 					break;
-				case 3:
+				case 2:
 					listControl->SetCoordinateTransformer(new list::AxisAlignedItemCoordinateTransformer(list::AxisAlignedItemCoordinateTransformer::RightUp));
 					break;
-				case 4:
-					listControl->SetCoordinateTransformer(new list::AxisAlignedItemCoordinateTransformer(list::AxisAlignedItemCoordinateTransformer::DownLeft));
+				case 3:
+					listControl->SetCoordinateTransformer(new list::AxisAlignedItemCoordinateTransformer(list::AxisAlignedItemCoordinateTransformer::LeftUp));
 					break;
-				case 5:
+				case 4:
 					listControl->SetCoordinateTransformer(new list::AxisAlignedItemCoordinateTransformer(list::AxisAlignedItemCoordinateTransformer::DownRight));
 					break;
+				case 5:
+					listControl->SetCoordinateTransformer(new list::AxisAlignedItemCoordinateTransformer(list::AxisAlignedItemCoordinateTransformer::DownLeft));
+					break;
 				case 6:
-					listControl->SetCoordinateTransformer(new list::AxisAlignedItemCoordinateTransformer(list::AxisAlignedItemCoordinateTransformer::UpLeft));
+					listControl->SetCoordinateTransformer(new list::AxisAlignedItemCoordinateTransformer(list::AxisAlignedItemCoordinateTransformer::UpRight));
 					break;
 				case 7:
-					listControl->SetCoordinateTransformer(new list::AxisAlignedItemCoordinateTransformer(list::AxisAlignedItemCoordinateTransformer::UpRight));
+					listControl->SetCoordinateTransformer(new list::AxisAlignedItemCoordinateTransformer(list::AxisAlignedItemCoordinateTransformer::UpLeft));
 					break;
 				}
 			}

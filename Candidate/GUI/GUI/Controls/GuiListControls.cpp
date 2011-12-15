@@ -553,6 +553,36 @@ AxisAlignedItemCoordinateTransformer
 
 				Rect AxisAlignedItemCoordinateTransformer::RealRectToVirtualRect(Size realFullSize, Rect rect)
 				{
+					int x1=rect.x1;
+					int x2=realFullSize.x-rect.x2;
+					int y1=rect.y1;
+					int y2=realFullSize.y-rect.y2;
+					int w=rect.Width();
+					int h=rect.Height();
+					switch(alignment)
+					{
+					case LeftDown:
+						return Rect(Point(x2, y1), Size(w, h));
+					case RightDown:
+						return Rect(Point(x1, y1), Size(w, h));
+					case LeftUp:
+						return Rect(Point(x2, y2), Size(w, h));
+					case RightUp:
+						return Rect(Point(x1, y2), Size(w, h));
+					case DownLeft:
+						return Rect(Point(y1, x2), Size(h, w));
+					case DownRight:
+						return Rect(Point(y1, x1), Size(h, w));
+					case UpLeft:
+						return Rect(Point(y2, x2), Size(h, w));
+					case UpRight:
+						return Rect(Point(y2, x1), Size(h, w));
+					}
+					return rect;
+				}
+
+				Rect AxisAlignedItemCoordinateTransformer::VirtualRectToRealRect(Size realFullSize, Rect rect)
+				{
 					realFullSize=RealSizeToVirtualSize(realFullSize);
 					int x1=rect.x1;
 					int x2=realFullSize.x-rect.x2;
@@ -563,51 +593,21 @@ AxisAlignedItemCoordinateTransformer
 					switch(alignment)
 					{
 					case LeftDown:
-						return Rect(Point(x1, y1), Size(w, h));
-					case RightDown:
 						return Rect(Point(x2, y1), Size(w, h));
-					case LeftUp:
-						return Rect(Point(x1, y2), Size(w, h));
-					case RightUp:
-						return Rect(Point(x2, y2), Size(w, h));
-					case DownLeft:
-						return Rect(Point(y1, x1), Size(h, w));
-					case DownRight:
-						return Rect(Point(y1, x2), Size(h, w));
-					case UpLeft:
-						return Rect(Point(y2, x1), Size(h, w));
-					case UpRight:
-						return Rect(Point(y2, x2), Size(h, w));
-					}
-					return rect;
-				}
-
-				Rect AxisAlignedItemCoordinateTransformer::VirtualRectToRealRect(Size realFullSize, Rect rect)
-				{
-					int x1=rect.x1;
-					int x2=realFullSize.x-rect.x2;
-					int y1=rect.y1;
-					int y2=realFullSize.y-rect.y2;
-					int w=rect.Width();
-					int h=rect.Height();
-					switch(alignment)
-					{
-					case LeftDown:
-						return Rect(Point(x1, y1), Size(w, h));
 					case RightDown:
-						return Rect(Point(x2, y1), Size(w, h));
+						return Rect(Point(x1, y1), Size(w, h));
 					case LeftUp:
-						return Rect(Point(x1, y2), Size(w, h));
-					case RightUp:
 						return Rect(Point(x2, y2), Size(w, h));
+					case RightUp:
+						return Rect(Point(x1, y2), Size(w, h));
 					case DownLeft:
-						return Rect(Point(y1, x1), Size(h, w));
-					case DownRight:
-						return Rect(Point(y2, x1), Size(h, w));
-					case UpLeft:
 						return Rect(Point(y1, x2), Size(h, w));
-					case UpRight:
+					case DownRight:
 						return Rect(Point(y2, x2), Size(h, w));
+					case UpLeft:
+						return Rect(Point(y1, x1), Size(h, w));
+					case UpRight:
+						return Rect(Point(y2, x1), Size(h, w));
 					}
 					return rect;
 				}
