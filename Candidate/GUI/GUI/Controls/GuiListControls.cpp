@@ -141,10 +141,7 @@ GuiListControl
 
 			void GuiListControl::OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget)
 			{
-				if(itemArranger)
-				{
-					itemArranger->OnItemModified(0, itemProvider->Count(), itemProvider->Count());
-				}
+				SetStyleProviderAndArranger(itemStyleProvider, itemArranger);
 				GuiScrollView::OnRenderTargetChanged(renderTarget);
 			}
 
@@ -614,16 +611,58 @@ AxisAlignedItemCoordinateTransformer
 
 				Margin AxisAlignedItemCoordinateTransformer::RealMarginToVirtualMargin(Margin margin)
 				{
-					Rect rect(margin.left, margin.top, margin.right, margin.bottom);
-					rect=RealRectToVirtualRect(Size(0, 0), rect);
-					return Margin(rect.x1, rect.y1, rect.x2, rect.y2);
+					int x1=margin.left;
+					int x2=margin.right;
+					int y1=margin.top;
+					int y2=margin.bottom;
+					switch(alignment)
+					{
+					case LeftDown:
+						return Margin(x2, y1, x1, y2);
+					case RightDown:
+						return Margin(x1, y1, x2, y2);
+					case LeftUp:
+						return Margin(x2, y2, x1, y1);
+					case RightUp:
+						return Margin(x1, y2, x2, y1);
+					case DownLeft:
+						return Margin(y1, x2, y2, x1);
+					case DownRight:
+						return Margin(y1, x1, y2, x2);
+					case UpLeft:
+						return Margin(y2, x2, y1, x1);
+					case UpRight:
+						return Margin(y2, x1, y1, x2);
+					}
+					return margin;
 				}
 
 				Margin AxisAlignedItemCoordinateTransformer::VirtualMarginToRealMargin(Margin margin)
 				{
-					Rect rect(margin.left, margin.top, margin.right, margin.bottom);
-					rect=VirtualRectToRealRect(Size(0, 0), rect);
-					return Margin(rect.x1, rect.y1, rect.x2, rect.y2);
+					int x1=margin.left;
+					int x2=margin.right;
+					int y1=margin.top;
+					int y2=margin.bottom;
+					switch(alignment)
+					{
+					case LeftDown:
+						return Margin(x2, y1, x1, y2);
+					case RightDown:
+						return Margin(x1, y1, x2, y2);
+					case LeftUp:
+						return Margin(x2, y2, x1, y1);
+					case RightUp:
+						return Margin(x1, y2, x2, y1);
+					case DownLeft:
+						return Margin(y2, x1, y1, x2);
+					case DownRight:
+						return Margin(y1, x1, y2, x2);
+					case UpLeft:
+						return Margin(y2, x2, y1, x1);
+					case UpRight:
+						return Margin(y1, x2, y2, x1);
+					}
+					return margin;
 				}
 
 /***********************************************************************
@@ -1046,7 +1085,7 @@ FixedHeightMultiColumnItemArranger
 							currentWidth=0;
 						}
 						GuiListControl::IItemStyleController* style=visibleStyles[i];
-						int itemWidth=callback->GetStylePreferredSize(style).y;
+						int itemWidth=callback->GetStylePreferredSize(style).x;
 						if(currentWidth<itemWidth) currentWidth=itemWidth;
 						callback->SetStyleBounds(style, Rect(Point(totalWidth, itemHeight*column), Size(0, 0)));
 					}
