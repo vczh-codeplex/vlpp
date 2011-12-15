@@ -471,7 +471,7 @@ void SetupListDirectionWindow(GuiControlHost* controlHost, GuiControl* container
 	}
 	{
 		GuiTextList* typeList=new GuiTextList(new win7::Win7MultilineTextBoxProvider, new win7::Win7TextListProvider);
-		typeList->GetBoundsComposition()->SetAlignmentToParent(Margin(5, 5, -1, 5));
+		typeList->GetBoundsComposition()->SetAlignmentToParent(Margin(5, 5, -1, 160));
 		typeList->GetBoundsComposition()->SetBounds(Rect(0, 0, 190, 200));
 		typeList->SetHorizontalAlwaysVisible(false);
 		container->GetBoundsComposition()->AddChild(typeList->GetBoundsComposition());
@@ -515,6 +515,33 @@ void SetupListDirectionWindow(GuiControlHost* controlHost, GuiControl* container
 					break;
 				case 7:
 					listControl->SetCoordinateTransformer(new list::AxisAlignedItemCoordinateTransformer(list::AxisAlignedItemCoordinateTransformer::UpLeft));
+					break;
+				}
+			}
+		});
+	}
+	{
+		GuiTextList* typeList=new GuiTextList(new win7::Win7MultilineTextBoxProvider, new win7::Win7TextListProvider);
+		typeList->GetBoundsComposition()->SetAlignmentToParent(Margin(5, -1, -1, 5));
+		typeList->GetBoundsComposition()->SetBounds(Rect(0, 0, 190, 145));
+		typeList->SetHorizontalAlwaysVisible(false);
+		container->GetBoundsComposition()->AddChild(typeList->GetBoundsComposition());
+
+		typeList->GetItems().Add(L"Block");
+		typeList->GetItems().Add(L"Item");
+		typeList->SetSelected(0, true);
+
+		typeList->SelectionChanged.AttachLambda([listControl, typeList](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
+		{
+			if(typeList->GetSelectedItems().Count()>0)
+			{
+				switch(typeList->GetSelectedItems()[0])
+				{
+				case 0:
+					listControl->SetArranger(new list::FixedSizeMultiColumnItemArranger);
+					break;
+				case 1:
+					listControl->SetArranger(new list::FixedHeightItemArranger);
 					break;
 				}
 			}
