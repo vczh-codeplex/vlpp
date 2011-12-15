@@ -446,18 +446,27 @@ SetupListDirectionWindow
 void SetupListDirectionWindow(GuiControlHost* controlHost, GuiControl* container)
 {
 	container->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
-	GuiTextList* listControl=0;
+	GuiListView* listControl=0;
 	{
-		listControl=new GuiTextList(new win7::Win7MultilineTextBoxProvider, new win7::Win7TextListProvider);
+		listControl=new GuiListView(new win7::Win7ListViewProvider);
 		listControl->GetBoundsComposition()->SetAlignmentToParent(Margin(200, 5, 5, 5));
 		listControl->GetBoundsComposition()->SetBounds(Rect(0, 0, 300, 200));
 		listControl->SetHorizontalAlwaysVisible(false);
+		listControl->SetVerticalAlwaysVisible(false);
 		container->GetBoundsComposition()->AddChild(listControl->GetBoundsComposition());
+		
+		INativeImageProvider* imageProvider=GetCurrentController()->GetImageProvider();
+		Ptr<INativeImage> largeImage=imageProvider->CreateImageFromFile(L"Resources\\New.png");
+		Ptr<GuiImageData> largeImageData=new GuiImageData(largeImage, 0);
+		Ptr<INativeImage> smallImage=imageProvider->CreateImageFromFile(L"Resources\\NewSmall.png");
+		Ptr<GuiImageData> smallImageData=new GuiImageData(smallImage, 0);
 
-		for(int i=0;i<30;i++)
+		for(int i=0;i<100;i++)
 		{
-			listControl->GetItems().Add(L"Text Item "+itow(i+1));
-			listControl->GetItems().SetChecked(i, i%2==0);
+			Ptr<list::ListViewItem> item=new list::ListViewItem;
+			item->text=L"List View Item "+itow(i+1);
+			item->largeImage=largeImageData;
+			listControl->GetItems().Add(item);
 		}
 	}
 	{
@@ -484,20 +493,28 @@ void SetupListDirectionWindow(GuiControlHost* controlHost, GuiControl* container
 				switch(typeList->GetSelectedItems()[0])
 				{
 				case 0:
+					listControl->SetCoordinateTransformer(new list::AxisAlignedItemCoordinateTransformer(list::AxisAlignedItemCoordinateTransformer::LeftDown));
 					break;
 				case 1:
+					listControl->SetCoordinateTransformer(new list::AxisAlignedItemCoordinateTransformer(list::AxisAlignedItemCoordinateTransformer::RightDown));
 					break;
 				case 2:
+					listControl->SetCoordinateTransformer(new list::AxisAlignedItemCoordinateTransformer(list::AxisAlignedItemCoordinateTransformer::LeftUp));
 					break;
 				case 3:
+					listControl->SetCoordinateTransformer(new list::AxisAlignedItemCoordinateTransformer(list::AxisAlignedItemCoordinateTransformer::RightUp));
 					break;
 				case 4:
+					listControl->SetCoordinateTransformer(new list::AxisAlignedItemCoordinateTransformer(list::AxisAlignedItemCoordinateTransformer::DownLeft));
 					break;
 				case 5:
+					listControl->SetCoordinateTransformer(new list::AxisAlignedItemCoordinateTransformer(list::AxisAlignedItemCoordinateTransformer::DownRight));
 					break;
 				case 6:
+					listControl->SetCoordinateTransformer(new list::AxisAlignedItemCoordinateTransformer(list::AxisAlignedItemCoordinateTransformer::UpLeft));
 					break;
 				case 7:
+					listControl->SetCoordinateTransformer(new list::AxisAlignedItemCoordinateTransformer(list::AxisAlignedItemCoordinateTransformer::UpRight));
 					break;
 				}
 			}
@@ -833,7 +850,7 @@ void SetupTabPageListControlWindow(GuiControlHost* controlHost, GuiControl* cont
 	}
 	{
 		GuiTabPage* page=tab->CreatePage();
-		page->SetText(L"List Direction (not completed)");
+		page->SetText(L"Layout Direction");
 		SetupListDirectionWindow(controlHost, page->GetContainer());
 	}
 	{

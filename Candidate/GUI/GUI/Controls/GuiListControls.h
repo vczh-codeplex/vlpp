@@ -251,6 +251,38 @@ Predefined ItemCoordinateTransformer
 					Margin										RealMarginToVirtualMargin(Margin margin)override;
 					Margin										VirtualMarginToRealMargin(Margin margin)override;
 				};
+
+				class AxisAlignedItemCoordinateTransformer : public Object, virtual public GuiListControl::IItemCoordinateTransformer
+				{
+				public:
+					enum Alignment
+					{
+						LeftDown,
+						RightDown,
+						LeftUp,
+						RightUp,
+						DownLeft,
+						DownRight,
+						UpLeft,
+						UpRight,
+					};
+				protected:
+					Alignment									alignment;
+
+				public:
+					AxisAlignedItemCoordinateTransformer(Alignment _alignment);
+					~AxisAlignedItemCoordinateTransformer();
+
+					Alignment									GetAlignment();
+					Size										RealSizeToVirtualSize(Size size)override;
+					Size										VirtualSizeToRealSize(Size size)override;
+					Point										RealPointToVirtualPoint(Size realFullSize, Point point)override;
+					Point										VirtualPointToRealPoint(Size realFullSize, Point point)override;
+					Rect										RealRectToVirtualRect(Size realFullSize, Rect rect)override;
+					Rect										VirtualRectToRealRect(Size realFullSize, Rect rect)override;
+					Margin										RealMarginToVirtualMargin(Margin margin)override;
+					Margin										VirtualMarginToRealMargin(Margin margin)override;
+				};
 			};
 
 /***********************************************************************
