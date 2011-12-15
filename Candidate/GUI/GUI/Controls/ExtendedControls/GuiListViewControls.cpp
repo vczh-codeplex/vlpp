@@ -301,9 +301,11 @@ GuiListView
 
 			void GuiListView::ChangeItemStyle(list::ListViewItemStyleProvider::IListViewItemContentProvider* contentProvider)
 			{
+				SetStyleProvider(0);
+				SetArranger(0);
+				SetCoordinateTransformer(contentProvider->CreatePreferredCoordinateTransformer());
 				SetStyleProvider(new list::ListViewItemStyleProvider(contentProvider));
 				SetArranger(contentProvider->CreatePreferredArranger());
-				SetCoordinateTransformer(contentProvider->CreatePreferredCoordinateTransformer());
 			}
 
 			namespace list
