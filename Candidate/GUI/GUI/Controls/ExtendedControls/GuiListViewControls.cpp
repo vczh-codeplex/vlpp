@@ -303,6 +303,7 @@ GuiListView
 			{
 				SetStyleProvider(new list::ListViewItemStyleProvider(contentProvider));
 				SetArranger(contentProvider->CreatePreferredArranger());
+				SetCoordinateTransformer(contentProvider->CreatePreferredCoordinateTransformer());
 			}
 
 			namespace list
@@ -390,6 +391,11 @@ ListViewBigIconContentProvider
 
 				ListViewBigIconContentProvider::~ListViewBigIconContentProvider()
 				{
+				}
+
+				GuiListControl::IItemCoordinateTransformer* ListViewBigIconContentProvider::CreatePreferredCoordinateTransformer()
+				{
+					return new DefaultItemCoordinateTransformer;
 				}
 
 				GuiListControl::IItemArranger* ListViewBigIconContentProvider::CreatePreferredArranger()
@@ -484,6 +490,11 @@ ListViewSmallIconContentProvider
 				{
 				}
 
+				GuiListControl::IItemCoordinateTransformer* ListViewSmallIconContentProvider::CreatePreferredCoordinateTransformer()
+				{
+					return new DefaultItemCoordinateTransformer;
+				}
+
 				GuiListControl::IItemArranger* ListViewSmallIconContentProvider::CreatePreferredArranger()
 				{
 					return new FixedSizeMultiColumnItemArranger;
@@ -575,6 +586,11 @@ ListViewListContentProvider
 				{
 				}
 
+				GuiListControl::IItemCoordinateTransformer* ListViewListContentProvider::CreatePreferredCoordinateTransformer()
+				{
+					return new DefaultItemCoordinateTransformer;
+				}
+
 				GuiListControl::IItemArranger* ListViewListContentProvider::CreatePreferredArranger()
 				{
 					return new FixedHeightMultiColumnItemArranger;
@@ -620,6 +636,11 @@ ListViewDetailContentProvider
 
 				ListViewDetailContentProvider::~ListViewDetailContentProvider()
 				{
+				}
+
+				GuiListControl::IItemCoordinateTransformer* ListViewDetailContentProvider::CreatePreferredCoordinateTransformer()
+				{
+					return new DefaultItemCoordinateTransformer;
 				}
 
 				GuiListControl::IItemArranger* ListViewDetailContentProvider::CreatePreferredArranger()
@@ -762,6 +783,11 @@ ListViewTileContentProvider
 
 				ListViewTileContentProvider::~ListViewTileContentProvider()
 				{
+				}
+
+				GuiListControl::IItemCoordinateTransformer* ListViewTileContentProvider::CreatePreferredCoordinateTransformer()
+				{
+					return new DefaultItemCoordinateTransformer;
 				}
 
 				GuiListControl::IItemArranger* ListViewTileContentProvider::CreatePreferredArranger()
@@ -930,6 +956,11 @@ ListViewInformationContentProvider
 
 				ListViewInformationContentProvider::~ListViewInformationContentProvider()
 				{
+				}
+
+				GuiListControl::IItemCoordinateTransformer* ListViewInformationContentProvider::CreatePreferredCoordinateTransformer()
+				{
+					return new DefaultItemCoordinateTransformer;
 				}
 
 				GuiListControl::IItemArranger* ListViewInformationContentProvider::CreatePreferredArranger()
