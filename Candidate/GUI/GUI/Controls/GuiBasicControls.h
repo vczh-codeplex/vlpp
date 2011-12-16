@@ -218,6 +218,8 @@ Buttons
 				GuiSelectableButton(IStyleController* _styleController);
 				~GuiSelectableButton();
 
+				elements::GuiNotifyEvent				GroupControllerChanged;
+				elements::GuiNotifyEvent				AutoSelectionChanged;
 				elements::GuiNotifyEvent				SelectedChanged;
 
 				virtual GroupController*				GetGroupController();
@@ -287,8 +289,12 @@ Scrolls
 			public:
 				GuiScroll(IStyleController* _styleController);
 				~GuiScroll();
-
+				
+				elements::GuiNotifyEvent				TotalSizeChanged;
+				elements::GuiNotifyEvent				PageSizeChanged;
 				elements::GuiNotifyEvent				PositionChanged;
+				elements::GuiNotifyEvent				SmallMoveChanged;
+				elements::GuiNotifyEvent				BigMoveChanged;
 
 				virtual int								GetTotalSize();
 				virtual void							SetTotalSize(int value);
