@@ -203,6 +203,10 @@ GuiListControl
 				:GuiScrollView(_styleProvider)
 				,itemProvider(_itemProvider)
 			{
+				StyleProviderChanged.SetAssociatedComposition(boundsComposition);
+				ArrangerChanged.SetAssociatedComposition(boundsComposition);
+				CoordinateTransformerChanged.SetAssociatedComposition(boundsComposition);
+
 				callback=new ItemCallback(this);
 				itemProvider->AttachCallback(callback.Obj());
 				itemCoordinateTransformer=new list::DefaultItemCoordinateTransformer;
@@ -239,6 +243,7 @@ GuiListControl
 			{
 				Ptr<IItemStyleProvider> old=itemStyleProvider;
 				SetStyleProviderAndArranger(value, itemArranger);
+				StyleProviderChanged.Execute(GetNotifyEventArguments());
 				return old;
 			}
 
@@ -251,6 +256,7 @@ GuiListControl
 			{
 				Ptr<IItemArranger> old=itemArranger;
 				SetStyleProviderAndArranger(itemStyleProvider, value);
+				ArrangerChanged.Execute(GetNotifyEventArguments());
 				return old;
 			}
 
@@ -264,6 +270,7 @@ GuiListControl
 				Ptr<IItemCoordinateTransformer> old=itemCoordinateTransformer;
 				itemCoordinateTransformer=value;
 				SetStyleProviderAndArranger(itemStyleProvider, itemArranger);
+				CoordinateTransformerChanged.Execute(GetNotifyEventArguments());
 				return old;
 			}
 

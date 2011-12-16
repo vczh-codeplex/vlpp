@@ -460,6 +460,8 @@ GuiSelectableButton
 				,autoSelection(true)
 				,isSelected(false)
 			{
+				GroupControllerChanged.SetAssociatedComposition(boundsComposition);
+				AutoSelectionChanged.SetAssociatedComposition(boundsComposition);
 				SelectedChanged.SetAssociatedComposition(boundsComposition);
 
 				Clicked.AttachMethod(this, &GuiSelectableButton::OnClicked);
@@ -486,6 +488,7 @@ GuiSelectableButton
 				{
 					groupController->Attach(this);
 				}
+				GroupControllerChanged.Execute(GetNotifyEventArguments());
 			}
 
 			bool GuiSelectableButton::GetAutoSelection()
@@ -495,7 +498,11 @@ GuiSelectableButton
 
 			void GuiSelectableButton::SetAutoSelection(bool value)
 			{
-				autoSelection=value;
+				if(autoSelection!=value)
+				{
+					autoSelection=value;
+					AutoSelectionChanged.Execute(GetNotifyEventArguments());
+				}
 			}
 
 			bool GuiSelectableButton::GetSelected()
@@ -578,7 +585,11 @@ GuiScroll
 				,smallMove(1)
 				,bigMove(10)
 			{
+				TotalSizeChanged.SetAssociatedComposition(boundsComposition);
+				PageSizeChanged.SetAssociatedComposition(boundsComposition);
 				PositionChanged.SetAssociatedComposition(boundsComposition);
+				SmallMoveChanged.SetAssociatedComposition(boundsComposition);
+				BigMoveChanged.SetAssociatedComposition(boundsComposition);
 
 				commandExecutor=new CommandExecutor(this);
 				styleController->SetCommandExecutor(commandExecutor.Obj());
@@ -610,6 +621,7 @@ GuiScroll
 						SetPosition(GetMaxPosition());
 					}
 					styleController->SetTotalSize(totalSize);
+					TotalSizeChanged.Execute(GetNotifyEventArguments());
 				}
 			}
 
@@ -628,6 +640,7 @@ GuiScroll
 						SetPosition(GetMaxPosition());
 					}
 					styleController->SetPageSize(pageSize);
+					PageSizeChanged.Execute(GetNotifyEventArguments());
 				}
 			}
 
@@ -659,9 +672,10 @@ GuiScroll
 
 			void GuiScroll::SetSmallMove(int value)
 			{
-				if(value>0)
+				if(value>0 && smallMove!=value)
 				{
 					smallMove=value;
+					SmallMoveChanged.Execute(GetNotifyEventArguments());
 				}
 			}
 
@@ -672,9 +686,10 @@ GuiScroll
 
 			void GuiScroll::SetBigMove(int value)
 			{
-				if(value>0)
+				if(value>0 && bigMove!=value)
 				{
 					bigMove=value;
+					BigMoveChanged.Execute(GetNotifyEventArguments());
 				}
 			}
 

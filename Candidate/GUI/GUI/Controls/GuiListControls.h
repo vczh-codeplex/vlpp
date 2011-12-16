@@ -163,6 +163,10 @@ List Control
 				GuiListControl(IStyleProvider* _styleProvider, IItemProvider* _itemProvider, bool acceptFocus=false);
 				~GuiListControl();
 
+				elements::GuiNotifyEvent						StyleProviderChanged;
+				elements::GuiNotifyEvent						ArrangerChanged;
+				elements::GuiNotifyEvent						CoordinateTransformerChanged;
+
 				virtual IItemProvider*							GetItemProvider();
 				virtual IItemStyleProvider*						GetStyleProvider();
 				virtual Ptr<IItemStyleProvider>					SetStyleProvider(Ptr<IItemStyleProvider> value);
