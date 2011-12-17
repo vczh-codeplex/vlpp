@@ -118,6 +118,11 @@ GuiListControl::ItemCallback
 				return style->GetBoundsComposition()->SetBounds(newRect);
 			}
 
+			elements::GuiGraphicsComposition* GuiListControl::ItemCallback::GetContainerComposition()
+			{
+				return listControl->GetContainerComposition();
+			}
+
 			void GuiListControl::ItemCallback::OnTotalSizeChanged()
 			{
 				listControl->CalculateView();
@@ -177,8 +182,9 @@ GuiListControl
 				}
 				if(itemArranger)
 				{
-					itemProvider->DetachCallback(itemArranger.Obj());
+					itemArranger->DetachListControl();
 					itemArranger->SetCallback(0);
+					itemProvider->DetachCallback(itemArranger.Obj());
 				}
 				callback->ClearCache();
 
@@ -193,8 +199,9 @@ GuiListControl
 				}
 				if(itemArranger)
 				{
-					itemArranger->SetCallback(callback.Obj());
 					itemProvider->AttachCallback(itemArranger.Obj());
+					itemArranger->SetCallback(callback.Obj());
+					itemArranger->AttachListControl(this);
 				}
 				CalculateView();
 			}
@@ -826,13 +833,18 @@ FixedHeightItemArranger
 
 				void FixedHeightItemArranger::RearrangeItemBounds()
 				{
-					int y0=-viewBounds.Top();
+					int y0=-viewBounds.Top()+GetYOffset();
 					for(int i=0;i<visibleStyles.Count();i++)
 					{
 						GuiListControl::IItemStyleController* style=visibleStyles[i];
 						callback->SetStyleAlignmentToParent(style, Margin(0, -1, 0, -1));
 						callback->SetStyleBounds(style, Rect(Point(0, y0+(startIndex+i)*rowHeight), Size(0, rowHeight)));
 					}
+				}
+
+				int FixedHeightItemArranger::GetYOffset()
+				{
+					return 0;
 				}
 
 				void FixedHeightItemArranger::OnStylesCleared()
@@ -860,7 +872,7 @@ FixedHeightItemArranger
 						{
 							int oldVisibleCount=visibleStyles.Count();
 							int newRowHeight=rowHeight;
-							int newStartIndex=newBounds.Top()/rowHeight;
+							int newStartIndex=(newBounds.Top()-GetYOffset())/rowHeight;
 							if(newStartIndex<0) newStartIndex=0;
 
 							int endIndex=startIndex+visibleStyles.Count()-1;
