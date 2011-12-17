@@ -3060,6 +3060,11 @@ Win7SinglelineTextBoxProvider
 				return new Win7SelectableItemStyle;
 			}
 
+			controls::GuiSelectableButton::IStyleController* Win7ListViewProvider::CreateColumnStyle()
+			{
+				return new Win7ListViewColumnHeaderStyle;
+			}
+
 			Color Win7ListViewProvider::GetPrimaryTextColor()
 			{
 				return Win7GetSystemTextColor(true);

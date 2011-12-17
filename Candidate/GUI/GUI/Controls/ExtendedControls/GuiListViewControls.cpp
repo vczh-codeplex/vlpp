@@ -183,133 +183,6 @@ ListViewItemStyleProvider
 					ListViewContentItemStyleController* itemStyle=dynamic_cast<ListViewContentItemStyleController*>(style);
 					itemStyle->Install(listViewItemView, itemIndex);
 				}
-
-/***********************************************************************
-ListViewItemProvider
-***********************************************************************/
-
-				Ptr<GuiImageData> ListViewItemProvider::GetSmallImage(int itemIndex)
-				{
-					return Get(itemIndex)->smallImage;
-				}
-
-				Ptr<GuiImageData> ListViewItemProvider::GetLargeImage(int itemIndex)
-				{
-					return Get(itemIndex)->largeImage;
-				}
-
-				WString ListViewItemProvider::GetText(int itemIndex)
-				{
-					return Get(itemIndex)->text;
-				}
-
-				WString ListViewItemProvider::GetSubItem(int itemIndex, int index)
-				{
-					Ptr<ListViewItem> item=Get(itemIndex);
-					if(index<0 || index>=item->subItems.Count())
-					{
-						return L"";
-					}
-					else
-					{
-						return item->subItems[index];
-					}
-				}
-
-				int ListViewItemProvider::GetDataColumnCount()
-				{
-					return dataColumns.Count();
-				}
-
-				int ListViewItemProvider::GetDataColumn(int index)
-				{
-					return dataColumns[index];
-				}
-
-				int ListViewItemProvider::GetColumnCount()
-				{
-					return columns.Count();
-				}
-
-				WString ListViewItemProvider::GetColumnText(int index)
-				{
-					if(index<0 || index>=columns.Count())
-					{
-						return L"";
-					}
-					else
-					{
-						return columns[index];
-					}
-				}
-
-				ListViewItemProvider::ListViewItemProvider()
-				{
-				}
-
-				ListViewItemProvider::~ListViewItemProvider()
-				{
-				}
-
-				Interface* ListViewItemProvider::RequestView(const WString& identifier)
-				{
-					if(identifier==ListViewItemStyleProvider::IListViewItemView::Identifier)
-					{
-						return (ListViewItemStyleProvider::IListViewItemView*)this;
-					}
-					else
-					{
-						return 0;
-					}
-				}
-
-				void ListViewItemProvider::ReleaseView(Interface* view)
-				{
-				}
-
-				collections::IList<int>& ListViewItemProvider::GetDataColumns()
-				{
-					return dataColumns.Wrap();
-				}
-
-				collections::IList<WString>& ListViewItemProvider::GetColumns()
-				{
-					return columns.Wrap();
-				}
-			}
-
-/***********************************************************************
-GuiListView
-***********************************************************************/
-
-			GuiListView::GuiListView(IStyleProvider* _styleProvider)
-				:GuiListViewBase(_styleProvider, new list::ListViewItemProvider)
-				,items(0)
-			{
-				items=dynamic_cast<list::ListViewItemProvider*>(itemProvider.Obj());
-				ChangeItemStyle(new list::ListViewBigIconContentProvider);
-			}
-
-			GuiListView::~GuiListView()
-			{
-			}
-
-			list::ListViewItemProvider& GuiListView::GetItems()
-			{
-				return *items;
-			}
-
-			void GuiListView::ChangeItemStyle(list::ListViewItemStyleProvider::IListViewItemContentProvider* contentProvider)
-			{
-				SetStyleProvider(0);
-				SetArranger(0);
-				SetCoordinateTransformer(contentProvider->CreatePreferredCoordinateTransformer());
-				SetStyleProvider(new list::ListViewItemStyleProvider(contentProvider));
-				SetArranger(contentProvider->CreatePreferredArranger());
-			}
-
-			namespace list
-			{
 				
 /***********************************************************************
 ListViewBigIconContentProvider
@@ -599,58 +472,6 @@ ListViewListContentProvider
 				}
 
 				ListViewItemStyleProvider::IListViewItemContent* ListViewListContentProvider::CreateItemContent(const FontProperties& font)
-				{
-					return new ItemContent(iconSize, font);
-				}
-				
-/***********************************************************************
-ListViewDetailContentProvider
-***********************************************************************/
-
-				ListViewDetailContentProvider::ItemContent::ItemContent(Size iconSize, const FontProperties& font)
-					:contentComposition(0)
-				{
-					contentComposition=new GuiBoundsComposition;
-				}
-
-				ListViewDetailContentProvider::ItemContent::~ItemContent()
-				{
-				}
-
-				elements::GuiBoundsComposition* ListViewDetailContentProvider::ItemContent::GetContentComposition()
-				{
-					return contentComposition;
-				}
-
-				elements::GuiBoundsComposition* ListViewDetailContentProvider::ItemContent::GetBackgroundDecorator()
-				{
-					return 0;
-				}
-
-				void ListViewDetailContentProvider::ItemContent::Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
-				{
-				}
-
-				ListViewDetailContentProvider::ListViewDetailContentProvider(Size _iconSize)
-					:iconSize(_iconSize)
-				{
-				}
-
-				ListViewDetailContentProvider::~ListViewDetailContentProvider()
-				{
-				}
-
-				GuiListControl::IItemCoordinateTransformer* ListViewDetailContentProvider::CreatePreferredCoordinateTransformer()
-				{
-					return new DefaultItemCoordinateTransformer;
-				}
-
-				GuiListControl::IItemArranger* ListViewDetailContentProvider::CreatePreferredArranger()
-				{
-					return new FixedHeightItemArranger;
-				}
-
-				ListViewItemStyleProvider::IListViewItemContent* ListViewDetailContentProvider::CreateItemContent(const FontProperties& font)
 				{
 					return new ItemContent(iconSize, font);
 				}
@@ -974,6 +795,384 @@ ListViewInformationContentProvider
 				{
 					return new ItemContent(iconSize, font);
 				}
+				
+/***********************************************************************
+ListViewColumnItemArranger::ColumnItemViewCallback
+***********************************************************************/
+
+				ListViewColumnItemArranger::ColumnItemViewCallback::ColumnItemViewCallback(ListViewColumnItemArranger* _arranger)
+					:arranger(_arranger)
+				{
+				}
+
+				ListViewColumnItemArranger::ColumnItemViewCallback::~ColumnItemViewCallback()
+				{
+				}
+
+				void ListViewColumnItemArranger::ColumnItemViewCallback::OnColumnChanged()
+				{
+					arranger->RebuildColumns();
+				}
+
+				void ListViewColumnItemArranger::ColumnItemViewCallback::OnColumnSizeChanged(int index)
+				{
+					arranger->RebuildColumns();
+				}
+				
+/***********************************************************************
+ListViewColumnItemArranger
+***********************************************************************/
+
+				const wchar_t* ListViewColumnItemArranger::IColumnItemView::Identifier = L"vl::presentation::controls::list::ListViewColumnItemArranger::IColumnItemView";
+
+				void ListViewColumnItemArranger::RearrangeItemBounds()
+				{
+					FixedHeightItemArranger::RearrangeItemBounds();
+					int count=columnHeaders->GetParent()->Children().Count();
+					columnHeaders->GetParent()->MoveChild(columnHeaders, count-1);
+				}
+
+				int ListViewColumnItemArranger::GetYOffset()
+				{
+					return columnHeaders->GetBounds().Height();
+				}
+
+				void ListViewColumnItemArranger::DeleteColumnButtons()
+				{
+					for(int i=columnHeaders->GetStackItems().Count()-1;i>=0;i--)
+					{
+						GuiStackItemComposition* item=columnHeaders->GetStackItems()[i];
+						columnHeaders->RemoveChild(item);
+
+						GuiControl* button=item->Children()[0]->GetAssociatedControl();
+						item->RemoveChild(button->GetBoundsComposition());
+
+						delete button;
+						delete item;
+					}
+				}
+
+				void ListViewColumnItemArranger::RebuildColumns()
+				{
+					DeleteColumnButtons();
+					if(columnItemView)
+					{
+						for(int i=0;i<columnItemView->GetColumnCount();i++)
+						{
+							GuiButton* button=new GuiButton(styleProvider->CreateColumnStyle());
+							button->SetText(columnItemView->GetColumnText(i));
+							button->GetBoundsComposition()->SetBounds(Rect(Point(0, 0), Size(columnItemView->GetColumnSize(i), 0)));
+
+							GuiStackItemComposition* item=new GuiStackItemComposition;
+							item->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+							item->AddChild(button->GetBoundsComposition());
+							columnHeaders->AddChild(item);
+						}
+					}
+					callback->OnTotalSizeChanged();
+				}
+
+				ListViewColumnItemArranger::ListViewColumnItemArranger()
+					:listView(0)
+					,styleProvider(0)
+					,columnItemView(0)
+				{
+					columnHeaders=new GuiStackComposition;
+					columnHeaders->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+					columnItemViewCallback=new ColumnItemViewCallback(this);
+				}
+
+				ListViewColumnItemArranger::~ListViewColumnItemArranger()
+				{
+					if(!columnHeaders->GetParent())
+					{
+						DeleteColumnButtons();
+						delete columnHeaders;
+					}
+				}
+
+				void ListViewColumnItemArranger::AttachListControl(GuiListControl* value)
+				{
+					FixedHeightItemArranger::AttachListControl(value);
+					listView=dynamic_cast<GuiListViewBase*>(value);
+					if(listView)
+					{
+						styleProvider=listView->GetListViewStyleProvider();
+						listView->GetContainerComposition()->AddChild(columnHeaders);
+						columnItemView=dynamic_cast<IColumnItemView*>(listView->GetItemProvider()->RequestView(IColumnItemView::Identifier));
+						if(columnItemView)
+						{
+							columnItemView->AttachCallback(columnItemViewCallback.Obj());
+							RebuildColumns();
+						}
+					}
+				}
+
+				void ListViewColumnItemArranger::DetachListControl()
+				{
+					if(listView)
+					{
+						if(columnItemView)
+						{
+							columnItemView->DetachCallback(columnItemViewCallback.Obj());
+							listView->GetItemProvider()->ReleaseView(columnItemView);
+							columnItemView=0;
+						}
+						listView->GetContainerComposition()->RemoveChild(columnHeaders);
+						styleProvider=0;
+						listView=0;
+					}
+					FixedHeightItemArranger::DetachListControl();
+				}
+				
+/***********************************************************************
+ListViewDetailContentProvider
+***********************************************************************/
+
+				ListViewDetailContentProvider::ItemContent::ItemContent(Size iconSize, const FontProperties& font)
+					:contentComposition(0)
+				{
+					contentComposition=new GuiBoundsComposition;
+				}
+
+				ListViewDetailContentProvider::ItemContent::~ItemContent()
+				{
+				}
+
+				elements::GuiBoundsComposition* ListViewDetailContentProvider::ItemContent::GetContentComposition()
+				{
+					return contentComposition;
+				}
+
+				elements::GuiBoundsComposition* ListViewDetailContentProvider::ItemContent::GetBackgroundDecorator()
+				{
+					return 0;
+				}
+
+				void ListViewDetailContentProvider::ItemContent::Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
+				{
+				}
+
+				ListViewDetailContentProvider::ListViewDetailContentProvider(Size _iconSize)
+					:iconSize(_iconSize)
+				{
+				}
+
+				ListViewDetailContentProvider::~ListViewDetailContentProvider()
+				{
+				}
+
+				GuiListControl::IItemCoordinateTransformer* ListViewDetailContentProvider::CreatePreferredCoordinateTransformer()
+				{
+					return new DefaultItemCoordinateTransformer;
+				}
+
+				GuiListControl::IItemArranger* ListViewDetailContentProvider::CreatePreferredArranger()
+				{
+					return new ListViewColumnItemArranger;
+				}
+
+				ListViewItemStyleProvider::IListViewItemContent* ListViewDetailContentProvider::CreateItemContent(const FontProperties& font)
+				{
+					return new ItemContent(iconSize, font);
+				}
+
+/***********************************************************************
+ListViewItemProvider
+***********************************************************************/
+
+				ListViewColumn::ListViewColumn(const WString& _text, int _size)
+					:text(_text)
+					,size(_size)
+				{
+				}
+
+				Ptr<GuiImageData> ListViewItemProvider::GetSmallImage(int itemIndex)
+				{
+					return Get(itemIndex)->smallImage;
+				}
+
+				Ptr<GuiImageData> ListViewItemProvider::GetLargeImage(int itemIndex)
+				{
+					return Get(itemIndex)->largeImage;
+				}
+
+				WString ListViewItemProvider::GetText(int itemIndex)
+				{
+					return Get(itemIndex)->text;
+				}
+
+				WString ListViewItemProvider::GetSubItem(int itemIndex, int index)
+				{
+					Ptr<ListViewItem> item=Get(itemIndex);
+					if(index<0 || index>=item->subItems.Count())
+					{
+						return L"";
+					}
+					else
+					{
+						return item->subItems[index];
+					}
+				}
+
+				int ListViewItemProvider::GetDataColumnCount()
+				{
+					return dataColumns.Count();
+				}
+
+				int ListViewItemProvider::GetDataColumn(int index)
+				{
+					return dataColumns[index];
+				}
+
+				bool ListViewItemProvider::AttachCallback(ListViewColumnItemArranger::IColumnItemViewCallback* value)
+				{
+					if(columnItemViewCallbacks.Contains(value))
+					{
+						return false;
+					}
+					else
+					{
+						columnItemViewCallbacks.Add(value);
+						return true;
+					}
+				}
+
+				bool ListViewItemProvider::DetachCallback(ListViewColumnItemArranger::IColumnItemViewCallback* value)
+				{
+					int index=columnItemViewCallbacks.IndexOf(value);
+					if(index==-1)
+					{
+						return false;
+					}
+					else
+					{
+						columnItemViewCallbacks.Remove(value);
+						return true;
+					}
+				}
+
+				int ListViewItemProvider::GetColumnCount()
+				{
+					return columns.Count();
+				}
+
+				WString ListViewItemProvider::GetColumnText(int index)
+				{
+					if(index<0 || index>=columns.Count())
+					{
+						return L"";
+					}
+					else
+					{
+						return columns[index]->text;
+					}
+				}
+
+				int ListViewItemProvider::GetColumnSize(int index)
+				{
+					if(index<0 || index>=columns.Count())
+					{
+						return 0;
+					}
+					else
+					{
+						return columns[index]->size;
+					}
+				}
+
+				void ListViewItemProvider::SetColumnSize(int index, int value)
+				{
+					if(index>=0 && index<columns.Count())
+					{
+						columns[index]->size=value;
+						for(int i=0;i<columnItemViewCallbacks.Count();i++)
+						{
+							columnItemViewCallbacks[i]->OnColumnSizeChanged(index);
+						}
+					}
+				}
+
+				ListViewItemProvider::ListViewItemProvider()
+				{
+				}
+
+				ListViewItemProvider::~ListViewItemProvider()
+				{
+				}
+
+				Interface* ListViewItemProvider::RequestView(const WString& identifier)
+				{
+					if(identifier==ListViewItemStyleProvider::IListViewItemView::Identifier)
+					{
+						return (ListViewItemStyleProvider::IListViewItemView*)this;
+					}
+					else if(identifier==ListViewColumnItemArranger::IColumnItemView::Identifier)
+					{
+						return (ListViewColumnItemArranger::IColumnItemView*)this;
+					}
+					else
+					{
+						return 0;
+					}
+				}
+
+				void ListViewItemProvider::ReleaseView(Interface* view)
+				{
+				}
+
+				collections::IList<int>& ListViewItemProvider::GetDataColumns()
+				{
+					return dataColumns.Wrap();
+				}
+
+				void ListViewItemProvider::NotifyDataColumnsUpdated()
+				{
+					NotifyUpdate(0, Count());
+				}
+
+				collections::IList<Ptr<ListViewColumn>>& ListViewItemProvider::GetColumns()
+				{
+					return columns.Wrap();
+				}
+
+				void ListViewItemProvider::NotifyColumnsUpdated()
+				{
+					for(int i=0;i<columnItemViewCallbacks.Count();i++)
+					{
+						columnItemViewCallbacks[i]->OnColumnChanged();
+					}
+				}
+			}
+
+/***********************************************************************
+GuiListView
+***********************************************************************/
+
+			GuiListView::GuiListView(IStyleProvider* _styleProvider)
+				:GuiListViewBase(_styleProvider, new list::ListViewItemProvider)
+				,items(0)
+			{
+				items=dynamic_cast<list::ListViewItemProvider*>(itemProvider.Obj());
+				ChangeItemStyle(new list::ListViewBigIconContentProvider);
+			}
+
+			GuiListView::~GuiListView()
+			{
+			}
+
+			list::ListViewItemProvider& GuiListView::GetItems()
+			{
+				return *items;
+			}
+
+			void GuiListView::ChangeItemStyle(list::ListViewItemStyleProvider::IListViewItemContentProvider* contentProvider)
+			{
+				SetStyleProvider(0);
+				SetArranger(0);
+				SetCoordinateTransformer(contentProvider->CreatePreferredCoordinateTransformer());
+				SetStyleProvider(new list::ListViewItemStyleProvider(contentProvider));
+				SetArranger(contentProvider->CreatePreferredArranger());
 			}
 		}
 	}

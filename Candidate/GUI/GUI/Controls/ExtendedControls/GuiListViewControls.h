@@ -64,6 +64,7 @@ ListView Base
 				{
 				public:
 					virtual GuiSelectableButton::IStyleController*		CreateItemBackground()=0;
+					virtual GuiSelectableButton::IStyleController*		CreateColumnStyle()=0;
 					virtual Color										GetPrimaryTextColor()=0;
 					virtual Color										GetSecondaryTextColor()=0;
 					virtual Color										GetItemSeparatorColor()=0;
@@ -81,7 +82,7 @@ ListView Base
 			};
 
 /***********************************************************************
-ListView
+ListView ItemStyleProvider
 ***********************************************************************/
 
 			namespace list
@@ -147,55 +148,10 @@ ListView
 					GuiListControl::IItemStyleController*		CreateItemStyle(int styleId)override;
 					void										Install(GuiListControl::IItemStyleController* style, int itemIndex)override;
 				};
-
-				class ListViewItem
-				{
-				public:
-					Ptr<GuiImageData>							smallImage;
-					Ptr<GuiImageData>							largeImage;
-					WString										text;
-					collections::List<WString>					subItems;
-				};
-
-				class ListViewItemProvider : public ListProvider<Ptr<ListViewItem>>, protected virtual ListViewItemStyleProvider::IListViewItemView
-				{
-				protected:
-					collections::List<int>						dataColumns;
-					collections::List<WString>					columns;
-
-					Ptr<GuiImageData>							GetSmallImage(int itemIndex)override;
-					Ptr<GuiImageData>							GetLargeImage(int itemIndex)override;
-					WString										GetText(int itemIndex)override;
-					WString										GetSubItem(int itemIndex, int index)override;
-					int											GetDataColumnCount()override;
-					int											GetDataColumn(int index)override;
-					int											GetColumnCount()override;
-					WString										GetColumnText(int index)override;
-				public:
-					ListViewItemProvider();
-					~ListViewItemProvider();
-
-					Interface*									RequestView(const WString& identifier)override;
-					void										ReleaseView(Interface* view)override;
-					collections::IList<int>&					GetDataColumns();
-					collections::IList<WString>&				GetColumns();
-				};
 			}
 
-			class GuiListView : public GuiListViewBase
-			{
-			protected:
-				list::ListViewItemProvider*						items;
-			public:
-				GuiListView(IStyleProvider* _styleProvider);
-				~GuiListView();
-				
-				list::ListViewItemProvider&						GetItems();
-				void											ChangeItemStyle(list::ListViewItemStyleProvider::IListViewItemContentProvider* contentProvider);
-			};
-
 /***********************************************************************
-ListView ItemStyles
+ListView ItemContentProvider
 ***********************************************************************/
 
 			namespace list
@@ -287,33 +243,6 @@ ListView ItemStyles
 					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent(const FontProperties& font)override;
 				};
 				
-				class ListViewDetailContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
-				{
-				protected:
-					class ItemContent : public Object, public virtual ListViewItemStyleProvider::IListViewItemContent
-					{
-					protected:
-						elements::GuiBoundsComposition*					contentComposition;
-
-					public:
-						ItemContent(Size iconSize, const FontProperties& font);
-						~ItemContent();
-
-						elements::GuiBoundsComposition*					GetContentComposition()override;
-						elements::GuiBoundsComposition*					GetBackgroundDecorator()override;
-						void											Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
-					};
-
-					Size												iconSize;
-				public:
-					ListViewDetailContentProvider(Size _iconSize=Size(16, 16));
-					~ListViewDetailContentProvider();
-					
-					GuiListControl::IItemCoordinateTransformer*			CreatePreferredCoordinateTransformer()override;
-					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
-					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent(const FontProperties& font)override;
-				};
-				
 				class ListViewTileContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
 				{
 				protected:
@@ -384,7 +313,165 @@ ListView ItemStyles
 					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
 					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent(const FontProperties& font)override;
 				};
+
+/***********************************************************************
+ListView ItemContentProvider(Detailed)
+***********************************************************************/
+
+				class ListViewColumnItemArranger : public FixedHeightItemArranger
+				{
+				public:
+					class IColumnItemViewCallback : public virtual Interface
+					{
+					public:
+						virtual void							OnColumnChanged()=0;
+						virtual void							OnColumnSizeChanged(int index)=0;
+					};
+
+					class IColumnItemView : public virtual Interface
+					{
+					public:
+						static const wchar_t*					Identifier;
+						
+						virtual bool							AttachCallback(IColumnItemViewCallback* value)=0;
+						virtual bool							DetachCallback(IColumnItemViewCallback* value)=0;
+						virtual int								GetColumnCount()=0;
+						virtual WString							GetColumnText(int index)=0;
+						virtual int								GetColumnSize(int index)=0;
+						virtual void							SetColumnSize(int index, int value)=0;
+					};
+				protected:
+					class ColumnItemViewCallback : public Object, public virtual IColumnItemViewCallback
+					{
+					protected:
+						ListViewColumnItemArranger*				arranger;
+					public:
+						ColumnItemViewCallback(ListViewColumnItemArranger* _arranger);
+						~ColumnItemViewCallback();
+
+						void									OnColumnChanged();
+						void									OnColumnSizeChanged(int index);
+					};
+
+					GuiListViewBase*							listView;
+					GuiListViewBase::IStyleProvider*			styleProvider;
+					IColumnItemView*							columnItemView;
+					Ptr<ColumnItemViewCallback>					columnItemViewCallback;
+					elements::GuiStackComposition*				columnHeaders;
+
+					void										RearrangeItemBounds()override;
+					int											GetYOffset()override;
+					void										DeleteColumnButtons();
+					void										RebuildColumns();
+				public:
+					ListViewColumnItemArranger();
+					~ListViewColumnItemArranger();
+
+					void										AttachListControl(GuiListControl* value)override;
+					void										DetachListControl()override;
+				};
+				
+				class ListViewDetailContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
+				{
+				protected:
+					class ItemContent : public Object, public virtual ListViewItemStyleProvider::IListViewItemContent
+					{
+					protected:
+						elements::GuiBoundsComposition*					contentComposition;
+
+					public:
+						ItemContent(Size iconSize, const FontProperties& font);
+						~ItemContent();
+
+						elements::GuiBoundsComposition*					GetContentComposition()override;
+						elements::GuiBoundsComposition*					GetBackgroundDecorator()override;
+						void											Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
+					};
+
+					Size												iconSize;
+				public:
+					ListViewDetailContentProvider(Size _iconSize=Size(16, 16));
+					~ListViewDetailContentProvider();
+					
+					GuiListControl::IItemCoordinateTransformer*			CreatePreferredCoordinateTransformer()override;
+					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
+					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent(const FontProperties& font)override;
+				};
 			}
+
+/***********************************************************************
+ListView
+***********************************************************************/
+
+			namespace list
+			{
+				class ListViewItem
+				{
+				public:
+					Ptr<GuiImageData>							smallImage;
+					Ptr<GuiImageData>							largeImage;
+					WString										text;
+					collections::List<WString>					subItems;
+				};
+
+				class ListViewColumn
+				{
+				public:
+					WString										text;
+					int											size;
+
+					ListViewColumn(const WString& _text=L"", int _size=120);
+				};
+
+				class ListViewItemProvider
+					: public ListProvider<Ptr<ListViewItem>>
+					, protected virtual ListViewItemStyleProvider::IListViewItemView
+					, protected virtual ListViewColumnItemArranger::IColumnItemView
+				{
+					typedef collections::List<ListViewColumnItemArranger::IColumnItemViewCallback*>		ColumnItemViewCallbackList;
+				protected:
+					collections::List<int>						dataColumns;
+					collections::List<Ptr<ListViewColumn>>		columns;
+					ColumnItemViewCallbackList					columnItemViewCallbacks;
+
+					Ptr<GuiImageData>							GetSmallImage(int itemIndex)override;
+					Ptr<GuiImageData>							GetLargeImage(int itemIndex)override;
+					WString										GetText(int itemIndex)override;
+					WString										GetSubItem(int itemIndex, int index)override;
+					int											GetDataColumnCount()override;
+					int											GetDataColumn(int index)override;
+
+					bool										AttachCallback(ListViewColumnItemArranger::IColumnItemViewCallback* value)override;
+					bool										DetachCallback(ListViewColumnItemArranger::IColumnItemViewCallback* value)override;
+					int											GetColumnCount()override;
+					WString										GetColumnText(int index)override;
+					int											GetColumnSize(int index)override;
+					void										SetColumnSize(int index, int value)override;
+				public:
+					ListViewItemProvider();
+					~ListViewItemProvider();
+
+					Interface*									RequestView(const WString& identifier)override;
+					void										ReleaseView(Interface* view)override;
+
+					collections::IList<int>&					GetDataColumns();
+					void										NotifyDataColumnsUpdated();
+					collections::IList<Ptr<ListViewColumn>>&	GetColumns();
+					void										NotifyColumnsUpdated();
+				};
+			}
+
+			class GuiListView : public GuiListViewBase
+			{
+			protected:
+				list::ListViewItemProvider*						items;
+			public:
+				GuiListView(IStyleProvider* _styleProvider);
+				~GuiListView();
+				
+				list::ListViewItemProvider&						GetItems();
+				void											ChangeItemStyle(list::ListViewItemStyleProvider::IListViewItemContentProvider* contentProvider);
+			};
 		}
 	}
 }

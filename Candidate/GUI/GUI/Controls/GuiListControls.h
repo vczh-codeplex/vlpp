@@ -49,6 +49,7 @@ List Control
 					virtual Size								GetStylePreferredSize(IItemStyleController* style)=0;
 					virtual void								SetStyleAlignmentToParent(IItemStyleController* style, Margin margin)=0;
 					virtual void								SetStyleBounds(IItemStyleController* style, Rect bounds)=0;
+					virtual elements::GuiGraphicsComposition*	GetContainerComposition()=0;
 					virtual void								OnTotalSizeChanged()=0;
 				};
 
@@ -139,6 +140,7 @@ List Control
 					Size										GetStylePreferredSize(IItemStyleController* style);
 					void										SetStyleAlignmentToParent(IItemStyleController* style, Margin margin);
 					void										SetStyleBounds(IItemStyleController* style, Rect bounds);
+					elements::GuiGraphicsComposition*			GetContainerComposition()override;
 					void										OnTotalSizeChanged()override;
 				};
 
@@ -331,7 +333,8 @@ Predefined ItemArranger
 					int											rowHeight;
 					bool										suppressOnViewChanged;
 
-					void										RearrangeItemBounds();
+					virtual void								RearrangeItemBounds();
+					virtual int									GetYOffset();
 					void										OnStylesCleared()override;
 					Size										OnCalculateTotalSize()override;
 					void										OnViewChangedInternal(Rect oldBounds, Rect newBounds)override;
@@ -346,7 +349,7 @@ Predefined ItemArranger
 					Size										itemSize;
 					bool										suppressOnViewChanged;
 
-					void										RearrangeItemBounds();
+					virtual void								RearrangeItemBounds();
 					void										CalculateRange(Size itemSize, Rect bounds, int count, int& start, int& end);
 					void										OnStylesCleared()override;
 					Size										OnCalculateTotalSize()override;
@@ -362,7 +365,7 @@ Predefined ItemArranger
 					int											itemHeight;
 					bool										suppressOnViewChanged;
 
-					void										RearrangeItemBounds();
+					virtual void								RearrangeItemBounds();
 					void										CalculateRange(int itemHeight, Rect bounds, int& rows, int& startColumn);
 					void										OnStylesCleared()override;
 					Size										OnCalculateTotalSize()override;
