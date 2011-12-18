@@ -830,11 +830,24 @@ ListViewColumnItemArranger
 					FixedHeightItemArranger::RearrangeItemBounds();
 					int count=columnHeaders->GetParent()->Children().Count();
 					columnHeaders->GetParent()->MoveChild(columnHeaders, count-1);
+					columnHeaders->SetBounds(Rect(Point(-viewBounds.Left(), 0), Size(0, 0)));
+				}
+
+				int ListViewColumnItemArranger::GetWidth()
+				{
+					return columnHeaders->GetBounds().Width();
 				}
 
 				int ListViewColumnItemArranger::GetYOffset()
 				{
 					return columnHeaders->GetBounds().Height();
+				}
+
+				Size ListViewColumnItemArranger::OnCalculateTotalSize()
+				{
+					Size size=FixedHeightItemArranger::OnCalculateTotalSize();
+					size.x+=5;
+					return size;
 				}
 
 				void ListViewColumnItemArranger::DeleteColumnButtons()

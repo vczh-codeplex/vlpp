@@ -833,13 +833,29 @@ FixedHeightItemArranger
 
 				void FixedHeightItemArranger::RearrangeItemBounds()
 				{
+					int x0=-viewBounds.Left();
 					int y0=-viewBounds.Top()+GetYOffset();
+					int width=GetWidth();
 					for(int i=0;i<visibleStyles.Count();i++)
 					{
 						GuiListControl::IItemStyleController* style=visibleStyles[i];
-						callback->SetStyleAlignmentToParent(style, Margin(0, -1, 0, -1));
-						callback->SetStyleBounds(style, Rect(Point(0, y0+(startIndex+i)*rowHeight), Size(0, rowHeight)));
+						int top=y0+(startIndex+i)*rowHeight;
+						if(width==-1)
+						{
+							callback->SetStyleAlignmentToParent(style, Margin(0, -1, 0, -1));
+							callback->SetStyleBounds(style, Rect(Point(0, top), Size(0, rowHeight)));
+						}
+						else
+						{
+							callback->SetStyleAlignmentToParent(style, Margin(-1, -1, -1, -1));
+							callback->SetStyleBounds(style, Rect(Point(x0, top), Size(width, rowHeight)));
+						}
 					}
+				}
+
+				int FixedHeightItemArranger::GetWidth()
+				{
+					return -1;
 				}
 
 				int FixedHeightItemArranger::GetYOffset()
@@ -856,7 +872,9 @@ FixedHeightItemArranger
 				{
 					if(callback)
 					{
-						return Size(0, rowHeight*itemProvider->Count());
+						int width=GetWidth();
+						if(width<0) width=0;
+						return Size(width, rowHeight*itemProvider->Count()+GetYOffset());
 					}
 					else
 					{

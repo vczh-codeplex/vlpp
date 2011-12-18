@@ -360,7 +360,9 @@ ListView ItemContentProvider(Detailed)
 					elements::GuiStackComposition*				columnHeaders;
 
 					void										RearrangeItemBounds()override;
+					int											GetWidth()override;
 					int											GetYOffset()override;
+					Size										OnCalculateTotalSize()override;
 					void										DeleteColumnButtons();
 					void										RebuildColumns();
 				public:
