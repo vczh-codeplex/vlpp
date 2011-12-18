@@ -334,6 +334,7 @@ Predefined ItemArranger
 					bool										suppressOnViewChanged;
 
 					virtual void								RearrangeItemBounds();
+					virtual int									GetWidth();
 					virtual int									GetYOffset();
 					void										OnStylesCleared()override;
 					Size										OnCalculateTotalSize()override;
