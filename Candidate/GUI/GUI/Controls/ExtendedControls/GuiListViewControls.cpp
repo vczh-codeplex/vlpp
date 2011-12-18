@@ -122,7 +122,7 @@ ListViewItemStyleProvider::ListViewContentItemStyleController
 					:ListViewItemStyleController(provider)
 					,listViewItemStyleProvider(provider)
 				{
-					content=listViewItemStyleProvider->listViewItemContentProvider->CreateItemContent(backgroundButton->GetFont());
+					content=listViewItemStyleProvider->listViewItemContentProvider->CreateItemContent(listViewItemStyleProvider->listControl->GetItemProvider(), backgroundButton->GetFont());
 					GuiBoundsComposition* composition=content->GetContentComposition();
 					composition->SetAlignmentToParent(Margin(0, 0, 0, 0));
 					backgroundButton->GetContainerComposition()->AddChild(composition);
@@ -278,7 +278,7 @@ ListViewBigIconContentProvider
 					return new FixedSizeMultiColumnItemArranger;
 				}
 
-				ListViewItemStyleProvider::IListViewItemContent* ListViewBigIconContentProvider::CreateItemContent(const FontProperties& font)
+				ListViewItemStyleProvider::IListViewItemContent* ListViewBigIconContentProvider::CreateItemContent(GuiListControl::IItemProvider* itemProvider, const FontProperties& font)
 				{
 					return new ItemContent(iconSize, font);
 				}
@@ -375,7 +375,7 @@ ListViewSmallIconContentProvider
 					return new FixedSizeMultiColumnItemArranger;
 				}
 
-				ListViewItemStyleProvider::IListViewItemContent* ListViewSmallIconContentProvider::CreateItemContent(const FontProperties& font)
+				ListViewItemStyleProvider::IListViewItemContent* ListViewSmallIconContentProvider::CreateItemContent(GuiListControl::IItemProvider* itemProvider, const FontProperties& font)
 				{
 					return new ItemContent(iconSize, font);
 				}
@@ -471,7 +471,7 @@ ListViewListContentProvider
 					return new FixedHeightMultiColumnItemArranger;
 				}
 
-				ListViewItemStyleProvider::IListViewItemContent* ListViewListContentProvider::CreateItemContent(const FontProperties& font)
+				ListViewItemStyleProvider::IListViewItemContent* ListViewListContentProvider::CreateItemContent(GuiListControl::IItemProvider* itemProvider, const FontProperties& font)
 				{
 					return new ItemContent(iconSize, font);
 				}
@@ -618,7 +618,7 @@ ListViewTileContentProvider
 					return new FixedSizeMultiColumnItemArranger;
 				}
 
-				ListViewItemStyleProvider::IListViewItemContent* ListViewTileContentProvider::CreateItemContent(const FontProperties& font)
+				ListViewItemStyleProvider::IListViewItemContent* ListViewTileContentProvider::CreateItemContent(GuiListControl::IItemProvider* itemProvider, const FontProperties& font)
 				{
 					return new ItemContent(iconSize, font);
 				}
@@ -791,7 +791,7 @@ ListViewInformationContentProvider
 					return new FixedHeightItemArranger;
 				}
 
-				ListViewItemStyleProvider::IListViewItemContent* ListViewInformationContentProvider::CreateItemContent(const FontProperties& font)
+				ListViewItemStyleProvider::IListViewItemContent* ListViewInformationContentProvider::CreateItemContent(GuiListControl::IItemProvider* itemProvider, const FontProperties& font)
 				{
 					return new ItemContent(iconSize, font);
 				}
@@ -942,14 +942,65 @@ ListViewColumnItemArranger
 ListViewDetailContentProvider
 ***********************************************************************/
 
-				ListViewDetailContentProvider::ItemContent::ItemContent(Size iconSize, const FontProperties& font)
+				ListViewDetailContentProvider::ItemContent::ItemContent(Size iconSize, const FontProperties& font, GuiListControl::IItemProvider* _itemProvider)
 					:contentComposition(0)
+					,itemProvider(_itemProvider)
 				{
+					contentItemView=dynamic_cast<ListViewColumnItemArranger::IColumnItemView*>(itemProvider->RequestView(ListViewColumnItemArranger::IColumnItemView::Identifier));
 					contentComposition=new GuiBoundsComposition;
+					contentComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+
+					textTable=new GuiTableComposition;
+					textTable->SetAlignmentToParent(Margin(0, 0, 0, 0));
+					textTable->SetRowsAndColumns(1, 1);
+					textTable->SetRowOption(0, GuiCellOption::MinSizeOption());
+					textTable->SetColumnOption(0, GuiCellOption::AbsoluteOption(0));
+					contentComposition->AddChild(textTable);
+					{
+						GuiCellComposition* cell=new GuiCellComposition;
+						textTable->AddChild(cell);
+						cell->SetSite(0, 0, 1, 1);
+
+						GuiTableComposition* table=new GuiTableComposition;
+						cell->AddChild(table);
+						table->SetRowsAndColumns(3, 2);
+						table->SetRowOption(0, GuiCellOption::PercentageOption(0.5));
+						table->SetRowOption(1, GuiCellOption::MinSizeOption());
+						table->SetRowOption(2, GuiCellOption::PercentageOption(0.5));
+						table->SetColumnOption(0, GuiCellOption::MinSizeOption());
+						table->SetColumnOption(1, GuiCellOption::PercentageOption(1.0));
+						table->SetAlignmentToParent(Margin(0, 0, 0, 0));
+						table->SetCellPadding(2);
+						{
+							GuiCellComposition* cell=new GuiCellComposition;
+							table->AddChild(cell);
+							cell->SetSite(1, 0, 1, 1);
+							cell->SetPreferredMinSize(iconSize);
+
+							image=GuiImageFrameElement::Create();
+							image->SetStretch(true);
+							cell->SetOwnedElement(image);
+						}
+						{
+							GuiCellComposition* cell=new GuiCellComposition;
+							table->AddChild(cell);
+							cell->SetSite(0, 1, 3, 1);
+							cell->SetMargin(Margin(0, 0, 8, 0));
+
+							text=GuiSolidLabelElement::Create();
+							text->SetFont(font);
+							text->SetEllipse(true);
+							cell->SetOwnedElement(text);
+						}
+					}
 				}
 
 				ListViewDetailContentProvider::ItemContent::~ItemContent()
 				{
+					if(contentItemView)
+					{
+						itemProvider->ReleaseView(contentItemView);
+					}
 				}
 
 				elements::GuiBoundsComposition* ListViewDetailContentProvider::ItemContent::GetContentComposition()
@@ -964,6 +1015,47 @@ ListViewDetailContentProvider
 
 				void ListViewDetailContentProvider::ItemContent::Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
 				{
+					for(int i=1;i<textTable->GetColumns();i++)
+					{
+						GuiCellComposition* cell=textTable->GetSitedCell(0, i);
+						textTable->RemoveChild(cell);
+						delete cell;
+					}
+
+					Ptr<GuiImageData> imageData=view->GetSmallImage(itemIndex);
+					if(imageData)
+					{
+						image->SetImage(imageData->GetImage(), imageData->GetFrameIndex());
+					}
+					else
+					{
+						image->SetImage(0);
+					}
+					text->SetText(view->GetText(itemIndex));
+					text->SetColor(styleProvider->GetPrimaryTextColor());
+
+					int columnCount=contentItemView->GetColumnCount();
+					textTable->SetRowsAndColumns(1, columnCount);
+					for(int i=0;i<columnCount;i++)
+					{
+						textTable->SetColumnOption(i, GuiCellOption::AbsoluteOption(contentItemView->GetColumnSize(i)));
+					}
+					for(int i=1;i<columnCount;i++)
+					{
+						GuiCellComposition* cell=new GuiCellComposition;
+						textTable->AddChild(cell);
+						cell->SetSite(0, i, 1, 1);
+						cell->SetMargin(Margin(8, 0, 8, 0));
+
+						GuiSolidLabelElement* subText=GuiSolidLabelElement::Create();
+						subText->SetAlignments(Alignment::Left, Alignment::Center);
+						subText->SetFont(text->GetFont());
+						subText->SetEllipse(true);
+						subText->SetText(view->GetSubItem(itemIndex, i-1));
+						subText->SetColor(styleProvider->GetSecondaryTextColor());
+						cell->SetOwnedElement(subText);
+					}
+					textTable->UpdateCellBounds();
 				}
 
 				ListViewDetailContentProvider::ListViewDetailContentProvider(Size _iconSize)
@@ -985,9 +1077,9 @@ ListViewDetailContentProvider
 					return new ListViewColumnItemArranger;
 				}
 
-				ListViewItemStyleProvider::IListViewItemContent* ListViewDetailContentProvider::CreateItemContent(const FontProperties& font)
+				ListViewItemStyleProvider::IListViewItemContent* ListViewDetailContentProvider::CreateItemContent(GuiListControl::IItemProvider* itemProvider, const FontProperties& font)
 				{
-					return new ItemContent(iconSize, font);
+					return new ItemContent(iconSize, font, itemProvider);
 				}
 
 /***********************************************************************
