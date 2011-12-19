@@ -903,7 +903,6 @@ ListViewColumnItemArranger
 							item->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 							item->AddChild(button->GetBoundsComposition());
 							columnHeaders->AddChild(item);
-
 						}
 						if(columnItemView->GetColumnCount()>0)
 						{
