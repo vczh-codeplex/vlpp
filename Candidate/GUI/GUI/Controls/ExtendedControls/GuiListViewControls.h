@@ -320,7 +320,11 @@ ListView ItemContentProvider(Detailed)
 
 				class ListViewColumnItemArranger : public FixedHeightItemArranger
 				{
+					typedef collections::List<GuiButton*>							ColumnHeaderButtonList;
+					typedef collections::List<elements::GuiBoundsComposition*>		ColumnHeaderSplitterList;
 				public:
+					static const int							SplitterWidth=8;
+
 					class IColumnItemViewCallback : public virtual Interface
 					{
 					public:
@@ -358,6 +362,8 @@ ListView ItemContentProvider(Detailed)
 					IColumnItemView*							columnItemView;
 					Ptr<ColumnItemViewCallback>					columnItemViewCallback;
 					elements::GuiStackComposition*				columnHeaders;
+					ColumnHeaderButtonList						columnHeaderButtons;
+					ColumnHeaderSplitterList					columnHeaderSplitters;
 
 					void										RearrangeItemBounds()override;
 					int											GetWidth()override;
