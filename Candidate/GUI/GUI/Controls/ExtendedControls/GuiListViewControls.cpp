@@ -835,7 +835,12 @@ ListViewColumnItemArranger
 
 				int ListViewColumnItemArranger::GetWidth()
 				{
-					return columnHeaders->GetBounds().Width();
+					int width=columnHeaders->GetBounds().Width()-SplitterWidth;
+					if(width<SplitterWidth)
+					{
+						width=SplitterWidth;
+					}
+					return width;
 				}
 
 				int ListViewColumnItemArranger::GetYOffset()
@@ -846,7 +851,7 @@ ListViewColumnItemArranger
 				Size ListViewColumnItemArranger::OnCalculateTotalSize()
 				{
 					Size size=FixedHeightItemArranger::OnCalculateTotalSize();
-					size.x+=5;
+					size.x+=SplitterWidth;
 					return size;
 				}
 
@@ -858,11 +863,15 @@ ListViewColumnItemArranger
 						columnHeaders->RemoveChild(item);
 
 						GuiControl* button=item->Children()[0]->GetAssociatedControl();
-						item->RemoveChild(button->GetBoundsComposition());
-
-						delete button;
+						if(button)
+						{
+							item->RemoveChild(button->GetBoundsComposition());
+							delete button;
+						}
 						delete item;
 					}
+					columnHeaderButtons.Clear();
+					columnHeaderSplitters.Clear();
 				}
 
 				void ListViewColumnItemArranger::RebuildColumns()
@@ -872,13 +881,37 @@ ListViewColumnItemArranger
 					{
 						for(int i=0;i<columnItemView->GetColumnCount();i++)
 						{
+							GuiBoundsComposition* splitterComposition=new GuiBoundsComposition;
+							splitterComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
+							splitterComposition->SetAssociatedCursor(GetCurrentController()->GetSystemCursor(INativeCursor::SizeWE));
+							splitterComposition->SetAlignmentToParent(Margin(0, 0, -1, 0));
+							splitterComposition->SetPreferredMinSize(Size(SplitterWidth, 0));
+							columnHeaderSplitters.Add(splitterComposition);
+						}
+						for(int i=0;i<columnItemView->GetColumnCount();i++)
+						{
 							GuiButton* button=new GuiButton(styleProvider->CreateColumnStyle());
 							button->SetText(columnItemView->GetColumnText(i));
 							button->GetBoundsComposition()->SetBounds(Rect(Point(0, 0), Size(columnItemView->GetColumnSize(i), 0)));
+							columnHeaderButtons.Add(button);
+							if(i>0)
+							{
+								button->GetContainerComposition()->AddChild(columnHeaderSplitters[i-1]);
+							}
 
 							GuiStackItemComposition* item=new GuiStackItemComposition;
 							item->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 							item->AddChild(button->GetBoundsComposition());
+							columnHeaders->AddChild(item);
+
+						}
+						if(columnItemView->GetColumnCount()>0)
+						{
+							GuiBoundsComposition* splitterComposition=columnHeaderSplitters[columnItemView->GetColumnCount()-1];
+
+							GuiStackItemComposition* item=new GuiStackItemComposition;
+							item->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+							item->AddChild(splitterComposition);
 							columnHeaders->AddChild(item);
 						}
 					}
