@@ -123,7 +123,6 @@ ListView ItemStyleProvider
 						virtual void											AttachListControl(GuiListControl* value)=0;
 						virtual void											DetachListControl()=0;
 					};
-				protected:
 
 					class ListViewContentItemStyleController : public ListViewItemStyleController
 					{
@@ -138,13 +137,14 @@ ListView ItemStyleProvider
 						void									Install(IListViewItemView* view, int itemIndex);
 					};
 
-					typedef collections::List<GuiListControl::IItemStyleController*>		ItemStyleList;
+				protected:
+
+					typedef collections::List<GuiListControl::IItemStyleController*>				ItemStyleList;
+					typedef collections::IReadonlyList<GuiListControl::IItemStyleController*>		IItemStyleList;
 
 					IListViewItemView*							listViewItemView;
 					Ptr<IListViewItemContentProvider>			listViewItemContentProvider;
 					ItemStyleList								itemStyles;
-
-					bool										IsItemStyleAttachedToListView(GuiListControl::IItemStyleController* itemStyle);
 				public:
 					ListViewItemStyleProvider(IListViewItemContentProvider* itemContentProvider);
 					~ListViewItemStyleProvider();
@@ -154,6 +154,9 @@ ListView ItemStyleProvider
 					GuiListControl::IItemStyleController*		CreateItemStyle(int styleId)override;
 					void										DestroyItemStyle(GuiListControl::IItemStyleController* style)override;
 					void										Install(GuiListControl::IItemStyleController* style, int itemIndex)override;
+
+					const IItemStyleList&						GetCreatedItemStyles();
+					bool										IsItemStyleAttachedToListView(GuiListControl::IItemStyleController* itemStyle);
 				};
 			}
 
@@ -435,6 +438,7 @@ ListView ItemContentProvider(Detailed)
 					Size												iconSize;
 					GuiListControl::IItemProvider*						itemProvider;
 					ListViewColumnItemArranger::IColumnItemView*		columnItemView;
+					ListViewItemStyleProvider*							listViewItemStyleProvider;
 
 					void												OnColumnChanged()override;
 					void												OnColumnSizeChanged(int index)override;

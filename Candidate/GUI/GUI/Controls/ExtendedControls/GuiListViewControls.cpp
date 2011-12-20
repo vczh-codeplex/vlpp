@@ -150,11 +150,6 @@ ListViewItemStyleProvider
 
 				const wchar_t* ListViewItemStyleProvider::IListViewItemView::Identifier = L"vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemView";
 
-				bool ListViewItemStyleProvider::IsItemStyleAttachedToListView(GuiListControl::IItemStyleController* itemStyle)
-				{
-					return itemStyle && itemStyle->GetBoundsComposition()->GetParent();
-				}
-
 				ListViewItemStyleProvider::ListViewItemStyleProvider(IListViewItemContentProvider* itemContentProvider)
 					:listViewItemView(0)
 					,listViewItemContentProvider(itemContentProvider)
@@ -201,6 +196,16 @@ ListViewItemStyleProvider
 				{
 					ListViewContentItemStyleController* itemStyle=dynamic_cast<ListViewContentItemStyleController*>(style);
 					itemStyle->Install(listViewItemView, itemIndex);
+				}
+
+				const ListViewItemStyleProvider::IItemStyleList& ListViewItemStyleProvider::GetCreatedItemStyles()
+				{
+					return itemStyles.Wrap();
+				}
+
+				bool ListViewItemStyleProvider::IsItemStyleAttachedToListView(GuiListControl::IItemStyleController* itemStyle)
+				{
+					return itemStyle && itemStyle->GetBoundsComposition()->GetParent();
 				}
 				
 /***********************************************************************
@@ -1163,6 +1168,7 @@ ListViewDetailContentProvider
 					{
 						textTable->SetColumnOption(i, GuiCellOption::AbsoluteOption(columnItemView->GetColumnSize(i)));
 					}
+					textTable->UpdateCellBounds();
 				}
 
 				void ListViewDetailContentProvider::ItemContent::Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)
@@ -1188,7 +1194,6 @@ ListViewDetailContentProvider
 
 					int columnCount=columnItemView->GetColumnCount();
 					textTable->SetRowsAndColumns(1, columnCount);
-					UpdateSubItemSize();
 					for(int i=1;i<columnCount;i++)
 					{
 						GuiCellComposition* cell=new GuiCellComposition;
@@ -1204,7 +1209,7 @@ ListViewDetailContentProvider
 						subText->SetColor(styleProvider->GetSecondaryTextColor());
 						cell->SetOwnedElement(subText);
 					}
-					textTable->UpdateCellBounds();
+					UpdateSubItemSize();
 				}
 
 				void ListViewDetailContentProvider::OnColumnChanged()
@@ -1213,12 +1218,29 @@ ListViewDetailContentProvider
 
 				void ListViewDetailContentProvider::OnColumnSizeChanged(int index)
 				{
+					int itemCount=listViewItemStyleProvider->GetCreatedItemStyles().Count();
+					for(int i=0;i<itemCount;i++)
+					{
+						ListViewItemStyleProvider::ListViewContentItemStyleController* itemStyle
+							=dynamic_cast<ListViewItemStyleProvider::ListViewContentItemStyleController*>(
+								listViewItemStyleProvider->GetCreatedItemStyles()[i]
+								);
+						if(itemStyle && listViewItemStyleProvider->IsItemStyleAttachedToListView(itemStyle))
+						{
+							ItemContent* itemContent=dynamic_cast<ItemContent*>(itemStyle->GetItemContent());
+							if(itemContent)
+							{
+								itemContent->UpdateSubItemSize();
+							}
+						}
+					}
 				}
 
 				ListViewDetailContentProvider::ListViewDetailContentProvider(Size _iconSize)
 					:iconSize(_iconSize)
 					,itemProvider(0)
 					,columnItemView(0)
+					,listViewItemStyleProvider(0)
 				{
 				}
 
@@ -1243,6 +1265,7 @@ ListViewDetailContentProvider
 
 				void ListViewDetailContentProvider::AttachListControl(GuiListControl* value)
 				{
+					listViewItemStyleProvider=dynamic_cast<ListViewItemStyleProvider*>(value->GetStyleProvider());
 					itemProvider=value->GetItemProvider();
 					columnItemView=dynamic_cast<ListViewColumnItemArranger::IColumnItemView*>(itemProvider->RequestView(ListViewColumnItemArranger::IColumnItemView::Identifier));
 					if(columnItemView)
@@ -1259,6 +1282,7 @@ ListViewDetailContentProvider
 						itemProvider->ReleaseView(columnItemView);
 					}
 					itemProvider=0;
+					listViewItemStyleProvider=0;
 				}
 
 /***********************************************************************
