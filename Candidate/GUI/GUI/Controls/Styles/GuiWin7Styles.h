@@ -5,16 +5,21 @@ GacUI::Control Styles::Windows7 Styles
 
 Clases:
 	GuiControl::IStyleController
+		Win7EmptyStyle
 		Win7WindowStyle
 		Win7MenuStyle
-		Win7MenuSplitterStyle
 		Win7MenuBarStyle
+		Win7MenuSplitterStyle
 		Win7GroupBoxStyle
+		Win7TabStyle
 	GuiSelectableButton::IStyleController
 		Win7ButtonStyle(vertical|horizontal)
-		Win7SelectableItemStyle
 		Win7ToolstripButtonStyle
 		Win7CheckBoxStyle(check|radio)
+		Win7SelectableItemStyle
+		Win7TabPageHeaderStyle
+		Win7ListViewColumnDropDownStyle
+		Win7ListViewColumnHeaderStyle
 	GuiMenuButton::IStyleController
 		Win7MenuBarButtonStyle
 		Win7MenuItemButtonStyle
