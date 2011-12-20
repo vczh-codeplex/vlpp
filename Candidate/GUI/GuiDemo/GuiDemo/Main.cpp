@@ -605,7 +605,7 @@ void SetupListviewWindow(GuiControlHost* controlHost, GuiControl* container)
 		typeList->GetItems().Add(L"Big Icon");
 		typeList->GetItems().Add(L"Small Icon");
 		typeList->GetItems().Add(L"List");
-		typeList->GetItems().Add(L"Detail (not completed)");
+		typeList->GetItems().Add(L"Detail");
 		typeList->GetItems().Add(L"Tile");
 		typeList->GetItems().Add(L"Information");
 		typeList->SetSelected(0, true);
@@ -885,7 +885,7 @@ void SetupTabPageListControlWindow(GuiControlHost* controlHost, GuiControl* cont
 	}
 	{
 		GuiTabPage* page=tab->CreatePage();
-		page->SetText(L"List View (not completed)");
+		page->SetText(L"List View");
 		SetupListviewWindow(controlHost, page->GetContainer());
 	}
 	{
