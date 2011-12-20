@@ -52,7 +52,6 @@ ListView Base
 					void										AttachListControl(GuiListControl* value)override;
 					void										DetachListControl()override;
 					int											GetItemStyleId(int itemIndex)override;
-					void										DestroyItemStyle(GuiListControl::IItemStyleController* style)override;
 					void										SetStyleSelected(GuiListControl::IItemStyleController* style, bool value)override;
 				};
 			}
@@ -120,7 +119,9 @@ ListView ItemStyleProvider
 					public:
 						virtual GuiListControl::IItemCoordinateTransformer*		CreatePreferredCoordinateTransformer()=0;
 						virtual GuiListControl::IItemArranger*					CreatePreferredArranger()=0;
-						virtual IListViewItemContent*							CreateItemContent(GuiListControl::IItemProvider* itemProvider, const FontProperties& font)=0;
+						virtual IListViewItemContent*							CreateItemContent(const FontProperties& font)=0;
+						virtual void											AttachListControl(GuiListControl* value)=0;
+						virtual void											DetachListControl()=0;
 					};
 				protected:
 
@@ -133,12 +134,17 @@ ListView ItemStyleProvider
 						ListViewContentItemStyleController(ListViewItemStyleProvider* provider);
 						~ListViewContentItemStyleController();
 
+						IListViewItemContent*					GetItemContent();
 						void									Install(IListViewItemView* view, int itemIndex);
 					};
 
+					typedef collections::List<GuiListControl::IItemStyleController*>		ItemStyleList;
+
 					IListViewItemView*							listViewItemView;
 					Ptr<IListViewItemContentProvider>			listViewItemContentProvider;
+					ItemStyleList								itemStyles;
 
+					bool										IsItemStyleAttachedToListView(GuiListControl::IItemStyleController* itemStyle);
 				public:
 					ListViewItemStyleProvider(IListViewItemContentProvider* itemContentProvider);
 					~ListViewItemStyleProvider();
@@ -146,6 +152,7 @@ ListView ItemStyleProvider
 					void										AttachListControl(GuiListControl* value)override;
 					void										DetachListControl()override;
 					GuiListControl::IItemStyleController*		CreateItemStyle(int styleId)override;
+					void										DestroyItemStyle(GuiListControl::IItemStyleController* style)override;
 					void										Install(GuiListControl::IItemStyleController* style, int itemIndex)override;
 				};
 			}
@@ -182,7 +189,9 @@ ListView ItemContentProvider
 
 					GuiListControl::IItemCoordinateTransformer*			CreatePreferredCoordinateTransformer()override;
 					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
-					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent(GuiListControl::IItemProvider* itemProvider, const FontProperties& font)override;
+					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent(const FontProperties& font)override;
+					void												AttachListControl(GuiListControl* value)override;
+					void												DetachListControl()override;
 				};
 				
 				class ListViewSmallIconContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
@@ -211,7 +220,9 @@ ListView ItemContentProvider
 					
 					GuiListControl::IItemCoordinateTransformer*			CreatePreferredCoordinateTransformer()override;
 					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
-					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent(GuiListControl::IItemProvider* itemProvider, const FontProperties& font)override;
+					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent(const FontProperties& font)override;
+					void												AttachListControl(GuiListControl* value)override;
+					void												DetachListControl()override;
 				};
 				
 				class ListViewListContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
@@ -240,7 +251,9 @@ ListView ItemContentProvider
 					
 					GuiListControl::IItemCoordinateTransformer*			CreatePreferredCoordinateTransformer()override;
 					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
-					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent(GuiListControl::IItemProvider* itemProvider, const FontProperties& font)override;
+					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent(const FontProperties& font)override;
+					void												AttachListControl(GuiListControl* value)override;
+					void												DetachListControl()override;
 				};
 				
 				class ListViewTileContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
@@ -275,7 +288,9 @@ ListView ItemContentProvider
 					
 					GuiListControl::IItemCoordinateTransformer*			CreatePreferredCoordinateTransformer()override;
 					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
-					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent(GuiListControl::IItemProvider* itemProvider, const FontProperties& font)override;
+					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent(const FontProperties& font)override;
+					void												AttachListControl(GuiListControl* value)override;
+					void												DetachListControl()override;
 				};
 				
 				class ListViewInformationContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
@@ -311,7 +326,9 @@ ListView ItemContentProvider
 					
 					GuiListControl::IItemCoordinateTransformer*			CreatePreferredCoordinateTransformer()override;
 					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
-					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent(GuiListControl::IItemProvider* itemProvider, const FontProperties& font)override;
+					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent(const FontProperties& font)override;
+					void												AttachListControl(GuiListControl* value)override;
+					void												DetachListControl()override;
 				};
 
 /***********************************************************************
@@ -364,6 +381,12 @@ ListView ItemContentProvider(Detailed)
 					elements::GuiStackComposition*				columnHeaders;
 					ColumnHeaderButtonList						columnHeaderButtons;
 					ColumnHeaderSplitterList					columnHeaderSplitters;
+					bool										splitterDragging;
+					int											splitterLatestX;
+
+					void										ColumnHeaderSplitterLeftButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
+					void										ColumnHeaderSplitterLeftButtonUp(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
+					void										ColumnHeaderSplitterMouseMove(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
 
 					void										RearrangeItemBounds()override;
 					int											GetWidth()override;
@@ -371,6 +394,7 @@ ListView ItemContentProvider(Detailed)
 					Size										OnCalculateTotalSize()override;
 					void										DeleteColumnButtons();
 					void										RebuildColumns();
+					void										UpdateColumnSize(int index);
 				public:
 					ListViewColumnItemArranger();
 					~ListViewColumnItemArranger();
@@ -379,7 +403,10 @@ ListView ItemContentProvider(Detailed)
 					void										DetachListControl()override;
 				};
 				
-				class ListViewDetailContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
+				class ListViewDetailContentProvider
+					: public Object
+					, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
+					, protected virtual ListViewColumnItemArranger::IColumnItemViewCallback
 				{
 				protected:
 					class ItemContent : public Object, public virtual ListViewItemStyleProvider::IListViewItemContent
@@ -393,7 +420,7 @@ ListView ItemContentProvider(Detailed)
 						SubItemList										subItems;
 
 						GuiListControl::IItemProvider*					itemProvider;
-						ListViewColumnItemArranger::IColumnItemView*	contentItemView;
+						ListViewColumnItemArranger::IColumnItemView*	columnItemView;
 
 					public:
 						ItemContent(Size iconSize, const FontProperties& font, GuiListControl::IItemProvider* _itemProvider);
@@ -401,17 +428,25 @@ ListView ItemContentProvider(Detailed)
 
 						elements::GuiBoundsComposition*					GetContentComposition()override;
 						elements::GuiBoundsComposition*					GetBackgroundDecorator()override;
+						void											UpdateSubItemSize();
 						void											Install(GuiListViewBase::IStyleProvider* styleProvider, ListViewItemStyleProvider::IListViewItemView* view, int itemIndex)override;
 					};
 
 					Size												iconSize;
+					GuiListControl::IItemProvider*						itemProvider;
+					ListViewColumnItemArranger::IColumnItemView*		columnItemView;
+
+					void												OnColumnChanged()override;
+					void												OnColumnSizeChanged(int index)override;
 				public:
 					ListViewDetailContentProvider(Size _iconSize=Size(16, 16));
 					~ListViewDetailContentProvider();
 					
 					GuiListControl::IItemCoordinateTransformer*			CreatePreferredCoordinateTransformer()override;
 					GuiListControl::IItemArranger*						CreatePreferredArranger()override;
-					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent(GuiListControl::IItemProvider* itemProvider, const FontProperties& font)override;
+					ListViewItemStyleProvider::IListViewItemContent*	CreateItemContent(const FontProperties& font)override;
+					void												AttachListControl(GuiListControl* value)override;
+					void												DetachListControl()override;
 				};
 			}
 
