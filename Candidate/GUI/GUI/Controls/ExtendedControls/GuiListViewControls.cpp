@@ -1457,12 +1457,33 @@ ListViewItemProvider
 GuiListView
 ***********************************************************************/
 
+			GuiVirtualListView::GuiVirtualListView(IStyleProvider* _styleProvider, GuiListControl::IItemProvider* _itemProvider)
+				:GuiListViewBase(_styleProvider, _itemProvider)
+			{
+				ChangeItemStyle(new list::ListViewBigIconContentProvider);
+			}
+
+			GuiVirtualListView::~GuiVirtualListView()
+			{
+			}
+
+			void GuiVirtualListView::ChangeItemStyle(list::ListViewItemStyleProvider::IListViewItemContentProvider* contentProvider)
+			{
+				SetStyleProvider(0);
+				SetArranger(0);
+				SetCoordinateTransformer(contentProvider->CreatePreferredCoordinateTransformer());
+				SetStyleProvider(new list::ListViewItemStyleProvider(contentProvider));
+				SetArranger(contentProvider->CreatePreferredArranger());
+			}
+
+/***********************************************************************
+GuiListView
+***********************************************************************/
+
 			GuiListView::GuiListView(IStyleProvider* _styleProvider)
-				:GuiListViewBase(_styleProvider, new list::ListViewItemProvider)
-				,items(0)
+				:GuiVirtualListView(_styleProvider, new list::ListViewItemProvider)
 			{
 				items=dynamic_cast<list::ListViewItemProvider*>(itemProvider.Obj());
-				ChangeItemStyle(new list::ListViewBigIconContentProvider);
 			}
 
 			GuiListView::~GuiListView()
@@ -1472,15 +1493,6 @@ GuiListView
 			list::ListViewItemProvider& GuiListView::GetItems()
 			{
 				return *items;
-			}
-
-			void GuiListView::ChangeItemStyle(list::ListViewItemStyleProvider::IListViewItemContentProvider* contentProvider)
-			{
-				SetStyleProvider(0);
-				SetArranger(0);
-				SetCoordinateTransformer(contentProvider->CreatePreferredCoordinateTransformer());
-				SetStyleProvider(new list::ListViewItemStyleProvider(contentProvider));
-				SetArranger(contentProvider->CreatePreferredArranger());
 			}
 		}
 	}

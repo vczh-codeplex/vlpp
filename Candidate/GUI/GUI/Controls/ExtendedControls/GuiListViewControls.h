@@ -516,7 +516,16 @@ ListView
 				};
 			}
 
-			class GuiListView : public GuiListViewBase
+			class GuiVirtualListView : public GuiListViewBase
+			{
+			public:
+				GuiVirtualListView(IStyleProvider* _styleProvider, GuiListControl::IItemProvider* _itemProvider);
+				~GuiVirtualListView();
+				
+				void											ChangeItemStyle(list::ListViewItemStyleProvider::IListViewItemContentProvider* contentProvider);
+			};
+
+			class GuiListView : public GuiVirtualListView
 			{
 			protected:
 				list::ListViewItemProvider*						items;
@@ -525,7 +534,6 @@ ListView
 				~GuiListView();
 				
 				list::ListViewItemProvider&						GetItems();
-				void											ChangeItemStyle(list::ListViewItemStyleProvider::IListViewItemContentProvider* contentProvider);
 			};
 		}
 	}
