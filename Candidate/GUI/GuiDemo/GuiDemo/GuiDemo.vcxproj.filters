@@ -195,7 +195,7 @@
     <ClCompile Include="..\..\GUI\Controls\GuiApplication.cpp">
       <Filter>GUI\Controls</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiTreeViewControl.cpp">
+    <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiTreeViewControls.cpp">
       <Filter>GUI\Controls\ExtendedControls</Filter>
     </ClCompile>
   </ItemGroup>
@@ -377,7 +377,7 @@
     <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiListViewControls.h">
       <Filter>GUI\Controls\ExtendedControls</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiTreeViewControl.h">
+    <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiTreeViewControls.h">
       <Filter>GUI\Controls\ExtendedControls</Filter>
     </ClInclude>
   </ItemGroup>
