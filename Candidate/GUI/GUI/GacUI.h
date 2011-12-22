@@ -16,6 +16,7 @@ Interfaces:
 #include "Controls\ExtendedControls\GuiContainerControls.h"
 #include "Controls\ExtendedControls\GuiTextListControls.h"
 #include "Controls\ExtendedControls\GuiListViewControls.h"
+#include "Controls\ExtendedControls\GuiTreeViewControls.h"
 #include "Controls\ExtendedControls\GuiMenuControls.h"
 #include "Controls\GuiApplication.h"
 
