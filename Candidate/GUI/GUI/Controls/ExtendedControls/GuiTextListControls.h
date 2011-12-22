@@ -17,7 +17,7 @@ namespace vl
 	{
 		namespace controls
 		{
-			class GuiTextList;
+			class GuiVirtualTextList;
 
 			namespace list
 			{
@@ -70,7 +70,7 @@ TextList Style Provider
 
 					Ptr<ITextItemStyleProvider>					textItemStyleProvider;
 					ITextItemView*								textItemView;
-					GuiTextList*								listControl;
+					GuiVirtualTextList*							listControl;
 
 					void										OnStyleCheckedChanged(TextItemStyleController* style);
 				public:
@@ -132,16 +132,24 @@ TextList Data Source
 TextList Control
 ***********************************************************************/
 
-			class GuiTextList : public GuiSelectableListControl
+			class GuiVirtualTextList : public GuiSelectableListControl
+			{
+			public:
+				GuiVirtualTextList(IStyleProvider* _styleProvider, list::TextItemStyleProvider::ITextItemStyleProvider* _itemStyleProvider, GuiListControl::IItemProvider* _itemProvider);
+				~GuiVirtualTextList();
+				
+				Ptr<GuiListControl::IItemStyleProvider>			SetStyleProvider(Ptr<GuiListControl::IItemStyleProvider> value);
+				Ptr<GuiListControl::IItemStyleProvider>			ChangeItemStyle(list::TextItemStyleProvider::ITextItemStyleProvider* itemStyleProvider);
+			};
+
+			class GuiTextList : public GuiVirtualTextList
 			{
 			protected:
 				list::TextItemProvider*							items;
 			public:
 				GuiTextList(IStyleProvider* _styleProvider, list::TextItemStyleProvider::ITextItemStyleProvider* _itemStyleProvider);
 				~GuiTextList();
-				
-				Ptr<GuiListControl::IItemStyleProvider>			SetStyleProvider(Ptr<GuiListControl::IItemStyleProvider> value);
-				Ptr<GuiListControl::IItemStyleProvider>			ChangeItemStyle(list::TextItemStyleProvider::ITextItemStyleProvider* itemStyleProvider);
+
 				list::TextItemProvider&							GetItems();
 			};
 		}

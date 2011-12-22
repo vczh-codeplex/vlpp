@@ -138,7 +138,7 @@ TextItemStyleProvider
 
 				void TextItemStyleProvider::AttachListControl(GuiListControl* value)
 				{
-					listControl=dynamic_cast<GuiTextList*>(value);
+					listControl=dynamic_cast<GuiVirtualTextList*>(value);
 					textItemView=dynamic_cast<ITextItemView*>(value->GetItemProvider()->RequestView(ITextItemView::Identifier));
 				}
 
@@ -288,20 +288,18 @@ TextItemProvider
 GuiTextList
 ***********************************************************************/
 
-			GuiTextList::GuiTextList(IStyleProvider* _styleProvider, list::TextItemStyleProvider::ITextItemStyleProvider* _itemStyleProvider)
-				:GuiSelectableListControl(_styleProvider, new list::TextItemProvider)
-				,items(0)
+			GuiVirtualTextList::GuiVirtualTextList(IStyleProvider* _styleProvider, list::TextItemStyleProvider::ITextItemStyleProvider* _itemStyleProvider, GuiListControl::IItemProvider* _itemProvider)
+				:GuiSelectableListControl(_styleProvider, _itemProvider)
 			{
-				items=dynamic_cast<list::TextItemProvider*>(itemProvider.Obj());
 				ChangeItemStyle(_itemStyleProvider);
 				SetArranger(new list::FixedHeightItemArranger);
 			}
 
-			GuiTextList::~GuiTextList()
+			GuiVirtualTextList::~GuiVirtualTextList()
 			{
 			}
 
-			Ptr<GuiListControl::IItemStyleProvider> GuiTextList::SetStyleProvider(Ptr<GuiListControl::IItemStyleProvider> value)
+			Ptr<GuiListControl::IItemStyleProvider> GuiVirtualTextList::SetStyleProvider(Ptr<GuiListControl::IItemStyleProvider> value)
 			{
 				if(value.Cast<list::TextItemStyleProvider>())
 				{
@@ -313,7 +311,7 @@ GuiTextList
 				}
 			}
 
-			Ptr<GuiListControl::IItemStyleProvider> GuiTextList::ChangeItemStyle(list::TextItemStyleProvider::ITextItemStyleProvider* itemStyleProvider)
+			Ptr<GuiListControl::IItemStyleProvider> GuiVirtualTextList::ChangeItemStyle(list::TextItemStyleProvider::ITextItemStyleProvider* itemStyleProvider)
 			{
 				if(itemStyleProvider)
 				{
@@ -323,6 +321,20 @@ GuiTextList
 				{
 					return 0;
 				}
+			}
+
+/***********************************************************************
+GuiTextList
+***********************************************************************/
+
+			GuiTextList::GuiTextList(IStyleProvider* _styleProvider, list::TextItemStyleProvider::ITextItemStyleProvider* _itemStyleProvider)
+				:GuiVirtualTextList(_styleProvider, _itemStyleProvider, new list::TextItemProvider)
+			{
+				items=dynamic_cast<list::TextItemProvider*>(itemProvider.Obj());
+			}
+
+			GuiTextList::~GuiTextList()
+			{
 			}
 
 			list::TextItemProvider& GuiTextList::GetItems()
