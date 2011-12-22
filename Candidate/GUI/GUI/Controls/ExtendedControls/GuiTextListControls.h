@@ -70,7 +70,7 @@ TextList Style Provider
 
 					Ptr<ITextItemStyleProvider>					textItemStyleProvider;
 					ITextItemView*								textItemView;
-					GuiVirtualTextList*							listControl;
+					GuiListControl*								listControl;
 
 					void										OnStyleCheckedChanged(TextItemStyleController* style);
 				public:
