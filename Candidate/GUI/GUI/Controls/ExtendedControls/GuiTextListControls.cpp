@@ -138,7 +138,7 @@ TextItemStyleProvider
 
 				void TextItemStyleProvider::AttachListControl(GuiListControl* value)
 				{
-					listControl=dynamic_cast<GuiVirtualTextList*>(value);
+					listControl=value;;
 					textItemView=dynamic_cast<ITextItemView*>(value->GetItemProvider()->RequestView(ITextItemView::Identifier));
 				}
 
