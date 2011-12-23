@@ -47,8 +47,8 @@ TreeView NodeProvider
 				class INodeProvider : public virtual Interface
 				{
 				public:
-					virtual bool					GetExpending()=0;
-					virtual void					SetExpending(bool value)=0;
+					virtual bool					GetExpanding()=0;
+					virtual void					SetExpanding(bool value)=0;
 					virtual int						CalculateTotalVisibleNodes()=0;
 
 					virtual int						GetChildCount()=0;
@@ -130,8 +130,8 @@ TreeView Predefined NodeProvider
 					MemoryNodeProviderBase();
 					~MemoryNodeProviderBase();
 
-					bool							GetExpending()override;
-					void							SetExpending(bool value)override;
+					bool							GetExpanding()override;
+					void							SetExpanding(bool value)override;
 					int								CalculateTotalVisibleNodes()override;
 
 					int								GetChildCount()override;
@@ -164,31 +164,17 @@ TreeView Predefined NodeProvider
 					bool							DetachCallback(INodeProviderCallback* value)override;
 				};
 
-				template<typename TData, typename TBase, typename TNode>
-				class MemoryNodeProviderWithData : public TBase, private collections::IList<Ptr<TNode>>
+				template<typename TBase, typename TNode>
+				class MemoryNodeProviderWithChildren : public TBase, private collections::IList<Ptr<TNode>>
 				{
 				protected:
 					collections::List<Ptr<TNode>>	children;
-					TData							data;
 
 					MemoryNodeProviderBase* GetChildInternal(int index)override
 					{
 						return children[index].Obj();
 					}
 				public:
-					MemoryNodeProviderWithData()
-					{
-					}
-
-					MemoryNodeProviderWithData(const TData& _data)
-						:data(_data)
-					{
-					}
-
-					~MemoryNodeProviderWithData()
-					{
-					}
-
 					collections::IList<Ptr<TNode>>& Children()
 					{
 						return *this;
@@ -310,13 +296,39 @@ TreeView Predefined NodeProvider
 				};
 
 				template<typename T>
-				class MemoryNodeProvider : public MemoryNodeProviderWithData<T, MemoryNodeProviderBase, MemoryNodeProvider<T>>
+				class MemoryNodeProvider : public MemoryNodeProviderWithChildren<MemoryNodeProviderBase, MemoryNodeProvider<T>>
 				{
+				protected:
+					T							data;
+
+				public:
+					MemoryNodeProvider()
+					{
+					}
+
+					MemoryNodeProvider(const T& _data)
+						:data(_data)
+					{
+					}
+
+					~MemoryNodeProvider()
+					{
+					}
+
+					const T& GetData()
+					{
+						return data;
+					}
 				};
 				
 				template<typename T>
-				class MemoryNodeRootProvider : public MemoryNodeProviderWithData<T, MemoryNodeRootProviderBase, MemoryNodeProvider<T>>
+				class MemoryNodeRootProvider : public MemoryNodeProviderWithChildren<MemoryNodeRootProviderBase, MemoryNodeProvider<T>>
 				{
+				public:
+					MemoryNodeRootProvider()
+					{
+						SetExpanding(true);
+					}
 				};
 #pragma warning(pop)
 			}

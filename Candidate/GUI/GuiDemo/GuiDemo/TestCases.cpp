@@ -2,6 +2,7 @@
 #include "..\..\GUI\Controls\ExtendedControls\GuiTreeViewControls.h"
 
 using namespace vl;
+using namespace vl::collections;
 using namespace vl::presentation;
 using namespace vl::presentation::elements;
 using namespace vl::presentation::elements::text;
@@ -338,7 +339,152 @@ TEST_CASE(TextMeasurement)
 TreeView
 ***********************************************************************/
 
+namespace MemoryNodeProviderHelper
+{
+	class TestCompareData
+	{
+	public:
+		int							data;
+		List<Ptr<TestCompareData>>	child;
+	};
+
+	Ptr<TestCompareData>& operator,(Ptr<TestCompareData>& a, const Ptr<TestCompareData>& b)
+	{
+		a->child.Add(b);
+		return a;
+	}
+
+	Ptr<TestCompareData> Node(int data)
+	{
+		Ptr<TestCompareData> node=new TestCompareData;
+		node->data=data;
+		return node;
+	}
+
+	Ptr<TestCompareData> Root()
+	{
+		return Node(-1);
+	}
+
+	int AssertTree(MemoryNodeProviderBase* node, Ptr<TestCompareData> data)
+	{
+		int total=1;
+		TEST_ASSERT(node->GetChildCount()==data->child.Count());
+		if(data->data==-1)
+		{
+			TEST_ASSERT(dynamic_cast<MemoryNodeRootProvider<int>*>(node)!=0);
+		}
+		else
+		{
+			MemoryNodeProvider<int>* provider=dynamic_cast<MemoryNodeProvider<int>*>(node);
+			TEST_ASSERT(provider!=0);
+			TEST_ASSERT(provider->GetData()==data->data);
+		}
+		for(int i=0;i<node->GetChildCount();i++)
+		{
+			INodeProvider* provider=node->RequestChild(i);
+			MemoryNodeProviderBase* child=dynamic_cast<MemoryNodeProviderBase*>(provider);
+			TEST_ASSERT(provider!=0);
+			TEST_ASSERT(child!=0);
+			int childTotal=AssertTree(child, data->child[i]);
+			if(node->GetExpanding())
+			{
+				total+=childTotal;
+			}
+		}
+		TEST_ASSERT(total==node->CalculateTotalVisibleNodes());
+		return total;
+	}
+}
+using namespace MemoryNodeProviderHelper;
+
 TEST_CASE(MemoryNodeProvider)
 {
 	MemoryNodeRootProvider<int> root;
+	AssertTree(&root,
+			Root()
+		);
+	TEST_ASSERT(root.CalculateTotalVisibleNodes()==0+1);
+
+	for(int i=0;i<5;i++)
+	{
+		Ptr<MemoryNodeProvider<int>> node=new MemoryNodeProvider<int>(i*10);
+		root.Children().Add(node);
+		for(int j=1;j<=i;j++)
+		{
+			node->Children().Add(new MemoryNodeProvider<int>(i*10+j));
+		}
+	}
+
+	Ptr<TestCompareData> testRoot=
+		(Root()
+		, Node(0)
+		,	(Node(10)
+			, Node(11)
+			)
+		,	(Node(20)
+			, Node(21)
+			, Node(22)
+			)
+		,	(Node(30)
+			, Node(31)
+			, Node(32)
+			, Node(33)
+			)
+		,	(Node(40)
+			, Node(41)
+			, Node(42)
+			, Node(43)
+			, Node(44)
+			)
+		);
+	AssertTree(&root, testRoot);
+	TEST_ASSERT(root.CalculateTotalVisibleNodes()==5+1);
+
+	root.Children()[3]->SetExpanding(true);
+	AssertTree(&root, testRoot);
+	TEST_ASSERT(root.CalculateTotalVisibleNodes()==8+1);
+
+	root.Children()[4]->SetExpanding(true);
+	AssertTree(&root, testRoot);
+	TEST_ASSERT(root.CalculateTotalVisibleNodes()==12+1);
+
+	root.Children()[3]->SetExpanding(false);
+	AssertTree(&root, testRoot);
+	TEST_ASSERT(root.CalculateTotalVisibleNodes()==9+1);
+
+	root.Children()[4]->SetExpanding(false);
+	AssertTree(&root, testRoot);
+	TEST_ASSERT(root.CalculateTotalVisibleNodes()==5+1);
+
+	root.Children()[3]->SetExpanding(true);
+	AssertTree(&root, testRoot);
+	TEST_ASSERT(root.CalculateTotalVisibleNodes()==8+1);
+
+	Ptr<MemoryNodeProvider<int>> p3=root.Children()[3];
+	Ptr<TestCompareData> t3=testRoot->child[3];
+	root.Children().RemoveAt(3);
+	testRoot->child.RemoveAt(3);
+	AssertTree(&root, testRoot);
+	TEST_ASSERT(root.CalculateTotalVisibleNodes()==4+1);
+
+	root.Children().RemoveAt(3);
+	testRoot->child.RemoveAt(3);
+	AssertTree(&root, testRoot);
+	TEST_ASSERT(root.CalculateTotalVisibleNodes()==3+1);
+
+	root.Children()[2]->Children().RemoveRange(0, 2);
+	testRoot->child[2]->child.RemoveRange(0, 2);
+	AssertTree(&root, testRoot);
+	TEST_ASSERT(root.CalculateTotalVisibleNodes()==3+1);
+
+	root.Children().Set(0, p3);
+	testRoot->child[0]=t3;
+	AssertTree(&root, testRoot);
+	TEST_ASSERT(root.CalculateTotalVisibleNodes()==6+1);
+
+	root.Children().Clear();
+	testRoot->child.Clear();
+	AssertTree(&root, testRoot);
+	TEST_ASSERT(root.CalculateTotalVisibleNodes()==0+1);
 }
