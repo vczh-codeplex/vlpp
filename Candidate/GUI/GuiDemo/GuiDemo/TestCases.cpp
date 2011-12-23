@@ -1,9 +1,15 @@
 #include "..\..\GUI\GraphicsElement\GuiGraphicsTextElement.h"
+#include "..\..\GUI\Controls\ExtendedControls\GuiTreeViewControls.h"
 
 using namespace vl;
 using namespace vl::presentation;
 using namespace vl::presentation::elements;
 using namespace vl::presentation::elements::text;
+using namespace vl::presentation::controls::tree;
+
+/***********************************************************************
+Framework
+***********************************************************************/
 
 #define TEST_CASE(NAME)\
 	void TestExecution_##NAME(void);\
@@ -18,6 +24,10 @@ using namespace vl::presentation::elements::text;
 	void TestExecution_##NAME(void)
 
 #define TEST_ASSERT(CONDITION) do{if(!(CONDITION)) throw 0;}while(false)
+
+/***********************************************************************
+Text
+***********************************************************************/
 
 void AssertEmpty(TextLine line)
 {
@@ -322,4 +332,13 @@ TEST_CASE(TextMeasurement)
 			}
 		}
 	}
+}
+
+/***********************************************************************
+TreeView
+***********************************************************************/
+
+TEST_CASE(MemoryNodeProvider)
+{
+	MemoryNodeRootProvider<int> root;
 }
