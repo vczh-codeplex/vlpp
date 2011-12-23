@@ -18,7 +18,7 @@ NodeItemProvider
 				{
 					if(offset==0) return provider;
 					INodeProvider* result=0;
-					if(provider->GetExpending() && offset>0)
+					if(provider->GetExpanding() && offset>0)
 					{
 						offset-=1;
 						int count=provider->GetChildCount();
@@ -120,13 +120,10 @@ MemoryNodeProviderBase
 
 				void MemoryNodeProviderBase::OnChildTotalVisibleNodesChanged(int offset)
 				{
-					if(expanding)
+					totalVisibleNodeCount+=offset;
+					if(parent)
 					{
-						totalVisibleNodeCount+=offset;
-						if(parent)
-						{
-							parent->OnChildTotalVisibleNodesChanged(offset);
-						}
+						parent->OnChildTotalVisibleNodesChanged(offset);
 					}
 				}
 
@@ -148,7 +145,7 @@ MemoryNodeProviderBase
 					if(expanding)
 					{
 						int offset=0;
-						for(int i=0;i<count;i++)
+						for(int i=0;i<newCount;i++)
 						{
 							offset+=GetChildInternal(start+i)->totalVisibleNodeCount;
 						}
@@ -194,12 +191,12 @@ MemoryNodeProviderBase
 				{
 				}
 
-				bool MemoryNodeProviderBase::GetExpending()
+				bool MemoryNodeProviderBase::GetExpanding()
 				{
 					return expanding;
 				}
 
-				void MemoryNodeProviderBase::SetExpending(bool value)
+				void MemoryNodeProviderBase::SetExpanding(bool value)
 				{
 					if(expanding!=value)
 					{
