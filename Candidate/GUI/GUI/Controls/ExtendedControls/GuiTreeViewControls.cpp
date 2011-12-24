@@ -292,7 +292,7 @@ NodeItemProvider
 
 				void NodeItemStyleProvider::DestroyItemStyle(GuiListControl::IItemStyleController* style)
 				{
-					IItemStyleController* nodeStyle=dynamic_cast<IItemStyleController*>(style);
+					INodeItemStyleController* nodeStyle=dynamic_cast<INodeItemStyleController*>(style);
 					if(nodeStyle)
 					{
 						nodeItemStyleProvider->DestroyItemStyle(nodeStyle);
@@ -303,7 +303,7 @@ NodeItemProvider
 				{
 					if(nodeItemView)
 					{
-						IItemStyleController* nodeStyle=dynamic_cast<IItemStyleController*>(style);
+						INodeItemStyleController* nodeStyle=dynamic_cast<INodeItemStyleController*>(style);
 						if(nodeStyle)
 						{
 							INodeProvider* node=nodeItemView->RequestNode(itemIndex);
@@ -726,42 +726,185 @@ MemoryNodeRootProvider
 			}
 
 /***********************************************************************
-TreeListControl
+GuiVirtualTreeListControl
 ***********************************************************************/
 
-			TreeListControl::TreeListControl(IStyleProvider* _styleProvider, tree::INodeRootProvider* _nodeRootProvider)
+			GuiVirtualTreeListControl::GuiVirtualTreeListControl(IStyleProvider* _styleProvider, tree::INodeRootProvider* _nodeRootProvider)
 				:GuiSelectableListControl(_styleProvider, new tree::NodeItemProvider(_nodeRootProvider))
 			{
 				nodeItemProvider=dynamic_cast<tree::NodeItemProvider*>(GetItemProvider());
 				nodeItemView=dynamic_cast<tree::INodeItemView*>(GetItemProvider()->RequestView(tree::INodeItemView::Identifier));
 			}
 
-			TreeListControl::~TreeListControl()
+			GuiVirtualTreeListControl::~GuiVirtualTreeListControl()
 			{
 				GetItemProvider()->ReleaseView(nodeItemView);
 			}
 
-			tree::INodeItemView* TreeListControl::GetNodeItemView()
+			tree::INodeItemView* GuiVirtualTreeListControl::GetNodeItemView()
 			{
 				return nodeItemView;
 			}
 
-			tree::INodeRootProvider* TreeListControl::GetNodeRootProvider()
+			tree::INodeRootProvider* GuiVirtualTreeListControl::GetNodeRootProvider()
 			{
 				return nodeItemProvider->GetRoot().Obj();
 			}
 
-			tree::INodeItemStyleProvider* TreeListControl::GetNodeStyleProvider()
+			tree::INodeItemStyleProvider* GuiVirtualTreeListControl::GetNodeStyleProvider()
 			{
 				return nodeStyleProvider.Obj();
 			}
 
-			Ptr<tree::INodeItemStyleProvider> TreeListControl::SetNodeStyleProvider(Ptr<tree::INodeItemStyleProvider> styleProvider)
+			Ptr<tree::INodeItemStyleProvider> GuiVirtualTreeListControl::SetNodeStyleProvider(Ptr<tree::INodeItemStyleProvider> styleProvider)
 			{
 				Ptr<tree::INodeItemStyleProvider> old=nodeStyleProvider;
 				nodeStyleProvider=styleProvider;
 				GuiSelectableListControl::SetStyleProvider(new tree::NodeItemStyleProvider(nodeStyleProvider));
 				return old;
+			}
+
+			namespace tree
+			{
+
+/***********************************************************************
+TreeViewItemRootProvider
+***********************************************************************/
+
+				const wchar_t* ITreeViewItemView::Identifier = L"vl::presentation::controls::tree::ITreeViewItemView";
+
+				Ptr<GuiImageData> TreeViewItemRootProvider::GetNodeImage(INodeProvider* node)
+				{
+					MemoryNodeProvider* memoryNode=dynamic_cast<MemoryNodeProvider*>(node);
+					if(memoryNode)
+					{
+						Ptr<TreeViewItem> data=memoryNode->GetData().Cast<TreeViewItem>();
+						if(data)
+						{
+							return data->image;
+						}
+					}
+					return 0;
+				}
+
+				WString	TreeViewItemRootProvider::GetNodeText(INodeProvider* node)
+				{
+					MemoryNodeProvider* memoryNode=dynamic_cast<MemoryNodeProvider*>(node);
+					if(memoryNode)
+					{
+						Ptr<TreeViewItem> data=memoryNode->GetData().Cast<TreeViewItem>();
+						if(data)
+						{
+							return data->text;
+						}
+					}
+					return L"";
+				}
+
+				TreeViewItemRootProvider::TreeViewItemRootProvider()
+				{
+				}
+
+				TreeViewItemRootProvider::~TreeViewItemRootProvider()
+				{
+				}
+
+				Interface* TreeViewItemRootProvider::RequestView(const WString& identifier)
+				{
+					if(identifier==ITreeViewItemView::Identifier)
+					{
+						return (ITreeViewItemView*)this;
+					}
+					else
+					{
+						return MemoryNodeRootProvider::RequestView(identifier);
+					}
+				}
+
+				void TreeViewItemRootProvider::ReleaseView(Interface* view)
+				{
+					return MemoryNodeRootProvider::ReleaseView(view);
+				}
+
+/***********************************************************************
+TreeViewNodeItemStyleProvider
+***********************************************************************/
+
+				TreeViewNodeItemStyleProvider::TreeViewNodeItemStyleProvider()
+					:listControl(0)
+					,bindedItemStyleProvider(0)
+					,treeViewItemView(0)
+				{
+				}
+
+				TreeViewNodeItemStyleProvider::~TreeViewNodeItemStyleProvider()
+				{
+				}
+
+				void TreeViewNodeItemStyleProvider::BindItemStyleProvider(GuiListControl::IItemStyleProvider* styleProvider)
+				{
+					bindedItemStyleProvider=styleProvider;
+				}
+
+				GuiListControl::IItemStyleProvider* TreeViewNodeItemStyleProvider::GetBindedItemStyleProvider()
+				{
+					return bindedItemStyleProvider;
+				}
+
+				void TreeViewNodeItemStyleProvider::AttachListControl(GuiListControl* value)
+				{
+					listControl=value;
+					treeViewItemView=dynamic_cast<ITreeViewItemView*>(listControl->GetItemProvider()->RequestView(ITreeViewItemView::Identifier));
+				}
+
+				void TreeViewNodeItemStyleProvider::DetachListControl()
+				{
+					if(treeViewItemView)
+					{
+						listControl->GetItemProvider()->ReleaseView(treeViewItemView);
+						treeViewItemView=0;
+					}
+					listControl=0;
+				}
+
+				int TreeViewNodeItemStyleProvider::GetItemStyleId(INodeProvider* node)
+				{
+					return 0;
+				}
+
+				INodeItemStyleController* TreeViewNodeItemStyleProvider::CreateItemStyle(int styleId)
+				{
+					return 0;
+				}
+
+				void TreeViewNodeItemStyleProvider::DestroyItemStyle(INodeItemStyleController* style)
+				{
+				}
+
+				void TreeViewNodeItemStyleProvider::Install(INodeItemStyleController* style, INodeProvider* node)
+				{
+				}
+			}
+
+/***********************************************************************
+GuiTreeView
+***********************************************************************/
+
+			GuiTreeView::GuiTreeView(IStyleProvider* _styleProvider)
+				:GuiVirtualTreeListControl(_styleProvider, new tree::TreeViewItemRootProvider)
+			{
+				nodes=nodeItemProvider->GetRoot().Cast<tree::TreeViewItemRootProvider>();
+				SetNodeStyleProvider(new tree::TreeViewNodeItemStyleProvider);
+				SetArranger(new list::FixedHeightItemArranger);
+			}
+
+			GuiTreeView::~GuiTreeView()
+			{
+			}
+
+			Ptr<tree::TreeViewItemRootProvider> GuiTreeView::Nodes()
+			{
+				return nodes;
 			}
 		}
 	}
