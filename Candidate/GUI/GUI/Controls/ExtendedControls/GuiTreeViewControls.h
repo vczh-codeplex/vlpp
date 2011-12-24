@@ -95,6 +95,8 @@ TreeView Predefined NodeProvider
 					INodeProvider*					GetNodeByOffset(INodeProvider* provider, int offset);
 					void							OnAttached(INodeRootProvider* provider)override;
 					void							OnItemModified(INodeProvider* parentNode, int start, int count, int newCount)override;
+					void							OnItemExpanded(INodeProvider* node)override;
+					void							OnItemCollapsed(INodeProvider* node)override;
 					INodeProvider*					RequestNode(int index)override;
 					void							ReleaseNode(INodeProvider* node)override;
 				public:
