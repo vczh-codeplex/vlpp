@@ -119,7 +119,14 @@ NodeItemProvider
 					int base=CalculateNodeVisibilityIndexInternal(node);
 					if(base!=-2)
 					{
-						int visibility=node->CalculateTotalVisibleNodes();
+						int visibility=1;
+						int count=node->GetChildCount();
+						for(int i=0;i<count;i++)
+						{
+							INodeProvider* child=node->RequestChild(i);
+							visibility+=child->CalculateTotalVisibleNodes();
+							node->ReleaseChild(child);
+						}
 						InvokeOnItemModified(base, visibility, 1);
 					}
 				}
@@ -469,7 +476,7 @@ MemoryNodeProvider
 							offset+=children[i]->totalVisibleNodeCount;
 						}
 
-						if(expanding) OnChildTotalVisibleNodesChanged(offset);
+						OnChildTotalVisibleNodesChanged(expanding?offset:-offset);
 						INodeProviderCallback* proxy=GetCallbackProxyInternal();
 						if(proxy)
 						{
@@ -482,7 +489,6 @@ MemoryNodeProvider
 								proxy->OnItemCollapsed(this);
 							}
 						}
-						if(!expanding) OnChildTotalVisibleNodesChanged(-offset);
 					}
 				}
 
