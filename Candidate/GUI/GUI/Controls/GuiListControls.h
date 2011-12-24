@@ -178,6 +178,10 @@ List Control
 				virtual Ptr<IItemCoordinateTransformer>			SetCoordinateTransformer(Ptr<IItemCoordinateTransformer> value);
 			};
 
+/***********************************************************************
+Selectable List Control
+***********************************************************************/
+
 			class GuiSelectableListControl : public GuiListControl
 			{
 			public:

@@ -214,12 +214,106 @@ NodeItemProvider
 					}
 					else
 					{
-						return 0;
+						return root->RequestView(identifier);
 					}
 				}
 
 				void NodeItemProvider::ReleaseView(Interface* view)
 				{
+					if(dynamic_cast<INodeItemView*>(view)==0)
+					{
+						root->ReleaseView(view);
+					}
+				}
+
+/***********************************************************************
+NodeItemStyleControllerBase
+***********************************************************************/
+
+				NodeItemStyleControllerBase::NodeItemStyleControllerBase(INodeItemStyleProvider* _provider, int _styleId)
+					:list::ItemStyleControllerBase(_provider->GetBindedItemStyleProvider(), styleId)
+					,provider(_provider)
+				{
+				}
+
+/***********************************************************************
+NodeItemProvider
+***********************************************************************/
+
+				NodeItemStyleProvider::NodeItemStyleProvider(Ptr<INodeItemStyleProvider> provider)
+					:nodeItemStyleProvider(provider)
+					,listControl(0)
+					,nodeItemView(0)
+				{
+					nodeItemStyleProvider->BindItemStyleProvider(this);
+				}
+
+				NodeItemStyleProvider::~NodeItemStyleProvider()
+				{
+				}
+
+				void NodeItemStyleProvider::AttachListControl(GuiListControl* value)
+				{
+					listControl=value;
+					nodeItemView=dynamic_cast<INodeItemView*>(listControl->GetItemProvider()->RequestView(INodeItemView::Identifier));
+					nodeItemStyleProvider->AttachListControl(value);
+				}
+
+				void NodeItemStyleProvider::DetachListControl()
+				{
+					nodeItemStyleProvider->DetachListControl();
+					if(nodeItemView)
+					{
+						listControl->GetItemProvider()->ReleaseView(nodeItemView);
+						nodeItemView=0;
+					}
+					listControl=0;
+				}
+
+				int NodeItemStyleProvider::GetItemStyleId(int itemIndex)
+				{
+					int result=-1;
+					if(nodeItemView)
+					{
+						INodeProvider* node=nodeItemView->RequestNode(itemIndex);
+						if(node)
+						{
+							result=nodeItemStyleProvider->GetItemStyleId(node);
+							nodeItemView->ReleaseNode(node);
+						}
+					}
+					return result;
+				}
+
+				GuiListControl::IItemStyleController* NodeItemStyleProvider::CreateItemStyle(int styleId)
+				{
+					return nodeItemStyleProvider->CreateItemStyle(styleId);
+				}
+
+				void NodeItemStyleProvider::DestroyItemStyle(GuiListControl::IItemStyleController* style)
+				{
+					IItemStyleController* nodeStyle=dynamic_cast<IItemStyleController*>(style);
+					if(nodeStyle)
+					{
+						nodeItemStyleProvider->DestroyItemStyle(nodeStyle);
+					}
+				}
+
+				void NodeItemStyleProvider::Install(GuiListControl::IItemStyleController* style, int itemIndex)
+				{
+					if(nodeItemView)
+					{
+						IItemStyleController* nodeStyle=dynamic_cast<IItemStyleController*>(style);
+						if(nodeStyle)
+						{
+							INodeProvider* node=nodeItemView->RequestNode(itemIndex);
+							if(node)
+							{
+								nodeItemStyleProvider->Install(nodeStyle, node);
+								nodeItemView->ReleaseNode(node);
+							}
+						}
+					}
 				}
 
 /***********************************************************************
@@ -461,6 +555,54 @@ MemoryNodeRootProviderBase
 						return true;
 					}
 				}
+
+				Interface* MemoryNodeRootProviderBase::RequestView(const WString& identifier)
+				{
+					return 0;
+				}
+
+				void MemoryNodeRootProviderBase::ReleaseView(Interface* view)
+				{
+				}
+			}
+
+/***********************************************************************
+TreeListControl
+***********************************************************************/
+
+			TreeListControl::TreeListControl(IStyleProvider* _styleProvider, tree::INodeRootProvider* _nodeRootProvider)
+				:GuiSelectableListControl(_styleProvider, new tree::NodeItemProvider(_nodeRootProvider))
+			{
+				nodeItemProvider=dynamic_cast<tree::NodeItemProvider*>(GetItemProvider());
+				nodeItemView=dynamic_cast<tree::INodeItemView*>(GetItemProvider()->RequestView(tree::INodeItemView::Identifier));
+			}
+
+			TreeListControl::~TreeListControl()
+			{
+				GetItemProvider()->ReleaseView(nodeItemView);
+			}
+
+			tree::INodeItemView* TreeListControl::GetNodeItemView()
+			{
+				return nodeItemView;
+			}
+
+			tree::INodeRootProvider* TreeListControl::GetNodeRootProvider()
+			{
+				return nodeItemProvider->GetRoot().Obj();
+			}
+
+			tree::INodeItemStyleProvider* TreeListControl::GetNodeStyleProvider()
+			{
+				return nodeStyleProvider.Obj();
+			}
+
+			Ptr<tree::INodeItemStyleProvider> TreeListControl::SetNodeStyleProvider(Ptr<tree::INodeItemStyleProvider> styleProvider)
+			{
+				Ptr<tree::INodeItemStyleProvider> old=nodeStyleProvider;
+				nodeStyleProvider=styleProvider;
+				GuiSelectableListControl::SetStyleProvider(new tree::NodeItemStyleProvider(nodeStyleProvider));
+				return old;
 			}
 		}
 	}
