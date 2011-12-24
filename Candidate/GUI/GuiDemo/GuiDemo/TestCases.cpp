@@ -395,21 +395,52 @@ namespace MemoryNodeProviderHelper
 		TEST_ASSERT(total==node->CalculateTotalVisibleNodes());
 		return total;
 	}
+
+	void AssertItemsInternal(NodeItemProvider* items, INodeProvider* node, int& index)
+	{
+		if(index==-1)
+		{
+			TEST_ASSERT(items->GetRoot().Obj()==node);
+		}
+		else
+		{
+			INodeItemView* view=dynamic_cast<INodeItemView*>(items->RequestView(INodeItemView::Identifier));
+			TEST_ASSERT(view->RequestNode(index)==node);
+			items->ReleaseView(view);
+		}
+		index++;
+
+		if(node->GetExpanding())
+		{
+			for(int i=0;i<node->GetChildCount();i++)
+			{
+				INodeProvider* child=node->RequestChild(i);
+				AssertItemsInternal(items, child, index);
+				node->ReleaseChild(child);
+			}
+		}
+	}
+
+	void AssertItems(NodeItemProvider* items)
+	{
+		int index=-1;
+		AssertItemsInternal(items, items->GetRoot().Obj(), index);
+	}
 }
 using namespace MemoryNodeProviderHelper;
 
 TEST_CASE(MemoryNodeProvider)
 {
-	MemoryNodeRootProvider<int> root;
-	AssertTree(&root,
-			Root()
-		);
-	TEST_ASSERT(root.CalculateTotalVisibleNodes()==0+1);
+	MemoryNodeRootProvider<int>* root=new MemoryNodeRootProvider<int>;
+	NodeItemProvider items(root);
+	AssertTree(root, Root());
+	AssertItems(&items);
+	TEST_ASSERT(root->CalculateTotalVisibleNodes()==0+1);
 
 	for(int i=0;i<5;i++)
 	{
 		Ptr<MemoryNodeProvider<int>> node=new MemoryNodeProvider<int>(i*10);
-		root.Children().Add(node);
+		root->Children().Add(node);
 		for(int j=1;j<=i;j++)
 		{
 			node->Children().Add(new MemoryNodeProvider<int>(i*10+j));
@@ -438,53 +469,64 @@ TEST_CASE(MemoryNodeProvider)
 			, Node(44)
 			)
 		);
-	AssertTree(&root, testRoot);
-	TEST_ASSERT(root.CalculateTotalVisibleNodes()==5+1);
+	AssertTree(root, testRoot);
+	AssertItems(&items);
+	TEST_ASSERT(root->CalculateTotalVisibleNodes()==5+1);
 
-	root.Children()[3]->SetExpanding(true);
-	AssertTree(&root, testRoot);
-	TEST_ASSERT(root.CalculateTotalVisibleNodes()==8+1);
+	root->Children()[3]->SetExpanding(true);
+	AssertTree(root, testRoot);
+	AssertItems(&items);
+	TEST_ASSERT(root->CalculateTotalVisibleNodes()==8+1);
 
-	root.Children()[4]->SetExpanding(true);
-	AssertTree(&root, testRoot);
-	TEST_ASSERT(root.CalculateTotalVisibleNodes()==12+1);
+	root->Children()[4]->SetExpanding(true);
+	AssertTree(root, testRoot);
+	AssertItems(&items);
+	TEST_ASSERT(root->CalculateTotalVisibleNodes()==12+1);
 
-	root.Children()[3]->SetExpanding(false);
-	AssertTree(&root, testRoot);
-	TEST_ASSERT(root.CalculateTotalVisibleNodes()==9+1);
+	root->Children()[3]->SetExpanding(false);
+	AssertTree(root, testRoot);
+	AssertItems(&items);
+	TEST_ASSERT(root->CalculateTotalVisibleNodes()==9+1);
 
-	root.Children()[4]->SetExpanding(false);
-	AssertTree(&root, testRoot);
-	TEST_ASSERT(root.CalculateTotalVisibleNodes()==5+1);
+	root->Children()[4]->SetExpanding(false);
+	AssertTree(root, testRoot);
+	AssertItems(&items);
+	TEST_ASSERT(root->CalculateTotalVisibleNodes()==5+1);
 
-	root.Children()[3]->SetExpanding(true);
-	AssertTree(&root, testRoot);
-	TEST_ASSERT(root.CalculateTotalVisibleNodes()==8+1);
+	root->Children()[3]->SetExpanding(true);
+	AssertTree(root, testRoot);
+	AssertItems(&items);
+	TEST_ASSERT(root->CalculateTotalVisibleNodes()==8+1);
 
-	Ptr<MemoryNodeProvider<int>> p3=root.Children()[3];
+	Ptr<MemoryNodeProvider<int>> p3=root->Children()[3];
 	Ptr<TestCompareData> t3=testRoot->child[3];
-	root.Children().RemoveAt(3);
+	root->Children().RemoveAt(3);
 	testRoot->child.RemoveAt(3);
-	AssertTree(&root, testRoot);
-	TEST_ASSERT(root.CalculateTotalVisibleNodes()==4+1);
+	AssertTree(root, testRoot);
+	AssertItems(&items);
+	TEST_ASSERT(root->CalculateTotalVisibleNodes()==4+1);
 
-	root.Children().RemoveAt(3);
+	root->Children().RemoveAt(3);
 	testRoot->child.RemoveAt(3);
-	AssertTree(&root, testRoot);
-	TEST_ASSERT(root.CalculateTotalVisibleNodes()==3+1);
+	AssertTree(root, testRoot);
+	AssertItems(&items);
+	TEST_ASSERT(root->CalculateTotalVisibleNodes()==3+1);
 
-	root.Children()[2]->Children().RemoveRange(0, 2);
+	root->Children()[2]->Children().RemoveRange(0, 2);
 	testRoot->child[2]->child.RemoveRange(0, 2);
-	AssertTree(&root, testRoot);
-	TEST_ASSERT(root.CalculateTotalVisibleNodes()==3+1);
+	AssertTree(root, testRoot);
+	AssertItems(&items);
+	TEST_ASSERT(root->CalculateTotalVisibleNodes()==3+1);
 
-	root.Children().Set(0, p3);
+	root->Children().Set(0, p3);
 	testRoot->child[0]=t3;
-	AssertTree(&root, testRoot);
-	TEST_ASSERT(root.CalculateTotalVisibleNodes()==6+1);
+	AssertTree(root, testRoot);
+	AssertItems(&items);
+	TEST_ASSERT(root->CalculateTotalVisibleNodes()==6+1);
 
-	root.Children().Clear();
+	root->Children().Clear();
 	testRoot->child.Clear();
-	AssertTree(&root, testRoot);
-	TEST_ASSERT(root.CalculateTotalVisibleNodes()==0+1);
+	AssertTree(root, testRoot);
+	AssertItems(&items);
+	TEST_ASSERT(root->CalculateTotalVisibleNodes()==0+1);
 }

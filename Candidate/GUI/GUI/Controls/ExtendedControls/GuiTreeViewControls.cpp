@@ -48,6 +48,14 @@ NodeItemProvider
 				{
 				}
 
+				void NodeItemProvider::OnItemExpanded(INodeProvider* node)
+				{
+				}
+
+				void NodeItemProvider::OnItemCollapsed(INodeProvider* node)
+				{
+				}
+
 				INodeProvider* NodeItemProvider::RequestNode(int index)
 				{
 					return GetNodeByOffset(root.Obj(), index+1);
