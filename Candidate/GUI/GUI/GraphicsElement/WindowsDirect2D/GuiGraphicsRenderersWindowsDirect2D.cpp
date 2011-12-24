@@ -541,7 +541,8 @@ GuiSolidLabelElementRenderer
 				{
 					IDWriteFactory* dwriteFactory=GetDirectWriteFactory();
 					DWRITE_WORD_WRAPPING wrapping=textFormat->textFormat->GetWordWrapping();
-					DWRITE_TEXT_ALIGNMENT alignment=textFormat->textFormat->GetTextAlignment();
+					DWRITE_TEXT_ALIGNMENT textAlignment=textFormat->textFormat->GetTextAlignment();
+					DWRITE_PARAGRAPH_ALIGNMENT paragraphAlignment=textFormat->textFormat->GetParagraphAlignment();
 					DWRITE_TRIMMING trimming;
 					IDWriteInlineObject* inlineObject;
 					textFormat->textFormat->GetTrimming(&trimming, &inlineObject);
@@ -566,6 +567,21 @@ GuiSolidLabelElementRenderer
 						textFormat->textFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_TRAILING);
 						break;
 					}
+					if(!element->GetMultiline() && !element->GetWrapLine())
+					{
+						switch(element->GetVerticalAlignment())
+						{
+						case Alignment::Top:
+							textFormat->textFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
+							break;
+						case Alignment::Center:
+							textFormat->textFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+							break;
+						case Alignment::Bottom:
+							textFormat->textFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_FAR);
+							break;
+						}
+					}
 
 					ID2D1RenderTarget* d2dRenderTarget=renderTarget->GetDirect2DRenderTarget();
 					d2dRenderTarget->DrawText(
@@ -579,7 +595,8 @@ GuiSolidLabelElementRenderer
 						);
 
 					textFormat->textFormat->SetWordWrapping(wrapping);
-					textFormat->textFormat->SetTextAlignment(alignment);
+					textFormat->textFormat->SetTextAlignment(textAlignment);
+					textFormat->textFormat->SetParagraphAlignment(paragraphAlignment);
 					textFormat->textFormat->SetTrimming(&trimming, inlineObject);
 				}
 			}
