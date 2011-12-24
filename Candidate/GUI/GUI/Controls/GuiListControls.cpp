@@ -723,10 +723,16 @@ RangedItemArrangerBase
 					if(callback)
 					{
 						int visibleCount=visibleStyles.Count();
+						int itemCount=itemProvider->Count();
 						SortedList<GuiListControl::IItemStyleController*> reusedStyles;
 						for(int i=0;i<visibleCount;i++)
 						{
 							int index=startIndex+i;
+							if(index>=itemCount)
+							{
+								break;
+							}
+
 							int oldIndex=-1;
 							if(index<start)
 							{
