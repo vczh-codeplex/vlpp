@@ -229,8 +229,13 @@ GuiListControl
 
 			GuiListControl::~GuiListControl()
 			{
+				if(itemStyleProvider)
+				{
+					itemStyleProvider->DetachListControl();
+				}
 				if(itemArranger)
 				{
+					itemArranger->DetachListControl();
 					itemProvider->DetachCallback(itemArranger.Obj());
 				}
 				callback->ClearCache();
