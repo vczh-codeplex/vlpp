@@ -367,24 +367,22 @@ namespace MemoryNodeProviderHelper
 		return Node(-1);
 	}
 
-	int AssertTree(MemoryNodeProviderBase* node, Ptr<TestCompareData> data)
+	int AssertTree(MemoryNodeProvider* node, Ptr<TestCompareData> data)
 	{
 		int total=1;
 		TEST_ASSERT(node->GetChildCount()==data->child.Count());
 		if(data->data==-1)
 		{
-			TEST_ASSERT(dynamic_cast<MemoryNodeRootProvider<int>*>(node)!=0);
+			TEST_ASSERT(dynamic_cast<MemoryNodeRootProvider*>(node)!=0);
 		}
 		else
 		{
-			MemoryNodeProvider<int>* provider=dynamic_cast<MemoryNodeProvider<int>*>(node);
-			TEST_ASSERT(provider!=0);
-			TEST_ASSERT(provider->GetData()==data->data);
+			TEST_ASSERT(node->GetData().Cast<ObjectBox<int>>()->Unbox()==data->data);
 		}
 		for(int i=0;i<node->GetChildCount();i++)
 		{
 			INodeProvider* provider=node->RequestChild(i);
-			MemoryNodeProviderBase* child=dynamic_cast<MemoryNodeProviderBase*>(provider);
+			MemoryNodeProvider* child=dynamic_cast<MemoryNodeProvider*>(provider);
 			TEST_ASSERT(provider!=0);
 			TEST_ASSERT(child!=0);
 			TEST_ASSERT(node==child->GetParent());
@@ -402,7 +400,7 @@ namespace MemoryNodeProviderHelper
 	{
 		if(index==-1)
 		{
-			TEST_ASSERT(items->GetRoot().Obj()==node);
+			TEST_ASSERT(items->GetRoot()->GetRootNode()==node);
 		}
 		else
 		{
@@ -428,7 +426,7 @@ namespace MemoryNodeProviderHelper
 	void AssertItems(NodeItemProvider* items)
 	{
 		int index=-1;
-		AssertItemsInternal(items, items->GetRoot().Obj(), index);
+		AssertItemsInternal(items, items->GetRoot()->GetRootNode(), index);
 	}
 
 	int callbackStart=0;
@@ -466,7 +464,7 @@ using namespace MemoryNodeProviderHelper;
 
 TEST_CASE(MemoryNodeProvider)
 {
-	MemoryNodeRootProvider<int>* root=new MemoryNodeRootProvider<int>;
+	MemoryNodeRootProvider* root=new MemoryNodeRootProvider;
 	NodeItemProvider items(root);
 	ItemProviderCallback callback;
 	items.AttachCallback(&callback);
@@ -477,12 +475,12 @@ TEST_CASE(MemoryNodeProvider)
 
 	for(int i=0;i<5;i++)
 	{
-		Ptr<MemoryNodeProvider<int>> node=new MemoryNodeProvider<int>(i*10);
+		Ptr<MemoryNodeProvider> node=new MemoryNodeProvider(new ObjectBox<int>(i*10));
 		root->Children().Add(node);
 		AssertCallback(i, 0, 1);
 		for(int j=1;j<=i;j++)
 		{
-			node->Children().Add(new MemoryNodeProvider<int>(i*10+j));
+			node->Children().Add(new MemoryNodeProvider(new ObjectBox<int>(i*10+j)));
 		}
 	}
 
@@ -512,7 +510,7 @@ TEST_CASE(MemoryNodeProvider)
 	AssertItems(&items);
 	TEST_ASSERT(root->CalculateTotalVisibleNodes()==5+1);
 
-	root->Children()[0].Cast<MemoryNodeProvider<int>>()->SetData(100);
+	root->Children()[0]->SetData(new ObjectBox<int>(100));
 	testRoot->child[0]->data=100;
 	AssertTree(root, testRoot);
 	AssertItems(&items);
@@ -549,7 +547,7 @@ TEST_CASE(MemoryNodeProvider)
 	AssertCallback(3, 1, 4);
 	TEST_ASSERT(root->CalculateTotalVisibleNodes()==8+1);
 
-	Ptr<MemoryNodeProviderBase> p3=root->Children()[3];
+	Ptr<MemoryNodeProvider> p3=root->Children()[3];
 	Ptr<TestCompareData> t3=testRoot->child[3];
 	root->Children().RemoveAt(3);
 	testRoot->child.RemoveAt(3);

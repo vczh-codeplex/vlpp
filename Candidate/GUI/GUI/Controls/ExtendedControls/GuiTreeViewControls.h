@@ -58,9 +58,10 @@ TreeListControl NodeProvider
 					virtual void					ReleaseChild(INodeProvider* node)=0;
 				};
 
-				class INodeRootProvider : public virtual INodeProvider
+				class INodeRootProvider : public virtual Interface
 				{
 				public:
+					virtual INodeProvider*			GetRootNode()=0;
 					virtual bool					AttachCallback(INodeProviderCallback* value)=0;
 					virtual bool					DetachCallback(INodeProviderCallback* value)=0;
 					virtual Interface*				RequestView(const WString& identifier)=0;
@@ -176,49 +177,53 @@ TreeListControl Predefined NodeProvider
 
 			namespace tree
 			{
-				class MemoryNodeProviderBase
+				class MemoryNodeProvider
 					: public Object
 					, public virtual INodeProvider
-					, private collections::IList<Ptr<MemoryNodeProviderBase>>
+					, private collections::IList<Ptr<MemoryNodeProvider>>
 				{
-					typedef collections::List<Ptr<MemoryNodeProviderBase>> ChildList;
-					typedef collections::IList<Ptr<MemoryNodeProviderBase>> IChildList;
-					typedef collections::IEnumerator<Ptr<MemoryNodeProviderBase>> ChildListEnumerator;
+					typedef collections::List<Ptr<MemoryNodeProvider>> ChildList;
+					typedef collections::IList<Ptr<MemoryNodeProvider>> IChildList;
+					typedef collections::IEnumerator<Ptr<MemoryNodeProvider>> ChildListEnumerator;
 				protected:
-					MemoryNodeProviderBase*			parent;
+					MemoryNodeProvider*			parent;
 					bool							expanding;
 					int								childCount;
 					int								totalVisibleNodeCount;
 					int								offsetBeforeChildModified;
+					Ptr<Object>						data;
 					ChildList						children;
 
 					virtual INodeProviderCallback*	GetCallbackProxyInternal();
 					void							OnChildTotalVisibleNodesChanged(int offset);
 					void							OnBeforeChildModified(int start, int count, int newCount);
 					void							OnAfterChildModified(int start, int count, int newCount);
-					bool							OnRequestRemove(MemoryNodeProviderBase* child);
-					bool							OnRequestInsert(MemoryNodeProviderBase* child);
-					void							OnSelfDataModified();
+					bool							OnRequestRemove(MemoryNodeProvider* child);
+					bool							OnRequestInsert(MemoryNodeProvider* child);
 				private:
 					
 					ChildListEnumerator*			CreateEnumerator()const;
-					bool							Contains(const KeyType<Ptr<MemoryNodeProviderBase>>::Type& item)const;
+					bool							Contains(const KeyType<Ptr<MemoryNodeProvider>>::Type& item)const;
 					vint							Count()const;
 					vint							Count();
-					const							Ptr<MemoryNodeProviderBase>& Get(vint index)const;
-					const							Ptr<MemoryNodeProviderBase>& operator[](vint index)const;
-					vint							IndexOf(const KeyType<Ptr<MemoryNodeProviderBase>>::Type& item)const;
-					vint							Add(const Ptr<MemoryNodeProviderBase>& item);
-					bool							Remove(const KeyType<Ptr<MemoryNodeProviderBase>>::Type& item);
+					const							Ptr<MemoryNodeProvider>& Get(vint index)const;
+					const							Ptr<MemoryNodeProvider>& operator[](vint index)const;
+					vint							IndexOf(const KeyType<Ptr<MemoryNodeProvider>>::Type& item)const;
+					vint							Add(const Ptr<MemoryNodeProvider>& item);
+					bool							Remove(const KeyType<Ptr<MemoryNodeProvider>>::Type& item);
 					bool							RemoveAt(vint index);
 					bool							RemoveRange(vint index, vint count);
 					bool							Clear();
-					vint							Insert(vint index, const Ptr<MemoryNodeProviderBase>& item);
-					bool							Set(vint index, const Ptr<MemoryNodeProviderBase>& item);
+					vint							Insert(vint index, const Ptr<MemoryNodeProvider>& item);
+					bool							Set(vint index, const Ptr<MemoryNodeProvider>& item);
 				public:
-					MemoryNodeProviderBase();
-					~MemoryNodeProviderBase();
+					MemoryNodeProvider();
+					MemoryNodeProvider(const Ptr<Object>& _data);
+					~MemoryNodeProvider();
 
+					Ptr<Object>						GetData();
+					void							SetData(const Ptr<Object>& value);
+					void							NotifyDataModified();
 					IChildList&						Children();
 
 					bool							GetExpanding()override;
@@ -230,11 +235,8 @@ TreeListControl Predefined NodeProvider
 					INodeProvider*					RequestChild(int index)override;
 					void							ReleaseChild(INodeProvider* node)override;
 				};
-				
-#pragma warning(push)
-#pragma warning(disable:4250)
-				class MemoryNodeRootProviderBase
-					: public MemoryNodeProviderBase
+				class MemoryNodeRootProvider
+					: public MemoryNodeProvider
 					, public virtual INodeRootProvider
 					, private virtual INodeProviderCallback
 				{
@@ -249,57 +251,15 @@ TreeListControl Predefined NodeProvider
 					void							OnItemExpanded(INodeProvider* node)override;
 					void							OnItemCollapsed(INodeProvider* node)override;
 				public:
-					MemoryNodeRootProviderBase();
-					~MemoryNodeRootProviderBase();
+					MemoryNodeRootProvider();
+					~MemoryNodeRootProvider();
 
+					INodeProvider*					GetRootNode()override;
 					bool							AttachCallback(INodeProviderCallback* value)override;
 					bool							DetachCallback(INodeProviderCallback* value)override;
 					Interface*						RequestView(const WString& identifier)override;
 					void							ReleaseView(Interface* view)override;
 				};
-
-				template<typename T>
-				class MemoryNodeProvider : public MemoryNodeProviderBase
-				{
-				protected:
-					T							data;
-
-				public:
-					MemoryNodeProvider()
-					{
-					}
-
-					MemoryNodeProvider(const T& _data)
-						:data(_data)
-					{
-					}
-
-					~MemoryNodeProvider()
-					{
-					}
-
-					const T& GetData()
-					{
-						return data;
-					}
-
-					void SetData(const T& value)
-					{
-						data=value;
-						OnSelfDataModified();
-					}
-				};
-				
-				template<typename T>
-				class MemoryNodeRootProvider : public MemoryNodeRootProviderBase
-				{
-				public:
-					MemoryNodeRootProvider()
-					{
-						SetExpanding(true);
-					}
-				};
-#pragma warning(pop)
 			}
 
 /***********************************************************************
