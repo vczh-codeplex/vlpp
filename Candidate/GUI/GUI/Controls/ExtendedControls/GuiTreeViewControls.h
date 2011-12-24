@@ -138,9 +138,10 @@ GuiVirtualTreeListControl NodeProvider
 					virtual INodeItemStyleController*				CreateItemStyle(int styleId)=0;
 					virtual void									DestroyItemStyle(INodeItemStyleController* style)=0;
 					virtual void									Install(INodeItemStyleController* style, INodeProvider* node)=0;
+					virtual void									SetStyleSelected(INodeItemStyleController* style, bool value)=0;
 				};
 
-				class NodeItemStyleProvider : public Object, public virtual GuiListControl::IItemStyleProvider
+				class NodeItemStyleProvider : public Object, public virtual GuiSelectableListControl::IItemStyleProvider
 				{
 				protected:
 					Ptr<INodeItemStyleProvider>						nodeItemStyleProvider;
@@ -156,6 +157,7 @@ GuiVirtualTreeListControl NodeProvider
 					GuiListControl::IItemStyleController*			CreateItemStyle(int styleId)override;
 					void											DestroyItemStyle(GuiListControl::IItemStyleController* style)override;
 					void											Install(GuiListControl::IItemStyleController* style, int itemIndex)override;
+					void											SetStyleSelected(GuiListControl::IItemStyleController* style, bool value)override;
 				};
 			}
 
@@ -291,6 +293,9 @@ TreeView
 				public:
 					Ptr<GuiImageData>				image;
 					WString							text;
+
+					TreeViewItem();
+					TreeViewItem(const Ptr<GuiImageData>& _image, const WString& _text);
 				};
 
 				class TreeViewItemRootProvider
@@ -341,14 +346,21 @@ TreeView
 					{
 					protected:
 						TreeViewNodeItemStyleProvider*		styleProvider;
-						elements::GuiBoundsComposition*		contentComposition;
+						GuiSelectableButton*				backgroundButton;
+						elements::GuiTableComposition*		table;
 						elements::GuiImageFrameElement*		image;
 						elements::GuiSolidLabelElement*		text;
+
+						void								SwitchNodeExpanding();
+						void								OnBackgroundButtonDoubleClick(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
 					public:
 						ItemController(TreeViewNodeItemStyleProvider* _styleProvider);
 
 						INodeItemStyleProvider*				GetNodeStyleProvider()override;
 						void								Install(INodeProvider* node);
+
+						bool								GetSelected();
+						void								SetSelected(bool value);
 					};
 #pragma warning(pop)
 
@@ -368,6 +380,7 @@ TreeView
 					INodeItemStyleController*				CreateItemStyle(int styleId)override;
 					void									DestroyItemStyle(INodeItemStyleController* style)override;
 					void									Install(INodeItemStyleController* style, INodeProvider* node)override;
+					void									SetStyleSelected(INodeItemStyleController* style, bool value)override;
 				};
 			}
 		}

@@ -660,6 +660,31 @@ void SetupTreeviewWindow(GuiControlHost* controlHost, GuiControl* container)
 	treeControl->SetHorizontalAlwaysVisible(false);
 	treeControl->SetVerticalAlwaysVisible(false);
 	container->GetBoundsComposition()->AddChild(treeControl->GetBoundsComposition());
+		
+	INativeImageProvider* imageProvider=GetCurrentController()->GetImageProvider();
+	Ptr<INativeImage> image=imageProvider->CreateImageFromFile(L"Resources\\NewSmall.png");
+	Ptr<GuiImageData> imageData=new GuiImageData(image, 0);
+
+	treeControl->Nodes()->Children().Add(new tree::MemoryNodeProvider(new tree::TreeViewItem(imageData, L"Microsoft")));
+	{
+		Ptr<tree::MemoryNodeProvider> node=treeControl->Nodes()->Children()[0];
+		node->Children().Add(new tree::MemoryNodeProvider(new tree::TreeViewItem(imageData, L"Visual C++")));
+		node->Children().Add(new tree::MemoryNodeProvider(new tree::TreeViewItem(imageData, L"Visual C#")));
+		node->Children().Add(new tree::MemoryNodeProvider(new tree::TreeViewItem(imageData, L"Visual Basic.NET")));
+		node->Children().Add(new tree::MemoryNodeProvider(new tree::TreeViewItem(imageData, L"Visual F#")));
+	}
+	treeControl->Nodes()->Children().Add(new tree::MemoryNodeProvider(new tree::TreeViewItem(imageData, L"IBM")));
+	{
+		Ptr<tree::MemoryNodeProvider> node=treeControl->Nodes()->Children()[1];
+		node->Children().Add(new tree::MemoryNodeProvider(new tree::TreeViewItem(imageData, L"Eclipse")));
+	}
+	treeControl->Nodes()->Children().Add(new tree::MemoryNodeProvider(new tree::TreeViewItem(imageData, L"Borland")));
+	{
+		Ptr<tree::MemoryNodeProvider> node=treeControl->Nodes()->Children()[2];
+		node->Children().Add(new tree::MemoryNodeProvider(new tree::TreeViewItem(imageData, L"Delphi")));
+		node->Children().Add(new tree::MemoryNodeProvider(new tree::TreeViewItem(imageData, L"C++ Builder")));
+		node->Children().Add(new tree::MemoryNodeProvider(new tree::TreeViewItem(imageData, L"JBuilder")));
+	}
 }
 
 /***********************************************************************
