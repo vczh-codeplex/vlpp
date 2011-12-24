@@ -6,6 +6,8 @@ namespace vl
 	{
 		namespace controls
 		{
+			using namespace elements;
+
 			namespace tree
 			{
 				const wchar_t* INodeItemView::Identifier = L"vl::presentation::controls::tree::INodeItemView";
@@ -224,16 +226,6 @@ NodeItemProvider
 					{
 						root->ReleaseView(view);
 					}
-				}
-
-/***********************************************************************
-NodeItemStyleControllerBase
-***********************************************************************/
-
-				NodeItemStyleControllerBase::NodeItemStyleControllerBase(INodeItemStyleProvider* _provider, int _styleId)
-					:list::ItemStyleControllerBase(_provider->GetBindedItemStyleProvider(), styleId)
-					,provider(_provider)
-				{
 				}
 
 /***********************************************************************
@@ -827,11 +819,77 @@ TreeViewItemRootProvider
 				}
 
 /***********************************************************************
+TreeViewNodeItemStyleProvider::ItemController
+***********************************************************************/
+
+				TreeViewNodeItemStyleProvider::ItemController::ItemController(TreeViewNodeItemStyleProvider* _styleProvider)
+					:list::ItemStyleControllerBase(_styleProvider->GetBindedItemStyleProvider(), 0)
+					,styleProvider(_styleProvider)
+				{
+					contentComposition=new GuiBoundsComposition;
+					contentComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+
+					GuiTableComposition* table=new GuiTableComposition;
+					contentComposition->AddChild(table);
+					table->SetRowsAndColumns(3, 2);
+					table->SetRowOption(0, GuiCellOption::PercentageOption(0.5));
+					table->SetRowOption(1, GuiCellOption::MinSizeOption());
+					table->SetRowOption(2, GuiCellOption::PercentageOption(0.5));
+					table->SetColumnOption(0, GuiCellOption::MinSizeOption());
+					table->SetColumnOption(1, GuiCellOption::MinSizeOption());
+					table->SetAlignmentToParent(Margin(0, 0, 0, 0));
+					table->SetCellPadding(2);
+					{
+						GuiCellComposition* cell=new GuiCellComposition;
+						table->AddChild(cell);
+						cell->SetSite(1, 0, 1, 1);
+						cell->SetPreferredMinSize(Size(16, 16));
+
+						image=GuiImageFrameElement::Create();
+						image->SetStretch(true);
+						cell->SetOwnedElement(image);
+					}
+					{
+						GuiCellComposition* cell=new GuiCellComposition;
+						table->AddChild(cell);
+						cell->SetSite(0, 1, 3, 1);
+						cell->SetPreferredMinSize(Size(192, 0));
+
+						text=GuiSolidLabelElement::Create();
+						text->SetAlignments(Alignment::Left, Alignment::Center);
+						text->SetFont(styleProvider->treeControl->GetFont());
+						text->SetEllipse(true);
+						cell->SetOwnedElement(text);
+					}
+				}
+
+				INodeItemStyleProvider* TreeViewNodeItemStyleProvider::ItemController::GetNodeStyleProvider()
+				{
+					return styleProvider;
+				}
+
+				void TreeViewNodeItemStyleProvider::ItemController::Install(INodeProvider* node)
+				{
+					ITreeViewItemView* view=styleProvider->treeViewItemView;
+					Ptr<GuiImageData> imageData=view->GetNodeImage(node);
+					if(imageData)
+					{
+						image->SetImage(imageData->GetImage(), imageData->GetFrameIndex());
+					}
+					else
+					{
+						image->SetImage(0);
+					}
+					text->SetText(view->GetNodeText(node));
+					text->SetColor(styleProvider->treeControl->GetTreeViewStyleProvider()->GetTextColor());
+				}
+
+/***********************************************************************
 TreeViewNodeItemStyleProvider
 ***********************************************************************/
 
 				TreeViewNodeItemStyleProvider::TreeViewNodeItemStyleProvider()
-					:listControl(0)
+					:treeControl(0)
 					,bindedItemStyleProvider(0)
 					,treeViewItemView(0)
 				{
@@ -853,18 +911,21 @@ TreeViewNodeItemStyleProvider
 
 				void TreeViewNodeItemStyleProvider::AttachListControl(GuiListControl* value)
 				{
-					listControl=value;
-					treeViewItemView=dynamic_cast<ITreeViewItemView*>(listControl->GetItemProvider()->RequestView(ITreeViewItemView::Identifier));
+					treeControl=dynamic_cast<GuiTreeView*>(value);
+					if(treeControl)
+					{
+						treeViewItemView=dynamic_cast<ITreeViewItemView*>(treeControl->GetItemProvider()->RequestView(ITreeViewItemView::Identifier));
+					}
 				}
 
 				void TreeViewNodeItemStyleProvider::DetachListControl()
 				{
 					if(treeViewItemView)
 					{
-						listControl->GetItemProvider()->ReleaseView(treeViewItemView);
+						treeControl->GetItemProvider()->ReleaseView(treeViewItemView);
 						treeViewItemView=0;
 					}
-					listControl=0;
+					treeControl=0;
 				}
 
 				int TreeViewNodeItemStyleProvider::GetItemStyleId(INodeProvider* node)
@@ -874,15 +935,25 @@ TreeViewNodeItemStyleProvider
 
 				INodeItemStyleController* TreeViewNodeItemStyleProvider::CreateItemStyle(int styleId)
 				{
-					return 0;
+					return new ItemController(this);
 				}
 
 				void TreeViewNodeItemStyleProvider::DestroyItemStyle(INodeItemStyleController* style)
 				{
+					ItemController* itemController=dynamic_cast<ItemController*>(style);
+					if(itemController)
+					{
+						delete itemController;
+					}
 				}
 
 				void TreeViewNodeItemStyleProvider::Install(INodeItemStyleController* style, INodeProvider* node)
 				{
+					ItemController* itemController=dynamic_cast<ItemController*>(style);
+					if(itemController)
+					{
+						itemController->Install(node);
+					}
 				}
 			}
 
@@ -893,6 +964,7 @@ GuiTreeView
 			GuiTreeView::GuiTreeView(IStyleProvider* _styleProvider)
 				:GuiVirtualTreeListControl(_styleProvider, new tree::TreeViewItemRootProvider)
 			{
+				styleProvider=dynamic_cast<IStyleProvider*>(styleController->GetStyleProvider());
 				nodes=nodeItemProvider->GetRoot().Cast<tree::TreeViewItemRootProvider>();
 				SetNodeStyleProvider(new tree::TreeViewNodeItemStyleProvider);
 				SetArranger(new list::FixedHeightItemArranger);
@@ -905,6 +977,11 @@ GuiTreeView
 			Ptr<tree::TreeViewItemRootProvider> GuiTreeView::Nodes()
 			{
 				return nodes;
+			}
+
+			GuiTreeView::IStyleProvider* GuiTreeView::GetTreeViewStyleProvider()
+			{
+				return styleProvider;
 			}
 		}
 	}

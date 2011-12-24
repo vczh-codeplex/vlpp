@@ -654,7 +654,7 @@ SetupTreeviewWindow
 void SetupTreeviewWindow(GuiControlHost* controlHost, GuiControl* container)
 {
 	container->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
-	GuiTreeView* treeControl=new GuiTreeView(new win7::Win7MultilineTextBoxProvider);
+	GuiTreeView* treeControl=new GuiTreeView(new win7::Win7TreeViewProvider);
 	treeControl->GetBoundsComposition()->SetAlignmentToParent(Margin(5, 5, 5, 5));
 	treeControl->GetBoundsComposition()->SetBounds(Rect(0, 0, 300, 200));
 	treeControl->SetHorizontalAlwaysVisible(false);
@@ -897,7 +897,7 @@ void SetupTabPageListControlWindow(GuiControlHost* controlHost, GuiControl* cont
 	}
 	{
 		GuiTabPage* page=tab->CreatePage();
-		page->SetText(L"Tree View (not completed)");
+		page->SetText(L"Tree View");
 		SetupTreeviewWindow(controlHost, page->GetContainer());
 	}
 	container->GetContainerComposition()->AddChild(tab->GetBoundsComposition());

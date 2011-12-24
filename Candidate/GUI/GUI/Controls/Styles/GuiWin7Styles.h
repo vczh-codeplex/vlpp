@@ -777,6 +777,16 @@ List
 				Color													GetSecondaryTextColor()override;
 				Color													GetItemSeparatorColor()override;
 			};
+			
+			class Win7TreeViewProvider : public Win7MultilineTextBoxProvider, public virtual controls::GuiTreeView::IStyleProvider
+			{
+			public:
+				Win7TreeViewProvider();
+				~Win7TreeViewProvider();
+
+				controls::GuiSelectableButton::IStyleController*		CreateItemBackground()override;
+				Color													GetTextColor()override;
+			};
 #pragma warning(pop)
 		}
 	}
