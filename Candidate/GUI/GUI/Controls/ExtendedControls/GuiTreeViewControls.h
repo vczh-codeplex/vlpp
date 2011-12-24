@@ -19,7 +19,7 @@ namespace vl
 		{
 
 /***********************************************************************
-TreeView NodeProvider
+TreeListControl NodeProvider
 ***********************************************************************/
 
 			namespace tree
@@ -63,17 +63,15 @@ TreeView NodeProvider
 				public:
 					virtual bool					AttachCallback(INodeProviderCallback* value)=0;
 					virtual bool					DetachCallback(INodeProviderCallback* value)=0;
+					virtual Interface*				RequestView(const WString& identifier)=0;
+					virtual void					ReleaseView(Interface* view)=0;
 				};
 			}
-
-/***********************************************************************
-TreeView Predefined NodeProvider
-***********************************************************************/
 
 			namespace tree
 			{
 				//-----------------------------------------------------------
-				// Tree to ListControl
+				// Tree to ListControl (IItemProvider)
 				//-----------------------------------------------------------
 
 				class INodeItemView : public virtual Interface
@@ -115,7 +113,66 @@ TreeView Predefined NodeProvider
 					Interface*						RequestView(const WString& identifier)override;
 					void							ReleaseView(Interface* view)override;
 				};
+
+				//-----------------------------------------------------------
+				// Tree to ListControl (IItemStyleProvider)
+				//-----------------------------------------------------------
+
+				class INodeItemStyleProvider;
+
+				class IItemStyleController : public virtual GuiListControl::IItemStyleController
+				{
+				public:
+					virtual INodeItemStyleProvider*					GetNodeStyleProvider()=0;
+				};
+
+				class INodeItemStyleProvider : public virtual Interface
+				{
+				public:
+					virtual void									BindItemStyleProvider(GuiListControl::IItemStyleProvider* styleProvider)=0;
+					virtual GuiListControl::IItemStyleProvider*		GetBindedItemStyleProvider()=0;
+					virtual void									AttachListControl(GuiListControl* value)=0;
+					virtual void									DetachListControl()=0;
+					virtual int										GetItemStyleId(INodeProvider* node)=0;
+					virtual IItemStyleController*					CreateItemStyle(int styleId)=0;
+					virtual void									DestroyItemStyle(IItemStyleController* style)=0;
+					virtual void									Install(IItemStyleController* style, INodeProvider* node)=0;
+				};
+				
+#pragma warning(push)
+#pragma warning(disable:4250)
+				class NodeItemStyleControllerBase : public list::ItemStyleControllerBase, public virtual IItemStyleController
+				{
+				protected:
+					INodeItemStyleProvider*							provider;
+
+					NodeItemStyleControllerBase(INodeItemStyleProvider* _provider, int _styleId);
+				public:
+				};
+#pragma warning(pop)
+
+				class NodeItemStyleProvider : public Object, public virtual GuiListControl::IItemStyleProvider
+				{
+				protected:
+					Ptr<INodeItemStyleProvider>						nodeItemStyleProvider;
+					GuiListControl*									listControl;
+					INodeItemView*									nodeItemView;
+				public:
+					NodeItemStyleProvider(Ptr<INodeItemStyleProvider> provider);
+					~NodeItemStyleProvider();
+
+					void											AttachListControl(GuiListControl* value)override;
+					void											DetachListControl()override;
+					int												GetItemStyleId(int itemIndex)override;
+					GuiListControl::IItemStyleController*			CreateItemStyle(int styleId)override;
+					void											DestroyItemStyle(GuiListControl::IItemStyleController* style)override;
+					void											Install(GuiListControl::IItemStyleController* style, int itemIndex)override;
+				};
 			}
+
+/***********************************************************************
+TreeListControl Predefined NodeProvider
+***********************************************************************/
 
 			namespace tree
 			{
@@ -172,6 +229,8 @@ TreeView Predefined NodeProvider
 
 					bool							AttachCallback(INodeProviderCallback* value)override;
 					bool							DetachCallback(INodeProviderCallback* value)override;
+					Interface*						RequestView(const WString& identifier)override;
+					void							ReleaseView(Interface* view)override;
 				};
 
 				template<typename TBase, typename TNode>
@@ -344,8 +403,24 @@ TreeView Predefined NodeProvider
 			}
 
 /***********************************************************************
-TreeView
+TreeListControl
 ***********************************************************************/
+
+			class TreeListControl : public GuiSelectableListControl
+			{
+			protected:
+				tree::NodeItemProvider*				nodeItemProvider;
+				tree::INodeItemView*				nodeItemView;
+				Ptr<tree::INodeItemStyleProvider>	nodeStyleProvider;
+			public:
+				TreeListControl(IStyleProvider* _styleProvider, tree::INodeRootProvider* _nodeRootProvider);
+				~TreeListControl();
+
+				tree::INodeItemView*				GetNodeItemView();
+				tree::INodeRootProvider*			GetNodeRootProvider();
+				tree::INodeItemStyleProvider*		GetNodeStyleProvider();
+				Ptr<tree::INodeItemStyleProvider>	SetNodeStyleProvider(Ptr<tree::INodeItemStyleProvider> styleProvider);
+			};
 		}
 	}
 }
