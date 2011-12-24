@@ -239,6 +239,8 @@ GuiListControl
 					itemProvider->DetachCallback(itemArranger.Obj());
 				}
 				callback->ClearCache();
+				itemStyleProvider=0;
+				itemArranger=0;
 			}
 
 			GuiListControl::IItemProvider* GuiListControl::GetItemProvider()
