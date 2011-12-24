@@ -653,6 +653,13 @@ SetupTreeviewWindow
 
 void SetupTreeviewWindow(GuiControlHost* controlHost, GuiControl* container)
 {
+	container->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+	GuiTreeView* treeControl=new GuiTreeView(new win7::Win7MultilineTextBoxProvider);
+	treeControl->GetBoundsComposition()->SetAlignmentToParent(Margin(5, 5, 5, 5));
+	treeControl->GetBoundsComposition()->SetBounds(Rect(0, 0, 300, 200));
+	treeControl->SetHorizontalAlwaysVisible(false);
+	treeControl->SetVerticalAlwaysVisible(false);
+	container->GetBoundsComposition()->AddChild(treeControl->GetBoundsComposition());
 }
 
 /***********************************************************************

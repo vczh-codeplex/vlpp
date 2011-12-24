@@ -19,7 +19,7 @@ namespace vl
 		{
 
 /***********************************************************************
-TreeListControl NodeProvider
+GuiVirtualTreeListControl NodeProvider
 ***********************************************************************/
 
 			namespace tree
@@ -121,7 +121,7 @@ TreeListControl NodeProvider
 
 				class INodeItemStyleProvider;
 
-				class IItemStyleController : public virtual GuiListControl::IItemStyleController
+				class INodeItemStyleController : public virtual GuiListControl::IItemStyleController
 				{
 				public:
 					virtual INodeItemStyleProvider*					GetNodeStyleProvider()=0;
@@ -135,14 +135,14 @@ TreeListControl NodeProvider
 					virtual void									AttachListControl(GuiListControl* value)=0;
 					virtual void									DetachListControl()=0;
 					virtual int										GetItemStyleId(INodeProvider* node)=0;
-					virtual IItemStyleController*					CreateItemStyle(int styleId)=0;
-					virtual void									DestroyItemStyle(IItemStyleController* style)=0;
-					virtual void									Install(IItemStyleController* style, INodeProvider* node)=0;
+					virtual INodeItemStyleController*				CreateItemStyle(int styleId)=0;
+					virtual void									DestroyItemStyle(INodeItemStyleController* style)=0;
+					virtual void									Install(INodeItemStyleController* style, INodeProvider* node)=0;
 				};
 				
 #pragma warning(push)
 #pragma warning(disable:4250)
-				class NodeItemStyleControllerBase : public list::ItemStyleControllerBase, public virtual IItemStyleController
+				class NodeItemStyleControllerBase : public list::ItemStyleControllerBase, public virtual INodeItemStyleController
 				{
 				protected:
 					INodeItemStyleProvider*							provider;
@@ -172,7 +172,7 @@ TreeListControl NodeProvider
 			}
 
 /***********************************************************************
-TreeListControl Predefined NodeProvider
+GuiVirtualTreeListControl Predefined NodeProvider
 ***********************************************************************/
 
 			namespace tree
@@ -235,6 +235,7 @@ TreeListControl Predefined NodeProvider
 					INodeProvider*					RequestChild(int index)override;
 					void							ReleaseChild(INodeProvider* node)override;
 				};
+
 				class MemoryNodeRootProvider
 					: public MemoryNodeProvider
 					, public virtual INodeRootProvider
@@ -263,23 +264,94 @@ TreeListControl Predefined NodeProvider
 			}
 
 /***********************************************************************
-TreeListControl
+GuiVirtualTreeListControl
 ***********************************************************************/
 
-			class TreeListControl : public GuiSelectableListControl
+			class GuiVirtualTreeListControl : public GuiSelectableListControl
 			{
 			protected:
 				tree::NodeItemProvider*				nodeItemProvider;
 				tree::INodeItemView*				nodeItemView;
 				Ptr<tree::INodeItemStyleProvider>	nodeStyleProvider;
 			public:
-				TreeListControl(IStyleProvider* _styleProvider, tree::INodeRootProvider* _nodeRootProvider);
-				~TreeListControl();
+				GuiVirtualTreeListControl(IStyleProvider* _styleProvider, tree::INodeRootProvider* _nodeRootProvider);
+				~GuiVirtualTreeListControl();
 
 				tree::INodeItemView*				GetNodeItemView();
 				tree::INodeRootProvider*			GetNodeRootProvider();
 				tree::INodeItemStyleProvider*		GetNodeStyleProvider();
 				Ptr<tree::INodeItemStyleProvider>	SetNodeStyleProvider(Ptr<tree::INodeItemStyleProvider> styleProvider);
+			};
+
+/***********************************************************************
+TreeView
+***********************************************************************/
+
+			namespace tree
+			{
+				class ITreeViewItemView : public virtual Interface
+				{
+				public:
+					static const wchar_t*			Identifier;
+
+					virtual Ptr<GuiImageData>		GetNodeImage(INodeProvider* node)=0;
+					virtual WString					GetNodeText(INodeProvider* node)=0;
+				};
+
+				class TreeViewItem : public Object
+				{
+				public:
+					Ptr<GuiImageData>				image;
+					WString							text;
+				};
+
+				class TreeViewItemRootProvider
+					: public MemoryNodeRootProvider
+					, protected virtual ITreeViewItemView
+				{
+				protected:
+
+					Ptr<GuiImageData>				GetNodeImage(INodeProvider* node)override;
+					WString							GetNodeText(INodeProvider* node)override;
+				public:
+					TreeViewItemRootProvider();
+					~TreeViewItemRootProvider();
+
+					Interface*						RequestView(const WString& identifier)override;
+					void							ReleaseView(Interface* view)override;
+				};
+
+				class TreeViewNodeItemStyleProvider : public Object, public virtual INodeItemStyleProvider
+				{
+				protected:
+					GuiListControl*							listControl;
+					GuiListControl::IItemStyleProvider*		bindedItemStyleProvider;
+					ITreeViewItemView*						treeViewItemView;
+
+				public:
+					TreeViewNodeItemStyleProvider();
+					~TreeViewNodeItemStyleProvider();
+
+					void									BindItemStyleProvider(GuiListControl::IItemStyleProvider* styleProvider)override;
+					GuiListControl::IItemStyleProvider*		GetBindedItemStyleProvider()override;
+					void									AttachListControl(GuiListControl* value)override;
+					void									DetachListControl()override;
+					int										GetItemStyleId(INodeProvider* node)override;
+					INodeItemStyleController*				CreateItemStyle(int styleId)override;
+					void									DestroyItemStyle(INodeItemStyleController* style)override;
+					void									Install(INodeItemStyleController* style, INodeProvider* node)override;
+				};
+			}
+
+			class GuiTreeView : public GuiVirtualTreeListControl
+			{
+			protected:
+				Ptr<tree::TreeViewItemRootProvider>	nodes;
+			public:
+				GuiTreeView(IStyleProvider* _styleProvider);
+				~GuiTreeView();
+
+				Ptr<tree::TreeViewItemRootProvider>			Nodes();
 			};
 		}
 	}
