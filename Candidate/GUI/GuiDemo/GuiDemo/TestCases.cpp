@@ -6,6 +6,7 @@ using namespace vl::collections;
 using namespace vl::presentation;
 using namespace vl::presentation::elements;
 using namespace vl::presentation::elements::text;
+using namespace vl::presentation::controls;
 using namespace vl::presentation::controls::tree;
 
 /***********************************************************************
@@ -386,6 +387,7 @@ namespace MemoryNodeProviderHelper
 			MemoryNodeProviderBase* child=dynamic_cast<MemoryNodeProviderBase*>(provider);
 			TEST_ASSERT(provider!=0);
 			TEST_ASSERT(child!=0);
+			TEST_ASSERT(node==child->GetParent());
 			int childTotal=AssertTree(child, data->child[i]);
 			if(node->GetExpanding())
 			{
@@ -405,7 +407,9 @@ namespace MemoryNodeProviderHelper
 		else
 		{
 			INodeItemView* view=dynamic_cast<INodeItemView*>(items->RequestView(INodeItemView::Identifier));
-			TEST_ASSERT(view->RequestNode(index)==node);
+			INodeProvider* indexNode=view->RequestNode(index);
+			TEST_ASSERT(indexNode==node);
+			view->ReleaseNode(indexNode);
 			items->ReleaseView(view);
 		}
 		index++;
@@ -426,6 +430,37 @@ namespace MemoryNodeProviderHelper
 		int index=-1;
 		AssertItemsInternal(items, items->GetRoot().Obj(), index);
 	}
+
+	int callbackStart=0;
+	int callbackCount=0;
+	int callbackNewCount=0;
+	bool callbackAvailable=false;
+
+	void AssertCallback(int start, int count, int newCount)
+	{
+		TEST_ASSERT(callbackAvailable==true);
+		TEST_ASSERT(callbackStart==start);
+		TEST_ASSERT(callbackCount==count);
+		TEST_ASSERT(callbackNewCount==newCount);
+		callbackAvailable=false;
+	}
+
+	class ItemProviderCallback : public Object, public virtual GuiListControl::IItemProviderCallback
+	{
+	public:
+		void OnAttached(GuiListControl::IItemProvider* provider)
+		{
+		}
+
+		void OnItemModified(int start, int count, int newCount)
+		{
+			TEST_ASSERT(callbackAvailable==false);
+			callbackStart=start;
+			callbackCount=count;
+			callbackNewCount=newCount;
+			callbackAvailable=true;
+		}
+	};
 }
 using namespace MemoryNodeProviderHelper;
 
@@ -433,6 +468,9 @@ TEST_CASE(MemoryNodeProvider)
 {
 	MemoryNodeRootProvider<int>* root=new MemoryNodeRootProvider<int>;
 	NodeItemProvider items(root);
+	ItemProviderCallback callback;
+	items.AttachCallback(&callback);
+
 	AssertTree(root, Root());
 	AssertItems(&items);
 	TEST_ASSERT(root->CalculateTotalVisibleNodes()==0+1);
@@ -441,6 +479,7 @@ TEST_CASE(MemoryNodeProvider)
 	{
 		Ptr<MemoryNodeProvider<int>> node=new MemoryNodeProvider<int>(i*10);
 		root->Children().Add(node);
+		AssertCallback(i, 0, 1);
 		for(int j=1;j<=i;j++)
 		{
 			node->Children().Add(new MemoryNodeProvider<int>(i*10+j));
@@ -449,7 +488,7 @@ TEST_CASE(MemoryNodeProvider)
 
 	Ptr<TestCompareData> testRoot=
 		(Root()
-		, Node(0)
+		,	Node(0)
 		,	(Node(10)
 			, Node(11)
 			)
@@ -476,26 +515,31 @@ TEST_CASE(MemoryNodeProvider)
 	root->Children()[3]->SetExpanding(true);
 	AssertTree(root, testRoot);
 	AssertItems(&items);
+	AssertCallback(3, 1, 4);
 	TEST_ASSERT(root->CalculateTotalVisibleNodes()==8+1);
 
 	root->Children()[4]->SetExpanding(true);
 	AssertTree(root, testRoot);
 	AssertItems(&items);
+	AssertCallback(7, 1, 5);
 	TEST_ASSERT(root->CalculateTotalVisibleNodes()==12+1);
 
 	root->Children()[3]->SetExpanding(false);
 	AssertTree(root, testRoot);
 	AssertItems(&items);
+	AssertCallback(3, 4, 1);
 	TEST_ASSERT(root->CalculateTotalVisibleNodes()==9+1);
 
 	root->Children()[4]->SetExpanding(false);
 	AssertTree(root, testRoot);
 	AssertItems(&items);
+	AssertCallback(4, 5, 1);
 	TEST_ASSERT(root->CalculateTotalVisibleNodes()==5+1);
 
 	root->Children()[3]->SetExpanding(true);
 	AssertTree(root, testRoot);
 	AssertItems(&items);
+	AssertCallback(3, 1, 4);
 	TEST_ASSERT(root->CalculateTotalVisibleNodes()==8+1);
 
 	Ptr<MemoryNodeProvider<int>> p3=root->Children()[3];
@@ -504,12 +548,14 @@ TEST_CASE(MemoryNodeProvider)
 	testRoot->child.RemoveAt(3);
 	AssertTree(root, testRoot);
 	AssertItems(&items);
+	AssertCallback(3, 4, 0);
 	TEST_ASSERT(root->CalculateTotalVisibleNodes()==4+1);
 
 	root->Children().RemoveAt(3);
 	testRoot->child.RemoveAt(3);
 	AssertTree(root, testRoot);
 	AssertItems(&items);
+	AssertCallback(3, 1, 0);
 	TEST_ASSERT(root->CalculateTotalVisibleNodes()==3+1);
 
 	root->Children()[2]->Children().RemoveRange(0, 2);
@@ -522,11 +568,13 @@ TEST_CASE(MemoryNodeProvider)
 	testRoot->child[0]=t3;
 	AssertTree(root, testRoot);
 	AssertItems(&items);
+	AssertCallback(0, 1, 4);
 	TEST_ASSERT(root->CalculateTotalVisibleNodes()==6+1);
 
 	root->Children().Clear();
 	testRoot->child.Clear();
 	AssertTree(root, testRoot);
 	AssertItems(&items);
+	AssertCallback(0, 6, 0);
 	TEST_ASSERT(root->CalculateTotalVisibleNodes()==0+1);
 }

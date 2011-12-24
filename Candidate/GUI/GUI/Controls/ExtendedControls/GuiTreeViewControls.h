@@ -35,7 +35,8 @@ TreeView NodeProvider
 				{
 				public:
 					virtual void					OnAttached(INodeRootProvider* provider)=0;
-					virtual void					OnItemModified(INodeProvider* parentNode, int start, int count, int newCount)=0;
+					virtual void					OnBeforeItemModified(INodeProvider* parentNode, int start, int count, int newCount)=0;
+					virtual void					OnAfterItemModified(INodeProvider* parentNode, int start, int count, int newCount)=0;
 					virtual void					OnItemExpanded(INodeProvider* node)=0;
 					virtual void					OnItemCollapsed(INodeProvider* node)=0;
 				};
@@ -82,6 +83,7 @@ TreeView Predefined NodeProvider
 
 					virtual INodeProvider*			RequestNode(int index)=0;
 					virtual void					ReleaseNode(INodeProvider* node)=0;
+					virtual int						CalculateNodeVisibilityIndex(INodeProvider* node)=0;
 				};
 
 				class NodeItemProvider
@@ -91,12 +93,17 @@ TreeView Predefined NodeProvider
 				{
 				protected:
 					Ptr<INodeRootProvider>			root;
+					int								offsetBeforeChildModified;
 
 					INodeProvider*					GetNodeByOffset(INodeProvider* provider, int offset);
 					void							OnAttached(INodeRootProvider* provider)override;
-					void							OnItemModified(INodeProvider* parentNode, int start, int count, int newCount)override;
+					void							OnBeforeItemModified(INodeProvider* parentNode, int start, int count, int newCount)override;
+					void							OnAfterItemModified(INodeProvider* parentNode, int start, int count, int newCount)override;
 					void							OnItemExpanded(INodeProvider* node)override;
 					void							OnItemCollapsed(INodeProvider* node)override;
+					int								CalculateNodeVisibilityIndexInternal(INodeProvider* node);
+					int								CalculateNodeVisibilityIndex(INodeProvider* node)override;
+
 					INodeProvider*					RequestNode(int index)override;
 					void							ReleaseNode(INodeProvider* node)override;
 				public:
@@ -155,7 +162,8 @@ TreeView Predefined NodeProvider
 					INodeProviderCallback*			GetCallbackProxyInternal()override;
 				private:
 					void							OnAttached(INodeRootProvider* provider)override;
-					void							OnItemModified(INodeProvider* parentNode, int start, int count, int newCount)override;
+					void							OnBeforeItemModified(INodeProvider* parentNode, int start, int count, int newCount)override;
+					void							OnAfterItemModified(INodeProvider* parentNode, int start, int count, int newCount)override;
 					void							OnItemExpanded(INodeProvider* node)override;
 					void							OnItemCollapsed(INodeProvider* node)override;
 				public:
