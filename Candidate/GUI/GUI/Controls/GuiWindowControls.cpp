@@ -457,6 +457,11 @@ GuiControlHost
 				}
 			}
 
+			GuiControlHost* GuiControlHost::GetRelatedControlHost()
+			{
+				return this;
+			}
+
 			const WString& GuiControlHost::GetText()
 			{
 				WString result;

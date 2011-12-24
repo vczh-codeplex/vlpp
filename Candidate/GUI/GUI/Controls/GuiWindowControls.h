@@ -92,6 +92,7 @@ Control Host
 				void									SetClientSize(Size value);
 				Rect									GetBounds();
 				void									SetBounds(Rect value);
+				GuiControlHost*							GetRelatedControlHost()override;
 				const WString&							GetText()override;
 				void									SetText(const WString& value)override;
 
