@@ -160,6 +160,11 @@ GuiControl
 				return children[index];
 			}
 
+			GuiControlHost* GuiControl::GetRelatedControlHost()
+			{
+				return parent?parent->GetRelatedControlHost():0;
+			}
+
 			bool GuiControl::GetVisuallyEnabled()
 			{
 				return isVisuallyEnabled;
@@ -292,6 +297,17 @@ GuiImageData
 /***********************************************************************
 GuiButton
 ***********************************************************************/
+
+			void GuiButton::OnParentLineChanged()
+			{
+				GuiControl::OnParentLineChanged();
+				if(GetRelatedControlHost()==0)
+				{
+					mousePressing=false;
+					mouseHoving=false;
+					UpdateControlState();
+				}
+			}
 
 			void GuiButton::UpdateControlState()
 			{

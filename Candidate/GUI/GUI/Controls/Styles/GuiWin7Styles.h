@@ -35,6 +35,10 @@ Clases:
 		Win7TextListProvider
 		Win7CheckTextListProvider
 		Win7RadioTextListProvider
+	GuiListView::IStyleProvider
+		Win7ListViewProvider
+	GuiTreeView::IStyleProvider
+		Win7TreeViewProvider
 ***********************************************************************/
 
 #ifndef VCZH_PRESENTATION_CONTROLS_GUIWIN7STYLES

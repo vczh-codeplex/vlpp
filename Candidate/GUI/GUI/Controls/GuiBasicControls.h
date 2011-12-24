@@ -88,7 +88,8 @@ Basic Construction
 				GuiControl*								GetParent();
 				int										GetChildrenCount();
 				GuiControl*								GetChild(int index);
-
+				
+				virtual GuiControlHost*					GetRelatedControlHost();
 				virtual bool							GetVisuallyEnabled();
 				virtual bool							GetEnabled();
 				virtual void							SetEnabled(bool value);
@@ -162,6 +163,7 @@ Buttons
 				bool									mouseHoving;
 				ControlState							controlState;
 				
+				void									OnParentLineChanged()override;
 				void									UpdateControlState();
 				void									OnLeftButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
 				void									OnLeftButtonUp(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
