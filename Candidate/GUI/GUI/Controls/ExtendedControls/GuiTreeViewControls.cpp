@@ -348,7 +348,7 @@ MemoryNodeProviderBase
 					{
 						for(int i=0;i<count;i++)
 						{
-							offsetBeforeChildModified+=GetChildInternal(start+i)->totalVisibleNodeCount;
+							offsetBeforeChildModified+=children[start+i]->totalVisibleNodeCount;
 						}
 					}
 					INodeProviderCallback* proxy=GetCallbackProxyInternal();
@@ -366,7 +366,7 @@ MemoryNodeProviderBase
 						int offset=0;
 						for(int i=0;i<newCount;i++)
 						{
-							offset+=GetChildInternal(start+i)->totalVisibleNodeCount;
+							offset+=children[start+i]->totalVisibleNodeCount;
 						}
 						OnChildTotalVisibleNodesChanged(offset-offsetBeforeChildModified);
 					}
@@ -397,6 +397,20 @@ MemoryNodeProviderBase
 					return false;
 				}
 
+				void MemoryNodeProviderBase::OnSelfDataModified()
+				{
+					if(parent)
+					{
+						int index=parent->children.IndexOf(this);
+						INodeProviderCallback* proxy=GetCallbackProxyInternal();
+						if(proxy)
+						{
+							proxy->OnBeforeItemModified(parent, index, 1, 1);
+							proxy->OnAfterItemModified(parent, index, 1, 1);
+						}
+					}
+				}
+
 				MemoryNodeProviderBase::MemoryNodeProviderBase()
 					:parent(0)
 					,expanding(false)
@@ -408,6 +422,11 @@ MemoryNodeProviderBase
 
 				MemoryNodeProviderBase::~MemoryNodeProviderBase()
 				{
+				}
+
+				MemoryNodeProviderBase::IChildList& MemoryNodeProviderBase::Children()
+				{
+					return *this;
 				}
 
 				bool MemoryNodeProviderBase::GetExpanding()
@@ -423,7 +442,7 @@ MemoryNodeProviderBase
 						int offset=0;
 						for(int i=0;i<childCount;i++)
 						{
-							offset+=GetChildInternal(i)->totalVisibleNodeCount;
+							offset+=children[i]->totalVisibleNodeCount;
 						}
 
 						if(expanding) OnChildTotalVisibleNodesChanged(offset);
@@ -462,7 +481,7 @@ MemoryNodeProviderBase
 				{
 					if(0<=index && index<childCount)
 					{
-						return GetChildInternal(index);
+						return children[index].Obj();
 					}
 					else
 					{
@@ -472,6 +491,119 @@ MemoryNodeProviderBase
 
 				void MemoryNodeProviderBase::ReleaseChild(INodeProvider* node)
 				{
+				}
+
+				//---------------------------------------------------
+
+				MemoryNodeProviderBase::ChildListEnumerator* MemoryNodeProviderBase::CreateEnumerator()const
+				{
+					return children.Wrap().CreateEnumerator();
+				}
+
+				bool MemoryNodeProviderBase::Contains(const KeyType<Ptr<MemoryNodeProviderBase>>::Type& item)const
+				{
+					return children.Contains(item);
+				}
+
+				vint MemoryNodeProviderBase::Count()const
+				{
+					return children.Count();
+				}
+
+				vint MemoryNodeProviderBase::Count()
+				{
+					return children.Count();
+				}
+
+				const Ptr<MemoryNodeProviderBase>& MemoryNodeProviderBase::Get(vint index)const
+				{
+					return children.Get(index);
+				}
+
+				const Ptr<MemoryNodeProviderBase>& MemoryNodeProviderBase::operator[](vint index)const
+				{
+					return children.Get(index);
+				}
+
+				vint MemoryNodeProviderBase::IndexOf(const KeyType<Ptr<MemoryNodeProviderBase>>::Type& item)const
+				{
+					return children.IndexOf(item);
+				}
+
+				vint MemoryNodeProviderBase::Add(const Ptr<MemoryNodeProviderBase>& item)
+				{
+					return Insert(children.Count(), item);
+				}
+
+				bool MemoryNodeProviderBase::Remove(const KeyType<Ptr<MemoryNodeProviderBase>>::Type& item)
+				{
+					vint index=children.IndexOf(item);
+					if(index==-1) return false;
+					return RemoveAt(index);
+				}
+
+				bool MemoryNodeProviderBase::RemoveAt(vint index)
+				{
+					if(0<=index && index<children.Count())
+					{
+						if(OnRequestRemove(children[index].Obj()))
+						{
+							OnBeforeChildModified(index, 1, 0);
+							children.RemoveAt(index);
+							OnAfterChildModified(index, 1, 0);
+							return true;
+						}
+					}
+					return false;
+				}
+
+				bool MemoryNodeProviderBase::RemoveRange(vint index, vint count)
+				{
+					for(int i=0;i<index;i++)
+					{
+						int j=index+i;
+						if(0<=j && j<children.Count())
+						{
+							OnRequestRemove(children[j].Obj());
+						}
+					}
+					OnBeforeChildModified(index, count, 0);
+					children.RemoveRange(index, count);
+					OnAfterChildModified(index, count, 0);
+					return true;
+				}
+
+				bool MemoryNodeProviderBase::Clear()
+				{
+					return RemoveRange(0, children.Count());
+				}
+
+				vint MemoryNodeProviderBase::Insert(vint index, const Ptr<MemoryNodeProviderBase>& item)
+				{
+					if(OnRequestInsert(item.Obj()))
+					{
+						OnBeforeChildModified(index, 0, 1);
+						vint result=children.Insert(index, item);
+						OnAfterChildModified(index, 0, 1);
+						return result;
+					}
+					return -1;
+				}
+
+				bool MemoryNodeProviderBase::Set(vint index, const Ptr<MemoryNodeProviderBase>& item)
+				{
+					if(0<=index && index<children.Count())
+					{
+						if(OnRequestInsert(item.Obj()))
+						{
+							OnRequestRemove(children[index].Obj());
+							OnBeforeChildModified(index, 1, 1);
+							children[index]=item;
+							OnAfterChildModified(index, 1, 1);
+							return true;
+						}
+					}
+					return false;
 				}
 
 /***********************************************************************

@@ -176,25 +176,50 @@ TreeListControl Predefined NodeProvider
 
 			namespace tree
 			{
-				class MemoryNodeProviderBase : public Object, public virtual INodeProvider
+				class MemoryNodeProviderBase
+					: public Object
+					, public virtual INodeProvider
+					, private collections::IList<Ptr<MemoryNodeProviderBase>>
 				{
+					typedef collections::List<Ptr<MemoryNodeProviderBase>> ChildList;
+					typedef collections::IList<Ptr<MemoryNodeProviderBase>> IChildList;
+					typedef collections::IEnumerator<Ptr<MemoryNodeProviderBase>> ChildListEnumerator;
 				protected:
 					MemoryNodeProviderBase*			parent;
 					bool							expanding;
 					int								childCount;
 					int								totalVisibleNodeCount;
 					int								offsetBeforeChildModified;
+					ChildList						children;
 
-					virtual MemoryNodeProviderBase* GetChildInternal(int index)=0;
 					virtual INodeProviderCallback*	GetCallbackProxyInternal();
 					void							OnChildTotalVisibleNodesChanged(int offset);
 					void							OnBeforeChildModified(int start, int count, int newCount);
 					void							OnAfterChildModified(int start, int count, int newCount);
 					bool							OnRequestRemove(MemoryNodeProviderBase* child);
 					bool							OnRequestInsert(MemoryNodeProviderBase* child);
+					void							OnSelfDataModified();
+				private:
+					
+					ChildListEnumerator*			CreateEnumerator()const;
+					bool							Contains(const KeyType<Ptr<MemoryNodeProviderBase>>::Type& item)const;
+					vint							Count()const;
+					vint							Count();
+					const							Ptr<MemoryNodeProviderBase>& Get(vint index)const;
+					const							Ptr<MemoryNodeProviderBase>& operator[](vint index)const;
+					vint							IndexOf(const KeyType<Ptr<MemoryNodeProviderBase>>::Type& item)const;
+					vint							Add(const Ptr<MemoryNodeProviderBase>& item);
+					bool							Remove(const KeyType<Ptr<MemoryNodeProviderBase>>::Type& item);
+					bool							RemoveAt(vint index);
+					bool							RemoveRange(vint index, vint count);
+					bool							Clear();
+					vint							Insert(vint index, const Ptr<MemoryNodeProviderBase>& item);
+					bool							Set(vint index, const Ptr<MemoryNodeProviderBase>& item);
 				public:
 					MemoryNodeProviderBase();
 					~MemoryNodeProviderBase();
+
+					IChildList&						Children();
 
 					bool							GetExpanding()override;
 					void							SetExpanding(bool value)override;
@@ -233,139 +258,8 @@ TreeListControl Predefined NodeProvider
 					void							ReleaseView(Interface* view)override;
 				};
 
-				template<typename TBase, typename TNode>
-				class MemoryNodeProviderWithChildren : public TBase, private collections::IList<Ptr<TNode>>
-				{
-				protected:
-					collections::List<Ptr<TNode>>	children;
-
-					MemoryNodeProviderBase* GetChildInternal(int index)override
-					{
-						return children[index].Obj();
-					}
-				public:
-					collections::IList<Ptr<TNode>>& Children()
-					{
-						return *this;
-					}
-
-				private:
-					//---------------------------------------------------
-
-					collections::IEnumerator<Ptr<TNode>>* CreateEnumerator()const
-					{
-						return children.Wrap().CreateEnumerator();
-					}
-
-					bool Contains(const typename KeyType<Ptr<TNode>>::Type& item)const
-					{
-						return children.Contains(item);
-					}
-
-					vint Count()const
-					{
-						return children.Count();
-					}
-
-					vint Count()
-					{
-						return children.Count();
-					}
-
-					const Ptr<TNode>& Get(vint index)const
-					{
-						return children.Get(index);
-					}
-
-					const Ptr<TNode>& operator[](vint index)const
-					{
-						return children.Get(index);
-					}
-
-					vint IndexOf(const typename KeyType<Ptr<TNode>>::Type& item)const
-					{
-						return children.IndexOf(item);
-					}
-
-					vint Add(const Ptr<TNode>& item)
-					{
-						return Insert(children.Count(), item);
-					}
-
-					bool Remove(const typename KeyType<Ptr<TNode>>::Type& item)
-					{
-						vint index=children.IndexOf(item);
-						if(index==-1) return false;
-						return RemoveAt(index);
-					}
-
-					bool RemoveAt(vint index)
-					{
-						if(0<=index && index<children.Count())
-						{
-							if(OnRequestRemove(children[index].Obj()))
-							{
-								OnBeforeChildModified(index, 1, 0);
-								children.RemoveAt(index);
-								OnAfterChildModified(index, 1, 0);
-								return true;
-							}
-						}
-						return false;
-					}
-
-					bool RemoveRange(vint index, vint count)
-					{
-						for(int i=0;i<index;i++)
-						{
-							int j=index+i;
-							if(0<=j && j<children.Count())
-							{
-								OnRequestRemove(children[j].Obj());
-							}
-						}
-						OnBeforeChildModified(index, count, 0);
-						children.RemoveRange(index, count);
-						OnAfterChildModified(index, count, 0);
-						return true;
-					}
-
-					bool Clear()
-					{
-						return RemoveRange(0, children.Count());
-					}
-
-					vint Insert(vint index, const Ptr<TNode>& item)
-					{
-						if(OnRequestInsert(item.Obj()))
-						{
-							OnBeforeChildModified(index, 0, 1);
-							vint result=children.Insert(index, item);
-							OnAfterChildModified(index, 0, 1);
-							return result;
-						}
-						return -1;
-					}
-
-					bool Set(vint index, const Ptr<TNode>& item)
-					{
-						if(0<=index && index<children.Count())
-						{
-							if(OnRequestInsert(item.Obj()))
-							{
-								OnRequestRemove(children[index].Obj());
-								OnBeforeChildModified(index, 1, 1);
-								children[index]=item;
-								OnAfterChildModified(index, 1, 1);
-								return true;
-							}
-						}
-						return false;
-					}
-				};
-
 				template<typename T>
-				class MemoryNodeProvider : public MemoryNodeProviderWithChildren<MemoryNodeProviderBase, MemoryNodeProvider<T>>
+				class MemoryNodeProvider : public MemoryNodeProviderBase
 				{
 				protected:
 					T							data;
@@ -388,10 +282,16 @@ TreeListControl Predefined NodeProvider
 					{
 						return data;
 					}
+
+					void SetData(const T& value)
+					{
+						data=value;
+						OnSelfDataModified();
+					}
 				};
 				
 				template<typename T>
-				class MemoryNodeRootProvider : public MemoryNodeProviderWithChildren<MemoryNodeRootProviderBase, MemoryNodeProvider<T>>
+				class MemoryNodeRootProvider : public MemoryNodeRootProviderBase
 				{
 				public:
 					MemoryNodeRootProvider()
