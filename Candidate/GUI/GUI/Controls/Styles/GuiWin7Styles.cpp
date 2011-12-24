@@ -3044,7 +3044,7 @@ Win7RadioTextListProvider
 			}
 
 /***********************************************************************
-Win7SinglelineTextBoxProvider
+Win7ListViewProvider
 ***********************************************************************/
 
 			Win7ListViewProvider::Win7ListViewProvider()
@@ -3078,6 +3078,28 @@ Win7SinglelineTextBoxProvider
 			Color Win7ListViewProvider::GetItemSeparatorColor()
 			{
 				return Color(220, 220, 220);
+			}
+
+/***********************************************************************
+Win7TreeViewProvider
+***********************************************************************/
+
+			Win7TreeViewProvider::Win7TreeViewProvider()
+			{
+			}
+
+			Win7TreeViewProvider::~Win7TreeViewProvider()
+			{
+			}
+
+			controls::GuiSelectableButton::IStyleController* Win7TreeViewProvider::CreateItemBackground()
+			{
+				return new Win7SelectableItemStyle;
+			}
+
+			Color Win7TreeViewProvider::GetTextColor()
+			{
+				return Win7GetSystemTextColor(true);
 			}
 		}
 	}

@@ -139,18 +139,6 @@ GuiVirtualTreeListControl NodeProvider
 					virtual void									DestroyItemStyle(INodeItemStyleController* style)=0;
 					virtual void									Install(INodeItemStyleController* style, INodeProvider* node)=0;
 				};
-				
-#pragma warning(push)
-#pragma warning(disable:4250)
-				class NodeItemStyleControllerBase : public list::ItemStyleControllerBase, public virtual INodeItemStyleController
-				{
-				protected:
-					INodeItemStyleProvider*							provider;
-
-					NodeItemStyleControllerBase(INodeItemStyleProvider* _provider, int _styleId);
-				public:
-				};
-#pragma warning(pop)
 
 				class NodeItemStyleProvider : public Object, public virtual GuiListControl::IItemStyleProvider
 				{
@@ -320,11 +308,51 @@ TreeView
 					Interface*						RequestView(const WString& identifier)override;
 					void							ReleaseView(Interface* view)override;
 				};
+			}
+			
+			class GuiTreeView : public GuiVirtualTreeListControl
+			{
+			public:
+				class IStyleProvider : public virtual GuiVirtualTreeListControl::IStyleProvider
+				{
+				public:
+					virtual GuiSelectableButton::IStyleController*		CreateItemBackground()=0;
+					virtual Color										GetTextColor()=0;
+				};
+			protected:
+				IStyleProvider*								styleProvider;
+				Ptr<tree::TreeViewItemRootProvider>			nodes;
+			public:
+				GuiTreeView(IStyleProvider* _styleProvider);
+				~GuiTreeView();
 
+				IStyleProvider*								GetTreeViewStyleProvider();
+				Ptr<tree::TreeViewItemRootProvider>			Nodes();
+			};
+
+			namespace tree
+			{
 				class TreeViewNodeItemStyleProvider : public Object, public virtual INodeItemStyleProvider
 				{
 				protected:
-					GuiListControl*							listControl;
+#pragma warning(push)
+#pragma warning(disable:4250)
+					class ItemController : public list::ItemStyleControllerBase, public virtual INodeItemStyleController
+					{
+					protected:
+						TreeViewNodeItemStyleProvider*		styleProvider;
+						elements::GuiBoundsComposition*		contentComposition;
+						elements::GuiImageFrameElement*		image;
+						elements::GuiSolidLabelElement*		text;
+					public:
+						ItemController(TreeViewNodeItemStyleProvider* _styleProvider);
+
+						INodeItemStyleProvider*				GetNodeStyleProvider()override;
+						void								Install(INodeProvider* node);
+					};
+#pragma warning(pop)
+
+					GuiTreeView*							treeControl;
 					GuiListControl::IItemStyleProvider*		bindedItemStyleProvider;
 					ITreeViewItemView*						treeViewItemView;
 
@@ -342,17 +370,6 @@ TreeView
 					void									Install(INodeItemStyleController* style, INodeProvider* node)override;
 				};
 			}
-
-			class GuiTreeView : public GuiVirtualTreeListControl
-			{
-			protected:
-				Ptr<tree::TreeViewItemRootProvider>	nodes;
-			public:
-				GuiTreeView(IStyleProvider* _styleProvider);
-				~GuiTreeView();
-
-				Ptr<tree::TreeViewItemRootProvider>			Nodes();
-			};
 		}
 	}
 }
