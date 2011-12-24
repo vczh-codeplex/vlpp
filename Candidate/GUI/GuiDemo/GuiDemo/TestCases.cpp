@@ -512,6 +512,13 @@ TEST_CASE(MemoryNodeProvider)
 	AssertItems(&items);
 	TEST_ASSERT(root->CalculateTotalVisibleNodes()==5+1);
 
+	root->Children()[0].Cast<MemoryNodeProvider<int>>()->SetData(100);
+	testRoot->child[0]->data=100;
+	AssertTree(root, testRoot);
+	AssertItems(&items);
+	AssertCallback(0, 1, 1);
+	TEST_ASSERT(root->CalculateTotalVisibleNodes()==5+1);
+
 	root->Children()[3]->SetExpanding(true);
 	AssertTree(root, testRoot);
 	AssertItems(&items);
@@ -542,7 +549,7 @@ TEST_CASE(MemoryNodeProvider)
 	AssertCallback(3, 1, 4);
 	TEST_ASSERT(root->CalculateTotalVisibleNodes()==8+1);
 
-	Ptr<MemoryNodeProvider<int>> p3=root->Children()[3];
+	Ptr<MemoryNodeProviderBase> p3=root->Children()[3];
 	Ptr<TestCompareData> t3=testRoot->child[3];
 	root->Children().RemoveAt(3);
 	testRoot->child.RemoveAt(3);
