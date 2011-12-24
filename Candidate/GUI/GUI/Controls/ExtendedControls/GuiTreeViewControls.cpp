@@ -44,16 +44,128 @@ NodeItemProvider
 				{
 				}
 
-				void NodeItemProvider::OnItemModified(INodeProvider* parentNode, int start, int count, int newCount)
+				void NodeItemProvider::OnBeforeItemModified(INodeProvider* parentNode, int start, int count, int newCount)
 				{
+					offsetBeforeChildModified=0;
+					int base=CalculateNodeVisibilityIndexInternal(parentNode);
+					if(base!=-2 && parentNode->GetExpanding())
+					{
+						for(int i=0;i<count;i++)
+						{
+							INodeProvider* child=parentNode->RequestChild(start+i);
+							offsetBeforeChildModified+=child->CalculateTotalVisibleNodes();
+							parentNode->ReleaseChild(child);
+						}
+					}
+				}
+
+				void NodeItemProvider::OnAfterItemModified(INodeProvider* parentNode, int start, int count, int newCount)
+				{
+					int base=CalculateNodeVisibilityIndexInternal(parentNode);
+					if(base!=-2 && parentNode->GetExpanding())
+					{
+						int offset=0;
+						int firstChildStart=-1;
+						for(int i=0;i<newCount;i++)
+						{
+							INodeProvider* child=parentNode->RequestChild(start+i);
+							if(i==0)
+							{
+								firstChildStart=CalculateNodeVisibilityIndexInternal(child);
+							}
+							offset+=child->CalculateTotalVisibleNodes();
+							parentNode->ReleaseChild(child);
+						}
+
+						if(firstChildStart==-1)
+						{
+							int childCount=parentNode->GetChildCount();
+							if(childCount==0)
+							{
+								firstChildStart=base+1;
+							}
+							else if(start<childCount)
+							{
+								INodeProvider* child=parentNode->RequestChild(start);
+								firstChildStart=CalculateNodeVisibilityIndexInternal(child);
+								parentNode->ReleaseChild(child);
+							}
+							else
+							{
+								INodeProvider* child=parentNode->RequestChild(start-1);
+								firstChildStart=CalculateNodeVisibilityIndexInternal(child);
+								firstChildStart+=child->CalculateTotalVisibleNodes();
+								parentNode->ReleaseChild(child);
+							}
+						}
+						InvokeOnItemModified(firstChildStart, offsetBeforeChildModified, offset);
+					}
 				}
 
 				void NodeItemProvider::OnItemExpanded(INodeProvider* node)
 				{
+					int base=CalculateNodeVisibilityIndexInternal(node);
+					if(base!=-2)
+					{
+						int visibility=node->CalculateTotalVisibleNodes();
+						InvokeOnItemModified(base, 1, visibility);
+					}
 				}
 
 				void NodeItemProvider::OnItemCollapsed(INodeProvider* node)
 				{
+					int base=CalculateNodeVisibilityIndexInternal(node);
+					if(base!=-2)
+					{
+						int visibility=node->CalculateTotalVisibleNodes();
+						InvokeOnItemModified(base, visibility, 1);
+					}
+				}
+
+				int NodeItemProvider::CalculateNodeVisibilityIndexInternal(INodeProvider* node)
+				{
+					INodeProvider* parent=node->GetParent();
+					if(parent==0)
+					{
+						return -1;
+					}
+					if(!parent->GetExpanding())
+					{
+						return -2;
+					}
+
+					int index=CalculateNodeVisibilityIndexInternal(parent);
+					if(index==-2)
+					{
+						return -2;
+					}
+
+					int count=parent->GetChildCount();
+					for(int i=0;i<count;i++)
+					{
+						INodeProvider* child=parent->RequestChild(i);
+						bool findResult=child==node;
+						if(findResult)
+						{
+							index++;
+						}
+						else
+						{
+							index+=child->CalculateTotalVisibleNodes();
+						}
+						parent->ReleaseChild(child);
+						if(findResult)
+						{
+							return index;
+						}
+					}
+					return -1;
+				}
+
+				int NodeItemProvider::CalculateNodeVisibilityIndex(INodeProvider* node)
+				{
+					int result=CalculateNodeVisibilityIndexInternal(node);
+					return result<0?-1:result;
 				}
 
 				INodeProvider* NodeItemProvider::RequestNode(int index)
@@ -145,6 +257,11 @@ MemoryNodeProviderBase
 							offsetBeforeChildModified+=GetChildInternal(start+i)->totalVisibleNodeCount;
 						}
 					}
+					INodeProviderCallback* proxy=GetCallbackProxyInternal();
+					if(proxy)
+					{
+						proxy->OnBeforeItemModified(this, start, count, newCount);
+					}
 				}
 
 				void MemoryNodeProviderBase::OnAfterChildModified(int start, int count, int newCount)
@@ -162,7 +279,7 @@ MemoryNodeProviderBase
 					INodeProviderCallback* proxy=GetCallbackProxyInternal();
 					if(proxy)
 					{
-						proxy->OnItemModified(this, start, count, newCount);
+						proxy->OnAfterItemModified(this, start, count, newCount);
 					}
 				}
 
@@ -209,6 +326,13 @@ MemoryNodeProviderBase
 					if(expanding!=value)
 					{
 						expanding=value;
+						int offset=0;
+						for(int i=0;i<childCount;i++)
+						{
+							offset+=GetChildInternal(i)->totalVisibleNodeCount;
+						}
+
+						if(expanding) OnChildTotalVisibleNodesChanged(offset);
 						INodeProviderCallback* proxy=GetCallbackProxyInternal();
 						if(proxy)
 						{
@@ -221,13 +345,7 @@ MemoryNodeProviderBase
 								proxy->OnItemCollapsed(this);
 							}
 						}
-
-						int offset=0;
-						for(int i=0;i<childCount;i++)
-						{
-							offset+=GetChildInternal(i)->totalVisibleNodeCount;
-						}
-						OnChildTotalVisibleNodesChanged(expanding?offset:-offset);
+						if(!expanding) OnChildTotalVisibleNodesChanged(-offset);
 					}
 				}
 
@@ -275,11 +393,19 @@ MemoryNodeRootProviderBase
 				{
 				}
 
-				void MemoryNodeRootProviderBase::OnItemModified(INodeProvider* parentNode, int start, int count, int newCount)
+				void MemoryNodeRootProviderBase::OnBeforeItemModified(INodeProvider* parentNode, int start, int count, int newCount)
 				{
 					for(int i=0;i<callbacks.Count();i++)
 					{
-						callbacks[i]->OnItemModified(parentNode, start, count, newCount);
+						callbacks[i]->OnBeforeItemModified(parentNode, start, count, newCount);
+					}
+				}
+
+				void MemoryNodeRootProviderBase::OnAfterItemModified(INodeProvider* parentNode, int start, int count, int newCount)
+				{
+					for(int i=0;i<callbacks.Count();i++)
+					{
+						callbacks[i]->OnAfterItemModified(parentNode, start, count, newCount);
 					}
 				}
 
