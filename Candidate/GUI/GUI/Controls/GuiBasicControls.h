@@ -67,6 +67,7 @@ Basic Construction
 				virtual void							OnParentChanged(GuiControl* oldParent, GuiControl* newParent);
 				virtual void							OnParentLineChanged();
 				virtual void							OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget);
+				virtual void							OnBeforeReleaseGraphicsHost();
 				virtual void							UpdateVisuallyEnabled();
 				void									SetFocusableComposition(elements::GuiGraphicsComposition* value);
 			public:

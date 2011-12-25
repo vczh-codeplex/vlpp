@@ -46,6 +46,14 @@ GuiControl
 			{
 			}
 
+			void GuiControl::OnBeforeReleaseGraphicsHost()
+			{
+				for(int i=0;i<children.Count();i++)
+				{
+					children[i]->OnBeforeReleaseGraphicsHost();
+				}
+			}
+
 			void GuiControl::UpdateVisuallyEnabled()
 			{
 				bool newValue=isEnabled && (parent==0?true:parent->GetVisuallyEnabled());
