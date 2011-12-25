@@ -2277,9 +2277,9 @@ Win7TreeViewExpandingButtonStyle
 				}
 				else
 				{
-					points[0]=Point(0, 0);
-					points[1]=Point(5, 5);
-					points[2]=Point(0, 10);
+					points[0]=Point(0, 1);
+					points[1]=Point(4, 5);
+					points[2]=Point(0, 9);
 				}
 				polygonElement->SetPoints(points, sizeof(points)/sizeof(*points));
 

@@ -156,14 +156,22 @@ Renderers
 			{
 				DEFINE_GUI_GRAPHICS_RENDERER(GuiPolygonElement, GuiPolygonElementRenderer, IWindowsGDIRenderTarget)
 			protected:
-				void					InitializeInternal();
-				void					FinalizeInternal();
-				void					RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget);
+				POINT*							points;
+				int								pointCount;
+				Color							oldPenColor;
+				Color							oldBrushColor;
+				Ptr<windows::WinPen>			pen;
+				Ptr<windows::WinBrush>			brush;
+
+				void							InitializeInternal();
+				void							FinalizeInternal();
+				void							RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget);
 			public:
 				GuiPolygonElementRenderer();
+				~GuiPolygonElementRenderer();
 
-				void					Render(Rect bounds)override;
-				void					OnElementStateChanged()override;
+				void							Render(Rect bounds)override;
+				void							OnElementStateChanged()override;
 			};
 
 			class GuiColorizedTextElementRenderer : public Object, public IGuiGraphicsRenderer, protected GuiColorizedTextElement::ICallback

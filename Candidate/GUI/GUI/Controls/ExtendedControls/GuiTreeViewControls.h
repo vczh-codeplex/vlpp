@@ -358,6 +358,8 @@ TreeView
 
 						void								SwitchNodeExpanding();
 						void								OnBackgroundButtonDoubleClick(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
+						void								OnExpandingButtonDoubleClick(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments);
+						void								OnExpandingButtonClicked(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 					public:
 						ItemController(TreeViewNodeItemStyleProvider* _styleProvider);
 

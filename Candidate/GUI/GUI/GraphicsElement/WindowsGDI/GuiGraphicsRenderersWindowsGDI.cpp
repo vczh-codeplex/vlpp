@@ -650,10 +650,16 @@ GuiPolygonElementRenderer
 
 			void GuiPolygonElementRenderer::InitializeInternal()
 			{
+				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+				pen=resourceManager->CreateGdiPen(oldPenColor);
+				brush=resourceManager->CreateGdiBrush(oldBrushColor);
 			}
 
 			void GuiPolygonElementRenderer::FinalizeInternal()
 			{
+				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+				resourceManager->DestroyGdiPen(oldPenColor);
+				resourceManager->DestroyGdiBrush(oldBrushColor);
 			}
 
 			void GuiPolygonElementRenderer::RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget)
@@ -661,16 +667,75 @@ GuiPolygonElementRenderer
 			}
 
 			GuiPolygonElementRenderer::GuiPolygonElementRenderer()
+				:points(0)
+				,pointCount(0)
+				,oldPenColor(0, 0, 0, 0)
+				,oldBrushColor(0, 0, 0, 0)
 			{
+			}
+
+			GuiPolygonElementRenderer::~GuiPolygonElementRenderer()
+			{
+				if(points) delete[] points;
 			}
 
 			void GuiPolygonElementRenderer::Render(Rect bounds)
 			{
+				if(pointCount>=3 && (oldPenColor.a || oldBrushColor.a))
+				{
+					int offsetX=(bounds.Width()-minSize.x)/2+bounds.x1;
+					int offsetY=(bounds.Height()-minSize.y)/2+bounds.y1;
+					for(int i=0;i<pointCount;i++)
+					{
+						points[i].x+=offsetX;
+						points[i].y+=offsetY;
+					}
+					renderTarget->GetDC()->SetPen(pen);
+					renderTarget->GetDC()->SetBrush(brush);
+					renderTarget->GetDC()->PolyGon(points, pointCount);
+					for(int i=0;i<pointCount;i++)
+					{
+						points[i].x-=offsetX;
+						points[i].y-=offsetY;
+					}
+				}
 			}
 
 			void GuiPolygonElementRenderer::OnElementStateChanged()
 			{
 				minSize=element->GetSize();
+				{
+					if(points)
+					{
+						delete[] points;
+						points=0;
+					}
+					pointCount=element->GetPointCount();
+					if(pointCount>0)
+					{
+						points=new POINT[pointCount];
+						for(int i=0;i<pointCount;i++)
+						{
+							Point p=element->GetPoints()[i];
+							points[i].x=p.x;
+							points[i].y=p.y;
+						}
+					}
+				}
+
+				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
+				if(oldPenColor!=element->GetBorderColor() || !pen)
+				{
+					resourceManager->DestroyGdiPen(oldPenColor);
+					oldPenColor=element->GetBorderColor();
+					pen=resourceManager->CreateGdiPen(oldPenColor);
+				}
+				if(oldBrushColor!=element->GetBackgroundColor() || !brush)
+				{
+					resourceManager->DestroyGdiPen(oldBrushColor);
+					oldBrushColor=element->GetBackgroundColor();
+					brush=resourceManager->CreateGdiBrush(oldBrushColor);
+				}
 			}
 
 /***********************************************************************
