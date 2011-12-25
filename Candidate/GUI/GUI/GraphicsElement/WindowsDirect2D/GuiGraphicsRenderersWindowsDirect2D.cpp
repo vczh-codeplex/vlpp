@@ -739,7 +739,10 @@ GuiPolygonElementRenderer
 			void GuiPolygonElementRenderer::CreateGeometry()
 			{
 				oldPoints.Resize(element->GetPointCount());
-				memcpy(&oldPoints[0], element->GetPoints(), sizeof(POINT)*element->GetPointCount());
+				if(oldPoints.Count()>0)
+				{
+					memcpy(&oldPoints[0], element->GetPoints(), sizeof(POINT)*element->GetPointCount());
+				}
 				if(oldPoints.Count()>=3)
 				{
 					ID2D1PathGeometry* pg=0;
@@ -747,28 +750,7 @@ GuiPolygonElementRenderer
 					if(pg)
 					{
 						geometry=pg;
-						ID2D1GeometrySink* pgs=0;
-						pg->Open(&pgs);
-						if(pgs)
-						{
-							D2D1_POINT_2F p;
-							p.x=(FLOAT)oldPoints[0].x+0.5f;
-							p.y=(FLOAT)oldPoints[0].y+0.5f;
-							pgs->BeginFigure(p, D2D1_FIGURE_BEGIN_FILLED);
-							for(int i=1;i<oldPoints.Count();i++)
-							{
-								p.x=(FLOAT)oldPoints[i].x+0.5f;
-								p.y=(FLOAT)oldPoints[i].y+0.5f;
-								pgs->AddLine(p);
-							}
-							pgs->EndFigure(D2D1_FIGURE_END_CLOSED);
-							pgs->Close();
-							pgs->Release();
-						}
-						else
-						{
-							geometry=0;
-						}
+						FillGeometry(Point(0, 0));
 					}
 				}
 			}
@@ -778,6 +760,31 @@ GuiPolygonElementRenderer
 				if(geometry)
 				{
 					geometry=0;
+				}
+			}
+
+			void GuiPolygonElementRenderer::FillGeometry(Point offset)
+			{
+				if(geometry)
+				{
+					ID2D1GeometrySink* pgs=0;
+					geometry->Open(&pgs);
+					if(pgs)
+					{
+						D2D1_POINT_2F p;
+						p.x=(FLOAT)(oldPoints[0].x+offset.x)+0.5f;
+						p.y=(FLOAT)(oldPoints[0].y+offset.y)+0.5f;
+						pgs->BeginFigure(p, D2D1_FIGURE_BEGIN_FILLED);
+						for(int i=1;i<oldPoints.Count();i++)
+						{
+							p.x=(FLOAT)(oldPoints[i].x+offset.x)+0.5f;
+							p.y=(FLOAT)(oldPoints[i].y+offset.y)+0.5f;
+							pgs->AddLine(p);
+						}
+						pgs->EndFigure(D2D1_FIGURE_END_CLOSED);
+						pgs->Close();
+						pgs->Release();
+					}
 				}
 			}
 
@@ -851,6 +858,15 @@ GuiPolygonElementRenderer
 					ID2D1RenderTarget* d2dRenderTarget=renderTarget->GetDirect2DRenderTarget();
 					int offsetX=(bounds.Width()-minSize.x)/2+bounds.x1;
 					int offsetY=(bounds.Height()-minSize.y)/2+bounds.y1;
+
+					D2D1_MATRIX_3X2_F oldT, newT;
+					d2dRenderTarget->GetTransform(&oldT);
+					newT=D2D1::Matrix3x2F::Translation((FLOAT)offsetX, (FLOAT)offsetY);
+					d2dRenderTarget->SetTransform(&newT);
+
+					d2dRenderTarget->FillGeometry(geometry.Obj(), backgroundBrush);
+					d2dRenderTarget->DrawGeometry(geometry.Obj(), borderBrush);
+					d2dRenderTarget->SetTransform(&oldT);
 				}
 			}
 
