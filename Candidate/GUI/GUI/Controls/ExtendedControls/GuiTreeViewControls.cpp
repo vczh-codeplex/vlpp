@@ -110,7 +110,7 @@ NodeItemProvider
 					if(base!=-2)
 					{
 						int visibility=node->CalculateTotalVisibleNodes();
-						InvokeOnItemModified(base, 1, visibility);
+						InvokeOnItemModified(base+1, 0, visibility-1);
 					}
 				}
 
@@ -119,7 +119,7 @@ NodeItemProvider
 					int base=CalculateNodeVisibilityIndexInternal(node);
 					if(base!=-2)
 					{
-						int visibility=1;
+						int visibility=0;
 						int count=node->GetChildCount();
 						for(int i=0;i<count;i++)
 						{
@@ -127,7 +127,7 @@ NodeItemProvider
 							visibility+=child->CalculateTotalVisibleNodes();
 							node->ReleaseChild(child);
 						}
-						InvokeOnItemModified(base, visibility, 1);
+						InvokeOnItemModified(base+1, visibility, 0);
 					}
 				}
 
