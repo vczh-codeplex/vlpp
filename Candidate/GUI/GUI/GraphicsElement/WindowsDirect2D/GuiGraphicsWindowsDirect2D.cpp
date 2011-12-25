@@ -521,6 +521,7 @@ void RendererMainDirect2D()
 	GuiGradientBackgroundElementRenderer::Register();
 	GuiSolidLabelElementRenderer::Register();
 	GuiImageFrameElementRenderer::Register();
+	GuiPolygonElementRenderer::Register();
 	GuiColorizedTextElementRenderer::Register();
 
 	GuiApplicationMain();

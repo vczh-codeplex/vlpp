@@ -544,6 +544,77 @@ GuiImageFrameElement
 					renderer->OnElementStateChanged();
 				}
 			}
+
+/***********************************************************************
+GuiPolygonElement
+***********************************************************************/
+
+			GuiPolygonElement::GuiPolygonElement()
+			{
+			}
+
+			GuiPolygonElement::~GuiPolygonElement()
+			{
+			}
+
+			Size GuiPolygonElement::GetSize()
+			{
+				return size;
+			}
+
+			void GuiPolygonElement::SetSize(Size value)
+			{
+				if(size!=value)
+				{
+					size=value;
+					renderer->OnElementStateChanged();
+				}
+			}
+
+			const Point* GuiPolygonElement::GetPoints()
+			{
+				return points.Count()==0?0:&points[0];
+			}
+
+			int GuiPolygonElement::GetPointCount()
+			{
+				return points.Count();
+			}
+
+			void GuiPolygonElement::SetPoints(const Point* p, int count)
+			{
+				points.Resize(count);
+				memcpy(&points[0], p, sizeof(*p)*count);
+				renderer->OnElementStateChanged();
+			}
+
+			Color GuiPolygonElement::GetBorderColor()
+			{
+				return borderColor;
+			}
+
+			void GuiPolygonElement::SetBorderColor(Color value)
+			{
+				if(borderColor!=value)
+				{
+					borderColor=value;
+					renderer->OnElementStateChanged();
+				}
+			}
+
+			Color GuiPolygonElement::GetBackgroundColor()
+			{
+				return backgroundColor;
+			}
+
+			void GuiPolygonElement::SetBackgroundColor(Color value)
+			{
+				if(backgroundColor!=value)
+				{
+					backgroundColor=value;
+					renderer->OnElementStateChanged();
+				}
+			}
 		}
 	}
 }

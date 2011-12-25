@@ -645,6 +645,35 @@ GuiImageFrameElementRenderer
 			}
 
 /***********************************************************************
+GuiPolygonElementRenderer
+***********************************************************************/
+
+			void GuiPolygonElementRenderer::InitializeInternal()
+			{
+			}
+
+			void GuiPolygonElementRenderer::FinalizeInternal()
+			{
+			}
+
+			void GuiPolygonElementRenderer::RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget)
+			{
+			}
+
+			GuiPolygonElementRenderer::GuiPolygonElementRenderer()
+			{
+			}
+
+			void GuiPolygonElementRenderer::Render(Rect bounds)
+			{
+			}
+
+			void GuiPolygonElementRenderer::OnElementStateChanged()
+			{
+				minSize=element->GetSize();
+			}
+
+/***********************************************************************
 GuiColorizedTextElementRenderer
 ***********************************************************************/
 
