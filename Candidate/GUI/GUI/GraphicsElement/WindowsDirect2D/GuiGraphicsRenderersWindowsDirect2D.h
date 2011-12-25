@@ -150,14 +150,24 @@ Renderers
 			{
 				DEFINE_GUI_GRAPHICS_RENDERER(GuiPolygonElement, GuiPolygonElementRenderer, IWindowsDirect2DRenderTarget)
 			protected:
-				void					InitializeInternal();
-				void					FinalizeInternal();
-				void					RenderTargetChangedInternal(IWindowsDirect2DRenderTarget* oldRenderTarget, IWindowsDirect2DRenderTarget* newRenderTarget);
+				Color							oldBorderColor;
+				Color							oldBackgroundColor;
+				ID2D1SolidColorBrush*			borderBrush;
+				ID2D1SolidColorBrush*			backgroundBrush;
+				collections::Array<Point>		oldPoints;
+				ComPtr<ID2D1PathGeometry>		geometry;
+
+				void							CreateGeometry();
+				void							DestroyGeometry();
+				void							RecreateResource(IWindowsDirect2DRenderTarget* oldRenderTarget, IWindowsDirect2DRenderTarget* newRenderTarget);
+				void							InitializeInternal();
+				void							FinalizeInternal();
+				void							RenderTargetChangedInternal(IWindowsDirect2DRenderTarget* oldRenderTarget, IWindowsDirect2DRenderTarget* newRenderTarget);
 			public:
 				GuiPolygonElementRenderer();
 
-				void					Render(Rect bounds)override;
-				void					OnElementStateChanged()override;
+				void							Render(Rect bounds)override;
+				void							OnElementStateChanged()override;
 			};
 
 			class GuiColorizedTextElementRenderer : public Object, public IGuiGraphicsRenderer, protected GuiColorizedTextElement::ICallback
