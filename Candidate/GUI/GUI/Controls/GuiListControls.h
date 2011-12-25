@@ -156,6 +156,7 @@ List Control
 				virtual void									OnStyleUninstalled(IItemStyleController* style);
 				
 				void											OnRenderTargetChanged(elements::IGuiGraphicsRenderTarget* renderTarget)override;
+				void											OnBeforeReleaseGraphicsHost()override;
 				Size											QueryFullSize()override;
 				void											UpdateView(Rect viewBounds)override;
 				

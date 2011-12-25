@@ -92,6 +92,7 @@ GuiControlHost
 
 			GuiControlHost::~GuiControlHost()
 			{
+				OnBeforeReleaseGraphicsHost();
 				styleController=0;
 				for(int i=0;i<components.Count();i++)
 				{

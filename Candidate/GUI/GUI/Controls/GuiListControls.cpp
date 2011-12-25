@@ -150,6 +150,12 @@ GuiListControl
 				GuiScrollView::OnRenderTargetChanged(renderTarget);
 			}
 
+			void GuiListControl::OnBeforeReleaseGraphicsHost()
+			{
+				GuiScrollView::OnBeforeReleaseGraphicsHost();
+				SetStyleProviderAndArranger(0, 0);
+			}
+
 			Size GuiListControl::QueryFullSize()
 			{
 				Size virtualSize=itemArranger?itemArranger->GetTotalSize():Size(0, 0);
@@ -229,13 +235,8 @@ GuiListControl
 
 			GuiListControl::~GuiListControl()
 			{
-				if(itemStyleProvider)
-				{
-					itemStyleProvider->DetachListControl();
-				}
 				if(itemArranger)
 				{
-					itemArranger->DetachListControl();
 					itemProvider->DetachCallback(itemArranger.Obj());
 				}
 				callback->ClearCache();
