@@ -520,31 +520,31 @@ TEST_CASE(MemoryNodeProvider)
 	root->Children()[3]->SetExpanding(true);
 	AssertTree(root, testRoot);
 	AssertItems(&items);
-	AssertCallback(3, 1, 4);
+	AssertCallback(4, 0, 3);
 	TEST_ASSERT(root->CalculateTotalVisibleNodes()==8+1);
 
 	root->Children()[4]->SetExpanding(true);
 	AssertTree(root, testRoot);
 	AssertItems(&items);
-	AssertCallback(7, 1, 5);
+	AssertCallback(8, 0, 4);
 	TEST_ASSERT(root->CalculateTotalVisibleNodes()==12+1);
 
 	root->Children()[3]->SetExpanding(false);
 	AssertTree(root, testRoot);
 	AssertItems(&items);
-	AssertCallback(3, 4, 1);
+	AssertCallback(4, 3, 0);
 	TEST_ASSERT(root->CalculateTotalVisibleNodes()==9+1);
 
 	root->Children()[4]->SetExpanding(false);
 	AssertTree(root, testRoot);
 	AssertItems(&items);
-	AssertCallback(4, 5, 1);
+	AssertCallback(5, 4, 0);
 	TEST_ASSERT(root->CalculateTotalVisibleNodes()==5+1);
 
 	root->Children()[3]->SetExpanding(true);
 	AssertTree(root, testRoot);
 	AssertItems(&items);
-	AssertCallback(3, 1, 4);
+	AssertCallback(4, 0, 3);
 	TEST_ASSERT(root->CalculateTotalVisibleNodes()==8+1);
 
 	Ptr<MemoryNodeProvider> p3=root->Children()[3];
