@@ -3097,6 +3097,11 @@ Win7TreeViewProvider
 				return new Win7SelectableItemStyle;
 			}
 
+			controls::GuiSelectableButton::IStyleController* Win7TreeViewProvider::CreateItemExpandingDecorator()
+			{
+				return new Win7CheckBoxStyle(Win7CheckBoxStyle::CheckBox, false);
+			}
+
 			Color Win7TreeViewProvider::GetTextColor()
 			{
 				return Win7GetSystemTextColor(true);

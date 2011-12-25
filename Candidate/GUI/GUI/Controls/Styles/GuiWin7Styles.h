@@ -789,6 +789,7 @@ List
 				~Win7TreeViewProvider();
 
 				controls::GuiSelectableButton::IStyleController*		CreateItemBackground()override;
+				controls::GuiSelectableButton::IStyleController*		CreateItemExpandingDecorator()override;
 				Color													GetTextColor()override;
 			};
 #pragma warning(pop)
