@@ -466,6 +466,32 @@ Elements
 				bool					GetStretch();
 				void					SetStretch(bool value);
 			};
+
+			class GuiPolygonElement : public Object, public IGuiGraphicsElement
+			{
+				DEFINE_GUI_GRAPHICS_ELEMENT(GuiPolygonElement, L"Polygon");
+			protected:
+				Size							size;
+				collections::Array<Point>		points;
+				Color							borderColor;
+				Color							backgroundColor;
+
+				GuiPolygonElement();
+			public:
+				~GuiPolygonElement();
+
+				Size					GetSize();
+				void					SetSize(Size value);
+
+				const Point*			GetPoints();
+				int						GetPointCount();
+				void					SetPoints(const Point* p, int count);
+
+				Color					GetBorderColor();
+				void					SetBorderColor(Color value);
+				Color					GetBackgroundColor();
+				void					SetBackgroundColor(Color value);
+			};
 		}
 	}
 }

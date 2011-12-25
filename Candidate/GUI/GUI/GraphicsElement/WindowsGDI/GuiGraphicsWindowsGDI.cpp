@@ -421,6 +421,7 @@ void RendererMainGDI()
 	GuiGradientBackgroundElementRenderer::Register();
 	GuiSolidLabelElementRenderer::Register();
 	GuiImageFrameElementRenderer::Register();
+	GuiPolygonElementRenderer::Register();
 	GuiColorizedTextElementRenderer::Register();
 
 	GuiApplicationMain();

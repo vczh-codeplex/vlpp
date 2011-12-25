@@ -20,6 +20,7 @@ Clases:
 		Win7TabPageHeaderStyle
 		Win7ListViewColumnDropDownStyle
 		Win7ListViewColumnHeaderStyle
+		Win7TreeViewExpandingButtonStyle
 	GuiMenuButton::IStyleController
 		Win7MenuBarButtonStyle
 		Win7MenuItemButtonStyle
@@ -530,6 +531,31 @@ Misc Buttons
 			public:
 				Win7ListViewColumnHeaderStyle();
 				~Win7ListViewColumnHeaderStyle();
+
+				elements::GuiBoundsComposition*				GetBoundsComposition()override;
+				elements::GuiGraphicsComposition*			GetContainerComposition()override;
+				void										SetFocusableComposition(elements::GuiGraphicsComposition* value)override;
+				void										SetText(const WString& value)override;
+				void										SetFont(const FontProperties& value)override;
+				void										SetVisuallyEnabled(bool value)override;
+				void										SetSelected(bool value)override;
+				void										Transfer(controls::GuiButton::ControlState value)override;
+			};
+
+			class Win7TreeViewExpandingButtonStyle : public Object, public virtual controls::GuiSelectableButton::IStyleController
+			{
+			protected:
+				controls::GuiButton::ControlState			controlStyle;
+				bool										isVisuallyEnabled;
+				bool										isSelected;
+
+				elements::GuiBoundsComposition*				mainComposition;
+				elements::GuiPolygonElement*				polygonElement;
+
+				void										TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected);
+			public:
+				Win7TreeViewExpandingButtonStyle();
+				~Win7TreeViewExpandingButtonStyle();
 
 				elements::GuiBoundsComposition*				GetBoundsComposition()override;
 				elements::GuiGraphicsComposition*			GetContainerComposition()override;

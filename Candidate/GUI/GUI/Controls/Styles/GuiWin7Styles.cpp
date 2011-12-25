@@ -2111,7 +2111,7 @@ Win7ListViewColumnDropDownStyle
 			}
 
 /***********************************************************************
-Win7ButtonStyleBase
+Win7ListViewColumnHeaderStyle
 ***********************************************************************/
 
 			void Win7ListViewColumnHeaderStyle::TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected)
@@ -2246,6 +2246,120 @@ Win7ButtonStyleBase
 			}
 
 			void Win7ListViewColumnHeaderStyle::Transfer(GuiButton::ControlState value)
+			{
+				if(controlStyle!=value)
+				{
+					controlStyle=value;
+					TransferInternal(controlStyle, isVisuallyEnabled, isSelected);
+				}
+			}
+
+/***********************************************************************
+Win7TreeViewExpandingButtonStyle
+***********************************************************************/
+
+			void Win7TreeViewExpandingButtonStyle::TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected)
+			{
+				bool expanding=false;
+				bool activated=false;
+				if(isVisuallyEnabled)
+				{
+					expanding=selected;
+					activated=value!=GuiButton::Normal;
+				}
+
+				Point points[3];
+				if(expanding)
+				{
+					points[0]=Point(5, 2);
+					points[1]=Point(5, 7);
+					points[2]=Point(0, 7);
+				}
+				else
+				{
+					points[0]=Point(0, 0);
+					points[1]=Point(5, 5);
+					points[2]=Point(0, 10);
+				}
+				polygonElement->SetPoints(points, sizeof(points)/sizeof(*points));
+
+				if(activated)
+				{
+					polygonElement->SetBorderColor(Color(28, 196, 247));
+					polygonElement->SetBackgroundColor(Color(130, 223, 251));
+				}
+				else if(expanding)
+				{
+					polygonElement->SetBorderColor(Color(38, 38, 38));
+					polygonElement->SetBackgroundColor(Color(89, 89, 89));
+				}
+				else
+				{
+					polygonElement->SetBorderColor(Color(166, 166, 166));
+					polygonElement->SetBackgroundColor(Color(255, 255, 255));
+				}
+			}
+
+			Win7TreeViewExpandingButtonStyle::Win7TreeViewExpandingButtonStyle()
+				:controlStyle(GuiButton::Normal)
+				,isVisuallyEnabled(true)
+				,isSelected(false)
+			{
+				polygonElement=GuiPolygonElement::Create();
+				polygonElement->SetSize(Size(6, 11));
+
+				mainComposition=new GuiBoundsComposition;
+				mainComposition->SetOwnedElement(polygonElement);
+				mainComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElement);
+
+				TransferInternal(controlStyle, true, isSelected);
+			}
+
+			Win7TreeViewExpandingButtonStyle::~Win7TreeViewExpandingButtonStyle()
+			{
+			}
+
+			elements::GuiBoundsComposition* Win7TreeViewExpandingButtonStyle::GetBoundsComposition()
+			{
+				return mainComposition;
+			}
+
+			elements::GuiGraphicsComposition* Win7TreeViewExpandingButtonStyle::GetContainerComposition()
+			{
+				return mainComposition;
+			}
+
+			void Win7TreeViewExpandingButtonStyle::SetFocusableComposition(elements::GuiGraphicsComposition* value)
+			{
+			}
+
+			void Win7TreeViewExpandingButtonStyle::SetText(const WString& value)
+			{
+			}
+
+			void Win7TreeViewExpandingButtonStyle::SetFont(const FontProperties& value)
+			{
+			}
+
+			void Win7TreeViewExpandingButtonStyle::SetVisuallyEnabled(bool value)
+			{
+				if(isVisuallyEnabled!=value)
+				{
+					isVisuallyEnabled=value;
+					TransferInternal(controlStyle, isVisuallyEnabled, isSelected);
+				}
+			}
+
+			void Win7TreeViewExpandingButtonStyle::SetSelected(bool value)
+			{
+				if(isSelected!=value)
+				{
+					isSelected=value;
+					TransferInternal(controlStyle, isVisuallyEnabled, isSelected);
+				}
+			}
+
+			void Win7TreeViewExpandingButtonStyle::Transfer(GuiButton::ControlState value)
 			{
 				if(controlStyle!=value)
 				{
@@ -3099,7 +3213,7 @@ Win7TreeViewProvider
 
 			controls::GuiSelectableButton::IStyleController* Win7TreeViewProvider::CreateItemExpandingDecorator()
 			{
-				return new Win7CheckBoxStyle(Win7CheckBoxStyle::CheckBox, false);
+				return new Win7TreeViewExpandingButtonStyle;
 			}
 
 			Color Win7TreeViewProvider::GetTextColor()
