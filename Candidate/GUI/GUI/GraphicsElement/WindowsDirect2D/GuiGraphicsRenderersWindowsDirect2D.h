@@ -159,6 +159,7 @@ Renderers
 
 				void							CreateGeometry();
 				void							DestroyGeometry();
+				void							FillGeometry(Point offset);
 				void							RecreateResource(IWindowsDirect2DRenderTarget* oldRenderTarget, IWindowsDirect2DRenderTarget* newRenderTarget);
 				void							InitializeInternal();
 				void							FinalizeInternal();
