@@ -879,6 +879,16 @@ TreeViewNodeItemStyleProvider::ItemController
 					SwitchNodeExpanding();
 				}
 
+				void TreeViewNodeItemStyleProvider::ItemController::OnExpandingButtonDoubleClick(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments)
+				{
+					arguments.handled=true;
+				}
+
+				void TreeViewNodeItemStyleProvider::ItemController::OnExpandingButtonClicked(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
+				{
+					SwitchNodeExpanding();
+				}
+
 				TreeViewNodeItemStyleProvider::ItemController::ItemController(TreeViewNodeItemStyleProvider* _styleProvider)
 					:list::ItemStyleControllerBase(_styleProvider->GetBindedItemStyleProvider(), 0)
 					,styleProvider(_styleProvider)
@@ -909,6 +919,8 @@ TreeViewNodeItemStyleProvider::ItemController
 						expandingButton=new GuiSelectableButton(styleProvider->treeControl->GetTreeViewStyleProvider()->CreateItemExpandingDecorator());
 						expandingButton->SetAutoSelection(false);
 						expandingButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+						expandingButton->GetEventReceiver()->leftButtonDoubleClick.AttachMethod(this, &ItemController::OnExpandingButtonDoubleClick);
+						expandingButton->Clicked.AttachMethod(this, &ItemController::OnExpandingButtonClicked);
 						cell->AddChild(expandingButton->GetBoundsComposition());
 					}
 					{
@@ -957,8 +969,8 @@ TreeViewNodeItemStyleProvider::ItemController
 					text->SetColor(styleProvider->treeControl->GetTreeViewStyleProvider()->GetTextColor());
 					UpdateExpandingButton(node);
 
-					int level=0;
-					while(node->GetParent())
+					int level=-2;
+					while(node)
 					{
 						node=node->GetParent();
 						level++;
