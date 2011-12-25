@@ -867,6 +867,7 @@ TreeViewNodeItemStyleProvider::ItemController
 							{
 								bool expanding=node->GetExpanding();
 								node->SetExpanding(!expanding);
+								//UpdateExpandingButton(node);
 								view->ReleaseNode(node);
 							}
 						}
@@ -889,19 +890,31 @@ TreeViewNodeItemStyleProvider::ItemController
 
 					table=new GuiTableComposition;
 					backgroundButton->GetBoundsComposition()->AddChild(table);
-					table->SetRowsAndColumns(3, 3);
+					table->SetRowsAndColumns(3, 4);
 					table->SetRowOption(0, GuiCellOption::PercentageOption(0.5));
 					table->SetRowOption(1, GuiCellOption::MinSizeOption());
 					table->SetRowOption(2, GuiCellOption::PercentageOption(0.5));
 					table->SetColumnOption(0, GuiCellOption::AbsoluteOption(0));
 					table->SetColumnOption(1, GuiCellOption::MinSizeOption());
 					table->SetColumnOption(2, GuiCellOption::MinSizeOption());
+					table->SetColumnOption(3, GuiCellOption::MinSizeOption());
 					table->SetAlignmentToParent(Margin(0, 0, 0, 0));
 					table->SetCellPadding(2);
 					{
 						GuiCellComposition* cell=new GuiCellComposition;
 						table->AddChild(cell);
-						cell->SetSite(1, 1, 1, 1);
+						cell->SetSite(0, 1, 3, 1);
+						cell->SetPreferredMinSize(Size(16, 16));
+
+						expandingButton=new GuiSelectableButton(styleProvider->treeControl->GetTreeViewStyleProvider()->CreateItemExpandingDecorator());
+						expandingButton->SetAutoSelection(false);
+						expandingButton->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+						cell->AddChild(expandingButton->GetBoundsComposition());
+					}
+					{
+						GuiCellComposition* cell=new GuiCellComposition;
+						table->AddChild(cell);
+						cell->SetSite(1, 2, 1, 1);
 						cell->SetPreferredMinSize(Size(16, 16));
 
 						image=GuiImageFrameElement::Create();
@@ -911,7 +924,7 @@ TreeViewNodeItemStyleProvider::ItemController
 					{
 						GuiCellComposition* cell=new GuiCellComposition;
 						table->AddChild(cell);
-						cell->SetSite(0, 2, 3, 1);
+						cell->SetSite(0, 3, 3, 1);
 						cell->SetPreferredMinSize(Size(192, 0));
 
 						text=GuiSolidLabelElement::Create();
@@ -942,6 +955,7 @@ TreeViewNodeItemStyleProvider::ItemController
 					}
 					text->SetText(view->GetNodeText(node));
 					text->SetColor(styleProvider->treeControl->GetTreeViewStyleProvider()->GetTextColor());
+					UpdateExpandingButton(node);
 
 					int level=0;
 					while(node->GetParent())
@@ -962,6 +976,12 @@ TreeViewNodeItemStyleProvider::ItemController
 					backgroundButton->SetSelected(value);
 				}
 
+				void TreeViewNodeItemStyleProvider::ItemController::UpdateExpandingButton(INodeProvider* associatedNode)
+				{
+					expandingButton->SetSelected(associatedNode->GetExpanding());
+					expandingButton->SetVisible(associatedNode->GetChildCount()>0);
+				}
+
 /***********************************************************************
 TreeViewNodeItemStyleProvider
 ***********************************************************************/
@@ -975,6 +995,53 @@ TreeViewNodeItemStyleProvider
 
 				TreeViewNodeItemStyleProvider::~TreeViewNodeItemStyleProvider()
 				{
+				}
+
+				TreeViewNodeItemStyleProvider::ItemController* TreeViewNodeItemStyleProvider::GetRelatedController(INodeProvider* node)
+				{
+					int index=treeControl->GetNodeItemView()->CalculateNodeVisibilityIndex(node);
+					if(index!=-1)
+					{
+						GuiListControl::IItemStyleController* style=treeControl->GetArranger()->GetVisibleStyle(index);
+						if(style)
+						{
+							ItemController* itemController=dynamic_cast<ItemController*>(style);
+							return itemController;
+						}
+					}
+					return 0;
+				}
+
+				void TreeViewNodeItemStyleProvider::UpdateExpandingButton(INodeProvider* node)
+				{
+					ItemController* itemController=GetRelatedController(node);
+					if(itemController)
+					{
+						itemController->UpdateExpandingButton(node);
+					}
+				}
+
+				void TreeViewNodeItemStyleProvider::OnAttached(INodeRootProvider* provider)
+				{
+				}
+
+				void TreeViewNodeItemStyleProvider::OnBeforeItemModified(INodeProvider* parentNode, int start, int count, int newCount)
+				{
+				}
+
+				void TreeViewNodeItemStyleProvider::OnAfterItemModified(INodeProvider* parentNode, int start, int count, int newCount)
+				{
+					UpdateExpandingButton(parentNode);
+				}
+
+				void TreeViewNodeItemStyleProvider::OnItemExpanded(INodeProvider* node)
+				{
+					UpdateExpandingButton(node);
+				}
+
+				void TreeViewNodeItemStyleProvider::OnItemCollapsed(INodeProvider* node)
+				{
+					UpdateExpandingButton(node);
 				}
 
 				void TreeViewNodeItemStyleProvider::BindItemStyleProvider(GuiListControl::IItemStyleProvider* styleProvider)
@@ -993,6 +1060,7 @@ TreeViewNodeItemStyleProvider
 					if(treeControl)
 					{
 						treeViewItemView=dynamic_cast<ITreeViewItemView*>(treeControl->GetItemProvider()->RequestView(ITreeViewItemView::Identifier));
+						treeControl->GetNodeRootProvider()->AttachCallback(this);
 					}
 				}
 
@@ -1003,7 +1071,11 @@ TreeViewNodeItemStyleProvider
 						treeControl->GetItemProvider()->ReleaseView(treeViewItemView);
 						treeViewItemView=0;
 					}
-					treeControl=0;
+					if(treeControl)
+					{
+						treeControl->GetNodeRootProvider()->DetachCallback(this);
+						treeControl=0;
+					}
 				}
 
 				int TreeViewNodeItemStyleProvider::GetItemStyleId(INodeProvider* node)

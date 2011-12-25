@@ -322,6 +322,7 @@ TreeView
 				{
 				public:
 					virtual GuiSelectableButton::IStyleController*		CreateItemBackground()=0;
+					virtual GuiSelectableButton::IStyleController*		CreateItemExpandingDecorator()=0;
 					virtual Color										GetTextColor()=0;
 				};
 			protected:
@@ -337,7 +338,10 @@ TreeView
 
 			namespace tree
 			{
-				class TreeViewNodeItemStyleProvider : public Object, public virtual INodeItemStyleProvider
+				class TreeViewNodeItemStyleProvider
+					: public Object
+					, public virtual INodeItemStyleProvider
+					, protected virtual INodeProviderCallback
 				{
 				protected:
 #pragma warning(push)
@@ -347,6 +351,7 @@ TreeView
 					protected:
 						TreeViewNodeItemStyleProvider*		styleProvider;
 						GuiSelectableButton*				backgroundButton;
+						GuiSelectableButton*				expandingButton;
 						elements::GuiTableComposition*		table;
 						elements::GuiImageFrameElement*		image;
 						elements::GuiSolidLabelElement*		text;
@@ -361,6 +366,7 @@ TreeView
 
 						bool								GetSelected();
 						void								SetSelected(bool value);
+						void								UpdateExpandingButton(INodeProvider* associatedNode);
 					};
 #pragma warning(pop)
 
@@ -368,6 +374,14 @@ TreeView
 					GuiListControl::IItemStyleProvider*		bindedItemStyleProvider;
 					ITreeViewItemView*						treeViewItemView;
 
+				protected:
+					ItemController*							GetRelatedController(INodeProvider* node);
+					void									UpdateExpandingButton(INodeProvider* node);
+					void									OnAttached(INodeRootProvider* provider)override;
+					void									OnBeforeItemModified(INodeProvider* parentNode, int start, int count, int newCount)override;
+					void									OnAfterItemModified(INodeProvider* parentNode, int start, int count, int newCount)override;
+					void									OnItemExpanded(INodeProvider* node)override;
+					void									OnItemCollapsed(INodeProvider* node)override;
 				public:
 					TreeViewNodeItemStyleProvider();
 					~TreeViewNodeItemStyleProvider();
