@@ -40,7 +40,7 @@ void GuiMain()
 	{
 		window.GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 		GuiTreeView* treeControl=new GuiTreeView(new win7::Win7TreeViewProvider, CreateProvider());
-		treeControl->GetBoundsComposition()->SetPreferredMinSize(Size(400, 600));
+		treeControl->GetBoundsComposition()->SetPreferredMinSize(Size(100, 100));
 		treeControl->GetBoundsComposition()->SetAlignmentToParent(Margin(3, 3, 3, 3));
 		window.GetBoundsComposition()->AddChild(treeControl->GetBoundsComposition());
 	}
