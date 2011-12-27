@@ -104,6 +104,32 @@ const wchar_t* GetTagName(enum SymTagEnum symTag)
     }
     return L"";
 }
+ 
+const wchar_t* GetBasicTypeName(enum BasicType type)
+{
+    switch(type)
+    {
+	PROCESS(btNoType)
+    PROCESS(btVoid)
+    PROCESS(btChar)
+    PROCESS(btWChar)
+    PROCESS(btInt)
+    PROCESS(btUInt)
+    PROCESS(btFloat)
+    PROCESS(btBCD)
+    PROCESS(btBool)
+    PROCESS(btLong)
+    PROCESS(btULong)
+    PROCESS(btCurrency)
+    PROCESS(btDate)
+    PROCESS(btVariant)
+    PROCESS(btComplex)
+    PROCESS(btBit)
+    PROCESS(btBSTR)
+    PROCESS(btHresult)
+	}
+	return L"";
+}
 
 //---------------------------------------------------------------------------------
 
@@ -120,6 +146,7 @@ protected:
 	collections::Array<Ptr<DiaSymbolProvider>>	children;
 	bool										childrenFilled;
 	collections::SortedList<int>				expandedChildrenIndices;
+	WString										namePrefix;
 
 	void EnsureChildren()
 	{
@@ -160,7 +187,21 @@ protected:
 				{
 					LONG count=0;
 					pEnum->get_Count(&count);
-					children.Resize((int)count);
+
+					IDiaSymbol* typeSymbol=0;
+					GetDiaSymbol()->get_type(&typeSymbol);
+					if(typeSymbol)
+					{
+						children.Resize((int)count+1);
+						DiaSymbolProvider* typeProvider=new DiaSymbolProvider(this, (int)count, callbackProxy);
+						typeProvider->namePrefix=L"<SYMBOL-TYPE>";
+						typeProvider->diaSymbolLazyLoaded=typeSymbol;
+						children[count]=typeProvider;
+					}
+					else
+					{
+						children.Resize((int)count);
+					}
 				}
 				pEnum->Release();
 			}
@@ -306,15 +347,25 @@ public:
 
 	WString GetName()
 	{
-		BSTR name=0;
-		GetDiaSymbol()->get_name(&name);
-		WString symbolName=name?(wchar_t*)name:L"";
+		WString symbolName, tagName;
 
 		enum SymTagEnum tag=SymTagNull;
 		GetDiaSymbol()->get_symTag((DWORD*)&tag);
-		WString tagName=GetTagName(tag);
+		tagName=GetTagName(tag);
+		if(tag==SymTagBaseType)
+		{
+			enum BasicType type;
+			GetDiaSymbol()->get_baseType((DWORD*)&type);
+			symbolName=GetBasicTypeName(type);
+		}
+		else
+		{
+			BSTR name=0;
+			GetDiaSymbol()->get_name(&name);
+			symbolName=name?(wchar_t*)name:L"";
+		}
 
-		return tagName+L": "+symbolName;
+		return namePrefix+tagName+L": "+symbolName;
 	}
 
 	DiaSymbolProvider* GetNodeByVisibleIndex(int index)
