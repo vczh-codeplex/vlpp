@@ -130,6 +130,35 @@ const wchar_t* GetBasicTypeName(enum BasicType type)
 	}
 	return L"";
 }
+ 
+const wchar_t* GetDataKindName(enum DataKind kind)
+{
+    switch(kind)
+    {
+	PROCESS(DataIsUnknown)
+	PROCESS(DataIsLocal)
+	PROCESS(DataIsStaticLocal)
+	PROCESS(DataIsParam)
+	PROCESS(DataIsObjectPtr)
+	PROCESS(DataIsFileStatic)
+	PROCESS(DataIsGlobal)
+	PROCESS(DataIsMember)
+	PROCESS(DataIsStaticMember)
+	PROCESS(DataIsConstant)
+	}
+	return L"";
+}
+
+const wchar_t* GetAccessName(enum CV_access_e access)
+{
+    switch(access)
+    {
+	PROCESS(CV_private)
+	PROCESS(CV_protected)
+	PROCESS(CV_public)
+	}
+	return L"";
+}
 
 //---------------------------------------------------------------------------------
 
@@ -357,12 +386,28 @@ public:
 			enum BasicType type;
 			GetDiaSymbol()->get_baseType((DWORD*)&type);
 			symbolName=GetBasicTypeName(type);
+
+			ULONGLONG length=0;
+			GetDiaSymbol()->get_length(&length);
+			symbolName+=L" ("+vl::u64tow(length)+L" bytes)";
 		}
 		else
 		{
 			BSTR name=0;
 			GetDiaSymbol()->get_name(&name);
 			symbolName=name?(wchar_t*)name:L"";
+			if(tag==SymTagData)
+			{
+				enum DataKind kind;
+				GetDiaSymbol()->get_dataKind((DWORD*)&kind);
+				symbolName+=L" ("+WString(GetDataKindName(kind))+L")";
+			}
+		}
+
+		enum CV_access_e access;
+		if(SUCCEEDED(GetDiaSymbol()->get_access((DWORD*)&access)))
+		{
+			symbolName=L"<"+WString(GetAccessName(access))+L"> "+symbolName;
 		}
 
 		return namePrefix+tagName+L": "+symbolName;
