@@ -329,7 +329,7 @@ TreeView
 				IStyleProvider*								styleProvider;
 				Ptr<tree::TreeViewItemRootProvider>			nodes;
 			public:
-				GuiTreeView(IStyleProvider* _styleProvider);
+				GuiTreeView(IStyleProvider* _styleProvider, tree::INodeRootProvider* _nodeRootProvider=0);
 				~GuiTreeView();
 
 				IStyleProvider*								GetTreeViewStyleProvider();

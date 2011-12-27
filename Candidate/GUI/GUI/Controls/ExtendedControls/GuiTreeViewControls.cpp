@@ -1132,8 +1132,8 @@ TreeViewNodeItemStyleProvider
 GuiTreeView
 ***********************************************************************/
 
-			GuiTreeView::GuiTreeView(IStyleProvider* _styleProvider)
-				:GuiVirtualTreeListControl(_styleProvider, new tree::TreeViewItemRootProvider)
+			GuiTreeView::GuiTreeView(IStyleProvider* _styleProvider, tree::INodeRootProvider* _nodeRootProvider)
+				:GuiVirtualTreeListControl(_styleProvider, (_nodeRootProvider?_nodeRootProvider:new tree::TreeViewItemRootProvider))
 			{
 				styleProvider=dynamic_cast<IStyleProvider*>(styleController->GetStyleProvider());
 				nodes=nodeItemProvider->GetRoot().Cast<tree::TreeViewItemRootProvider>();

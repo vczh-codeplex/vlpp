@@ -1,0 +1,372 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{9d9ff3ed-06b1-4d17-b80f-10d833a1e87a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library">
+      <UniqueIdentifier>{43c35dc0-239d-4c85-8759-586b4c2c9f9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Basic">
+      <UniqueIdentifier>{38c98972-eebf-4bad-9352-967072f285ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Collections">
+      <UniqueIdentifier>{b7813fef-f14c-468f-a310-4f14e1e00db5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Entity">
+      <UniqueIdentifier>{5e4bb6e2-91ec-49e8-aea9-8aa80c702298}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Stream">
+      <UniqueIdentifier>{73611432-de19-43d8-90fa-655dd177afd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\Controls">
+      <UniqueIdentifier>{43548ed6-edeb-406f-880b-7a1dfa5e3c86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\GraphicsElement">
+      <UniqueIdentifier>{0dff5527-ff3b-4ef4-b21c-17ed143976d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\NativeWindow">
+      <UniqueIdentifier>{3b201ad2-f2ee-49d1-9812-6aa366864e72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\Controls\ExtendedControls">
+      <UniqueIdentifier>{0ef3fc8f-6dcc-4725-aaa8-63e762bb3ac6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\Controls\Styles">
+      <UniqueIdentifier>{56561b43-1460-4038-b621-2767b3bc5746}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\GraphicsElement\WindowsDirect2D">
+      <UniqueIdentifier>{90173c5d-6a34-4ef0-b032-2da54a204c81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\GraphicsElement\WindowsGDI">
+      <UniqueIdentifier>{7a946bf6-6e51-4e56-9bca-f351681c00b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\NativeWindow\Windows">
+      <UniqueIdentifier>{4cc08e47-d2b6-4552-b521-f12b7b1dfd8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\NativeWindow\Windows\Direct2D">
+      <UniqueIdentifier>{1664cd38-a065-422f-84e8-8bdebc23c20d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\NativeWindow\Windows\GDI">
+      <UniqueIdentifier>{67bf0be8-d0b4-450d-b89c-ea80cb3b2c3a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\Library\Basic.cpp">
+      <Filter>Library\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Exception.cpp">
+      <Filter>Library\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\String.cpp">
+      <Filter>Library\Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Collections\Operation.cpp">
+      <Filter>Library\Collections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Entity\TreeJson.cpp">
+      <Filter>Library\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Entity\TreeQuery.cpp">
+      <Filter>Library\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Entity\TreeXml.cpp">
+      <Filter>Library\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Stream\Accessor.cpp">
+      <Filter>Library\Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Stream\CharFormat.cpp">
+      <Filter>Library\Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Stream\FileStream.cpp">
+      <Filter>Library\Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\GacUI_WinMain.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\Controls\GuiApplication.cpp">
+      <Filter>GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\Controls\GuiBasicControls.cpp">
+      <Filter>GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\Controls\GuiListControls.cpp">
+      <Filter>GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\Controls\GuiTextControls.cpp">
+      <Filter>GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\Controls\GuiWindowControls.cpp">
+      <Filter>GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiContainerControls.cpp">
+      <Filter>GUI\Controls\ExtendedControls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiListViewControls.cpp">
+      <Filter>GUI\Controls\ExtendedControls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiMenuControls.cpp">
+      <Filter>GUI\Controls\ExtendedControls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiTextListControls.cpp">
+      <Filter>GUI\Controls\ExtendedControls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiTreeViewControls.cpp">
+      <Filter>GUI\Controls\ExtendedControls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\Controls\Styles\GuiCommonStyles.cpp">
+      <Filter>GUI\Controls\Styles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\Controls\Styles\GuiWin7Styles.cpp">
+      <Filter>GUI\Controls\Styles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsComposition.cpp">
+      <Filter>GUI\GraphicsElement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsElement.cpp">
+      <Filter>GUI\GraphicsElement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsEventReceiver.cpp">
+      <Filter>GUI\GraphicsElement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsHost.cpp">
+      <Filter>GUI\GraphicsElement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\GraphicsElement\GuiGraphicsTextElement.cpp">
+      <Filter>GUI\GraphicsElement</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\GraphicsElement\WindowsGDI\GuiGraphicsRenderersWindowsGDI.cpp">
+      <Filter>GUI\GraphicsElement\WindowsGDI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\GraphicsElement\WindowsGDI\GuiGraphicsWindowsGDI.cpp">
+      <Filter>GUI\GraphicsElement\WindowsGDI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\GraphicsElement\WindowsDirect2D\GuiGraphicsRenderersWindowsDirect2D.cpp">
+      <Filter>GUI\GraphicsElement\WindowsDirect2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\GraphicsElement\WindowsDirect2D\GuiGraphicsWindowsDirect2D.cpp">
+      <Filter>GUI\GraphicsElement\WindowsDirect2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\NativeWindow\GuiNativeWindow.cpp">
+      <Filter>GUI\NativeWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\NativeWindow\Windows\WinNativeWindow.cpp">
+      <Filter>GUI\NativeWindow\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\NativeWindow\Windows\Direct2D\WinDirect2DApplication.cpp">
+      <Filter>GUI\NativeWindow\Windows\Direct2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDI.cpp">
+      <Filter>GUI\NativeWindow\Windows\GDI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDIApplication.cpp">
+      <Filter>GUI\NativeWindow\Windows\GDI</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\Library\Basic.h">
+      <Filter>Library\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Event.h">
+      <Filter>Library\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Exception.h">
+      <Filter>Library\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Function.h">
+      <Filter>Library\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Pointer.h">
+      <Filter>Library\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\String.h">
+      <Filter>Library\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\Dictionary.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\DictionaryWrappers.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\Interfaces.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\List.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\ListWrappers.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\Operation.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\OperationAggregate.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\OperationConcat.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\OperationCopyFrom.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\OperationEnumerable.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\OperationForEach.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\OperationPair.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\OperationSelect.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\OperationSequence.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\OperationSet.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\OperationString.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\OperationWhere.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Collections\Pair.h">
+      <Filter>Library\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Entity\TreeJson.h">
+      <Filter>Library\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Entity\TreeQuery.h">
+      <Filter>Library\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Entity\TreeXml.h">
+      <Filter>Library\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Stream\Accessor.h">
+      <Filter>Library\Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Stream\CharFormat.h">
+      <Filter>Library\Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Stream\FileStream.h">
+      <Filter>Library\Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Stream\Interfaces.h">
+      <Filter>Library\Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\GacUI.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\GacVlppReferences.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\Controls\GuiApplication.h">
+      <Filter>GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\Controls\GuiBasicControls.h">
+      <Filter>GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\Controls\GuiListControls.h">
+      <Filter>GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\Controls\GuiTextControls.h">
+      <Filter>GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\Controls\GuiWindowControls.h">
+      <Filter>GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiContainerControls.h">
+      <Filter>GUI\Controls\ExtendedControls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiListViewControls.h">
+      <Filter>GUI\Controls\ExtendedControls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiMenuControls.h">
+      <Filter>GUI\Controls\ExtendedControls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiTextListControls.h">
+      <Filter>GUI\Controls\ExtendedControls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiTreeViewControls.h">
+      <Filter>GUI\Controls\ExtendedControls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\Controls\Styles\GuiCommonStyles.h">
+      <Filter>GUI\Controls\Styles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\Controls\Styles\GuiWin7Styles.h">
+      <Filter>GUI\Controls\Styles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsComposition.h">
+      <Filter>GUI\GraphicsElement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsElement.h">
+      <Filter>GUI\GraphicsElement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsEventReceiver.h">
+      <Filter>GUI\GraphicsElement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsHost.h">
+      <Filter>GUI\GraphicsElement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\GraphicsElement\GuiGraphicsTextElement.h">
+      <Filter>GUI\GraphicsElement</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\GraphicsElement\WindowsGDI\GuiGraphicsRenderersWindowsGDI.h">
+      <Filter>GUI\GraphicsElement\WindowsGDI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\GraphicsElement\WindowsGDI\GuiGraphicsWindowsGDI.h">
+      <Filter>GUI\GraphicsElement\WindowsGDI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\GraphicsElement\WindowsDirect2D\GuiGraphicsRenderersWindowsDirect2D.h">
+      <Filter>GUI\GraphicsElement\WindowsDirect2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\GraphicsElement\WindowsDirect2D\GuiGraphicsWindowsDirect2D.h">
+      <Filter>GUI\GraphicsElement\WindowsDirect2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\NativeWindow\GuiNativeWindow.h">
+      <Filter>GUI\NativeWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\NativeWindow\GuiTypes.h">
+      <Filter>GUI\NativeWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\NativeWindow\Windows\WinNativeWindow.h">
+      <Filter>GUI\NativeWindow\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\NativeWindow\Windows\Direct2D\WinDirect2DApplication.h">
+      <Filter>GUI\NativeWindow\Windows\Direct2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDI.h">
+      <Filter>GUI\NativeWindow\Windows\GDI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDIApplication.h">
+      <Filter>GUI\NativeWindow\Windows\GDI</Filter>
+    </ClInclude>
+    <ClInclude Include="cvconst.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dia2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="diacreate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
