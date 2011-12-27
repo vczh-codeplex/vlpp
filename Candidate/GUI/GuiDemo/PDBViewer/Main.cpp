@@ -1,4 +1,29 @@
 #include "..\..\GUI\GacUI.h"
+#include "dia2.h"
+
+#pragma comment(lib, "diaguids.lib")
+
+tree::INodeRootProvider* CreateProvider()
+{
+    IDiaDataSource* pSource=0;
+    IDiaSession* pSession=0;
+    IDiaSymbol* pSymbol=0;
+    CoInitialize(NULL);
+    HRESULT hr = CoCreateInstance(
+        CLSID_DiaSource,
+        NULL,
+        CLSCTX_INPROC_SERVER,
+        IID_IDiaDataSource,
+        (void**) &pSource
+        );
+    if(SUCCEEDED(hr))
+	if(SUCCEEDED(pSource->loadDataFromPdb(L"..\\Debug\\GuiDemo.pdb")))
+    if(SUCCEEDED(pSource->openSession(&pSession)))
+	if(SUCCEEDED(pSession->get_globalScope(&pSymbol)))
+	{
+	}
+	return 0;
+}
 
 void GuiMain()
 {
@@ -11,7 +36,7 @@ void GuiMain()
 #endif
 	{
 		window.GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
-		GuiTreeView* treeControl=new GuiTreeView(new win7::Win7TreeViewProvider);
+		GuiTreeView* treeControl=new GuiTreeView(new win7::Win7TreeViewProvider, CreateProvider());
 		treeControl->GetBoundsComposition()->SetPreferredMinSize(Size(400, 600));
 		treeControl->GetBoundsComposition()->SetAlignmentToParent(Margin(3, 3, 3, 3));
 		window.GetBoundsComposition()->AddChild(treeControl->GetBoundsComposition());
