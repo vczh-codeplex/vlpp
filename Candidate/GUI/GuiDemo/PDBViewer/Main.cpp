@@ -62,18 +62,78 @@ void GuiMain()
 
 //---------------------------------------------------------------------------------
 
+#define PROCESS(TAG) case TAG: return L#TAG;
+ 
+const wchar_t* GetTagName(enum SymTagEnum symTag)
+{
+    switch(symTag)
+    {
+	PROCESS(SymTagNull)
+	PROCESS(SymTagExe)
+	PROCESS(SymTagCompiland)
+	PROCESS(SymTagCompilandDetails)
+	PROCESS(SymTagCompilandEnv)
+	PROCESS(SymTagFunction)
+	PROCESS(SymTagBlock)
+	PROCESS(SymTagData)
+	PROCESS(SymTagAnnotation)
+	PROCESS(SymTagLabel)
+	PROCESS(SymTagPublicSymbol)
+	PROCESS(SymTagUDT)
+	PROCESS(SymTagEnum)
+	PROCESS(SymTagFunctionType)
+	PROCESS(SymTagPointerType)
+	PROCESS(SymTagArrayType)
+	PROCESS(SymTagBaseType)
+	PROCESS(SymTagTypedef)
+	PROCESS(SymTagBaseClass)
+	PROCESS(SymTagFriend)
+	PROCESS(SymTagFunctionArgType)
+	PROCESS(SymTagFuncDebugStart)
+	PROCESS(SymTagFuncDebugEnd)
+	PROCESS(SymTagUsingNamespace)
+	PROCESS(SymTagVTableShape)
+	PROCESS(SymTagVTable)
+	PROCESS(SymTagCustom)
+	PROCESS(SymTagThunk)
+	PROCESS(SymTagCustomType)
+	PROCESS(SymTagManagedType)
+	PROCESS(SymTagDimension)
+	PROCESS(SymTagCallSite)
+    PROCESS(SymTagMax)
+    }
+    return L"";
+}
+
+//---------------------------------------------------------------------------------
+
 class DiaSymbolProvider : public Object, public virtual tree::INodeProvider
 {
 protected:
 	INodeProvider*								parent;
 	bool										expanding;
 	int											totalVisibleNodes;
-	IDiaSymbol*									diaSymbol;
+	IDiaSymbol*									diaSymbolLazyLoaded;
+	int											diaSymbolIndex;
 	tree::INodeProviderCallback*				callbackProxy;
-	collections::List<Ptr<DiaSymbolProvider>>	children;
+	collections::Array<Ptr<DiaSymbolProvider>>	children;
+	bool										childrenFilled;
 
 	void EnsureChildren()
 	{
+		if(!childrenFilled)
+		{
+			childrenFilled=true;
+			IDiaEnumSymbols* pEnum=0;
+			GetDiaSymbol()->findChildren(SymTagNull, NULL, nsNone, &pEnum);
+			if(pEnum)
+			{
+				LONG count=0;
+				pEnum->get_Count(&count);
+				pEnum->Release();
+				children.Resize((int)count);
+			}
+		}
 	}
 
 	void OnChildTotalVisibleNodesChanged(int offset)
@@ -84,17 +144,48 @@ protected:
 			provider->OnChildTotalVisibleNodesChanged(offset);
 		}
 	}
+
+	IDiaSymbol* GetDiaSymbol()
+	{
+		if(!diaSymbolLazyLoaded)
+		{
+			IDiaEnumSymbols* pEnum=0;
+			IDiaSymbol* parentSymbol=dynamic_cast<DiaSymbolProvider*>(parent)->GetDiaSymbol();
+			parentSymbol->findChildren(SymTagNull, NULL, nsNone, &pEnum);
+			if(pEnum)
+			{
+				pEnum->Item(diaSymbolIndex, &diaSymbolLazyLoaded);
+				pEnum->Release();
+			}
+		}
+		return diaSymbolLazyLoaded;
+	}
 public:
-	DiaSymbolProvider(INodeProvider* _parent, IDiaSymbol* _symbol, tree::INodeProviderCallback* _callbackProxy)
+	DiaSymbolProvider(INodeProvider* _parent, int _diaSymbolIndex, tree::INodeProviderCallback* _callbackProxy)
 		:parent(_parent)
+		,expanding(false)
 		,totalVisibleNodes(1)
-		,diaSymbol(_symbol)
+		,diaSymbolLazyLoaded(0)
+		,diaSymbolIndex(_diaSymbolIndex)
 		,callbackProxy(_callbackProxy)
+		,childrenFilled(false)
+	{
+	}
+
+	DiaSymbolProvider(INodeProvider* _parent, IDiaSymbol* _diaSymbol, tree::INodeProviderCallback* _callbackProxy)
+		:parent(_parent)
+		,expanding(false)
+		,totalVisibleNodes(1)
+		,diaSymbolLazyLoaded(_diaSymbol)
+		,diaSymbolIndex(-1)
+		,callbackProxy(_callbackProxy)
+		,childrenFilled(false)
 	{
 	}
 
 	~DiaSymbolProvider()
 	{
+		if(diaSymbolLazyLoaded) diaSymbolLazyLoaded->Release();
 	}
 
 	bool GetExpanding()override
@@ -111,7 +202,7 @@ public:
 			EnsureChildren();
 			for(int i=0;i<children.Count();i++)
 			{
-				offset+=children[i]->totalVisibleNodes;
+				offset+=children[i]?children[i]->totalVisibleNodes:1;
 			}
 
 			OnChildTotalVisibleNodesChanged(expanding?offset:-offset);
@@ -147,6 +238,10 @@ public:
 		EnsureChildren();
 		if(0<=index && index<children.Count())
 		{
+			if(!children[index])
+			{
+				children[index]=new DiaSymbolProvider(this, index, callbackProxy);
+			}
 			return children[index].Obj();
 		}
 		else
@@ -158,12 +253,40 @@ public:
 	void ReleaseChild(INodeProvider* node)override
 	{
 	}
+
+	WString GetName()
+	{
+		BSTR name=0;
+		GetDiaSymbol()->get_name(&name);
+		WString symbolName=name?(wchar_t*)name:L"";
+
+		enum SymTagEnum tag=SymTagNull;
+		GetDiaSymbol()->get_symTag((DWORD*)&tag);
+		WString tagName=GetTagName(tag);
+
+		return tagName+L": "+symbolName;
+	}
 };
 
-class DiaSymbolRootProvider: public Object, public tree::NodeRootProviderBase, public tree::INodeProvider
+class DiaSymbolRootProvider
+	: public Object
+	, public tree::NodeRootProviderBase
+	, public tree::INodeProvider
+	, protected virtual tree::ITreeViewItemView
 {
 protected:
 	Ptr<DiaSymbolProvider>			exeSymbol;
+
+	Ptr<GuiImageData> GetNodeImage(INodeProvider* node)
+	{
+		return 0;
+	}
+
+	WString GetNodeText(INodeProvider* node)
+	{
+		DiaSymbolProvider* provider=dynamic_cast<DiaSymbolProvider*>(node);
+		return provider?provider->GetName():L"";
+	}
 public:
 	DiaSymbolRootProvider(IDiaSymbol* _symbol)
 	{
@@ -176,7 +299,7 @@ public:
 
 	tree::INodeProvider* GetRootNode()
 	{
-		return exeSymbol.Obj();
+		return this;
 	}
 
 	bool GetExpanding()override
@@ -214,7 +337,14 @@ public:
 
 	Interface* RequestView(const WString& identifier)override
 	{
-		return tree::NodeRootProviderBase::RequestView(identifier);
+		if(identifier==tree::ITreeViewItemView::Identifier)
+		{
+			return (tree::ITreeViewItemView*)this;
+		}
+		else
+		{
+			return NodeRootProviderBase::RequestView(identifier);
+		}
 	}
 
 	void ReleaseView(Interface* view)override
