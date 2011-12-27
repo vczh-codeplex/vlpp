@@ -62,6 +62,8 @@ GuiVirtualTreeListControl NodeProvider
 				{
 				public:
 					virtual INodeProvider*			GetRootNode()=0;
+					virtual bool					CanGetNodeByVisibleIndex()=0;
+					virtual INodeProvider*			GetNodeByVisibleIndex(int index)=0;
 					virtual bool					AttachCallback(INodeProviderCallback* value)=0;
 					virtual bool					DetachCallback(INodeProviderCallback* value)=0;
 					virtual Interface*				RequestView(const WString& identifier)=0;
@@ -238,7 +240,9 @@ GuiVirtualTreeListControl Predefined NodeProvider
 				public:
 					NodeRootProviderBase();
 					~NodeRootProviderBase();
-
+					
+					bool							CanGetNodeByVisibleIndex()override;
+					INodeProvider*					GetNodeByVisibleIndex(int index)override;
 					bool							AttachCallback(INodeProviderCallback* value)override;
 					bool							DetachCallback(INodeProviderCallback* value)override;
 					Interface*						RequestView(const WString& identifier)override;

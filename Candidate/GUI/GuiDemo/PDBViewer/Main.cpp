@@ -116,8 +116,10 @@ protected:
 	IDiaSymbol*									diaSymbolLazyLoaded;
 	int											diaSymbolIndex;
 	tree::INodeProviderCallback*				callbackProxy;
+
 	collections::Array<Ptr<DiaSymbolProvider>>	children;
 	bool										childrenFilled;
+	collections::SortedList<int>				expandedChildrenIndices;
 
 	void EnsureChildren()
 	{
@@ -128,10 +130,39 @@ protected:
 			GetDiaSymbol()->findChildren(SymTagNull, NULL, nsNone, &pEnum);
 			if(pEnum)
 			{
-				LONG count=0;
-				pEnum->get_Count(&count);
+				enum SymTagEnum tag=SymTagNull;
+				GetDiaSymbol()->get_symTag((DWORD*)&tag);
+				if(tag==SymTagExe)
+				{
+					collections::List<Ptr<DiaSymbolProvider>> compilands;
+					DWORD celt=0;
+					while(true)
+					{
+						IDiaSymbol* child=0;
+						if(pEnum->Next(1, &child, &celt)!=S_OK) break;
+						if(celt==0 || !child) break;
+
+						child->get_symTag((DWORD*)&tag);
+						if(tag==SymTagCompiland)
+						{
+							DiaSymbolProvider* provider=new DiaSymbolProvider(this, compilands.Count(), callbackProxy);
+							provider->diaSymbolLazyLoaded=child;
+							compilands.Add(provider);
+						}
+						else
+						{
+							child->Release();
+						}
+					}
+					collections::CopyFrom(children.Wrap(), compilands.Wrap());
+				}
+				else
+				{
+					LONG count=0;
+					pEnum->get_Count(&count);
+					children.Resize((int)count);
+				}
 				pEnum->Release();
-				children.Resize((int)count);
 			}
 		}
 	}
@@ -159,6 +190,23 @@ protected:
 			}
 		}
 		return diaSymbolLazyLoaded;
+	}
+
+	DiaSymbolProvider* RequestChildInternal(int index)
+	{
+		EnsureChildren();
+		if(0<=index && index<children.Count())
+		{
+			if(!children[index])
+			{
+				children[index]=new DiaSymbolProvider(this, index, callbackProxy);
+			}
+			return children[index].Obj();
+		}
+		else
+		{
+			return 0;
+		}
 	}
 public:
 	DiaSymbolProvider(INodeProvider* _parent, int _diaSymbolIndex, tree::INodeProviderCallback* _callbackProxy)
@@ -206,6 +254,20 @@ public:
 			}
 
 			OnChildTotalVisibleNodesChanged(expanding?offset:-offset);
+
+			DiaSymbolProvider* provider=dynamic_cast<DiaSymbolProvider*>(parent);
+			if(provider)
+			{
+				if(expanding)
+				{
+					provider->expandedChildrenIndices.Add(diaSymbolIndex);
+				}
+				else
+				{
+					provider->expandedChildrenIndices.Remove(diaSymbolIndex);
+				}
+			}
+
 			if(expanding)
 			{
 				callbackProxy->OnItemExpanded(this);
@@ -235,19 +297,7 @@ public:
 
 	INodeProvider* RequestChild(int index)override
 	{
-		EnsureChildren();
-		if(0<=index && index<children.Count())
-		{
-			if(!children[index])
-			{
-				children[index]=new DiaSymbolProvider(this, index, callbackProxy);
-			}
-			return children[index].Obj();
-		}
-		else
-		{
-			return 0;
-		}
+		return RequestChildInternal(index);
 	}
 
 	void ReleaseChild(INodeProvider* node)override
@@ -265,6 +315,36 @@ public:
 		WString tagName=GetTagName(tag);
 
 		return tagName+L": "+symbolName;
+	}
+
+	DiaSymbolProvider* GetNodeByVisibleIndex(int index)
+	{
+		if(index<=0)
+		{
+			return this;
+		}
+		else
+		{
+			EnsureChildren();
+			index-=1;
+			int totalExpandedCount=0;
+			for(int i=0;i<expandedChildrenIndices.Count();i++)
+			{
+				int expandedIndex=expandedChildrenIndices[i];
+				int expandedCount=children[expandedIndex]->totalVisibleNodes;
+				int startIndex=expandedIndex+totalExpandedCount;
+				if(index<startIndex)
+				{
+					return RequestChildInternal(index-totalExpandedCount);
+				}
+				else if(index<startIndex+expandedCount)
+				{
+					return children[expandedIndex]->GetNodeByVisibleIndex(index-startIndex);
+				}
+				totalExpandedCount+=expandedCount-1;
+			}
+			return RequestChildInternal(index-totalExpandedCount);
+		}
 	}
 };
 
@@ -301,6 +381,16 @@ public:
 	{
 		return this;
 	}
+
+	bool CanGetNodeByVisibleIndex()
+	{
+		return true;
+	}
+
+	tree::INodeProvider* GetNodeByVisibleIndex(int index)
+	{
+		return exeSymbol->GetNodeByVisibleIndex(index-1);
+	};
 
 	bool GetExpanding()override
 	{

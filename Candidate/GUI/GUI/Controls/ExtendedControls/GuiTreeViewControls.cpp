@@ -179,7 +179,14 @@ NodeItemProvider
 
 				INodeProvider* NodeItemProvider::RequestNode(int index)
 				{
-					return GetNodeByOffset(root->GetRootNode(), index+1);
+					if(root->CanGetNodeByVisibleIndex())
+					{
+						return root->GetNodeByVisibleIndex(index+1);
+					}
+					else
+					{
+						return GetNodeByOffset(root->GetRootNode(), index+1);
+					}
 				}
 
 				void NodeItemProvider::ReleaseNode(INodeProvider* node)
@@ -682,6 +689,16 @@ NodeRootProviderBase
 
 				NodeRootProviderBase::~NodeRootProviderBase()
 				{
+				}
+
+				bool NodeRootProviderBase::CanGetNodeByVisibleIndex()
+				{
+					return false;
+				}
+
+				INodeProvider* NodeRootProviderBase::GetNodeByVisibleIndex(int index)
+				{
+					return 0;
 				}
 
 				bool NodeRootProviderBase::AttachCallback(INodeProviderCallback* value)
