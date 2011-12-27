@@ -176,7 +176,7 @@ GuiVirtualTreeListControl Predefined NodeProvider
 					typedef collections::IList<Ptr<MemoryNodeProvider>> IChildList;
 					typedef collections::IEnumerator<Ptr<MemoryNodeProvider>> ChildListEnumerator;
 				protected:
-					MemoryNodeProvider*			parent;
+					MemoryNodeProvider*				parent;
 					bool							expanding;
 					int								childCount;
 					int								totalVisibleNodeCount;
@@ -226,30 +226,36 @@ GuiVirtualTreeListControl Predefined NodeProvider
 					void							ReleaseChild(INodeProvider* node)override;
 				};
 
-				class MemoryNodeRootProvider
-					: public MemoryNodeProvider
-					, public virtual INodeRootProvider
-					, private virtual INodeProviderCallback
+				class NodeRootProviderBase : public virtual INodeRootProvider, protected virtual INodeProviderCallback
 				{
+					collections::List<INodeProviderCallback*>			callbacks;
 				protected:
-					collections::List<INodeProviderCallback*>		callbacks;
-
-					INodeProviderCallback*			GetCallbackProxyInternal()override;
-				private:
 					void							OnAttached(INodeRootProvider* provider)override;
 					void							OnBeforeItemModified(INodeProvider* parentNode, int start, int count, int newCount)override;
 					void							OnAfterItemModified(INodeProvider* parentNode, int start, int count, int newCount)override;
 					void							OnItemExpanded(INodeProvider* node)override;
 					void							OnItemCollapsed(INodeProvider* node)override;
 				public:
-					MemoryNodeRootProvider();
-					~MemoryNodeRootProvider();
+					NodeRootProviderBase();
+					~NodeRootProviderBase();
 
-					INodeProvider*					GetRootNode()override;
 					bool							AttachCallback(INodeProviderCallback* value)override;
 					bool							DetachCallback(INodeProviderCallback* value)override;
 					Interface*						RequestView(const WString& identifier)override;
 					void							ReleaseView(Interface* view)override;
+				};
+
+				class MemoryNodeRootProvider
+					: public MemoryNodeProvider
+					, public NodeRootProviderBase
+				{
+				protected:
+					INodeProviderCallback*			GetCallbackProxyInternal()override;
+				public:
+					MemoryNodeRootProvider();
+					~MemoryNodeRootProvider();
+
+					INodeProvider*					GetRootNode()override;
 				};
 			}
 
