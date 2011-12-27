@@ -637,19 +637,14 @@ MemoryNodeProvider
 				}
 
 /***********************************************************************
-MemoryNodeRootProvider
+NodeRootProviderBase
 ***********************************************************************/
 
-				INodeProviderCallback* MemoryNodeRootProvider::GetCallbackProxyInternal()
-				{
-					return this;
-				}
-
-				void MemoryNodeRootProvider::OnAttached(INodeRootProvider* provider)
+				void NodeRootProviderBase::OnAttached(INodeRootProvider* provider)
 				{
 				}
 
-				void MemoryNodeRootProvider::OnBeforeItemModified(INodeProvider* parentNode, int start, int count, int newCount)
+				void NodeRootProviderBase::OnBeforeItemModified(INodeProvider* parentNode, int start, int count, int newCount)
 				{
 					for(int i=0;i<callbacks.Count();i++)
 					{
@@ -657,7 +652,7 @@ MemoryNodeRootProvider
 					}
 				}
 
-				void MemoryNodeRootProvider::OnAfterItemModified(INodeProvider* parentNode, int start, int count, int newCount)
+				void NodeRootProviderBase::OnAfterItemModified(INodeProvider* parentNode, int start, int count, int newCount)
 				{
 					for(int i=0;i<callbacks.Count();i++)
 					{
@@ -665,7 +660,7 @@ MemoryNodeRootProvider
 					}
 				}
 
-				void MemoryNodeRootProvider::OnItemExpanded(INodeProvider* node)
+				void NodeRootProviderBase::OnItemExpanded(INodeProvider* node)
 				{
 					for(int i=0;i<callbacks.Count();i++)
 					{
@@ -673,7 +668,7 @@ MemoryNodeRootProvider
 					}
 				}
 
-				void MemoryNodeRootProvider::OnItemCollapsed(INodeProvider* node)
+				void NodeRootProviderBase::OnItemCollapsed(INodeProvider* node)
 				{
 					for(int i=0;i<callbacks.Count();i++)
 					{
@@ -681,21 +676,15 @@ MemoryNodeRootProvider
 					}
 				}
 
-				MemoryNodeRootProvider::MemoryNodeRootProvider()
-				{
-					SetExpanding(true);
-				}
-
-				MemoryNodeRootProvider::~MemoryNodeRootProvider()
+				NodeRootProviderBase::NodeRootProviderBase()
 				{
 				}
 
-				INodeProvider* MemoryNodeRootProvider::GetRootNode()
+				NodeRootProviderBase::~NodeRootProviderBase()
 				{
-					return this;
 				}
 
-				bool MemoryNodeRootProvider::AttachCallback(INodeProviderCallback* value)
+				bool NodeRootProviderBase::AttachCallback(INodeProviderCallback* value)
 				{
 					if(callbacks.Contains(value))
 					{
@@ -709,7 +698,7 @@ MemoryNodeRootProvider
 					}
 				}
 
-				bool MemoryNodeRootProvider::DetachCallback(INodeProviderCallback* value)
+				bool NodeRootProviderBase::DetachCallback(INodeProviderCallback* value)
 				{
 					int index=callbacks.IndexOf(value);
 					if(index==-1)
@@ -724,13 +713,36 @@ MemoryNodeRootProvider
 					}
 				}
 
-				Interface* MemoryNodeRootProvider::RequestView(const WString& identifier)
+				Interface* NodeRootProviderBase::RequestView(const WString& identifier)
 				{
 					return 0;
 				}
 
-				void MemoryNodeRootProvider::ReleaseView(Interface* view)
+				void NodeRootProviderBase::ReleaseView(Interface* view)
 				{
+				}
+
+/***********************************************************************
+MemoryNodeRootProvider
+***********************************************************************/
+
+				INodeProviderCallback* MemoryNodeRootProvider::GetCallbackProxyInternal()
+				{
+					return this;
+				}
+
+				MemoryNodeRootProvider::MemoryNodeRootProvider()
+				{
+					SetExpanding(true);
+				}
+
+				MemoryNodeRootProvider::~MemoryNodeRootProvider()
+				{
+				}
+
+				INodeProvider* MemoryNodeRootProvider::GetRootNode()
+				{
+					return this;
 				}
 			}
 
