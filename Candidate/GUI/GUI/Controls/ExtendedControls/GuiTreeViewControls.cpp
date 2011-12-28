@@ -896,7 +896,6 @@ TreeViewNodeItemStyleProvider::ItemController
 							{
 								bool expanding=node->GetExpanding();
 								node->SetExpanding(!expanding);
-								//UpdateExpandingButton(node);
 								view->ReleaseNode(node);
 							}
 						}
@@ -905,7 +904,10 @@ TreeViewNodeItemStyleProvider::ItemController
 
 				void TreeViewNodeItemStyleProvider::ItemController::OnBackgroundButtonDoubleClick(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments)
 				{
-					SwitchNodeExpanding();
+					if(backgroundButton->GetVisuallyEnabled())
+					{
+						SwitchNodeExpanding();
+					}
 				}
 
 				void TreeViewNodeItemStyleProvider::ItemController::OnExpandingButtonDoubleClick(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments)
@@ -915,7 +917,10 @@ TreeViewNodeItemStyleProvider::ItemController
 
 				void TreeViewNodeItemStyleProvider::ItemController::OnExpandingButtonClicked(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 				{
-					SwitchNodeExpanding();
+					if(expandingButton->GetVisuallyEnabled())
+					{
+						SwitchNodeExpanding();
+					}
 				}
 
 				TreeViewNodeItemStyleProvider::ItemController::ItemController(TreeViewNodeItemStyleProvider* _styleProvider)
