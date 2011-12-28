@@ -160,6 +160,20 @@ const wchar_t* GetAccessName(enum CV_access_e access)
 	return L"";
 }
 
+const wchar_t* GetCallingConversionName(enum CV_call_e callconv)
+{
+    switch(callconv)
+    {
+	PROCESS(CV_CALL_NEAR_C)
+	PROCESS(CV_CALL_NEAR_FAST)
+	PROCESS(CV_CALL_NEAR_STD)
+	PROCESS(CV_CALL_NEAR_SYS)
+	PROCESS(CV_CALL_THISCALL)
+	PROCESS(CV_CALL_CLRCALL)
+	}
+	return L"";
+}
+
 //---------------------------------------------------------------------------------
 
 class DiaSymbolProvider : public Object, public virtual tree::INodeProvider
@@ -431,6 +445,24 @@ public:
 				if(boolValue)
 				{
 					symbolName=L"<VOLATILE> "+symbolName;
+				}
+			}
+		}
+		if(tag==SymTagFunctionType)
+		{
+			enum CV_call_e callconv;
+			if(SUCCEEDED(GetDiaSymbol()->get_callingConvention((DWORD*)&callconv)))
+			{
+				switch(callconv)
+				{
+				case CV_CALL_NEAR_C:
+				case CV_CALL_NEAR_FAST:
+				case CV_CALL_NEAR_STD:
+				case CV_CALL_NEAR_SYS:
+				case CV_CALL_THISCALL:
+				case CV_CALL_CLRCALL:
+					symbolName=L"<"+WString(GetCallingConversionName(callconv))+L"> "+symbolName;
+					break;
 				}
 			}
 		}
