@@ -546,6 +546,11 @@ namespace dumppdb
 			DumpMethods(file, classSymbol);
 			PrintXMLClose(file, 1, L"class");
 		}
+		for(int i=0;i<udtSymbols.Count();i++)
+		{
+			udtSymbols.Values()[i]->Release();
+		}
+		udtSymbols.Clear();
 	}
 
 	void DumpPdbToXml(IDiaSymbol* exeSymbol, const wchar_t* xml)
