@@ -176,6 +176,7 @@
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDI.cpp" />
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDIApplication.cpp" />
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\WinNativeWindow.cpp" />
+    <ClCompile Include="DumpPDB.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
