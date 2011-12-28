@@ -891,16 +891,22 @@ ListViewColumnItemArranger
 
 				void ListViewColumnItemArranger::ColumnHeaderSplitterLeftButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments)
 				{
-					arguments.handled=true;
-					splitterDragging=true;
-					splitterLatestX=arguments.x;
+					if(listView->GetVisuallyEnabled())
+					{
+						arguments.handled=true;
+						splitterDragging=true;
+						splitterLatestX=arguments.x;
+					}
 				}
 
 				void ListViewColumnItemArranger::ColumnHeaderSplitterLeftButtonUp(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments)
 				{
-					arguments.handled=true;
-					splitterDragging=false;
-					splitterLatestX=0;
+					if(listView->GetVisuallyEnabled())
+					{
+						arguments.handled=true;
+						splitterDragging=false;
+						splitterLatestX=0;
+					}
 				}
 
 				void ListViewColumnItemArranger::ColumnHeaderSplitterMouseMove(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments)

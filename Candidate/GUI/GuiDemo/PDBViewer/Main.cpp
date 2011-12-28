@@ -3,9 +3,14 @@
 
 #pragma comment(lib, "diaguids.lib")
 
+namespace dumppdb
+{
+	extern void DumpPdbToXml(IDiaSymbol* exeSymbol, const wchar_t* xml);
+}
+
 extern tree::INodeRootProvider* CreateProviderFromDiaSymbol(IDiaSymbol* symbol);
 
-tree::INodeRootProvider* CreateProvider()
+IDiaSymbol* CreateDiaSymbol()
 {
     IDiaDataSource* pSource=0;
     IDiaSession* pSession=0;
@@ -23,7 +28,7 @@ tree::INodeRootProvider* CreateProvider()
     if(SUCCEEDED(pSource->openSession(&pSession)))
 	if(SUCCEEDED(pSession->get_globalScope(&pSymbol)))
 	{
-		return CreateProviderFromDiaSymbol(pSymbol);
+		return pSymbol;
 	}
 	return 0;
 }
@@ -38,11 +43,47 @@ void GuiMain()
 	window.SetText(L"PDB Viewer (Direct2D)");
 #endif
 	{
+		IDiaSymbol* diaSymbol=CreateDiaSymbol();
+		GuiButton* buttonDump=0;
+		GuiTreeView* treeControl=0;
 		window.GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
-		GuiTreeView* treeControl=new GuiTreeView(new win7::Win7TreeViewProvider, CreateProvider());
-		treeControl->GetBoundsComposition()->SetPreferredMinSize(Size(100, 100));
-		treeControl->GetBoundsComposition()->SetAlignmentToParent(Margin(3, 3, 3, 3));
-		window.GetBoundsComposition()->AddChild(treeControl->GetBoundsComposition());
+
+		GuiTableComposition* table=new GuiTableComposition;
+		table->SetAlignmentToParent(Margin(2, 2, 2, 2));
+		table->SetRowsAndColumns(2, 1);
+		table->SetRowOption(0, GuiCellOption::MinSizeOption());
+		table->SetRowOption(1, GuiCellOption::PercentageOption(1.0));
+		table->SetColumnOption(0, GuiCellOption::PercentageOption(1.0));
+		table->SetCellPadding(3);
+		window.GetBoundsComposition()->AddChild(table);
+		{
+			GuiCellComposition* cell=new GuiCellComposition;
+			table->AddChild(cell);
+			cell->SetSite(0, 0, 1, 1);
+
+			buttonDump=new GuiButton(new win7::Win7ButtonStyle);
+			buttonDump->SetText(L"Dump PDB to GuiDemo.XML");
+			cell->AddChild(buttonDump->GetBoundsComposition());
+		}
+		{
+			GuiCellComposition* cell=new GuiCellComposition;
+			table->AddChild(cell);
+			cell->SetSite(1, 0, 1, 1);
+
+			treeControl=new GuiTreeView(new win7::Win7TreeViewProvider, CreateProviderFromDiaSymbol(diaSymbol));
+			treeControl->GetBoundsComposition()->SetPreferredMinSize(Size(100, 100));
+			treeControl->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+			cell->AddChild(treeControl->GetBoundsComposition());
+		}
+
+		buttonDump->Clicked.AttachLambda([buttonDump, treeControl](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
+		{
+			INativeController* controller=GetCurrentController();
+			treeControl->SetEnabled(false);
+			buttonDump->SetEnabled(false);
+			buttonDump->SetText(L"Dumping...");
+			buttonDump->GetRelatedControlHost()->GetBoundsComposition()->SetAssociatedCursor(controller->GetSystemCursor(INativeCursor::LargeWaiting));
+		});
 	}
 
 	window.SetClientSize(Size(800, 600));
