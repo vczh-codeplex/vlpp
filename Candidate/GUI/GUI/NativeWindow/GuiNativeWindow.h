@@ -278,12 +278,18 @@ Native Window Provider
 		class INativeController : public Interface
 		{
 		public:
+			typedef void (AsyncTaskProc)(void* arguments);
+
 			virtual INativeCursor*			GetSystemCursor(INativeCursor::SystemCursorType type)=0;
 			virtual INativeCursor*			GetDefaultSystemCursor()=0;
 			virtual INativeWindow*			CreateNativeWindow()=0;
 			virtual void					DestroyNativeWindow(INativeWindow* window)=0;
 			virtual INativeWindow*			GetMainWindow()=0;
 			virtual void					Run(INativeWindow* window)=0;
+
+			virtual bool					IsInMainThread()=0;
+			virtual void					InvokeInMainThread(AsyncTaskProc* proc, void* argument)=0;
+			virtual bool					InvokeInMainThreadAndWait(AsyncTaskProc* proc, void* argument, int milliseconds=-1)=0;
 
 			virtual FontProperties			GetDefaultFont()=0;
 			virtual void					SetDefaultFont(const FontProperties& value)=0;

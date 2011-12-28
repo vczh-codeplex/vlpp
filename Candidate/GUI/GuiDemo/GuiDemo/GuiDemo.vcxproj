@@ -163,6 +163,7 @@
     <ClCompile Include="..\..\..\..\Library\Stream\CharFormat.cpp" />
     <ClCompile Include="..\..\..\..\Library\Stream\FileStream.cpp" />
     <ClCompile Include="..\..\..\..\Library\String.cpp" />
+    <ClCompile Include="..\..\..\..\Library\Threading.cpp" />
     <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiContainerControls.cpp" />
     <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiListViewControls.cpp" />
     <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiMenuControls.cpp" />
@@ -225,6 +226,7 @@
     <ClInclude Include="..\..\..\..\Library\Stream\FileStream.h" />
     <ClInclude Include="..\..\..\..\Library\Stream\Interfaces.h" />
     <ClInclude Include="..\..\..\..\Library\String.h" />
+    <ClInclude Include="..\..\..\..\Library\Threading.h" />
     <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiContainerControls.h" />
     <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiListViewControls.h" />
     <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiMenuControls.h" />
