@@ -403,11 +403,50 @@ public:
 				symbolName+=L" ("+WString(GetDataKindName(kind))+L")";
 			}
 		}
-
-		enum CV_access_e access;
-		if(SUCCEEDED(GetDiaSymbol()->get_access((DWORD*)&access)))
 		{
-			symbolName=L"<"+WString(GetAccessName(access))+L"> "+symbolName;
+			BOOL boolValue=FALSE;
+			if(SUCCEEDED(GetDiaSymbol()->get_constType(&boolValue)))
+			{
+				if(boolValue)
+				{
+					symbolName=L"<CONST> "+symbolName;
+				}
+			}
+			if(SUCCEEDED(GetDiaSymbol()->get_reference(&boolValue)))
+			{
+				if(boolValue)
+				{
+					symbolName=L"<L-REF> "+symbolName;
+				}
+			}
+			if(SUCCEEDED(GetDiaSymbol()->get_RValueReference(&boolValue)))
+			{
+				if(boolValue)
+				{
+					symbolName=L"<R-REF> "+symbolName;
+				}
+			}
+			if(SUCCEEDED(GetDiaSymbol()->get_volatileType(&boolValue)))
+			{
+				if(boolValue)
+				{
+					symbolName=L"<VOLATILE> "+symbolName;
+				}
+			}
+		}
+		{
+			enum CV_access_e access;
+			if(SUCCEEDED(GetDiaSymbol()->get_access((DWORD*)&access)))
+			{
+				switch(access)
+				{
+				case CV_private:
+				case CV_protected:
+				case CV_public:
+					symbolName=L"<"+WString(GetAccessName(access))+L"> "+symbolName;
+					break;
+				}
+			}
 		}
 
 		return namePrefix+tagName+L": "+symbolName;
