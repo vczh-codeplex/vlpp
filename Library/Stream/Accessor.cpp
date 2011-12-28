@@ -104,7 +104,7 @@ TextReader
 TextWriter
 ***********************************************************************/
 
-		void TextWriter::WriteString(const wchar_t* string)
+		void TextWriter::WriteString(const wchar_t* string, int charCount)
 		{
 			while(*string)
 			{
@@ -112,24 +112,35 @@ TextWriter
 			}
 		}
 
+		void TextWriter::WriteString(const wchar_t* string)
+		{
+			WriteString(string, (vint)wcslen(string));
+		}
+
 		void TextWriter::WriteString(const WString& string)
 		{
 			if(string.Length())
 			{
-				WriteString(string.Buffer());
+				WriteString(string.Buffer(), string.Length());
 			}
+		}
+
+		void TextWriter::WriteLine(const wchar_t* string, int charCount)
+		{
+			WriteString(string, charCount);
+			WriteString(L"\r\n", 2);
 		}
 
 		void TextWriter::WriteLine(const wchar_t* string)
 		{
 			WriteString(string);
-			WriteString(L"\r\n");
+			WriteString(L"\r\n", 2);
 		}
 
 		void TextWriter::WriteLine(const WString& string)
 		{
 			WriteString(string);
-			WriteString(L"\r\n");
+			WriteString(L"\r\n", 2);
 		}
 
 /***********************************************************************
@@ -181,14 +192,9 @@ StreamWriter
 			stream->Write(&c, sizeof(c));
 		}
 
-		void StreamWriter::WriteString(const wchar_t* string)
+		void StreamWriter::WriteString(const wchar_t* string, vint charCount)
 		{
-			stream->Write((void*)string, wcslen(string)*sizeof(*string));
-		}
-
-		void StreamWriter::WriteString(const WString& string)
-		{
-			stream->Write((void*)string.Buffer(), string.Length()*sizeof(wchar_t));
+			stream->Write((void*)string, charCount*sizeof(*string));
 		}
 
 /***********************************************************************

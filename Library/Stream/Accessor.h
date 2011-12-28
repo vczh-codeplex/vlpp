@@ -41,8 +41,10 @@ namespace vl
 		{
 		public:
 			virtual void				WriteChar(wchar_t c)=0;
+			virtual void				WriteString(const wchar_t* string, vint charCount);
 			virtual void				WriteString(const wchar_t* string);
 			virtual void				WriteString(const WString& string);
+			virtual void				WriteLine(const wchar_t* string, vint charCount);
 			virtual void				WriteLine(const wchar_t* string);
 			virtual void				WriteLine(const WString& string);
 		};
@@ -64,10 +66,10 @@ namespace vl
 			IStream*					stream;
 		public:
 			StreamWriter(IStream& _stream);
+			using TextWriter::WriteString;
 
 			void						WriteChar(wchar_t c);
-			void						WriteString(const wchar_t* string);
-			void						WriteString(const WString& string);
+			void						WriteString(const wchar_t* string, vint charCount);
 		};
 
 /***********************************************************************
