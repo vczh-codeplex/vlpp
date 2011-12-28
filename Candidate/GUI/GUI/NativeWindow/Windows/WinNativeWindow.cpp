@@ -1433,19 +1433,19 @@ WindowsInvoker
 			public:
 				struct TaskItem
 				{
-					Mutex*								mutex;
+					Semaphore*							semaphore;
 					INativeController::AsyncTaskProc*	proc;
 					void*								argument;
 
 					TaskItem()
-						:mutex(0)
+						:semaphore(0)
 						,proc(0)
 						,argument(0)
 					{
 					}
 
-					TaskItem(Mutex* _mutex, INativeController::AsyncTaskProc* _proc, void* _argument)
-						:mutex(_mutex)
+					TaskItem(Semaphore* _semaphore, INativeController::AsyncTaskProc* _proc, void* _argument)
+						:semaphore(_semaphore)
 						,proc(_proc)
 						,argument(_argument)
 					{
@@ -1484,9 +1484,9 @@ WindowsInvoker
 					{
 						TaskItem taskItem=items[i];
 						taskItem.proc(taskItem.argument);
-						if(taskItem.mutex)
+						if(taskItem.semaphore)
 						{
-							taskItem.mutex->Release();
+							taskItem.semaphore->Release();
 						}
 					}
 				}
@@ -1505,20 +1505,20 @@ WindowsInvoker
 
 				bool InvokeInMainThreadAndWait(INativeController::AsyncTaskProc* proc, void* argument, int milliseconds)
 				{
-					Mutex mutex;
-					mutex.Create(false);
+					Semaphore semaphore;
+					semaphore.Create(0, 1);
 					{
 						SpinLock::Scope scope(taskListLock);
-						TaskItem item(&mutex, proc, argument);
+						TaskItem item(&semaphore, proc, argument);
 						taskItems.Add(item);
 					}
 					if(milliseconds<0)
 					{
-						return mutex.Wait();
+						return semaphore.Wait();
 					}
 					else
 					{
-						return mutex.WaitForTime(milliseconds);
+						return semaphore.WaitForTime(milliseconds);
 					}
 				}
 			};
