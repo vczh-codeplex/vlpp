@@ -16,6 +16,7 @@ Classes:
 
 #include "Basic.h"
 #include "String.h"
+#include "Function.h"
 
 namespace vl
 {
@@ -137,6 +138,26 @@ namespace vl
 
 		bool										Signal();
 		bool										Unsignal();
+	};
+
+/***********************************************************************
+Ïß³Ì³Ø
+***********************************************************************/
+
+	class ThreadPoolLite : public Object
+	{
+	private:
+		ThreadPoolLite();
+		~ThreadPoolLite();
+	public:
+		static bool									Queue(void(*proc)(void*), void* argument);
+		static bool									Queue(const Func<void()>& proc);
+
+		template<typename T>
+		static void QueueLambda(const T& proc)
+		{
+			Queue(Func<void()>(proc));
+		}
 	};
 
 /***********************************************************************

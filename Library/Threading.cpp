@@ -525,6 +525,70 @@ EventObject
 	}
 
 /***********************************************************************
+ThreadPoolLite
+***********************************************************************/
+
+		struct ThreadPoolQueueProcArgument
+		{
+			void(*proc)(void*);
+			void* argument;
+		};
+
+		DWORD WINAPI ThreadPoolQueueProc(void* argument)
+		{
+			ThreadPoolQueueProcArgument* proc=(ThreadPoolQueueProcArgument*)argument;
+			proc->proc(proc->argument);
+			delete proc;
+			return 0;
+		}
+
+		DWORD WINAPI ThreadPoolQueueFunc(void* argument)
+		{
+			Func<void()>* proc=(Func<void()>*)argument;
+			(*proc)();
+			delete proc;
+			return 0;
+		}
+
+		ThreadPoolLite::ThreadPoolLite()
+		{
+		}
+
+		ThreadPoolLite::~ThreadPoolLite()
+		{
+		}
+
+		bool ThreadPoolLite::Queue(void(*proc)(void*), void* argument)
+		{
+			ThreadPoolQueueProcArgument* p=new ThreadPoolQueueProcArgument;
+			p->proc=proc;
+			p->argument=argument;
+			if(QueueUserWorkItem(&ThreadPoolQueueProc, p, WT_EXECUTEDEFAULT))
+			{
+				return true;
+			}
+			else
+			{
+				delete p;
+				return false;
+			}
+		}
+
+		bool ThreadPoolLite::Queue(const Func<void()>& proc)
+		{
+			Func<void()>* p=new Func<void()>(proc);
+			if(QueueUserWorkItem(&ThreadPoolQueueFunc, p, WT_EXECUTEDEFAULT))
+			{
+				return true;
+			}
+			else
+			{
+				delete p;
+				return false;
+			}
+		}
+
+/***********************************************************************
 CriticalSection
 ***********************************************************************/
 

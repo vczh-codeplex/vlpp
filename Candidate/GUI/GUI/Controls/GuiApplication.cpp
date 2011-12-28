@@ -97,6 +97,38 @@ GuiApplication
 				return 0;
 			}
 
+			bool GuiApplication::IsInMainThread()
+			{
+				return GetCurrentController()->IsInMainThread();
+			}
+
+			void GuiApplication::InvokeInMainThread(INativeController::AsyncTaskProc* proc, void* argument)
+			{
+				GetCurrentController()->InvokeInMainThread(proc, argument);
+			}
+
+			bool GuiApplication::InvokeInMainThreadAndWait(INativeController::AsyncTaskProc* proc, void* argument, int milliseconds)
+			{
+				return GetCurrentController()->InvokeInMainThreadAndWait(proc, argument, milliseconds);
+			}
+
+			void InvokeInMainThreadProc(void* argument)
+			{
+				Func<void()>* proc=(Func<void()>*)argument;
+				(*proc)();
+				delete proc;
+			}
+
+			void GuiApplication::InvokeInMainThread(const Func<void()>& proc)
+			{
+				InvokeInMainThread(&InvokeInMainThreadProc, new Func<void()>(proc));
+			}
+
+			bool GuiApplication::InvokeInMainThreadAndWait(const Func<void()>& proc, int milliseconds)
+			{
+				return InvokeInMainThreadAndWait(&InvokeInMainThreadProc, new Func<void()>(proc));
+			}
+
 /***********************************************************************
 Helpers
 ***********************************************************************/
