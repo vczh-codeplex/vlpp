@@ -744,7 +744,7 @@ RangedItemArrangerBase
 							int oldIndex=-1;
 							if(index<start)
 							{
-								oldIndex=i;
+								oldIndex=index;
 							}
 							else if(index>=start+newCount)
 							{
