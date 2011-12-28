@@ -40,6 +40,24 @@ namespace vl
 				void											Run(GuiWindow* _mainWindow);
 				const collections::IReadonlyList<GuiWindow*>&	GetWindows();
 				GuiWindow*										GetWindow(Point location);
+
+				bool											IsInMainThread();
+				void											InvokeInMainThread(INativeController::AsyncTaskProc* proc, void* argument);
+				bool											InvokeInMainThreadAndWait(INativeController::AsyncTaskProc* proc, void* argument, int milliseconds=-1);
+				void											InvokeInMainThread(const Func<void()>& proc);
+				bool											InvokeInMainThreadAndWait(const Func<void()>& proc, int milliseconds=-1);
+
+				template<typename T>
+				void InvokeLambdaInMainThread(const T& proc)
+				{
+					InvokeInMainThread(Func<void()>(proc));
+				}
+				
+				template<typename T>
+				bool InvokeLambdaInMainThreadAndWait(const T& proc, int milliseconds=-1)
+				{
+					return InvokeInMainThreadAndWait(Func<void()>(proc));
+				}
 			};
 
 			extern GuiApplication*								GetApplication();

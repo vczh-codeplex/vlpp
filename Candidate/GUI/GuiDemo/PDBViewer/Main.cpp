@@ -76,13 +76,24 @@ void GuiMain()
 			cell->AddChild(treeControl->GetBoundsComposition());
 		}
 
-		buttonDump->Clicked.AttachLambda([buttonDump, treeControl](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
+		buttonDump->Clicked.AttachLambda([=](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
 		{
 			INativeController* controller=GetCurrentController();
 			treeControl->SetEnabled(false);
 			buttonDump->SetEnabled(false);
 			buttonDump->SetText(L"Dumping...");
 			buttonDump->GetRelatedControlHost()->GetBoundsComposition()->SetAssociatedCursor(controller->GetSystemCursor(INativeCursor::LargeWaiting));
+
+			ThreadPoolLite::QueueLambda([=]()
+			{
+				dumppdb::DumpPdbToXml(diaSymbol, L"..\\Debug\\GuiDemo.xml");
+				GetApplication()->InvokeLambdaInMainThreadAndWait([=]()
+				{
+					treeControl->SetEnabled(true);
+					buttonDump->SetText(L"GuiDemo.xml dumpped. Cannot dump it repeatedly.");
+					buttonDump->GetRelatedControlHost()->GetBoundsComposition()->SetAssociatedCursor(controller->GetDefaultSystemCursor());
+				});
+			});
 		});
 	}
 

@@ -259,6 +259,7 @@ namespace dumppdb
 		typeSymbol->get_constType(&constType);
 		typeSymbol->get_volatileType(&volatileType);
 		PrintXMLOpen(file, level, tagName, symbolName, L"const", (constType?L"true":L"false"), L"volatile", (volatileType?L"true":L"false"));
+		PrintXMLClose(file, level, tagName);
 	}
 
 	void DumpFunctionType(TextWriter& file, IDiaSymbol* typeSymbol, int level)
