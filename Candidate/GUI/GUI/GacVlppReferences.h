@@ -13,6 +13,7 @@ Interfaces:
 #include "..\..\..\Library\String.h"
 #include "..\..\..\Library\Pointer.h"
 #include "..\..\..\Library\Function.h"
+#include "..\..\..\Library\Threading.h"
 #include "..\..\..\Library\Collections\List.h"
 #include "..\..\..\Library\Collections\Dictionary.h"
 #include "..\..\..\Library\Collections\OperationCopyFrom.h"

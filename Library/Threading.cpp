@@ -227,6 +227,11 @@ Thread
 		return info.dwNumberOfProcessors;
 	}
 
+	vint Thread::GetCurrentThreadId()
+	{
+		return (vint)::GetCurrentThreadId();
+	}
+
 	bool Thread::Start()
 	{
 		if(threadState==Thread::NotStarted && internalData->handle!=NULL)

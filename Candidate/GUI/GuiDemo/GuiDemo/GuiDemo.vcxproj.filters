@@ -198,6 +198,9 @@
     <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiTreeViewControls.cpp">
       <Filter>GUI\Controls\ExtendedControls</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Threading.cpp">
+      <Filter>Library\Basic\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Library\Basic.h">
@@ -379,6 +382,9 @@
     </ClInclude>
     <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiTreeViewControls.h">
       <Filter>GUI\Controls\ExtendedControls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Threading.h">
+      <Filter>Library\Basic\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

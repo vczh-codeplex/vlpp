@@ -180,6 +180,9 @@
     <ClCompile Include="DumpPDB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Threading.cpp">
+      <Filter>Library\Basic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Library\Basic.h">
@@ -370,6 +373,9 @@
     </ClInclude>
     <ClInclude Include="diacreate.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Threading.h">
+      <Filter>Library\Basic</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

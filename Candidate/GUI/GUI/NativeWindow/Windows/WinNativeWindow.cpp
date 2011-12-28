@@ -1425,6 +1425,105 @@ WindowsForm
 			};
 
 /***********************************************************************
+WindowsInvoker
+***********************************************************************/
+
+			class WindowsAsyncTaskInvoker : public Object
+			{
+			public:
+				struct TaskItem
+				{
+					Mutex*								mutex;
+					INativeController::AsyncTaskProc*	proc;
+					void*								argument;
+
+					TaskItem()
+						:mutex(0)
+						,proc(0)
+						,argument(0)
+					{
+					}
+
+					TaskItem(Mutex* _mutex, INativeController::AsyncTaskProc* _proc, void* _argument)
+						:mutex(_mutex)
+						,proc(_proc)
+						,argument(_argument)
+					{
+					}
+
+					~TaskItem()
+					{
+					}
+
+					bool operator==(const TaskItem& item)const{return false;}
+					bool operator!=(const TaskItem& item)const{return true;}
+				};
+			protected:
+				int								mainThreadId;
+				SpinLock						taskListLock;
+				List<TaskItem>					taskItems;
+			public:
+				WindowsAsyncTaskInvoker()
+					:mainThreadId(Thread::GetCurrentThreadId())
+				{
+				}
+
+				~WindowsAsyncTaskInvoker()
+				{
+				}
+
+				void ExecuteAsyncTasks()
+				{
+					Array<TaskItem> items;
+					{
+						SpinLock::Scope scope(taskListLock);
+						CopyFrom(items.Wrap(), taskItems.Wrap());
+						taskItems.RemoveRange(0, items.Count());
+					}
+					for(int i=0;i<items.Count();i++)
+					{
+						TaskItem taskItem=items[i];
+						taskItem.proc(taskItem.argument);
+						if(taskItem.mutex)
+						{
+							taskItem.mutex->Release();
+						}
+					}
+				}
+
+				bool IsInMainThread()
+				{
+					return Thread::GetCurrentThreadId()==mainThreadId;
+				}
+
+				void InvokeInMainThread(INativeController::AsyncTaskProc* proc, void* argument)
+				{
+					SpinLock::Scope scope(taskListLock);
+					TaskItem item(0, proc, argument);
+					taskItems.Add(item);
+				}
+
+				bool InvokeInMainThreadAndWait(INativeController::AsyncTaskProc* proc, void* argument, int milliseconds)
+				{
+					Mutex mutex;
+					mutex.Create(false);
+					{
+						SpinLock::Scope scope(taskListLock);
+						TaskItem item(&mutex, proc, argument);
+						taskItems.Add(item);
+					}
+					if(milliseconds<0)
+					{
+						return mutex.Wait();
+					}
+					else
+					{
+						return mutex.WaitForTime(milliseconds);
+					}
+				}
+			};
+
+/***********************************************************************
 WindowsController
 ***********************************************************************/
 
@@ -1442,6 +1541,7 @@ WindowsController
 				Dictionary<HWND, WindowsForm*>		windows;
 				List<INativeControllerListener*>	listeners;
 				INativeWindow*						mainWindow;
+				WindowsAsyncTaskInvoker				asyncTaskInvoker;
 				WindowsClipboard					clipboard;
 				WindowsImageProvider				imageProvider;
 
@@ -1598,7 +1698,23 @@ WindowsController
 					{
 						TranslateMessage(&message);
 						DispatchMessage(&message);
+						asyncTaskInvoker.ExecuteAsyncTasks();
 					}
+				}
+
+				bool IsInMainThread()
+				{
+					return asyncTaskInvoker.IsInMainThread();
+				}
+
+				void InvokeInMainThread(AsyncTaskProc* proc, void* argument)
+				{
+					asyncTaskInvoker.InvokeInMainThread(proc, argument);
+				}
+
+				bool InvokeInMainThreadAndWait(AsyncTaskProc* proc, void* argument, int milliseconds)
+				{
+					return asyncTaskInvoker.InvokeInMainThreadAndWait(proc, argument, milliseconds);
 				}
 
 				FontProperties GetDefaultFont()
