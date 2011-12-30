@@ -138,7 +138,14 @@ public:
 
 	WString GetName()
 	{
-		return treeNode->name;
+		WString name=treeNode->name;
+		for(int i=0;i<treeNode->attributes.Count();i++)
+		{
+			WString key=treeNode->attributes.Keys()[i];
+			Ptr<TreeText> value=treeNode->attributes.Values()[i].Cast<TreeText>();
+			name+=L" ["+key+L": "+value->value+L"]";
+		}
+		return name;
 	}
 
 	TreeNodeProvider* GetNodeByVisibleIndex(int index)

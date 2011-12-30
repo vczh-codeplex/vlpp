@@ -485,18 +485,29 @@ namespace dumppdb
 				BOOL staticMethod=FALSE;
 				methodSymbol->get_isStatic(&staticMethod);
 				BSTR nameBSTR=0;
+
+				const wchar_t* virtualValue=L"normal";
+				BOOL virtualBool=FALSE;
+				if(SUCCEEDED(methodSymbol->get_pure(&virtualBool)) && virtualBool)
+				{
+					virtualValue=L"pure";
+				}
+				else if(SUCCEEDED(methodSymbol->get_virtual(&virtualBool)) && virtualBool)
+				{
+					virtualValue=L"virtual";
+				}
 				if(SUCCEEDED(methodSymbol->get_name(&nameBSTR)) && nameBSTR)
 				{
 					if(staticMethod)
 					{
-						PrintXMLOpen(file, 3, L"staticMethod", nameBSTR, L"access", GetAccessName(access));
+						PrintXMLOpen(file, 3, L"staticMethod", nameBSTR, L"access", GetAccessName(access), L"virtual", virtualValue);
 						DumpMethodArguments(file, methodSymbol);
 						DumpSymbolType(file, methodSymbol, 3);
 						PrintXMLClose(file, 3, L"staticMethod");
 					}
 					else
 					{
-						PrintXMLOpen(file, 3, L"method", nameBSTR, L"access", GetAccessName(access));
+						PrintXMLOpen(file, 3, L"method", nameBSTR, L"access", GetAccessName(access), L"virtual", virtualValue);
 						DumpMethodArguments(file, methodSymbol);
 						DumpSymbolType(file, methodSymbol, 3);
 						PrintXMLClose(file, 3, L"method");
