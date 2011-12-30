@@ -201,6 +201,9 @@
     <ClCompile Include="..\..\..\..\Library\Threading.cpp">
       <Filter>Library\Basic\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Stream\CacheStream.cpp">
+      <Filter>Library\Stream\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Library\Basic.h">
@@ -385,6 +388,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\Library\Threading.h">
       <Filter>Library\Basic\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Stream\CacheStream.h">
+      <Filter>Library\Stream\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

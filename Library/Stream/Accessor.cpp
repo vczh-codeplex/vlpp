@@ -104,7 +104,7 @@ TextReader
 TextWriter
 ***********************************************************************/
 
-		void TextWriter::WriteString(const wchar_t* string, int charCount)
+		void TextWriter::WriteString(const wchar_t* string, vint charCount)
 		{
 			while(*string)
 			{
@@ -125,7 +125,7 @@ TextWriter
 			}
 		}
 
-		void TextWriter::WriteLine(const wchar_t* string, int charCount)
+		void TextWriter::WriteLine(const wchar_t* string, vint charCount)
 		{
 			WriteString(string, charCount);
 			WriteString(L"\r\n", 2);

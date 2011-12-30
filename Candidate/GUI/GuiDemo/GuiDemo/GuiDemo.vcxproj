@@ -160,6 +160,7 @@
     <ClCompile Include="..\..\..\..\Library\Entity\TreeXml.cpp" />
     <ClCompile Include="..\..\..\..\Library\Exception.cpp" />
     <ClCompile Include="..\..\..\..\Library\Stream\Accessor.cpp" />
+    <ClCompile Include="..\..\..\..\Library\Stream\CacheStream.cpp" />
     <ClCompile Include="..\..\..\..\Library\Stream\CharFormat.cpp" />
     <ClCompile Include="..\..\..\..\Library\Stream\FileStream.cpp" />
     <ClCompile Include="..\..\..\..\Library\String.cpp" />
@@ -222,6 +223,7 @@
     <ClInclude Include="..\..\..\..\Library\Function.h" />
     <ClInclude Include="..\..\..\..\Library\Pointer.h" />
     <ClInclude Include="..\..\..\..\Library\Stream\Accessor.h" />
+    <ClInclude Include="..\..\..\..\Library\Stream\CacheStream.h" />
     <ClInclude Include="..\..\..\..\Library\Stream\CharFormat.h" />
     <ClInclude Include="..\..\..\..\Library\Stream\FileStream.h" />
     <ClInclude Include="..\..\..\..\Library\Stream\Interfaces.h" />

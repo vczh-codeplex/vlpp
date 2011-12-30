@@ -49,33 +49,36 @@ CacheStream
 				_buffer=(char*)_buffer+min;
 			}
 
-			Flush();
-			if(_size-readed>=block)
+			if(_size>readed)
 			{
-				if(CanSeek())
+				Flush();
+				if(_size-readed>=block)
 				{
-					target->SeekFromBegin(position+readed);
+					if(CanSeek())
+					{
+						target->SeekFromBegin(position+readed);
+					}
+					vint additional=target->Read(_buffer, _size-readed);
+					if(additional!=-1)
+					{
+						readed+=additional;
+					}
 				}
-				vint additional=target->Read(_buffer, _size-readed);
-				if(additional!=-1)
+				else
 				{
-					readed+=additional;
+					Load(position+readed);
+					vint remain=_size-readed;
+					vint min=availableLength<remain?availableLength:remain;
+					memcpy(_buffer, buffer, min);
+					readed+=min;
 				}
-			}
-			else
-			{
-				Load(position+readed);
-				vint remain=_size-readed;
-				vint min=availableLength<remain?availableLength:remain;
-				memcpy(_buffer, buffer, min);
-				readed+=min;
 			}
 			return readed;
 		}
 
 		vint CacheStream::InternalWrite(void* _buffer, vint _size)
 		{
-			vint readed=0;
+			vint written=0;
 			if(position>=start && position<start+block)
 			{
 				vint bufferMax=(vint)(start+block-position);
@@ -83,7 +86,7 @@ CacheStream
 				vint writeStart=(vint)(position-start);
 
 				memcpy(buffer+writeStart, _buffer, writeLength);
-				readed+=writeLength;
+				written+=writeLength;
 				_buffer=(char*)_buffer+writeLength;
 
 				if(dirtyLength==0)
@@ -102,28 +105,31 @@ CacheStream
 					availableLength+=availableOffset;
 				}
 			}
-
-			Flush();
-			if(_size-readed>=block)
+			
+			if(_size>written)
 			{
-				if(CanSeek())
+				Flush();
+				if(_size-written>=block)
 				{
-					target->SeekFromBegin(position+readed);
+					if(CanSeek())
+					{
+						target->SeekFromBegin(position+written);
+					}
+					vint additional=target->Write(_buffer, _size-written);
+					if(additional!=-1)
+					{
+						written+=additional;
+					}
 				}
-				vint additional=target->Write(_buffer, _size-readed);
-				if(additional!=-1)
+				else
 				{
-					readed+=additional;
+					Load(position+written);
+					dirtyLength=_size-written;
+					memcpy(buffer, _buffer, dirtyLength);
+					written+=dirtyLength;
 				}
 			}
-			else
-			{
-				Load(position+readed);
-				dirtyLength=_size-readed;
-				memcpy(buffer, _buffer, dirtyLength);
-				readed+=dirtyLength;
-			}
-			return readed;
+			return written;
 		}
 
 		CacheStream::CacheStream(IStream& _target, vint _block)

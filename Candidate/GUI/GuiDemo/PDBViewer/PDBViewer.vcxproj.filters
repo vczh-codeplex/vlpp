@@ -186,6 +186,12 @@
     <ClCompile Include="DiaSymbolProvider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TreeNodeProvider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Library\Stream\CacheStream.cpp">
+      <Filter>Library\Stream</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Library\Basic.h">
@@ -379,6 +385,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\Library\Threading.h">
       <Filter>Library\Basic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Library\Stream\CacheStream.h">
+      <Filter>Library\Stream</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
