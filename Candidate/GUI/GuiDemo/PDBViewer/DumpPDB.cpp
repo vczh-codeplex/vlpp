@@ -134,57 +134,22 @@ namespace dumppdb
 					IDiaSymbol* functionSymbol=0;
 					while(SUCCEEDED(functionEnum->Next(1, &functionSymbol, &functionCelt)) && functionSymbol && functionCelt)
 					{
-						// enumerate this argument
-						IDiaEnumSymbols* thisEnum=0;
-						if(SUCCEEDED(functionSymbol->findChildren(SymTagData, L"this", nsCaseSensitive, &thisEnum)))
+						IDiaSymbol* udtType=0;
+						if(SUCCEEDED(functionSymbol->get_classParent(&udtType)) && udtType)
 						{
-							DWORD thisCelt=0;
-							IDiaSymbol* thisSymbol=0;
-							while(SUCCEEDED(thisEnum->Next(1, &thisSymbol, &thisCelt)) && thisSymbol && thisCelt)
+							// get class name
+							BSTR classNameBSTR=0;
+							if(SUCCEEDED(udtType->get_name(&classNameBSTR)) && classNameBSTR)
 							{
-								// check this argument
-								enum DataKind dataKind;
-								if(SUCCEEDED(thisSymbol->get_dataKind((DWORD*)&dataKind)))
+								WString className=classNameBSTR;
+								if(!udtSymbols.Keys().Contains(className))
 								{
-									if(dataKind==DataIsObjectPtr)
-									{
-										// get pointer type
-										IDiaSymbol* pointerType=0;
-										if(SUCCEEDED(thisSymbol->get_type(&pointerType)) && pointerType)
-										{
-											enum SymTagEnum pointerTypeTag;
-											if(SUCCEEDED(pointerType->get_symTag((DWORD*)&pointerTypeTag)) && pointerTypeTag==SymTagPointerType)
-											{
-												// get this class type
-												IDiaSymbol* udtType=0;
-												if(SUCCEEDED(pointerType->get_type(&udtType)) && udtType)
-												{
-													enum SymTagEnum udtTypeTag;
-													if(SUCCEEDED(udtType->get_symTag((DWORD*)&udtTypeTag)) && udtTypeTag==SymTagUDT)
-													{
-														// get class name
-														BSTR classNameBSTR=0;
-														if(SUCCEEDED(udtType->get_name(&classNameBSTR)) && classNameBSTR)
-														{
-															WString className=classNameBSTR;
-															if(!udtSymbols.Keys().Contains(className))
-															{
-																// record class symbol
-																udtSymbols.Add(className, udtType);
-																udtType=0;
-															}
-														}
-													}
-												}
-												if(udtType) udtType->Release();
-											}
-										}
-										pointerType->Release();
-									}
+									// record class symbol
+									udtSymbols.Add(className, udtType);
+									udtType=0;
 								}
-								thisSymbol->Release();
 							}
-							thisEnum->Release();
+							if(udtType) udtType->Release();
 						}
 						functionSymbol->Release();
 					}
@@ -517,13 +482,25 @@ namespace dumppdb
 			{
 				enum CV_access_e access;
 				methodSymbol->get_access((DWORD*)&access);
+				BOOL staticMethod=FALSE;
+				methodSymbol->get_isStatic(&staticMethod);
 				BSTR nameBSTR=0;
 				if(SUCCEEDED(methodSymbol->get_name(&nameBSTR)) && nameBSTR)
 				{
-					PrintXMLOpen(file, 3, L"method", nameBSTR, L"access", GetAccessName(access));
-					DumpMethodArguments(file, methodSymbol);
-					DumpSymbolType(file, methodSymbol, 3);
-					PrintXMLClose(file, 3, L"method");
+					if(staticMethod)
+					{
+						PrintXMLOpen(file, 3, L"staticMethod", nameBSTR, L"access", GetAccessName(access));
+						DumpMethodArguments(file, methodSymbol);
+						DumpSymbolType(file, methodSymbol, 3);
+						PrintXMLClose(file, 3, L"staticMethod");
+					}
+					else
+					{
+						PrintXMLOpen(file, 3, L"method", nameBSTR, L"access", GetAccessName(access));
+						DumpMethodArguments(file, methodSymbol);
+						DumpSymbolType(file, methodSymbol, 3);
+						PrintXMLClose(file, 3, L"method");
+					}
 				}
 				methodSymbol->Release();
 			}
