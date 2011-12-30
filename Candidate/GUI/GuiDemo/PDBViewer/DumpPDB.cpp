@@ -116,48 +116,83 @@ namespace dumppdb
 
 	Dictionary<WString, IDiaSymbol*> udtSymbols;
 
+	void AddUdtOrRelease(IDiaSymbol* udtType)
+	{
+		// get class name
+		BSTR classNameBSTR=0;
+		if(SUCCEEDED(udtType->get_name(&classNameBSTR)) && classNameBSTR)
+		{
+			WString className=classNameBSTR;
+			if(!udtSymbols.Keys().Contains(className))
+			{
+				// record class symbol
+				udtSymbols.Add(className, udtType);
+				udtType=0;
+			}
+		}
+		if(udtType) udtType->Release();
+	}
+
 	void FindClasses(IDiaSymbol* exeSymbol)
 	{
-		// enumerate compilands
-		IDiaEnumSymbols* compilandEnum=0;
-		if(SUCCEEDED(exeSymbol->findChildren(SymTagCompiland, NULL, nsNone, &compilandEnum)))
 		{
-			DWORD compilandCelt=0;
-			IDiaSymbol* compilandSymbol=0;
-			while(SUCCEEDED(compilandEnum->Next(1, &compilandSymbol, &compilandCelt)) && compilandSymbol && compilandCelt)
+			// enumerate classes
+			IDiaEnumSymbols* udtEnum=0;
+			if(SUCCEEDED(exeSymbol->findChildren(SymTagUDT, NULL, nsNone, &udtEnum)))
 			{
-				// enumerate functions
-				IDiaEnumSymbols* functionEnum=0;
-				if(SUCCEEDED(compilandSymbol->findChildren(SymTagFunction, NULL, nsNone, &functionEnum)))
+				DWORD udtCelt=0;
+				IDiaSymbol* udtSymbol=0;
+				while(SUCCEEDED(udtEnum->Next(1, &udtSymbol, &udtCelt)) && udtSymbol && udtCelt)
 				{
-					DWORD functionCelt=0;
-					IDiaSymbol* functionSymbol=0;
-					while(SUCCEEDED(functionEnum->Next(1, &functionSymbol, &functionCelt)) && functionSymbol && functionCelt)
-					{
-						IDiaSymbol* udtType=0;
-						if(SUCCEEDED(functionSymbol->get_classParent(&udtType)) && udtType)
-						{
-							// get class name
-							BSTR classNameBSTR=0;
-							if(SUCCEEDED(udtType->get_name(&classNameBSTR)) && classNameBSTR)
-							{
-								WString className=classNameBSTR;
-								if(!udtSymbols.Keys().Contains(className))
-								{
-									// record class symbol
-									udtSymbols.Add(className, udtType);
-									udtType=0;
-								}
-							}
-							if(udtType) udtType->Release();
-						}
-						functionSymbol->Release();
-					}
-					functionEnum->Release();
+					AddUdtOrRelease(udtSymbol);
 				}
-				compilandSymbol->Release();
 			}
-			compilandEnum->Release();
+		}
+		{
+			// enumerate enums
+			IDiaEnumSymbols* enumEnum=0;
+			if(SUCCEEDED(exeSymbol->findChildren(SymTagEnum, NULL, nsNone, &enumEnum)))
+			{
+				DWORD enumCelt=0;
+				IDiaSymbol* enumSymbol=0;
+				while(SUCCEEDED(enumEnum->Next(1, &enumSymbol, &enumCelt)) && enumSymbol && enumCelt)
+				{
+					AddUdtOrRelease(enumSymbol);
+				}
+			}
+		}
+		{
+			// enumerate compilands
+			IDiaEnumSymbols* compilandEnum=0;
+			if(SUCCEEDED(exeSymbol->findChildren(SymTagCompiland, NULL, nsNone, &compilandEnum)))
+			{
+				DWORD compilandCelt=0;
+				IDiaSymbol* compilandSymbol=0;
+				while(SUCCEEDED(compilandEnum->Next(1, &compilandSymbol, &compilandCelt)) && compilandSymbol && compilandCelt)
+				{
+					{
+						// enumerate functions
+						IDiaEnumSymbols* functionEnum=0;
+						if(SUCCEEDED(compilandSymbol->findChildren(SymTagFunction, NULL, nsNone, &functionEnum)))
+						{
+							DWORD functionCelt=0;
+							IDiaSymbol* functionSymbol=0;
+							while(SUCCEEDED(functionEnum->Next(1, &functionSymbol, &functionCelt)) && functionSymbol && functionCelt)
+							{
+								IDiaSymbol* udtType=0;
+								if(SUCCEEDED(functionSymbol->get_classParent(&udtType)) && udtType)
+								{
+									AddUdtOrRelease(udtType);
+								}
+								functionSymbol->Release();
+							}
+							functionEnum->Release();
+						}
+					}
+					compilandSymbol->Release();
+				}
+				compilandEnum->Release();
+			}
 		}
 	}
 
@@ -338,6 +373,15 @@ namespace dumppdb
 		}
 	}
 
+	void DumpEnumType(TextWriter& file, IDiaSymbol* typeSymbol, int level)
+	{
+		BSTR nameBSTR=0;
+		if(SUCCEEDED(typeSymbol->get_name(&nameBSTR)) && nameBSTR)
+		{
+			DumpTypeHelper(file, typeSymbol, level, L"enumType", nameBSTR);
+		}
+	}
+
 	void DumpUserType(TextWriter& file, IDiaSymbol* typeSymbol, int level)
 	{
 		BSTR nameBSTR=0;
@@ -361,6 +405,8 @@ namespace dumppdb
 			return DumpArrayType(file, typeSymbol, level);
 		case SymTagBaseType:
 			return DumpBaseType(file, typeSymbol, level);
+		case SymTagEnum:
+			return DumpUserType(file, typeSymbol, level);
 		case SymTagUDT:
 			return DumpUserType(file, typeSymbol, level);
 		}
@@ -403,6 +449,53 @@ namespace dumppdb
 		PrintXMLClose(file, 2, L"baseClasses");
 	}
 
+	void DumpNestedClasses(TextWriter& file, IDiaSymbol* udtSymbol)
+	{
+		PrintXMLOpen(file, 2, L"nestedClasses", NULL, false);
+		IDiaEnumSymbols* nestedClassEnum=0;
+		if(SUCCEEDED(udtSymbol->findChildren(SymTagUDT, NULL, nsNone, &nestedClassEnum)) && nestedClassEnum)
+		{
+			DWORD nestedClassCelt=0;
+			IDiaSymbol* nestedClassSymbol=0;
+			while(SUCCEEDED(nestedClassEnum->Next(1, &nestedClassSymbol, &nestedClassCelt)) && nestedClassSymbol && nestedClassCelt)
+			{
+				BSTR nameBSTR=0;
+				if(SUCCEEDED(nestedClassSymbol->get_name(&nameBSTR)) && nameBSTR)
+				{
+					PrintXMLOpen(file, 3, L"nestedClass", nameBSTR);
+					PrintXMLClose(file, 3, L"nestedClass");
+				}
+				nestedClassSymbol->Release();
+			}
+			nestedClassEnum->Release();
+		}
+		PrintXMLClose(file, 2, L"nestedClasses");
+	}
+
+	void DumpTypedefs(TextWriter& file, IDiaSymbol* udtSymbol)
+	{
+		PrintXMLOpen(file, 2, L"typedefs", NULL, false);
+		IDiaEnumSymbols* typedefEnum=0;
+		if(SUCCEEDED(udtSymbol->findChildren(SymTagTypedef, NULL, nsNone, &typedefEnum)) && typedefEnum)
+		{
+			DWORD typedefCelt=0;
+			IDiaSymbol* typedefSymbol=0;
+			while(SUCCEEDED(typedefEnum->Next(1, &typedefSymbol, &typedefCelt)) && typedefSymbol && typedefCelt)
+			{
+				BSTR nameBSTR=0;
+				if(SUCCEEDED(typedefSymbol->get_name(&nameBSTR)) && nameBSTR)
+				{
+					PrintXMLOpen(file, 3, L"typedef", nameBSTR);
+					DumpSymbolType(file, typedefSymbol, 3);
+					PrintXMLClose(file, 3, L"typedef");
+				}
+				typedefSymbol->Release();
+			}
+			typedefEnum->Release();
+		}
+		PrintXMLClose(file, 2, L"typedefs");
+	}
+
 	void DumpFields(TextWriter& file, IDiaSymbol* udtSymbol)
 	{
 		PrintXMLOpen(file, 2, L"fields", NULL);
@@ -414,7 +507,7 @@ namespace dumppdb
 			while(SUCCEEDED(fieldEnum->Next(1, &fieldSymbol, &fieldCelt)) && fieldSymbol && fieldCelt)
 			{
 				enum DataKind dataKind;
-				if(SUCCEEDED(fieldSymbol->get_dataKind((DWORD*)&dataKind)) && (dataKind==DataIsMember || dataKind==DataIsStaticMember))
+				if(SUCCEEDED(fieldSymbol->get_dataKind((DWORD*)&dataKind)) && (dataKind==DataIsMember || dataKind==DataIsStaticMember || dataKind==DataIsConstant))
 				{
 					enum CV_access_e access;
 					fieldSymbol->get_access((DWORD*)&access);
@@ -432,6 +525,12 @@ namespace dumppdb
 							PrintXMLOpen(file, 3, L"staticField", nameBSTR, L"access", GetAccessName(access));
 							DumpSymbolType(file, fieldSymbol, 3);
 							PrintXMLClose(file, 3, L"staticField");
+						}
+						else if(dataKind==DataIsConstant)
+						{
+							PrintXMLOpen(file, 3, L"const", nameBSTR, L"access", GetAccessName(access));
+							DumpSymbolType(file, fieldSymbol, 3);
+							PrintXMLClose(file, 3, L"const");
 						}
 					}
 				}
@@ -527,12 +626,24 @@ namespace dumppdb
 		{
 			WString className=udtSymbols.Keys()[i];
 			IDiaSymbol* classSymbol=udtSymbols.Values()[i];
-
-			PrintXMLOpen(file, 1, L"class", className.Buffer());
-			DumpBaseClasses(file, classSymbol);
-			DumpFields(file, classSymbol);
-			DumpMethods(file, classSymbol);
-			PrintXMLClose(file, 1, L"class");
+			enum SymTagEnum symTag=SymTagNull;
+			classSymbol->get_symTag((DWORD*)&symTag);
+			if(symTag==SymTagUDT)
+			{
+				PrintXMLOpen(file, 1, L"class", className.Buffer());
+				DumpBaseClasses(file, classSymbol);
+				DumpNestedClasses(file, classSymbol);
+				DumpTypedefs(file, classSymbol);
+				DumpFields(file, classSymbol);
+				DumpMethods(file, classSymbol);
+				PrintXMLClose(file, 1, L"class");
+			}
+			else if(symTag==SymTagEnum)
+			{
+				PrintXMLOpen(file, 1, L"enum", className.Buffer());
+				DumpFields(file, classSymbol);
+				PrintXMLClose(file, 1, L"enum");
+			}
 		}
 		for(int i=0;i<udtSymbols.Count();i++)
 		{
