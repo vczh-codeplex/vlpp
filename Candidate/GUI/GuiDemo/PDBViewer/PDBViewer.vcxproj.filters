@@ -183,6 +183,9 @@
     <ClCompile Include="..\..\..\..\Library\Threading.cpp">
       <Filter>Library\Basic</Filter>
     </ClCompile>
+    <ClCompile Include="DiaSymbolProvider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Library\Basic.h">
