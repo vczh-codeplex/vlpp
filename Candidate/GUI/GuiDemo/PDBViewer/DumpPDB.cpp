@@ -115,22 +115,33 @@ namespace dumppdb
 	//--------------------------------------------------------------------
 
 	Dictionary<WString, IDiaSymbol*> udtSymbols;
+	Dictionary<WString, IDiaSymbol*> funcSymbols;
+
+	void AddOrRelease(Dictionary<WString, IDiaSymbol*>& symbols, IDiaSymbol* symbol)
+	{
+		// get name
+		BSTR nameBSTR=0;
+		if(SUCCEEDED(symbol->get_name(&nameBSTR)) && nameBSTR)
+		{
+			WString name=nameBSTR;
+			if(!symbols.Keys().Contains(name))
+			{
+				// record class symbol
+				symbols.Add(name, symbol);
+				symbol=0;
+			}
+		}
+		if(symbol) symbol->Release();
+	}
 
 	void AddUdtOrRelease(IDiaSymbol* udtType)
 	{
-		// get class name
-		BSTR classNameBSTR=0;
-		if(SUCCEEDED(udtType->get_name(&classNameBSTR)) && classNameBSTR)
-		{
-			WString className=classNameBSTR;
-			if(!udtSymbols.Keys().Contains(className))
-			{
-				// record class symbol
-				udtSymbols.Add(className, udtType);
-				udtType=0;
-			}
-		}
-		if(udtType) udtType->Release();
+		AddOrRelease(udtSymbols, udtType);
+	}
+
+	void AddFuncOrRelease(IDiaSymbol* funcSymbol)
+	{
+		AddOrRelease(funcSymbols, funcSymbol);
 	}
 
 	void FindClasses(IDiaSymbol* exeSymbol)
@@ -170,24 +181,26 @@ namespace dumppdb
 				IDiaSymbol* compilandSymbol=0;
 				while(SUCCEEDED(compilandEnum->Next(1, &compilandSymbol, &compilandCelt)) && compilandSymbol && compilandCelt)
 				{
+					// enumerate functions
+					IDiaEnumSymbols* functionEnum=0;
+					if(SUCCEEDED(compilandSymbol->findChildren(SymTagFunction, NULL, nsNone, &functionEnum)))
 					{
-						// enumerate functions
-						IDiaEnumSymbols* functionEnum=0;
-						if(SUCCEEDED(compilandSymbol->findChildren(SymTagFunction, NULL, nsNone, &functionEnum)))
+						DWORD functionCelt=0;
+						IDiaSymbol* functionSymbol=0;
+						while(SUCCEEDED(functionEnum->Next(1, &functionSymbol, &functionCelt)) && functionSymbol && functionCelt)
 						{
-							DWORD functionCelt=0;
-							IDiaSymbol* functionSymbol=0;
-							while(SUCCEEDED(functionEnum->Next(1, &functionSymbol, &functionCelt)) && functionSymbol && functionCelt)
+							IDiaSymbol* udtType=0;
+							if(SUCCEEDED(functionSymbol->get_classParent(&udtType)) && udtType)
 							{
-								IDiaSymbol* udtType=0;
-								if(SUCCEEDED(functionSymbol->get_classParent(&udtType)) && udtType)
-								{
-									AddUdtOrRelease(udtType);
-								}
+								AddUdtOrRelease(udtType);
 								functionSymbol->Release();
 							}
-							functionEnum->Release();
+							else
+							{
+								AddFuncOrRelease(functionSymbol);
+							}
 						}
+						functionEnum->Release();
 					}
 					compilandSymbol->Release();
 				}
@@ -569,6 +582,43 @@ namespace dumppdb
 		PrintXMLClose(file, 4, L"arguments");
 	}
 
+	void DumpMethod(TextWriter& file, IDiaSymbol* methodSymbol)
+	{
+		enum CV_access_e access;
+		methodSymbol->get_access((DWORD*)&access);
+		BOOL staticMethod=FALSE;
+		methodSymbol->get_isStatic(&staticMethod);
+		BSTR nameBSTR=0;
+
+		const wchar_t* virtualValue=L"normal";
+		BOOL virtualBool=FALSE;
+		if(SUCCEEDED(methodSymbol->get_pure(&virtualBool)) && virtualBool)
+		{
+			virtualValue=L"pure";
+		}
+		else if(SUCCEEDED(methodSymbol->get_virtual(&virtualBool)) && virtualBool)
+		{
+			virtualValue=L"virtual";
+		}
+		if(SUCCEEDED(methodSymbol->get_name(&nameBSTR)) && nameBSTR)
+		{
+			if(staticMethod)
+			{
+				PrintXMLOpen(file, 3, L"staticMethod", nameBSTR, L"access", GetAccessName(access), L"virtual", virtualValue);
+				DumpMethodArguments(file, methodSymbol);
+				DumpSymbolType(file, methodSymbol, 3);
+				PrintXMLClose(file, 3, L"staticMethod");
+			}
+			else
+			{
+				PrintXMLOpen(file, 3, L"method", nameBSTR, L"access", GetAccessName(access), L"virtual", virtualValue);
+				DumpMethodArguments(file, methodSymbol);
+				DumpSymbolType(file, methodSymbol, 3);
+				PrintXMLClose(file, 3, L"method");
+			}
+		}
+	}
+
 	void DumpMethods(TextWriter& file, IDiaSymbol* udtSymbol)
 	{
 		PrintXMLOpen(file, 2, L"methods", NULL);
@@ -579,39 +629,7 @@ namespace dumppdb
 			IDiaSymbol* methodSymbol=0;
 			while(SUCCEEDED(methodEnum->Next(1, &methodSymbol, &methodCelt)) && methodSymbol && methodCelt)
 			{
-				enum CV_access_e access;
-				methodSymbol->get_access((DWORD*)&access);
-				BOOL staticMethod=FALSE;
-				methodSymbol->get_isStatic(&staticMethod);
-				BSTR nameBSTR=0;
-
-				const wchar_t* virtualValue=L"normal";
-				BOOL virtualBool=FALSE;
-				if(SUCCEEDED(methodSymbol->get_pure(&virtualBool)) && virtualBool)
-				{
-					virtualValue=L"pure";
-				}
-				else if(SUCCEEDED(methodSymbol->get_virtual(&virtualBool)) && virtualBool)
-				{
-					virtualValue=L"virtual";
-				}
-				if(SUCCEEDED(methodSymbol->get_name(&nameBSTR)) && nameBSTR)
-				{
-					if(staticMethod)
-					{
-						PrintXMLOpen(file, 3, L"staticMethod", nameBSTR, L"access", GetAccessName(access), L"virtual", virtualValue);
-						DumpMethodArguments(file, methodSymbol);
-						DumpSymbolType(file, methodSymbol, 3);
-						PrintXMLClose(file, 3, L"staticMethod");
-					}
-					else
-					{
-						PrintXMLOpen(file, 3, L"method", nameBSTR, L"access", GetAccessName(access), L"virtual", virtualValue);
-						DumpMethodArguments(file, methodSymbol);
-						DumpSymbolType(file, methodSymbol, 3);
-						PrintXMLClose(file, 3, L"method");
-					}
-				}
+				DumpMethod(file, methodSymbol);
 				methodSymbol->Release();
 			}
 			methodEnum->Release();
@@ -622,6 +640,7 @@ namespace dumppdb
 	void Dump(TextWriter& file, IDiaSymbol* exeSymbol)
 	{
 		FindClasses(exeSymbol);
+
 		for(int i=0;i<udtSymbols.Count();i++)
 		{
 			WString className=udtSymbols.Keys()[i];
@@ -650,6 +669,20 @@ namespace dumppdb
 			udtSymbols.Values()[i]->Release();
 		}
 		udtSymbols.Clear();
+
+		PrintXMLOpen(file, 1, L"functions", NULL);
+		for(int i=0;i<funcSymbols.Count();i++)
+		{
+			WString funcName=funcSymbols.Keys()[i];
+			IDiaSymbol* funcSymbol=funcSymbols.Values()[i];
+			DumpMethod(file, funcSymbol);
+		}
+		PrintXMLClose(file, 1, L"functions");
+		for(int i=0;i<funcSymbols.Count();i++)
+		{
+			funcSymbols.Values()[i]->Release();
+		}
+		funcSymbols.Clear();
 	}
 
 	void DumpPdbToXml(IDiaSymbol* exeSymbol, const wchar_t* xml)
