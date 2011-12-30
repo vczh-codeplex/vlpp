@@ -13,7 +13,7 @@ namespace dumppdb
 }
 
 extern tree::INodeRootProvider* CreateProviderFromDiaSymbol(IDiaSymbol* symbol);
-extern tree::INodeRootProvider* CreateProviderFromXml(Ptr<TreeNode> node);
+extern tree::INodeRootProvider* CreateProviderFromXml(Ptr<TreeElement> node);
 
 IDiaSymbol* CreateDiaSymbol()
 {
@@ -127,17 +127,18 @@ void GuiMain()
 					ThreadPoolLite::QueueLambda([=]()
 					{
 						FileStream fileStream(L"..\\Debug\\GuiDemo.xml", FileStream::ReadOnly);
+						CacheStream cacheStream(fileStream, 1048576);
 						BomDecoder decoder;
-						DecoderStream decoderStream(fileStream, decoder);
+						DecoderStream decoderStream(cacheStream, decoder);
 						StreamReader reader(decoderStream);
-						Ptr<TreeNode> xml=LoadXmlRawDocument(reader);
+						Ptr<TreeElement> xml=LoadXmlRawDocument(reader).Cast<TreeElement>();
 
 						GetApplication()->InvokeLambdaInMainThreadAndWait([=]()
 						{
 							buttonDump->SetText(L"GuiDemo.xml dumpped.");
 							buttonDump->GetRelatedControlHost()->GetBoundsComposition()->SetAssociatedCursor(controller->GetDefaultSystemCursor());
 
-							GuiTreeView* treeControl=new GuiTreeView(new win7::Win7TreeViewProvider);
+							GuiTreeView* treeControl=new GuiTreeView(new win7::Win7TreeViewProvider, CreateProviderFromXml(xml));
 							treeControl->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
 							treeControl->SetVerticalAlwaysVisible(false);
 							treeControl->SetHorizontalAlwaysVisible(false);

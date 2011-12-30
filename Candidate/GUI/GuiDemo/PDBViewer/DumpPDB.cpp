@@ -533,10 +533,11 @@ namespace dumppdb
 	void DumpPdbToXml(IDiaSymbol* exeSymbol, const wchar_t* xml)
 	{
 		FileStream fileStream(xml, FileStream::WriteOnly);
+		CacheStream cacheStream(fileStream, 1048576);
 		BomEncoder encoder(BomEncoder::Utf16);
-		EncoderStream encoderStream(fileStream, encoder);
+		EncoderStream encoderStream(cacheStream, encoder);
 		StreamWriter file(encoderStream);
-		PrintString(file, L"<?xml version=\"1.0\" encoding=\"utf-16\" ?>\r\n");
+		//PrintString(file, L"<?xml version=\"1.0\" encoding=\"utf-16\" ?>\r\n");
 		PrintXMLOpen(file, 0, L"pdb", NULL);
 		Dump(file, exeSymbol);
 		PrintXMLClose(file, 0, L"pdb");

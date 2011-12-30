@@ -18,6 +18,7 @@ Interfaces:
 #include "..\..\..\Library\Collections\Dictionary.h"
 #include "..\..\..\Library\Collections\OperationCopyFrom.h"
 #include "..\..\..\Library\Stream\FileStream.h"
+#include "..\..\..\Library\Stream\CacheStream.h"
 #include "..\..\..\Library\Stream\CharFormat.h"
 #include "..\..\..\Library\Stream\Accessor.h"
 #include "..\..\..\Library\Entity\TreeQuery.h"
