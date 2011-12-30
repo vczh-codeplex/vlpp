@@ -266,21 +266,26 @@ namespace dumppdb
 
 	extern void DumpType(TextWriter& file, IDiaSymbol* typeSymbol, int level);
 
-	void DumpTypeHelper(TextWriter& file, IDiaSymbol* typeSymbol, int level, const wchar_t* tagName, const wchar_t* symbolName)
+	void DumpTypeHelper(TextWriter& file, IDiaSymbol* typeSymbol, int level, const wchar_t* tagName, const wchar_t* symbolName, bool close=true)
 	{
 		BOOL constType=FALSE, volatileType=FALSE;
 		typeSymbol->get_constType(&constType);
 		typeSymbol->get_volatileType(&volatileType);
 		PrintXMLOpen(file, level, tagName, symbolName, L"const", (constType?L"true":L"false"), L"volatile", (volatileType?L"true":L"false"));
-		PrintXMLClose(file, level, tagName);
+		if(close)
+		{
+			PrintXMLClose(file, level, tagName);
+		}
 	}
 
 	void DumpFunctionType(TextWriter& file, IDiaSymbol* typeSymbol, int level)
 	{
-		CV_call_e callconv;
-		typeSymbol->get_callingConvention((DWORD*)&callconv);
-		PrintXMLOpen(file, level, L"function", NULL, L"callconv", GetCallingConversionName(callconv));
+		DumpTypeHelper(file, typeSymbol, level, L"function", NULL, false);
 		{
+			CV_call_e callconv;
+			typeSymbol->get_callingConvention((DWORD*)&callconv);
+			PrintXMLOpen(file, level+1, L"callconv", NULL, L"value", GetCallingConversionName(callconv));
+			PrintXMLClose(file, level+1, L"callconv");
 			PrintXMLOpen(file, level+1, L"arguments", NULL);
 			{
 				IDiaEnumSymbols* argumentEnum=0;
@@ -327,19 +332,19 @@ namespace dumppdb
 			typeSymbol->get_RValueReference(&rref);
 			if(lref)
 			{
-				PrintXMLOpen(file, level, L"reference", NULL);
+				DumpTypeHelper(file, typeSymbol, level, L"reference", NULL, false);
 				DumpType(file, elementTypeSymbol, level+1);
 				PrintXMLClose(file, level, L"reference");
 			}
 			else if(rref)
 			{
-				PrintXMLOpen(file, level, L"rightValueReference", NULL);
+				DumpTypeHelper(file, typeSymbol, level, L"rightValueReference", NULL, false);
 				DumpType(file, elementTypeSymbol, level+1);
 				PrintXMLClose(file, level, L"rightValueReference");
 			}
 			else
 			{
-				PrintXMLOpen(file, level, L"pointer", NULL);
+				DumpTypeHelper(file, typeSymbol, level, L"pointer", NULL, false);
 				DumpType(file, elementTypeSymbol, level+1);
 				PrintXMLClose(file, level, L"pointer");
 			}
@@ -359,8 +364,10 @@ namespace dumppdb
 			int elementCount=arraySize?(int)(arraySize/elementSize):0;
 			wchar_t elementCountBuffer[20];
 			_itow_s(elementCount, elementCountBuffer, 10);
-
-			PrintXMLOpen(file, level, L"array", NULL, L"count", elementCountBuffer);
+			
+			DumpTypeHelper(file, typeSymbol, level, L"array", NULL, false);
+			PrintXMLOpen(file, level+1, L"count", NULL, L"value", elementCountBuffer);
+			PrintXMLClose(file, level+1, L"count");
 			if(SUCCEEDED(typeSymbol->get_arrayIndexType(&indexTypeSymbol)) && indexTypeSymbol)
 			{
 				PrintXMLOpen(file, level+1, L"index", NULL);
