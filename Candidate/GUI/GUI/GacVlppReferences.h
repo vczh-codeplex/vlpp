@@ -20,5 +20,6 @@ Interfaces:
 #include "..\..\..\Library\Stream\FileStream.h"
 #include "..\..\..\Library\Stream\CharFormat.h"
 #include "..\..\..\Library\Stream\Accessor.h"
+#include "..\..\..\Library\Entity\TreeQuery.h"
 
 #endif
