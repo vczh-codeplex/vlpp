@@ -204,6 +204,9 @@
     <ClCompile Include="..\..\..\..\Library\Stream\CacheStream.cpp">
       <Filter>Library\Stream\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiComboControls.cpp">
+      <Filter>GUI\Controls\ExtendedControls</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Library\Basic.h">
@@ -391,6 +394,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\Library\Stream\CacheStream.h">
       <Filter>Library\Stream\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiComboControls.h">
+      <Filter>GUI\Controls\ExtendedControls</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
