@@ -239,6 +239,11 @@ void SetupMainPanel(GuiControlHost* controlHost, GuiControl* container, GuiCellC
 				scrollView->SetVerticalAlwaysVisible(!scrollView->GetVerticalAlwaysVisible());
 			});
 		}
+		{
+			GuiComboBoxBase* comboBox=new GuiComboBoxBase(new win7::Win7DropDownComboBoxStyle());
+			comboBox->GetBoundsComposition()->SetBounds(Rect(Point(420, 350), Size(200, 25)));
+			cell->AddChild(comboBox->GetBoundsComposition());
+		}
 	}
 }
 

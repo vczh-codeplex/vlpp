@@ -17,7 +17,7 @@ namespace vl
 	{
 		namespace controls
 		{
-			class GuiComboBoxBase : public GuiControl
+			class GuiComboBoxBase : public GuiButton
 			{
 			public:
 				class ICommandExecutor : public virtual Interface
@@ -27,10 +27,11 @@ namespace vl
 					virtual void							SelectItem()=0;
 				};
 
-				class IStyleController : public virtual GuiControl::IStyleController
+				class IStyleController : public virtual GuiButton::IStyleController
 				{
 				public:
 					virtual void							SetCommandExecutor(ICommandExecutor* value)=0;
+					virtual void							OnClicked()=0;
 					virtual void							OnPopupOpened()=0;
 					virtual void							OnPopupClosed()=0;
 					virtual void							OnItemSelected()=0;
@@ -56,6 +57,7 @@ namespace vl
 				GuiPopup*									popup;
 
 				virtual void								SelectItem();
+				void										OnClicked(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 				void										OnPopupOpened(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 				void										OnPopupClosed(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
 			public:

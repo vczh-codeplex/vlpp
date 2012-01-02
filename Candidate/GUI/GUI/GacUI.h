@@ -18,6 +18,7 @@ Interfaces:
 #include "Controls\ExtendedControls\GuiListViewControls.h"
 #include "Controls\ExtendedControls\GuiTreeViewControls.h"
 #include "Controls\ExtendedControls\GuiMenuControls.h"
+#include "Controls\ExtendedControls\GuiComboControls.h"
 #include "Controls\GuiApplication.h"
 
 #include "Controls\Styles\GuiWin7Styles.h"
