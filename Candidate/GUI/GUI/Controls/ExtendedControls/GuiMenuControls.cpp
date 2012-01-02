@@ -8,7 +8,7 @@ namespace vl
 		{
 
 /***********************************************************************
-GuiWindow
+IGuiMenuService
 ***********************************************************************/
 
 			const wchar_t* IGuiMenuService::Identifier = L"vl::presentation::controls::IGuiMenuService";
@@ -53,7 +53,7 @@ GuiWindow
 			}
 
 /***********************************************************************
-GuiWindow
+GuiMenu
 ***********************************************************************/
 
 			IGuiMenuService* GuiMenu::GetParent()
