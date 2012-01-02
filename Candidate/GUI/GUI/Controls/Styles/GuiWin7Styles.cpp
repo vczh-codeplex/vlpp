@@ -2715,10 +2715,10 @@ Win7DropDownComboBoxStyle
 				table->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 				table->SetAlignmentToParent(Margin(0, 0, 0, 0));
 				table->SetRowsAndColumns(1, 2);
-				table->SetRowOption(0, GuiCellOption::PercentageOption(1.0));
+				table->SetRowOption(0, GuiCellOption::MinSizeOption());
 				table->SetColumnOption(0, GuiCellOption::PercentageOption(1.0));
 				table->SetColumnOption(1, GuiCellOption::MinSizeOption());
-				elements.mainComposition->AddChild(table);
+				elements.textComposition->AddChild(table);
 
 				textComposition=new GuiCellComposition;
 				table->AddChild(textComposition);
@@ -2727,6 +2727,7 @@ Win7DropDownComboBoxStyle
 				Ptr<IGuiGraphicsElement> element=elements.textComposition->GetOwnedElement();
 				elements.textComposition->SetOwnedElement(0);
 				textComposition->SetOwnedElement(element);
+				elements.textElement->SetEllipse(true);
 
 				dropDownElement=GuiSolidLabelElement::Create();
 				{
@@ -2743,7 +2744,7 @@ Win7DropDownComboBoxStyle
 				dropDownComposition->SetSite(0, 1, 1, 1);
 				dropDownComposition->SetOwnedElement(dropDownElement);
 				dropDownComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElement);
-				dropDownComposition->SetMargin(Margin(5, 0, 5, 0));
+				dropDownComposition->SetMargin(Margin(3, 0, 3, 0));
 			}
 
 			Win7DropDownComboBoxStyle::~Win7DropDownComboBoxStyle()
