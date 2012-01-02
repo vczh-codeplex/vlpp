@@ -64,6 +64,7 @@ namespace vl
 
 				elements::GuiNotifyEvent					PopupOpened;
 				elements::GuiNotifyEvent					PopupClosed;
+				elements::GuiNotifyEvent					ItemSelecting;
 				elements::GuiNotifyEvent					ItemSelected;
 
 				void										ShowPopup();
