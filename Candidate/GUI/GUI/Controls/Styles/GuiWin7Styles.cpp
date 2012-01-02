@@ -2678,6 +2678,113 @@ Win7MenuSplitterStyle
 			}
 
 /***********************************************************************
+Win7DropDownComboBoxStyle
+***********************************************************************/
+
+			void Win7DropDownComboBoxStyle::TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected)
+			{
+				Win7ButtonColors targetColor;
+				if(enabled)
+				{
+					if(selected) value=GuiButton::Pressed;
+					switch(value)
+					{
+					case GuiButton::Normal:
+						targetColor=Win7ButtonColors::ButtonNormal();
+						break;
+					case GuiButton::Active:
+						targetColor=Win7ButtonColors::ButtonActive();
+						break;
+					case GuiButton::Pressed:
+						targetColor=Win7ButtonColors::ButtonPressed();
+						break;
+					}
+				}
+				else
+				{
+					targetColor=Win7ButtonColors::ButtonDisabled();
+				}
+				transferringAnimation->Transfer(targetColor);
+			}
+
+			Win7DropDownComboBoxStyle::Win7DropDownComboBoxStyle()
+				:Win7ButtonStyle(true)
+				,commandExecutor(0)
+			{
+				table=new GuiTableComposition;
+				table->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
+				table->SetAlignmentToParent(Margin(0, 0, 0, 0));
+				table->SetRowsAndColumns(1, 2);
+				table->SetRowOption(0, GuiCellOption::PercentageOption(1.0));
+				table->SetColumnOption(0, GuiCellOption::PercentageOption(1.0));
+				table->SetColumnOption(1, GuiCellOption::MinSizeOption());
+				elements.mainComposition->AddChild(table);
+
+				textComposition=new GuiCellComposition;
+				table->AddChild(textComposition);
+				textComposition->SetSite(0, 0, 1, 1);
+
+				Ptr<IGuiGraphicsElement> element=elements.textComposition->GetOwnedElement();
+				elements.textComposition->SetOwnedElement(0);
+				textComposition->SetOwnedElement(element);
+
+				dropDownElement=GuiSolidLabelElement::Create();
+				{
+					FontProperties font;
+					font.fontFamily=L"Wingdings 3";
+					font.size=10;
+					dropDownElement->SetFont(font);
+				}
+				dropDownElement->SetText((wchar_t)0xF080);
+				dropDownElement->SetAlignments(Alignment::Center, Alignment::Center);
+
+				dropDownComposition=new GuiCellComposition;
+				table->AddChild(dropDownComposition);
+				dropDownComposition->SetSite(0, 1, 1, 1);
+				dropDownComposition->SetOwnedElement(dropDownElement);
+				dropDownComposition->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElement);
+				dropDownComposition->SetMargin(Margin(5, 0, 5, 0));
+			}
+
+			Win7DropDownComboBoxStyle::~Win7DropDownComboBoxStyle()
+			{
+			}
+
+			elements::GuiGraphicsComposition* Win7DropDownComboBoxStyle::GetContainerComposition()
+			{
+				return textComposition;
+			}
+
+			void Win7DropDownComboBoxStyle::SetCommandExecutor(controls::GuiComboBoxBase::ICommandExecutor* value)
+			{
+				commandExecutor=value;
+			}
+
+			void Win7DropDownComboBoxStyle::OnClicked()
+			{
+				commandExecutor->ShowPopup();
+			}
+
+			void Win7DropDownComboBoxStyle::OnPopupOpened()
+			{
+				SetSelected(true);
+			}
+
+			void Win7DropDownComboBoxStyle::OnPopupClosed()
+			{
+				SetSelected(false);
+			}
+
+			void Win7DropDownComboBoxStyle::OnItemSelected()
+			{
+			}
+
+			controls::GuiControl::IStyleController* Win7DropDownComboBoxStyle::CreatePopupStyle()
+			{
+				return new Win7WindowStyle;
+			}
+
+/***********************************************************************
 Win7ScrollStyle
 ***********************************************************************/
 

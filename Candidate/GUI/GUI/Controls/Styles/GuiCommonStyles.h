@@ -18,6 +18,7 @@ Interfaces:
 #include "..\ExtendedControls\GuiListViewControls.h"
 #include "..\ExtendedControls\GuiTreeViewControls.h"
 #include "..\ExtendedControls\GuiMenuControls.h"
+#include "..\ExtendedControls\GuiComboControls.h"
 
 namespace vl
 {

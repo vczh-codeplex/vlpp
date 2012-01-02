@@ -21,6 +21,8 @@ Clases:
 		Win7ListViewColumnDropDownStyle
 		Win7ListViewColumnHeaderStyle
 		Win7TreeViewExpandingButtonStyle
+	GuiComboBoxBase::IStyleController
+		Win7DropDownComboBoxStyle
 	GuiMenuButton::IStyleController
 		Win7MenuBarButtonStyle
 		Win7MenuItemButtonStyle
@@ -636,6 +638,37 @@ Menu Button
 				void										SetFont(const FontProperties& value)override;
 				void										SetVisuallyEnabled(bool value)override;
 			};
+
+/***********************************************************************
+ComboBox
+***********************************************************************/
+			
+#pragma warning(push)
+#pragma warning(disable:4250)
+			class Win7DropDownComboBoxStyle : public Win7ButtonStyle, public virtual controls::GuiComboBoxBase::IStyleController
+			{
+			protected:
+				controls::GuiComboBoxBase::ICommandExecutor*	commandExecutor;
+				elements::GuiTableComposition*					table;
+				elements::GuiCellComposition*					textComposition;
+				elements::GuiCellComposition*					dropDownComposition;
+				elements::GuiSolidLabelElement*					dropDownElement;
+
+				void											TransferInternal(controls::GuiButton::ControlState value, bool enabled, bool selected)override;
+			public:
+				Win7DropDownComboBoxStyle();
+				~Win7DropDownComboBoxStyle();
+				
+				elements::GuiGraphicsComposition*				GetContainerComposition()override;
+
+				void											SetCommandExecutor(controls::GuiComboBoxBase::ICommandExecutor* value)override;
+				void											OnClicked()override;
+				void											OnPopupOpened()override;
+				void											OnPopupClosed()override;
+				void											OnItemSelected()override;
+				controls::GuiControl::IStyleController*			CreatePopupStyle()override;
+			};
+#pragma warning(pop)
 
 /***********************************************************************
 Scroll
