@@ -231,8 +231,13 @@ TextItem
 /***********************************************************************
 TextItemProvider
 ***********************************************************************/
+
+				WString TextItemProvider::GetPrimaryTextViewText(int itemIndex)
+				{
+					return Get(itemIndex).GetText();
+				}
 				
-				const WString& TextItemProvider::GetText(int itemIndex)
+				WString TextItemProvider::GetText(int itemIndex)
 				{
 					return Get(itemIndex).GetText();
 				}
@@ -272,6 +277,10 @@ TextItemProvider
 					if(identifier==TextItemStyleProvider::ITextItemView::Identifier)
 					{
 						return (TextItemStyleProvider::ITextItemView*)this;
+					}
+					else if(identifier==GuiListControl::IItemPrimaryTextView::Identifier)
+					{
+						return (GuiListControl::IItemPrimaryTextView*)this;
 					}
 					else
 					{

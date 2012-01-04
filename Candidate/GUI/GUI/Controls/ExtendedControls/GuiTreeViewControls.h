@@ -77,7 +77,7 @@ GuiVirtualTreeListControl NodeProvider
 				// Tree to ListControl (IItemProvider)
 				//-----------------------------------------------------------
 
-				class INodeItemView : public virtual Interface
+				class INodeItemView : public virtual GuiListControl::IItemPrimaryTextView
 				{
 				public:
 					static const wchar_t*			Identifier;
@@ -87,6 +87,14 @@ GuiVirtualTreeListControl NodeProvider
 					virtual int						CalculateNodeVisibilityIndex(INodeProvider* node)=0;
 				};
 
+				class INodeItemPrimaryTextView : public virtual Interface
+				{
+				public:
+					static const wchar_t*			Identifier;
+					
+					virtual WString					GetPrimaryTextViewText(INodeProvider* node)=0;
+				};
+
 				class NodeItemProvider
 					: public list::ItemProviderBase
 					, protected virtual INodeProviderCallback
@@ -94,6 +102,7 @@ GuiVirtualTreeListControl NodeProvider
 				{
 				protected:
 					Ptr<INodeRootProvider>			root;
+					INodeItemPrimaryTextView*		nodeItemPrimaryTextView;
 					int								offsetBeforeChildModified;
 
 					INodeProvider*					GetNodeByOffset(INodeProvider* provider, int offset);
@@ -104,7 +113,8 @@ GuiVirtualTreeListControl NodeProvider
 					void							OnItemCollapsed(INodeProvider* node)override;
 					int								CalculateNodeVisibilityIndexInternal(INodeProvider* node);
 					int								CalculateNodeVisibilityIndex(INodeProvider* node)override;
-
+					
+					WString							GetPrimaryTextViewText(int itemIndex)override;
 					INodeProvider*					RequestNode(int index)override;
 					void							ReleaseNode(INodeProvider* node)override;
 				public:
@@ -289,7 +299,7 @@ TreeView
 
 			namespace tree
 			{
-				class ITreeViewItemView : public virtual Interface
+				class ITreeViewItemView : public virtual INodeItemPrimaryTextView
 				{
 				public:
 					static const wchar_t*			Identifier;
@@ -314,6 +324,7 @@ TreeView
 				{
 				protected:
 
+					WString							GetPrimaryTextViewText(INodeProvider* node)override;
 					Ptr<GuiImageData>				GetNodeImage(INodeProvider* node)override;
 					WString							GetNodeText(INodeProvider* node)override;
 				public:

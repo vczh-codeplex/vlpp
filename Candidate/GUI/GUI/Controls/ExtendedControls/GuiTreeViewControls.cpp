@@ -11,6 +11,7 @@ namespace vl
 			namespace tree
 			{
 				const wchar_t* INodeItemView::Identifier = L"vl::presentation::controls::tree::INodeItemView";
+				const wchar_t* INodeItemPrimaryTextView::Identifier = L"vl::presentation:;cotnrols::tree::INodeItemPrimaryTextView";
 
 /***********************************************************************
 NodeItemProvider
@@ -177,6 +178,21 @@ NodeItemProvider
 					return result<0?-1:result;
 				}
 
+				WString NodeItemProvider::GetPrimaryTextViewText(int itemIndex)
+				{
+					if(nodeItemPrimaryTextView)
+					{
+						INodeProvider* node=RequestNode(itemIndex);
+						if(node)
+						{
+							WString result=nodeItemPrimaryTextView->GetPrimaryTextViewText(node);
+							ReleaseNode(node);
+							return result;
+						}
+					}
+					return L"";
+				}
+
 				INodeProvider* NodeItemProvider::RequestNode(int index)
 				{
 					if(root->CanGetNodeByVisibleIndex())
@@ -205,10 +221,12 @@ NodeItemProvider
 					:root(_root)
 				{
 					root->AttachCallback(this);
+					nodeItemPrimaryTextView=dynamic_cast<INodeItemPrimaryTextView*>(root->RequestView(INodeItemPrimaryTextView::Identifier));
 				}
 
 				NodeItemProvider::~NodeItemProvider()
 				{
+					root->ReleaseView(nodeItemPrimaryTextView);
 					root->DetachCallback(this);
 				}
 
@@ -825,6 +843,11 @@ TreeViewItem
 TreeViewItemRootProvider
 ***********************************************************************/
 
+				WString TreeViewItemRootProvider::GetPrimaryTextViewText(INodeProvider* node)
+				{
+					return GetNodeText(node);
+				}
+
 				Ptr<GuiImageData> TreeViewItemRootProvider::GetNodeImage(INodeProvider* node)
 				{
 					MemoryNodeProvider* memoryNode=dynamic_cast<MemoryNodeProvider*>(node);
@@ -866,6 +889,10 @@ TreeViewItemRootProvider
 					if(identifier==ITreeViewItemView::Identifier)
 					{
 						return (ITreeViewItemView*)this;
+					}
+					else if(identifier==INodeItemPrimaryTextView::Identifier)
+					{
+						return (INodeItemPrimaryTextView*)this;
 					}
 					else
 					{
