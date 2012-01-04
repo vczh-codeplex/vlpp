@@ -10,6 +10,9 @@ Interfaces:
 #define VCZH_PRESENTATION_CONTROLS_GUICOMBOCONTROLS
 
 #include "..\GuiWindowControls.h"
+#include "GuiTextListControls.h"
+#include "GuiListViewControls.h"
+#include "GuiTreeViewControls.h"
 
 namespace vl
 {
@@ -17,6 +20,11 @@ namespace vl
 	{
 		namespace controls
 		{
+
+/***********************************************************************
+ComboBox Base
+***********************************************************************/
+
 			class GuiComboBoxBase : public GuiButton
 			{
 			public:
@@ -71,6 +79,26 @@ namespace vl
 
 				void										ShowPopup();
 				GuiPopup*									GetPopup();
+			};
+
+/***********************************************************************
+ComboBox with GuiListControl
+***********************************************************************/
+
+			class GuiComboBoxListControl : public GuiComboBoxBase
+			{
+			protected:
+				GuiSelectableListControl*					containedListControl;
+				GuiListControl::IItemPrimaryTextView*		primaryTextView;
+
+				virtual void								DisplaySelectedContent(int itemIndex);
+				void										OnListControlSelectionChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments);
+			public:
+				GuiComboBoxListControl(IStyleController* _styleController, GuiSelectableListControl* _containedListControl);
+				~GuiComboBoxListControl();
+				
+				void										SetFont(const FontProperties& value)override;
+				GuiSelectableListControl*					GetContainedListControl();
 			};
 		}
 	}

@@ -97,6 +97,66 @@ GuiComboBoxBase
 			{
 				return popup;
 			}
+
+/***********************************************************************
+GuiComboBoxListControl
+***********************************************************************/
+
+			void GuiComboBoxListControl::DisplaySelectedContent(int itemIndex)
+			{
+				if(primaryTextView)
+				{
+					WString text=itemIndex==-1?L"":primaryTextView->GetPrimaryTextViewText(itemIndex);
+					SetText(text);
+					popup->Hide();
+				}
+			}
+
+			void GuiComboBoxListControl::OnListControlSelectionChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
+			{
+				if(containedListControl->GetSelectedItems().Count()==1)
+				{
+					DisplaySelectedContent(containedListControl->GetSelectedItems()[0]);
+				}
+				else
+				{
+					DisplaySelectedContent(-1);
+				}
+			}
+
+			GuiComboBoxListControl::GuiComboBoxListControl(IStyleController* _styleController, GuiSelectableListControl* _containedListControl)
+				:GuiComboBoxBase(_styleController)
+				,containedListControl(_containedListControl)
+			{
+				containedListControl->SetMultiSelect(false);
+				containedListControl->SelectionChanged.AttachMethod(this, &GuiComboBoxListControl::OnListControlSelectionChanged);
+				primaryTextView=dynamic_cast<GuiListControl::IItemPrimaryTextView*>(containedListControl->GetItemProvider()->RequestView(GuiListControl::IItemPrimaryTextView::Identifier));
+
+				containedListControl->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
+				popup->GetBoundsComposition()->AddChild(containedListControl->GetBoundsComposition());
+				SetFont(GetFont());
+			}
+
+			GuiComboBoxListControl::~GuiComboBoxListControl()
+			{
+				if(primaryTextView)
+				{
+					containedListControl->GetItemProvider()->ReleaseView(primaryTextView);
+				}
+			}
+
+			void GuiComboBoxListControl::SetFont(const FontProperties& value)
+			{
+				GuiComboBoxBase::SetFont(value);
+				Size size=popup->GetBoundsComposition()->GetPreferredMinSize();
+				size.y=20*value.size;
+				popup->GetBoundsComposition()->SetPreferredMinSize(size);
+			}
+
+			GuiSelectableListControl* GuiComboBoxListControl::GetContainedListControl()
+			{
+				return containedListControl;
+			}
 		}
 	}
 }

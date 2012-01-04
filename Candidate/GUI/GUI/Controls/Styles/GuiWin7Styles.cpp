@@ -2728,6 +2728,7 @@ Win7DropDownComboBoxStyle
 				elements.textComposition->SetOwnedElement(0);
 				textComposition->SetOwnedElement(element);
 				elements.textElement->SetEllipse(true);
+				elements.textElement->SetAlignments(Alignment::Left, Alignment::Center);
 
 				dropDownElement=GuiSolidLabelElement::Create();
 				{
