@@ -249,6 +249,10 @@ NodeItemProvider
 					{
 						return (INodeItemView*)this;
 					}
+					else if(identifier==GuiListControl::IItemPrimaryTextView::Identifier)
+					{
+						return (GuiListControl::IItemPrimaryTextView*)this;
+					}
 					else
 					{
 						return root->RequestView(identifier);
