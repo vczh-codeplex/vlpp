@@ -254,6 +254,7 @@ void SetupMainPanel(GuiControlHost* controlHost, GuiControl* container, GuiCellC
 			}
 			GuiComboBoxListControl* comboBox=new GuiComboBoxListControl(new win7::Win7DropDownComboBoxStyle(), listControl);
 			comboBox->GetBoundsComposition()->SetBounds(Rect(Point(420, 350), Size(200, 25)));
+			comboBox->SetSelectedIndex(0);
 			cell->AddChild(comboBox->GetBoundsComposition());
 		}
 		{
@@ -280,6 +281,7 @@ void SetupMainPanel(GuiControlHost* controlHost, GuiControl* container, GuiCellC
 			}
 			GuiComboBoxListControl* comboBox=new GuiComboBoxListControl(new win7::Win7DropDownComboBoxStyle(), listControl);
 			comboBox->GetBoundsComposition()->SetBounds(Rect(Point(420, 385), Size(200, 25)));
+			comboBox->SetSelectedIndex(0);
 			cell->AddChild(comboBox->GetBoundsComposition());
 		}
 		{

@@ -96,9 +96,15 @@ ComboBox with GuiListControl
 			public:
 				GuiComboBoxListControl(IStyleController* _styleController, GuiSelectableListControl* _containedListControl);
 				~GuiComboBoxListControl();
+
+				elements::GuiNotifyEvent					SelectedIndexChanged;
 				
 				void										SetFont(const FontProperties& value)override;
 				GuiSelectableListControl*					GetContainedListControl();
+
+				int											GetSelectedIndex();
+				void										SetSelectedIndex(int value);
+				GuiListControl::IItemProvider*				GetItemProvider();
 			};
 		}
 	}
