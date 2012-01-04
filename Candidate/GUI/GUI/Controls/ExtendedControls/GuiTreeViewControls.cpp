@@ -178,6 +178,21 @@ NodeItemProvider
 					return result<0?-1:result;
 				}
 
+				bool NodeItemProvider::ContainsPrimaryText(int itemIndex)
+				{
+					if(nodeItemPrimaryTextView)
+					{
+						INodeProvider* node=RequestNode(itemIndex);
+						if(node)
+						{
+							bool result=node->GetChildCount()==0;
+							ReleaseNode(node);
+							return result;
+						}
+					}
+					return true;
+				}
+
 				WString NodeItemProvider::GetPrimaryTextViewText(int itemIndex)
 				{
 					if(nodeItemPrimaryTextView)

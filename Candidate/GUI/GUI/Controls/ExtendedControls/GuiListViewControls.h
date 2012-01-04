@@ -489,6 +489,7 @@ ListView
 					collections::List<Ptr<ListViewColumn>>		columns;
 					ColumnItemViewCallbackList					columnItemViewCallbacks;
 
+					bool										ContainsPrimaryText(int itemIndex)override;
 					WString										GetPrimaryTextViewText(int itemIndex)override;
 					Ptr<GuiImageData>							GetSmallImage(int itemIndex)override;
 					Ptr<GuiImageData>							GetLargeImage(int itemIndex)override;

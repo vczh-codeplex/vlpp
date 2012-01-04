@@ -1301,6 +1301,11 @@ ListViewItemProvider
 				{
 				}
 
+				bool ListViewItemProvider::ContainsPrimaryText(int itemIndex)
+				{
+					return true;
+				}
+
 				WString ListViewItemProvider::GetPrimaryTextViewText(int itemIndex)
 				{
 					return Get(itemIndex)->text;
