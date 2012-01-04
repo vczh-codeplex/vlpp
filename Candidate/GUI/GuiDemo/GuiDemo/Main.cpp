@@ -240,8 +240,83 @@ void SetupMainPanel(GuiControlHost* controlHost, GuiControl* container, GuiCellC
 			});
 		}
 		{
-			GuiComboBoxBase* comboBox=new GuiComboBoxBase(new win7::Win7DropDownComboBoxStyle());
+			GuiTextList* listControl=0;
+			{
+				listControl=new GuiTextList(new win7::Win7MultilineTextBoxProvider, new win7::Win7TextListProvider);
+				listControl->GetBoundsComposition()->SetAlignmentToParent(Margin(200, 5, 5, 5));
+				listControl->SetHorizontalAlwaysVisible(false);
+
+				for(int i=0;i<30;i++)
+				{
+					listControl->GetItems().Add(L"Text Item "+itow(i+1));
+					listControl->GetItems().SetChecked(i, i%2==0);
+				}
+			}
+			GuiComboBoxListControl* comboBox=new GuiComboBoxListControl(new win7::Win7DropDownComboBoxStyle(), listControl);
 			comboBox->GetBoundsComposition()->SetBounds(Rect(Point(420, 350), Size(200, 25)));
+			cell->AddChild(comboBox->GetBoundsComposition());
+		}
+		{
+			GuiListView* listControl=0;
+			{
+				listControl=new GuiListView(new win7::Win7ListViewProvider);
+				listControl->GetBoundsComposition()->SetAlignmentToParent(Margin(200, 5, 5, 5));
+				listControl->SetHorizontalAlwaysVisible(false);
+				listControl->SetVerticalAlwaysVisible(false);
+		
+				INativeImageProvider* imageProvider=GetCurrentController()->GetImageProvider();
+				Ptr<INativeImage> largeImage=imageProvider->CreateImageFromFile(L"Resources\\New.png");
+				Ptr<GuiImageData> largeImageData=new GuiImageData(largeImage, 0);
+				Ptr<INativeImage> smallImage=imageProvider->CreateImageFromFile(L"Resources\\NewSmall.png");
+				Ptr<GuiImageData> smallImageData=new GuiImageData(smallImage, 0);
+
+				for(int i=0;i<100;i++)
+				{
+					Ptr<list::ListViewItem> item=new list::ListViewItem;
+					item->text=L"List View Item "+itow(i+1);
+					item->largeImage=largeImageData;
+					listControl->GetItems().Add(item);
+				}
+			}
+			GuiComboBoxListControl* comboBox=new GuiComboBoxListControl(new win7::Win7DropDownComboBoxStyle(), listControl);
+			comboBox->GetBoundsComposition()->SetBounds(Rect(Point(420, 385), Size(200, 25)));
+			cell->AddChild(comboBox->GetBoundsComposition());
+		}
+		{
+			GuiTreeView* treeControl=0;
+			{
+				treeControl=new GuiTreeView(new win7::Win7TreeViewProvider);
+				treeControl->GetBoundsComposition()->SetAlignmentToParent(Margin(5, 5, 5, 5));
+				treeControl->SetHorizontalAlwaysVisible(false);
+				treeControl->SetVerticalAlwaysVisible(false);
+		
+				INativeImageProvider* imageProvider=GetCurrentController()->GetImageProvider();
+				Ptr<INativeImage> image=imageProvider->CreateImageFromFile(L"Resources\\NewSmall.png");
+				Ptr<GuiImageData> imageData=new GuiImageData(image, 0);
+
+				treeControl->Nodes()->Children().Add(new tree::MemoryNodeProvider(new tree::TreeViewItem(imageData, L"Microsoft")));
+				{
+					Ptr<tree::MemoryNodeProvider> node=treeControl->Nodes()->Children()[0];
+					node->Children().Add(new tree::MemoryNodeProvider(new tree::TreeViewItem(imageData, L"Visual C++")));
+					node->Children().Add(new tree::MemoryNodeProvider(new tree::TreeViewItem(imageData, L"Visual C#")));
+					node->Children().Add(new tree::MemoryNodeProvider(new tree::TreeViewItem(imageData, L"Visual Basic.NET")));
+					node->Children().Add(new tree::MemoryNodeProvider(new tree::TreeViewItem(imageData, L"Visual F#")));
+				}
+				treeControl->Nodes()->Children().Add(new tree::MemoryNodeProvider(new tree::TreeViewItem(imageData, L"IBM")));
+				{
+					Ptr<tree::MemoryNodeProvider> node=treeControl->Nodes()->Children()[1];
+					node->Children().Add(new tree::MemoryNodeProvider(new tree::TreeViewItem(imageData, L"Eclipse")));
+				}
+				treeControl->Nodes()->Children().Add(new tree::MemoryNodeProvider(new tree::TreeViewItem(imageData, L"Borland")));
+				{
+					Ptr<tree::MemoryNodeProvider> node=treeControl->Nodes()->Children()[2];
+					node->Children().Add(new tree::MemoryNodeProvider(new tree::TreeViewItem(imageData, L"Delphi")));
+					node->Children().Add(new tree::MemoryNodeProvider(new tree::TreeViewItem(imageData, L"C++ Builder")));
+					node->Children().Add(new tree::MemoryNodeProvider(new tree::TreeViewItem(imageData, L"JBuilder")));
+				}
+			}
+			GuiComboBoxListControl* comboBox=new GuiComboBoxListControl(new win7::Win7DropDownComboBoxStyle(), treeControl);
+			comboBox->GetBoundsComposition()->SetBounds(Rect(Point(420, 420), Size(200, 25)));
 			cell->AddChild(comboBox->GetBoundsComposition());
 		}
 	}

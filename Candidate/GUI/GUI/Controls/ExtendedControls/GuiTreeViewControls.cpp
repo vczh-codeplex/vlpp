@@ -226,7 +226,10 @@ NodeItemProvider
 
 				NodeItemProvider::~NodeItemProvider()
 				{
-					root->ReleaseView(nodeItemPrimaryTextView);
+					if(nodeItemPrimaryTextView)
+					{
+						root->ReleaseView(nodeItemPrimaryTextView);
+					}
 					root->DetachCallback(this);
 				}
 
