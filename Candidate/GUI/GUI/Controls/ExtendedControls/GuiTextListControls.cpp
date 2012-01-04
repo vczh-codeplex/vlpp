@@ -232,6 +232,11 @@ TextItem
 TextItemProvider
 ***********************************************************************/
 
+				bool TextItemProvider::ContainsPrimaryText(int itemIndex)
+				{
+					return true;
+				}
+
 				WString TextItemProvider::GetPrimaryTextViewText(int itemIndex)
 				{
 					return Get(itemIndex).GetText();

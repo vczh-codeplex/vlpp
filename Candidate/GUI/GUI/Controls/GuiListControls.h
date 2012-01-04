@@ -63,6 +63,7 @@ List Control
 					static const wchar_t*						Identifier;
 
 					virtual WString								GetPrimaryTextViewText(int itemIndex)=0;
+					virtual bool								ContainsPrimaryText(int itemIndex)=0;
 				};
 
 				//-----------------------------------------------------------

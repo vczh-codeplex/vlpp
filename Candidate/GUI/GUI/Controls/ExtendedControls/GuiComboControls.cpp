@@ -106,9 +106,16 @@ GuiComboBoxListControl
 			{
 				if(primaryTextView)
 				{
-					WString text=itemIndex==-1?L"":primaryTextView->GetPrimaryTextViewText(itemIndex);
-					SetText(text);
-					popup->Hide();
+					if(itemIndex==-1)
+					{
+						SetText(L"");
+					}
+					else if(primaryTextView->ContainsPrimaryText(itemIndex))
+					{
+						WString text=primaryTextView->GetPrimaryTextViewText(itemIndex);
+						SetText(text);
+						popup->Hide();
+					}
 				}
 			}
 

@@ -114,6 +114,7 @@ GuiVirtualTreeListControl NodeProvider
 					int								CalculateNodeVisibilityIndexInternal(INodeProvider* node);
 					int								CalculateNodeVisibilityIndex(INodeProvider* node)override;
 					
+					bool							ContainsPrimaryText(int itemIndex)override;
 					WString							GetPrimaryTextViewText(int itemIndex)override;
 					INodeProvider*					RequestNode(int index)override;
 					void							ReleaseNode(INodeProvider* node)override;

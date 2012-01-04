@@ -113,6 +113,7 @@ TextList Data Source
 				class TextItemProvider : public ListProvider<TextItem>, protected TextItemStyleProvider::ITextItemView
 				{
 				protected:
+					bool										ContainsPrimaryText(int itemIndex)override;
 					WString										GetPrimaryTextViewText(int itemIndex)override;
 					WString										GetText(int itemIndex)override;
 					bool										GetChecked(int itemIndex)override;
