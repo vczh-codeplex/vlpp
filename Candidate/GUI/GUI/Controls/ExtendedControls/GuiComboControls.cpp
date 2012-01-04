@@ -65,6 +65,7 @@ GuiComboBoxBase
 				styleController=dynamic_cast<IStyleController*>(GetStyleController());
 				styleController->SetCommandExecutor(commandExecutor.Obj());
 				popup=new GuiPopup(styleController->CreatePopupStyle());
+				popup->GetNativeWindow()->SetAlwaysPassFocusToParent(true);
 
 				PopupOpened.SetAssociatedComposition(boundsComposition);
 				PopupClosed.SetAssociatedComposition(boundsComposition);
@@ -121,14 +122,8 @@ GuiComboBoxListControl
 
 			void GuiComboBoxListControl::OnListControlSelectionChanged(elements::GuiGraphicsComposition* sender, elements::GuiEventArgs& arguments)
 			{
-				if(containedListControl->GetSelectedItems().Count()==1)
-				{
-					DisplaySelectedContent(containedListControl->GetSelectedItems()[0]);
-				}
-				else
-				{
-					DisplaySelectedContent(-1);
-				}
+				DisplaySelectedContent(GetSelectedIndex());
+				SelectedIndexChanged.Execute(GetNotifyEventArguments());
 			}
 
 			GuiComboBoxListControl::GuiComboBoxListControl(IStyleController* _styleController, GuiSelectableListControl* _containedListControl)
@@ -138,6 +133,8 @@ GuiComboBoxListControl
 				containedListControl->SetMultiSelect(false);
 				containedListControl->SelectionChanged.AttachMethod(this, &GuiComboBoxListControl::OnListControlSelectionChanged);
 				primaryTextView=dynamic_cast<GuiListControl::IItemPrimaryTextView*>(containedListControl->GetItemProvider()->RequestView(GuiListControl::IItemPrimaryTextView::Identifier));
+
+				SelectedIndexChanged.SetAssociatedComposition(GetBoundsComposition());
 
 				containedListControl->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));
 				popup->GetBoundsComposition()->AddChild(containedListControl->GetBoundsComposition());
@@ -163,6 +160,28 @@ GuiComboBoxListControl
 			GuiSelectableListControl* GuiComboBoxListControl::GetContainedListControl()
 			{
 				return containedListControl;
+			}
+
+			int GuiComboBoxListControl::GetSelectedIndex()
+			{
+				if(containedListControl->GetSelectedItems().Count()==1)
+				{
+					return containedListControl->GetSelectedItems()[0];
+				}
+				else
+				{
+					return -1;
+				}
+			}
+
+			void GuiComboBoxListControl::SetSelectedIndex(int value)
+			{
+				containedListControl->SetSelected(value, true);
+			}
+
+			GuiListControl::IItemProvider* GuiComboBoxListControl::GetItemProvider()
+			{
+				return containedListControl->GetItemProvider();
 			}
 		}
 	}
