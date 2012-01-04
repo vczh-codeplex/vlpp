@@ -36,12 +36,12 @@ TextList Style Provider
 						virtual GuiSelectableButton::IStyleController*		CreateBulletStyleController()=0;
 					};
 
-					class ITextItemView : public Interface
+					class ITextItemView : public virtual GuiListControl::IItemPrimaryTextView
 					{
 					public:
 						static const wchar_t*					Identifier;
 
-						virtual const WString&					GetText(int itemIndex)=0;
+						virtual WString							GetText(int itemIndex)=0;
 						virtual bool							GetChecked(int itemIndex)=0;
 						virtual void							SetCheckedSilently(int itemIndex, bool value)=0;
 					};
@@ -113,7 +113,8 @@ TextList Data Source
 				class TextItemProvider : public ListProvider<TextItem>, protected TextItemStyleProvider::ITextItemView
 				{
 				protected:
-					const WString&								GetText(int itemIndex)override;
+					WString										GetPrimaryTextViewText(int itemIndex)override;
+					WString										GetText(int itemIndex)override;
 					bool										GetChecked(int itemIndex)override;
 					void										SetCheckedSilently(int itemIndex, bool value)override;
 				public:

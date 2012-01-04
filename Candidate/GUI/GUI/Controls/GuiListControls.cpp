@@ -9,6 +9,8 @@ namespace vl
 			using namespace collections;
 			using namespace elements;
 
+			const wchar_t* GuiListControl::IItemPrimaryTextView::Identifier = L"vl::presnetation::controls::GuiListControl::IItemPrimaryTextView";
+
 /***********************************************************************
 GuiListControl::ItemCallback
 ***********************************************************************/

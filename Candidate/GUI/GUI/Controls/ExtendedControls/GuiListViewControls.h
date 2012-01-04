@@ -89,7 +89,7 @@ ListView ItemStyleProvider
 				class ListViewItemStyleProvider : public ListViewItemStyleProviderBase
 				{
 				public:
-					class IListViewItemView : public virtual Interface
+					class IListViewItemView : public virtual GuiListControl::IItemPrimaryTextView
 					{
 					public:
 						static const wchar_t*					Identifier;
@@ -489,6 +489,7 @@ ListView
 					collections::List<Ptr<ListViewColumn>>		columns;
 					ColumnItemViewCallbackList					columnItemViewCallbacks;
 
+					WString										GetPrimaryTextViewText(int itemIndex)override;
 					Ptr<GuiImageData>							GetSmallImage(int itemIndex)override;
 					Ptr<GuiImageData>							GetLargeImage(int itemIndex)override;
 					WString										GetText(int itemIndex)override;

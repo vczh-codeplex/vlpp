@@ -54,6 +54,18 @@ List Control
 				};
 
 				//-----------------------------------------------------------
+				// Common Views
+				//-----------------------------------------------------------
+
+				class IItemPrimaryTextView : public virtual Interface
+				{
+				public:
+					static const wchar_t*						Identifier;
+
+					virtual WString								GetPrimaryTextViewText(int itemIndex)=0;
+				};
+
+				//-----------------------------------------------------------
 				// Provider Interfaces
 				//-----------------------------------------------------------
 

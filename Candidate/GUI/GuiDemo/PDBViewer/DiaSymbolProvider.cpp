@@ -465,6 +465,11 @@ class DiaSymbolRootProvider
 protected:
 	Ptr<DiaSymbolProvider>			exeSymbol;
 
+	WString GetPrimaryTextViewText(INodeProvider* node)
+	{
+		return GetNodeText(node);
+	}
+
 	Ptr<GuiImageData> GetNodeImage(INodeProvider* node)
 	{
 		return 0;

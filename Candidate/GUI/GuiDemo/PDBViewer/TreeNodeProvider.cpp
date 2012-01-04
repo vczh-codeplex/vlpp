@@ -188,6 +188,11 @@ class TreeNodeRootProvider
 protected:
 	Ptr<TreeNodeProvider>			rootProvider;
 
+	WString GetPrimaryTextViewText(INodeProvider* node)
+	{
+		return GetNodeText(node);
+	}
+
 	Ptr<GuiImageData> GetNodeImage(INodeProvider* node)
 	{
 		return 0;

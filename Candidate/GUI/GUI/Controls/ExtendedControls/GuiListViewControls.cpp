@@ -1301,6 +1301,11 @@ ListViewItemProvider
 				{
 				}
 
+				WString ListViewItemProvider::GetPrimaryTextViewText(int itemIndex)
+				{
+					return Get(itemIndex)->text;
+				}
+
 				Ptr<GuiImageData> ListViewItemProvider::GetSmallImage(int itemIndex)
 				{
 					return Get(itemIndex)->smallImage;
@@ -1424,6 +1429,10 @@ ListViewItemProvider
 					else if(identifier==ListViewColumnItemArranger::IColumnItemView::Identifier)
 					{
 						return (ListViewColumnItemArranger::IColumnItemView*)this;
+					}
+					else if(identifier==GuiListControl::IItemPrimaryTextView::Identifier)
+					{
+						return (GuiListControl::IItemPrimaryTextView*)this;
 					}
 					else
 					{
