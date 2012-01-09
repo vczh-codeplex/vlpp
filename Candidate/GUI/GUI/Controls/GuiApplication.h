@@ -42,8 +42,8 @@ namespace vl
 				GuiWindow*										GetWindow(Point location);
 
 				bool											IsInMainThread();
-				void											InvokeInMainThread(INativeController::AsyncTaskProc* proc, void* argument);
-				bool											InvokeInMainThreadAndWait(INativeController::AsyncTaskProc* proc, void* argument, int milliseconds=-1);
+				void											InvokeInMainThread(INativeAsyncService::AsyncTaskProc* proc, void* argument);
+				bool											InvokeInMainThreadAndWait(INativeAsyncService::AsyncTaskProc* proc, void* argument, int milliseconds=-1);
 				void											InvokeInMainThread(const Func<void()>& proc);
 				bool											InvokeInMainThreadAndWait(const Func<void()>& proc, int milliseconds=-1);
 

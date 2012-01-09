@@ -129,13 +129,13 @@ int WinMainGDI(HINSTANCE hInstance, void(*RendererMain)())
 	{
 		// install listener
 		GdiWindowsNativeControllerListener listener;
-		controller->InstallListener(&listener);
+		controller->CallbackService()->InstallListener(&listener);
 		gdiListener=&listener;
 		// main
 		RendererMain();
 		// uninstall listener
 		gdiListener=0;
-		controller->UninstallListener(&listener);
+		controller->CallbackService()->UninstallListener(&listener);
 	}
 	// destroy controller
 	DestroyWindowsNativeController(controller);

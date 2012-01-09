@@ -67,19 +67,11 @@ System Object
 			virtual SystemCursorType	GetSystemCursorType()=0;
 		};
 
-		class INativeClipboard : public Interface
-		{
-		public:
-			virtual bool				ContainsText()=0;
-			virtual WString				GetText()=0;
-			virtual bool				SetText(const WString& value)=0;
-		};
-
 /***********************************************************************
 Image Object
 ***********************************************************************/
 
-		class INativeImageProvider;
+		class INativeImageService;
 		class INativeImage;
 		class INativeImageFrame;
 
@@ -116,13 +108,13 @@ Image Object
 				Unknown,
 			};
 
-			virtual INativeImageProvider*		GetProvider()=0;
+			virtual INativeImageService*		GetImageService()=0;
 			virtual FormatType					GetFormat()=0;
 			virtual int							GetFrameCount()=0;
 			virtual INativeImageFrame*			GetFrame(int index)=0;
 		};
 
-		class INativeImageProvider : public Interface
+		class INativeImageService : public Interface
 		{
 		public:
 			virtual Ptr<INativeImage>			CreateImageFromFile(const WString& path)=0;
@@ -272,31 +264,58 @@ Native Window
 		};
 
 /***********************************************************************
-Native Window Provider
+Native Window Services
 ***********************************************************************/
 
-		class INativeController : public Interface
+		class INativeResourceService : public virtual Interface
+		{
+		public:
+			virtual INativeCursor*			GetSystemCursor(INativeCursor::SystemCursorType type)=0;
+			virtual INativeCursor*			GetDefaultSystemCursor()=0;
+
+			virtual FontProperties			GetDefaultFont()=0;
+			virtual void					SetDefaultFont(const FontProperties& value)=0;
+		};
+
+		class INativeAsyncService : public virtual Interface
 		{
 		public:
 			typedef void (AsyncTaskProc)(void* arguments);
 
-			virtual INativeCursor*			GetSystemCursor(INativeCursor::SystemCursorType type)=0;
-			virtual INativeCursor*			GetDefaultSystemCursor()=0;
-			virtual INativeWindow*			CreateNativeWindow()=0;
-			virtual void					DestroyNativeWindow(INativeWindow* window)=0;
-			virtual INativeWindow*			GetMainWindow()=0;
-			virtual void					Run(INativeWindow* window)=0;
-
 			virtual bool					IsInMainThread()=0;
 			virtual void					InvokeInMainThread(AsyncTaskProc* proc, void* argument)=0;
 			virtual bool					InvokeInMainThreadAndWait(AsyncTaskProc* proc, void* argument, int milliseconds=-1)=0;
+		};
 
-			virtual FontProperties			GetDefaultFont()=0;
-			virtual void					SetDefaultFont(const FontProperties& value)=0;
+		class INativeClipboardService : public virtual Interface
+		{
+		public:
+			virtual bool					ContainsText()=0;
+			virtual WString					GetText()=0;
+			virtual bool					SetText(const WString& value)=0;
+		};
 
-			virtual bool					InstallListener(INativeControllerListener* listener)=0;
-			virtual bool					UninstallListener(INativeControllerListener* listener)=0;
+		class INativeScreenService : public virtual Interface
+		{
+		public:
+			virtual int						GetScreenCount()=0;
+			virtual INativeScreen*			GetScreen(int index)=0;
+			virtual INativeScreen*			GetScreen(INativeWindow* window)=0;
+		};
 
+		class INativeWindowService : public virtual Interface
+		{
+		public:
+			virtual INativeWindow*			CreateNativeWindow()=0;
+			virtual void					DestroyNativeWindow(INativeWindow* window)=0;
+			virtual INativeWindow*			GetMainWindow()=0;
+			virtual INativeWindow*			GetWindow(Point location)=0;
+			virtual void					Run(INativeWindow* window)=0;
+		};
+
+		class INativeInputService : public virtual Interface
+		{
+		public:
 			virtual void					StartHookMouse()=0;
 			virtual void					StopHookMouse()=0;
 			virtual bool					IsHookingMouse()=0;
@@ -305,16 +324,32 @@ Native Window Provider
 			virtual void					StopTimer()=0;
 			virtual bool					IsTimerEnabled()=0;
 
-			virtual INativeClipboard*		GetClipboard()=0;
-			virtual INativeImageProvider*	GetImageProvider()=0;
-			
-			virtual int						GetScreenCount()=0;
-			virtual INativeScreen*			GetScreen(int index)=0;
-			virtual INativeScreen*			GetScreen(INativeWindow* window)=0;
-
 			virtual bool					IsKeyPressing(int code)=0;
 			virtual bool					IsKeyToggled(int code)=0;
-			virtual INativeWindow*			GetWindow(Point location)=0;
+		};
+
+		class INativeCallbackService : public virtual Interface
+		{
+		public:
+			virtual bool					InstallListener(INativeControllerListener* listener)=0;
+			virtual bool					UninstallListener(INativeControllerListener* listener)=0;
+		};
+
+/***********************************************************************
+Native Window Controller
+***********************************************************************/
+
+		class INativeController : public virtual Interface
+		{
+		public:
+			virtual INativeCallbackService*			CallbackService()=0;
+			virtual INativeResourceService*			ResourceService()=0;
+			virtual INativeAsyncService*			AsyncService()=0;
+			virtual INativeClipboardService*		ClipboardService()=0;
+			virtual INativeImageService*			ImageService()=0;
+			virtual INativeScreenService*			ScreenService()=0;
+			virtual INativeWindowService*			WindowService()=0;
+			virtual INativeInputService*			InputService()=0;
 		};
 
 		class INativeControllerListener : public Interface

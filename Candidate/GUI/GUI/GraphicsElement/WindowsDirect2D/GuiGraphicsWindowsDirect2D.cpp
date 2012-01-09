@@ -511,7 +511,7 @@ void RendererMainDirect2D()
 	WindowsDirect2DResourceManager resourceManager;
 	SetGuiGraphicsResourceManager(&resourceManager);
 	SetWindowsDirect2DResourceManager(&resourceManager);
-	GetCurrentController()->InstallListener(&resourceManager);
+	GetCurrentController()->CallbackService()->InstallListener(&resourceManager);
 
 	GuiSolidBorderElementRenderer::Register();
 	GuiRoundBorderElementRenderer::Register();

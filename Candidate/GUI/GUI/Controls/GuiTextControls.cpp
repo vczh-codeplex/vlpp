@@ -386,7 +386,7 @@ GuiTextElementOperator
 				textElement=_textElement;
 				textComposition=_textComposition;
 				textControl=_textControl;
-				textComposition->SetAssociatedCursor(GetCurrentController()->GetSystemCursor(INativeCursor::IBeam));
+				textComposition->SetAssociatedCursor(GetCurrentController()->ResourceService()->GetSystemCursor(INativeCursor::IBeam));
 
 				GuiGraphicsComposition* focusableComposition=textControl->GetFocusableComposition();
 				focusableComposition->GetEventReceiver()->gotFocus.AttachMethod(this, &GuiTextElementOperator::OnGotFocus);
@@ -475,7 +475,7 @@ GuiTextElementOperator
 
 			bool GuiTextElementOperator::CanPaste()
 			{
-				return GetCurrentController()->GetClipboard()->ContainsText();
+				return GetCurrentController()->ClipboardService()->ContainsText();
 			}
 
 			void GuiTextElementOperator::SelectAll()
@@ -489,7 +489,7 @@ GuiTextElementOperator
 			{
 				if(CanCut())
 				{
-					GetCurrentController()->GetClipboard()->SetText(GetSelectionText());
+					GetCurrentController()->ClipboardService()->SetText(GetSelectionText());
 					SetSelectionText(L"");
 					return true;
 				}
@@ -503,7 +503,7 @@ GuiTextElementOperator
 			{
 				if(CanCopy())
 				{
-					GetCurrentController()->GetClipboard()->SetText(GetSelectionText());
+					GetCurrentController()->ClipboardService()->SetText(GetSelectionText());
 					return true;
 				}
 				else
@@ -516,7 +516,7 @@ GuiTextElementOperator
 			{
 				if(CanPaste())
 				{
-					SetSelectionText(GetCurrentController()->GetClipboard()->GetText());
+					SetSelectionText(GetCurrentController()->ClipboardService()->GetText());
 					return true;
 				}
 				else

@@ -490,7 +490,7 @@ GuiControlHost
 			{
 				if(host->GetNativeWindow())
 				{
-					return GetCurrentController()->GetScreen(host->GetNativeWindow());
+					return GetCurrentController()->ScreenService()->GetScreen(host->GetNativeWindow());
 				}
 				else
 				{
@@ -551,14 +551,14 @@ GuiControlHost
 				INativeWindow* window=host->GetNativeWindow();
 				if(window)
 				{
-					if(GetCurrentController()->GetMainWindow()==window)
+					if(GetCurrentController()->WindowService()->GetMainWindow()==window)
 					{
 						window->Hide();
 					}
 					else
 					{
 						SetNativeWindow(0);
-						GetCurrentController()->DestroyNativeWindow(window);
+						GetCurrentController()->WindowService()->DestroyNativeWindow(window);
 					}
 				}
 			}
@@ -584,7 +584,7 @@ GuiWindow
 			GuiWindow::GuiWindow(GuiControl::IStyleController* _styleController)
 				:GuiControlHost(_styleController)
 			{
-				INativeWindow* window=GetCurrentController()->CreateNativeWindow();
+				INativeWindow* window=GetCurrentController()->WindowService()->CreateNativeWindow();
 				SetNativeWindow(window);
 				GetApplication()->RegisterWindow(this);
 			}
@@ -596,7 +596,7 @@ GuiWindow
 				if(window)
 				{
 					SetNativeWindow(0);
-					GetCurrentController()->DestroyNativeWindow(window);
+					GetCurrentController()->WindowService()->DestroyNativeWindow(window);
 				}
 			}
 
@@ -630,7 +630,7 @@ GuiPopup
 				INativeWindow* window=GetNativeWindow();
 				if(window)
 				{
-					INativeScreen* screen=GetCurrentController()->GetScreen(window);
+					INativeScreen* screen=GetCurrentController()->ScreenService()->GetScreen(window);
 					if(screen)
 					{
 						Rect screenBounds=screen->GetClientBounds();
@@ -646,7 +646,7 @@ GuiPopup
 				INativeWindow* window=GetNativeWindow();
 				if(window)
 				{
-					INativeScreen* screen=GetCurrentController()->GetScreen(window);
+					INativeScreen* screen=GetCurrentController()->ScreenService()->GetScreen(window);
 					if(screen)
 					{
 						Rect screenBounds=screen->GetClientBounds();

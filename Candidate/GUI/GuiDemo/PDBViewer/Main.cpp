@@ -113,7 +113,7 @@ void GuiMain()
 			tabControl->GetPages()[0]->GetContainer()->SetEnabled(false);
 			buttonDump->SetEnabled(false);
 			buttonDump->SetText(L"Dumping...");
-			buttonDump->GetRelatedControlHost()->GetBoundsComposition()->SetAssociatedCursor(controller->GetSystemCursor(INativeCursor::LargeWaiting));
+			buttonDump->GetRelatedControlHost()->GetBoundsComposition()->SetAssociatedCursor(controller->ResourceService()->GetSystemCursor(INativeCursor::LargeWaiting));
 
 			ThreadPoolLite::QueueLambda([=]()
 			{
@@ -136,7 +136,7 @@ void GuiMain()
 						GetApplication()->InvokeLambdaInMainThreadAndWait([=]()
 						{
 							buttonDump->SetText(L"GuiDemo.xml dumpped.");
-							buttonDump->GetRelatedControlHost()->GetBoundsComposition()->SetAssociatedCursor(controller->GetDefaultSystemCursor());
+							buttonDump->GetRelatedControlHost()->GetBoundsComposition()->SetAssociatedCursor(controller->ResourceService()->GetDefaultSystemCursor());
 
 							GuiTreeView* treeControl=new GuiTreeView(new win7::Win7TreeViewProvider, CreateProviderFromXml(xml));
 							treeControl->GetBoundsComposition()->SetAlignmentToParent(Margin(0, 0, 0, 0));

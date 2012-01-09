@@ -96,7 +96,7 @@ GuiControl
 				TextChanged.SetAssociatedComposition(boundsComposition);
 				FontChanged.SetAssociatedComposition(boundsComposition);
 
-				font=GetCurrentController()->GetDefaultFont();
+				font=GetCurrentController()->ResourceService()->GetDefaultFont();
 				styleController->SetFont(font);
 				styleController->SetText(text);
 				styleController->SetVisuallyEnabled(isVisuallyEnabled);

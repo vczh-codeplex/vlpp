@@ -380,7 +380,7 @@ GuiGraphicsHost
 				}
 				else
 				{
-					nativeWindow->SetWindowCursor(GetCurrentController()->GetDefaultSystemCursor());
+					nativeWindow->SetWindowCursor(GetCurrentController()->ResourceService()->GetDefaultSystemCursor());
 				}
 
 				OnMouseInput(info, &GuiGraphicsEventReceiver::mouseMove);
@@ -491,7 +491,7 @@ GuiGraphicsHost
 				{
 					if(nativeWindow)
 					{
-						GetCurrentController()->UninstallListener(this);
+						GetCurrentController()->CallbackService()->UninstallListener(this);
 						nativeWindow->UninstallListener(this);
 					}
 					nativeWindow=_nativeWindow;
@@ -499,7 +499,7 @@ GuiGraphicsHost
 					if(nativeWindow)
 					{
 						nativeWindow->InstallListener(this);
-						GetCurrentController()->InstallListener(this);
+						GetCurrentController()->CallbackService()->InstallListener(this);
 						previousClientSize=nativeWindow->GetClientSize();
 						minSize=windowComposition->GetPreferredBounds().GetSize();
 						nativeWindow->SetCaretPoint(caretPoint);

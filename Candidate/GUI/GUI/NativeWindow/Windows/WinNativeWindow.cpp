@@ -67,59 +67,7 @@ WindowsClass
 			};
 
 /***********************************************************************
-WindowsScreen
-***********************************************************************/
-
-			class WindowsScreen : public Object, public INativeScreen
-			{
-				friend class WindowsController;
-			protected:
-				HMONITOR					monitor;
-			public:
-				WindowsScreen()
-				{
-					monitor=NULL;
-				}
-
-				Rect GetBounds()
-				{
-					MONITORINFOEX info;
-					info.cbSize=sizeof(MONITORINFOEX);
-					GetMonitorInfo(monitor, &info);
-					return Rect(info.rcMonitor.left, info.rcMonitor.top, info.rcMonitor.right, info.rcMonitor.bottom);
-				}
-
-				Rect GetClientBounds()
-				{
-					MONITORINFOEX info;
-					info.cbSize=sizeof(MONITORINFOEX);
-					GetMonitorInfo(monitor, &info);
-					return Rect(info.rcWork.left, info.rcWork.top, info.rcWork.right, info.rcWork.bottom);
-				}
-
-				WString GetName()
-				{
-					MONITORINFOEX info;
-					info.cbSize=sizeof(MONITORINFOEX);
-					GetMonitorInfo(monitor, &info);
-					
-					wchar_t buffer[sizeof(info.szDevice)/sizeof(*info.szDevice)+1];
-					memset(buffer, 0, sizeof(buffer));
-					memcpy(buffer, info.szDevice, sizeof(info.szDevice));
-					return buffer;
-				}
-
-				bool IsPrimary()
-				{
-					MONITORINFOEX info;
-					info.cbSize=sizeof(MONITORINFOEX);
-					GetMonitorInfo(monitor, &info);
-					return info.dwFlags==MONITORINFOF_PRIMARY;
-				}
-			};
-
-/***********************************************************************
-WindowsCursor
+WindowsResourceService
 ***********************************************************************/
 
 			class WindowsCursor : public Object, public INativeCursor
@@ -200,23 +148,94 @@ WindowsCursor
 				}
 			};
 
+			class WindowsResourceService : public Object, public INativeResourceService
+			{
+			protected:
+				Array<Ptr<WindowsCursor>>			systemCursors;
+				FontProperties						defaultFont;
+			public:
+				WindowsResourceService()
+				{
+					{
+						systemCursors.Resize(INativeCursor::SystemCursorCount);
+						for(int i=0;i<systemCursors.Count();i++)
+						{
+							systemCursors[i]=new WindowsCursor((INativeCursor::SystemCursorType)i);
+						}
+					}
+					{
+						NONCLIENTMETRICS metrics;
+						metrics.cbSize=sizeof(NONCLIENTMETRICS);
+						SystemParametersInfo(SPI_GETNONCLIENTMETRICS, metrics.cbSize, &metrics, 0);
+						if(!*metrics.lfMessageFont.lfFaceName)
+						{
+							metrics.cbSize=sizeof(NONCLIENTMETRICS)-sizeof(metrics.iPaddedBorderWidth);
+							SystemParametersInfo(SPI_GETNONCLIENTMETRICS, metrics.cbSize, &metrics, 0);
+						}
+						defaultFont.fontFamily=metrics.lfMessageFont.lfFaceName;
+						defaultFont.size=metrics.lfMessageFont.lfHeight;
+						if(defaultFont.size<0)
+						{
+							defaultFont.size=-defaultFont.size;
+						}
+					}
+				}
+
+				INativeCursor* GetSystemCursor(INativeCursor::SystemCursorType type)
+				{
+					int index=(int)type;
+					if(0<=index && index<systemCursors.Count())
+					{
+						return systemCursors[index].Obj();
+					}
+					else
+					{
+						return 0;
+					}
+				}
+
+				INativeCursor* GetDefaultSystemCursor()
+				{
+					return GetSystemCursor(INativeCursor::Arrow);
+				}
+
+				FontProperties GetDefaultFont()
+				{
+					return defaultFont;
+				}
+
+				void SetDefaultFont(const FontProperties& value)
+				{
+					defaultFont=value;
+				}
+			};
+
 /***********************************************************************
-WindowsClipboard
+WindowsClipboardService
 ***********************************************************************/
 
-			class WindowsClipboard : public Object, public INativeClipboard
+			class WindowsClipboardService : public Object, public INativeClipboardService
 			{
 			protected:
 				HWND			ownerHandle;
 			public:
-				WindowsClipboard()
+				WindowsClipboardService()
 					:ownerHandle(NULL)
 				{
 				}
 
 				void SetOwnerHandle(HWND handle)
 				{
+					HWND oldHandle=ownerHandle;
 					ownerHandle=handle;
+					if(handle==NULL)
+					{
+						RemoveClipboardFormatListener(oldHandle);
+					}
+					else
+					{
+						AddClipboardFormatListener(ownerHandle);
+					}
 				}
 
 				bool ContainsText()
@@ -276,7 +295,7 @@ WindowsClipboard
 			};
 
 /***********************************************************************
-WindowsImage
+WindowsImageService
 ***********************************************************************/
 
 			class WindowsImageFrame : public Object, public INativeImageFrame
@@ -393,12 +412,12 @@ WindowsImage
 			class WindowsImage : public Object, public INativeImage
 			{
 			protected:
-				INativeImageProvider*					provider;
+				INativeImageService*					imageService;
 				ComPtr<IWICBitmapDecoder>				bitmapDecoder;
 				Array<Ptr<WindowsImageFrame>>			frames;
 			public:
-				WindowsImage(INativeImageProvider* _provider, IWICBitmapDecoder* _bitmapDecoder)
-					:provider(_provider)
+				WindowsImage(INativeImageService* _imageService, IWICBitmapDecoder* _bitmapDecoder)
+					:imageService(_imageService)
 					,bitmapDecoder(_bitmapDecoder)
 				{
 					UINT count=0;
@@ -410,9 +429,9 @@ WindowsImage
 				{
 				}
 
-				INativeImageProvider* GetProvider()
+				INativeImageService* GetImageService()
 				{
-					return provider;
+					return imageService;
 				}
 
 				FormatType GetFormat()
@@ -486,12 +505,12 @@ WindowsImage
 				}
 			};
 
-			class WindowsImageProvider : public Object, public INativeImageProvider
+			class WindowsImageService : public Object, public INativeImageService
 			{
 			protected:
 				ComPtr<IWICImagingFactory>				imagingFactory;
 			public:
-				WindowsImageProvider()
+				WindowsImageService()
 				{
 					IWICImagingFactory* factory=0;
 					HRESULT hr = CoCreateInstance(
@@ -507,7 +526,7 @@ WindowsImage
 					}
 				}
 
-				~WindowsImageProvider()
+				~WindowsImageService()
 				{
 				}
 
@@ -538,7 +557,7 @@ WindowsImage
 
 			IWICImagingFactory* GetWICImagingFactory()
 			{
-				return dynamic_cast<WindowsImageProvider*>(GetCurrentController()->GetImageProvider())->GetImagingFactory();
+				return dynamic_cast<WindowsImageService*>(GetCurrentController()->ImageService())->GetImagingFactory();
 			}
 
 			IWICBitmapDecoder* GetWICBitmapDecoder(INativeImage* image)
@@ -550,6 +569,232 @@ WindowsImage
 			{
 				return dynamic_cast<WindowsImageFrame*>(frame)->GetFrameBitmap();
 			}
+
+/***********************************************************************
+WindowsAsyncService
+***********************************************************************/
+
+			class WindowsAsyncService : public INativeAsyncService
+			{
+			public:
+				struct TaskItem
+				{
+					Semaphore*							semaphore;
+					INativeAsyncService::AsyncTaskProc*	proc;
+					void*								argument;
+
+					TaskItem()
+						:semaphore(0)
+						,proc(0)
+						,argument(0)
+					{
+					}
+
+					TaskItem(Semaphore* _semaphore, INativeAsyncService::AsyncTaskProc* _proc, void* _argument)
+						:semaphore(_semaphore)
+						,proc(_proc)
+						,argument(_argument)
+					{
+					}
+
+					~TaskItem()
+					{
+					}
+
+					bool operator==(const TaskItem& item)const{return false;}
+					bool operator!=(const TaskItem& item)const{return true;}
+				};
+			protected:
+				int								mainThreadId;
+				SpinLock						taskListLock;
+				List<TaskItem>					taskItems;
+			public:
+				WindowsAsyncService()
+					:mainThreadId(Thread::GetCurrentThreadId())
+				{
+				}
+
+				~WindowsAsyncService()
+				{
+				}
+
+				void ExecuteAsyncTasks()
+				{
+					Array<TaskItem> items;
+					{
+						SpinLock::Scope scope(taskListLock);
+						CopyFrom(items.Wrap(), taskItems.Wrap());
+						taskItems.RemoveRange(0, items.Count());
+					}
+					for(int i=0;i<items.Count();i++)
+					{
+						TaskItem taskItem=items[i];
+						taskItem.proc(taskItem.argument);
+						if(taskItem.semaphore)
+						{
+							taskItem.semaphore->Release();
+						}
+					}
+				}
+
+				bool IsInMainThread()
+				{
+					return Thread::GetCurrentThreadId()==mainThreadId;
+				}
+
+				void InvokeInMainThread(INativeAsyncService::AsyncTaskProc* proc, void* argument)
+				{
+					SpinLock::Scope scope(taskListLock);
+					TaskItem item(0, proc, argument);
+					taskItems.Add(item);
+				}
+
+				bool InvokeInMainThreadAndWait(INativeAsyncService::AsyncTaskProc* proc, void* argument, int milliseconds)
+				{
+					Semaphore semaphore;
+					semaphore.Create(0, 1);
+					{
+						SpinLock::Scope scope(taskListLock);
+						TaskItem item(&semaphore, proc, argument);
+						taskItems.Add(item);
+					}
+					if(milliseconds<0)
+					{
+						return semaphore.Wait();
+					}
+					else
+					{
+						return semaphore.WaitForTime(milliseconds);
+					}
+				}
+			};
+
+/***********************************************************************
+WindowsScreenService
+***********************************************************************/
+
+			class WindowsScreen : public Object, public INativeScreen
+			{
+				friend class WindowsScreenService;
+			protected:
+				HMONITOR					monitor;
+			public:
+				WindowsScreen()
+				{
+					monitor=NULL;
+				}
+
+				Rect GetBounds()
+				{
+					MONITORINFOEX info;
+					info.cbSize=sizeof(MONITORINFOEX);
+					GetMonitorInfo(monitor, &info);
+					return Rect(info.rcMonitor.left, info.rcMonitor.top, info.rcMonitor.right, info.rcMonitor.bottom);
+				}
+
+				Rect GetClientBounds()
+				{
+					MONITORINFOEX info;
+					info.cbSize=sizeof(MONITORINFOEX);
+					GetMonitorInfo(monitor, &info);
+					return Rect(info.rcWork.left, info.rcWork.top, info.rcWork.right, info.rcWork.bottom);
+				}
+
+				WString GetName()
+				{
+					MONITORINFOEX info;
+					info.cbSize=sizeof(MONITORINFOEX);
+					GetMonitorInfo(monitor, &info);
+					
+					wchar_t buffer[sizeof(info.szDevice)/sizeof(*info.szDevice)+1];
+					memset(buffer, 0, sizeof(buffer));
+					memcpy(buffer, info.szDevice, sizeof(info.szDevice));
+					return buffer;
+				}
+
+				bool IsPrimary()
+				{
+					MONITORINFOEX info;
+					info.cbSize=sizeof(MONITORINFOEX);
+					GetMonitorInfo(monitor, &info);
+					return info.dwFlags==MONITORINFOF_PRIMARY;
+				}
+			};
+
+			class WindowsScreenService : public Object, public INativeScreenService
+			{
+			protected:
+				List<Ptr<WindowsScreen>>			screens;
+			public:
+
+				struct MonitorEnumProcData
+				{
+					WindowsScreenService*	screenService;
+					int						currentScreen;
+				};
+
+				static BOOL CALLBACK MonitorEnumProc(
+				  HMONITOR hMonitor,
+				  HDC hdcMonitor,
+				  LPRECT lprcMonitor,
+				  LPARAM dwData
+				)
+				{
+					MonitorEnumProcData* data=(MonitorEnumProcData*)dwData;
+					if(data->currentScreen==data->screenService->screens.Count())
+					{
+						data->screenService->screens.Add(new WindowsScreen());
+					}
+					data->screenService->screens[data->currentScreen]->monitor=hMonitor;
+					data->currentScreen++;
+					return TRUE;
+				}
+
+				void RefreshScreenInformation()
+				{
+					for(int i=0;i<screens.Count();i++)
+					{
+						screens[i]->monitor=NULL;
+					}
+					MonitorEnumProcData data;
+					data.screenService=this;
+					data.currentScreen=0;
+					EnumDisplayMonitors(NULL, NULL, MonitorEnumProc, (LPARAM)(&data));
+				}
+				
+				int GetScreenCount()
+				{
+					RefreshScreenInformation();
+					return GetSystemMetrics(SM_CMONITORS);
+				}
+
+				INativeScreen* GetScreen(int index)
+				{
+					RefreshScreenInformation();
+					return screens[index].Obj();
+				}
+
+				INativeScreen* GetScreen(INativeWindow* window)
+				{
+					RefreshScreenInformation();
+					IWindowsForm* windowsForm=GetWindowsForm(window);
+					if(windowsForm)
+					{
+						HMONITOR monitor=MonitorFromWindow(windowsForm->GetWindowHandle(), MONITOR_DEFAULTTONULL);
+						if(monitor!=NULL)
+						{
+							for(int i=0;i<screens.Count();i++)
+							{
+								if(screens[i]->monitor==monitor)
+								{
+									return screens[i].Obj();
+								}
+							}
+						}
+					}
+					return 0;
+				}
+			};
 
 /***********************************************************************
 WindowsForm
@@ -1425,306 +1670,17 @@ WindowsForm
 			};
 
 /***********************************************************************
-WindowsInvoker
+WindowsCallbackService
 ***********************************************************************/
 
-			class WindowsAsyncTaskInvoker : public Object
-			{
-			public:
-				struct TaskItem
-				{
-					Semaphore*							semaphore;
-					INativeController::AsyncTaskProc*	proc;
-					void*								argument;
-
-					TaskItem()
-						:semaphore(0)
-						,proc(0)
-						,argument(0)
-					{
-					}
-
-					TaskItem(Semaphore* _semaphore, INativeController::AsyncTaskProc* _proc, void* _argument)
-						:semaphore(_semaphore)
-						,proc(_proc)
-						,argument(_argument)
-					{
-					}
-
-					~TaskItem()
-					{
-					}
-
-					bool operator==(const TaskItem& item)const{return false;}
-					bool operator!=(const TaskItem& item)const{return true;}
-				};
-			protected:
-				int								mainThreadId;
-				SpinLock						taskListLock;
-				List<TaskItem>					taskItems;
-			public:
-				WindowsAsyncTaskInvoker()
-					:mainThreadId(Thread::GetCurrentThreadId())
-				{
-				}
-
-				~WindowsAsyncTaskInvoker()
-				{
-				}
-
-				void ExecuteAsyncTasks()
-				{
-					Array<TaskItem> items;
-					{
-						SpinLock::Scope scope(taskListLock);
-						CopyFrom(items.Wrap(), taskItems.Wrap());
-						taskItems.RemoveRange(0, items.Count());
-					}
-					for(int i=0;i<items.Count();i++)
-					{
-						TaskItem taskItem=items[i];
-						taskItem.proc(taskItem.argument);
-						if(taskItem.semaphore)
-						{
-							taskItem.semaphore->Release();
-						}
-					}
-				}
-
-				bool IsInMainThread()
-				{
-					return Thread::GetCurrentThreadId()==mainThreadId;
-				}
-
-				void InvokeInMainThread(INativeController::AsyncTaskProc* proc, void* argument)
-				{
-					SpinLock::Scope scope(taskListLock);
-					TaskItem item(0, proc, argument);
-					taskItems.Add(item);
-				}
-
-				bool InvokeInMainThreadAndWait(INativeController::AsyncTaskProc* proc, void* argument, int milliseconds)
-				{
-					Semaphore semaphore;
-					semaphore.Create(0, 1);
-					{
-						SpinLock::Scope scope(taskListLock);
-						TaskItem item(&semaphore, proc, argument);
-						taskItems.Add(item);
-					}
-					if(milliseconds<0)
-					{
-						return semaphore.Wait();
-					}
-					else
-					{
-						return semaphore.WaitForTime(milliseconds);
-					}
-				}
-			};
-
-/***********************************************************************
-WindowsController
-***********************************************************************/
-
-			LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-			LRESULT CALLBACK GodProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-			LRESULT CALLBACK MouseProc(int nCode , WPARAM wParam , LPARAM lParam);
-
-			class WindowsController : public Object, public INativeController
+			class WindowsCallbackService : public Object, public INativeCallbackService
 			{
 			protected:
-				WinClass							windowClass;
-				WinClass							godClass;
-				HINSTANCE							hInstance;
-				HWND								godWindow;
-				Dictionary<HWND, WindowsForm*>		windows;
 				List<INativeControllerListener*>	listeners;
-				INativeWindow*						mainWindow;
-				WindowsAsyncTaskInvoker				asyncTaskInvoker;
-				WindowsClipboard					clipboard;
-				WindowsImageProvider				imageProvider;
 
-				HHOOK								mouseHook;
-				bool								isTimerEnabled;
-
-				Array<Ptr<WindowsCursor>>			systemCursors;
-				List<Ptr<WindowsScreen>>			screens;
-				FontProperties						defaultFont;
 			public:
-				WindowsController(HINSTANCE _hInstance)
-					:hInstance(_hInstance)
-					,windowClass(L"VczhWindow", false, false, WndProc, _hInstance)
-					,godClass(L"GodWindow", false, false, GodProc, _hInstance)
-					,mainWindow(0)
-					,mouseHook(NULL)
-					,isTimerEnabled(false)
+				WindowsCallbackService()
 				{
-					godWindow=CreateWindowEx(WS_EX_CONTROLPARENT, godClass.GetName().Buffer(), L"GodWindow", WS_OVERLAPPEDWINDOW, 0, 0, 0, 0, NULL, NULL, hInstance, NULL);
-					AddClipboardFormatListener(godWindow);
-					clipboard.SetOwnerHandle(godWindow);
-
-					{
-						NONCLIENTMETRICS metrics;
-						metrics.cbSize=sizeof(NONCLIENTMETRICS);
-						SystemParametersInfo(SPI_GETNONCLIENTMETRICS, metrics.cbSize, &metrics, 0);
-						if(!*metrics.lfMessageFont.lfFaceName)
-						{
-							metrics.cbSize=sizeof(NONCLIENTMETRICS)-sizeof(metrics.iPaddedBorderWidth);
-							SystemParametersInfo(SPI_GETNONCLIENTMETRICS, metrics.cbSize, &metrics, 0);
-						}
-						defaultFont.fontFamily=metrics.lfMessageFont.lfFaceName;
-						defaultFont.size=metrics.lfMessageFont.lfHeight;
-						if(defaultFont.size<0)
-						{
-							defaultFont.size=-defaultFont.size;
-						}
-					}
-
-					systemCursors.Resize(INativeCursor::SystemCursorCount);
-					for(int i=0;i<systemCursors.Count();i++)
-					{
-						systemCursors[i]=new WindowsCursor((INativeCursor::SystemCursorType)i);
-					}
-				}
-
-				~WindowsController()
-				{
-					StopTimer();
-					StopHookMouse();
-					RemoveClipboardFormatListener(godWindow);
-					DestroyWindow(godWindow);
-				}
-
-				bool HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& result)
-				{
-					bool skipDefaultProcedure=false;
-					int index=windows.Keys().IndexOf(hwnd);
-					if(index!=-1)
-					{
-						WindowsForm* window=windows.Values()[index];
-						skipDefaultProcedure=window->HandleMessage(hwnd, uMsg, wParam, lParam, result);
-						switch(uMsg)
-						{
-						case WM_CLOSE:
-							if(!skipDefaultProcedure)
-							{
-								ShowWindow(window->GetWindowHandle(), SW_HIDE);
-								if(window!=mainWindow)
-								{
-									skipDefaultProcedure=true;
-								}
-							}
-							break;
-						case WM_DESTROY:
-							DestroyNativeWindow(window);
-							if(window==mainWindow)
-							{
-								for(int i=0;i<windows.Count();i++)
-								{
-									if(windows.Values()[i]->IsVisible())
-									{
-										windows.Values()[i]->Hide();
-									}
-								}
-								while(windows.Count())
-								{
-									DestroyNativeWindow(windows.Values()[0]);
-								}
-								PostQuitMessage(0);
-							}
-							break;
-						}
-					}
-					return skipDefaultProcedure;
-				}
-
-				INativeCursor* GetSystemCursor(INativeCursor::SystemCursorType type)
-				{
-					int index=(int)type;
-					if(0<=index && index<systemCursors.Count())
-					{
-						return systemCursors[index].Obj();
-					}
-					else
-					{
-						return 0;
-					}
-				}
-
-				INativeCursor* GetDefaultSystemCursor()
-				{
-					return GetSystemCursor(INativeCursor::Arrow);
-				}
-
-				INativeWindow* CreateNativeWindow()
-				{
-					WindowsForm* window=new WindowsForm(godWindow, windowClass.GetName(), hInstance);
-					windows.Add(window->GetWindowHandle(), window);
-					for(int i=0;i<listeners.Count();i++)
-					{
-						listeners[i]->NativeWindowCreated(window);
-					}
-					window->SetWindowCursor(GetDefaultSystemCursor());
-					return window;
-				}
-
-				void DestroyNativeWindow(INativeWindow* window)
-				{
-					WindowsForm* windowsForm=dynamic_cast<WindowsForm*>(window);
-					windowsForm->InvokeDestroying();
-					if(windowsForm!=0 && windows.Keys().Contains(windowsForm->GetWindowHandle()))
-					{
-						for(int i=0;i<listeners.Count();i++)
-						{
-							listeners[i]->NativeWindowDestroying(window);
-						}
-						windows.Remove(windowsForm->GetWindowHandle());
-						delete windowsForm;
-					}
-				}
-
-				INativeWindow* GetMainWindow()
-				{
-					return mainWindow;
-				}
-
-				void Run(INativeWindow* window)
-				{
-					mainWindow=window;
-					mainWindow->Show();
-					MSG message;
-					while(GetMessage(&message, NULL, 0, 0))
-					{
-						TranslateMessage(&message);
-						DispatchMessage(&message);
-						asyncTaskInvoker.ExecuteAsyncTasks();
-					}
-				}
-
-				bool IsInMainThread()
-				{
-					return asyncTaskInvoker.IsInMainThread();
-				}
-
-				void InvokeInMainThread(AsyncTaskProc* proc, void* argument)
-				{
-					asyncTaskInvoker.InvokeInMainThread(proc, argument);
-				}
-
-				bool InvokeInMainThreadAndWait(AsyncTaskProc* proc, void* argument, int milliseconds)
-				{
-					return asyncTaskInvoker.InvokeInMainThreadAndWait(proc, argument, milliseconds);
-				}
-
-				FontProperties GetDefaultFont()
-				{
-					return defaultFont;
-				}
-
-				void SetDefaultFont(const FontProperties& value)
-				{
-					defaultFont=value;
 				}
 
 				bool InstallListener(INativeControllerListener* listener)
@@ -1802,6 +1758,66 @@ WindowsController
 					}
 				}
 
+				void InvokeGlobalTimer()
+				{
+					for(int i=0;i<listeners.Count();i++)
+					{
+						listeners[i]->GlobalTimer();
+					}
+				}
+
+				void InvokeClipboardUpdated()
+				{
+					for(int i=0;i<listeners.Count();i++)
+					{
+						listeners[i]->ClipboardUpdated();
+					}
+				}
+
+				void InvokeNativeWindowCreated(INativeWindow* window)
+				{
+					for(int i=0;i<listeners.Count();i++)
+					{
+						listeners[i]->NativeWindowCreated(window);
+					}
+				}
+
+				void InvokeNativeWindowDestroyed(INativeWindow* window)
+				{
+					for(int i=0;i<listeners.Count();i++)
+					{
+						listeners[i]->NativeWindowDestroying(window);
+					}
+				}
+			};
+
+/***********************************************************************
+WindowsInputService
+***********************************************************************/
+
+			LRESULT CALLBACK MouseProc(int nCode , WPARAM wParam , LPARAM lParam);
+
+			class WindowsInputService : public Object, public INativeInputService
+			{
+			protected:
+				HWND								ownerHandle;
+				HHOOK								mouseHook;
+				bool								isTimerEnabled;
+			public:
+				WindowsInputService()
+					:ownerHandle(NULL)
+					,mouseHook(NULL)
+					,isTimerEnabled(false)
+				{
+				}
+
+				void SetOwnerHandle(HWND handle)
+				{
+					ownerHandle=handle;
+				}
+
+				//=======================================================================
+
 				void StartHookMouse()
 				{
 					if(!IsHookingMouse())
@@ -1826,19 +1842,11 @@ WindowsController
 
 				//=======================================================================
 
-				void InvokeGlobalTimer()
-				{
-					for(int i=0;i<listeners.Count();i++)
-					{
-						listeners[i]->GlobalTimer();
-					}
-				}
-
 				void StartTimer()
 				{
 					if(!IsTimerEnabled())
 					{
-						SetTimer(godWindow, 1, 16, NULL);
+						SetTimer(ownerHandle, 1, 16, NULL);
 						isTimerEnabled=true;
 					}
 				}
@@ -1847,7 +1855,7 @@ WindowsController
 				{
 					if(IsTimerEnabled())
 					{
-						KillTimer(godWindow, 1);
+						KillTimer(ownerHandle, 1);
 						isTimerEnabled=false;
 					}
 				}
@@ -1855,96 +1863,6 @@ WindowsController
 				bool IsTimerEnabled()
 				{
 					return isTimerEnabled;
-				}
-
-				//=======================================================================
-
-				void InvokeClipboardUpdated()
-				{
-					for(int i=0;i<listeners.Count();i++)
-					{
-						listeners[i]->ClipboardUpdated();
-					}
-				}
-
-				INativeClipboard* GetClipboard()
-				{
-					return &clipboard;
-				}
-
-				INativeImageProvider* GetImageProvider()
-				{
-					return &imageProvider;
-				}
-
-				//=======================================================================
-
-				struct MonitorEnumProcData
-				{
-					WindowsController*		controller;
-					int						currentScreen;
-				};
-
-				static BOOL CALLBACK MonitorEnumProc(
-				  HMONITOR hMonitor,
-				  HDC hdcMonitor,
-				  LPRECT lprcMonitor,
-				  LPARAM dwData
-				)
-				{
-					MonitorEnumProcData* data=(MonitorEnumProcData*)dwData;
-					if(data->currentScreen==data->controller->screens.Count())
-					{
-						data->controller->screens.Add(new WindowsScreen());
-					}
-					data->controller->screens[data->currentScreen]->monitor=hMonitor;
-					data->currentScreen++;
-					return TRUE;
-				}
-
-				void RefreshScreenInformation()
-				{
-					for(int i=0;i<screens.Count();i++)
-					{
-						screens[i]->monitor=NULL;
-					}
-					MonitorEnumProcData data;
-					data.controller=this;
-					data.currentScreen=0;
-					EnumDisplayMonitors(NULL, NULL, MonitorEnumProc, (LPARAM)(&data));
-				}
-				
-				int GetScreenCount()
-				{
-					RefreshScreenInformation();
-					return GetSystemMetrics(SM_CMONITORS);
-				}
-
-				INativeScreen* GetScreen(int index)
-				{
-					RefreshScreenInformation();
-					return screens[index].Obj();
-				}
-
-				INativeScreen* GetScreen(INativeWindow* window)
-				{
-					RefreshScreenInformation();
-					IWindowsForm* windowsForm=GetWindowsForm(window);
-					if(windowsForm)
-					{
-						HMONITOR monitor=MonitorFromWindow(windowsForm->GetWindowHandle(), MONITOR_DEFAULTTONULL);
-						if(monitor!=NULL)
-						{
-							for(int i=0;i<screens.Count();i++)
-							{
-								if(screens[i]->monitor==monitor)
-								{
-									return screens[i].Obj();
-								}
-							}
-						}
-					}
-					return 0;
 				}
 
 				//=======================================================================
@@ -1957,6 +1875,136 @@ WindowsController
 				bool IsKeyToggled(int code)
 				{
 					return WinIsKeyToggled(code);
+				}
+			};
+
+/***********************************************************************
+WindowsController
+***********************************************************************/
+
+			LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+			LRESULT CALLBACK GodProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+			class WindowsController : public Object, public virtual INativeController, public virtual INativeWindowService
+			{
+			protected:
+				WinClass							windowClass;
+				WinClass							godClass;
+				HINSTANCE							hInstance;
+				HWND								godWindow;
+				Dictionary<HWND, WindowsForm*>		windows;
+				INativeWindow*						mainWindow;
+
+				WindowsCallbackService				callbackService;
+				WindowsResourceService				resourceService;
+				WindowsAsyncService					asyncService;
+				WindowsClipboardService				clipboardService;
+				WindowsImageService					imageService;
+				WindowsScreenService				screenService;
+				WindowsInputService					inputService;
+
+			public:
+				WindowsController(HINSTANCE _hInstance)
+					:hInstance(_hInstance)
+					,windowClass(L"VczhWindow", false, false, WndProc, _hInstance)
+					,godClass(L"GodWindow", false, false, GodProc, _hInstance)
+					,mainWindow(0)
+				{
+					godWindow=CreateWindowEx(WS_EX_CONTROLPARENT, godClass.GetName().Buffer(), L"GodWindow", WS_OVERLAPPEDWINDOW, 0, 0, 0, 0, NULL, NULL, hInstance, NULL);
+					clipboardService.SetOwnerHandle(godWindow);
+					inputService.SetOwnerHandle(godWindow);
+				}
+
+				~WindowsController()
+				{
+					inputService.StopTimer();
+					inputService.StopHookMouse();
+					clipboardService.SetOwnerHandle(NULL);
+					DestroyWindow(godWindow);
+				}
+
+				bool HandleMessage(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& result)
+				{
+					bool skipDefaultProcedure=false;
+					int index=windows.Keys().IndexOf(hwnd);
+					if(index!=-1)
+					{
+						WindowsForm* window=windows.Values()[index];
+						skipDefaultProcedure=window->HandleMessage(hwnd, uMsg, wParam, lParam, result);
+						switch(uMsg)
+						{
+						case WM_CLOSE:
+							if(!skipDefaultProcedure)
+							{
+								ShowWindow(window->GetWindowHandle(), SW_HIDE);
+								if(window!=mainWindow)
+								{
+									skipDefaultProcedure=true;
+								}
+							}
+							break;
+						case WM_DESTROY:
+							DestroyNativeWindow(window);
+							if(window==mainWindow)
+							{
+								for(int i=0;i<windows.Count();i++)
+								{
+									if(windows.Values()[i]->IsVisible())
+									{
+										windows.Values()[i]->Hide();
+									}
+								}
+								while(windows.Count())
+								{
+									DestroyNativeWindow(windows.Values()[0]);
+								}
+								PostQuitMessage(0);
+							}
+							break;
+						}
+					}
+					return skipDefaultProcedure;
+				}
+
+				//=======================================================================
+
+				INativeWindow* CreateNativeWindow()
+				{
+					WindowsForm* window=new WindowsForm(godWindow, windowClass.GetName(), hInstance);
+					windows.Add(window->GetWindowHandle(), window);
+					callbackService.InvokeNativeWindowCreated(window);
+					window->SetWindowCursor(resourceService.GetDefaultSystemCursor());
+					return window;
+				}
+
+				void DestroyNativeWindow(INativeWindow* window)
+				{
+					WindowsForm* windowsForm=dynamic_cast<WindowsForm*>(window);
+					windowsForm->InvokeDestroying();
+					if(windowsForm!=0 && windows.Keys().Contains(windowsForm->GetWindowHandle()))
+					{
+						callbackService.InvokeNativeWindowDestroyed(window);
+						windows.Remove(windowsForm->GetWindowHandle());
+						delete windowsForm;
+					}
+				}
+
+				INativeWindow* GetMainWindow()
+				{
+					return mainWindow;
+				}
+
+				void Run(INativeWindow* window)
+				{
+					mainWindow=window;
+					mainWindow->Show();
+					MSG message;
+					while(GetMessage(&message, NULL, 0, 0))
+					{
+						TranslateMessage(&message);
+						DispatchMessage(&message);
+						asyncService.ExecuteAsyncTasks();
+					}
 				}
 
 				INativeWindow* GetWindow(Point location)
@@ -1974,6 +2022,65 @@ WindowsController
 					{
 						return windows.Values()[index];
 					}
+				}
+
+				//=======================================================================
+
+				INativeCallbackService* CallbackService()
+				{
+					return &callbackService;
+				}
+
+				INativeResourceService* ResourceService()
+				{
+					return &resourceService;
+				}
+				
+				INativeAsyncService* AsyncService()
+				{
+					return &asyncService;
+				}
+
+				INativeClipboardService* ClipboardService()
+				{
+					return &clipboardService;
+				}
+
+				INativeImageService* ImageService()
+				{
+					return &imageService;
+				}
+
+				INativeScreenService* ScreenService()
+				{
+					return &screenService;
+				}
+
+				INativeWindowService* WindowService()
+				{
+					return this;
+				}
+
+				INativeInputService* InputService()
+				{
+					return &inputService;
+				}
+
+				//=======================================================================
+
+				void InvokeMouseHook(WPARAM message, Point location)
+				{
+					callbackService.InvokeMouseHook(message, location);
+				}
+
+				void InvokeGlobalTimer()
+				{
+					callbackService.InvokeGlobalTimer();
+				}
+
+				void InvokeClipboardUpdated()
+				{
+					callbackService.InvokeClipboardUpdated();
 				}
 			};
 
