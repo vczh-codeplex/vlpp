@@ -986,7 +986,7 @@ ListViewColumnItemArranger
 						{
 							GuiBoundsComposition* splitterComposition=new GuiBoundsComposition;
 							splitterComposition->SetAlignmentToParent(Margin(0, 0, 0, 0));
-							splitterComposition->SetAssociatedCursor(GetCurrentController()->GetSystemCursor(INativeCursor::SizeWE));
+							splitterComposition->SetAssociatedCursor(GetCurrentController()->ResourceService()->GetSystemCursor(INativeCursor::SizeWE));
 							splitterComposition->SetAlignmentToParent(Margin(0, 0, -1, 0));
 							splitterComposition->SetPreferredMinSize(Size(SplitterWidth, 0));
 							columnHeaderSplitters.Add(splitterComposition);

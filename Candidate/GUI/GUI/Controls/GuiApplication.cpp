@@ -35,12 +35,12 @@ GuiApplication
 			GuiApplication::GuiApplication()
 				:mainWindow(0)
 			{
-				GetCurrentController()->InstallListener(this);
+				GetCurrentController()->CallbackService()->InstallListener(this);
 			}
 
 			GuiApplication::~GuiApplication()
 			{
-				GetCurrentController()->UninstallListener(this);
+				GetCurrentController()->CallbackService()->UninstallListener(this);
 			}
 
 			void GuiApplication::RegisterWindow(GuiWindow* window)
@@ -70,7 +70,7 @@ GuiApplication
 				if(!mainWindow)
 				{
 					mainWindow=_mainWindow;
-					GetCurrentController()->Run(mainWindow->GetNativeWindow());
+					GetCurrentController()->WindowService()->Run(mainWindow->GetNativeWindow());
 					mainWindow=0;
 				}
 			}
@@ -82,7 +82,7 @@ GuiApplication
 
 			GuiWindow* GuiApplication::GetWindow(Point location)
 			{
-				INativeWindow* nativeWindow=GetCurrentController()->GetWindow(location);
+				INativeWindow* nativeWindow=GetCurrentController()->WindowService()->GetWindow(location);
 				if(nativeWindow)
 				{
 					for(int i=0;i<windows.Count();i++)
@@ -99,17 +99,17 @@ GuiApplication
 
 			bool GuiApplication::IsInMainThread()
 			{
-				return GetCurrentController()->IsInMainThread();
+				return GetCurrentController()->AsyncService()->IsInMainThread();
 			}
 
-			void GuiApplication::InvokeInMainThread(INativeController::AsyncTaskProc* proc, void* argument)
+			void GuiApplication::InvokeInMainThread(INativeAsyncService::AsyncTaskProc* proc, void* argument)
 			{
-				GetCurrentController()->InvokeInMainThread(proc, argument);
+				GetCurrentController()->AsyncService()->InvokeInMainThread(proc, argument);
 			}
 
-			bool GuiApplication::InvokeInMainThreadAndWait(INativeController::AsyncTaskProc* proc, void* argument, int milliseconds)
+			bool GuiApplication::InvokeInMainThreadAndWait(INativeAsyncService::AsyncTaskProc* proc, void* argument, int milliseconds)
 			{
-				return GetCurrentController()->InvokeInMainThreadAndWait(proc, argument, milliseconds);
+				return GetCurrentController()->AsyncService()->InvokeInMainThreadAndWait(proc, argument, milliseconds);
 			}
 
 			void InvokeInMainThreadProc(void* argument)
@@ -142,8 +142,8 @@ Helpers
 
 			void GuiApplicationInitialize()
 			{
-				GetCurrentController()->StartTimer();
-				GetCurrentController()->StartHookMouse();
+				GetCurrentController()->InputService()->StartTimer();
+				GetCurrentController()->InputService()->StartHookMouse();
 				GuiApplication app;
 				application=&app;
 				GuiMain();

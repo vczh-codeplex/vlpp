@@ -265,10 +265,10 @@ void SetupMainPanel(GuiControlHost* controlHost, GuiControl* container, GuiCellC
 				listControl->SetHorizontalAlwaysVisible(false);
 				listControl->SetVerticalAlwaysVisible(false);
 		
-				INativeImageProvider* imageProvider=GetCurrentController()->GetImageProvider();
-				Ptr<INativeImage> largeImage=imageProvider->CreateImageFromFile(L"Resources\\New.png");
+				INativeImageService* imageService=GetCurrentController()->ImageService();
+				Ptr<INativeImage> largeImage=imageService->CreateImageFromFile(L"Resources\\New.png");
 				Ptr<GuiImageData> largeImageData=new GuiImageData(largeImage, 0);
-				Ptr<INativeImage> smallImage=imageProvider->CreateImageFromFile(L"Resources\\NewSmall.png");
+				Ptr<INativeImage> smallImage=imageService->CreateImageFromFile(L"Resources\\NewSmall.png");
 				Ptr<GuiImageData> smallImageData=new GuiImageData(smallImage, 0);
 
 				for(int i=0;i<100;i++)
@@ -292,8 +292,8 @@ void SetupMainPanel(GuiControlHost* controlHost, GuiControl* container, GuiCellC
 				treeControl->SetHorizontalAlwaysVisible(false);
 				treeControl->SetVerticalAlwaysVisible(false);
 		
-				INativeImageProvider* imageProvider=GetCurrentController()->GetImageProvider();
-				Ptr<INativeImage> image=imageProvider->CreateImageFromFile(L"Resources\\NewSmall.png");
+				INativeImageService* imageService=GetCurrentController()->ImageService();
+				Ptr<INativeImage> image=imageService->CreateImageFromFile(L"Resources\\NewSmall.png");
 				Ptr<GuiImageData> imageData=new GuiImageData(image, 0);
 
 				treeControl->Nodes()->Children().Add(new tree::MemoryNodeProvider(new tree::TreeViewItem(imageData, L"Microsoft")));
@@ -537,10 +537,10 @@ void SetupListDirectionWindow(GuiControlHost* controlHost, GuiControl* container
 		listControl->SetVerticalAlwaysVisible(false);
 		container->GetBoundsComposition()->AddChild(listControl->GetBoundsComposition());
 		
-		INativeImageProvider* imageProvider=GetCurrentController()->GetImageProvider();
-		Ptr<INativeImage> largeImage=imageProvider->CreateImageFromFile(L"Resources\\New.png");
+		INativeImageService* imageService=GetCurrentController()->ImageService();
+		Ptr<INativeImage> largeImage=imageService->CreateImageFromFile(L"Resources\\New.png");
 		Ptr<GuiImageData> largeImageData=new GuiImageData(largeImage, 0);
-		Ptr<INativeImage> smallImage=imageProvider->CreateImageFromFile(L"Resources\\NewSmall.png");
+		Ptr<INativeImage> smallImage=imageService->CreateImageFromFile(L"Resources\\NewSmall.png");
 		Ptr<GuiImageData> smallImageData=new GuiImageData(smallImage, 0);
 
 		for(int i=0;i<100;i++)
@@ -647,10 +647,10 @@ void SetupListviewWindow(GuiControlHost* controlHost, GuiControl* container)
 		listControl->SetVerticalAlwaysVisible(false);
 		container->GetBoundsComposition()->AddChild(listControl->GetBoundsComposition());
 		
-		INativeImageProvider* imageProvider=GetCurrentController()->GetImageProvider();
-		Ptr<INativeImage> largeImage=imageProvider->CreateImageFromFile(L"Resources\\New.png");
+		INativeImageService* imageService=GetCurrentController()->ImageService();
+		Ptr<INativeImage> largeImage=imageService->CreateImageFromFile(L"Resources\\New.png");
 		Ptr<GuiImageData> largeImageData=new GuiImageData(largeImage, 0);
-		Ptr<INativeImage> smallImage=imageProvider->CreateImageFromFile(L"Resources\\NewSmall.png");
+		Ptr<INativeImage> smallImage=imageService->CreateImageFromFile(L"Resources\\NewSmall.png");
 		Ptr<GuiImageData> smallImageData=new GuiImageData(smallImage, 0);
 
 		for(int i=0;i<100;i++)
@@ -743,8 +743,8 @@ void SetupTreeviewWindow(GuiControlHost* controlHost, GuiControl* container)
 	treeControl->SetVerticalAlwaysVisible(false);
 	container->GetBoundsComposition()->AddChild(treeControl->GetBoundsComposition());
 		
-	INativeImageProvider* imageProvider=GetCurrentController()->GetImageProvider();
-	Ptr<INativeImage> image=imageProvider->CreateImageFromFile(L"Resources\\NewSmall.png");
+	INativeImageService* imageService=GetCurrentController()->ImageService();
+	Ptr<INativeImage> image=imageService->CreateImageFromFile(L"Resources\\NewSmall.png");
 	Ptr<GuiImageData> imageData=new GuiImageData(image, 0);
 
 	treeControl->Nodes()->Children().Add(new tree::MemoryNodeProvider(new tree::TreeViewItem(imageData, L"Microsoft")));
@@ -863,7 +863,7 @@ void CreateSubMenu(GuiMenu* menu, int index, GuiStackComposition* subMenu)
 void SetupToolstripWindow(GuiControlHost* controlHost, GuiControl* container)
 {
 	container->GetBoundsComposition()->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
-	INativeImageProvider* imageProvider=GetCurrentController()->GetImageProvider();
+	INativeImageService* imageService=GetCurrentController()->ImageService();
 
 	const wchar_t* fileMenuText[]={L"New", L"Open", L"Save", L"Save As...", L"-", L"Page Setting...", L"Print...", L"-", L"Exit"};
 	const wchar_t* fileNewMenuText[]={L"Project...", L"Web Site...", L"Team Project...", L"File...", L"Project From Existing Code..."};
@@ -918,9 +918,9 @@ void SetupToolstripWindow(GuiControlHost* controlHost, GuiControl* container)
 		toolStack->SetMinSizeLimitation(GuiGraphicsComposition::LimitToElementAndChildren);
 		Ptr<INativeImage> imageButtons[]=
 		{
-			imageProvider->CreateImageFromFile(L"Resources\\New.png"),
-			imageProvider->CreateImageFromFile(L"Resources\\Open.png"),
-			imageProvider->CreateImageFromFile(L"Resources\\Save.png"),
+			imageService->CreateImageFromFile(L"Resources\\New.png"),
+			imageService->CreateImageFromFile(L"Resources\\Open.png"),
+			imageService->CreateImageFromFile(L"Resources\\Save.png"),
 		};
 		for(int i=0;i<sizeof(imageButtons)/sizeof(*imageButtons);i++)
 		{
@@ -937,7 +937,7 @@ void SetupToolstripWindow(GuiControlHost* controlHost, GuiControl* container)
 	
 	GuiBoundsComposition* picGif=0;
 	{
-		Ptr<INativeImage> imageGif=imageProvider->CreateImageFromFile(L"Resources\\Gif.gif");
+		Ptr<INativeImage> imageGif=imageService->CreateImageFromFile(L"Resources\\Gif.gif");
 		picGif=CreateImageFrame(imageGif);
 		Ptr<GifAnimation> animation=new GifAnimation(picGif->GetOwnedElement().Cast<GuiImageFrameElement>().Obj());
 		controlHost->GetGraphicsHost()->GetAnimationManager()->AddAnimation(animation);

@@ -411,7 +411,7 @@ void RendererMainGDI()
 	WindowsGDIResourceManager resourceManager;
 	SetGuiGraphicsResourceManager(&resourceManager);
 	SetWindowsGDIResourceManager(&resourceManager);
-	GetCurrentController()->InstallListener(&resourceManager);
+	GetCurrentController()->CallbackService()->InstallListener(&resourceManager);
 
 	GuiSolidBorderElementRenderer::Register();
 	GuiRoundBorderElementRenderer::Register();

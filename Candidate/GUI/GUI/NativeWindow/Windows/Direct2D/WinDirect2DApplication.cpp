@@ -155,13 +155,13 @@ int WinMainDirect2D(HINSTANCE hInstance, void(*RendererMain)())
 	{
 		// install listener
 		Direct2DWindowsNativeControllerListener listener;
-		controller->InstallListener(&listener);
+		controller->CallbackService()->InstallListener(&listener);
 		direct2DListener=&listener;
 		// main
 		RendererMain();
 		// uninstall listener
 		direct2DListener=0;
-		controller->UninstallListener(&listener);
+		controller->CallbackService()->UninstallListener(&listener);
 	}
 	// destroy controller
 	DestroyWindowsNativeController(controller);
