@@ -144,6 +144,90 @@ TextWriter
 		}
 
 /***********************************************************************
+StringReader
+***********************************************************************/
+
+		void StringReader::PrepareIfLastCallIsReadLine()
+		{
+			if(lastCallIsReadLine)
+			{
+				lastCallIsReadLine=false;
+				if(current<string.Length() && string[current]==L'\r') current++;
+				if(current<string.Length() && string[current]==L'\n') current++;
+			}
+		}
+
+		StringReader::StringReader(const WString& _string)
+			:string(_string)
+			,current(0)
+			,lastCallIsReadLine(false)
+		{
+		}
+
+		bool StringReader::IsEnd()
+		{
+			return current==string.Length();
+		}
+
+		wchar_t StringReader::ReadChar()
+		{
+			PrepareIfLastCallIsReadLine();
+			if(IsEnd())
+			{
+				return L'\0';
+			}
+			else
+			{
+				return string[current++];
+			}
+		}
+
+		WString StringReader::ReadString(vint length)
+		{
+			PrepareIfLastCallIsReadLine();
+			if(IsEnd())
+			{
+				return L"";
+			}
+			else
+			{
+				vint remain=string.Length()-current;
+				if(length>remain) length=remain;
+				WString result=string.Sub(current, length);
+				current+=length;
+				return result;
+			}
+		}
+
+		WString StringReader::ReadLine()
+		{
+			PrepareIfLastCallIsReadLine();
+			if(IsEnd())
+			{
+				return L"";
+			}
+			else
+			{
+				vint lineEnd=current;
+				while(lineEnd<string.Length())
+				{
+					wchar_t c=string[lineEnd];
+					if(c==L'\r' || c==L'\n') break;
+					lineEnd++;
+				}
+				WString result=string.Sub(current, lineEnd-current);
+				current=lineEnd;
+				lastCallIsReadLine=true;
+				return result;
+			}
+		}
+
+		WString StringReader::ReadToEnd()
+		{
+			return ReadString(string.Length()-current);
+		}
+
+/***********************************************************************
 StreamReader
 ***********************************************************************/
 
