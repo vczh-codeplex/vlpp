@@ -49,6 +49,24 @@ namespace vl
 			virtual void				WriteLine(const WString& string);
 		};
 
+		class StringReader : public TextReader
+		{
+		protected:
+			WString						string;
+			vint						current;
+			bool						lastCallIsReadLine;
+
+			void						PrepareIfLastCallIsReadLine();
+		public:
+			StringReader(const WString& _string);
+
+			bool						IsEnd();
+			wchar_t						ReadChar();
+			WString						ReadString(vint length);
+			WString						ReadLine();
+			WString						ReadToEnd();
+		};
+
 		class StreamReader : public TextReader
 		{
 		protected:

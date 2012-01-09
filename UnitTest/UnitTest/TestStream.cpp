@@ -456,7 +456,53 @@ TEST_CASE(TestCacheStream)
 }
 
 /***********************************************************************
-Á÷¿ØÖÆÆ÷²âÊÔ
+Á÷¿ØÖÆÆ÷²âÊÔ(StringReader)
+***********************************************************************/
+
+TEST_CASE(TestStringReader)
+{
+	wchar_t text[]=L"1:Vczh is genius!\r\n2:Vczh is genius!\r\n3:Vczh is genius!\r\n4:Vczh is genius!";
+	StringReader reader(text);
+
+	TEST_ASSERT(reader.ReadChar()==L'1');
+	TEST_ASSERT(reader.ReadString(5)==L":Vczh");
+	TEST_ASSERT(reader.ReadLine()==L" is genius!");
+	TEST_ASSERT(reader.ReadLine()==L"2:Vczh is genius!");
+	TEST_ASSERT(reader.ReadToEnd()==L"3:Vczh is genius!\r\n4:Vczh is genius!");
+}
+
+TEST_CASE(TestStringReaderWithCrLf)
+{
+	wchar_t text[]=L"1:Vczh is genius!\r\n2:Vczh is genius!!\r\n3:Vczh is genius!!!\r\n4:Vczh is genius!!!!\r\n";
+	wchar_t* lines[]={L"1:Vczh is genius!", L"2:Vczh is genius!!", L"3:Vczh is genius!!!", L"4:Vczh is genius!!!!",L""};
+	StringReader reader(text);
+	vint index=0;
+
+	while(index<sizeof(lines)/sizeof(*lines))
+	{
+		TEST_ASSERT(reader.IsEnd()==false);
+		TEST_ASSERT(reader.ReadLine()==lines[index++]);
+	}
+	TEST_ASSERT(reader.IsEnd()==true);
+}
+
+TEST_CASE(TestStringReaderWithoutCrLf)
+{
+	wchar_t text[]=L"1:Vczh is genius!\r\n2:Vczh is genius!!\r\n3:Vczh is genius!!!\r\n4:Vczh is genius!!!!";
+	wchar_t* lines[]={L"1:Vczh is genius!", L"2:Vczh is genius!!", L"3:Vczh is genius!!!", L"4:Vczh is genius!!!!"};
+	StringReader reader(text);
+	vint index=0;
+
+	while(index<sizeof(lines)/sizeof(*lines))
+	{
+		TEST_ASSERT(reader.IsEnd()==false);
+		TEST_ASSERT(reader.ReadLine()==lines[index++]);
+	}
+	TEST_ASSERT(reader.IsEnd()==true);
+}
+
+/***********************************************************************
+Á÷¿ØÖÆÆ÷²âÊÔ(StreamReader/StreamWriter)
 ***********************************************************************/
 
 TEST_CASE(TestStreamReader)
