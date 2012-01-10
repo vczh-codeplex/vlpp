@@ -597,6 +597,33 @@ namespace ReflectionVirtualInheritanceHelper
 	class E:virtual public A{};
 	class F:virtual public A{};
 	class G:public E, public F{};
+
+	//---------------------------------
+
+	class Base
+	{
+	public:
+		size_t size;
+
+		Base()
+			:size(0)
+		{
+		}
+	};
+
+	template<typename T>
+	class Derived : public virtual Base
+	{
+	public:
+		Derived()
+		{
+			if(size<sizeof(T)) size=sizeof(T);
+		}
+	};
+
+	class H : public Derived<H>{};
+	class I : public H, public Derived<I>{};
+	class J : public I, public Derived<J>{};
 }
 using namespace ReflectionVirtualInheritanceHelper;
 
@@ -611,4 +638,13 @@ TEST_CASE(ReflectionVirtualInheritance)
 	A& ga1=static_cast<E&>(g);
 	A& ga2=static_cast<F&>(g);
 	TEST_ASSERT(&ga1==&ga2);
+
+	const H& h=H();
+	const H& i=I();
+	const H& j=J();
+	TEST_ASSERT(h.size<i.size);
+	TEST_ASSERT(i.size<j.size);
+	TEST_ASSERT(h.size==sizeof(H));
+	TEST_ASSERT(i.size==sizeof(I));
+	TEST_ASSERT(j.size==sizeof(J));
 }
