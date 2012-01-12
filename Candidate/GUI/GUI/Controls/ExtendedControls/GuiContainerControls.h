@@ -23,7 +23,7 @@ Tab Control
 
 			class GuiTab;
 
-			class GuiTabPage : public Object
+			class GuiTabPage : public Object, public Description<GuiTabPage>
 			{
 				friend class GuiTab;
 				friend class Ptr<GuiTabPage>;
@@ -46,17 +46,17 @@ Tab Control
 				bool											GetSelected();
 			};
 
-			class GuiTab : public GuiControl
+			class GuiTab : public GuiControl, public Description<GuiTab>
 			{
 				friend class GuiTabPage;
 			public:
-				class ICommandExecutor : public Interface
+				class ICommandExecutor : public Interface, public Description<ICommandExecutor>
 				{
 				public:
 					virtual void								ShowTab(int index)=0;
 				};
 
-				class IStyleController : public virtual GuiControl::IStyleController
+				class IStyleController : public virtual GuiControl::IStyleController, public Description<IStyleController>
 				{
 				public:
 					virtual void								SetCommandExecutor(ICommandExecutor* value)=0;

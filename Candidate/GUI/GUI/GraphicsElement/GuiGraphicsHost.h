@@ -22,7 +22,7 @@ namespace vl
 Animation
 ***********************************************************************/
 
-			class IGuiGraphicsAnimation : public Interface
+			class IGuiGraphicsAnimation : public Interface, public Description<IGuiGraphicsAnimation>
 			{
 			public:
 				virtual int						GetTotalLength()=0;
@@ -49,7 +49,7 @@ Animation
 Host
 ***********************************************************************/
 
-			class GuiGraphicsHost : public Object, private INativeWindowListener, private INativeControllerListener
+			class GuiGraphicsHost : public Object, private INativeWindowListener, private INativeControllerListener, public Description<GuiGraphicsHost>
 			{
 				typedef collections::List<GuiGraphicsComposition*>		CompositionList;
 			public:
@@ -121,7 +121,7 @@ Host
 Helpers
 ***********************************************************************/
 
-			class GuiTimeBasedAnimation : public IGuiGraphicsAnimation
+			class GuiTimeBasedAnimation : public IGuiGraphicsAnimation, public Description<GuiTimeBasedAnimation>
 			{
 			protected:
 				unsigned __int64				startTime;

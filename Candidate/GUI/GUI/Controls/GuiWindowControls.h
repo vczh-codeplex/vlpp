@@ -22,7 +22,7 @@ namespace vl
 Control Host
 ***********************************************************************/
 
-			class GuiControlHost : public GuiControl, private INativeWindowListener
+			class GuiControlHost : public GuiControl, private INativeWindowListener, public Description<GuiControlHost>
 			{
 			protected:
 				elements::GuiGraphicsHost*				host;
@@ -111,7 +111,7 @@ Control Host
 Window
 ***********************************************************************/
 
-			class GuiWindow : public GuiControlHost
+			class GuiWindow : public GuiControlHost, public Description<GuiWindow>
 			{
 				friend class GuiApplication;
 			protected:
@@ -121,7 +121,7 @@ Window
 				~GuiWindow();
 			};
 
-			class GuiPopup : public GuiWindow
+			class GuiPopup : public GuiWindow, public Description<GuiPopup>
 			{
 			protected:
 				void									MouseClickedOnOtherWindow(GuiWindow* window)override;

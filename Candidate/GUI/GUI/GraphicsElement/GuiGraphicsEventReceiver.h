@@ -10,6 +10,7 @@ Interfaces:
 #define VCZH_PRESENTATION_ELEMENTS_GUIGRAPHICSEVENTRECEIVER
 
 #include "..\NativeWindow\GuiNativeWindow.h"
+#include "..\Reflection\GuiTypeDescriptor.h"
 
 namespace vl
 {
@@ -24,13 +25,13 @@ Event
 ***********************************************************************/
 
 			template<typename T>
-			class GuiGraphicsEvent : public Object
+			class GuiGraphicsEvent : public Object, public Description<GuiGraphicsEvent<T>>
 			{
 			public:
 				typedef void(RawFunctionType)(GuiGraphicsComposition*, T&);
 				typedef Func<RawFunctionType>						FunctionType;
 
-				class IHandler : public Interface
+				class IHandler : public Interface, public Description<IHandler>
 				{
 				public:
 					virtual void			Execute(GuiGraphicsComposition* sender, T& argument)=0;
