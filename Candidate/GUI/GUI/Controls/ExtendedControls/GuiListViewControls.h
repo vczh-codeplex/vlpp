@@ -26,7 +26,7 @@ namespace vl
 ListView Base
 ***********************************************************************/
 
-				class ListViewItemStyleProviderBase: public Object, public GuiSelectableListControl::IItemStyleProvider
+				class ListViewItemStyleProviderBase: public Object, public GuiSelectableListControl::IItemStyleProvider, public Description<ListViewItemStyleProviderBase>
 				{
 				protected:
 					class ListViewItemStyleController : public ItemStyleControllerBase
@@ -56,7 +56,7 @@ ListView Base
 				};
 			}
 
-			class GuiListViewBase : public GuiSelectableListControl
+			class GuiListViewBase : public GuiSelectableListControl, public Description<GuiListViewBase>
 			{
 			public:
 				class IStyleProvider : public virtual GuiSelectableListControl::IStyleProvider
@@ -86,7 +86,7 @@ ListView ItemStyleProvider
 
 			namespace list
 			{
-				class ListViewItemStyleProvider : public ListViewItemStyleProviderBase
+				class ListViewItemStyleProvider : public ListViewItemStyleProviderBase, public Description<ListViewItemStyleProvider>
 				{
 				public:
 					class IListViewItemView : public virtual GuiListControl::IItemPrimaryTextView
@@ -106,7 +106,7 @@ ListView ItemStyleProvider
 						virtual WString							GetColumnText(int index)=0;
 					};
 
-					class IListViewItemContent : public virtual Interface
+					class IListViewItemContent : public virtual Interface, public Description<IListViewItemContent>
 					{
 					public:
 						virtual elements::GuiBoundsComposition*	GetContentComposition()=0;
@@ -114,7 +114,7 @@ ListView ItemStyleProvider
 						virtual void							Install(GuiListViewBase::IStyleProvider* styleProvider, IListViewItemView* view, int itemIndex)=0;
 					};
 
-					class IListViewItemContentProvider : public virtual Interface
+					class IListViewItemContentProvider : public virtual Interface, public Description<IListViewItemContentProvider>
 					{
 					public:
 						virtual GuiListControl::IItemCoordinateTransformer*		CreatePreferredCoordinateTransformer()=0;
@@ -124,7 +124,7 @@ ListView ItemStyleProvider
 						virtual void											DetachListControl()=0;
 					};
 
-					class ListViewContentItemStyleController : public ListViewItemStyleController
+					class ListViewContentItemStyleController : public ListViewItemStyleController, public Description<ListViewContentItemStyleController>
 					{
 					protected:
 						ListViewItemStyleProvider*				listViewItemStyleProvider;
@@ -166,7 +166,7 @@ ListView ItemContentProvider
 
 			namespace list
 			{
-				class ListViewBigIconContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
+				class ListViewBigIconContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider, public Description<ListViewBigIconContentProvider>
 				{
 				protected:
 					class ItemContent : public Object, public virtual ListViewItemStyleProvider::IListViewItemContent
@@ -197,7 +197,7 @@ ListView ItemContentProvider
 					void												DetachListControl()override;
 				};
 				
-				class ListViewSmallIconContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
+				class ListViewSmallIconContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider, public Description<ListViewSmallIconContentProvider>
 				{
 				protected:
 					class ItemContent : public Object, public virtual ListViewItemStyleProvider::IListViewItemContent
@@ -228,7 +228,7 @@ ListView ItemContentProvider
 					void												DetachListControl()override;
 				};
 				
-				class ListViewListContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
+				class ListViewListContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider, public Description<ListViewListContentProvider>
 				{
 				protected:
 					class ItemContent : public Object, public virtual ListViewItemStyleProvider::IListViewItemContent
@@ -259,7 +259,7 @@ ListView ItemContentProvider
 					void												DetachListControl()override;
 				};
 				
-				class ListViewTileContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
+				class ListViewTileContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider, public Description<ListViewTileContentProvider>
 				{
 				protected:
 					class ItemContent : public Object, public virtual ListViewItemStyleProvider::IListViewItemContent
@@ -296,7 +296,7 @@ ListView ItemContentProvider
 					void												DetachListControl()override;
 				};
 				
-				class ListViewInformationContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
+				class ListViewInformationContentProvider : public Object, public virtual ListViewItemStyleProvider::IListViewItemContentProvider, public Description<ListViewInformationContentProvider>
 				{
 				protected:
 					class ItemContent : public Object, public virtual ListViewItemStyleProvider::IListViewItemContent
@@ -338,21 +338,21 @@ ListView ItemContentProvider
 ListView ItemContentProvider(Detailed)
 ***********************************************************************/
 
-				class ListViewColumnItemArranger : public FixedHeightItemArranger
+				class ListViewColumnItemArranger : public FixedHeightItemArranger, public Description<ListViewColumnItemArranger>
 				{
 					typedef collections::List<GuiButton*>							ColumnHeaderButtonList;
 					typedef collections::List<elements::GuiBoundsComposition*>		ColumnHeaderSplitterList;
 				public:
 					static const int							SplitterWidth=8;
 
-					class IColumnItemViewCallback : public virtual Interface
+					class IColumnItemViewCallback : public virtual Interface, public Description<IColumnItemViewCallback>
 					{
 					public:
 						virtual void							OnColumnChanged()=0;
 						virtual void							OnColumnSizeChanged(int index)=0;
 					};
 
-					class IColumnItemView : public virtual Interface
+					class IColumnItemView : public virtual Interface, public Description<IColumnItemView>
 					{
 					public:
 						static const wchar_t*					Identifier;
@@ -410,6 +410,7 @@ ListView ItemContentProvider(Detailed)
 					: public Object
 					, public virtual ListViewItemStyleProvider::IListViewItemContentProvider
 					, protected virtual ListViewColumnItemArranger::IColumnItemViewCallback
+					, public Description<ListViewDetailContentProvider>
 				{
 				protected:
 					class ItemContent : public Object, public virtual ListViewItemStyleProvider::IListViewItemContent
@@ -482,6 +483,7 @@ ListView
 					: public ListProvider<Ptr<ListViewItem>>
 					, protected virtual ListViewItemStyleProvider::IListViewItemView
 					, protected virtual ListViewColumnItemArranger::IColumnItemView
+					, public Description<ListViewItemProvider>
 				{
 					typedef collections::List<ListViewColumnItemArranger::IColumnItemViewCallback*>		ColumnItemViewCallbackList;
 				protected:
@@ -518,7 +520,7 @@ ListView
 				};
 			}
 
-			class GuiVirtualListView : public GuiListViewBase
+			class GuiVirtualListView : public GuiListViewBase, public Description<GuiVirtualListView>
 			{
 			public:
 				GuiVirtualListView(IStyleProvider* _styleProvider, GuiListControl::IItemProvider* _itemProvider);
@@ -527,7 +529,7 @@ ListView
 				void											ChangeItemStyle(list::ListViewItemStyleProvider::IListViewItemContentProvider* contentProvider);
 			};
 
-			class GuiListView : public GuiVirtualListView
+			class GuiListView : public GuiVirtualListView, public Description<GuiListView>
 			{
 			protected:
 				list::ListViewItemProvider*						items;

@@ -24,7 +24,7 @@ Menu Service
 
 			class GuiMenu;
 
-			class IGuiMenuService : public Interface
+			class IGuiMenuService : public Interface, public Description<IGuiMenuService>
 			{
 			public:
 				static const wchar_t*					Identifier;
@@ -53,7 +53,7 @@ Menu Service
 Menu
 ***********************************************************************/
 
-			class GuiMenu : public GuiPopup, private IGuiMenuService
+			class GuiMenu : public GuiPopup, private IGuiMenuService, public Description<GuiMenu>
 			{
 			private:
 				IGuiMenuService*						parentMenuService;
@@ -75,7 +75,7 @@ Menu
 				vl::Interface*							QueryService(const WString& identifier)override;
 			};
 
-			class GuiMenuBar : public GuiControl, private IGuiMenuService
+			class GuiMenuBar : public GuiControl, private IGuiMenuService, public Description<GuiMenuBar>
 			{
 			private:
 				IGuiMenuService*						GetParent();
@@ -92,10 +92,10 @@ Menu
 MenuButton
 ***********************************************************************/
 
-			class GuiMenuButton : public GuiButton
+			class GuiMenuButton : public GuiButton, public Description<GuiMenuButton>
 			{
 			public:
-				class IStyleController : public GuiButton::IStyleController
+				class IStyleController : public GuiButton::IStyleController, public Description<IStyleController>
 				{
 				public:
 					virtual GuiMenu::IStyleController*	CreateSubMenuStyleController()=0;

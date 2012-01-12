@@ -22,12 +22,12 @@ namespace vl
 Basic Construction
 ***********************************************************************/
 
-			class GuiControl : public Object
+			class GuiControl : public Object, public Description<GuiControl>
 			{
 				friend class elements::GuiGraphicsComposition;
 				typedef collections::List<GuiControl*>		ControlList;
 			public:
-				class IStyleController : public virtual Interface
+				class IStyleController : public virtual Interface, public Description<IStyleController>
 				{
 				public:
 					virtual elements::GuiBoundsComposition*		GetBoundsComposition()=0;
@@ -38,7 +38,7 @@ Basic Construction
 					virtual void								SetVisuallyEnabled(bool value)=0;
 				};
 
-				class IStyleProvider : public virtual Interface
+				class IStyleProvider : public virtual Interface, public Description<IStyleProvider>
 				{
 				public:
 					virtual void								AssociateStyleController(IStyleController* controller)=0;
@@ -110,7 +110,7 @@ Basic Construction
 				}
 			};
 
-			class GuiComponent : public Object
+			class GuiComponent : public Object, public Description<GuiComponent>
 			{
 				friend class GuiControlHost;
 			private:
@@ -143,7 +143,7 @@ Basic Construction
 Buttons
 ***********************************************************************/
 
-			class GuiButton : public GuiControl
+			class GuiButton : public GuiControl, public Description<GuiButton>
 			{
 			public:
 				enum ControlState
@@ -153,7 +153,7 @@ Buttons
 					Pressed,
 				};
 
-				class IStyleController : virtual public GuiControl::IStyleController
+				class IStyleController : virtual public GuiControl::IStyleController, public Description<IStyleController>
 				{
 				public:
 					virtual void						Transfer(ControlState value)=0;
@@ -177,16 +177,16 @@ Buttons
 				elements::GuiNotifyEvent				Clicked;
 			};
 
-			class GuiSelectableButton : public GuiButton
+			class GuiSelectableButton : public GuiButton, public Description<GuiSelectableButton>
 			{
 			public:
-				class IStyleController : public virtual GuiButton::IStyleController
+				class IStyleController : public virtual GuiButton::IStyleController, public Description<IStyleController>
 				{
 				public:
 					virtual void						SetSelected(bool value)=0;
 				};
 
-				class GroupController : public GuiComponent
+				class GroupController : public GuiComponent, public Description<GroupController>
 				{
 				protected:
 					collections::List<GuiSelectableButton*>	buttons;
@@ -199,7 +199,7 @@ Buttons
 					virtual void						OnSelectedChanged(GuiSelectableButton* button)=0;
 				};
 
-				class MutexGroupController : public GroupController
+				class MutexGroupController : public GroupController, public Description<MutexGroupController>
 				{
 				protected:
 					bool								suppress;
@@ -239,10 +239,10 @@ Buttons
 Scrolls
 ***********************************************************************/
 
-			class GuiScroll : public GuiControl
+			class GuiScroll : public GuiControl, public Description<GuiScroll>
 			{
 			public:
-				class ICommandExecutor : public Interface
+				class ICommandExecutor : public Interface, public Description<ICommandExecutor>
 				{
 				public:
 					virtual void						SmallDecrease()=0;
@@ -255,7 +255,7 @@ Scrolls
 					virtual void						SetPosition(int value)=0;
 				};
 
-				class IStyleController : public virtual GuiControl::IStyleController
+				class IStyleController : public virtual GuiControl::IStyleController, public Description<IStyleController>
 				{
 				public:
 					virtual void						SetCommandExecutor(ICommandExecutor* value)=0;
@@ -314,10 +314,10 @@ Scrolls
 				int										GetMaxPosition();
 			};
 
-			class GuiScrollView : public GuiControl
+			class GuiScrollView : public GuiControl, public Description<GuiScrollView>
 			{
 			public:
-				class IStyleProvider : public virtual GuiControl::IStyleProvider
+				class IStyleProvider : public virtual GuiControl::IStyleProvider, public Description<IStyleProvider>
 				{
 				public:
 					virtual GuiScroll::IStyleController*		CreateHorizontalScrollStyle()=0;
@@ -326,7 +326,7 @@ Scrolls
 					virtual elements::GuiGraphicsComposition*	InstallBackground(elements::GuiBoundsComposition* boundsComposition)=0;
 				};
 
-				class StyleController : public Object, public GuiControl::IStyleController
+				class StyleController : public Object, public GuiControl::IStyleController, public Description<StyleController>
 				{
 				protected:
 					Ptr<IStyleProvider>					styleProvider;
@@ -397,10 +397,10 @@ Scrolls
 				void									SetVerticalAlwaysVisible(bool value);
 			};
 
-			class GuiScrollContainer : public GuiScrollView
+			class GuiScrollContainer : public GuiScrollView, public Description<GuiScrollContainer>
 			{
 			public:
-				class StyleController : public GuiScrollView::StyleController
+				class StyleController : public GuiScrollView::StyleController, public Description<StyleController>
 				{
 				protected:
 					elements::GuiBoundsComposition*		controlContainerComposition;

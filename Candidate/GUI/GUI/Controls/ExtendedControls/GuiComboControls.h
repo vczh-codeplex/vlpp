@@ -25,17 +25,17 @@ namespace vl
 ComboBox Base
 ***********************************************************************/
 
-			class GuiComboBoxBase : public GuiButton
+			class GuiComboBoxBase : public GuiButton, public Description<GuiComboBoxBase>
 			{
 			public:
-				class ICommandExecutor : public virtual Interface
+				class ICommandExecutor : public virtual Interface, public Description<ICommandExecutor>
 				{
 				public:
 					virtual void							ShowPopup()=0;
 					virtual void							SelectItem()=0;
 				};
 
-				class IStyleController : public virtual GuiButton::IStyleController
+				class IStyleController : public virtual GuiButton::IStyleController, public Description<IStyleController>
 				{
 				public:
 					virtual void							SetCommandExecutor(ICommandExecutor* value)=0;
@@ -85,7 +85,7 @@ ComboBox Base
 ComboBox with GuiListControl
 ***********************************************************************/
 
-			class GuiComboBoxListControl : public GuiComboBoxBase
+			class GuiComboBoxListControl : public GuiComboBoxBase, public Description<GuiComboBoxListControl>
 			{
 			protected:
 				GuiSelectableListControl*					containedListControl;

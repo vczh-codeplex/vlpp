@@ -31,7 +31,7 @@ GuiVirtualTreeListControl NodeProvider
 				// Callback Interfaces
 				//-----------------------------------------------------------
 
-				class INodeProviderCallback : public virtual Interface
+				class INodeProviderCallback : public virtual Interface, public Description<INodeProviderCallback>
 				{
 				public:
 					virtual void					OnAttached(INodeRootProvider* provider)=0;
@@ -45,7 +45,7 @@ GuiVirtualTreeListControl NodeProvider
 				// Provider Interfaces
 				//-----------------------------------------------------------
 
-				class INodeProvider : public virtual Interface
+				class INodeProvider : public virtual Interface, public Description<INodeProvider>
 				{
 				public:
 					virtual bool					GetExpanding()=0;
@@ -58,7 +58,7 @@ GuiVirtualTreeListControl NodeProvider
 					virtual void					ReleaseChild(INodeProvider* node)=0;
 				};
 
-				class INodeRootProvider : public virtual Interface
+				class INodeRootProvider : public virtual Interface, public Description<INodeRootProvider>
 				{
 				public:
 					virtual INodeProvider*			GetRootNode()=0;
@@ -77,7 +77,7 @@ GuiVirtualTreeListControl NodeProvider
 				// Tree to ListControl (IItemProvider)
 				//-----------------------------------------------------------
 
-				class INodeItemView : public virtual GuiListControl::IItemPrimaryTextView
+				class INodeItemView : public virtual GuiListControl::IItemPrimaryTextView, public Description<INodeItemView>
 				{
 				public:
 					static const wchar_t*			Identifier;
@@ -87,7 +87,7 @@ GuiVirtualTreeListControl NodeProvider
 					virtual int						CalculateNodeVisibilityIndex(INodeProvider* node)=0;
 				};
 
-				class INodeItemPrimaryTextView : public virtual Interface
+				class INodeItemPrimaryTextView : public virtual Interface, public Description<INodeItemPrimaryTextView>
 				{
 				public:
 					static const wchar_t*			Identifier;
@@ -99,6 +99,7 @@ GuiVirtualTreeListControl NodeProvider
 					: public list::ItemProviderBase
 					, protected virtual INodeProviderCallback
 					, protected virtual INodeItemView
+					, public Description<NodeItemProvider>
 				{
 				protected:
 					Ptr<INodeRootProvider>			root;
@@ -134,13 +135,13 @@ GuiVirtualTreeListControl NodeProvider
 
 				class INodeItemStyleProvider;
 
-				class INodeItemStyleController : public virtual GuiListControl::IItemStyleController
+				class INodeItemStyleController : public virtual GuiListControl::IItemStyleController, public Description<INodeItemStyleController>
 				{
 				public:
 					virtual INodeItemStyleProvider*					GetNodeStyleProvider()=0;
 				};
 
-				class INodeItemStyleProvider : public virtual Interface
+				class INodeItemStyleProvider : public virtual Interface, public Description<INodeItemStyleProvider>
 				{
 				public:
 					virtual void									BindItemStyleProvider(GuiListControl::IItemStyleProvider* styleProvider)=0;
@@ -154,7 +155,7 @@ GuiVirtualTreeListControl NodeProvider
 					virtual void									SetStyleSelected(INodeItemStyleController* style, bool value)=0;
 				};
 
-				class NodeItemStyleProvider : public Object, public virtual GuiSelectableListControl::IItemStyleProvider
+				class NodeItemStyleProvider : public Object, public virtual GuiSelectableListControl::IItemStyleProvider, public Description<NodeItemStyleProvider>
 				{
 				protected:
 					Ptr<INodeItemStyleProvider>						nodeItemStyleProvider;
@@ -184,6 +185,7 @@ GuiVirtualTreeListControl Predefined NodeProvider
 					: public Object
 					, public virtual INodeProvider
 					, private collections::IList<Ptr<MemoryNodeProvider>>
+					, public Description<MemoryNodeProvider>
 				{
 					typedef collections::List<Ptr<MemoryNodeProvider>> ChildList;
 					typedef collections::IList<Ptr<MemoryNodeProvider>> IChildList;
@@ -239,7 +241,7 @@ GuiVirtualTreeListControl Predefined NodeProvider
 					void							ReleaseChild(INodeProvider* node)override;
 				};
 
-				class NodeRootProviderBase : public virtual INodeRootProvider, protected virtual INodeProviderCallback
+				class NodeRootProviderBase : public virtual INodeRootProvider, protected virtual INodeProviderCallback, public Description<NodeRootProviderBase>
 				{
 					collections::List<INodeProviderCallback*>			callbacks;
 				protected:
@@ -263,6 +265,7 @@ GuiVirtualTreeListControl Predefined NodeProvider
 				class MemoryNodeRootProvider
 					: public MemoryNodeProvider
 					, public NodeRootProviderBase
+					, public Description<MemoryNodeRootProvider>
 				{
 				protected:
 					INodeProviderCallback*			GetCallbackProxyInternal()override;
@@ -278,7 +281,7 @@ GuiVirtualTreeListControl Predefined NodeProvider
 GuiVirtualTreeListControl
 ***********************************************************************/
 
-			class GuiVirtualTreeListControl : public GuiSelectableListControl
+			class GuiVirtualTreeListControl : public GuiSelectableListControl, public Description<GuiVirtualTreeListControl>
 			{
 			protected:
 				tree::NodeItemProvider*				nodeItemProvider;
@@ -300,7 +303,7 @@ TreeView
 
 			namespace tree
 			{
-				class ITreeViewItemView : public virtual INodeItemPrimaryTextView
+				class ITreeViewItemView : public virtual INodeItemPrimaryTextView, public Description<ITreeViewItemView>
 				{
 				public:
 					static const wchar_t*			Identifier;
@@ -322,6 +325,7 @@ TreeView
 				class TreeViewItemRootProvider
 					: public MemoryNodeRootProvider
 					, protected virtual ITreeViewItemView
+					, public Description<TreeViewItemRootProvider>
 				{
 				protected:
 
@@ -337,10 +341,10 @@ TreeView
 				};
 			}
 			
-			class GuiTreeView : public GuiVirtualTreeListControl
+			class GuiTreeView : public GuiVirtualTreeListControl, public Description<GuiTreeView>
 			{
 			public:
-				class IStyleProvider : public virtual GuiVirtualTreeListControl::IStyleProvider
+				class IStyleProvider : public virtual GuiVirtualTreeListControl::IStyleProvider, public Description<IStyleProvider>
 				{
 				public:
 					virtual GuiSelectableButton::IStyleController*		CreateItemBackground()=0;
@@ -364,6 +368,7 @@ TreeView
 					: public Object
 					, public virtual INodeItemStyleProvider
 					, protected virtual INodeProviderCallback
+					, public Description<TreeViewNodeItemStyleProvider>
 				{
 				protected:
 #pragma warning(push)

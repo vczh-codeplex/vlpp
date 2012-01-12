@@ -28,7 +28,7 @@ namespace vl
 Basic Construction
 ***********************************************************************/
 
-			class IGuiGraphicsElement : public Interface
+			class IGuiGraphicsElement : public Interface, public Description<IGuiGraphicsElement>
 			{
 			public:
 				virtual IGuiGraphicsElementFactory*		GetFactory()=0;
@@ -278,7 +278,7 @@ Elements
 				};
 			};
 
-			class GuiSolidBorderElement : public Object, public IGuiGraphicsElement
+			class GuiSolidBorderElement : public Object, public IGuiGraphicsElement, public Description<GuiSolidBorderElement>
 			{
 				DEFINE_GUI_GRAPHICS_ELEMENT(GuiSolidBorderElement, L"SolidBorder")
 			protected:
@@ -295,7 +295,7 @@ Elements
 				void					SetShape(ElementShape::Type value);
 			};
 
-			class GuiRoundBorderElement : public Object, public IGuiGraphicsElement
+			class GuiRoundBorderElement : public Object, public IGuiGraphicsElement, public Description<GuiRoundBorderElement>
 			{
 				DEFINE_GUI_GRAPHICS_ELEMENT(GuiRoundBorderElement, L"RoundBorder")
 			protected:
@@ -313,7 +313,7 @@ Elements
 				void					SetRadius(int value);
 			};
 
-			class Gui3DBorderElement : public Object, public IGuiGraphicsElement
+			class Gui3DBorderElement : public Object, public IGuiGraphicsElement, public Description<Gui3DBorderElement>
 			{
 				DEFINE_GUI_GRAPHICS_ELEMENT(Gui3DBorderElement, L"3DBorder")
 			protected:
@@ -329,7 +329,7 @@ Elements
 				void					SetColors(Color value1, Color value2);
 			};
 
-			class Gui3DSplitterElement : public Object, public IGuiGraphicsElement
+			class Gui3DSplitterElement : public Object, public IGuiGraphicsElement, public Description<Gui3DSplitterElement>
 			{
 				DEFINE_GUI_GRAPHICS_ELEMENT(Gui3DSplitterElement, L"3DSplitter")
 			public:
@@ -355,7 +355,7 @@ Elements
 				void					SetDirection(Direction value);
 			};
 
-			class GuiSolidBackgroundElement : public Object, public IGuiGraphicsElement
+			class GuiSolidBackgroundElement : public Object, public IGuiGraphicsElement, public Description<GuiSolidBackgroundElement>
 			{
 				DEFINE_GUI_GRAPHICS_ELEMENT(GuiSolidBackgroundElement, L"SolidBackground")
 			protected:
@@ -372,7 +372,7 @@ Elements
 				void					SetShape(ElementShape::Type value);
 			};
 
-			class GuiGradientBackgroundElement : public Object, public IGuiGraphicsElement
+			class GuiGradientBackgroundElement : public Object, public IGuiGraphicsElement, public Description<GuiGradientBackgroundElement>
 			{
 				DEFINE_GUI_GRAPHICS_ELEMENT(GuiGradientBackgroundElement, L"GradientBackground")
 			public:
@@ -402,7 +402,7 @@ Elements
 				void					SetShape(ElementShape::Type value);
 			};
 
-			class GuiSolidLabelElement : public Object, public IGuiGraphicsElement
+			class GuiSolidLabelElement : public Object, public IGuiGraphicsElement, public Description<GuiSolidLabelElement>
 			{
 				DEFINE_GUI_GRAPHICS_ELEMENT(GuiSolidLabelElement, L"SolidLabel");
 			protected:
@@ -442,7 +442,7 @@ Elements
 				void					SetMultiline(bool value);
 			};
 
-			class GuiImageFrameElement : public Object, public IGuiGraphicsElement
+			class GuiImageFrameElement : public Object, public IGuiGraphicsElement, public Description<GuiImageFrameElement>
 			{
 				DEFINE_GUI_GRAPHICS_ELEMENT(GuiImageFrameElement, L"ImageFrame");
 			protected:
@@ -468,7 +468,7 @@ Elements
 				void					SetStretch(bool value);
 			};
 
-			class GuiPolygonElement : public Object, public IGuiGraphicsElement
+			class GuiPolygonElement : public Object, public IGuiGraphicsElement, public Description<GuiPolygonElement>
 			{
 				DEFINE_GUI_GRAPHICS_ELEMENT(GuiPolygonElement, L"Polygon");
 			protected:

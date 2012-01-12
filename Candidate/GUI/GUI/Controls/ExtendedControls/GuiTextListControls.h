@@ -26,17 +26,17 @@ namespace vl
 TextList Style Provider
 ***********************************************************************/
 
-				class TextItemStyleProvider : public Object, public GuiSelectableListControl::IItemStyleProvider
+				class TextItemStyleProvider : public Object, public GuiSelectableListControl::IItemStyleProvider, public Description<TextItemStyleProvider>
 				{
 				public:
-					class ITextItemStyleProvider : public Interface
+					class ITextItemStyleProvider : public Interface, public Description<ITextItemStyleProvider>
 					{
 					public:
 						virtual GuiSelectableButton::IStyleController*		CreateBackgroundStyleController()=0;
 						virtual GuiSelectableButton::IStyleController*		CreateBulletStyleController()=0;
 					};
 
-					class ITextItemView : public virtual GuiListControl::IItemPrimaryTextView
+					class ITextItemView : public virtual GuiListControl::IItemPrimaryTextView, public Description<ITextItemView>
 					{
 					public:
 						static const wchar_t*					Identifier;
@@ -47,7 +47,7 @@ TextList Style Provider
 					};
 
 				protected:
-					class TextItemStyleController : public ItemStyleControllerBase
+					class TextItemStyleController : public ItemStyleControllerBase, public Description<TextItemStyleController>
 					{
 					protected:
 						GuiSelectableButton*					backgroundButton;
@@ -110,7 +110,7 @@ TextList Data Source
 					bool										GetChecked()const;
 				};
 
-				class TextItemProvider : public ListProvider<TextItem>, protected TextItemStyleProvider::ITextItemView
+				class TextItemProvider : public ListProvider<TextItem>, protected TextItemStyleProvider::ITextItemView, public Description<TextItemProvider>
 				{
 				protected:
 					bool										ContainsPrimaryText(int itemIndex)override;
@@ -134,7 +134,7 @@ TextList Data Source
 TextList Control
 ***********************************************************************/
 
-			class GuiVirtualTextList : public GuiSelectableListControl
+			class GuiVirtualTextList : public GuiSelectableListControl, public Description<GuiVirtualTextList>
 			{
 			public:
 				GuiVirtualTextList(IStyleProvider* _styleProvider, list::TextItemStyleProvider::ITextItemStyleProvider* _itemStyleProvider, GuiListControl::IItemProvider* _itemProvider);
@@ -144,7 +144,7 @@ TextList Control
 				Ptr<GuiListControl::IItemStyleProvider>			ChangeItemStyle(list::TextItemStyleProvider::ITextItemStyleProvider* itemStyleProvider);
 			};
 
-			class GuiTextList : public GuiVirtualTextList
+			class GuiTextList : public GuiVirtualTextList, public Description<GuiTextList>
 			{
 			protected:
 				list::TextItemProvider*							items;

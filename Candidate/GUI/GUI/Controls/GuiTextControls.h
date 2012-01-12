@@ -24,10 +24,10 @@ Common Operations
 
 			class GuiTextBoxCommonInterface;
 
-			class GuiTextElementOperator : public Object
+			class GuiTextElementOperator : public Object, public Description<GuiTextElementOperator>
 			{
 			public:
-				class ICallback : public Interface
+				class ICallback : public Interface, public Description<ICallback>
 				{
 				public:
 					virtual TextPos							GetLeftWord(TextPos pos)=0;
@@ -40,7 +40,7 @@ Common Operations
 					virtual int								GetTextMargin()=0;
 				};
 
-				class DefaultCallback : public Object, public ICallback
+				class DefaultCallback : public Object, public ICallback, public Description<DefaultCallback>
 				{
 				protected:
 					elements::GuiColorizedTextElement*		textElement;
@@ -104,7 +104,7 @@ Common Operations
 				bool										Paste();
 			};
 
-			class GuiTextBoxCommonInterface
+			class GuiTextBoxCommonInterface : public Description<GuiTextBoxCommonInterface>
 			{
 				friend class GuiTextElementOperator;
 			protected:
@@ -155,12 +155,12 @@ Common Operations
 TextBox
 ***********************************************************************/
 
-			class GuiMultilineTextBox : public GuiScrollView, public GuiTextBoxCommonInterface
+			class GuiMultilineTextBox : public GuiScrollView, public GuiTextBoxCommonInterface, public Description<GuiMultilineTextBox>
 			{
 			public:
 				static const int							TextMargin=3;
 
-				class StyleController : public GuiScrollView::StyleController
+				class StyleController : public GuiScrollView::StyleController, public Description<StyleController>
 				{
 				protected:
 					elements::GuiColorizedTextElement*		textElement;
@@ -184,7 +184,7 @@ TextBox
 					void									SetVisuallyEnabled(bool value)override;
 				};
 
-				class TextElementOperatorCallback : public GuiTextElementOperator::DefaultCallback
+				class TextElementOperatorCallback : public GuiTextElementOperator::DefaultCallback, public Description<TextElementOperatorCallback>
 				{
 				protected:
 					GuiMultilineTextBox*					textControl;
@@ -214,18 +214,18 @@ TextBox
 				void										SetFont(const FontProperties& value)override;
 			};
 
-			class GuiSinglelineTextBox : public GuiControl, public GuiTextBoxCommonInterface
+			class GuiSinglelineTextBox : public GuiControl, public GuiTextBoxCommonInterface, public Description<GuiSinglelineTextBox>
 			{
 			public:
 				static const int							TextMargin=3;
 
-				class IStyleProvider : public virtual GuiControl::IStyleProvider
+				class IStyleProvider : public virtual GuiControl::IStyleProvider, public Description<IStyleProvider>
 				{
 				public:
 					virtual elements::GuiGraphicsComposition*		InstallBackground(elements::GuiBoundsComposition* background)=0;
 				};
 
-				class StyleController : public Object, public GuiControl::IStyleController
+				class StyleController : public Object, public GuiControl::IStyleController, public Description<StyleController>
 				{
 				protected:
 					Ptr<IStyleProvider>						styleProvider;
@@ -260,7 +260,7 @@ TextBox
 					void									SetViewPosition(Point value);
 				};
 
-				class TextElementOperatorCallback : public GuiTextElementOperator::DefaultCallback
+				class TextElementOperatorCallback : public GuiTextElementOperator::DefaultCallback, public Description<TextElementOperatorCallback>
 				{
 				protected:
 					GuiSinglelineTextBox*					textControl;

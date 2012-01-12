@@ -22,7 +22,7 @@ namespace vl
 List Control
 ***********************************************************************/
 
-			class GuiListControl : public GuiScrollView
+			class GuiListControl : public GuiScrollView, public Description<GuiListControl>
 			{
 			public:
 				class IItemProvider;
@@ -33,14 +33,14 @@ List Control
 				// Callback Interfaces
 				//-----------------------------------------------------------
 
-				class IItemProviderCallback : public virtual Interface
+				class IItemProviderCallback : public virtual Interface, public Description<IItemProviderCallback>
 				{
 				public:
 					virtual void								OnAttached(IItemProvider* provider)=0;
 					virtual void								OnItemModified(int start, int count, int newCount)=0;
 				};
 
-				class IItemArrangerCallback : public virtual Interface
+				class IItemArrangerCallback : public virtual Interface, public Description<IItemArrangerCallback>
 				{
 				public:
 					virtual IItemStyleController*				RequestItem(int itemIndex)=0;
@@ -57,7 +57,7 @@ List Control
 				// Common Views
 				//-----------------------------------------------------------
 
-				class IItemPrimaryTextView : public virtual Interface
+				class IItemPrimaryTextView : public virtual Interface, public Description<IItemPrimaryTextView>
 				{
 				public:
 					static const wchar_t*						Identifier;
@@ -70,7 +70,7 @@ List Control
 				// Provider Interfaces
 				//-----------------------------------------------------------
 
-				class IItemProvider : public virtual Interface
+				class IItemProvider : public virtual Interface, public Description<IItemProvider>
 				{
 				public:
 					virtual bool								AttachCallback(IItemProviderCallback* value)=0;
@@ -80,7 +80,7 @@ List Control
 					virtual void								ReleaseView(Interface* view)=0;
 				};
 
-				class IItemStyleController : public virtual Interface
+				class IItemStyleController : public virtual Interface, public Description<IItemStyleController>
 				{
 				public:
 					virtual IItemStyleProvider*					GetStyleProvider()=0;
@@ -92,7 +92,7 @@ List Control
 					virtual void								OnUninstalled()=0;
 				};
 
-				class IItemStyleProvider : public virtual Interface
+				class IItemStyleProvider : public virtual Interface, public Description<IItemStyleProvider>
 				{
 				public:
 					virtual void								AttachListControl(GuiListControl* value)=0;
@@ -103,7 +103,7 @@ List Control
 					virtual void								Install(IItemStyleController* style, int itemIndex)=0;
 				};
 
-				class IItemArranger : public virtual IItemProviderCallback
+				class IItemArranger : public virtual IItemProviderCallback, public Description<IItemArranger>
 				{
 				public:
 					virtual void								AttachListControl(GuiListControl* value)=0;
@@ -116,7 +116,7 @@ List Control
 					virtual void								OnViewChanged(Rect bounds)=0;
 				};
 
-				class IItemCoordinateTransformer : public virtual Interface
+				class IItemCoordinateTransformer : public virtual Interface, public Description<IItemCoordinateTransformer>
 				{
 				public:
 					virtual Size								RealSizeToVirtualSize(Size size)=0;
@@ -196,10 +196,10 @@ List Control
 Selectable List Control
 ***********************************************************************/
 
-			class GuiSelectableListControl : public GuiListControl
+			class GuiSelectableListControl : public GuiListControl, public Description<GuiSelectableListControl>
 			{
 			public:
-				class IItemStyleProvider : public virtual GuiListControl::IItemStyleProvider
+				class IItemStyleProvider : public virtual GuiListControl::IItemStyleProvider, public Description<IItemStyleProvider>
 				{
 				public:
 					virtual void								SetStyleSelected(IItemStyleController* style, bool value)=0;
@@ -260,7 +260,7 @@ Predefined ItemCoordinateTransformer
 
 			namespace list
 			{
-				class DefaultItemCoordinateTransformer : public Object, virtual public GuiListControl::IItemCoordinateTransformer
+				class DefaultItemCoordinateTransformer : public Object, virtual public GuiListControl::IItemCoordinateTransformer, public Description<DefaultItemCoordinateTransformer>
 				{
 				public:
 					DefaultItemCoordinateTransformer();
@@ -276,7 +276,7 @@ Predefined ItemCoordinateTransformer
 					Margin										VirtualMarginToRealMargin(Margin margin)override;
 				};
 
-				class AxisAlignedItemCoordinateTransformer : public Object, virtual public GuiListControl::IItemCoordinateTransformer
+				class AxisAlignedItemCoordinateTransformer : public Object, virtual public GuiListControl::IItemCoordinateTransformer, public Description<AxisAlignedItemCoordinateTransformer>
 				{
 				public:
 					enum Alignment
@@ -315,7 +315,7 @@ Predefined ItemArranger
 
 			namespace list
 			{
-				class RangedItemArrangerBase : public Object, virtual public GuiListControl::IItemArranger
+				class RangedItemArrangerBase : public Object, virtual public GuiListControl::IItemArranger, public Description<RangedItemArrangerBase>
 				{
 					typedef collections::List<GuiListControl::IItemStyleController*>		StyleList;
 				protected:
@@ -345,7 +345,7 @@ Predefined ItemArranger
 					void										OnViewChanged(Rect bounds)override;
 				};
 
-				class FixedHeightItemArranger : public RangedItemArrangerBase
+				class FixedHeightItemArranger : public RangedItemArrangerBase, public Description<FixedHeightItemArranger>
 				{
 				protected:
 					int											rowHeight;
@@ -362,7 +362,7 @@ Predefined ItemArranger
 					~FixedHeightItemArranger();
 				};
 
-				class FixedSizeMultiColumnItemArranger : public RangedItemArrangerBase
+				class FixedSizeMultiColumnItemArranger : public RangedItemArrangerBase, public Description<FixedSizeMultiColumnItemArranger>
 				{
 				protected:
 					Size										itemSize;
@@ -378,7 +378,7 @@ Predefined ItemArranger
 					~FixedSizeMultiColumnItemArranger();
 				};
 
-				class FixedHeightMultiColumnItemArranger : public RangedItemArrangerBase
+				class FixedHeightMultiColumnItemArranger : public RangedItemArrangerBase, public Description<FixedHeightMultiColumnItemArranger>
 				{
 				protected:
 					int											itemHeight;
@@ -401,7 +401,7 @@ Predefined ItemStyleController
 
 			namespace list
 			{
-				class ItemStyleControllerBase : public Object, public virtual GuiListControl::IItemStyleController
+				class ItemStyleControllerBase : public Object, public virtual GuiListControl::IItemStyleController, public Description<ItemStyleControllerBase>
 				{
 				protected:
 					GuiListControl::IItemStyleProvider*			provider;
@@ -433,7 +433,7 @@ Predefined ItemProvider
 
 			namespace list
 			{
-				class ItemProviderBase : public Object, public virtual GuiListControl::IItemProvider
+				class ItemProviderBase : public Object, public virtual GuiListControl::IItemProvider, public Description<ItemProviderBase>
 				{
 				protected:
 					collections::List<GuiListControl::IItemProviderCallback*>	callbacks;

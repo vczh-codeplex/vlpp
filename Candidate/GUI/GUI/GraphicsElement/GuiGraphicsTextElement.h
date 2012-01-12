@@ -136,7 +136,7 @@ ColorizedText
 				};
 			}
 
-			class GuiColorizedTextElement : public Object, public IGuiGraphicsElement
+			class GuiColorizedTextElement : public Object, public IGuiGraphicsElement, public Description<GuiColorizedTextElement>
 			{
 				DEFINE_GUI_GRAPHICS_ELEMENT(GuiColorizedTextElement, L"ColorizedText");
 

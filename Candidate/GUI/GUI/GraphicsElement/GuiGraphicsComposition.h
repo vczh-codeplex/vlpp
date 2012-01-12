@@ -32,7 +32,7 @@ namespace vl
 Basic Construction
 ***********************************************************************/
 
-			class GuiGraphicsComposition : public Object
+			class GuiGraphicsComposition : public Object, public Description<GuiGraphicsComposition>
 			{
 				typedef collections::IReadonlyList<GuiGraphicsComposition*> ICompositionList;
 				typedef collections::List<GuiGraphicsComposition*> CompositionList;
@@ -129,7 +129,7 @@ Basic Construction
 				virtual Rect						GetBounds()=0;
 			};
 
-			class GuiGraphicsSite : public GuiGraphicsComposition
+			class GuiGraphicsSite : public GuiGraphicsComposition, public Description<GuiGraphicsSite>
 			{
 			protected:
 
@@ -148,7 +148,7 @@ Basic Construction
 Basic Compositions
 ***********************************************************************/
 
-			class GuiWindowComposition : public GuiGraphicsSite
+			class GuiWindowComposition : public GuiGraphicsSite, public Description<GuiWindowComposition>
 			{
 			protected:
 				INativeWindow*						attachedWindow;
@@ -163,7 +163,7 @@ Basic Compositions
 				void								SetMargin(Margin value)override;
 			};
 
-			class GuiBoundsComposition : public GuiGraphicsSite
+			class GuiBoundsComposition : public GuiGraphicsSite, public Description<GuiBoundsComposition>
 			{
 			protected:
 				Rect								compositionBounds;
@@ -241,7 +241,7 @@ Table Compositions
 				}
 			};
 
-			class GuiTableComposition : public GuiBoundsComposition
+			class GuiTableComposition : public GuiBoundsComposition, public Description<GuiTableComposition>
 			{
 				friend class GuiCellComposition;
 			protected:
@@ -313,7 +313,7 @@ Table Compositions
 				Rect								GetBounds()override;
 			};
 
-			class GuiCellComposition : public GuiGraphicsSite
+			class GuiCellComposition : public GuiGraphicsSite, public Description<GuiCellComposition>
 			{
 				friend class GuiTableComposition;
 			protected:
@@ -351,7 +351,7 @@ Stack Compositions
 			class GuiStackComposition;
 			class GuiStackItemComposition;
 
-			class GuiStackComposition : public GuiBoundsComposition
+			class GuiStackComposition : public GuiBoundsComposition, public Description<GuiStackComposition>
 			{
 				friend class GuiStackItemComposition;
 
@@ -395,7 +395,7 @@ Stack Compositions
 				void								SetExtraMargin(Margin value);
 			};
 
-			class GuiStackItemComposition : public GuiGraphicsSite
+			class GuiStackItemComposition : public GuiGraphicsSite, public Description<GuiStackItemComposition>
 			{
 				friend class GuiStackComposition;
 			protected:
@@ -422,7 +422,7 @@ Stack Compositions
 Specialized Compositions
 ***********************************************************************/
 
-			class GuiSideAlignedComposition : public GuiGraphicsSite
+			class GuiSideAlignedComposition : public GuiGraphicsSite, public Description<GuiSideAlignedComposition>
 			{
 			public:
 				enum Direction
@@ -452,7 +452,7 @@ Specialized Compositions
 				Rect								GetBounds()override;
 			};
 
-			class GuiPartialViewComposition : public GuiGraphicsSite
+			class GuiPartialViewComposition : public GuiGraphicsSite, public Description<GuiPartialViewComposition>
 			{
 			protected:
 				double								wRatio;
