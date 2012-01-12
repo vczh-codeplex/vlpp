@@ -24,7 +24,7 @@ Menu Service
 
 			class GuiMenu;
 
-			class IGuiMenuService : public virtual Interface, public Description<IGuiMenuService>
+			class IGuiMenuService : public virtual IDescriptable, public Description<IGuiMenuService>
 			{
 			public:
 				static const wchar_t*					Identifier;
@@ -72,7 +72,7 @@ Menu
 				~GuiMenu();
 
 				void									UpdateMenuService();
-				vl::Interface*							QueryService(const WString& identifier)override;
+				IDescriptable*							QueryService(const WString& identifier)override;
 			};
 
 			class GuiMenuBar : public GuiControl, private IGuiMenuService, public Description<GuiMenuBar>
@@ -85,7 +85,7 @@ Menu
 				GuiMenuBar(GuiControl::IStyleController* _styleController);
 				~GuiMenuBar();
 				
-				Interface*								QueryService(const WString& identifier)override;
+				IDescriptable*							QueryService(const WString& identifier)override;
 			};
 
 /***********************************************************************

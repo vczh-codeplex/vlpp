@@ -27,7 +27,7 @@ Common Operations
 			class GuiTextElementOperator : public Object, public Description<GuiTextElementOperator>
 			{
 			public:
-				class ICallback : public virtual Interface, public Description<ICallback>
+				class ICallback : public virtual IDescriptable, public Description<ICallback>
 				{
 				public:
 					virtual TextPos							GetLeftWord(TextPos pos)=0;

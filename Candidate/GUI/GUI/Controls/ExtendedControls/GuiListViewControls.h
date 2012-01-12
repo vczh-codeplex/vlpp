@@ -106,7 +106,7 @@ ListView ItemStyleProvider
 						virtual WString							GetColumnText(int index)=0;
 					};
 
-					class IListViewItemContent : public virtual Interface, public Description<IListViewItemContent>
+					class IListViewItemContent : public virtual IDescriptable, public Description<IListViewItemContent>
 					{
 					public:
 						virtual elements::GuiBoundsComposition*	GetContentComposition()=0;
@@ -114,7 +114,7 @@ ListView ItemStyleProvider
 						virtual void							Install(GuiListViewBase::IStyleProvider* styleProvider, IListViewItemView* view, int itemIndex)=0;
 					};
 
-					class IListViewItemContentProvider : public virtual Interface, public Description<IListViewItemContentProvider>
+					class IListViewItemContentProvider : public virtual IDescriptable, public Description<IListViewItemContentProvider>
 					{
 					public:
 						virtual GuiListControl::IItemCoordinateTransformer*		CreatePreferredCoordinateTransformer()=0;
@@ -345,14 +345,14 @@ ListView ItemContentProvider(Detailed)
 				public:
 					static const int							SplitterWidth=8;
 
-					class IColumnItemViewCallback : public virtual Interface, public Description<IColumnItemViewCallback>
+					class IColumnItemViewCallback : public virtual IDescriptable, public Description<IColumnItemViewCallback>
 					{
 					public:
 						virtual void							OnColumnChanged()=0;
 						virtual void							OnColumnSizeChanged(int index)=0;
 					};
 
-					class IColumnItemView : public virtual Interface, public Description<IColumnItemView>
+					class IColumnItemView : public virtual IDescriptable, public Description<IColumnItemView>
 					{
 					public:
 						static const wchar_t*					Identifier;
@@ -510,8 +510,8 @@ ListView
 					ListViewItemProvider();
 					~ListViewItemProvider();
 
-					Interface*									RequestView(const WString& identifier)override;
-					void										ReleaseView(Interface* view)override;
+					IDescriptable*								RequestView(const WString& identifier)override;
+					void										ReleaseView(IDescriptable* view)override;
 
 					collections::IList<int>&					GetDataColumns();
 					void										NotifyDataColumnsUpdated();

@@ -238,7 +238,7 @@ GuiControl
 				}
 			}
 
-			Interface* GuiControl::QueryService(const WString& identifier)
+			IDescriptable* GuiControl::QueryService(const WString& identifier)
 			{
 				if(parent)
 				{

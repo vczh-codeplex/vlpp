@@ -28,6 +28,12 @@ namespace vl
 			DescriptableObject();
 			virtual ~DescriptableObject();
 		};
+
+		class IDescriptable : public virtual DescriptableObject
+		{
+		public:
+			~IDescriptable(){}
+		};
 		
 		template<typename T>
 		class Description : public virtual DescriptableObject

@@ -27,7 +27,7 @@ Basic Construction
 				friend class elements::GuiGraphicsComposition;
 				typedef collections::List<GuiControl*>		ControlList;
 			public:
-				class IStyleController : public virtual Interface, public Description<IStyleController>
+				class IStyleController : public virtual IDescriptable, public Description<IStyleController>
 				{
 				public:
 					virtual elements::GuiBoundsComposition*		GetBoundsComposition()=0;
@@ -38,7 +38,7 @@ Basic Construction
 					virtual void								SetVisuallyEnabled(bool value)=0;
 				};
 
-				class IStyleProvider : public virtual Interface, public Description<IStyleProvider>
+				class IStyleProvider : public virtual IDescriptable, public Description<IStyleProvider>
 				{
 				public:
 					virtual void								AssociateStyleController(IStyleController* controller)=0;
@@ -101,7 +101,7 @@ Basic Construction
 				virtual const FontProperties&			GetFont();
 				virtual void							SetFont(const FontProperties& value);
 
-				virtual Interface*						QueryService(const WString& identifier);
+				virtual IDescriptable*					QueryService(const WString& identifier);
 
 				template<typename T>
 				T* QueryService()
@@ -242,7 +242,7 @@ Scrolls
 			class GuiScroll : public GuiControl, public Description<GuiScroll>
 			{
 			public:
-				class ICommandExecutor : public virtual Interface, public Description<ICommandExecutor>
+				class ICommandExecutor : public virtual IDescriptable, public Description<ICommandExecutor>
 				{
 				public:
 					virtual void						SmallDecrease()=0;
