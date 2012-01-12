@@ -61,6 +61,9 @@
     <Filter Include="GUI\NativeWindow\Windows\GDI">
       <UniqueIdentifier>{67bf0be8-d0b4-450d-b89c-ea80cb3b2c3a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI\Reflection">
+      <UniqueIdentifier>{42d58880-cf8e-4a63-bc6c-89dd7213bff2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Library\Basic.cpp">
@@ -191,6 +194,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\Library\Stream\CacheStream.cpp">
       <Filter>Library\Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\Reflection\GuiTypeDescriptor.cpp">
+      <Filter>GUI\Reflection</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -388,6 +394,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\Library\Stream\CacheStream.h">
       <Filter>Library\Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\Reflection\GuiTypeDescriptor.h">
+      <Filter>GUI\Reflection</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
