@@ -29,7 +29,7 @@ TextList Style Provider
 				class TextItemStyleProvider : public Object, public GuiSelectableListControl::IItemStyleProvider, public Description<TextItemStyleProvider>
 				{
 				public:
-					class ITextItemStyleProvider : public virtual Interface, public Description<ITextItemStyleProvider>
+					class ITextItemStyleProvider : public virtual IDescriptable, public Description<ITextItemStyleProvider>
 					{
 					public:
 						virtual GuiSelectableButton::IStyleController*		CreateBackgroundStyleController()=0;
@@ -125,8 +125,8 @@ TextList Data Source
 					void										SetText(int itemIndex, const WString& value);
 					void										SetChecked(int itemIndex, bool value);
 
-					Interface*									RequestView(const WString& identifier)override;
-					void										ReleaseView(Interface* view)override;
+					IDescriptable*								RequestView(const WString& identifier)override;
+					void										ReleaseView(IDescriptable* view)override;
 				};
 			}
 

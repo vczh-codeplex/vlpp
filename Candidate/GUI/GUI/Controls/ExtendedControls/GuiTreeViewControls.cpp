@@ -258,7 +258,7 @@ NodeItemProvider
 					return root->GetRootNode()->CalculateTotalVisibleNodes()-1;
 				}
 
-				Interface* NodeItemProvider::RequestView(const WString& identifier)
+				IDescriptable* NodeItemProvider::RequestView(const WString& identifier)
 				{
 					if(identifier==INodeItemView::Identifier)
 					{
@@ -274,7 +274,7 @@ NodeItemProvider
 					}
 				}
 
-				void NodeItemProvider::ReleaseView(Interface* view)
+				void NodeItemProvider::ReleaseView(IDescriptable* view)
 				{
 					if(dynamic_cast<INodeItemView*>(view)==0)
 					{
@@ -770,12 +770,12 @@ NodeRootProviderBase
 					}
 				}
 
-				Interface* NodeRootProviderBase::RequestView(const WString& identifier)
+				IDescriptable* NodeRootProviderBase::RequestView(const WString& identifier)
 				{
 					return 0;
 				}
 
-				void NodeRootProviderBase::ReleaseView(Interface* view)
+				void NodeRootProviderBase::ReleaseView(IDescriptable* view)
 				{
 				}
 
@@ -906,7 +906,7 @@ TreeViewItemRootProvider
 				{
 				}
 
-				Interface* TreeViewItemRootProvider::RequestView(const WString& identifier)
+				IDescriptable* TreeViewItemRootProvider::RequestView(const WString& identifier)
 				{
 					if(identifier==ITreeViewItemView::Identifier)
 					{
@@ -922,7 +922,7 @@ TreeViewItemRootProvider
 					}
 				}
 
-				void TreeViewItemRootProvider::ReleaseView(Interface* view)
+				void TreeViewItemRootProvider::ReleaseView(IDescriptable* view)
 				{
 					return MemoryNodeRootProvider::ReleaseView(view);
 				}

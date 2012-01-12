@@ -1425,7 +1425,7 @@ ListViewItemProvider
 				{
 				}
 
-				Interface* ListViewItemProvider::RequestView(const WString& identifier)
+				IDescriptable* ListViewItemProvider::RequestView(const WString& identifier)
 				{
 					if(identifier==ListViewItemStyleProvider::IListViewItemView::Identifier)
 					{
@@ -1445,7 +1445,7 @@ ListViewItemProvider
 					}
 				}
 
-				void ListViewItemProvider::ReleaseView(Interface* view)
+				void ListViewItemProvider::ReleaseView(IDescriptable* view)
 				{
 				}
 

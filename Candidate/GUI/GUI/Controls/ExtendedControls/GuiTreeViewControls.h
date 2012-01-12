@@ -31,7 +31,7 @@ GuiVirtualTreeListControl NodeProvider
 				// Callback Interfaces
 				//-----------------------------------------------------------
 
-				class INodeProviderCallback : public virtual Interface, public Description<INodeProviderCallback>
+				class INodeProviderCallback : public virtual IDescriptable, public Description<INodeProviderCallback>
 				{
 				public:
 					virtual void					OnAttached(INodeRootProvider* provider)=0;
@@ -45,7 +45,7 @@ GuiVirtualTreeListControl NodeProvider
 				// Provider Interfaces
 				//-----------------------------------------------------------
 
-				class INodeProvider : public virtual Interface, public Description<INodeProvider>
+				class INodeProvider : public virtual IDescriptable, public Description<INodeProvider>
 				{
 				public:
 					virtual bool					GetExpanding()=0;
@@ -58,7 +58,7 @@ GuiVirtualTreeListControl NodeProvider
 					virtual void					ReleaseChild(INodeProvider* node)=0;
 				};
 
-				class INodeRootProvider : public virtual Interface, public Description<INodeRootProvider>
+				class INodeRootProvider : public virtual IDescriptable, public Description<INodeRootProvider>
 				{
 				public:
 					virtual INodeProvider*			GetRootNode()=0;
@@ -66,8 +66,8 @@ GuiVirtualTreeListControl NodeProvider
 					virtual INodeProvider*			GetNodeByVisibleIndex(int index)=0;
 					virtual bool					AttachCallback(INodeProviderCallback* value)=0;
 					virtual bool					DetachCallback(INodeProviderCallback* value)=0;
-					virtual Interface*				RequestView(const WString& identifier)=0;
-					virtual void					ReleaseView(Interface* view)=0;
+					virtual IDescriptable*			RequestView(const WString& identifier)=0;
+					virtual void					ReleaseView(IDescriptable* view)=0;
 				};
 			}
 
@@ -87,7 +87,7 @@ GuiVirtualTreeListControl NodeProvider
 					virtual int						CalculateNodeVisibilityIndex(INodeProvider* node)=0;
 				};
 
-				class INodeItemPrimaryTextView : public virtual Interface, public Description<INodeItemPrimaryTextView>
+				class INodeItemPrimaryTextView : public virtual IDescriptable, public Description<INodeItemPrimaryTextView>
 				{
 				public:
 					static const wchar_t*			Identifier;
@@ -125,8 +125,8 @@ GuiVirtualTreeListControl NodeProvider
 
 					Ptr<INodeRootProvider>			GetRoot();
 					int								Count()override;
-					Interface*						RequestView(const WString& identifier)override;
-					void							ReleaseView(Interface* view)override;
+					IDescriptable*					RequestView(const WString& identifier)override;
+					void							ReleaseView(IDescriptable* view)override;
 				};
 
 				//-----------------------------------------------------------
@@ -141,7 +141,7 @@ GuiVirtualTreeListControl NodeProvider
 					virtual INodeItemStyleProvider*					GetNodeStyleProvider()=0;
 				};
 
-				class INodeItemStyleProvider : public virtual Interface, public Description<INodeItemStyleProvider>
+				class INodeItemStyleProvider : public virtual IDescriptable, public Description<INodeItemStyleProvider>
 				{
 				public:
 					virtual void									BindItemStyleProvider(GuiListControl::IItemStyleProvider* styleProvider)=0;
@@ -258,8 +258,8 @@ GuiVirtualTreeListControl Predefined NodeProvider
 					INodeProvider*					GetNodeByVisibleIndex(int index)override;
 					bool							AttachCallback(INodeProviderCallback* value)override;
 					bool							DetachCallback(INodeProviderCallback* value)override;
-					Interface*						RequestView(const WString& identifier)override;
-					void							ReleaseView(Interface* view)override;
+					IDescriptable*					RequestView(const WString& identifier)override;
+					void							ReleaseView(IDescriptable* view)override;
 				};
 
 				class MemoryNodeRootProvider
@@ -336,8 +336,8 @@ TreeView
 					TreeViewItemRootProvider();
 					~TreeViewItemRootProvider();
 
-					Interface*						RequestView(const WString& identifier)override;
-					void							ReleaseView(Interface* view)override;
+					IDescriptable*					RequestView(const WString& identifier)override;
+					void							ReleaseView(IDescriptable* view)override;
 				};
 			}
 			

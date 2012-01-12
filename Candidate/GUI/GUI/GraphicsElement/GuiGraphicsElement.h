@@ -28,7 +28,7 @@ namespace vl
 Basic Construction
 ***********************************************************************/
 
-			class IGuiGraphicsElement : public virtual Interface, public Description<IGuiGraphicsElement>
+			class IGuiGraphicsElement : public virtual IDescriptable, public Description<IGuiGraphicsElement>
 			{
 			public:
 				virtual IGuiGraphicsElementFactory*		GetFactory()=0;

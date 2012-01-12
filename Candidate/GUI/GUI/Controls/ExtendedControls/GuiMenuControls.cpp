@@ -124,7 +124,7 @@ GuiMenu
 				}
 			}
 
-			Interface* GuiMenu::QueryService(const WString& identifier)
+			IDescriptable* GuiMenu::QueryService(const WString& identifier)
 			{
 				if(identifier==IGuiMenuService::Identifier)
 				{
@@ -164,7 +164,7 @@ GuiMenuBar
 			{
 			}
 
-			Interface* GuiMenuBar::QueryService(const WString& identifier)
+			IDescriptable* GuiMenuBar::QueryService(const WString& identifier)
 			{
 				if(identifier==IGuiMenuService::Identifier)
 				{

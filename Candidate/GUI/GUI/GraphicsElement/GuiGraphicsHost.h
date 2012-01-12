@@ -22,7 +22,7 @@ namespace vl
 Animation
 ***********************************************************************/
 
-			class IGuiGraphicsAnimation : public virtual Interface, public Description<IGuiGraphicsAnimation>
+			class IGuiGraphicsAnimation : public virtual IDescriptable, public Description<IGuiGraphicsAnimation>
 			{
 			public:
 				virtual int						GetTotalLength()=0;

@@ -28,7 +28,7 @@ ComboBox Base
 			class GuiComboBoxBase : public GuiButton, public Description<GuiComboBoxBase>
 			{
 			public:
-				class ICommandExecutor : public virtual Interface, public Description<ICommandExecutor>
+				class ICommandExecutor : public virtual IDescriptable, public Description<ICommandExecutor>
 				{
 				public:
 					virtual void							ShowPopup()=0;

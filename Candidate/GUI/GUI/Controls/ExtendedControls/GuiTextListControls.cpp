@@ -277,7 +277,7 @@ TextItemProvider
 					InvokeOnItemModified(itemIndex, 1, 1);
 				}
 
-				Interface* TextItemProvider::RequestView(const WString& identifier)
+				IDescriptable* TextItemProvider::RequestView(const WString& identifier)
 				{
 					if(identifier==TextItemStyleProvider::ITextItemView::Identifier)
 					{
@@ -293,7 +293,7 @@ TextItemProvider
 					}
 				}
 
-				void TextItemProvider::ReleaseView(Interface* view)
+				void TextItemProvider::ReleaseView(IDescriptable* view)
 				{
 				}
 			}

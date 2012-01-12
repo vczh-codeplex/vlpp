@@ -33,14 +33,14 @@ List Control
 				// Callback Interfaces
 				//-----------------------------------------------------------
 
-				class IItemProviderCallback : public virtual Interface, public Description<IItemProviderCallback>
+				class IItemProviderCallback : public virtual IDescriptable, public Description<IItemProviderCallback>
 				{
 				public:
 					virtual void								OnAttached(IItemProvider* provider)=0;
 					virtual void								OnItemModified(int start, int count, int newCount)=0;
 				};
 
-				class IItemArrangerCallback : public virtual Interface, public Description<IItemArrangerCallback>
+				class IItemArrangerCallback : public virtual IDescriptable, public Description<IItemArrangerCallback>
 				{
 				public:
 					virtual IItemStyleController*				RequestItem(int itemIndex)=0;
@@ -57,7 +57,7 @@ List Control
 				// Common Views
 				//-----------------------------------------------------------
 
-				class IItemPrimaryTextView : public virtual Interface, public Description<IItemPrimaryTextView>
+				class IItemPrimaryTextView : public virtual IDescriptable, public Description<IItemPrimaryTextView>
 				{
 				public:
 					static const wchar_t*						Identifier;
@@ -70,17 +70,17 @@ List Control
 				// Provider Interfaces
 				//-----------------------------------------------------------
 
-				class IItemProvider : public virtual Interface, public Description<IItemProvider>
+				class IItemProvider : public virtual IDescriptable, public Description<IItemProvider>
 				{
 				public:
 					virtual bool								AttachCallback(IItemProviderCallback* value)=0;
 					virtual bool								DetachCallback(IItemProviderCallback* value)=0;
 					virtual int									Count()=0;
-					virtual Interface*							RequestView(const WString& identifier)=0;
-					virtual void								ReleaseView(Interface* view)=0;
+					virtual IDescriptable*						RequestView(const WString& identifier)=0;
+					virtual void								ReleaseView(IDescriptable* view)=0;
 				};
 
-				class IItemStyleController : public virtual Interface, public Description<IItemStyleController>
+				class IItemStyleController : public virtual IDescriptable, public Description<IItemStyleController>
 				{
 				public:
 					virtual IItemStyleProvider*					GetStyleProvider()=0;
@@ -92,7 +92,7 @@ List Control
 					virtual void								OnUninstalled()=0;
 				};
 
-				class IItemStyleProvider : public virtual Interface, public Description<IItemStyleProvider>
+				class IItemStyleProvider : public virtual IDescriptable, public Description<IItemStyleProvider>
 				{
 				public:
 					virtual void								AttachListControl(GuiListControl* value)=0;
@@ -116,7 +116,7 @@ List Control
 					virtual void								OnViewChanged(Rect bounds)=0;
 				};
 
-				class IItemCoordinateTransformer : public virtual Interface, public Description<IItemCoordinateTransformer>
+				class IItemCoordinateTransformer : public virtual IDescriptable, public Description<IItemCoordinateTransformer>
 				{
 				public:
 					virtual Size								RealSizeToVirtualSize(Size size)=0;

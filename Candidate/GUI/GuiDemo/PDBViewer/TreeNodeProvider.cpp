@@ -261,7 +261,7 @@ public:
 	{
 	}
 
-	Interface* RequestView(const WString& identifier)override
+	IDescriptable* RequestView(const WString& identifier)override
 	{
 		if(identifier==tree::ITreeViewItemView::Identifier)
 		{
@@ -273,7 +273,7 @@ public:
 		}
 	}
 
-	void ReleaseView(Interface* view)override
+	void ReleaseView(IDescriptable* view)override
 	{
 		tree::NodeRootProviderBase::ReleaseView(view);
 	}
