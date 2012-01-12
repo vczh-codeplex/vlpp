@@ -29,7 +29,7 @@ TextList Style Provider
 				class TextItemStyleProvider : public Object, public GuiSelectableListControl::IItemStyleProvider, public Description<TextItemStyleProvider>
 				{
 				public:
-					class ITextItemStyleProvider : public Interface, public Description<ITextItemStyleProvider>
+					class ITextItemStyleProvider : public virtual Interface, public Description<ITextItemStyleProvider>
 					{
 					public:
 						virtual GuiSelectableButton::IStyleController*		CreateBackgroundStyleController()=0;

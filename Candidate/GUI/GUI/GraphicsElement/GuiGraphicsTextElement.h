@@ -56,7 +56,7 @@ ColorizedText
 					void							AppendAndFinalize(TextLine& line);
 				};
 
-				class CharMeasurer : public Interface
+				class CharMeasurer : public virtual Interface
 				{
 				protected:
 					IGuiGraphicsRenderTarget*		oldRenderTarget;
@@ -143,7 +143,7 @@ ColorizedText
 				typedef collections::Array<text::ColorEntry>			ColorArray;
 				typedef collections::IReadonlyList<text::ColorEntry>	IColorArray;
 			public:
-				class ICallback : public Interface
+				class ICallback : public virtual Interface
 				{
 				public:
 					virtual void					ColorChanged()=0;
