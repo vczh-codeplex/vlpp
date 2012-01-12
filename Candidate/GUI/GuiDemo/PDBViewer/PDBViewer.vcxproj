@@ -178,6 +178,7 @@
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDI.cpp" />
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDIApplication.cpp" />
     <ClCompile Include="..\..\GUI\NativeWindow\Windows\WinNativeWindow.cpp" />
+    <ClCompile Include="..\..\GUI\Reflection\GuiTypeDescriptor.cpp" />
     <ClCompile Include="DiaSymbolProvider.cpp" />
     <ClCompile Include="DumpPDB.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -246,6 +247,7 @@
     <ClInclude Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDI.h" />
     <ClInclude Include="..\..\GUI\NativeWindow\Windows\GDI\WinGDIApplication.h" />
     <ClInclude Include="..\..\GUI\NativeWindow\Windows\WinNativeWindow.h" />
+    <ClInclude Include="..\..\GUI\Reflection\GuiTypeDescriptor.h" />
     <ClInclude Include="cvconst.h" />
     <ClInclude Include="dia2.h" />
     <ClInclude Include="diacreate.h" />

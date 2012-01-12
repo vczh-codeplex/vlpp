@@ -79,6 +79,9 @@
     <Filter Include="GUI\Controls\Styles">
       <UniqueIdentifier>{cfa6186f-9d77-43f4-b03b-35a3a226b17b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI\Reflection">
+      <UniqueIdentifier>{4b801cfd-ffcf-4130-a68c-9d9e6a93ee2a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -206,6 +209,9 @@
     </ClCompile>
     <ClCompile Include="..\..\GUI\Controls\ExtendedControls\GuiComboControls.cpp">
       <Filter>GUI\Controls\ExtendedControls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GUI\Reflection\GuiTypeDescriptor.cpp">
+      <Filter>GUI\Reflection</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -397,6 +403,9 @@
     </ClInclude>
     <ClInclude Include="..\..\GUI\Controls\ExtendedControls\GuiComboControls.h">
       <Filter>GUI\Controls\ExtendedControls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GUI\Reflection\GuiTypeDescriptor.h">
+      <Filter>GUI\Reflection</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
