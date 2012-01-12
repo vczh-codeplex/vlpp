@@ -24,7 +24,7 @@ Menu Service
 
 			class GuiMenu;
 
-			class IGuiMenuService : public Interface, public Description<IGuiMenuService>
+			class IGuiMenuService : public virtual Interface, public Description<IGuiMenuService>
 			{
 			public:
 				static const wchar_t*					Identifier;

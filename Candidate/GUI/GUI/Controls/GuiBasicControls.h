@@ -242,7 +242,7 @@ Scrolls
 			class GuiScroll : public GuiControl, public Description<GuiScroll>
 			{
 			public:
-				class ICommandExecutor : public Interface, public Description<ICommandExecutor>
+				class ICommandExecutor : public virtual Interface, public Description<ICommandExecutor>
 				{
 				public:
 					virtual void						SmallDecrease()=0;

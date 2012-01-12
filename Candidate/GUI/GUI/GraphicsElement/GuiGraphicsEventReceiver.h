@@ -31,7 +31,7 @@ Event
 				typedef void(RawFunctionType)(GuiGraphicsComposition*, T&);
 				typedef Func<RawFunctionType>						FunctionType;
 
-				class IHandler : public Interface, public Description<IHandler>
+				class IHandler : public virtual Interface, public Description<IHandler>
 				{
 				public:
 					virtual void			Execute(GuiGraphicsComposition* sender, T& argument)=0;

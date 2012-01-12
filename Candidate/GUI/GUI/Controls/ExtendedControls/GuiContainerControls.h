@@ -50,7 +50,7 @@ Tab Control
 			{
 				friend class GuiTabPage;
 			public:
-				class ICommandExecutor : public Interface, public Description<ICommandExecutor>
+				class ICommandExecutor : public virtual Interface, public Description<ICommandExecutor>
 				{
 				public:
 					virtual void								ShowTab(int index)=0;
