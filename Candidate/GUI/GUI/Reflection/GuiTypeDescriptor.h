@@ -29,7 +29,7 @@ namespace vl
 			virtual ~DescriptableObject();
 		};
 
-		class IDescriptable : public virtual DescriptableObject
+		class IDescriptable : public virtual Interface, public virtual DescriptableObject
 		{
 		public:
 			~IDescriptable(){}
