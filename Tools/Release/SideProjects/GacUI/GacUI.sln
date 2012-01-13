@@ -5,9 +5,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_GenPDB", "_GenPDB\_GenPDB.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GacUI", "GacUI\GacUI.vcxproj", "{9D8D3B9C-6123-4A6A-91EC-FB024AA1AB77}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "_TranslatePDBtoXML", "_TranslatePDBtoXML\_TranslatePDBtoXML.vcxproj", "{5663EC70-A905-4535-A29A-E6915D9B278B}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
+		SccNumberOfProjects = 4
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
 		SccLocalPath0 = .
@@ -17,6 +19,9 @@ Global
 		SccProjectUniqueName2 = GacUI\\GacUI.vcxproj
 		SccProjectName2 = GacUI
 		SccLocalPath2 = GacUI
+		SccProjectUniqueName3 = _TranslatePDBtoXML\\_TranslatePDBtoXML.vcxproj
+		SccProjectName3 = _TranslatePDBtoXML
+		SccLocalPath3 = _TranslatePDBtoXML
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -31,6 +36,10 @@ Global
 		{9D8D3B9C-6123-4A6A-91EC-FB024AA1AB77}.Debug|Win32.Build.0 = Debug|Win32
 		{9D8D3B9C-6123-4A6A-91EC-FB024AA1AB77}.Release|Win32.ActiveCfg = Release|Win32
 		{9D8D3B9C-6123-4A6A-91EC-FB024AA1AB77}.Release|Win32.Build.0 = Release|Win32
+		{5663EC70-A905-4535-A29A-E6915D9B278B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5663EC70-A905-4535-A29A-E6915D9B278B}.Debug|Win32.Build.0 = Debug|Win32
+		{5663EC70-A905-4535-A29A-E6915D9B278B}.Release|Win32.ActiveCfg = Release|Win32
+		{5663EC70-A905-4535-A29A-E6915D9B278B}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

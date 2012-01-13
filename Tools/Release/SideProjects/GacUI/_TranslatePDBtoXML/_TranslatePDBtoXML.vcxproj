@@ -11,13 +11,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{A5A7F93B-7B6C-486B-897F-5E22ED57F914}</ProjectGuid>
-    <Keyword>Win32Proj</Keyword>
-    <RootNamespace>_GenPDB</RootNamespace>
+    <ProjectGuid>{5663EC70-A905-4535-A29A-E6915D9B278B}</ProjectGuid>
     <SccProjectName>SAK</SccProjectName>
     <SccAuxPath>SAK</SccAuxPath>
     <SccLocalPath>SAK</SccLocalPath>
     <SccProvider>SAK</SccProvider>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>_TranslatePDBtoXML</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -56,9 +56,12 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(ProjectDir)msdia100.dll $(SolutionDir)$(Configuration)\msdia100.dll</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -71,19 +74,57 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(ProjectDir)msdia100.dll $(SolutionDir)$(Configuration)\msdia100.dll</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\Library\Basic.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\Collections\Operation.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\Console.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\Exception.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\Stream\Accessor.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\Stream\CacheStream.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\Stream\CharFormat.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\Stream\FileStream.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\String.cpp" />
+    <ClCompile Include="DumpPDB.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\_TranslatePDBtoXML\_TranslatePDBtoXML.vcxproj">
-      <Project>{5663ec70-a905-4535-a29a-e6915d9b278b}</Project>
-    </ProjectReference>
+    <ClInclude Include="..\..\..\..\..\Library\Basic.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\Dictionary.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\DictionaryWrappers.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\Interfaces.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\List.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\ListWrappers.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\Operation.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationAggregate.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationConcat.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationCopyFrom.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationEnumerable.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationForEach.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationPair.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationSelect.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationSequence.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationSet.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationString.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationWhere.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\Pair.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Console.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Exception.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Pointer.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Stream\Accessor.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Stream\CacheStream.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Stream\CharFormat.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Stream\FileStream.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Stream\Interfaces.h" />
+    <ClInclude Include="..\..\..\..\..\Library\String.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
