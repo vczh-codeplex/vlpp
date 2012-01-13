@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{9D8D3B9C-6123-4A6A-91EC-FB024AA1AB77}</ProjectGuid>
+    <SccProjectName>SAK</SccProjectName>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccProvider>SAK</SccProvider>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>GacUI</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;GACUI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;GACUI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\ExtendedControls\GuiComboControls.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\ExtendedControls\GuiContainerControls.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\ExtendedControls\GuiListViewControls.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\ExtendedControls\GuiMenuControls.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\ExtendedControls\GuiTextListControls.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\ExtendedControls\GuiTreeViewControls.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\GuiApplication.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\GuiBasicControls.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\GuiListControls.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\GuiTextControls.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\GuiWindowControls.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\Styles\GuiCommonStyles.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\Styles\GuiWin7Styles.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\GuiGraphicsComposition.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\GuiGraphicsElement.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\GuiGraphicsEventReceiver.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\GuiGraphicsHost.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\GuiGraphicsTextElement.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\WindowsDirect2D\GuiGraphicsRenderersWindowsDirect2D.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\WindowsDirect2D\GuiGraphicsWindowsDirect2D.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\WindowsGDI\GuiGraphicsRenderersWindowsGDI.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\WindowsGDI\GuiGraphicsWindowsGDI.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\NativeWindow\GuiNativeWindow.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\NativeWindow\Windows\Direct2D\WinDirect2DApplication.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\NativeWindow\Windows\GDI\WinGDI.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\NativeWindow\Windows\GDI\WinGDIApplication.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\NativeWindow\Windows\WinNativeWindow.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\Reflection\GuiTypeDescriptor.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\Basic.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\Collections\Operation.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\Entity\TreeJson.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\Entity\TreeQuery.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\Entity\TreeXml.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\Exception.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\Stream\Accessor.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\Stream\BroadcastStream.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\Stream\CacheStream.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\Stream\CharFormat.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\Stream\FileStream.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\Stream\MemoryStream.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\Stream\MemoryWrapperStream.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\Stream\RecorderStream.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\String.cpp" />
+    <ClCompile Include="..\..\..\..\..\Library\Threading.cpp" />
+    <ClCompile Include="DllMain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\ExtendedControls\GuiComboControls.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\ExtendedControls\GuiContainerControls.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\ExtendedControls\GuiListViewControls.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\ExtendedControls\GuiMenuControls.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\ExtendedControls\GuiTextListControls.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\ExtendedControls\GuiTreeViewControls.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\GuiApplication.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\GuiBasicControls.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\GuiListControls.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\GuiTextControls.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\GuiWindowControls.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\Styles\GuiCommonStyles.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\Styles\GuiWin7Styles.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\GacUI.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\GacVlppReferences.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\GuiGraphicsComposition.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\GuiGraphicsElement.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\GuiGraphicsEventReceiver.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\GuiGraphicsHost.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\GuiGraphicsTextElement.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\WindowsDirect2D\GuiGraphicsRenderersWindowsDirect2D.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\WindowsDirect2D\GuiGraphicsWindowsDirect2D.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\WindowsGDI\GuiGraphicsRenderersWindowsGDI.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\WindowsGDI\GuiGraphicsWindowsGDI.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\NativeWindow\GuiNativeWindow.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\NativeWindow\GuiTypes.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\NativeWindow\Windows\Direct2D\WinDirect2DApplication.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\NativeWindow\Windows\GDI\WinGDI.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\NativeWindow\Windows\GDI\WinGDIApplication.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\NativeWindow\Windows\WinNativeWindow.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\Reflection\GuiTypeDescriptor.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Basic.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\Dictionary.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\DictionaryWrappers.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\Interfaces.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\List.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\ListWrappers.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\Operation.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationAggregate.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationConcat.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationCopyFrom.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationEnumerable.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationForEach.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationPair.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationSelect.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationSequence.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationSet.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationString.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationWhere.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Collections\Pair.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Entity\TreeJson.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Entity\TreeQuery.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Entity\TreeXml.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Event.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Exception.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Function.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Pointer.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Stream\Accessor.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Stream\BroadcastStream.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Stream\CacheStream.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Stream\CharFormat.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Stream\FileStream.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Stream\Interfaces.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Stream\MemoryStream.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Stream\MemoryWrapperStream.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Stream\RecorderStream.h" />
+    <ClInclude Include="..\..\..\..\..\Library\String.h" />
+    <ClInclude Include="..\..\..\..\..\Library\Threading.h" />
+    <ClInclude Include="GacUICpp.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\_GenPDB\_GenPDB.vcxproj">
+      <Project>{a5a7f93b-7b6c-486b-897f-5e22ed57f914}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

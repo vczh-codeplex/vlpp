@@ -83,7 +83,7 @@ extern "C"
 			CreateGreenCube(g, 
 				200, 200, 20, 
 				0, 0, -70,
-				Color(0.24, 0.6, 0.18), false);
+				Color(0.24, 0.6, 0.18), true);
 			CreateGreenCube(g, 
 				200, 20, 55, 
 				0, 180, 5,
