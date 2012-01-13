@@ -1,11 +1,9 @@
 #include <Windows.h>
+#include <iostream>
+#include <string>
 #include "dia2.h"
-#include "..\..\..\..\..\Library\Console.h"
 
 #pragma comment(lib, "diaguids.lib")
-
-using namespace vl;
-using namespace vl::console;
 
 namespace dumppdb
 {
@@ -39,19 +37,22 @@ int wmain(int argc, wchar_t* argv[])
 {
 	if(argc==3)
 	{
+		std::wcout<<L"importing "<<argv[1]<<std::endl;
 		IDiaSymbol* exeSymbol=CreateDiaSymbol(argv[1]);
 		if(exeSymbol)
 		{
+			std::wcout<<L"exporting "<<argv[2]<<std::endl;
 			dumppdb::DumpPdbToXml(exeSymbol, argv[2]);
+			std::wcout<<L"exported "<<argv[2]<<std::endl;
 		}
 		else
 		{
-			Console::WriteLine(L"Failed to read pdb("+WString(argv[1])+L")");
+			std::wcout<<L"Failed to read pdb("<<argv[1]<<L")"<<std::endl;
 		}
 	}
 	else
 	{
-		Console::WriteLine(L"_TranslatePDBtoXML.exe <pdb-path> <xml-path>");
+		std::wcout<<L"_TranslatePDBtoXML.exe <pdb-path> <xml-path>"<<std::endl;
 	}
 	return 0;
 }
