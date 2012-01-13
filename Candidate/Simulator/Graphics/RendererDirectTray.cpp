@@ -250,12 +250,41 @@ namespace simulator
 						if(enableReflection)
 						{
 							Color reflectionColor(0, 0, 0);
-							if(!material.enableBRDFReflection || !allowBRDF)
+							if(!material.enableBRDFReflection)
 							{
 								Ray3 newRay;
 								newRay.direction=reflectionDirection;
 								newRay.position=plane.position+Scale(newRay.direction, 0.0001);
 								reflectionColor=GetDiffuseWithReflection(newRay, scene, maxReflection-1, refractingGeometry, allowShadow, allowAO, false);
+							}
+							else if(!allowBRDF)
+							{
+								const double dmin=0.0001;
+								Vector3 aoX, aoY, aoZ;
+								GetAxis(Normalize(plane.normal, 1.0), aoX, aoY, aoZ);
+								int ao=material.brLevel;
+
+								int h=(int)floor(ao*(double)rand()/RAND_MAX);
+								double th=ao>1?0.99*(material.brAngle*h/(ao-1)):0;
+								double sth=sin(th);
+								double cth=cos(th);
+								int vao=(int)(2*ao*sth/sin(material.brAngle))+1;
+
+								int v=(int)floor(vao*(double)rand()/RAND_MAX);
+								double tv=2*PI*v/vao;
+								double stv=sin(tv);
+								double ctv=cos(tv);
+
+								double aoXs=ctv*sth;
+								double aoYs=stv*sth;
+								double aoZs=cth;
+								Vector3 aod=Scale(aoX, aoXs)+Scale(aoY, aoYs)+Scale(aoZ, aoZs);
+										
+								Ray3 newRay;
+								newRay.direction=Reflect(ray.direction, aod);
+								newRay.position=plane.position+Scale(newRay.direction, 0.0001);
+								double reflectionScale=pow(Dot(aoZ, Normalize(aod, 1.0)), material.brAlpha);
+								reflectionColor=Scale(GetDiffuseWithReflection(newRay, scene, maxReflection-1, refractingGeometry, allowShadow, allowAO, false), reflectionScale);
 							}
 							else
 							{
