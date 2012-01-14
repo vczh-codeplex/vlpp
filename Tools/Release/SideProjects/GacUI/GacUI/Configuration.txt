@@ -1,0 +1,11 @@
+_TranslatePDBtoXML:
+	post build action:
+		copy $(ProjectDir)msdia100.dll $(SolutionDir)$(Configuration)\msdia100.dll
+_GenPDB:
+	references:
+		_TranslatePDBtoXML
+	post build action:
+		$(SolutionDir)$(Configuration)\_TranslatePDBtoXML.exe $(SolutionDir)Debug\_GenPDB.pdb $(SolutionDir)_GenPDB.xml
+GacUI:
+	references:
+		_GenPDB
