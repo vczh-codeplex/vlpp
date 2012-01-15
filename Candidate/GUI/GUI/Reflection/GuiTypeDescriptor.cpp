@@ -18,5 +18,17 @@ DescriptableObject
 		DescriptableObject::~DescriptableObject()
 		{
 		}
+
+/***********************************************************************
+Helper Functions
+***********************************************************************/
+
+		void InitializeReflection()
+		{
+		}
+
+		void FinalizeReflection()
+		{
+		}
 	}
 }
