@@ -146,7 +146,10 @@ Helpers
 				GetCurrentController()->InputService()->StartHookMouse();
 				GuiApplication app;
 				application=&app;
+
+				InitializeReflection();
 				GuiMain();
+				FinalizeReflection();
 			}
 		}
 	}
