@@ -112,6 +112,7 @@ ITypeDescriptor
 			DescriptableValue(wchar_t value);
 			DescriptableValue(const WString& value);
 			DescriptableValue(DescriptableObject* value);
+			DescriptableValue(Ptr<DescriptableObject> value);
 			DescriptableValue(IType* type, void* data);
 			DescriptableValue(const DescriptableValue& value);
 
