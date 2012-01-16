@@ -81,6 +81,8 @@ ITypeDescriptor
 				Class,
 
 				Pointer,
+				Reference,
+				RValueReference,
 				Array,
 				Const,
 				Volatile,
