@@ -8,9 +8,118 @@ namespace _TranslateXMLtoCode
 {
     class Program
     {
+        static GacType DecorateType(GacType type, XElement typeElement)
+        {
+            if (typeElement.Attribute("const").Value == "true")
+            {
+                type = new GacType
+                {
+                    Name = type.Name + " const",
+                    Kind = GacTypeKind.Const,
+                    ElementType = type,
+                };
+            }
+            if (typeElement.Attribute("volatile").Value == "true")
+            {
+                type = new GacType
+                {
+                    Name = type.Name + " volatile",
+                    Kind = GacTypeKind.Volatile,
+                    ElementType = type,
+                };
+            }
+            return type;
+        }
+
+        static GacType TranslateTypeInternal(Dictionary<string, GacUDT> udts, XElement typeElement)
+        {
+            switch (typeElement.Name.LocalName)
+            {
+                case "primitive":
+                    return new GacType
+                    {
+                        Name = typeElement.Attribute("name").Value,
+                        Kind = GacTypeKind.Primitive,
+                    };
+                case "classType":
+                case "enumType":
+                    return new GacType
+                    {
+                        Name = typeElement.Attribute("name").Value,
+                        Kind = GacTypeKind.UDT,
+                        AssociatedUDT = udts[typeElement.Attribute("name").Value],
+                    };
+                case "pointer":
+                    {
+                        GacType elementType = TranslateType(udts, typeElement.Elements().First());
+                        return new GacType
+                        {
+                            Name = elementType.Name + "*",
+                            Kind = GacTypeKind.Pointer,
+                            ElementType = elementType,
+                        };
+                    }
+                case "reference":
+                    {
+                        GacType elementType = TranslateType(udts, typeElement.Elements().First());
+                        return new GacType
+                        {
+                            Name = elementType.Name + "&",
+                            Kind = GacTypeKind.Reference,
+                            ElementType = elementType,
+                        };
+                    }
+                case "rightValueReference":
+                    {
+                        GacType elementType = TranslateType(udts, typeElement.Elements().First());
+                        return new GacType
+                        {
+                            Name = elementType.Name + "&&",
+                            Kind = GacTypeKind.RValueReference,
+                            ElementType = elementType,
+                        };
+                    }
+                case "array":
+                    {
+                        GacType elementType = TranslateType(udts, typeElement.Element("element").Elements().First());
+                        int arrayLength = int.Parse(typeElement.Element("count").Attribute("value").Value);
+                        return new GacType
+                        {
+                            Name = elementType.Name + "[" + arrayLength.ToString() + "]",
+                            Kind = GacTypeKind.Array,
+                            ElementType = elementType,
+                            ArrayLength = arrayLength,
+                        };
+                    }
+                case "function":
+                    {
+                        GacType returnType = TranslateType(udts, typeElement.Element("return").Elements().First());
+                        GacType[] parameterTypes = typeElement.Element("arguments").Elements("argument")
+                            .Select(e => TranslateType(udts, e.Elements().First()))
+                            .ToArray();
+                        string callingConversion = typeElement.Element("callconv").Attribute("value").Value;
+                        return new GacType
+                        {
+                            Name = returnType.Name
+                                + "("
+                                + callingConversion
+                                + ")("
+                                + parameterTypes.Select(t => t.Name).Aggregate("", (a, b) => a == "" ? b : a + ", " + b)
+                                + ")",
+                            Kind = GacTypeKind.Function,
+                            ReturnType = returnType,
+                            ParameterTypes = parameterTypes,
+                            CallingConversion = callingConversion,
+                        };
+                    }
+                default:
+                    throw new ArgumentException();
+            }
+        }
+
         static GacType TranslateType(Dictionary<string, GacUDT> udts, XElement typeElement)
         {
-            return null;
+            return DecorateType(TranslateTypeInternal(udts, typeElement), typeElement);
         }
 
         static GacAccess TranslateAccess(string value)

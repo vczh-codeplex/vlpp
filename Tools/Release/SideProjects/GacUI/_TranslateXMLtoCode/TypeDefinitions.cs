@@ -21,9 +21,7 @@ namespace _TranslateXMLtoCode
         Function,
         Const,
         Volatile,
-        Enum,
-        Struct,
-        Class,
+        UDT,
     }
 
     enum GacAccess
@@ -47,10 +45,12 @@ namespace _TranslateXMLtoCode
     class GacType
     {
         public string Name { get; set; }
+        public GacTypeKind Kind { get; set; }
         public GacType ElementType { get; set; }
         public int ArrayLength { get; set; }
         public GacType ReturnType { get; set; }
         public GacType[] ParameterTypes { get; set; }
+        public string CallingConversion { get; set; }
         public GacUDT AssociatedUDT { get; set; }
     }
 
