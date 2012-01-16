@@ -143,7 +143,7 @@ ColorizedText
 				typedef collections::Array<text::ColorEntry>			ColorArray;
 				typedef collections::IReadonlyList<text::ColorEntry>	IColorArray;
 			public:
-				class ICallback : public virtual IDescriptable
+				class ICallback : public virtual IDescriptable, public Description<ICallback>
 				{
 				public:
 					virtual void					ColorChanged()=0;

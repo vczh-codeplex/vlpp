@@ -22,6 +22,9 @@
 //---------------------------------------------------------------
 #include "..\..\..\..\..\Candidate\GUI\GUI\NativeWindow\GuiNativeWindow.cpp"
 #include "..\..\..\..\..\Candidate\GUI\GUI\NativeWindow\Windows\WinNativeWindow.cpp"
+#include "..\..\..\..\..\Candidate\GUI\GUI\NativeWindow\Windows\Direct2D\WinDirect2DApplication.cpp"
+#include "..\..\..\..\..\Candidate\GUI\GUI\NativeWindow\Windows\GDI\WinGDIApplication.cpp"
+#include "..\..\..\..\..\Candidate\GUI\GUI\NativeWindow\Windows\GDI\WinGDI.cpp"
 //---------------------------------------------------------------
 #include "..\..\..\..\..\Candidate\GUI\GUI\Reflection\GuiTypeDescriptor.cpp"
 //---------------------------------------------------------------
@@ -30,17 +33,17 @@
 #include "..\..\..\..\..\Library\String.cpp"
 #include "..\..\..\..\..\Library\Threading.cpp"
 #include "..\..\..\..\..\Library\Collections\Operation.cpp"
-//#include "..\..\..\..\..\Library\Entity\TreeJson.cpp"
-//#include "..\..\..\..\..\Library\Entity\TreeQuery.cpp"
-//#include "..\..\..\..\..\Library\Entity\TreeXml.cpp"
 //#include "..\..\..\..\..\Library\Stream\Accessor.cpp"
 //#include "..\..\..\..\..\Library\Stream\BroadcastStream.cpp"
 //#include "..\..\..\..\..\Library\Stream\CacheStream.cpp"
 //#include "..\..\..\..\..\Library\Stream\CharFormat.cpp"
-//#include "..\..\..\..\..\Library\Stream\FileStream.cpp"
+#include "..\..\..\..\..\Library\Stream\FileStream.cpp"
 //#include "..\..\..\..\..\Library\Stream\MemoryStream.cpp"
 //#include "..\..\..\..\..\Library\Stream\MemoryWrapperStream.cpp"
 //#include "..\..\..\..\..\Library\Stream\RecorderStream.cpp"
+//#include "..\..\..\..\..\Library\Entity\TreeJson.cpp"
+//#include "..\..\..\..\..\Library\Entity\TreeQuery.cpp"
+//#include "..\..\..\..\..\Library\Entity\TreeXml.cpp"
 //---------------------------------------------------------------
 #include <Windows.h>
 
