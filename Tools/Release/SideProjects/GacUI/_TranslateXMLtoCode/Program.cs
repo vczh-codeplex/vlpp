@@ -315,11 +315,11 @@ namespace _TranslateXMLtoCode
             var undescriptableUdts = relatedUdts.Except(descriptableUdts).ToArray();
             var importantUdts = undescriptableUdts.Where(IsUDTImportant).ToArray();
 
-            var _globalFunctions = descriptableMethods;
-            var _descriptableUdts = descriptableUdts;
-            var _exportableUdts = importantUdts.Where(t => t.Name.StartsWith("vl::")).ToArray();
-            var _acceptableUdts = undescriptableUdts.Except(_exportableUdts).ToArray();
-            var _availableUdts = _descriptableUdts.Concat(_exportableUdts.Concat(_acceptableUdts)).Distinct().ToArray();
+            var _globalFunctions = descriptableMethods.OrderBy(f => f.Name).ToArray();
+            var _descriptableUdts = descriptableUdts.OrderBy(f => f.Name).ToArray();
+            var _exportableUdts = importantUdts.Where(t => t.Name.StartsWith("vl::")).OrderBy(f => f.Name).ToArray();
+            var _acceptableUdts = undescriptableUdts.Except(_exportableUdts).OrderBy(f => f.Name).ToArray();
+            var _availableUdts = _descriptableUdts.Concat(_exportableUdts.Concat(_acceptableUdts)).Distinct().OrderBy(f => f.Name).ToArray();
         }
     }
 }

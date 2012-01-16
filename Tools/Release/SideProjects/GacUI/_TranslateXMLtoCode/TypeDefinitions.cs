@@ -41,6 +41,11 @@ namespace _TranslateXMLtoCode
         public GacField[] StaticFields { get; set; }
         public GacMethod[] Methods { get; set; }
         public GacMethod[] StaticMethods { get; set; }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
     }
 
     class GacType
@@ -53,6 +58,11 @@ namespace _TranslateXMLtoCode
         public GacType[] ParameterTypes { get; set; }
         public string CallingConversion { get; set; }
         public GacUDT AssociatedUDT { get; set; }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
     }
 
     class GacField
@@ -60,6 +70,11 @@ namespace _TranslateXMLtoCode
         public string Name { get; set; }
         public GacAccess Access { get; set; }
         public GacType Type { get; set; }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
     }
 
     class GacMethod
@@ -68,5 +83,10 @@ namespace _TranslateXMLtoCode
         public GacAccess Access { get; set; }
         public GacType Type { get; set; }
         public string[] ParameterNames { get; set; }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
     }
 }
