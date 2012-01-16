@@ -60,7 +60,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>$(SolutionDir)$(Configuration)\_TranslatePDBtoXML.exe $(SolutionDir)Debug\_GenPDB.pdb $(SolutionDir)_GenPDB.xml</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -80,16 +81,12 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>$(SolutionDir)$(Configuration)\_TranslatePDBtoXML.exe $(SolutionDir)Debug\_GenPDB.pdb $(SolutionDir)_GenPDB.xml</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\_TranslatePDBtoXML\_TranslatePDBtoXML.vcxproj">
-      <Project>{5663ec70-a905-4535-a29a-e6915d9b278b}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
