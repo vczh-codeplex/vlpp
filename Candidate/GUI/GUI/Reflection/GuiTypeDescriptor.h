@@ -81,6 +81,7 @@ ITypeDescriptor
 				Class,
 
 				Pointer,
+				SmartPointer,
 				Reference,
 				RValueReference,
 				Array,
@@ -115,7 +116,7 @@ ITypeDescriptor
 			DescriptableValue(const WString& value);
 			DescriptableValue(DescriptableObject* value);
 			DescriptableValue(Ptr<DescriptableObject> value);
-			DescriptableValue(IType* type, void* data);
+			DescriptableValue(IType* type, Ptr<Object> data);
 			DescriptableValue(const DescriptableValue& value);
 
 			IType*								GetType()const;
@@ -126,7 +127,7 @@ ITypeDescriptor
 			wchar_t								GetChar()const;
 			WString								GetString()const;
 			DescriptableObject*					GetObject()const;
-			void*								GetData()const;
+			Ptr<Object>							GetData()const;
 
 			DescriptableValue					Convert(IType* targetType)const;
 			bool								NeedDelete()const;
@@ -209,6 +210,10 @@ Helper Functions
 			virtual IType*			Char()=0;
 			virtual IType*			String()=0;
 			virtual IType*			Pointer(IType* elementType)=0;
+			virtual IType*			SmartPointer(IType* elementType)=0;
+			virtual IType*			Reference(IType* elementType)=0;
+			virtual IType*			RValueReference(IType* elementType)=0;
+			virtual IType*			Array(IType* element, int length)=0;
 
 			virtual int				GetDescriptableTypeCount()=0;
 			virtual IType*			GetDescriptableType(int index)=0;
