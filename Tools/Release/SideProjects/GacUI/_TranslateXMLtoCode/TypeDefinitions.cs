@@ -14,6 +14,7 @@ namespace _TranslateXMLtoCode
     enum GacTypeKind
     {
         Primitive,
+        SmartPointer,
         Pointer,
         Reference,
         RValueReference,

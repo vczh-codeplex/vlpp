@@ -8,6 +8,8 @@ namespace _TranslateXMLtoCode
 {
     class Program
     {
+        #region Loading
+
         static GacType DecorateType(GacType type, XElement typeElement)
         {
             if (typeElement.Attribute("const").Value == "true")
@@ -43,12 +45,33 @@ namespace _TranslateXMLtoCode
                     };
                 case "classType":
                 case "enumType":
-                    return new GacType
                     {
-                        Name = typeElement.Attribute("name").Value,
-                        Kind = GacTypeKind.UDT,
-                        AssociatedUDT = udts[typeElement.Attribute("name").Value],
-                    };
+                        string name = typeElement.Attribute("name").Value;
+                        if (name.StartsWith("vl::Ptr<"))
+                        {
+                            string newName = name.Substring(8, name.Length - 9);
+                            return new GacType
+                            {
+                                Name = name,
+                                Kind = GacTypeKind.SmartPointer,
+                                ElementType = new GacType
+                                {
+                                    Name = newName,
+                                    Kind = GacTypeKind.UDT,
+                                    AssociatedUDT = udts[newName],
+                                },
+                            };
+                        }
+                        else
+                        {
+                            return new GacType
+                            {
+                                Name = name,
+                                Kind = GacTypeKind.UDT,
+                                AssociatedUDT = udts[name],
+                            };
+                        }
+                    }
                 case "pointer":
                     {
                         GacType elementType = TranslateType(udts, typeElement.Elements().First());
@@ -129,6 +152,7 @@ namespace _TranslateXMLtoCode
                 case "private": return GacAccess.Private;
                 case "protected": return GacAccess.Protected;
                 case "public": return GacAccess.Public;
+                case "": return GacAccess.Public;
                 default: throw new ArgumentException();
             }
         }
@@ -208,11 +232,94 @@ namespace _TranslateXMLtoCode
             return udts;
         }
 
+        #endregion
+
+        #region Extracting
+
+        static GacUDT[] ExtractDescriptableUDT(Dictionary<string, GacUDT> udts)
+        {
+            return udts.Values
+                .Where(u => u.BaseClasses.Any(b => b.Name == "vl::presentation::Description<" + u.Name + ">"))
+                .ToArray();
+        }
+
+        static bool IsUDTImportant(GacUDT udt)
+        {
+            return !udt.Name.StartsWith("vl::presentation::Description<")
+                && !udt.Name.StartsWith("vl::Func<")
+                && udt.Name != "vl::presentation::DescriptableObject"
+                && udt.Name != "vl::presentation::IDescriptable"
+                && udt.Name != "vl::presentation::ITypeDescriptor"
+                && udt.Name != "vl::Interface"
+                && udt.Name != "vl::Object"
+                ;
+        }
+
+        static GacUDT[] ExtractRelatedUDT(GacType type)
+        {
+            if (type == null) return new GacUDT[0];
+            return ExtractRelatedUDT(type.ElementType).Concat(
+                ExtractRelatedUDT(type.ReturnType).Concat(
+                (type.ParameterTypes == null ? new GacUDT[0] : type.ParameterTypes.SelectMany(ExtractRelatedUDT)).Concat(
+                type.AssociatedUDT == null ? new GacUDT[0] : new GacUDT[] { type.AssociatedUDT }
+                ))).Distinct().ToArray();
+        }
+
+        static GacUDT[] ExtractRelatedUDT(GacUDT udt)
+        {
+            if (udt.Name.StartsWith("vl::presentation::"))
+            {
+                return udt.BaseClasses.Concat(
+                    udt.Fields.Where(f => f.Access == GacAccess.Public).SelectMany(f => ExtractRelatedUDT(f.Type)).Concat(
+                    udt.StaticFields.Where(f => f.Access == GacAccess.Public).SelectMany(f => ExtractRelatedUDT(f.Type)).Concat(
+                    udt.Methods.Where(f => f.Access == GacAccess.Public).SelectMany(f => ExtractRelatedUDT(f.Type)).Concat(
+                    udt.StaticMethods.Where(f => f.Access == GacAccess.Public).SelectMany(f => ExtractRelatedUDT(f.Type))
+                    )))).Distinct().ToArray();
+            }
+            else
+            {
+                return new GacUDT[0];
+            }
+        }
+
+        #endregion
+
         static void Main(string[] args)
         {
-            string xmlPath = args[0] + @"\_GenPDB.xml";
+            string xmlPath = args[0] + @"_GenPDB.xml";
             Console.WriteLine("analysing {0}", xmlPath);
-            var udts = LoadXML(XDocument.Load(xmlPath));
+            var document = XDocument.Load(xmlPath);
+            var udts = LoadXML(document);
+            var methods = document.Root.Element("functions").Elements("method")
+                .Select(e => TranslateMethod(udts, e))
+                .ToArray();
+
+            var descriptableMethods = methods
+                .Where(m =>
+                    m.Name.StartsWith("vl::presentation::windows::Get") ||
+                    m.Name.StartsWith("vl::presentation::elements::Get") ||
+                    m.Name.StartsWith("vl::presentation::controls::Get") ||
+                    m.Name.StartsWith("vl::presentation::Get")
+                    )
+                .ToArray();
+            var descriptableUdts = ExtractDescriptableUDT(udts);
+            var relatedUdts = descriptableUdts.SelectMany(ExtractRelatedUDT)
+                .Concat(descriptableMethods.SelectMany(m => ExtractRelatedUDT(m.Type)))
+                .Distinct().ToArray();
+            while (true)
+            {
+                var newRelatedUdts = relatedUdts.Concat(relatedUdts.SelectMany(ExtractRelatedUDT)).Distinct().ToArray();
+                if (newRelatedUdts.Length == relatedUdts.Length) break;
+                relatedUdts = newRelatedUdts;
+            }
+            var undescriptableUdts = relatedUdts.Except(descriptableUdts).ToArray();
+            var importantUdts = undescriptableUdts.Where(IsUDTImportant).ToArray();
+
+            var _globalFunctions = descriptableMethods;
+            var _descriptableUdts = descriptableUdts;
+            var _exportableUdts = importantUdts.Where(t => t.Name.StartsWith("vl::")).ToArray();
+            var _acceptableUdts = undescriptableUdts.Except(_exportableUdts).ToArray();
+            var _availableUdts = _descriptableUdts.Concat(_exportableUdts.Concat(_acceptableUdts)).Distinct().ToArray();
         }
     }
 }
