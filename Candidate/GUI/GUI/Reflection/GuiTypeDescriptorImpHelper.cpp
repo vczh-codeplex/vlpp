@@ -196,6 +196,12 @@ MethodDescriptor
 				return this;
 			}
 
+			MethodDescriptor* MethodDescriptor::Handler(const HandlerFuncType& _handler)
+			{
+				handler=_handler;
+				return this;
+			}
+
 			WString MethodDescriptor::GetName()
 			{
 				return name;
@@ -235,7 +241,7 @@ MethodDescriptor
 
 			DescriptableValue MethodDescriptor::Invoke(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 			{
-				return DescriptableValue();
+				return handler(thisObject, parameters);
 			}
 
 /***********************************************************************
@@ -366,9 +372,8 @@ TypeDescriptor
 				propertyMap.Set(value->GetName(), value);
 			}
 
-			TypeDescriptor::TypeDescriptor(const WString& _typeName)
+			TypeDescriptor::TypeDescriptor()
 				:type(0)
-				,typeName(_typeName)
 				,contentAvailable(false)
 				,defaultConstructor(0)
 			{
@@ -529,7 +534,8 @@ TypeProvider
 				if(_typeDescriptor)
 				{
 					_typeDescriptor->type=type;
-					namedTypes.Add(_typeDescriptor->typeName, type);
+					namedTypes.Add(_name, type);
+					createdTypeDescriptors.Add(_typeDescriptor);
 				}
 				return type;
 			}
