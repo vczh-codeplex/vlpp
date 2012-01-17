@@ -147,9 +147,8 @@ Helpers
 				GuiApplication app;
 				application=&app;
 
-				InitializeReflection();
 				GuiMain();
-				FinalizeReflection();
+				SetTypeProvider(0);
 			}
 		}
 	}

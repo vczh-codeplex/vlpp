@@ -52,14 +52,14 @@ DescriptableValue
 		DescriptableValue::DescriptableValue(signed __int64 value)
 		{
 			Initialize();
-			type=GetTypeProvider()->SInt();
+			type=GetTypeProvider()->SInt64();
 			dataSInt=value;
 		}
 
 		DescriptableValue::DescriptableValue(unsigned __int64 value)
 		{
 			Initialize();
-			type=GetTypeProvider()->UInt();
+			type=GetTypeProvider()->UInt64();
 			dataUInt=value;
 		}
 
@@ -227,12 +227,12 @@ DescriptableValue
 			return dataDescriptableObjectPointer;
 		}
 
-		Ptr<Object> DescriptableValue::GetObject()const
+		Ptr<Object> DescriptableValue::GetRawObject()const
 		{
 			return dataObject;
 		}
 
-		Object* DescriptableValue::GetObjectPointer()const
+		Object* DescriptableValue::GetRawObjectPointer()const
 		{
 			return dataObjectPointer;
 		}
@@ -269,17 +269,24 @@ DescriptableValue
 Helper Functions
 ***********************************************************************/
 
-		void InitializeReflection()
-		{
-		}
-
-		void FinalizeReflection()
-		{
-		}
+		ITypeProvider* reflectionTypeProvider=0;
 
 		ITypeProvider* GetTypeProvider()
 		{
-			return 0;
+			return reflectionTypeProvider;
+		}
+
+		void SetTypeProvider(ITypeProvider* value)
+		{
+			if(reflectionTypeProvider!=value)
+			{
+				if(reflectionTypeProvider)
+				{
+					delete reflectionTypeProvider;
+					reflectionTypeProvider=0;
+				}
+			}
+			reflectionTypeProvider=value;
 		}
 	}
 }

@@ -249,7 +249,14 @@ namespace _TranslateXMLtoCode
                 && !udt.Name.StartsWith("vl::Func<")
                 && udt.Name != "vl::presentation::DescriptableObject"
                 && udt.Name != "vl::presentation::IDescriptable"
+                && udt.Name != "vl::presentation::DescriptableValue"
+                && udt.Name != "vl::presentation::IType"
+                && udt.Name != "vl::presentation::IMemberDescriptor"
+                && udt.Name != "vl::presentation::IParameterDescriptor"
+                && udt.Name != "vl::presentation::IMethodDescriptor"
+                && udt.Name != "vl::presentation::IPropertyDescriptor"
                 && udt.Name != "vl::presentation::ITypeDescriptor"
+                && udt.Name != "vl::presentation::ITypeProvider"
                 && udt.Name != "vl::Interface"
                 && udt.Name != "vl::Object"
                 ;
@@ -315,10 +322,19 @@ namespace _TranslateXMLtoCode
             var undescriptableUdts = relatedUdts.Except(descriptableUdts).ToArray();
             var importantUdts = undescriptableUdts.Where(IsUDTImportant).ToArray();
 
+            // global functions to export
             var _globalFunctions = descriptableMethods.OrderBy(f => f.Name).ToArray();
+
+            // exportable objects that can retrive the real type (e.g. GuiControl)
             var _descriptableUdts = descriptableUdts.OrderBy(f => f.Name).ToArray();
+
+            // exportable objects that can only retrive the declarated type (e.g. Object)
             var _exportableUdts = importantUdts.Where(t => t.Name.StartsWith("vl::")).OrderBy(f => f.Name).ToArray();
+
+            // types that directly shows on the dll header type (e.g. ID2D1RenderTarget)
             var _acceptableUdts = undescriptableUdts.Except(_exportableUdts).OrderBy(f => f.Name).ToArray();
+
+            // all acceptable types
             var _availableUdts = _descriptableUdts.Concat(_exportableUdts.Concat(_acceptableUdts)).Distinct().OrderBy(f => f.Name).ToArray();
         }
     }
