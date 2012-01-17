@@ -158,7 +158,6 @@ ITypeDescriptor
 				Array,
 				Const,
 				Volatile,
-				FunctionPointer,
 			};
 
 			virtual TypeEnum					GetTypeEnum()=0;
@@ -205,7 +204,7 @@ ITypeDescriptor
 			virtual DescriptableValue			Invoke(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)=0;
 		}; 
 
-		class IPropertyDescriptor : public virtual Interface
+		class IPropertyDescriptor : public virtual IMemberDescriptor
 		{
 		public:
 			virtual bool						CanGet()=0;

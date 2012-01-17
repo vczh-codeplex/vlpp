@@ -70,16 +70,117 @@ IType
 ITypeDescriptor
 ***********************************************************************/
 
+			class ParameterDescriptor : public Object, public IParameterDescriptor
+			{
+			protected:
+				WString								name;
+				Type*								type;
+
+			public:
+				ParameterDescriptor(const WString& _name, Type* _type);
+				~ParameterDescriptor();
+
+				WString								GetName()override;
+				IType*								GetType()override;
+			};
+
+			class MethodDescriptor : public Object, public IMethodDescriptor
+			{
+				friend class TypeDescriptor;
+
+				typedef collections::List<Ptr<ParameterDescriptor>>		ParameterList;
+			protected:
+				WString								name;
+				MemberTypeEnum						memberTypeEnum;
+				Type*								returnType;
+				ParameterList						parameters;
+				TypeDescriptor*						ownerTypeDescriptor;
+
+			public:
+				MethodDescriptor(const WString& _name, MemberTypeEnum _memberTypeEnum);
+				~MethodDescriptor();
+
+				MethodDescriptor*					ReturnType(Type* _returnType);
+				MethodDescriptor*					Parameter(const WString& _name, Type* _type);
+
+				WString								GetName()override;
+				ITypeDescriptor*					GetOwnerTypeDescriptor()override;
+				MemberTypeEnum						GetMemberTypeEnum()override;
+				IType*								GetReturnType()override;
+				int									GetParameterCount()override;
+				IParameterDescriptor*				GetParameter(int index)override;
+				DescriptableValue					Invoke(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)override;
+			};
+
+			class PropertyDescriptor : public Object, public IPropertyDescriptor
+			{
+				friend class TypeDescriptor;
+			protected:
+				WString								name;
+				MemberTypeEnum						memberTypeEnum;
+				Type*								propertyType;
+				Ptr<MethodDescriptor>				getter;
+				Ptr<MethodDescriptor>				setter;
+				TypeDescriptor*						ownerTypeDescriptor;
+
+			public:
+				PropertyDescriptor(const WString& _name, MemberTypeEnum _memberTypeEnum);
+				~PropertyDescriptor();
+
+				PropertyDescriptor*					PropertyType(Type* _propertyType);
+				PropertyDescriptor*					Getter(Ptr<MethodDescriptor> _getter);
+				PropertyDescriptor*					Setter(Ptr<MethodDescriptor> _setter);
+				
+				WString								GetName()override;
+				ITypeDescriptor*					GetOwnerTypeDescriptor()override;
+				MemberTypeEnum						GetMemberTypeEnum()override;
+				bool								CanGet()override;
+				bool								CanSet()override;
+				IType*								GetPropertyType()override;
+				IMethodDescriptor*					GetSetter()override;
+				IMethodDescriptor*					GetGetter()override;
+			};
+
 			class TypeDescriptor : public Object, public ITypeDescriptor
 			{
 				friend class TypeProvider;
-			protected:
+
+				typedef collections::List<Type*>					TypeList;
+				typedef collections::List<Ptr<MethodDescriptor>>	MethodList;
+				typedef collections::List<Ptr<PropertyDescriptor>>	PropertyList;
+			private:
 				Type*								type;
 				WString								typeName;
+				bool								contentAvailable;
+				IMethodDescriptor*					defaultConstructor;
 
+				void								EnsureContentAvailable();
+			protected:
+				TypeList							baseTypes;
+				MethodList							constructors;
+				MethodList							methods;
+				PropertyList						properties;
+
+				virtual void						FillTypeContent()=0;
 			public:
-				TypeDescriptor(const WString& typeName);
+				TypeDescriptor(const WString& _typeName);
 				~TypeDescriptor();
+
+				IType*								GetType()override;
+				int									GetBaseTypeCount()override;
+				IType*								GetBaseType(int index)override;
+
+				int									GetConstructorCount()override;
+				IMethodDescriptor*					GetConstructor(int index)override;
+				IMethodDescriptor*					GetDefaultConstructor()override;
+				int									GetMethodCount()override;
+				IMethodDescriptor*					GetMethod(int index)override;
+				int									GetPropertyCount()override;
+				IPropertyDescriptor*				GetProperty(int index)override;
+
+				IMethodDescriptor*					FindMethod(const WString& name, bool searchParent, bool searchStatic, bool searchInstance)override;
+				void								FindMethods(const WString& name, bool searchParent, bool searchStatic, bool searchInstance, collections::Array<IMethodDescriptor*>& methods)override;
+				IPropertyDescriptor*				FindProperty(const WString& name, bool searchParent, bool searchStatic, bool searchInstance)override;
 			};
 
 /***********************************************************************
