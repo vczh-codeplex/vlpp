@@ -144,6 +144,288 @@ IType
 			}
 
 /***********************************************************************
+ParameterDescriptor
+***********************************************************************/
+
+			ParameterDescriptor::ParameterDescriptor(const WString& _name, Type* _type)
+				:name(_name)
+				,type(_type)
+			{
+			}
+
+			ParameterDescriptor::~ParameterDescriptor()
+			{
+			}
+
+			WString ParameterDescriptor::GetName()
+			{
+				return name;
+			}
+
+			IType* ParameterDescriptor::GetType()
+			{
+				return type;
+			}
+
+/***********************************************************************
+MethodDescriptor
+***********************************************************************/
+
+			MethodDescriptor::MethodDescriptor(const WString& _name, MemberTypeEnum _memberTypeEnum)
+				:name(_name)
+				,memberTypeEnum(_memberTypeEnum)
+				,returnType(0)
+				,ownerTypeDescriptor(0)
+			{
+			}
+
+			MethodDescriptor::~MethodDescriptor()
+			{
+			}
+
+			MethodDescriptor* MethodDescriptor::ReturnType(Type* _returnType)
+			{
+				returnType=_returnType;
+				return this;
+			}
+
+			MethodDescriptor* MethodDescriptor::Parameter(const WString& _name, Type* _type)
+			{
+				parameters.Add(new ParameterDescriptor(_name, _type));
+				return this;
+			}
+
+			WString MethodDescriptor::GetName()
+			{
+				return name;
+			}
+
+			ITypeDescriptor* MethodDescriptor::GetOwnerTypeDescriptor()
+			{
+				return ownerTypeDescriptor;
+			}
+
+			IMemberDescriptor::MemberTypeEnum MethodDescriptor::GetMemberTypeEnum()
+			{
+				return memberTypeEnum;
+			}
+
+			IType* MethodDescriptor::GetReturnType()
+			{
+				return returnType;
+			}
+
+			int MethodDescriptor::GetParameterCount()
+			{
+				return parameters.Count();
+			}
+
+			IParameterDescriptor* MethodDescriptor::GetParameter(int index)
+			{
+				if(0<=index && index<parameters.Count())
+				{
+					return parameters[index].Obj();
+				}
+				else
+				{
+					return 0;
+				}
+			}
+
+			DescriptableValue MethodDescriptor::Invoke(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+			{
+				return DescriptableValue();
+			}
+
+/***********************************************************************
+PropertyDescriptor
+***********************************************************************/
+
+			PropertyDescriptor::PropertyDescriptor(const WString& _name, MemberTypeEnum _memberTypeEnum)
+				:name(_name)
+				,memberTypeEnum(_memberTypeEnum)
+				,propertyType(0)
+				,ownerTypeDescriptor(0)
+			{
+			}
+
+			PropertyDescriptor::~PropertyDescriptor()
+			{
+			}
+
+			PropertyDescriptor* PropertyDescriptor::PropertyType(Type* _propertyType)
+			{
+				propertyType=_propertyType;
+				return this;
+			}
+
+			PropertyDescriptor* PropertyDescriptor::Getter(Ptr<MethodDescriptor> _getter)
+			{
+				getter=_getter;
+				return this;
+			}
+
+			PropertyDescriptor* PropertyDescriptor::Setter(Ptr<MethodDescriptor> _setter)
+			{
+				setter=_setter;
+				return this;
+			}
+
+			WString PropertyDescriptor::GetName()
+			{
+				return name;
+			}
+
+			ITypeDescriptor* PropertyDescriptor::GetOwnerTypeDescriptor()
+			{
+				return ownerTypeDescriptor;
+			}
+
+			IMemberDescriptor::MemberTypeEnum PropertyDescriptor::GetMemberTypeEnum()
+			{
+				return memberTypeEnum;
+			}
+
+			bool PropertyDescriptor::CanGet()
+			{
+				return getter;
+			}
+
+			bool PropertyDescriptor::CanSet()
+			{
+				return setter;
+			}
+
+			IType* PropertyDescriptor::GetPropertyType()
+			{
+				return propertyType;
+			}
+
+			IMethodDescriptor* PropertyDescriptor::GetSetter()
+			{
+				return getter.Obj();
+			}
+
+			IMethodDescriptor* PropertyDescriptor::GetGetter()
+			{
+				return setter.Obj();
+			}
+
+/***********************************************************************
+TypeDescriptor
+***********************************************************************/
+
+			void TypeDescriptor::EnsureContentAvailable()
+			{
+				if(!contentAvailable)
+				{
+					contentAvailable=true;
+					FillTypeContent();
+				}
+			}
+			
+			TypeDescriptor::TypeDescriptor(const WString& _typeName)
+				:type(0)
+				,typeName(_typeName)
+				,contentAvailable(false)
+				,defaultConstructor(0)
+			{
+			}
+
+			TypeDescriptor::~TypeDescriptor()
+			{
+			}
+
+			IType* TypeDescriptor::GetType()
+			{
+				return type;
+			}
+
+			int TypeDescriptor::GetBaseTypeCount()
+			{
+				EnsureContentAvailable();
+				return baseTypes.Count();
+			}
+
+			IType* TypeDescriptor::GetBaseType(int index)
+			{
+				EnsureContentAvailable();
+				if(0<=index && index<baseTypes.Count())
+				{
+					return baseTypes[index];
+				}
+				return 0;
+			}
+
+			int TypeDescriptor::GetConstructorCount()
+			{
+				EnsureContentAvailable();
+				return constructors.Count();
+			}
+
+			IMethodDescriptor* TypeDescriptor::GetConstructor(int index)
+			{
+				EnsureContentAvailable();
+				if(0<=index && index<constructors.Count())
+				{
+					return constructors[index].Obj();
+				}
+				return 0;
+			}
+
+			IMethodDescriptor* TypeDescriptor::GetDefaultConstructor()
+			{
+				EnsureContentAvailable();
+				return defaultConstructor;
+			}
+
+			int TypeDescriptor::GetMethodCount()
+			{
+				EnsureContentAvailable();
+				return methods.Count();
+			}
+
+			IMethodDescriptor* TypeDescriptor::GetMethod(int index)
+			{
+				EnsureContentAvailable();
+				if(0<=index && index<methods.Count())
+				{
+					return methods[index].Obj();
+				}
+				return 0;
+			}
+
+			int TypeDescriptor::GetPropertyCount()
+			{
+				EnsureContentAvailable();
+				return properties.Count();
+			}
+
+			IPropertyDescriptor* TypeDescriptor::GetProperty(int index)
+			{
+				EnsureContentAvailable();
+				if(0<=index && index<properties.Count())
+				{
+					return properties[index].Obj();
+				}
+				return 0;
+			}
+
+			IMethodDescriptor* TypeDescriptor::FindMethod(const WString& name, bool searchParent, bool searchStatic, bool searchInstance)
+			{
+				return 0;
+			}
+
+			void TypeDescriptor::FindMethods(const WString& name, bool searchParent, bool searchStatic, bool searchInstance, collections::Array<IMethodDescriptor*>& methods)
+			{
+			}
+
+			IPropertyDescriptor* TypeDescriptor::FindProperty(const WString& name, bool searchParent, bool searchStatic, bool searchInstance)
+			{
+				return 0;
+			}
+
+/***********************************************************************
 TypeProvider
 ***********************************************************************/
 
