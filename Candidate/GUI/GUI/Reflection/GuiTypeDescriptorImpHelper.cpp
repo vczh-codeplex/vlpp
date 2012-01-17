@@ -6,6 +6,7 @@ namespace vl
 	{
 		namespace reflection_implementation
 		{
+			using namespace collections;
 
 /***********************************************************************
 IType
@@ -321,9 +322,50 @@ TypeDescriptor
 				{
 					contentAvailable=true;
 					FillTypeContent();
+					for(int i=0;i<constructorList.Count();i++)
+					{
+						Ptr<MethodDescriptor> method=constructorList[i];
+						method->ownerTypeDescriptor=this;
+						if(method->GetParameterCount()==0)
+						{
+							defaultConstructor=method.Obj();
+						}
+					}
+					for(int i=0;i<methodList.Count();i++)
+					{
+						Ptr<MethodDescriptor> method=methodList[i];
+						method->ownerTypeDescriptor=this;
+					}
+					for(int i=0;i<propertyMap.Count();i++)
+					{
+						Ptr<PropertyDescriptor> prop=propertyMap.Values()[i];
+						prop->ownerTypeDescriptor=this;
+						if(prop->getter) prop->getter->ownerTypeDescriptor=this;
+						if(prop->setter) prop->setter->ownerTypeDescriptor=this;
+					}
 				}
 			}
-			
+
+			void TypeDescriptor::AddBaseType(Type* value)
+			{
+				baseTypeList.Add(value);
+			}
+
+			void TypeDescriptor::AddConstructor(Ptr<MethodDescriptor> value)
+			{
+				constructorList.Add(value);
+			}
+
+			void TypeDescriptor::AddMethod(Ptr<MethodDescriptor> value)
+			{
+				methodList.Add(value);
+			}
+
+			void TypeDescriptor::AddProperty(Ptr<PropertyDescriptor> value)
+			{
+				propertyMap.Set(value->GetName(), value);
+			}
+
 			TypeDescriptor::TypeDescriptor(const WString& _typeName)
 				:type(0)
 				,typeName(_typeName)
@@ -344,15 +386,15 @@ TypeDescriptor
 			int TypeDescriptor::GetBaseTypeCount()
 			{
 				EnsureContentAvailable();
-				return baseTypes.Count();
+				return baseTypeList.Count();
 			}
 
 			IType* TypeDescriptor::GetBaseType(int index)
 			{
 				EnsureContentAvailable();
-				if(0<=index && index<baseTypes.Count())
+				if(0<=index && index<baseTypeList.Count())
 				{
-					return baseTypes[index];
+					return baseTypeList[index];
 				}
 				return 0;
 			}
@@ -360,15 +402,15 @@ TypeDescriptor
 			int TypeDescriptor::GetConstructorCount()
 			{
 				EnsureContentAvailable();
-				return constructors.Count();
+				return constructorList.Count();
 			}
 
 			IMethodDescriptor* TypeDescriptor::GetConstructor(int index)
 			{
 				EnsureContentAvailable();
-				if(0<=index && index<constructors.Count())
+				if(0<=index && index<constructorList.Count())
 				{
-					return constructors[index].Obj();
+					return constructorList[index].Obj();
 				}
 				return 0;
 			}
@@ -382,15 +424,15 @@ TypeDescriptor
 			int TypeDescriptor::GetMethodCount()
 			{
 				EnsureContentAvailable();
-				return methods.Count();
+				return methodList.Count();
 			}
 
 			IMethodDescriptor* TypeDescriptor::GetMethod(int index)
 			{
 				EnsureContentAvailable();
-				if(0<=index && index<methods.Count())
+				if(0<=index && index<methodList.Count())
 				{
-					return methods[index].Obj();
+					return methodList[index].Obj();
 				}
 				return 0;
 			}
@@ -398,30 +440,73 @@ TypeDescriptor
 			int TypeDescriptor::GetPropertyCount()
 			{
 				EnsureContentAvailable();
-				return properties.Count();
+				return propertyMap.Count();
 			}
 
 			IPropertyDescriptor* TypeDescriptor::GetProperty(int index)
 			{
 				EnsureContentAvailable();
-				if(0<=index && index<properties.Count())
+				if(0<=index && index<propertyMap.Count())
 				{
-					return properties[index].Obj();
+					return propertyMap.Values()[index].Obj();
 				}
 				return 0;
 			}
 
 			IMethodDescriptor* TypeDescriptor::FindMethod(const WString& name, bool searchParent, bool searchStatic, bool searchInstance)
 			{
-				return 0;
+				List<IMethodDescriptor*> methods;
+				FindMethods(name, searchParent, searchStatic, searchInstance, methods);
+				return methods.Count()==1?methods[0]:0;
 			}
 
-			void TypeDescriptor::FindMethods(const WString& name, bool searchParent, bool searchStatic, bool searchInstance, collections::Array<IMethodDescriptor*>& methods)
+			void TypeDescriptor::FindMethods(const WString& name, bool searchParent, bool searchStatic, bool searchInstance, collections::List<IMethodDescriptor*>& methods)
 			{
+				for(int i=0;i<baseTypeList.Count();i++)
+				{
+					baseTypeList[i]->GetTypeDescriptor()->FindMethods(name, searchParent, searchStatic, searchInstance, methods);
+				}
+
+				for(int i=0;i<methodList.Count();i++)
+				{
+					MethodDescriptor* method=methodList[i].Obj();
+					if(method->GetName()==name)
+					{
+						if(searchStatic && method->GetMemberTypeEnum()==IMemberDescriptor::Static)
+						{
+							methods.Add(method);
+						}
+						else if(searchInstance && method->GetMemberTypeEnum()!=IMemberDescriptor::Static)
+						{
+							methods.Add(method);
+						}
+					}
+				}
 			}
 
 			IPropertyDescriptor* TypeDescriptor::FindProperty(const WString& name, bool searchParent, bool searchStatic, bool searchInstance)
 			{
+				int index=propertyMap.Keys().IndexOf(name);
+				if(index!=-1)
+				{
+					PropertyDescriptor* prop=propertyMap.Values()[index].Obj();
+					if(searchStatic && prop->GetMemberTypeEnum()==IMemberDescriptor::Static)
+					{
+						return prop;
+					}
+					else if(searchInstance && prop->GetMemberTypeEnum()!=IMemberDescriptor::Static)
+					{
+						return prop;
+					}
+				}
+				if(searchParent)
+				{
+					for(int i=0;i<baseTypeList.Count();i++)
+					{
+						IPropertyDescriptor* prop=baseTypeList[i]->GetTypeDescriptor()->FindProperty(name, searchParent, searchStatic, searchInstance);
+						if(prop) return prop;
+					}
+				}
 				return 0;
 			}
 

@@ -230,7 +230,7 @@ ITypeDescriptor
 			virtual IPropertyDescriptor*		GetProperty(int index)=0;
 
 			virtual IMethodDescriptor*			FindMethod(const WString& name, bool searchParent, bool searchStatic, bool searchInstance)=0;
-			virtual void						FindMethods(const WString& name, bool searchParent, bool searchStatic, bool searchInstance, collections::Array<IMethodDescriptor*>& methods)=0;
+			virtual void						FindMethods(const WString& name, bool searchParent, bool searchStatic, bool searchInstance, collections::List<IMethodDescriptor*>& methods)=0;
 			virtual IPropertyDescriptor*		FindProperty(const WString& name, bool searchParent, bool searchStatic, bool searchInstance)=0;
 		};
 
