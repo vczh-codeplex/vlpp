@@ -26,6 +26,8 @@ Attribute
 		{
 			template<typename T>
 			friend class Description;
+
+			friend class DescriptableValue;
 		protected:
 			size_t							objectSize;
 			ITypeDescriptor**				typeDescriptor;
@@ -43,8 +45,6 @@ Attribute
 		template<typename T>
 		class Description : public virtual DescriptableObject
 		{
-			template<typename T>
-			friend class DescriptionAssigner;
 		protected:
 			static ITypeDescriptor*			associatedTypeDescriptor;
 		public:
@@ -60,6 +60,71 @@ Attribute
 
 		template<typename T>
 		ITypeDescriptor* Description<T>::associatedTypeDescriptor=0;
+
+/***********************************************************************
+DescriptableValue
+***********************************************************************/
+
+		class IType;
+
+		class DescriptableValue : public Object
+		{
+		protected:
+			IType*								type;
+			signed __int64						dataSInt;
+			unsigned __int64					dataUInt;
+			double								dataFloat;
+			bool								dataBool;
+			wchar_t								dataChar;
+			WString								dataString;
+			Ptr<DescriptableObject>				dataDescriptableObject;
+			DescriptableObject*					dataDescriptableObjectPointer;
+			Ptr<Object>							dataObject;
+			Object*								dataObjectPointer;
+			Ptr<Interface>						dataInterface;
+			Interface*							dataInterfacePointer;
+			void*								dataRawPointer;
+
+			void								Initialize();
+		public:
+			static DescriptableValue			Null;
+
+			DescriptableValue();									// null
+			DescriptableValue(IType* type, signed __int64 value);	// enum
+			DescriptableValue(signed __int64 value);				// SInt
+			DescriptableValue(unsigned __int64 value);				// UInt
+			DescriptableValue(double value);						// Float
+			DescriptableValue(bool value);							// Bool
+			DescriptableValue(wchar_t value);						// Char
+			DescriptableValue(const WString& value);				// String
+			DescriptableValue(Ptr<DescriptableObject> value);		// descriptable object
+			DescriptableValue(DescriptableObject* value);			// descriptable object pointer
+			DescriptableValue(IType* _type, Ptr<Object> value);		// object, ObjectBox-ed structure
+			DescriptableValue(IType* _type, Object* value);			// object pointer
+			DescriptableValue(IType* _type, Ptr<Interface> value);	// interface
+			DescriptableValue(IType* _type, Interface* value);		// interface pointer
+			DescriptableValue(IType* _type, void* value);			// pointer, pointer/reference to struct
+			DescriptableValue(const DescriptableValue& value);		// copy
+
+			IType*								GetType()const;
+			signed __int64						GetSInt()const;
+			unsigned __int64					GetUInt()const;
+			double								GetFloat()const;
+			bool								GetBool()const;
+			wchar_t								GetChar()const;
+			WString								GetString()const;
+			
+			Ptr<DescriptableObject>				GetDescriptableObject()const;
+			DescriptableObject*					GetDescriptableObjectPoitner()const;
+			Ptr<Object>							GetObject()const;
+			Object*								GetObjectPointer()const;
+			Ptr<Interface>						GetInterface()const;
+			Interface*							GetInterfacePointer()const;
+			void*								GetRawPointer()const;
+
+			bool								CanDelete()const;
+			void								Delete();
+		};
 
 /***********************************************************************
 ITypeDescriptor
@@ -100,38 +165,6 @@ ITypeDescriptor
 			virtual IType*						GetReturnType()=0;
 			virtual int							GetParameterCount()=0;
 			virtual IType*						GetParameterType(int index)=0;
-		};
-
-		class DescriptableValue : public Object
-		{
-		public:
-			static DescriptableValue			Null;
-
-			DescriptableValue();
-			DescriptableValue(signed __int64 value);
-			DescriptableValue(unsigned __int64 value);
-			DescriptableValue(double value);
-			DescriptableValue(bool value);
-			DescriptableValue(wchar_t value);
-			DescriptableValue(const WString& value);
-			DescriptableValue(DescriptableObject* value);
-			DescriptableValue(Ptr<DescriptableObject> value);
-			DescriptableValue(IType* type, Ptr<Object> data);
-			DescriptableValue(const DescriptableValue& value);
-
-			IType*								GetType()const;
-			signed __int64						GetSInt()const;
-			unsigned __int64					GetUInt()const;
-			double								GetFloat()const;
-			bool								GetBool()const;
-			wchar_t								GetChar()const;
-			WString								GetString()const;
-			DescriptableObject*					GetObject()const;
-			Ptr<Object>							GetData()const;
-
-			DescriptableValue					Convert(IType* targetType)const;
-			bool								NeedDelete()const;
-			void								Delete();
 		};
 
 		class IMemberDescriptor : public virtual Interface
