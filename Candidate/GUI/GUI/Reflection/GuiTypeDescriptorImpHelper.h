@@ -89,12 +89,14 @@ ITypeDescriptor
 			{
 				friend class TypeDescriptor;
 
-				typedef collections::List<Ptr<ParameterDescriptor>>		ParameterList;
+				typedef collections::List<Ptr<ParameterDescriptor>>																	ParameterList;
+				typedef Func<DescriptableValue(const DescriptableValue&, const collections::IReadonlyList<DescriptableValue>&)>		HandlerFuncType;
 			protected:
 				WString								name;
 				MemberTypeEnum						memberTypeEnum;
 				Type*								returnType;
 				ParameterList						parameters;
+				HandlerFuncType						handler;
 				TypeDescriptor*						ownerTypeDescriptor;
 
 			public:
@@ -103,6 +105,7 @@ ITypeDescriptor
 
 				MethodDescriptor*					ReturnType(Type* _returnType);
 				MethodDescriptor*					Parameter(const WString& _name, Type* _type);
+				MethodDescriptor*					Handler(const HandlerFuncType& _handler);
 
 				WString								GetName()override;
 				ITypeDescriptor*					GetOwnerTypeDescriptor()override;
@@ -151,7 +154,6 @@ ITypeDescriptor
 				typedef collections::Dictionary<WString, Ptr<PropertyDescriptor>>		PropertyMap;
 			private:
 				Type*								type;
-				WString								typeName;
 				bool								contentAvailable;
 				IMethodDescriptor*					defaultConstructor;
 
@@ -170,7 +172,7 @@ ITypeDescriptor
 
 				virtual void						FillTypeContent()=0;
 			public:
-				TypeDescriptor(const WString& _typeName);
+				TypeDescriptor();
 				~TypeDescriptor();
 
 				IType*								GetType()override;
@@ -197,9 +199,11 @@ ITypeProvider
 			class TypeProvider : public Object, public ITypeProvider
 			{
 				typedef collections::List<Ptr<Type>>				TypeList;
+				typedef collections::List<Ptr<TypeDescriptor>>		TypeDescriptorList;
 				typedef collections::Dictionary<WString, Type*>		NameTypeMap;
 			protected:
 				TypeList							createdTypes;
+				TypeDescriptorList					createdTypeDescriptors;
 				NameTypeMap							namedTypes;
 
 				Type*								typeSInt8;
