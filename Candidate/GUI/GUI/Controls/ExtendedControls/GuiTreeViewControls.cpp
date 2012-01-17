@@ -463,7 +463,7 @@ MemoryNodeProvider
 				{
 				}
 
-				MemoryNodeProvider::MemoryNodeProvider(const Ptr<Object>& _data)
+				MemoryNodeProvider::MemoryNodeProvider(const Ptr<DescriptableObject>& _data)
 					:parent(0)
 					,expanding(false)
 					,childCount(0)
@@ -477,12 +477,12 @@ MemoryNodeProvider
 				{
 				}
 
-				Ptr<Object> MemoryNodeProvider::GetData()
+				Ptr<DescriptableObject> MemoryNodeProvider::GetData()
 				{
 					return data;
 				}
 
-				void MemoryNodeProvider::SetData(const Ptr<Object>& value)
+				void MemoryNodeProvider::SetData(const Ptr<DescriptableObject>& value)
 				{
 					data=value;
 					NotifyDataModified();

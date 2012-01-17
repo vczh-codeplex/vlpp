@@ -196,7 +196,7 @@ GuiVirtualTreeListControl Predefined NodeProvider
 					int								childCount;
 					int								totalVisibleNodeCount;
 					int								offsetBeforeChildModified;
-					Ptr<Object>						data;
+					Ptr<DescriptableObject>			data;
 					ChildList						children;
 
 					virtual INodeProviderCallback*	GetCallbackProxyInternal();
@@ -223,11 +223,11 @@ GuiVirtualTreeListControl Predefined NodeProvider
 					bool							Set(vint index, const Ptr<MemoryNodeProvider>& item);
 				public:
 					MemoryNodeProvider();
-					MemoryNodeProvider(const Ptr<Object>& _data);
+					MemoryNodeProvider(const Ptr<DescriptableObject>& _data);
 					~MemoryNodeProvider();
 
-					Ptr<Object>						GetData();
-					void							SetData(const Ptr<Object>& value);
+					Ptr<DescriptableObject>			GetData();
+					void							SetData(const Ptr<DescriptableObject>& value);
 					void							NotifyDataModified();
 					IChildList&						Children();
 
@@ -312,7 +312,7 @@ TreeView
 					virtual WString					GetNodeText(INodeProvider* node)=0;
 				};
 
-				class TreeViewItem : public Object
+				class TreeViewItem : public Object, public Description<TreeViewItem>
 				{
 				public:
 					Ptr<GuiImageData>				image;
