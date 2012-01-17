@@ -116,6 +116,7 @@ $(SolutionDir)$(Configuration)\_TranslateXMLtoCode.exe $(SolutionDir)</Command>
     <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\NativeWindow\Windows\GDI\WinGDIApplication.cpp" />
     <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\NativeWindow\Windows\WinNativeWindow.cpp" />
     <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\Reflection\GuiTypeDescriptor.cpp" />
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\Reflection\GuiTypeDescriptorImpHelper.cpp" />
     <ClCompile Include="..\..\..\..\..\Library\Basic.cpp" />
     <ClCompile Include="..\..\..\..\..\Library\Collections\Operation.cpp" />
     <ClCompile Include="..\..\..\..\..\Library\Entity\TreeJson.cpp" />
@@ -166,6 +167,7 @@ $(SolutionDir)$(Configuration)\_TranslateXMLtoCode.exe $(SolutionDir)</Command>
     <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\NativeWindow\Windows\GDI\WinGDIApplication.h" />
     <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\NativeWindow\Windows\WinNativeWindow.h" />
     <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\Reflection\GuiTypeDescriptor.h" />
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\Reflection\GuiTypeDescriptorImpHelper.h" />
     <ClInclude Include="..\..\..\..\..\Library\Basic.h" />
     <ClInclude Include="..\..\..\..\..\Library\Collections\Dictionary.h" />
     <ClInclude Include="..\..\..\..\..\Library\Collections\DictionaryWrappers.h" />

@@ -116,8 +116,8 @@ DescriptableValue
 			
 			Ptr<DescriptableObject>				GetDescriptableObject()const;
 			DescriptableObject*					GetDescriptableObjectPoitner()const;
-			Ptr<Object>							GetObject()const;
-			Object*								GetObjectPointer()const;
+			Ptr<Object>							GetRawObject()const;
+			Object*								GetRawObjectPointer()const;
 			Ptr<Interface>						GetInterface()const;
 			Interface*							GetInterfacePointer()const;
 			void*								GetRawPointer()const;
@@ -135,8 +135,14 @@ ITypeDescriptor
 		public:
 			enum TypeEnum
 			{
-				SInt,
-				UInt,
+				SInt8,
+				UInt8,
+				SInt16,
+				UInt16,
+				SInt32,
+				UInt32,
+				SInt64,
+				UInt64,
 				Float,
 				Bool,
 				Char,
@@ -236,8 +242,14 @@ Helper Functions
 		class ITypeProvider : public virtual Interface
 		{
 		public:
-			virtual IType*			SInt()=0;
-			virtual IType*			UInt()=0;
+			virtual IType*			SInt8()=0;
+			virtual IType*			UInt8()=0;
+			virtual IType*			SInt16()=0;
+			virtual IType*			UInt16()=0;
+			virtual IType*			SInt32()=0;
+			virtual IType*			UInt32()=0;
+			virtual IType*			SInt64()=0;
+			virtual IType*			UInt64()=0;
 			virtual IType*			Float()=0;
 			virtual IType*			Bool()=0;
 			virtual IType*			Char()=0;
@@ -246,16 +258,15 @@ Helper Functions
 			virtual IType*			SmartPointer(IType* elementType)=0;
 			virtual IType*			Reference(IType* elementType)=0;
 			virtual IType*			RValueReference(IType* elementType)=0;
-			virtual IType*			Array(IType* element, int length)=0;
+			virtual IType*			Array(IType* elementType, int length)=0;
 
 			virtual int				GetDescriptableTypeCount()=0;
 			virtual IType*			GetDescriptableType(int index)=0;
 			virtual IType*			FindType(const WString& name)=0;
 		};
 
-		extern void					InitializeReflection();
-		extern void					FinalizeReflection();
 		extern ITypeProvider*		GetTypeProvider();
+		extern void					SetTypeProvider(ITypeProvider* value);
 	}
 }
 

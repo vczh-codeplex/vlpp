@@ -201,6 +201,9 @@
     <ClCompile Include="..\..\..\..\..\Library\Stream\RecorderStream.cpp">
       <Filter>Library\Stream</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\Reflection\GuiTypeDescriptorImpHelper.cpp">
+      <Filter>GUI\Reflection</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\ExtendedControls\GuiComboControls.h">
@@ -409,6 +412,9 @@
     </ClInclude>
     <ClInclude Include="GacUICpp.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\Reflection\GuiTypeDescriptorImpHelper.h">
+      <Filter>GUI\Reflection</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
