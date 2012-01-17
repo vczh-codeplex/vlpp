@@ -48,6 +48,7 @@ IType
 				Type(TypeEnum _typeEnum, const WString& _name, TypeDescriptor* _typeDescriptor, TypeProvider* _owner);
 				~Type();
 
+			public:
 				Type*								GetPointerType();
 				Type*								GetSmartPointerType();
 				Type*								GetReferenceType();
@@ -145,21 +146,27 @@ ITypeDescriptor
 			{
 				friend class TypeProvider;
 
-				typedef collections::List<Type*>					TypeList;
-				typedef collections::List<Ptr<MethodDescriptor>>	MethodList;
-				typedef collections::List<Ptr<PropertyDescriptor>>	PropertyList;
+				typedef collections::List<Type*>										TypeList;
+				typedef collections::List<Ptr<MethodDescriptor>>						MethodList;
+				typedef collections::Dictionary<WString, Ptr<PropertyDescriptor>>		PropertyMap;
 			private:
 				Type*								type;
 				WString								typeName;
 				bool								contentAvailable;
 				IMethodDescriptor*					defaultConstructor;
 
+				TypeList							baseTypeList;
+				MethodList							constructorList;
+				MethodList							methodList;
+				PropertyMap							propertyMap;
+
 				void								EnsureContentAvailable();
 			protected:
-				TypeList							baseTypes;
-				MethodList							constructors;
-				MethodList							methods;
-				PropertyList						properties;
+
+				void								AddBaseType(Type* value);
+				void								AddConstructor(Ptr<MethodDescriptor> value);
+				void								AddMethod(Ptr<MethodDescriptor> value);
+				void								AddProperty(Ptr<PropertyDescriptor> value);
 
 				virtual void						FillTypeContent()=0;
 			public:
@@ -179,7 +186,7 @@ ITypeDescriptor
 				IPropertyDescriptor*				GetProperty(int index)override;
 
 				IMethodDescriptor*					FindMethod(const WString& name, bool searchParent, bool searchStatic, bool searchInstance)override;
-				void								FindMethods(const WString& name, bool searchParent, bool searchStatic, bool searchInstance, collections::Array<IMethodDescriptor*>& methods)override;
+				void								FindMethods(const WString& name, bool searchParent, bool searchStatic, bool searchInstance, collections::List<IMethodDescriptor*>& methods)override;
 				IPropertyDescriptor*				FindProperty(const WString& name, bool searchParent, bool searchStatic, bool searchInstance)override;
 			};
 
