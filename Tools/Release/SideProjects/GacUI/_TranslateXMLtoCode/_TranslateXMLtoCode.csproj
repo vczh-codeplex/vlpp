@@ -49,6 +49,8 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReflectedTypeAnalyzer.cs" />
+    <Compile Include="ReflectedTypeDefinitions.cs" />
     <Compile Include="TypeAnalyzer.cs" />
     <Compile Include="TypeDefinitions.cs" />
   </ItemGroup>

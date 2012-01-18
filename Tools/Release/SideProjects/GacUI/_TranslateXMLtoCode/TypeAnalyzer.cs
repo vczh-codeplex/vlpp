@@ -157,6 +157,18 @@ namespace _TranslateXMLtoCode
             }
         }
 
+        static GacMethodKind TranslateVirtual(string value)
+        {
+            switch (value)
+            {
+                case "pure": return GacMethodKind.Abstract;
+                case "virtual": return GacMethodKind.Virtual;
+                case "normal": return GacMethodKind.Normal;
+                case "": return GacMethodKind.Normal;
+                default: throw new ArgumentException();
+            }
+        }
+
         static GacField TranslateField(Dictionary<string, GacUDT> udts, XElement fieldElement, GacUDT ownerUDT)
         {
             return new GacField
@@ -181,14 +193,15 @@ namespace _TranslateXMLtoCode
             };
         }
 
-        static GacMethod TranslateMethod(Dictionary<string, GacUDT> udts, XElement fieldElement, GacUDT ownerUDT)
+        static GacMethod TranslateMethod(Dictionary<string, GacUDT> udts, XElement methodElement, GacUDT ownerUDT)
         {
             return new GacMethod
             {
-                Name = fieldElement.Attribute("name").Value,
-                Access = TranslateAccess(fieldElement.Attribute("access").Value),
-                Type = TranslateType(udts, fieldElement.Element("type").Elements().First()),
-                ParameterNames = fieldElement.Element("arguments").Elements("argument").Select(e => e.Attribute("name").Value).ToArray(),
+                Name = methodElement.Attribute("name").Value,
+                Kind = TranslateVirtual(methodElement.Attribute("virtual").Value),
+                Access = TranslateAccess(methodElement.Attribute("access").Value),
+                Type = TranslateType(udts, methodElement.Element("type").Elements().First()),
+                ParameterNames = methodElement.Element("arguments").Elements("argument").Select(e => e.Attribute("name").Value).ToArray(),
                 OwnerUDT = ownerUDT,
             };
         }
@@ -225,6 +238,7 @@ namespace _TranslateXMLtoCode
                 .Elements("staticMethod")
                 .Select(e => TranslateMethod(udts, e, udt))
                 .ToArray();
+            udt.IsAbstract = udt.Methods.Any(m => m.Kind == GacMethodKind.Abstract);
         }
 
         static Dictionary<string, GacUDT> LoadXML(XDocument document)
