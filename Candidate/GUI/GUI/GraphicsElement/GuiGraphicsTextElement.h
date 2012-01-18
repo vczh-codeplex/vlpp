@@ -162,12 +162,13 @@ ColorizedText
 				bool								caretVisible;
 				Color								caretColor;
 
+				text::TextLines						lines;
+
 				GuiColorizedTextElement();
 			public:
 				~GuiColorizedTextElement();
 
-				text::TextLines						lines;
-
+				text::TextLines&					GetLines();
 				ICallback*							GetCallback();
 				void								SetCallback(ICallback* value);
 

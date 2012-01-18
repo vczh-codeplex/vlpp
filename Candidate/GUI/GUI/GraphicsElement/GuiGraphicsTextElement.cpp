@@ -648,6 +648,11 @@ GuiColorizedTextElement
 				renderer->Finalize();
 			}
 
+			text::TextLines& GuiColorizedTextElement::GetLines()
+			{
+				return lines;
+			}
+
 			GuiColorizedTextElement::ICallback* GuiColorizedTextElement::GetCallback()
 			{
 				return callback;

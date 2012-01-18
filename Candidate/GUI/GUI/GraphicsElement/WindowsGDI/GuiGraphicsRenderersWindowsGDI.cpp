@@ -784,14 +784,14 @@ GuiColorizedTextElementRenderer
 				IWindowsGDIResourceManager* resourceManager=GetWindowsGDIResourceManager();
 				if(font)
 				{
-					element->lines.SetCharMeasurer(0);
+					element->GetLines().SetCharMeasurer(0);
 					resourceManager->DestroyGdiFont(oldFont);
 					resourceManager->DestroyCharMeasurer(oldFont);
 					font=0;
 				}
 				oldFont=element->GetFont();
 				font=resourceManager->CreateGdiFont(oldFont);
-				element->lines.SetCharMeasurer(resourceManager->CreateCharMeasurer(oldFont).Obj());
+				element->GetLines().SetCharMeasurer(resourceManager->CreateCharMeasurer(oldFont).Obj());
 			}
 
 			void GuiColorizedTextElementRenderer::InitializeInternal()
@@ -816,7 +816,7 @@ GuiColorizedTextElementRenderer
 
 			void GuiColorizedTextElementRenderer::RenderTargetChangedInternal(IWindowsGDIRenderTarget* oldRenderTarget, IWindowsGDIRenderTarget* newRenderTarget)
 			{
-				element->lines.SetRenderTarget(newRenderTarget);
+				element->GetLines().SetRenderTarget(newRenderTarget);
 			}
 
 			void GuiColorizedTextElementRenderer::Render(Rect bounds)
@@ -828,8 +828,8 @@ GuiColorizedTextElementRenderer
 
 					Point viewPosition=element->GetViewPosition();
 					Rect viewBounds(viewPosition, bounds.GetSize());
-					int startRow=element->lines.GetTextPosFromPoint(Point(viewBounds.x1, viewBounds.y1)).row;
-					int endRow=element->lines.GetTextPosFromPoint(Point(viewBounds.x2, viewBounds.y2)).row;
+					int startRow=element->GetLines().GetTextPosFromPoint(Point(viewBounds.x1, viewBounds.y1)).row;
+					int endRow=element->GetLines().GetTextPosFromPoint(Point(viewBounds.x2, viewBounds.y2)).row;
 					TextPos selectionBegin=element->GetCaretBegin()<element->GetCaretEnd()?element->GetCaretBegin():element->GetCaretEnd();
 					TextPos selectionEnd=element->GetCaretBegin()>element->GetCaretEnd()?element->GetCaretBegin():element->GetCaretEnd();
 					bool focused=element->GetFocused();
@@ -837,11 +837,11 @@ GuiColorizedTextElementRenderer
 
 					for(int row=startRow;row<=endRow;row++)
 					{
-						Rect startRect=element->lines.GetRectFromTextPos(TextPos(row, 0));
+						Rect startRect=element->GetLines().GetRectFromTextPos(TextPos(row, 0));
 						Point startPoint=startRect.LeftTop();
-						int startColumn=element->lines.GetTextPosFromPoint(Point(viewBounds.x1, startPoint.y)).column;
-						int endColumn=element->lines.GetTextPosFromPoint(Point(viewBounds.x2, startPoint.y)).column;
-						text::TextLine& line=element->lines.GetLine(row);
+						int startColumn=element->GetLines().GetTextPosFromPoint(Point(viewBounds.x1, startPoint.y)).column;
+						int endColumn=element->GetLines().GetTextPosFromPoint(Point(viewBounds.x2, startPoint.y)).column;
+						text::TextLine& line=element->GetLines().GetLine(row);
 
 						int x=startColumn==0?0:line.att[startColumn-1].rightOffset;
 						for(int column=startColumn; column<=endColumn; column++)
@@ -895,10 +895,10 @@ GuiColorizedTextElementRenderer
 						}
 					}
 
-					if(element->GetCaretVisible() && element->lines.IsAvailable(element->GetCaretEnd()))
+					if(element->GetCaretVisible() && element->GetLines().IsAvailable(element->GetCaretEnd()))
 					{
-						Point caretPoint=element->lines.GetPointFromTextPos(element->GetCaretEnd());
-						int height=element->lines.GetRowHeight();
+						Point caretPoint=element->GetLines().GetPointFromTextPos(element->GetCaretEnd());
+						int height=element->GetLines().GetRowHeight();
 						dc->SetPen(caretPen);
 						dc->MoveTo(caretPoint.x-viewPosition.x+bounds.x1, caretPoint.y-viewPosition.y+bounds.y1+1);
 						dc->LineTo(caretPoint.x-viewPosition.x+bounds.x1, caretPoint.y+height-viewPosition.y+bounds.y1-1);

@@ -59,7 +59,7 @@ ListView Base
 			class GuiListViewBase : public GuiSelectableListControl, public Description<GuiListViewBase>
 			{
 			public:
-				class IStyleProvider : public virtual GuiSelectableListControl::IStyleProvider
+				class IStyleProvider : public virtual GuiSelectableListControl::IStyleProvider, public Description<IStyleProvider>
 				{
 				public:
 					virtual GuiSelectableButton::IStyleController*		CreateItemBackground()=0;
@@ -89,7 +89,7 @@ ListView ItemStyleProvider
 				class ListViewItemStyleProvider : public ListViewItemStyleProviderBase, public Description<ListViewItemStyleProvider>
 				{
 				public:
-					class IListViewItemView : public virtual GuiListControl::IItemPrimaryTextView
+					class IListViewItemView : public virtual GuiListControl::IItemPrimaryTextView, public Description<IListViewItemView>
 					{
 					public:
 						static const wchar_t*					Identifier;
