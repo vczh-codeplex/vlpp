@@ -41,7 +41,7 @@ GuiTextElementOperator::DefaultCallback
 
 			int GuiTextElementOperator::DefaultCallback::GetPageRows()
 			{
-				return textComposition->GetBounds().Height()/textElement->lines.GetRowHeight();
+				return textComposition->GetBounds().Height()/textElement->GetLines().GetRowHeight();
 			}
 
 			bool GuiTextElementOperator::DefaultCallback::BeforeModify(TextPos& start, TextPos& end, const WString& originalText, WString& inputText)
@@ -58,7 +58,7 @@ GuiTextElementOperator
 				GuiGraphicsHost* host=textComposition->GetRelatedGraphicsHost();
 				if(host)
 				{
-					Rect caret=textElement->lines.GetRectFromTextPos(textElement->GetCaretEnd());
+					Rect caret=textElement->GetLines().GetRectFromTextPos(textElement->GetCaretEnd());
 					Point view=textElement->GetViewPosition();
 					int textMargin=callback->GetTextMargin();
 					int x=caret.x1-view.x;
@@ -72,7 +72,7 @@ GuiTextElementOperator
 				TextPos oldBegin=textElement->GetCaretBegin();
 				TextPos oldEnd=textElement->GetCaretEnd();
 
-				pos=textElement->lines.Normalize(pos);
+				pos=textElement->GetLines().Normalize(pos);
 				if(!shift)
 				{
 					textElement->SetCaretBegin(pos);
@@ -80,10 +80,10 @@ GuiTextElementOperator
 				textElement->SetCaretEnd(pos);
 				textElement->SetCaretVisible(true);
 
-				Rect bounds=textElement->lines.GetRectFromTextPos(pos);
+				Rect bounds=textElement->GetLines().GetRectFromTextPos(pos);
 				Rect view=Rect(textElement->GetViewPosition(), textComposition->GetBounds().GetSize());
 				Point viewPoint=view.LeftTop();
-				int offsetX=textElement->lines.GetRowHeight()*5;
+				int offsetX=textElement->GetLines().GetRowHeight()*5;
 
 				if(bounds.x1<view.x1)
 				{
@@ -124,11 +124,11 @@ GuiTextElementOperator
 				}
 				TextPos originalStart=start;
 				TextPos originalEnd=end;
-				WString originalText=textElement->lines.GetText(start, end);
+				WString originalText=textElement->GetLines().GetText(start, end);
 				WString inputText=input;
 				if(callback->BeforeModify(start, end, originalText, inputText))
 				{
-					end=textElement->lines.Modify(start, end, inputText);
+					end=textElement->GetLines().Modify(start, end, inputText);
 					callback->AfterModify(originalStart, originalEnd, originalText, start, end, inputText);
 					Move(end, false);
 
@@ -186,8 +186,8 @@ GuiTextElementOperator
 							if(end.column==0)
 							{
 								end.row--;
-								end=textElement->lines.Normalize(end);
-								end.column=textElement->lines.GetLine(end.row).dataLength;
+								end=textElement->GetLines().Normalize(end);
+								end.column=textElement->GetLines().GetLine(end.row).dataLength;
 							}
 							else
 							{
@@ -205,7 +205,7 @@ GuiTextElementOperator
 						}
 						else
 						{
-							if(end.column==textElement->lines.GetLine(end.row).dataLength)
+							if(end.column==textElement->GetLines().GetLine(end.row).dataLength)
 							{
 								end.row++;
 								end.column=0;
@@ -235,9 +235,9 @@ GuiTextElementOperator
 					{
 						if(ctrl)
 						{
-							end.row=textElement->lines.GetCount()-1;
+							end.row=textElement->GetLines().GetCount()-1;
 						}
-						end.column=textElement->lines.GetLine(end.row).dataLength;
+						end.column=textElement->GetLines().GetLine(end.row).dataLength;
 						Move(end, shift);
 					}
 					break;
@@ -439,10 +439,10 @@ GuiTextElementOperator
 			{
 				Point viewPosition=textElement->GetViewPosition();
 				Point mousePosition=Point(point.x+viewPosition.x, point.y+viewPosition.y);
-				TextPos pos=textElement->lines.GetTextPosFromPoint(mousePosition);
-				if(pos.column<textElement->lines.GetLine(pos.row).dataLength)
+				TextPos pos=textElement->GetLines().GetTextPosFromPoint(mousePosition);
+				if(pos.column<textElement->GetLines().GetLine(pos.row).dataLength)
 				{
-					Rect rect=textElement->lines.GetRectFromTextPos(pos);
+					Rect rect=textElement->GetLines().GetRectFromTextPos(pos);
 					if(abs(rect.x1-mousePosition.x)>=abs(rect.x2-1-mousePosition.x))
 					{
 						pos.column++;
@@ -455,7 +455,7 @@ GuiTextElementOperator
 			{
 				TextPos selectionBegin=textElement->GetCaretBegin()<textElement->GetCaretEnd()?textElement->GetCaretBegin():textElement->GetCaretEnd();
 				TextPos selectionEnd=textElement->GetCaretBegin()>textElement->GetCaretEnd()?textElement->GetCaretBegin():textElement->GetCaretEnd();
-				return textElement->lines.GetText(selectionBegin, selectionEnd);
+				return textElement->GetLines().GetText(selectionBegin, selectionEnd);
 			}
 
 			void GuiTextElementOperator::SetSelectionText(const WString& value)
@@ -480,9 +480,9 @@ GuiTextElementOperator
 
 			void GuiTextElementOperator::SelectAll()
 			{
-				int row=textElement->lines.GetCount()-1;
+				int row=textElement->GetLines().GetCount()-1;
 				Move(TextPos(0, 0), false);
-				Move(TextPos(row, textElement->lines.GetLine(row).dataLength), true);
+				Move(TextPos(row, textElement->GetLines().GetLine(row).dataLength), true);
 			}
 
 			bool GuiTextElementOperator::Cut()
@@ -599,55 +599,55 @@ GuiTextElementOperator
 
 			WString GuiTextBoxCommonInterface::GetRowText(int row)
 			{
-				TextPos start=textElementOperator->GetTextElement()->lines.Normalize(TextPos(row, 0));
-				TextPos end=TextPos(start.row, textElementOperator->GetTextElement()->lines.GetLine(start.row).dataLength);
+				TextPos start=textElementOperator->GetTextElement()->GetLines().Normalize(TextPos(row, 0));
+				TextPos end=TextPos(start.row, textElementOperator->GetTextElement()->GetLines().GetLine(start.row).dataLength);
 				return GetFragmentText(start, end);
 			}
 
 			WString GuiTextBoxCommonInterface::GetFragmentText(TextPos start, TextPos end)
 			{
-				start=textElementOperator->GetTextElement()->lines.Normalize(start);
-				end=textElementOperator->GetTextElement()->lines.Normalize(end);
-				return textElementOperator->GetTextElement()->lines.GetText(start, end);
+				start=textElementOperator->GetTextElement()->GetLines().Normalize(start);
+				end=textElementOperator->GetTextElement()->GetLines().Normalize(end);
+				return textElementOperator->GetTextElement()->GetLines().GetText(start, end);
 			}
 				
 			int GuiTextBoxCommonInterface::GetRowWidth(int row)
 			{
-				return textElementOperator->GetTextElement()->lines.GetRowWidth(row);
+				return textElementOperator->GetTextElement()->GetLines().GetRowWidth(row);
 			}
 
 			int GuiTextBoxCommonInterface::GetRowHeight()
 			{
-				return textElementOperator->GetTextElement()->lines.GetRowHeight();
+				return textElementOperator->GetTextElement()->GetLines().GetRowHeight();
 			}
 
 			int GuiTextBoxCommonInterface::GetMaxWidth()
 			{
-				return textElementOperator->GetTextElement()->lines.GetMaxWidth();
+				return textElementOperator->GetTextElement()->GetLines().GetMaxWidth();
 			}
 
 			int GuiTextBoxCommonInterface::GetMaxHeight()
 			{
-				return textElementOperator->GetTextElement()->lines.GetMaxHeight();
+				return textElementOperator->GetTextElement()->GetLines().GetMaxHeight();
 			}
 
 			TextPos GuiTextBoxCommonInterface::GetTextPosFromPoint(Point point)
 			{
 				Point view=textElementOperator->GetTextElement()->GetViewPosition();
-				return textElementOperator->GetTextElement()->lines.GetTextPosFromPoint(Point(point.x+view.x, point.y+view.y));
+				return textElementOperator->GetTextElement()->GetLines().GetTextPosFromPoint(Point(point.x+view.x, point.y+view.y));
 			}
 
 			Point GuiTextBoxCommonInterface::GetPointFromTextPos(TextPos pos)
 			{
 				Point view=textElementOperator->GetTextElement()->GetViewPosition();
-				Point result=textElementOperator->GetTextElement()->lines.GetPointFromTextPos(pos);
+				Point result=textElementOperator->GetTextElement()->GetLines().GetPointFromTextPos(pos);
 				return Point(result.x-view.x, result.y-view.y);
 			}
 
 			Rect GuiTextBoxCommonInterface::GetRectFromTextPos(TextPos pos)
 			{
 				Point view=textElementOperator->GetTextElement()->GetViewPosition();
-				Rect result=textElementOperator->GetTextElement()->lines.GetRectFromTextPos(pos);
+				Rect result=textElementOperator->GetTextElement()->GetLines().GetRectFromTextPos(pos);
 				return Rect(Point(result.x1-view.x, result.y1-view.y), result.GetSize());
 			}
 
@@ -752,12 +752,12 @@ GuiMultilineTextBox::StyleController
 
 			WString GuiMultilineTextBox::StyleController::GetText()
 			{
-				return textElement->lines.GetText();
+				return textElement->GetLines().GetText();
 			}
 
 			void GuiMultilineTextBox::StyleController::SetText(const WString& value)
 			{
-				textElement->lines.SetText(value);
+				textElement->GetLines().SetText(value);
 				textElement->SetCaretBegin(TextPos(0, 0));
 				textElement->SetCaretEnd(TextPos(0, 0));
 				GuiScrollView::StyleController::SetText(value);
@@ -833,7 +833,7 @@ GuiMultilineTextBox
 			void GuiMultilineTextBox::CalculateViewAndSetScroll()
 			{
 				CalculateView();
-				int smallMove=styleController->GetTextElement()->lines.GetRowHeight();
+				int smallMove=styleController->GetTextElement()->GetLines().GetRowHeight();
 				int bigMove=smallMove*5;
 				styleController->GetHorizontalScroll()->SetSmallMove(smallMove);
 				styleController->GetHorizontalScroll()->SetBigMove(bigMove);
@@ -849,7 +849,7 @@ GuiMultilineTextBox
 
 			Size GuiMultilineTextBox::QueryFullSize()
 			{
-				text::TextLines& lines=styleController->GetTextElement()->lines;
+				text::TextLines& lines=styleController->GetTextElement()->GetLines();
 				return Size(lines.GetMaxWidth()+TextMargin*2, lines.GetMaxHeight()+TextMargin*2);
 			}
 
@@ -948,7 +948,7 @@ GuiSinglelineTextBox::StyleController
 
 			void GuiSinglelineTextBox::StyleController::RearrangeTextElement()
 			{
-				textCompositionTable->SetRowOption(1, GuiCellOption::AbsoluteOption(textElement->lines.GetRowHeight()+2*TextMargin));
+				textCompositionTable->SetRowOption(1, GuiCellOption::AbsoluteOption(textElement->GetLines().GetRowHeight()+2*TextMargin));
 			}
 
 			elements::GuiBoundsComposition* GuiSinglelineTextBox::StyleController::GetBoundsComposition()
@@ -982,7 +982,7 @@ GuiSinglelineTextBox::StyleController
 
 			void GuiSinglelineTextBox::StyleController::SetText(const WString& value)
 			{
-				textElement->lines.SetText(value);
+				textElement->GetLines().SetText(value);
 				textElement->SetCaretBegin(TextPos(0, 0));
 				textElement->SetCaretEnd(TextPos(0, 0));
 				styleProvider->SetText(value);
@@ -1073,7 +1073,7 @@ GuiSinglelineTextBox::DefaultTextElementOperatorCallback
 
 				newX+=marginX;
 				int minX=-TextMargin;
-				int maxX=textElement->lines.GetMaxWidth()+TextMargin-textComposition->GetBounds().Width();
+				int maxX=textElement->GetLines().GetMaxWidth()+TextMargin-textComposition->GetBounds().Width();
 				if(newX>=maxX)
 				{
 					newX=maxX-1;
