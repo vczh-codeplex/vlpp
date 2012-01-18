@@ -32,9 +32,17 @@ namespace _TranslateXMLtoCode
         Public,
     }
 
+    enum GacMethodKind
+    {
+        Abstract,
+        Virtual,
+        Normal,
+    }
+
     class GacUDT
     {
         public string Name { get; set; }
+        public bool IsAbstract { get; set; }
         public GacUDTKind Kind { get; set; }
         public GacUDT[] BaseClasses { get; set; }
         public GacField[] Fields { get; set; }
@@ -92,6 +100,7 @@ namespace _TranslateXMLtoCode
     class GacMethod
     {
         public string Name { get; set; }
+        public GacMethodKind Kind { get; set; }
         public GacAccess Access { get; set; }
         public GacType Type { get; set; }
         public string[] ParameterNames { get; set; }
