@@ -71,6 +71,7 @@ namespace _TranslateXMLtoCode
         public string Name { get; set; }
         public GacAccess Access { get; set; }
         public GacType Type { get; set; }
+        public GacUDT OwnerUDT { get; set; }
 
         public override string ToString()
         {
@@ -94,6 +95,7 @@ namespace _TranslateXMLtoCode
         public GacAccess Access { get; set; }
         public GacType Type { get; set; }
         public string[] ParameterNames { get; set; }
+        public GacUDT OwnerUDT { get; set; }
 
         public override string ToString()
         {

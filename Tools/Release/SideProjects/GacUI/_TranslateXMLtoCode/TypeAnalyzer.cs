@@ -157,29 +157,31 @@ namespace _TranslateXMLtoCode
             }
         }
 
-        static GacField TranslateField(Dictionary<string, GacUDT> udts, XElement fieldElement)
+        static GacField TranslateField(Dictionary<string, GacUDT> udts, XElement fieldElement, GacUDT ownerUDT)
         {
             return new GacField
             {
                 Name = fieldElement.Attribute("name").Value,
                 Access = TranslateAccess(fieldElement.Attribute("access").Value),
                 Type = TranslateType(udts, fieldElement.Element("type").Elements().First()),
+                OwnerUDT = ownerUDT,
             };
         }
 
-        static GacConst TranslateEnumField(Dictionary<string, GacUDT> udts, XElement fieldElement)
+        static GacConst TranslateEnumField(Dictionary<string, GacUDT> udts, XElement fieldElement, GacUDT ownerUDT)
         {
-            GacField field = TranslateField(udts, fieldElement);
+            GacField field = TranslateField(udts, fieldElement, ownerUDT);
             return new GacConst
             {
                 Name = field.Name,
                 Access = field.Access,
                 Type = field.Type,
+                OwnerUDT = field.OwnerUDT,
                 EnumItemValue = int.Parse(fieldElement.Element("intValue").Attribute("value").Value),
             };
         }
 
-        static GacMethod TranslateMethod(Dictionary<string, GacUDT> udts, XElement fieldElement)
+        static GacMethod TranslateMethod(Dictionary<string, GacUDT> udts, XElement fieldElement, GacUDT ownerUDT)
         {
             return new GacMethod
             {
@@ -187,6 +189,7 @@ namespace _TranslateXMLtoCode
                 Access = TranslateAccess(fieldElement.Attribute("access").Value),
                 Type = TranslateType(udts, fieldElement.Element("type").Elements().First()),
                 ParameterNames = fieldElement.Element("arguments").Elements("argument").Select(e => e.Attribute("name").Value).ToArray(),
+                OwnerUDT = ownerUDT,
             };
         }
 
@@ -200,27 +203,27 @@ namespace _TranslateXMLtoCode
             udt.Fields = udtElement.Element("fields") == null ? new GacField[0] : udtElement
                 .Element("fields")
                 .Elements("field")
-                .Select(e => TranslateField(udts, e))
+                .Select(e => TranslateField(udts, e, udt))
                 .ToArray();
             udt.StaticFields = udtElement.Element("fields") == null ? new GacField[0] : udtElement
                 .Element("fields")
                 .Elements("staticField")
-                .Select(e => TranslateField(udts, e))
+                .Select(e => TranslateField(udts, e, udt))
                 .ToArray();
             udt.Constants = udtElement.Element("fields") == null ? new GacConst[0] : udtElement
                 .Element("fields")
                 .Elements("const")
-                .Select(e => TranslateEnumField(udts, e))
+                .Select(e => TranslateEnumField(udts, e, udt))
                 .ToArray();
             udt.Methods = udtElement.Element("methods") == null ? new GacMethod[0] : udtElement
                 .Element("methods")
                 .Elements("method")
-                .Select(e => TranslateMethod(udts, e))
+                .Select(e => TranslateMethod(udts, e, udt))
                 .ToArray();
             udt.StaticMethods = udtElement.Element("methods") == null ? new GacMethod[0] : udtElement
                 .Element("methods")
                 .Elements("staticMethod")
-                .Select(e => TranslateMethod(udts, e))
+                .Select(e => TranslateMethod(udts, e, udt))
                 .ToArray();
         }
 
@@ -317,7 +320,7 @@ namespace _TranslateXMLtoCode
         {
             var udts = LoadXML(document);
             var methods = document.Root.Element("functions").Elements("method")
-                .Select(e => TranslateMethod(udts, e))
+                .Select(e => TranslateMethod(udts, e, null))
                 .ToArray();
 
             var descriptableMethods = methods
