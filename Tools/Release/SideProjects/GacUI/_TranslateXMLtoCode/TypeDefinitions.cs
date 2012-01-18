@@ -39,6 +39,7 @@ namespace _TranslateXMLtoCode
         public GacUDT[] BaseClasses { get; set; }
         public GacField[] Fields { get; set; }
         public GacField[] StaticFields { get; set; }
+        public GacConst[] Constants { get; set; }
         public GacMethod[] Methods { get; set; }
         public GacMethod[] StaticMethods { get; set; }
 
@@ -74,6 +75,16 @@ namespace _TranslateXMLtoCode
         public override string ToString()
         {
             return this.Name;
+        }
+    }
+
+    class GacConst : GacField
+    {
+        public int EnumItemValue { get; set; }
+
+        public override string ToString()
+        {
+            return this.Name + " = " + this.EnumItemValue.ToString();
         }
     }
 
