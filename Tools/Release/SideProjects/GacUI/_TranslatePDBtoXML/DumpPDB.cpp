@@ -553,6 +553,41 @@ namespace dumppdb
 						{
 							PrintXMLOpen(file, 3, L"const", nameBSTR, L"access", GetAccessName(access));
 							DumpSymbolType(file, fieldSymbol, 3);
+							{
+								VARIANT value;
+								value.vt = VT_EMPTY;
+								if (fieldSymbol->get_value(&value) == S_OK)
+								{
+									signed __int64 ivalue=0;
+									switch(value.vt)
+									{
+									case VT_I1:
+										ivalue=value.cVal;
+										goto PROCESS_INTEGER;
+									case VT_I2:
+										ivalue=value.iVal;
+										goto PROCESS_INTEGER;
+									case VT_I4:
+										ivalue=value.lVal;
+										goto PROCESS_INTEGER;
+									case VT_UI1:
+										ivalue=value.bVal;
+										goto PROCESS_INTEGER;
+									case VT_UI2:
+										ivalue=value.uiVal;
+										goto PROCESS_INTEGER;
+									case VT_UI4:
+										ivalue=value.ulVal;
+										goto PROCESS_INTEGER;
+									PROCESS_INTEGER:
+										wchar_t valueBuffer[100];
+										_i64tow_s(ivalue, valueBuffer, 100, 10);
+										PrintXMLOpen(file, 4, L"intValue", NULL, L"value", valueBuffer);
+										PrintXMLClose(file, 4, L"intValue");
+										break;
+									}
+								}
+							}
 							PrintXMLClose(file, 3, L"const");
 						}
 					}

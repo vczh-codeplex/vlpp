@@ -167,6 +167,18 @@ namespace _TranslateXMLtoCode
             };
         }
 
+        static GacConst TranslateEnumField(Dictionary<string, GacUDT> udts, XElement fieldElement)
+        {
+            GacField field = TranslateField(udts, fieldElement);
+            return new GacConst
+            {
+                Name = field.Name,
+                Access = field.Access,
+                Type = field.Type,
+                EnumItemValue = int.Parse(fieldElement.Element("intValue").Attribute("value").Value),
+            };
+        }
+
         static GacMethod TranslateMethod(Dictionary<string, GacUDT> udts, XElement fieldElement)
         {
             return new GacMethod
@@ -194,6 +206,11 @@ namespace _TranslateXMLtoCode
                 .Element("fields")
                 .Elements("staticField")
                 .Select(e => TranslateField(udts, e))
+                .ToArray();
+            udt.Constants = udtElement.Element("fields") == null ? new GacConst[0] : udtElement
+                .Element("fields")
+                .Elements("const")
+                .Select(e => TranslateEnumField(udts, e))
                 .ToArray();
             udt.Methods = udtElement.Element("methods") == null ? new GacMethod[0] : udtElement
                 .Element("methods")

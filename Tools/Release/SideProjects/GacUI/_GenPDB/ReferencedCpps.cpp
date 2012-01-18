@@ -21,6 +21,7 @@
 #include "..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\GuiGraphicsTextElement.cpp"
 //---------------------------------------------------------------
 #include "..\..\..\..\..\Candidate\GUI\GUI\Reflection\GuiTypeDescriptor.cpp"
+#include "..\..\..\..\..\Candidate\GUI\GUI\Reflection\GuiTypeDescriptorImpHelper.cpp"
 //---------------------------------------------------------------
 #include "..\..\..\..\..\Candidate\GUI\GUI\NativeWindow\GuiNativeWindow.cpp"
 #include "..\..\..\..\..\Candidate\GUI\GUI\NativeWindow\Windows\WinNativeWindow.cpp"

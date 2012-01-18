@@ -112,6 +112,12 @@ namespace vl
 				int index=gdiListener->nativeWindowListeners.Keys().IndexOf(window);
 				return index==-1?0:gdiListener->nativeWindowListeners.Values()[index]->GetWinDC();
 			}
+
+			HDC GetNativeWindowHDC(INativeWindow* window)
+			{
+				WinDC* dc=GetNativeWindowDC(window);
+				return dc?dc->GetHandle():NULL;
+			}
 		}
 	}
 }

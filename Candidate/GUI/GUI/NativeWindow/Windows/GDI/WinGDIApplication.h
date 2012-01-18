@@ -18,6 +18,7 @@ namespace vl
 		namespace windows
 		{
 			extern WinDC*									GetNativeWindowDC(INativeWindow* window);
+			extern HDC										GetNativeWindowHDC(INativeWindow* window);
 		}
 	}
 }
