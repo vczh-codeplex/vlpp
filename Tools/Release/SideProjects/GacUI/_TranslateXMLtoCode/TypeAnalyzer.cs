@@ -282,8 +282,6 @@ namespace _TranslateXMLtoCode
             return !udt.Name.StartsWith("vl::presentation::Description<")
                 && !udt.Name.StartsWith("vl::Func<")
                 && !udt.Name.StartsWith("vl::presentation::windows::")
-                && udt.Name != "vl::presentation::DescriptableObject"
-                && udt.Name != "vl::presentation::IDescriptable"
                 && udt.Name != "vl::presentation::DescriptableValue"
                 && udt.Name != "vl::presentation::IType"
                 && udt.Name != "vl::presentation::IMemberDescriptor"
