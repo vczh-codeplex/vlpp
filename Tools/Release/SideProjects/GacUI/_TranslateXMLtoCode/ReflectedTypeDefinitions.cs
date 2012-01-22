@@ -7,8 +7,12 @@ namespace _TranslateXMLtoCode
 {
     enum RgacTypeKind
     {
-        RgacUDTPointer,
-        RgacUDTSmartPointer,
+        ClassPointer,
+        ClassSmartPointer,
+        Struct,
+        StructPointer,
+        StructReference,
+        Enum,
         Primitive,
         OtherGacType,
     }
@@ -54,9 +58,13 @@ namespace _TranslateXMLtoCode
         public bool IsAbstract { get; set; }
         public GacUDT AssociatedGacType { get; set; }
         public bool Descriptable { get; set; }
+
         public RgacUDT[] BaseClasses { get; set; }
+        public RgacMethod[] Constructors { get; set; }
         public RgacMethod[] Methods { get; set; }
         public RgacMethod[] StaticMethods { get; set; }
+        public RgacProperty[] Properties { get; set; }
+        public RgacProperty[] StaticProperties { get; set; }
 
         public override string ToString()
         {
@@ -72,6 +80,20 @@ namespace _TranslateXMLtoCode
         public string[] ParameterNames { get; set; }
         public RgacUDT OwnerUDT { get; set; }
         public GacMethod OriginalGacMethod { get; set; }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
+    }
+
+    class RgacProperty
+    {
+        public string Name { get; set; }
+        public RgacType PropertyType { get; set; }
+        public RgacUDT OwnerUDT { get; set; }
+        public RgacMethod Getter { get; set; }
+        public RgacMethod Setter { get; set; }
 
         public override string ToString()
         {
