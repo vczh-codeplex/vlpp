@@ -94,10 +94,15 @@ namespace _TranslateXMLtoCode
         public RgacUDT OwnerUDT { get; set; }
         public RgacMethod Getter { get; set; }
         public RgacMethod Setter { get; set; }
+        public GacField PublicGacFieldAccessor { get; set; }
 
         public override string ToString()
         {
-            return this.Name;
+            return this.Name + " {"
+                + (Getter == null ? "" : "get; ")
+                + (Setter == null ? "" : "set; ")
+                + (PublicGacFieldAccessor == null ? "" : "field; ")
+                + "}";
         }
     }
 }

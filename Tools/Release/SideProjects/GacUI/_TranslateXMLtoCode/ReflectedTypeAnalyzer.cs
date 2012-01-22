@@ -314,6 +314,7 @@ namespace _TranslateXMLtoCode
             Dictionary<string, RgacUDT> udts,
             RgacUDT udt,
             RgacMethod[] inputMethods,
+            GacField[] inputFields,
             out RgacMethod[] outputConstructors,
             out RgacMethod[] outputMethods,
             out RgacProperty[] outputProperties)
@@ -429,6 +430,18 @@ namespace _TranslateXMLtoCode
                     };
                     properties.Add(prop);
                 }
+
+                foreach (var field in inputFields.Where(f => f.Access == GacAccess.Public))
+                {
+                    RgacProperty prop = new RgacProperty()
+                    {
+                        Name = field.Name,
+                        PropertyType = TranslateType(input, udts, field.Type),
+                        OwnerUDT = udt,
+                        PublicGacFieldAccessor = field,
+                    };
+                    properties.Add(prop);
+                }
             }
             outputConstructors = constructors.ToArray();
             outputMethods = methods.ToArray();
@@ -441,7 +454,7 @@ namespace _TranslateXMLtoCode
                 RgacMethod[] constructors;
                 RgacMethod[] methods;
                 RgacProperty[] properties;
-                ProcessOverridingAndProperties(input, udts, udt, udt.Methods, out constructors, out methods, out properties);
+                ProcessOverridingAndProperties(input, udts, udt, udt.Methods, udt.AssociatedGacType.Fields, out constructors, out methods, out properties);
                 udt.Constructors = constructors;
                 udt.Methods = methods;
                 udt.Properties = properties;
@@ -454,7 +467,7 @@ namespace _TranslateXMLtoCode
                 RgacMethod[] constructors;
                 RgacMethod[] methods;
                 RgacProperty[] properties;
-                ProcessOverridingAndProperties(input, udts, udt, udt.StaticMethods, out constructors, out methods, out properties);
+                ProcessOverridingAndProperties(input, udts, udt, udt.StaticMethods, udt.AssociatedGacType.StaticFields, out constructors, out methods, out properties);
                 if (constructors.Length > 0)
                 {
                     throw new ArgumentException();
