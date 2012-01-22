@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 
 namespace _TranslateXMLtoCode
 {
@@ -219,6 +220,30 @@ namespace _TranslateXMLtoCode
                             };
                         }
                     }
+                    else if (type.ElementType.Kind == GacTypeKind.Const)
+                    {
+                        if (type.ElementType.ElementType.AssociatedUDT != null)
+                        {
+                            if (type.ElementType.ElementType.AssociatedUDT.Name == "vl::ObjectString<wchar_t>")
+                            {
+                                return new RgacType
+                                {
+                                    Kind = RgacTypeKind.Primitive,
+                                    PrimitiveKind = RgacPrimitiveKind.ConstStringReference,
+                                    OriginalGacType = type,
+                                };
+                            }
+                            else if (input.ExportableStructs.ContainsKey(type.ElementType.ElementType.AssociatedUDT.Name))
+                            {
+                                return new RgacType
+                                {
+                                    Kind = RgacTypeKind.ConstStructReference,
+                                    AssociatedRgacType = udts[type.ElementType.ElementType.AssociatedUDT.Name],
+                                    OriginalGacType = type,
+                                };
+                            }
+                        }
+                    }
                     break;
                 case GacTypeKind.UDT:
                     if (type.AssociatedUDT != null)
@@ -327,13 +352,14 @@ namespace _TranslateXMLtoCode
                 Dictionary<string, RgacMethod> getters = new Dictionary<string, RgacMethod>();
                 Dictionary<string, RgacMethod> setters = new Dictionary<string, RgacMethod>();
 
+                string destructorName = "";
                 string constructorName = "";
                 string ignoreName = "";
                 {
                     var destructor = inputMethods.Where(m => m.Name.Contains('~')).FirstOrDefault();
                     if (destructor != null)
                     {
-                        string destructorName = destructor.Name;
+                        destructorName = destructor.Name;
                         constructorName = destructor.Name.Remove(destructorName.IndexOf('~'), 1);
                         ignoreName = destructorName.Substring(destructorName.IndexOf('~') + 1);
                     }
@@ -379,7 +405,19 @@ namespace _TranslateXMLtoCode
                         if (oldName == constructorName)
                         {
                             processed = true;
+                            m.ReturnType = new RgacType
+                            {
+                                AssociatedRgacType = udt,
+                                Kind = input.DescriptableUdts.ContainsKey(udt.AssociatedGacType.Name)
+                                   || input.ExportableClasses.ContainsKey(udt.AssociatedGacType.Name)
+                                   ? RgacTypeKind.ClassPointer
+                                   : RgacTypeKind.Struct
+                            };
                             constructors.Add(m);
+                        }
+                        else if (oldName == destructorName)
+                        {
+                            processed = true;
                         }
                         else if (m.Name.StartsWith("Get"))
                         {
@@ -433,14 +471,17 @@ namespace _TranslateXMLtoCode
 
                 foreach (var field in inputFields.Where(f => f.Access == GacAccess.Public))
                 {
-                    RgacProperty prop = new RgacProperty()
+                    if (field.Type.Kind != GacTypeKind.Const)
                     {
-                        Name = field.Name,
-                        PropertyType = TranslateType(input, udts, field.Type),
-                        OwnerUDT = udt,
-                        PublicGacFieldAccessor = field,
-                    };
-                    properties.Add(prop);
+                        RgacProperty prop = new RgacProperty()
+                        {
+                            Name = field.Name,
+                            PropertyType = TranslateType(input, udts, field.Type),
+                            OwnerUDT = udt,
+                            PublicGacFieldAccessor = field,
+                        };
+                        properties.Add(prop);
+                    }
                 }
             }
             outputConstructors = constructors.ToArray();
@@ -516,6 +557,8 @@ namespace _TranslateXMLtoCode
         public string Name { get; set; }
         public CppName[] Parameters { get; set; }
         public CppName Member { get; set; }
+
+        #region Parsing
 
         private static string ParseName(string name, ref int index)
         {
@@ -611,6 +654,8 @@ namespace _TranslateXMLtoCode
             return result;
         }
 
+        #endregion
+
         public override string ToString()
         {
             return Name
@@ -632,5 +677,112 @@ namespace _TranslateXMLtoCode
     class ReflectedTypeAnalyzerResult
     {
         public RgacUDT[] Udts { get; set; }
+
+        #region Exporting
+
+        private string GetTypeName(RgacType type)
+        {
+            switch (type.Kind)
+            {
+                case RgacTypeKind.Primitive:
+                    return type.OriginalGacType.Name;
+                case RgacTypeKind.ClassPointer:
+                    return type.AssociatedRgacType.ToString() + "*";
+                case RgacTypeKind.ClassSmartPointer:
+                    return "Ptr<" + type.AssociatedRgacType.ToString() + ">";
+                case RgacTypeKind.Struct:
+                    return type.AssociatedRgacType.ToString();
+                case RgacTypeKind.StructPointer:
+                    return type.AssociatedRgacType.ToString() + "*";
+                case RgacTypeKind.StructReference:
+                    return type.AssociatedRgacType.ToString() + "&";
+                case RgacTypeKind.ConstStructReference:
+                    return type.AssociatedRgacType.ToString() + " const&";
+                case RgacTypeKind.Enum:
+                    return type.AssociatedRgacType.ToString();
+                case RgacTypeKind.OtherGacType:
+                    return type.OriginalGacType.Name;
+                default:
+                    throw new ArgumentException();
+            }
+        }
+
+        private XElement Export(RgacMethod method)
+        {
+            return new XElement("method",
+                new XAttribute("name", method.Name),
+                new XElement("original", new XAttribute("name", method.OriginalGacMethod.Name)),
+                new XElement("returnType", new XAttribute("name", GetTypeName(method.ReturnType))),
+                new XElement("parameterTypes", method.ParameterTypes.Select(t =>
+                    new XElement("parameterType", new XAttribute("name", GetTypeName(t)))
+                    )),
+                new XElement("parameterNames", method.ParameterNames.Select(n =>
+                    new XElement("parameterName", new XAttribute("name", n))
+                    ))
+                );
+        }
+
+        private XElement Export(RgacProperty property)
+        {
+            XElement e = new XElement("property");
+            e.Add(new XAttribute("name", property.Name));
+            e.Add(new XAttribute("type", GetTypeName(property.PropertyType)));
+            if (property.Getter != null)
+            {
+                e.Add(Export(property.Getter));
+            }
+            if (property.Setter != null)
+            {
+                e.Add(Export(property.Setter));
+            }
+            if (property.PublicGacFieldAccessor != null)
+            {
+                e.Add(new XElement("fieldAccessor", new XAttribute("name", property.PublicGacFieldAccessor.Name)));
+            }
+            return e;
+        }
+
+        private XElement Export(RgacUDT udt)
+        {
+            return new XElement(udt.Kind.ToString(),
+                new XAttribute("name", udt.ToString()),
+                new XAttribute("isAbstract", udt.IsAbstract),
+                new XAttribute("descriptable", udt.Descriptable),
+                new XElement("original", new XAttribute("name", udt.AssociatedGacType.Name)),
+                (udt.BaseClasses.Length == 0 ? (object)"" : (object)
+                new XElement("baseClasses",
+                    udt.BaseClasses.Select(t => new XElement("baseClass", new XAttribute("name", t.ToString())))
+                    )),
+                (udt.Constructors.Length == 0 ? (object)"" : (object)
+                new XElement("constructors",
+                    udt.Constructors.Select(m => Export(m))
+                    )),
+                (udt.Methods.Length == 0 ? (object)"" : (object)
+                new XElement("methods",
+                    udt.Methods.Select(m => Export(m))
+                    )),
+                (udt.StaticMethods.Length == 0 ? (object)"" : (object)
+                new XElement("staticMethods",
+                    udt.StaticMethods.Select(m => Export(m))
+                    )),
+                (udt.Properties.Length == 0 ? (object)"" : (object)
+                new XElement("properties",
+                    udt.Properties.Select(m => Export(m))
+                    )),
+                (udt.StaticProperties.Length == 0 ? (object)"" : (object)
+                new XElement("staticProperties",
+                    udt.StaticProperties.Select(m => Export(m))
+                    ))
+                );
+        }
+
+        public XDocument Export()
+        {
+            XDocument document = new XDocument();
+            document.Add(new XElement("pdbAnalysis", Udts.Select(t => Export(t)).ToArray()));
+            return document;
+        }
+
+        #endregion
     }
 }
