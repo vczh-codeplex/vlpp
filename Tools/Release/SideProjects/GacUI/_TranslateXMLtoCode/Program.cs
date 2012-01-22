@@ -8,7 +8,6 @@ namespace _TranslateXMLtoCode
 {
     class Program
     {
-
         static void Main(string[] args)
         {
             string xmlPath = args[0] + @"_GenPDB.xml";
@@ -24,6 +23,12 @@ namespace _TranslateXMLtoCode
                 AvailableUdts = analyzerResult.AvailableUdts.ToDictionary(t => t.Name),
             };
             var exportingResult = ReflectedTypeAnalyzer.Analyze(input);
+
+            string analysysPath = xmlPath + ".analysis.xml";
+            Console.WriteLine("exporting analysis result to {0}", analysysPath);
+            exportingResult.Export().Save(analysysPath);
+
+            Console.WriteLine("generating code");
         }
     }
 }
