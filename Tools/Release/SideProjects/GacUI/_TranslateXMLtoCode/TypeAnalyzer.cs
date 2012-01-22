@@ -281,6 +281,7 @@ namespace _TranslateXMLtoCode
         {
             return !udt.Name.StartsWith("vl::presentation::Description<")
                 && !udt.Name.StartsWith("vl::Func<")
+                && !udt.Name.StartsWith("vl::presentation::windows::")
                 && udt.Name != "vl::presentation::DescriptableObject"
                 && udt.Name != "vl::presentation::IDescriptable"
                 && udt.Name != "vl::presentation::DescriptableValue"
@@ -339,7 +340,6 @@ namespace _TranslateXMLtoCode
 
             var descriptableMethods = methods
                 .Where(m =>
-                    m.Name.StartsWith("vl::presentation::windows::Get") ||
                     m.Name.StartsWith("vl::presentation::elements::Get") ||
                     m.Name.StartsWith("vl::presentation::controls::Get") ||
                     m.Name.StartsWith("vl::presentation::Get")
@@ -383,13 +383,8 @@ namespace _TranslateXMLtoCode
                 .Where(t => InheritsFromObjectOrInterface(t))
                 .ToArray();
 
-            result.AcceptableUdts = undescriptableUdts
-                .Except(exportableUdts)
-                .OrderBy(f => f.Name)
-                .ToArray();
-
             result.AvailableUdts = result.DescriptableUdts
-                .Concat(exportableUdts.Concat(result.AcceptableUdts))
+                .Concat(descriptableUdts.Concat(exportableUdts))
                 .Distinct()
                 .OrderBy(f => f.Name)
                 .ToArray();
@@ -410,9 +405,6 @@ namespace _TranslateXMLtoCode
         public GacUDT[] ExportableEnums { get; set; }
         public GacUDT[] ExportableStructs { get; set; }
         public GacUDT[] ExportableClasses { get; set; }
-
-        // types that directly shows on the dll header type (e.g. ID2D1RenderTarget)
-        public GacUDT[] AcceptableUdts { get; set; }
 
         // all acceptable types
         public GacUDT[] AvailableUdts { get; set; }

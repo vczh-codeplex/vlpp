@@ -48,7 +48,8 @@ namespace _TranslateXMLtoCode
 
     class RgacUDT
     {
-        public string Name { get; set; }
+        public string[] Name { get; set; }
+        public CppName CppName { get; set; }
         public RgacUDTKind Kind { get; set; }
         public bool IsAbstract { get; set; }
         public GacUDT AssociatedGacType { get; set; }
@@ -59,7 +60,7 @@ namespace _TranslateXMLtoCode
 
         public override string ToString()
         {
-            return this.Name;
+            return this.Name.Aggregate((a, b) => a + " :: " + b);
         }
     }
 
