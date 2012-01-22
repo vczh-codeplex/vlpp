@@ -6,6 +6,9 @@ using System.Xml.Linq;
 
 namespace _TranslateXMLtoCode
 {
+    /// <summary>
+    /// This comment is check-ed at the first minute of the Spring Festival of China!
+    /// </summary>
     class Program
     {
         static void Main(string[] args)
