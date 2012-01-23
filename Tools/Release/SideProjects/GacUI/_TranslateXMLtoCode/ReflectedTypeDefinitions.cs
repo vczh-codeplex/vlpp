@@ -7,6 +7,7 @@ namespace _TranslateXMLtoCode
 {
     enum RgacTypeKind
     {
+        Class,
         ClassPointer,
         ClassSmartPointer,
         Struct,
@@ -37,6 +38,13 @@ namespace _TranslateXMLtoCode
         Class,
         Interface,
         Enum,
+    }
+
+    enum RgacMethodKind
+    {
+        Abstract,
+        Virtual,
+        Normal,
     }
 
     class RgacType
@@ -77,6 +85,7 @@ namespace _TranslateXMLtoCode
     class RgacMethod
     {
         public string Name { get; set; }
+        public RgacMethodKind Kind { get; set; }
         public RgacType ReturnType { get; set; }
         public RgacType[] ParameterTypes { get; set; }
         public string[] ParameterNames { get; set; }
@@ -97,13 +106,14 @@ namespace _TranslateXMLtoCode
         public RgacMethod Getter { get; set; }
         public RgacMethod Setter { get; set; }
         public GacField PublicGacFieldAccessor { get; set; }
+        public bool IsEventField { get; set; }
 
         public override string ToString()
         {
             return this.Name + " {"
                 + (Getter == null ? "" : "get; ")
                 + (Setter == null ? "" : "set; ")
-                + (PublicGacFieldAccessor == null ? "" : "field; ")
+                + (PublicGacFieldAccessor == null ? "" : IsEventField ? "event; " : "field; ")
                 + "}";
         }
     }
