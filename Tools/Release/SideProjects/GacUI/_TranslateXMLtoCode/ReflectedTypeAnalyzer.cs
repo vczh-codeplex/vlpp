@@ -87,6 +87,7 @@ namespace _TranslateXMLtoCode
         static bool IsTypeAcceptable(ReflectedTypeAnalyzerInput input, GacType type)
         {
             if (type == null) return true;
+            if (type.Kind == GacTypeKind.Function) return false;
             if (type.AssociatedUDT != null)
             {
                 bool result = input.AvailableUdts.ContainsKey(type.AssociatedUDT.Name);
@@ -257,6 +258,15 @@ namespace _TranslateXMLtoCode
                                 OriginalGacType = type,
                             };
                         }
+                        else if (input.ExportableClasses.ContainsKey(type.AssociatedUDT.Name))
+                        {
+                            return new RgacType
+                            {
+                                Kind = RgacTypeKind.Class,
+                                AssociatedRgacType = udts[type.AssociatedUDT.Name],
+                                OriginalGacType = type,
+                            };
+                        }
                         else if (input.ExportableStructs.ContainsKey(type.AssociatedUDT.Name))
                         {
                             return new RgacType
@@ -286,10 +296,7 @@ namespace _TranslateXMLtoCode
                     OriginalGacType = type,
                 };
             }
-            else
-            {
-                throw new ArgumentException();
-            }
+            throw new ArgumentException();
         }
 
         static RgacMethod TranslateMethod(ReflectedTypeAnalyzerInput input, Dictionary<string, RgacUDT> udts, GacMethod method)
@@ -299,6 +306,10 @@ namespace _TranslateXMLtoCode
                 RgacMethod result = new RgacMethod()
                 {
                     Name = method.Name,
+                    Kind =
+                        method.Kind == GacMethodKind.Abstract ? RgacMethodKind.Abstract :
+                        method.Kind == GacMethodKind.Virtual ? RgacMethodKind.Virtual :
+                        RgacMethodKind.Normal,
                     ReturnType = TranslateType(input, udts, method.Type.ReturnType),
                     ParameterTypes = method.Type.ParameterTypes.Select(t => TranslateType(input, udts, t)).ToArray(),
                     ParameterNames = method.ParameterNames,
@@ -334,7 +345,7 @@ namespace _TranslateXMLtoCode
             udt.StaticMethods = staticMethods;
         }
 
-        static void ProcessOverridingAndProperties(
+        static void CategorizeMethods(
             ReflectedTypeAnalyzerInput input,
             Dictionary<string, RgacUDT> udts,
             RgacUDT udt,
@@ -458,6 +469,7 @@ namespace _TranslateXMLtoCode
                     RgacMethod setter = null;
                     getters.TryGetValue(name, out getter);
                     setters.TryGetValue(name, out setter);
+
                     RgacProperty prop = new RgacProperty()
                     {
                         Name = name,
@@ -479,6 +491,7 @@ namespace _TranslateXMLtoCode
                             PropertyType = TranslateType(input, udts, field.Type),
                             OwnerUDT = udt,
                             PublicGacFieldAccessor = field,
+                            IsEventField = field.Type.Name.StartsWith("vl::presentation::elements::GuiGraphicsEvent<"),
                         };
                         properties.Add(prop);
                     }
@@ -489,13 +502,13 @@ namespace _TranslateXMLtoCode
             outputProperties = properties.ToArray();
         }
 
-        static void ProcessOverridingAndProperties(ReflectedTypeAnalyzerInput input, Dictionary<string, RgacUDT> udts, RgacUDT udt)
+        static void CategorizeMethods(ReflectedTypeAnalyzerInput input, Dictionary<string, RgacUDT> udts, RgacUDT udt)
         {
             {
                 RgacMethod[] constructors;
                 RgacMethod[] methods;
                 RgacProperty[] properties;
-                ProcessOverridingAndProperties(input, udts, udt, udt.Methods, udt.AssociatedGacType.Fields, out constructors, out methods, out properties);
+                CategorizeMethods(input, udts, udt, udt.Methods, udt.AssociatedGacType.Fields, out constructors, out methods, out properties);
                 udt.Constructors = constructors;
                 udt.Methods = methods;
                 udt.Properties = properties;
@@ -508,7 +521,7 @@ namespace _TranslateXMLtoCode
                 RgacMethod[] constructors;
                 RgacMethod[] methods;
                 RgacProperty[] properties;
-                ProcessOverridingAndProperties(input, udts, udt, udt.StaticMethods, udt.AssociatedGacType.StaticFields, out constructors, out methods, out properties);
+                CategorizeMethods(input, udts, udt, udt.StaticMethods, udt.AssociatedGacType.StaticFields, out constructors, out methods, out properties);
                 if (constructors.Length > 0)
                 {
                     throw new ArgumentException();
@@ -516,6 +529,16 @@ namespace _TranslateXMLtoCode
                 udt.StaticMethods = methods;
                 udt.StaticProperties = properties;
             }
+        }
+
+        static RgacUDT[] GetBaseClasses(RgacUDT udt)
+        {
+            return udt.BaseClasses.Concat(udt.BaseClasses.SelectMany(GetBaseClasses)).Distinct().ToArray();
+        }
+
+        static void ProcessOverriding(ReflectedTypeAnalyzerInput input, Dictionary<string, RgacUDT> udts, RgacUDT udt)
+        {
+            // delete virtual function that overrides base classes' methods
         }
 
         #endregion
@@ -535,7 +558,11 @@ namespace _TranslateXMLtoCode
             }
             foreach (var t in udts.Values)
             {
-                ProcessOverridingAndProperties(input, udts, t);
+                ProcessOverriding(input, udts, t);
+            }
+            foreach (var t in udts.Values)
+            {
+                CategorizeMethods(input, udts, t);
             }
 
             var result = new ReflectedTypeAnalyzerResult
@@ -686,10 +713,14 @@ namespace _TranslateXMLtoCode
             {
                 case RgacTypeKind.Primitive:
                     return type.OriginalGacType.Name;
+
+                case RgacTypeKind.Class:
+                    return type.AssociatedRgacType.ToString();
                 case RgacTypeKind.ClassPointer:
                     return type.AssociatedRgacType.ToString() + "*";
                 case RgacTypeKind.ClassSmartPointer:
                     return "Ptr<" + type.AssociatedRgacType.ToString() + ">";
+
                 case RgacTypeKind.Struct:
                     return type.AssociatedRgacType.ToString();
                 case RgacTypeKind.StructPointer:
@@ -698,10 +729,12 @@ namespace _TranslateXMLtoCode
                     return type.AssociatedRgacType.ToString() + "&";
                 case RgacTypeKind.ConstStructReference:
                     return type.AssociatedRgacType.ToString() + " const&";
+
                 case RgacTypeKind.Enum:
                     return type.AssociatedRgacType.ToString();
                 case RgacTypeKind.OtherGacType:
                     return type.OriginalGacType.Name;
+
                 default:
                     throw new ArgumentException();
             }
@@ -711,6 +744,7 @@ namespace _TranslateXMLtoCode
         {
             return new XElement("method",
                 new XAttribute("name", method.Name),
+                new XAttribute("virtual", method.Kind),
                 new XElement("original", new XAttribute("name", method.OriginalGacMethod.Name)),
                 new XElement("returnType", new XAttribute("name", GetTypeName(method.ReturnType))),
                 new XElement("parameterTypes", method.ParameterTypes.Select(t =>
@@ -727,6 +761,7 @@ namespace _TranslateXMLtoCode
             XElement e = new XElement("property");
             e.Add(new XAttribute("name", property.Name));
             e.Add(new XAttribute("type", GetTypeName(property.PropertyType)));
+            e.Add(new XAttribute("isEvent", property.IsEventField));
             if (property.Getter != null)
             {
                 e.Add(Export(property.Getter));
