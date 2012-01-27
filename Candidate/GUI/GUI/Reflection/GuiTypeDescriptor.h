@@ -56,6 +56,11 @@ Attribute
 					typeDescriptor=&associatedTypeDescriptor;
 				}
 			}
+
+			static void SetTypeDescroptorByTypeProvider(ITypeDescriptor* typeDescroptor)
+			{
+				associatedTypeDescriptor=typeDescroptor;
+			}
 		};
 
 		template<typename T>
@@ -150,6 +155,7 @@ ITypeDescriptor
 				Enum,
 				Struct,
 				Class,
+				Interface,
 
 				Pointer,
 				SmartPointer,
