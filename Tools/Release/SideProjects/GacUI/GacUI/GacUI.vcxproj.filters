@@ -204,6 +204,9 @@
     <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\Reflection\GuiTypeDescriptorImpHelper.cpp">
       <Filter>GUI\Reflection</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\Reflection\GuiTypeDescriptorImpProvider_codegen.cpp">
+      <Filter>GUI\Reflection</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\ExtendedControls\GuiComboControls.h">
@@ -414,6 +417,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\Reflection\GuiTypeDescriptorImpHelper.h">
+      <Filter>GUI\Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\Reflection\GuiTypeDescriptorImpProvider_codegen.h">
       <Filter>GUI\Reflection</Filter>
     </ClInclude>
   </ItemGroup>

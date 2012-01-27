@@ -1,5 +1,6 @@
 #include "GacUICpp.h"
 #include "..\..\..\..\..\Candidate\GUI\GUI\GacUI.h"
+#include "..\..\..\..\..\Candidate\GUI\GUI\Reflection\GuiTypeDescriptorImpProvider_codegen.h"
 #include <Windows.h>
 
 BOOL APIENTRY DllMain( HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
@@ -21,6 +22,8 @@ void GuiMain()
 {
 	if(guimain_callback)
 	{
+		ITypeProvider* typeProvider=reflection_implementation::CreateDefaultTypeProvider();
+		SetTypeProvider(typeProvider);
 		guimain_callback();
 	}
 }
