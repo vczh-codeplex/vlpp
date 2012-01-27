@@ -47,6 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Codegen\CodeGenerator.cs" />
+    <Compile Include="Codegen\Codegen_GuiTypeDescriptorImpProvider_codegen_h.cs" />
+    <Compile Include="Codegen\Codegen_GuiTypeDescriptorImpProvider_codegen_cpp.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReflectedTypeAnalyzer.cs" />
