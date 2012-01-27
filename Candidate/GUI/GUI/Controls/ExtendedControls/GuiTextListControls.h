@@ -46,7 +46,6 @@ TextList Style Provider
 						virtual void							SetCheckedSilently(int itemIndex, bool value)=0;
 					};
 
-				protected:
 					class TextItemStyleController : public ItemStyleControllerBase, public Description<TextItemStyleController>
 					{
 					protected:
@@ -68,6 +67,7 @@ TextList Style Provider
 						void									SetText(const WString& value);
 					};
 
+				protected:
 					Ptr<ITextItemStyleProvider>					textItemStyleProvider;
 					ITextItemView*								textItemView;
 					GuiListControl*								listControl;
