@@ -467,6 +467,7 @@ TypeDescriptor
 
 			void TypeDescriptor::FindMethods(const WString& name, bool searchParent, bool searchStatic, bool searchInstance, collections::List<IMethodDescriptor*>& methods)
 			{
+				EnsureContentAvailable();
 				for(int i=0;i<baseTypeList.Count();i++)
 				{
 					baseTypeList[i]->GetTypeDescriptor()->FindMethods(name, searchParent, searchStatic, searchInstance, methods);
@@ -491,6 +492,7 @@ TypeDescriptor
 
 			IPropertyDescriptor* TypeDescriptor::FindProperty(const WString& name, bool searchParent, bool searchStatic, bool searchInstance)
 			{
+				EnsureContentAvailable();
 				int index=propertyMap.Keys().IndexOf(name);
 				if(index!=-1)
 				{
