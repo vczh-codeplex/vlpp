@@ -92,6 +92,15 @@ namespace _TranslateXMLtoCode
         public RgacUDT OwnerUDT { get; set; }
         public GacMethod OriginalGacMethod { get; set; }
 
+        public List<RgacMethod> OverridingBaseMethods { get; private set; }
+        public List<RgacMethod> OverridingDerivedMethods { get; private set; }
+
+        public RgacMethod()
+        {
+            this.OverridingBaseMethods = new List<RgacMethod>();
+            this.OverridingDerivedMethods = new List<RgacMethod>();
+        }
+
         public override string ToString()
         {
             return this.Name;

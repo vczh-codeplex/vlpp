@@ -536,9 +536,65 @@ namespace _TranslateXMLtoCode
             return udt.BaseClasses.Concat(udt.BaseClasses.SelectMany(GetBaseClasses)).Distinct().ToArray();
         }
 
+        static string GetMethodRealName(string name)
+        {
+            CppName cppName = CppName.Parse(name);
+            while (cppName.Member != null)
+            {
+                cppName = cppName.Member;
+            }
+            if (cppName.Parameters.Length > 0)
+            {
+                throw new ArgumentException();
+            }
+            return cppName.Name;
+        }
+
         static void ProcessOverriding(ReflectedTypeAnalyzerInput input, Dictionary<string, RgacUDT> udts, RgacUDT udt)
         {
-            // delete virtual function that overrides base classes' methods
+            var bases = GetBaseClasses(udt);
+            foreach (var method in udt.Methods.Where(m => m.Kind == RgacMethodKind.Virtual))
+            {
+                if (method.Name.IndexOf('~') == -1)
+                {
+                    var methods = bases
+                        .SelectMany(t => t.Methods)
+                        .Where(m => (m.Kind == RgacMethodKind.Virtual || method.Kind == RgacMethodKind.Abstract)
+                            && m.Name.IndexOf('~') == -1
+                            && GetMethodRealName(m.Name) == GetMethodRealName(method.Name))
+                        .Where(m => m.ReturnType.ToString() == method.ReturnType.ToString())
+                        .Where(m => m.ParameterTypes.Length == method.ParameterTypes.Length)
+                        .Where(m => m.ParameterTypes.Select(t => t.ToString()).Aggregate("", (a, b) => a + ";" + b)
+                            == method.ParameterTypes.Select(t => t.ToString()).Aggregate("", (a, b) => a + ";" + b)
+                            )
+                        .Distinct()
+                        .ToArray();
+
+                    while (methods.Any(m => m.OverridingBaseMethods.Count > 0))
+                    {
+                        methods = methods.SelectMany(m =>
+                            m.OverridingBaseMethods.Count > 0
+                            ? m.OverridingBaseMethods.ToArray()
+                            : new RgacMethod[] { m }
+                            )
+                            .Distinct()
+                            .ToArray();
+                    }
+
+                    if (methods.Length > 0)
+                    {
+                        method.OverridingBaseMethods.AddRange(methods);
+
+                        foreach (var derived in method.OverridingDerivedMethods)
+                        {
+                            derived.OverridingBaseMethods.Remove(method);
+                            var baseMethods = derived.OverridingBaseMethods.Concat(methods).Distinct().ToArray();
+                            derived.OverridingDerivedMethods.Clear();
+                            derived.OverridingDerivedMethods.AddRange(baseMethods);
+                        }
+                    }
+                }
+            }
         }
 
         #endregion
@@ -559,6 +615,16 @@ namespace _TranslateXMLtoCode
             foreach (var t in udts.Values)
             {
                 ProcessOverriding(input, udts, t);
+            }
+            foreach (var t in udts.Values)
+            {
+                foreach (var m in t.Methods)
+                {
+                    if (m.OverridingBaseMethods.Count > 0 && m.OverridingDerivedMethods.Count > 0)
+                    {
+                        throw new ArgumentException();
+                    }
+                }
             }
             foreach (var t in udts.Values)
             {
