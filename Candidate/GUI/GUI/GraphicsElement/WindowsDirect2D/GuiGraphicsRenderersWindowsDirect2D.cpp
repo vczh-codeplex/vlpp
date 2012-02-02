@@ -497,35 +497,35 @@ GuiSolidLabelElementRenderer
 
 			void GuiSolidLabelElementRenderer::Render(Rect bounds)
 			{
+				int x=0;
+				int y=0;
+				switch(element->GetHorizontalAlignment())
+				{
+				case Alignment::Left:
+					x=bounds.Left();
+					break;
+				case Alignment::Center:
+					x=bounds.Left()+(bounds.Width()-minSize.x)/2;
+					break;
+				case Alignment::Right:
+					x=bounds.Right()-minSize.x;
+					break;
+				}
+				switch(element->GetVerticalAlignment())
+				{
+				case Alignment::Top:
+					y=bounds.Top();
+					break;
+				case Alignment::Center:
+					y=bounds.Top()+(bounds.Height()-minSize.y)/2;
+					break;
+				case Alignment::Bottom:
+					y=bounds.Bottom()-minSize.y;
+					break;
+				}
+
 				if(!element->GetEllipse() && !element->GetMultiline() && !element->GetWrapLine())
 				{
-					int x=0;
-					int y=0;
-					switch(element->GetHorizontalAlignment())
-					{
-					case Alignment::Left:
-						x=bounds.Left();
-						break;
-					case Alignment::Center:
-						x=bounds.Left()+(bounds.Width()-minSize.x)/2;
-						break;
-					case Alignment::Right:
-						x=bounds.Right()-minSize.x;
-						break;
-					}
-					switch(element->GetVerticalAlignment())
-					{
-					case Alignment::Top:
-						y=bounds.Top();
-						break;
-					case Alignment::Center:
-						y=bounds.Top()+(bounds.Height()-minSize.y)/2;
-						break;
-					case Alignment::Bottom:
-						y=bounds.Bottom()-minSize.y;
-						break;
-					}
-
 					ID2D1RenderTarget* d2dRenderTarget=renderTarget->GetDirect2DRenderTarget();
 					d2dRenderTarget->DrawText(
 						oldText.Buffer(),
@@ -583,12 +583,18 @@ GuiSolidLabelElementRenderer
 						}
 					}
 
+					Rect textBounds=bounds;
+					if(element->GetEllipse() && !element->GetMultiline() && !element->GetWrapLine())
+					{
+						textBounds=Rect(Point(textBounds.x1, y), Size(bounds.Width(), minSize.y));
+					}
+
 					ID2D1RenderTarget* d2dRenderTarget=renderTarget->GetDirect2DRenderTarget();
 					d2dRenderTarget->DrawText(
 						oldText.Buffer(),
 						oldText.Length(),
 						textFormat->textFormat.Obj(),
-						D2D1::RectF((FLOAT)bounds.Left(), (FLOAT)bounds.Top(), (FLOAT)bounds.Right(), (FLOAT)bounds.Bottom()),
+						D2D1::RectF((FLOAT)textBounds.Left(), (FLOAT)textBounds.Top(), (FLOAT)textBounds.Right(), (FLOAT)textBounds.Bottom()),
 						brush,
 						D2D1_DRAW_TEXT_OPTIONS_NO_SNAP,
 						DWRITE_MEASURING_MODE_GDI_NATURAL
