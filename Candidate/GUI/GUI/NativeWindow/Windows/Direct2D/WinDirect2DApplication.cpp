@@ -45,6 +45,32 @@ namespace vl
 						{
 							d2dRenderTarget=renderTarget;
 							d2dRenderTarget->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_CLEARTYPE);
+
+							IDWriteFactory* dwriteFactory=GetDirectWriteFactory();
+							IDWriteRenderingParams* defaultParams=0;
+							hr=dwriteFactory->CreateRenderingParams(&defaultParams);
+							if(!FAILED(hr))
+							{
+								IDWriteRenderingParams* bidirectionalTextParams=0;
+								FLOAT gamma=defaultParams->GetGamma();
+								FLOAT enhancedContrast=defaultParams->GetEnhancedContrast();
+								FLOAT clearTypeLevel=defaultParams->GetClearTypeLevel();
+								DWRITE_PIXEL_GEOMETRY pixelGeometry=defaultParams->GetPixelGeometry();
+								DWRITE_RENDERING_MODE renderingMode=DWRITE_RENDERING_MODE_CLEARTYPE_NATURAL_SYMMETRIC;
+								hr=dwriteFactory->CreateCustomRenderingParams(
+									gamma,
+									enhancedContrast,
+									clearTypeLevel,
+									pixelGeometry,
+									renderingMode,
+									&bidirectionalTextParams);
+								if(!FAILED(hr))
+								{
+									d2dRenderTarget->SetTextRenderingParams(bidirectionalTextParams);
+									bidirectionalTextParams->Release();
+								}
+								defaultParams->Release();
+							}
 						}
 					}
 					else if(previousSize!=size)
