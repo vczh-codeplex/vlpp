@@ -454,6 +454,11 @@ void SetupTextBoxWindow(GuiControlHost* controlHost, GuiControl* container)
 	textBox->GetBoundsComposition()->SetBounds(Rect(0, 0, 300, 200));
 	container->GetBoundsComposition()->AddChild(textBox->GetBoundsComposition());
 
+	//FontProperties font=textBox->GetFont();
+	//font.fontFamily=L"·½Õý¾§ËÎ";
+	//font.size=16;
+	//textBox->SetFont(font);
+
 	textBox->TextChanged.AttachLambda([controlHost](GuiGraphicsComposition* sender, GuiEventArgs& arguments)
 	{
 		textBoxTextChangedCounter++;
