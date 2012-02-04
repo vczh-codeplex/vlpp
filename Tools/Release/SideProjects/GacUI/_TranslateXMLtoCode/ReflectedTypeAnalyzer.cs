@@ -371,13 +371,13 @@ namespace _TranslateXMLtoCode
         static void ProcessOverriding(ReflectedTypeAnalyzerInput input, Dictionary<string, RgacUDT> udts, RgacUDT udt)
         {
             var bases = GetBaseClasses(udt);
-            foreach (var method in udt.Methods.Where(m => m.Kind == RgacMethodKind.Virtual))
+            foreach (var method in udt.Methods.Where(m => m.Kind == RgacMethodKind.Virtual || m.Kind == RgacMethodKind.Abstract))
             {
                 if (method.Name.IndexOf('~') == -1)
                 {
                     var methods = bases
                         .SelectMany(t => t.Methods)
-                        .Where(m => (m.Kind == RgacMethodKind.Virtual || method.Kind == RgacMethodKind.Abstract)
+                        .Where(m => (m.Kind == RgacMethodKind.Virtual || m.Kind == RgacMethodKind.Abstract)
                             && m.Name.IndexOf('~') == -1
                             && GetMethodRealName(m.Name) == GetMethodRealName(method.Name))
                         .Where(m => m.ReturnType.ToString() == method.ReturnType.ToString())
@@ -401,16 +401,64 @@ namespace _TranslateXMLtoCode
 
                     if (methods.Length > 0)
                     {
+                        if (method.Kind == RgacMethodKind.Abstract)
+                        {
+                            throw new ArgumentException();
+                        }
                         method.OverridingBaseMethods.AddRange(methods);
+
+                        foreach (var m in methods)
+                        {
+                            m.OverridingDerivedMethods.Add(method);
+                        }
 
                         foreach (var derived in method.OverridingDerivedMethods)
                         {
                             derived.OverridingBaseMethods.Remove(method);
                             var baseMethods = derived.OverridingBaseMethods.Concat(methods).Distinct().ToArray();
-                            derived.OverridingDerivedMethods.Clear();
-                            derived.OverridingDerivedMethods.AddRange(baseMethods);
+                            derived.OverridingBaseMethods.Clear();
+                            derived.OverridingBaseMethods.AddRange(baseMethods);
+                        }
+                        method.OverridingDerivedMethods.Clear();
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        #region ResolveAbstractMethodParameterNames
+
+        static void ResolveAbstractMethodParameterNames(RgacMethod method)
+        {
+            if (method.ParameterNames.Length != method.ParameterTypes.Length)
+            {
+                if (method.ParameterNames.Length == 0)
+                {
+                    if (method.Name.StartsWith("operator"))
+                    {
+                        switch (method.ParameterTypes.Length)
+                        {
+                            case 1:
+                                method.ParameterNames = new string[] { "value" };
+                                break;
+                            case 2:
+                                method.ParameterNames = new string[] { "value1", "value2" };
+                                break;
                         }
                     }
+                    if (method.Kind == RgacMethodKind.Abstract)
+                    {
+                        if (method.OverridingDerivedMethods.Count == 0)
+                        {
+                            return;
+                        }
+                        method.ParameterNames = method.OverridingDerivedMethods[0].ParameterNames;
+                    }
+                }
+                if (method.ParameterNames.Length != method.ParameterTypes.Length)
+                {
+                    //throw new ArgumentException();
                 }
             }
         }
@@ -647,15 +695,31 @@ namespace _TranslateXMLtoCode
             {
                 foreach (var m in t.Methods)
                 {
-                    if (m.OverridingBaseMethods.Count > 0 && m.OverridingDerivedMethods.Count > 0)
+                    if (m.Name != "__vecDelDtor")
                     {
-                        throw new ArgumentException();
+                        if (m.OverridingBaseMethods.Count > 0 && m.OverridingDerivedMethods.Count > 0)
+                        {
+                            throw new ArgumentException();
+                        }
                     }
                 }
             }
             foreach (var t in udts.Values)
             {
                 CategorizeMethods(input, udts, t);
+                foreach (var m in t.Methods
+                    .Concat(t.StaticMethods)
+                    .Concat(t.Properties
+                        .SelectMany(p => new RgacMethod[] { p.Getter, p.Setter })
+                    )
+                    .Concat(t.StaticProperties
+                        .SelectMany(p => new RgacMethod[] { p.Getter, p.Setter })
+                    )
+                    .Where(m => m != null)
+                    )
+                {
+                    ResolveAbstractMethodParameterNames(m);
+                }
             }
 
             var result = new ReflectedTypeAnalyzerResult
