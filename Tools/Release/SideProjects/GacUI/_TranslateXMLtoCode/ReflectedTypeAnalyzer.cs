@@ -427,10 +427,12 @@ namespace _TranslateXMLtoCode
             GacField[] inputFields,
             out RgacMethod[] outputConstructors,
             out RgacMethod[] outputMethods,
+            out RgacMethod[] outputOverridingMethods,
             out RgacProperty[] outputProperties)
         {
             List<RgacMethod> constructors = new List<RgacMethod>();
             List<RgacMethod> methods = new List<RgacMethod>();
+            List<RgacMethod> overridingMethods = new List<RgacMethod>();
             List<RgacProperty> properties = new List<RgacProperty>();
             if (inputMethods.Length > 0)
             {
@@ -504,6 +506,10 @@ namespace _TranslateXMLtoCode
                         {
                             processed = true;
                         }
+                        else if (m.OverridingBaseMethods.Count > 0)
+                        {
+                            overridingMethods.Add(m);
+                        }
                         else if (m.Name.StartsWith("Get"))
                         {
                             if (m.ParameterTypes.Length == 0)
@@ -553,6 +559,11 @@ namespace _TranslateXMLtoCode
                         Setter = setter,
                     };
                     properties.Add(prop);
+
+                    if (getter == null)
+                    {
+                        throw new ArgumentException();
+                    }
                 }
 
                 foreach (var field in inputFields.Where(f => f.Access == GacAccess.Public))
@@ -573,6 +584,7 @@ namespace _TranslateXMLtoCode
             }
             outputConstructors = constructors.ToArray();
             outputMethods = methods.ToArray();
+            outputOverridingMethods = overridingMethods.ToArray();
             outputProperties = properties.ToArray();
         }
 
@@ -581,10 +593,12 @@ namespace _TranslateXMLtoCode
             {
                 RgacMethod[] constructors;
                 RgacMethod[] methods;
+                RgacMethod[] overridingMethods;
                 RgacProperty[] properties;
-                CategorizeMethods(input, udts, udt, udt.Methods, udt.AssociatedGacType.Fields, out constructors, out methods, out properties);
+                CategorizeMethods(input, udts, udt, udt.Methods, udt.AssociatedGacType.Fields, out constructors, out methods, out overridingMethods, out properties);
                 udt.Constructors = constructors;
                 udt.Methods = methods;
+                udt.OverridingMethods = overridingMethods;
                 udt.Properties = properties;
                 if (constructors.Length == 0)
                 {
@@ -594,9 +608,14 @@ namespace _TranslateXMLtoCode
             {
                 RgacMethod[] constructors;
                 RgacMethod[] methods;
+                RgacMethod[] overridingMethods;
                 RgacProperty[] properties;
-                CategorizeMethods(input, udts, udt, udt.StaticMethods, udt.AssociatedGacType.StaticFields, out constructors, out methods, out properties);
+                CategorizeMethods(input, udts, udt, udt.StaticMethods, udt.AssociatedGacType.StaticFields, out constructors, out methods, out overridingMethods, out properties);
                 if (constructors.Length > 0)
+                {
+                    throw new ArgumentException();
+                }
+                if (overridingMethods.Length > 0)
                 {
                     throw new ArgumentException();
                 }
@@ -873,6 +892,10 @@ namespace _TranslateXMLtoCode
                 (udt.Methods.Length == 0 ? (object)"" : (object)
                 new XElement("methods",
                     udt.Methods.Select(m => Export(m))
+                    )),
+                (udt.OverridingMethods.Length == 0 ? (object)"" : (object)
+                new XElement("overridingMethods",
+                    udt.OverridingMethods.Select(m => Export(m))
                     )),
                 (udt.StaticMethods.Length == 0 ? (object)"" : (object)
                 new XElement("staticMethods",

@@ -22,8 +22,117 @@ namespace _TranslateXMLtoCode.Codegen
                 .Aggregate((a, b) => a + " :: " + b);
         }
 
+        protected void GenerateMethod(RgacUDT owner, RgacMethod method, bool isStatic)
+        {
+            WriteLine("(new MethodDescriptor(L\"{0}\", IMemberDescriptor::{1}))", method.Name, (isStatic ? "Static" : method.Kind.ToString()));
+        }
+
+        protected void GenerateFieldAccessGetter(RgacUDT owner, RgacType type, string name, bool isStatic)
+        {
+            WriteLine("(new MethodDescriptor(L\"{0}\", IMemberDescriptor::{1}))", "get_" + name, (isStatic ? "Static" : "Normal"));
+        }
+
+        protected void GenerateFieldAccessSetter(RgacUDT owner, RgacType type, string name, bool isStatic)
+        {
+            WriteLine("(new MethodDescriptor(L\"{0}\", IMemberDescriptor::{1}))", "set_" + name, (isStatic ? "Static" : "Normal"));
+        }
+
+        protected void GenerateProperty(RgacUDT owner, RgacProperty property, bool isStatic)
+        {
+            WriteLine("(new PropertyDescriptor(L\"{0}\", IMemberDescriptor::{1}))", property.Name, (isStatic ? "Static" : "Normal"));
+            if (property.PublicGacFieldAccessor == null)
+            {
+                if (property.Getter != null)
+                {
+                    Begin("->Getter(");
+                    GenerateMethod(owner, property.Getter, isStatic);
+                    End(")");
+                }
+                if (property.Setter != null)
+                {
+                    Begin("->Setter(");
+                    GenerateMethod(owner, property.Setter, isStatic);
+                    End(")");
+                }
+            }
+            else
+            {
+                Begin("->Getter(");
+                GenerateFieldAccessGetter(owner, property.PropertyType, property.Name, isStatic);
+                End(")");
+
+                Begin("->Setter(");
+                GenerateFieldAccessSetter(owner, property.PropertyType, property.Name, isStatic);
+                End(")");
+            }
+        }
+
+        protected void GenerateEnumItemProperty(RgacUDT owner, RgacType ownerType, GacConst enumItem)
+        {
+            WriteLine("(new PropertyDescriptor(L\"{0}\", IMemberDescriptor::{1}))", enumItem.Name, "Static");
+            Begin("->Getter(");
+            GenerateFieldAccessGetter(owner, ownerType, enumItem.Name, true);
+            End(")");
+        }
+
         protected void GenerateTypeDescriptorBody(RgacUDT udt)
         {
+            if (udt.Kind == RgacUDTKind.Enum)
+            {
+                RgacType enumType = new RgacType
+                {
+                    Kind = RgacTypeKind.Enum,
+                    AssociatedRgacType = udt,
+                    OriginalGacType = new GacType
+                    {
+                        Name = udt.AssociatedGacType.Name,
+                        Kind = GacTypeKind.UDT,
+                        AssociatedUDT = udt.AssociatedGacType,
+                    },
+                };
+                foreach (var c in udt.AssociatedGacType.Constants)
+                {
+                    Begin("AddProperty(");
+                    GenerateEnumItemProperty(udt, enumType, c);
+                    End(");");
+                }
+            }
+            else
+            {
+                if (udt.Constructors.Length > 0)
+                {
+                    foreach (var m in udt.Constructors)
+                    {
+                        Begin("AddConstructor(");
+                        GenerateMethod(udt, m, false);
+                        End(");");
+                    }
+                }
+                foreach (var m in udt.Methods)
+                {
+                    Begin("AddMethod(");
+                    GenerateMethod(udt, m, false);
+                    End(");");
+                }
+                foreach (var m in udt.StaticMethods)
+                {
+                    Begin("AddMethod(");
+                    GenerateMethod(udt, m, true);
+                    End(");");
+                }
+                foreach (var p in udt.Properties)
+                {
+                    Begin("AddProperty(");
+                    GenerateProperty(udt, p, false);
+                    End(");");
+                }
+                foreach (var p in udt.StaticProperties)
+                {
+                    Begin("AddProperty(");
+                    GenerateProperty(udt, p, true);
+                    End(");");
+                }
+            }
         }
 
         protected override void GenerateCodeInternal()
