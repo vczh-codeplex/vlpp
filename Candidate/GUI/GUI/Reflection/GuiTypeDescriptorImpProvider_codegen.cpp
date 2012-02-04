@@ -27,6 +27,36 @@ Alignment :: Type (vl::presentation::Alignment::Type)
 				protected:
 					void FillTypeContent()
 					{
+						AddProperty(
+							(new PropertyDescriptor(L"Left", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Left", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Top", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Top", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Center", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Center", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Right", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Right", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Bottom", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Bottom", IMemberDescriptor::Static))
+							)
+						);
 					}
 				
 				public:
@@ -42,6 +72,18 @@ Array_of_ColorEntry (vl::collections::Array<vl::presentation::elements::text::Co
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"Array", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Count", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Resize", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -56,6 +98,42 @@ AxisAlignedItemCoordinateTransformer (vl::presentation::controls::list::AxisAlig
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"AxisAlignedItemCoordinateTransformer", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RealSizeToVirtualSize", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"VirtualSizeToRealSize", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RealPointToVirtualPoint", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"VirtualPointToRealPoint", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RealRectToVirtualRect", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"VirtualRectToRealRect", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RealMarginToVirtualMargin", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"VirtualMarginToRealMargin", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Alignment", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAlignment", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -69,6 +147,54 @@ AxisAlignedItemCoordinateTransformer :: Alignment (vl::presentation::controls::l
 				protected:
 					void FillTypeContent()
 					{
+						AddProperty(
+							(new PropertyDescriptor(L"LeftDown", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_LeftDown", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"RightDown", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_RightDown", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"LeftUp", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_LeftUp", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"RightUp", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_RightUp", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"DownLeft", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_DownLeft", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"DownRight", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_DownRight", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"UpLeft", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_UpLeft", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"UpRight", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_UpRight", IMemberDescriptor::Static))
+							)
+						);
 					}
 				
 				public:
@@ -98,6 +224,24 @@ CharMeasurer (vl::presentation::elements::text::CharMeasurer)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"CharMeasurer", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"MeasureWidth", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetRenderTarget", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"RowHeight", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRowHeight", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -112,6 +256,78 @@ Color (vl::presentation::Color)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"Color", IMemberDescriptor::Normal))
+					);
+					AddConstructor(
+						(new MethodDescriptor(L"Color", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Compare", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator==", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator!=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator<", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator<=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator>", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator>=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"r", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_r", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_r", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"g", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_g", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_g", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"b", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_b", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_b", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"a", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_a", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_a", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"value", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_value", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_value", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -126,6 +342,36 @@ DefaultItemCoordinateTransformer (vl::presentation::controls::list::DefaultItemC
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"DefaultItemCoordinateTransformer", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RealSizeToVirtualSize", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"VirtualSizeToRealSize", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RealPointToVirtualPoint", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"VirtualPointToRealPoint", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RealRectToVirtualRect", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"VirtualRectToRealRect", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RealMarginToVirtualMargin", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"VirtualMarginToRealMargin", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -140,6 +386,12 @@ DescriptableObject (vl::presentation::DescriptableObject)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"DescriptableObject", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -157,6 +409,18 @@ ElementShape :: Type (vl::presentation::elements::ElementShape::Type)
 				protected:
 					void FillTypeContent()
 					{
+						AddProperty(
+							(new PropertyDescriptor(L"Rectangle", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Rectangle", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Ellipse", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Ellipse", IMemberDescriptor::Static))
+							)
+						);
 					}
 				
 				public:
@@ -172,6 +436,12 @@ FixedHeightItemArranger (vl::presentation::controls::list::FixedHeightItemArrang
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"FixedHeightItemArranger", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -186,6 +456,12 @@ FixedHeightMultiColumnItemArranger (vl::presentation::controls::list::FixedHeigh
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"FixedHeightMultiColumnItemArranger", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -200,6 +476,12 @@ FixedSizeMultiColumnItemArranger (vl::presentation::controls::list::FixedSizeMul
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"FixedSizeMultiColumnItemArranger", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -214,6 +496,99 @@ FontProperties (vl::presentation::FontProperties)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"FontProperties", IMemberDescriptor::Normal))
+					);
+					AddConstructor(
+						(new MethodDescriptor(L"FontProperties", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Compare", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator==", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator!=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator<", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator<=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator>", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator>=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"fontFamily", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_fontFamily", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_fontFamily", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"size", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_size", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_size", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"bold", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_bold", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_bold", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"italic", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_italic", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_italic", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"underline", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_underline", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_underline", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"strikeline", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_strikeline", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_strikeline", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"antialias", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_antialias", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_antialias", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -228,6 +603,45 @@ Gui3DBorderElement (vl::presentation::elements::Gui3DBorderElement)
 			protected:
 				void FillTypeContent()
 				{
+					AddMethod(
+						(new MethodDescriptor(L"SetColors", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Create", IMemberDescriptor::Static))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Factory", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Renderer", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRenderer", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Color1", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetColor1", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Color2", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetColor2", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ElementTypeName", IMemberDescriptor::Static))
+						->Getter(
+							(new MethodDescriptor(L"GetElementTypeName", IMemberDescriptor::Static))
+						)
+					);
 				}
 			
 			public:
@@ -242,6 +656,63 @@ Gui3DSplitterElement (vl::presentation::elements::Gui3DSplitterElement)
 			protected:
 				void FillTypeContent()
 				{
+					AddMethod(
+						(new MethodDescriptor(L"SetColors", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Create", IMemberDescriptor::Static))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Factory", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Renderer", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRenderer", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Color1", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetColor1", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Color2", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetColor2", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Direction", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetDirection", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetDirection", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Direction", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetDirection", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetDirection", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ElementTypeName", IMemberDescriptor::Static))
+						->Getter(
+							(new MethodDescriptor(L"GetElementTypeName", IMemberDescriptor::Static))
+						)
+					);
 				}
 			
 			public:
@@ -255,6 +726,18 @@ Gui3DSplitterElement :: Direction (vl::presentation::elements::Gui3DSplitterElem
 				protected:
 					void FillTypeContent()
 					{
+						AddProperty(
+							(new PropertyDescriptor(L"Horizontal", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Horizontal", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Vertical", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Vertical", IMemberDescriptor::Static))
+							)
+						);
 					}
 				
 				public:
@@ -270,6 +753,24 @@ GuiApplication (vl::presentation::controls::GuiApplication)
 			protected:
 				void FillTypeContent()
 				{
+					AddMethod(
+						(new MethodDescriptor(L"Run", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetWindow", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsInMainThread", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Windows", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetWindows", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -284,6 +785,69 @@ GuiBoundsComposition (vl::presentation::elements::GuiBoundsComposition)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiBoundsComposition", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetAffectionFromParent", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetPreferredBounds", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ClearAlignmentToParent", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsAlignedToParent", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Bounds", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBounds", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetBounds", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AlignmentToParent", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAlignmentToParent", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetAlignmentToParent", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Bounds", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBounds", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetBounds", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AlignmentToParent", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAlignmentToParent", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetAlignmentToParent", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"BoundsChanged", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_BoundsChanged", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_BoundsChanged", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -298,6 +862,21 @@ GuiButton (vl::presentation::controls::GuiButton)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiButton", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Clicked", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_Clicked", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_Clicked", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -311,6 +890,24 @@ GuiButton :: ControlState (vl::presentation::controls::GuiButton::ControlState)
 				protected:
 					void FillTypeContent()
 					{
+						AddProperty(
+							(new PropertyDescriptor(L"Normal", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Normal", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Active", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Active", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Pressed", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Pressed", IMemberDescriptor::Static))
+							)
+						);
 					}
 				
 				public:
@@ -325,6 +922,15 @@ GuiButton :: IStyleController (vl::presentation::controls::GuiButton::IStyleCont
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IStyleController", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"Transfer", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
 					}
 				
 				public:
@@ -340,6 +946,51 @@ GuiCellComposition (vl::presentation::elements::GuiCellComposition)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiCellComposition", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetSite", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"TableParent", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetTableParent", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Row", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRow", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"RowSpan", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRowSpan", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Column", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetColumn", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ColumnSpan", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetColumnSpan", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Bounds", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBounds", IMemberDescriptor::Virtual))
+						)
+					);
 				}
 			
 			public:
@@ -354,6 +1005,51 @@ GuiCellOption (vl::presentation::elements::GuiCellOption)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiCellOption", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator==", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator!=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"AbsoluteOption", IMemberDescriptor::Static))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"PercentageOption", IMemberDescriptor::Static))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"MinSizeOption", IMemberDescriptor::Static))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"composeType", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_composeType", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_composeType", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"absolute", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_absolute", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_absolute", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"percentage", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_percentage", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_percentage", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -367,6 +1063,24 @@ GuiCellOption :: ComposeType (vl::presentation::elements::GuiCellOption::Compose
 				protected:
 					void FillTypeContent()
 					{
+						AddProperty(
+							(new PropertyDescriptor(L"Absolute", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Absolute", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Percentage", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Percentage", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"MinSize", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_MinSize", IMemberDescriptor::Static))
+							)
+						);
 					}
 				
 				public:
@@ -382,6 +1096,9 @@ GuiCharEventArgs (vl::presentation::elements::GuiCharEventArgs)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiCharEventArgs", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -396,6 +1113,216 @@ GuiColorizedTextElement (vl::presentation::elements::GuiColorizedTextElement)
 			protected:
 				void FillTypeContent()
 				{
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Create", IMemberDescriptor::Static))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Factory", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Renderer", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRenderer", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Lines", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetLines", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Callback", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCallback", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetCallback", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Colors", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetColors", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetColors", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Font", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFont", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetFont", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ViewPosition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetViewPosition", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetViewPosition", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"VisuallyEnabled", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetVisuallyEnabled", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetVisuallyEnabled", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Focused", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFocused", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetFocused", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"CaretBegin", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCaretBegin", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetCaretBegin", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"CaretEnd", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCaretEnd", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetCaretEnd", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"CaretVisible", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCaretVisible", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetCaretVisible", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"CaretColor", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCaretColor", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetCaretColor", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Callback", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCallback", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetCallback", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Colors", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetColors", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetColors", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Font", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFont", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetFont", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ViewPosition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetViewPosition", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetViewPosition", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"VisuallyEnabled", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetVisuallyEnabled", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetVisuallyEnabled", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Focused", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFocused", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetFocused", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"CaretBegin", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCaretBegin", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetCaretBegin", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"CaretEnd", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCaretEnd", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetCaretEnd", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"CaretVisible", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCaretVisible", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetCaretVisible", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"CaretColor", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCaretColor", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetCaretColor", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ElementTypeName", IMemberDescriptor::Static))
+						->Getter(
+							(new MethodDescriptor(L"GetElementTypeName", IMemberDescriptor::Static))
+						)
+					);
 				}
 			
 			public:
@@ -409,6 +1336,15 @@ GuiColorizedTextElement :: ICallback (vl::presentation::elements::GuiColorizedTe
 				protected:
 					void FillTypeContent()
 					{
+						AddMethod(
+							(new MethodDescriptor(L"ColorChanged", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"FontChanged", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
 					}
 				
 				public:
@@ -424,6 +1360,57 @@ GuiComboBoxBase (vl::presentation::controls::GuiComboBoxBase)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiComboBoxBase", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ShowPopup", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Popup", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetPopup", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"PopupOpened", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_PopupOpened", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_PopupOpened", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"PopupClosed", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_PopupClosed", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_PopupClosed", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ItemSelecting", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_ItemSelecting", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_ItemSelecting", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ItemSelected", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_ItemSelected", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_ItemSelected", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -437,6 +1424,18 @@ GuiComboBoxBase :: ICommandExecutor (vl::presentation::controls::GuiComboBoxBase
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"ICommandExecutor", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"ShowPopup", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SelectItem", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
 					}
 				
 				public:
@@ -451,6 +1450,30 @@ GuiComboBoxBase :: IStyleController (vl::presentation::controls::GuiComboBoxBase
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IStyleController", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"OnClicked", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"OnPopupOpened", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"OnPopupClosed", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"OnItemSelected", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"CreatePopupStyle", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetCommandExecutor", IMemberDescriptor::Abstract))
+						);
 					}
 				
 				public:
@@ -466,6 +1489,54 @@ GuiComboBoxListControl (vl::presentation::controls::GuiComboBoxListControl)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiComboBoxListControl", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetFont", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ContainedListControl", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetContainedListControl", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"SelectedIndex", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetSelectedIndex", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetSelectedIndex", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ItemProvider", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetItemProvider", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"SelectedIndex", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetSelectedIndex", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetSelectedIndex", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"SelectedIndexChanged", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_SelectedIndexChanged", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_SelectedIndexChanged", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -480,6 +1551,18 @@ GuiComponent (vl::presentation::controls::GuiComponent)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiComponent", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ControlHost", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetControlHost", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -494,6 +1577,195 @@ GuiControl (vl::presentation::controls::GuiControl)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiControl", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetChild", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"QueryService", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"NotifyEventArguments", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetNotifyEventArguments", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"StyleController", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetStyleController", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"BoundsComposition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBoundsComposition", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ContainerComposition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetContainerComposition", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"FocusableComposition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFocusableComposition", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"EventReceiver", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetEventReceiver", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Parent", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetParent", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ChildrenCount", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetChildrenCount", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"RelatedControlHost", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRelatedControlHost", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"VisuallyEnabled", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetVisuallyEnabled", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Enabled", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetEnabled", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetEnabled", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Visible", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetVisible", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetVisible", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Text", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetText", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetText", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Font", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFont", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetFont", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Enabled", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetEnabled", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetEnabled", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Visible", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetVisible", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetVisible", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Text", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetText", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetText", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Font", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFont", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetFont", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"VisibleChanged", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_VisibleChanged", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_VisibleChanged", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"EnabledChanged", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_EnabledChanged", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_EnabledChanged", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"VisuallyEnabledChanged", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_VisuallyEnabledChanged", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_VisuallyEnabledChanged", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"TextChanged", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_TextChanged", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_TextChanged", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"FontChanged", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_FontChanged", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_FontChanged", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -507,6 +1779,36 @@ GuiControl :: IStyleController (vl::presentation::controls::GuiControl::IStyleCo
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IStyleController", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetFocusableComposition", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetText", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetFont", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetVisuallyEnabled", IMemberDescriptor::Abstract))
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"BoundsComposition", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetBoundsComposition", IMemberDescriptor::Abstract))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"ContainerComposition", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetContainerComposition", IMemberDescriptor::Abstract))
+							)
+						);
 					}
 				
 				public:
@@ -521,6 +1823,27 @@ GuiControl :: IStyleProvider (vl::presentation::controls::GuiControl::IStyleProv
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IStyleProvider", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"AssociateStyleController", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetFocusableComposition", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetText", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetFont", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetVisuallyEnabled", IMemberDescriptor::Abstract))
+						);
 					}
 				
 				public:
@@ -536,6 +1859,390 @@ GuiControlHost (vl::presentation::controls::GuiControlHost)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiControlHost", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Render", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetEnabled", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetEnabled", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetFocused", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetActivated", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"AddComponent", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RemoveComponent", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ContainsComponent", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetRelatedControlHost", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetText", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetText", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Show", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ShowDeactivated", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ShowRestored", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ShowMaximized", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ShowMinimized", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Hide", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Close", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"GraphicsHost", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetGraphicsHost", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MainComposition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMainComposition", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"NativeWindow", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetNativeWindow", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetNativeWindow", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Focused", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFocused", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Activated", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetActivated", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ShowInTaskBar", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetShowInTaskBar", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetShowInTaskBar", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"EnabledActivate", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetEnabledActivate", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetEnabledActivate", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MaximizedBox", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMaximizedBox", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetMaximizedBox", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MinimizedBox", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMinimizedBox", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetMinimizedBox", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Border", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBorder", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetBorder", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"SizeBox", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetSizeBox", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetSizeBox", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"IconVisible", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetIconVisible", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetIconVisible", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"TitleBar", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetTitleBar", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetTitleBar", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"TopMost", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetTopMost", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetTopMost", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ClientSize", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetClientSize", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetClientSize", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Bounds", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBounds", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetBounds", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"RelatedScreen", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRelatedScreen", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Opening", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetOpening", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"NativeWindow", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetNativeWindow", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetNativeWindow", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ShowInTaskBar", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetShowInTaskBar", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetShowInTaskBar", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"EnabledActivate", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetEnabledActivate", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetEnabledActivate", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MaximizedBox", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMaximizedBox", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetMaximizedBox", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MinimizedBox", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMinimizedBox", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetMinimizedBox", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Border", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBorder", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetBorder", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"SizeBox", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetSizeBox", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetSizeBox", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"IconVisible", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetIconVisible", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetIconVisible", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"TitleBar", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetTitleBar", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetTitleBar", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"TopMost", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetTopMost", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetTopMost", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ClientSize", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetClientSize", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetClientSize", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Bounds", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBounds", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetBounds", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"WindowGotFocus", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_WindowGotFocus", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_WindowGotFocus", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"WindowLostFocus", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_WindowLostFocus", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_WindowLostFocus", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"WindowActivated", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_WindowActivated", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_WindowActivated", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"WindowDeactivated", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_WindowDeactivated", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_WindowDeactivated", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"WindowOpened", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_WindowOpened", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_WindowOpened", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"WindowClosing", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_WindowClosing", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_WindowClosing", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"WindowClosed", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_WindowClosed", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_WindowClosed", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"WindowDestroying", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_WindowDestroying", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_WindowDestroying", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -550,6 +2257,36 @@ GuiEventArgs (vl::presentation::elements::GuiEventArgs)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiEventArgs", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"compositionSource", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_compositionSource", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_compositionSource", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"eventSource", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_eventSource", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_eventSource", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"handled", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_handled", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_handled", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -564,6 +2301,81 @@ GuiGradientBackgroundElement (vl::presentation::elements::GuiGradientBackgroundE
 			protected:
 				void FillTypeContent()
 				{
+					AddMethod(
+						(new MethodDescriptor(L"SetColors", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Create", IMemberDescriptor::Static))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Factory", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Renderer", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRenderer", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Color1", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetColor1", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Color2", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetColor2", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Direction", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetDirection", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetDirection", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Shape", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetShape", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetShape", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Direction", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetDirection", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetDirection", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Shape", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetShape", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetShape", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ElementTypeName", IMemberDescriptor::Static))
+						->Getter(
+							(new MethodDescriptor(L"GetElementTypeName", IMemberDescriptor::Static))
+						)
+					);
 				}
 			
 			public:
@@ -577,6 +2389,30 @@ GuiGradientBackgroundElement :: Direction (vl::presentation::elements::GuiGradie
 				protected:
 					void FillTypeContent()
 					{
+						AddProperty(
+							(new PropertyDescriptor(L"Horizontal", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Horizontal", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Vertical", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Vertical", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Slash", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Slash", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Backslash", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Backslash", IMemberDescriptor::Static))
+							)
+						);
 					}
 				
 				public:
@@ -592,6 +2428,21 @@ GuiGraphicsAnimationManager (vl::presentation::elements::GuiGraphicsAnimationMan
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiGraphicsAnimationManager", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"AddAnimation", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"HasAnimation", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Play", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -606,6 +2457,267 @@ GuiGraphicsComposition (vl::presentation::elements::GuiGraphicsComposition)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiGraphicsComposition", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Children", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"AddChild", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"InsertChild", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RemoveChild", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"MoveChild", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Render", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"HasEventReceiver", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"FindComposition", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsSizeAffectParent", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Parent", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetParent", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"OwnedElement", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetOwnedElement", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetOwnedElement", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Visible", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetVisible", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetVisible", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MinSizeLimitation", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMinSizeLimitation", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetMinSizeLimitation", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"RenderTarget", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRenderTarget", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetRenderTarget", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"EventReceiver", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetEventReceiver", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"GlobalBounds", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetGlobalBounds", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AssociatedControl", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAssociatedControl", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AssociatedHost", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAssociatedHost", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AssociatedCursor", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAssociatedCursor", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetAssociatedCursor", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"RelatedControl", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRelatedControl", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"RelatedGraphicsHost", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRelatedGraphicsHost", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"RelatedControlHost", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRelatedControlHost", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"RelatedCursor", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRelatedCursor", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Margin", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMargin", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetMargin", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"InternalMargin", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetInternalMargin", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetInternalMargin", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"PreferredMinSize", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetPreferredMinSize", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetPreferredMinSize", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ClientArea", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetClientArea", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AffectionFromParent", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAffectionFromParent", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MinPreferredClientSize", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMinPreferredClientSize", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"PreferredBounds", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetPreferredBounds", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Bounds", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBounds", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"OwnedElement", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetOwnedElement", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetOwnedElement", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Visible", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetVisible", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetVisible", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MinSizeLimitation", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMinSizeLimitation", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetMinSizeLimitation", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"RenderTarget", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRenderTarget", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetRenderTarget", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AssociatedCursor", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAssociatedCursor", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetAssociatedCursor", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Margin", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMargin", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetMargin", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"InternalMargin", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetInternalMargin", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetInternalMargin", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"PreferredMinSize", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetPreferredMinSize", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetPreferredMinSize", IMemberDescriptor::Virtual))
+						)
+					);
 				}
 			
 			public:
@@ -619,6 +2731,24 @@ GuiGraphicsComposition :: MinSizeLimitation (vl::presentation::elements::GuiGrap
 				protected:
 					void FillTypeContent()
 					{
+						AddProperty(
+							(new PropertyDescriptor(L"NoLimit", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_NoLimit", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"LimitToElement", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_LimitToElement", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"LimitToElementAndChildren", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_LimitToElementAndChildren", IMemberDescriptor::Static))
+							)
+						);
 					}
 				
 				public:
@@ -633,6 +2763,24 @@ GuiGraphicsComposition :: ParentSizeAffection (vl::presentation::elements::GuiGr
 				protected:
 					void FillTypeContent()
 					{
+						AddProperty(
+							(new PropertyDescriptor(L"NotAffectedByParent", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_NotAffectedByParent", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"AffectedByParent", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_AffectedByParent", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"TotallyDecidedByParent", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_TotallyDecidedByParent", IMemberDescriptor::Static))
+							)
+						);
 					}
 				
 				public:
@@ -648,6 +2796,39 @@ GuiGraphicsEvent_of_GuiCharEventArgs (vl::presentation::elements::GuiGraphicsEve
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiGraphicsEvent", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Attach", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Detach", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Execute", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AssociatedComposition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAssociatedComposition", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetAssociatedComposition", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AssociatedComposition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAssociatedComposition", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetAssociatedComposition", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -661,6 +2842,15 @@ GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler (vl::presentation::elements::Gu
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IHandler", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"Execute", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
 					}
 				
 				public:
@@ -676,6 +2866,39 @@ GuiGraphicsEvent_of_GuiEventArgs (vl::presentation::elements::GuiGraphicsEvent<v
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiGraphicsEvent", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Attach", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Detach", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Execute", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AssociatedComposition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAssociatedComposition", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetAssociatedComposition", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AssociatedComposition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAssociatedComposition", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetAssociatedComposition", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -689,6 +2912,15 @@ GuiGraphicsEvent_of_GuiEventArgs :: IHandler (vl::presentation::elements::GuiGra
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IHandler", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"Execute", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
 					}
 				
 				public:
@@ -704,6 +2936,39 @@ GuiGraphicsEvent_of_GuiKeyEventArgs (vl::presentation::elements::GuiGraphicsEven
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiGraphicsEvent", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Attach", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Detach", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Execute", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AssociatedComposition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAssociatedComposition", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetAssociatedComposition", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AssociatedComposition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAssociatedComposition", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetAssociatedComposition", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -717,6 +2982,15 @@ GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler (vl::presentation::elements::Gui
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IHandler", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"Execute", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
 					}
 				
 				public:
@@ -732,6 +3006,39 @@ GuiGraphicsEvent_of_GuiMouseEventArgs (vl::presentation::elements::GuiGraphicsEv
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiGraphicsEvent", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Attach", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Detach", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Execute", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AssociatedComposition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAssociatedComposition", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetAssociatedComposition", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AssociatedComposition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAssociatedComposition", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetAssociatedComposition", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -745,6 +3052,15 @@ GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler (vl::presentation::elements::G
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IHandler", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"Execute", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
 					}
 				
 				public:
@@ -760,6 +3076,39 @@ GuiGraphicsEvent_of_GuiRequestEventArgs (vl::presentation::elements::GuiGraphics
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiGraphicsEvent", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Attach", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Detach", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Execute", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AssociatedComposition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAssociatedComposition", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetAssociatedComposition", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AssociatedComposition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAssociatedComposition", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetAssociatedComposition", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -773,6 +3122,12 @@ GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler (vl::presentation::elements:
 				protected:
 					void FillTypeContent()
 					{
+						AddMethod(
+							(new MethodDescriptor(L"Execute", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
 					}
 				
 				public:
@@ -788,6 +3143,234 @@ GuiGraphicsEventReceiver (vl::presentation::elements::GuiGraphicsEventReceiver)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiGraphicsEventReceiver", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AssociatedComposition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAssociatedComposition", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"leftButtonDown", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_leftButtonDown", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_leftButtonDown", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"leftButtonUp", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_leftButtonUp", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_leftButtonUp", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"leftButtonDoubleClick", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_leftButtonDoubleClick", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_leftButtonDoubleClick", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"middleButtonDown", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_middleButtonDown", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_middleButtonDown", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"middleButtonUp", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_middleButtonUp", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_middleButtonUp", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"middleButtonDoubleClick", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_middleButtonDoubleClick", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_middleButtonDoubleClick", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"rightButtonDown", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_rightButtonDown", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_rightButtonDown", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"rightButtonUp", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_rightButtonUp", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_rightButtonUp", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"rightButtonDoubleClick", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_rightButtonDoubleClick", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_rightButtonDoubleClick", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"horizontalWheel", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_horizontalWheel", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_horizontalWheel", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"verticalWheel", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_verticalWheel", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_verticalWheel", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"mouseMove", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_mouseMove", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_mouseMove", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"mouseEnter", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_mouseEnter", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_mouseEnter", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"mouseLeave", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_mouseLeave", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_mouseLeave", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"previewKey", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_previewKey", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_previewKey", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"keyDown", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_keyDown", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_keyDown", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"keyUp", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_keyUp", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_keyUp", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"systemKeyDown", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_systemKeyDown", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_systemKeyDown", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"systemKeyUp", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_systemKeyUp", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_systemKeyUp", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"previewCharInput", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_previewCharInput", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_previewCharInput", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"charInput", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_charInput", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_charInput", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"gotFocus", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_gotFocus", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_gotFocus", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"lostFocus", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_lostFocus", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_lostFocus", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"caretNotify", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_caretNotify", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_caretNotify", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -802,6 +3385,63 @@ GuiGraphicsHost (vl::presentation::elements::GuiGraphicsHost)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiGraphicsHost", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Render", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetFocus", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetCaretPoint", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"NativeWindow", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetNativeWindow", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetNativeWindow", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MainComposition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMainComposition", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"FocusedComposition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFocusedComposition", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"CaretPoint", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCaretPoint", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AnimationManager", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAnimationManager", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"NativeWindow", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetNativeWindow", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetNativeWindow", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -816,6 +3456,27 @@ GuiGraphicsResourceManager (vl::presentation::elements::GuiGraphicsResourceManag
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiGraphicsResourceManager", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RegisterElementFactory", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RegisterRendererFactory", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetElementFactory", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetRendererFactory", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetRenderTarget", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -830,6 +3491,33 @@ GuiGraphicsSite (vl::presentation::elements::GuiGraphicsSite)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiGraphicsSite", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsSizeAffectParent", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AffectionFromParent", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAffectionFromParent", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MinPreferredClientSize", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMinPreferredClientSize", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"PreferredBounds", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetPreferredBounds", IMemberDescriptor::Virtual))
+						)
+					);
 				}
 			
 			public:
@@ -844,6 +3532,27 @@ GuiImageData (vl::presentation::controls::GuiImageData)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiImageData", IMemberDescriptor::Normal))
+					);
+					AddConstructor(
+						(new MethodDescriptor(L"GuiImageData", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Image", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetImage", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"FrameIndex", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFrameIndex", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -858,6 +3567,78 @@ GuiImageFrameElement (vl::presentation::elements::GuiImageFrameElement)
 			protected:
 				void FillTypeContent()
 				{
+					AddMethod(
+						(new MethodDescriptor(L"SetImage", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetAlignments", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Create", IMemberDescriptor::Static))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Factory", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Renderer", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRenderer", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Image", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetImage", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"FrameIndex", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFrameIndex", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"HorizontalAlignment", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetHorizontalAlignment", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"VerticalAlignment", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetVerticalAlignment", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Stretch", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetStretch", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetStretch", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Stretch", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetStretch", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetStretch", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ElementTypeName", IMemberDescriptor::Static))
+						->Getter(
+							(new MethodDescriptor(L"GetElementTypeName", IMemberDescriptor::Static))
+						)
+					);
 				}
 			
 			public:
@@ -872,6 +3653,9 @@ GuiKeyEventArgs (vl::presentation::elements::GuiKeyEventArgs)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiKeyEventArgs", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -886,6 +3670,72 @@ GuiListControl (vl::presentation::controls::GuiListControl)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiListControl", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetStyleProvider", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetArranger", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetCoordinateTransformer", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ItemProvider", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetItemProvider", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"StyleProvider", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetStyleProvider", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Arranger", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetArranger", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"CoordinateTransformer", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCoordinateTransformer", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"StyleProviderChanged", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_StyleProviderChanged", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_StyleProviderChanged", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ArrangerChanged", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_ArrangerChanged", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_ArrangerChanged", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"CoordinateTransformerChanged", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_CoordinateTransformerChanged", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_CoordinateTransformerChanged", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -899,6 +3749,51 @@ GuiListControl :: IItemArranger (vl::presentation::controls::GuiListControl::IIt
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IItemArranger", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"AttachListControl", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"DetachListControl", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"GetVisibleStyle", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"GetVisibleIndex", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"OnViewChanged", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Callback", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetCallback", IMemberDescriptor::Abstract))
+							)
+							->Setter(
+								(new MethodDescriptor(L"SetCallback", IMemberDescriptor::Abstract))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"TotalSize", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetTotalSize", IMemberDescriptor::Abstract))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Callback", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetCallback", IMemberDescriptor::Abstract))
+							)
+							->Setter(
+								(new MethodDescriptor(L"SetCallback", IMemberDescriptor::Abstract))
+							)
+						);
 					}
 				
 				public:
@@ -913,6 +3808,39 @@ GuiListControl :: IItemArrangerCallback (vl::presentation::controls::GuiListCont
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IItemArrangerCallback", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"RequestItem", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"ReleaseItem", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"GetStylePreferredSize", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetStyleAlignmentToParent", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetStyleBounds", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"OnTotalSizeChanged", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetViewLocation", IMemberDescriptor::Abstract))
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"ContainerComposition", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetContainerComposition", IMemberDescriptor::Abstract))
+							)
+						);
 					}
 				
 				public:
@@ -927,6 +3855,36 @@ GuiListControl :: IItemCoordinateTransformer (vl::presentation::controls::GuiLis
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IItemCoordinateTransformer", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"RealSizeToVirtualSize", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"VirtualSizeToRealSize", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"RealPointToVirtualPoint", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"VirtualPointToRealPoint", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"RealRectToVirtualRect", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"VirtualRectToRealRect", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"RealMarginToVirtualMargin", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"VirtualMarginToRealMargin", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
 					}
 				
 				public:
@@ -941,6 +3899,18 @@ GuiListControl :: IItemPrimaryTextView (vl::presentation::controls::GuiListContr
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IItemPrimaryTextView", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"GetPrimaryTextViewText", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"ContainsPrimaryText", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
 					}
 				
 				public:
@@ -955,6 +3925,27 @@ GuiListControl :: IItemProvider (vl::presentation::controls::GuiListControl::IIt
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IItemProvider", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"AttachCallback", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"DetachCallback", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"Count", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"RequestView", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"ReleaseView", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
 					}
 				
 				public:
@@ -969,6 +3960,18 @@ GuiListControl :: IItemProviderCallback (vl::presentation::controls::GuiListCont
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IItemProviderCallback", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"OnAttached", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"OnItemModified", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
 					}
 				
 				public:
@@ -983,6 +3986,42 @@ GuiListControl :: IItemStyleController (vl::presentation::controls::GuiListContr
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IItemStyleController", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"IsCacheable", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"IsInstalled", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"OnInstalled", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"OnUninstalled", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"StyleProvider", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetStyleProvider", IMemberDescriptor::Abstract))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"ItemStyleId", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetItemStyleId", IMemberDescriptor::Abstract))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"BoundsComposition", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetBoundsComposition", IMemberDescriptor::Abstract))
+							)
+						);
 					}
 				
 				public:
@@ -997,6 +4036,30 @@ GuiListControl :: IItemStyleProvider (vl::presentation::controls::GuiListControl
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IItemStyleProvider", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"AttachListControl", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"DetachListControl", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"GetItemStyleId", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"CreateItemStyle", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"DestroyItemStyle", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"Install", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
 					}
 				
 				public:
@@ -1012,6 +4075,18 @@ GuiListView (vl::presentation::controls::GuiListView)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiListView", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Items", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetItems", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -1026,6 +4101,21 @@ GuiListViewBase (vl::presentation::controls::GuiListViewBase)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiListViewBase", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetStyleProvider", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ListViewStyleProvider", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetListViewStyleProvider", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -1039,6 +4129,36 @@ GuiListViewBase :: IStyleProvider (vl::presentation::controls::GuiListViewBase::
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IStyleProvider", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"CreateItemBackground", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"CreateColumnStyle", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"PrimaryTextColor", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetPrimaryTextColor", IMemberDescriptor::Abstract))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"SecondaryTextColor", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetSecondaryTextColor", IMemberDescriptor::Abstract))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"ItemSeparatorColor", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetItemSeparatorColor", IMemberDescriptor::Abstract))
+							)
+						);
 					}
 				
 				public:
@@ -1054,6 +4174,18 @@ GuiMenu (vl::presentation::controls::GuiMenu)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiMenu", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"UpdateMenuService", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"QueryService", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -1068,6 +4200,15 @@ GuiMenuBar (vl::presentation::controls::GuiMenuBar)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiMenuBar", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"QueryService", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -1082,6 +4223,72 @@ GuiMenuButton (vl::presentation::controls::GuiMenuButton)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiMenuButton", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsSubMenuExists", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreateSubMenu", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"DestroySubMenu", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"SubMenu", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetSubMenu", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"SubMenuOpening", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetSubMenuOpening", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetSubMenuOpening", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"PreferredMenuClientSize", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetPreferredMenuClientSize", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetPreferredMenuClientSize", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"SubMenuOpening", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetSubMenuOpening", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetSubMenuOpening", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"PreferredMenuClientSize", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetPreferredMenuClientSize", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetPreferredMenuClientSize", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"SubMenuOpeningChanged", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_SubMenuOpeningChanged", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_SubMenuOpeningChanged", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -1095,6 +4302,21 @@ GuiMenuButton :: IStyleController (vl::presentation::controls::GuiMenuButton::IS
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IStyleController", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"CreateSubMenuStyleController", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetSubMenuExisting", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetSubMenuOpening", IMemberDescriptor::Abstract))
+						);
 					}
 				
 				public:
@@ -1110,6 +4332,9 @@ GuiMouseEventArgs (vl::presentation::elements::GuiMouseEventArgs)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiMouseEventArgs", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -1124,6 +4349,21 @@ GuiMultilineTextBox (vl::presentation::controls::GuiMultilineTextBox)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiMultilineTextBox", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetText", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetText", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetFont", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -1137,6 +4377,51 @@ GuiMultilineTextBox :: StyleController (vl::presentation::controls::GuiMultiline
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"StyleController", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetFocusableComposition", IMemberDescriptor::Virtual))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetText", IMemberDescriptor::Virtual))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetFont", IMemberDescriptor::Virtual))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetVisuallyEnabled", IMemberDescriptor::Virtual))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetViewPosition", IMemberDescriptor::Normal))
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"TextElement", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetTextElement", IMemberDescriptor::Normal))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"TextComposition", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetTextComposition", IMemberDescriptor::Normal))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"TextElementOperator", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetTextElementOperator", IMemberDescriptor::Normal))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Text", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetText", IMemberDescriptor::Normal))
+							)
+						);
 					}
 				
 				public:
@@ -1151,6 +4436,24 @@ GuiMultilineTextBox :: TextElementOperatorCallback (vl::presentation::controls::
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"TextElementOperatorCallback", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"AfterModify", IMemberDescriptor::Virtual))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"ScrollToView", IMemberDescriptor::Virtual))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"TextMargin", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetTextMargin", IMemberDescriptor::Virtual))
+							)
+						);
 					}
 				
 				public:
@@ -1166,6 +4469,96 @@ GuiPartialViewComposition (vl::presentation::elements::GuiPartialViewComposition
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiPartialViewComposition", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetAffectionFromParent", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsSizeAffectParent", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"WidthRatio", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetWidthRatio", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetWidthRatio", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"WidthPageSize", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetWidthPageSize", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetWidthPageSize", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"HeightRatio", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetHeightRatio", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetHeightRatio", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"HeightPageSize", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetHeightPageSize", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetHeightPageSize", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Bounds", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBounds", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"WidthRatio", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetWidthRatio", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetWidthRatio", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"WidthPageSize", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetWidthPageSize", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetWidthPageSize", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"HeightRatio", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetHeightRatio", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetHeightRatio", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"HeightPageSize", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetHeightPageSize", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetHeightPageSize", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -1180,6 +4573,99 @@ GuiPolygonElement (vl::presentation::elements::GuiPolygonElement)
 			protected:
 				void FillTypeContent()
 				{
+					AddMethod(
+						(new MethodDescriptor(L"SetPoints", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Create", IMemberDescriptor::Static))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Factory", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Renderer", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRenderer", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Size", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetSize", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetSize", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Points", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetPoints", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"PointCount", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetPointCount", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"BorderColor", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBorderColor", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetBorderColor", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"BackgroundColor", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBackgroundColor", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetBackgroundColor", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Size", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetSize", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetSize", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"BorderColor", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBorderColor", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetBorderColor", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"BackgroundColor", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBackgroundColor", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetBackgroundColor", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ElementTypeName", IMemberDescriptor::Static))
+						->Getter(
+							(new MethodDescriptor(L"GetElementTypeName", IMemberDescriptor::Static))
+						)
+					);
 				}
 			
 			public:
@@ -1194,6 +4680,21 @@ GuiPopup (vl::presentation::controls::GuiPopup)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiPopup", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsClippedByScreen", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ShowPopup", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ShowPopup", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -1208,6 +4709,18 @@ GuiRequestEventArgs (vl::presentation::elements::GuiRequestEventArgs)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiRequestEventArgs", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"cancel", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_cancel", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_cancel", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -1222,6 +4735,66 @@ GuiRoundBorderElement (vl::presentation::elements::GuiRoundBorderElement)
 			protected:
 				void FillTypeContent()
 				{
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Create", IMemberDescriptor::Static))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Factory", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Renderer", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRenderer", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Color", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetColor", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetColor", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Radius", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRadius", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetRadius", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Color", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetColor", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetColor", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Radius", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRadius", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetRadius", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ElementTypeName", IMemberDescriptor::Static))
+						->Getter(
+							(new MethodDescriptor(L"GetElementTypeName", IMemberDescriptor::Static))
+						)
+					);
 				}
 			
 			public:
@@ -1236,6 +4809,159 @@ GuiScroll (vl::presentation::controls::GuiScroll)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiScroll", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"TotalSize", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetTotalSize", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetTotalSize", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"PageSize", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetPageSize", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetPageSize", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Position", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetPosition", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetPosition", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"SmallMove", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetSmallMove", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetSmallMove", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"BigMove", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBigMove", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetBigMove", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MinPosition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMinPosition", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MaxPosition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMaxPosition", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"TotalSize", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetTotalSize", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetTotalSize", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"PageSize", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetPageSize", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetPageSize", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Position", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetPosition", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetPosition", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"SmallMove", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetSmallMove", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetSmallMove", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"BigMove", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBigMove", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetBigMove", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"TotalSizeChanged", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_TotalSizeChanged", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_TotalSizeChanged", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"PageSizeChanged", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_PageSizeChanged", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_PageSizeChanged", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"PositionChanged", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_PositionChanged", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_PositionChanged", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"SmallMoveChanged", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_SmallMoveChanged", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_SmallMoveChanged", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"BigMoveChanged", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_BigMoveChanged", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_BigMoveChanged", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -1249,6 +4975,33 @@ GuiScroll :: ICommandExecutor (vl::presentation::controls::GuiScroll::ICommandEx
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"ICommandExecutor", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SmallDecrease", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SmallIncrease", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"BigDecrease", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"BigIncrease", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetTotalSize", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetPageSize", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetPosition", IMemberDescriptor::Abstract))
+						);
 					}
 				
 				public:
@@ -1263,6 +5016,24 @@ GuiScroll :: IStyleController (vl::presentation::controls::GuiScroll::IStyleCont
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IStyleController", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetCommandExecutor", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetTotalSize", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetPageSize", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetPosition", IMemberDescriptor::Abstract))
+						);
 					}
 				
 				public:
@@ -1278,6 +5049,12 @@ GuiScrollContainer (vl::presentation::controls::GuiScrollContainer)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiScrollContainer", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -1291,6 +5068,18 @@ GuiScrollContainer :: StyleController (vl::presentation::controls::GuiScrollCont
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"StyleController", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"GetContainerComposition", IMemberDescriptor::Virtual))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"MoveContainer", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
 					}
 				
 				public:
@@ -1306,6 +5095,75 @@ GuiScrollView (vl::presentation::controls::GuiScrollView)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiScrollView", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CalculateView", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ViewSize", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetViewSize", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ViewBounds", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetViewBounds", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"HorizontalScroll", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetHorizontalScroll", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"VerticalScroll", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetVerticalScroll", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"HorizontalAlwaysVisible", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetHorizontalAlwaysVisible", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetHorizontalAlwaysVisible", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"VerticalAlwaysVisible", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetVerticalAlwaysVisible", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetVerticalAlwaysVisible", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"HorizontalAlwaysVisible", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetHorizontalAlwaysVisible", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetHorizontalAlwaysVisible", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"VerticalAlwaysVisible", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetVerticalAlwaysVisible", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetVerticalAlwaysVisible", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -1319,6 +5177,27 @@ GuiScrollView :: IStyleProvider (vl::presentation::controls::GuiScrollView::ISty
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IStyleProvider", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"CreateHorizontalScrollStyle", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"CreateVerticalScrollStyle", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"InstallBackground", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"DefaultScrollSize", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetDefaultScrollSize", IMemberDescriptor::Abstract))
+							)
+						);
 					}
 				
 				public:
@@ -1333,6 +5212,108 @@ GuiScrollView :: StyleController (vl::presentation::controls::GuiScrollView::Sty
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"StyleController", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"AdjustView", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetScrollView", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetFocusableComposition", IMemberDescriptor::Virtual))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetText", IMemberDescriptor::Virtual))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetFont", IMemberDescriptor::Virtual))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetVisuallyEnabled", IMemberDescriptor::Virtual))
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"StyleProvider", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetStyleProvider", IMemberDescriptor::Normal))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"HorizontalScroll", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetHorizontalScroll", IMemberDescriptor::Normal))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"VerticalScroll", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetVerticalScroll", IMemberDescriptor::Normal))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"InternalTableComposition", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetInternalTableComposition", IMemberDescriptor::Normal))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"InternalContainerComposition", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetInternalContainerComposition", IMemberDescriptor::Normal))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"HorizontalAlwaysVisible", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetHorizontalAlwaysVisible", IMemberDescriptor::Normal))
+							)
+							->Setter(
+								(new MethodDescriptor(L"SetHorizontalAlwaysVisible", IMemberDescriptor::Normal))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"VerticalAlwaysVisible", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetVerticalAlwaysVisible", IMemberDescriptor::Normal))
+							)
+							->Setter(
+								(new MethodDescriptor(L"SetVerticalAlwaysVisible", IMemberDescriptor::Normal))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"BoundsComposition", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetBoundsComposition", IMemberDescriptor::Virtual))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"ContainerComposition", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetContainerComposition", IMemberDescriptor::Virtual))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"HorizontalAlwaysVisible", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetHorizontalAlwaysVisible", IMemberDescriptor::Normal))
+							)
+							->Setter(
+								(new MethodDescriptor(L"SetHorizontalAlwaysVisible", IMemberDescriptor::Normal))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"VerticalAlwaysVisible", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetVerticalAlwaysVisible", IMemberDescriptor::Normal))
+							)
+							->Setter(
+								(new MethodDescriptor(L"SetVerticalAlwaysVisible", IMemberDescriptor::Normal))
+							)
+						);
 					}
 				
 				public:
@@ -1348,6 +5329,93 @@ GuiSelectableButton (vl::presentation::controls::GuiSelectableButton)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiSelectableButton", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"GroupController", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetGroupController", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetGroupController", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AutoSelection", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAutoSelection", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetAutoSelection", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Selected", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetSelected", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetSelected", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"GroupController", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetGroupController", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetGroupController", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AutoSelection", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAutoSelection", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetAutoSelection", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Selected", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetSelected", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetSelected", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"GroupControllerChanged", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_GroupControllerChanged", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_GroupControllerChanged", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AutoSelectionChanged", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_AutoSelectionChanged", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_AutoSelectionChanged", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"SelectedChanged", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_SelectedChanged", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_SelectedChanged", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -1361,6 +5429,21 @@ GuiSelectableButton :: GroupController (vl::presentation::controls::GuiSelectabl
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"GroupController", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"Attach", IMemberDescriptor::Virtual))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"Detach", IMemberDescriptor::Virtual))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"OnSelectedChanged", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
 					}
 				
 				public:
@@ -1375,6 +5458,15 @@ GuiSelectableButton :: IStyleController (vl::presentation::controls::GuiSelectab
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IStyleController", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetSelected", IMemberDescriptor::Abstract))
+						);
 					}
 				
 				public:
@@ -1389,6 +5481,15 @@ GuiSelectableButton :: MutexGroupController (vl::presentation::controls::GuiSele
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"MutexGroupController", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"OnSelectedChanged", IMemberDescriptor::Virtual))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
 					}
 				
 				public:
@@ -1404,6 +5505,57 @@ GuiSelectableListControl (vl::presentation::controls::GuiSelectableListControl)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiSelectableListControl", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetStyleProvider", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetSelected", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetSelected", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ClearSelection", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MultiSelect", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMultiSelect", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetMultiSelect", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"SelectedItems", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetSelectedItems", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MultiSelect", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMultiSelect", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetMultiSelect", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"SelectionChanged", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_SelectionChanged", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_SelectionChanged", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -1417,6 +5569,15 @@ GuiSelectableListControl :: IItemStyleProvider (vl::presentation::controls::GuiS
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IItemStyleProvider", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetStyleSelected", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
 					}
 				
 				public:
@@ -1432,6 +5593,78 @@ GuiSideAlignedComposition (vl::presentation::elements::GuiSideAlignedComposition
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiSideAlignedComposition", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetAffectionFromParent", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsSizeAffectParent", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Direction", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetDirection", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetDirection", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MaxLength", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMaxLength", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetMaxLength", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MaxRatio", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMaxRatio", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetMaxRatio", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Bounds", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBounds", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Direction", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetDirection", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetDirection", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MaxLength", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMaxLength", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetMaxLength", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MaxRatio", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMaxRatio", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetMaxRatio", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -1445,6 +5678,30 @@ GuiSideAlignedComposition :: Direction (vl::presentation::elements::GuiSideAlign
 				protected:
 					void FillTypeContent()
 					{
+						AddProperty(
+							(new PropertyDescriptor(L"Left", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Left", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Top", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Top", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Right", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Right", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Bottom", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Bottom", IMemberDescriptor::Static))
+							)
+						);
 					}
 				
 				public:
@@ -1460,6 +5717,21 @@ GuiSinglelineTextBox (vl::presentation::controls::GuiSinglelineTextBox)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiSinglelineTextBox", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetText", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetText", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetFont", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -1473,6 +5745,15 @@ GuiSinglelineTextBox :: IStyleProvider (vl::presentation::controls::GuiSinglelin
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IStyleProvider", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"InstallBackground", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
 					}
 				
 				public:
@@ -1487,6 +5768,78 @@ GuiSinglelineTextBox :: StyleController (vl::presentation::controls::GuiSingleli
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"StyleController", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"RearrangeTextElement", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetTextBox", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetFocusableComposition", IMemberDescriptor::Virtual))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetFont", IMemberDescriptor::Virtual))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetVisuallyEnabled", IMemberDescriptor::Virtual))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetViewPosition", IMemberDescriptor::Normal))
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"BoundsComposition", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetBoundsComposition", IMemberDescriptor::Virtual))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"ContainerComposition", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetContainerComposition", IMemberDescriptor::Virtual))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Text", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetText", IMemberDescriptor::Normal))
+							)
+							->Setter(
+								(new MethodDescriptor(L"SetText", IMemberDescriptor::Virtual))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"TextElement", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetTextElement", IMemberDescriptor::Normal))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"TextComposition", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetTextComposition", IMemberDescriptor::Normal))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"TextElementOperator", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetTextElementOperator", IMemberDescriptor::Normal))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Text", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetText", IMemberDescriptor::Normal))
+							)
+							->Setter(
+								(new MethodDescriptor(L"SetText", IMemberDescriptor::Virtual))
+							)
+						);
 					}
 				
 				public:
@@ -1501,6 +5854,27 @@ GuiSinglelineTextBox :: TextElementOperatorCallback (vl::presentation::controls:
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"TextElementOperatorCallback", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"BeforeModify", IMemberDescriptor::Virtual))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"AfterModify", IMemberDescriptor::Virtual))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"ScrollToView", IMemberDescriptor::Virtual))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"TextMargin", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetTextMargin", IMemberDescriptor::Virtual))
+							)
+						);
 					}
 				
 				public:
@@ -1516,6 +5890,66 @@ GuiSolidBackgroundElement (vl::presentation::elements::GuiSolidBackgroundElement
 			protected:
 				void FillTypeContent()
 				{
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Create", IMemberDescriptor::Static))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Factory", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Renderer", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRenderer", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Color", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetColor", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetColor", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Shape", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetShape", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetShape", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Color", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetColor", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetColor", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Shape", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetShape", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetShape", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ElementTypeName", IMemberDescriptor::Static))
+						->Getter(
+							(new MethodDescriptor(L"GetElementTypeName", IMemberDescriptor::Static))
+						)
+					);
 				}
 			
 			public:
@@ -1530,6 +5964,66 @@ GuiSolidBorderElement (vl::presentation::elements::GuiSolidBorderElement)
 			protected:
 				void FillTypeContent()
 				{
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Create", IMemberDescriptor::Static))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Factory", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Renderer", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRenderer", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Color", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetColor", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetColor", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Shape", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetShape", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetShape", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Color", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetColor", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetColor", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Shape", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetShape", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetShape", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ElementTypeName", IMemberDescriptor::Static))
+						->Getter(
+							(new MethodDescriptor(L"GetElementTypeName", IMemberDescriptor::Static))
+						)
+					);
 				}
 			
 			public:
@@ -1544,6 +6038,153 @@ GuiSolidLabelElement (vl::presentation::elements::GuiSolidLabelElement)
 			protected:
 				void FillTypeContent()
 				{
+					AddMethod(
+						(new MethodDescriptor(L"SetAlignments", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Create", IMemberDescriptor::Static))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Factory", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Renderer", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRenderer", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Color", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetColor", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetColor", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Font", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFont", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetFont", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Text", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetText", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetText", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"HorizontalAlignment", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetHorizontalAlignment", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"VerticalAlignment", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetVerticalAlignment", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"WrapLine", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetWrapLine", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetWrapLine", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Ellipse", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetEllipse", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetEllipse", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Multiline", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMultiline", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetMultiline", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Color", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetColor", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetColor", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Font", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFont", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetFont", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Text", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetText", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetText", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"WrapLine", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetWrapLine", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetWrapLine", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Ellipse", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetEllipse", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetEllipse", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Multiline", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMultiline", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetMultiline", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ElementTypeName", IMemberDescriptor::Static))
+						->Getter(
+							(new MethodDescriptor(L"GetElementTypeName", IMemberDescriptor::Static))
+						)
+					);
 				}
 			
 			public:
@@ -1558,6 +6199,81 @@ GuiStackComposition (vl::presentation::elements::GuiStackComposition)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiStackComposition", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"InsertStackItem", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetMinPreferredClientSize", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetBounds", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"StackItems", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetStackItems", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Direction", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetDirection", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetDirection", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Padding", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetPadding", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetPadding", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ExtraMargin", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetExtraMargin", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetExtraMargin", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Direction", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetDirection", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetDirection", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Padding", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetPadding", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetPadding", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ExtraMargin", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetExtraMargin", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetExtraMargin", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -1571,6 +6287,18 @@ GuiStackComposition :: Direction (vl::presentation::elements::GuiStackCompositio
 				protected:
 					void FillTypeContent()
 					{
+						AddProperty(
+							(new PropertyDescriptor(L"Horizontal", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Horizontal", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Vertical", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Vertical", IMemberDescriptor::Static))
+							)
+						);
 					}
 				
 				public:
@@ -1586,6 +6314,54 @@ GuiStackItemComposition (vl::presentation::elements::GuiStackItemComposition)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiStackItemComposition", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetAffectionFromParent", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsSizeAffectParent", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Bounds", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBounds", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetBounds", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ExtraMargin", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetExtraMargin", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetExtraMargin", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Bounds", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBounds", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetBounds", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ExtraMargin", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetExtraMargin", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetExtraMargin", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -1600,6 +6376,48 @@ GuiTab (vl::presentation::controls::GuiTab)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiTab", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreatePage", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreatePage", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RemovePage", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"MovePage", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetSelectedPage", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Pages", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetPages", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"SelectedPage", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetSelectedPage", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"SelectedPageChanged", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_SelectedPageChanged", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_SelectedPageChanged", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -1613,6 +6431,15 @@ GuiTab :: ICommandExecutor (vl::presentation::controls::GuiTab::ICommandExecutor
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"ICommandExecutor", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"ShowTab", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
 					}
 				
 				public:
@@ -1627,6 +6454,33 @@ GuiTab :: IStyleController (vl::presentation::controls::GuiTab::IStyleController
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IStyleController", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"InsertTab", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetTabText", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"RemoveTab", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"MoveTab", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"CreateTabPageStyleController", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetCommandExecutor", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetSelectedTab", IMemberDescriptor::Abstract))
+						);
 					}
 				
 				public:
@@ -1642,6 +6496,75 @@ GuiTableComposition (vl::presentation::elements::GuiTableComposition)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiTableComposition", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetRowsAndColumns", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetSitedCell", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetRowOption", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetRowOption", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetColumnOption", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetColumnOption", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"UpdateCellBounds", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetMinPreferredClientSize", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetBounds", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Rows", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRows", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Columns", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetColumns", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"CellPadding", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCellPadding", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetCellPadding", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"CellArea", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCellArea", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"CellPadding", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCellPadding", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetCellPadding", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -1656,6 +6579,54 @@ GuiTabPage (vl::presentation::controls::GuiTabPage)
 			protected:
 				void FillTypeContent()
 				{
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Container", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetContainer", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"OwnerTab", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetOwnerTab", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Text", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetText", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetText", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Selected", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetSelected", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Text", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetText", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetText", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"TextChanged", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_TextChanged", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_TextChanged", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -1670,6 +6641,132 @@ GuiTextBoxCommonInterface (vl::presentation::controls::GuiTextBoxCommonInterface
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiTextBoxCommonInterface", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CanCut", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CanCopy", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CanPaste", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SelectAll", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Cut", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Copy", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Paste", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetRowText", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetFragmentText", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetRowWidth", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetTextPosFromPoint", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetPointFromTextPos", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetRectFromTextPos", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetNearestTextPos", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Select", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"TextComposition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetTextComposition", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"RowHeight", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRowHeight", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MaxWidth", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMaxWidth", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MaxHeight", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMaxHeight", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"CaretBegin", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCaretBegin", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"CaretEnd", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCaretEnd", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"CaretSmall", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCaretSmall", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"CaretLarge", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCaretLarge", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"SelectionText", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetSelectionText", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetSelectionText", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"SelectionText", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetSelectionText", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetSelectionText", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"SelectionChanged", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_SelectionChanged", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_SelectionChanged", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -1684,6 +6781,108 @@ GuiTextElementOperator (vl::presentation::controls::GuiTextElementOperator)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiTextElementOperator", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Install", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetNearestTextPos", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Select", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CanCut", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CanCopy", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CanPaste", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SelectAll", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Cut", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Copy", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Paste", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Callback", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCallback", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetCallback", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"TextBoxCommonInterface", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetTextBoxCommonInterface", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetTextBoxCommonInterface", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"TextElement", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetTextElement", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"TextComposition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetTextComposition", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"SelectionText", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetSelectionText", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetSelectionText", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Callback", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCallback", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetCallback", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"TextBoxCommonInterface", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetTextBoxCommonInterface", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetTextBoxCommonInterface", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"SelectionText", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetSelectionText", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetSelectionText", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -1697,6 +6896,30 @@ GuiTextElementOperator :: DefaultCallback (vl::presentation::controls::GuiTextEl
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"DefaultCallback", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"GetLeftWord", IMemberDescriptor::Virtual))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"GetRightWord", IMemberDescriptor::Virtual))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"GetWord", IMemberDescriptor::Virtual))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"BeforeModify", IMemberDescriptor::Virtual))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"PageRows", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetPageRows", IMemberDescriptor::Virtual))
+							)
+						);
 					}
 				
 				public:
@@ -1711,6 +6934,42 @@ GuiTextElementOperator :: ICallback (vl::presentation::controls::GuiTextElementO
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"ICallback", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"GetLeftWord", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"GetRightWord", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"GetWord", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"BeforeModify", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"AfterModify", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"ScrollToView", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"PageRows", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetPageRows", IMemberDescriptor::Abstract))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"TextMargin", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetTextMargin", IMemberDescriptor::Abstract))
+							)
+						);
 					}
 				
 				public:
@@ -1726,6 +6985,18 @@ GuiTextList (vl::presentation::controls::GuiTextList)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiTextList", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Items", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetItems", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -1740,6 +7011,27 @@ GuiTimeBasedAnimation (vl::presentation::elements::GuiTimeBasedAnimation)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiTimeBasedAnimation", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Restart", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"TotalLength", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetTotalLength", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"CurrentPosition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCurrentPosition", IMemberDescriptor::Virtual))
+						)
+					);
 				}
 			
 			public:
@@ -1754,6 +7046,21 @@ GuiTreeView (vl::presentation::controls::GuiTreeView)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiTreeView", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Nodes", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"TreeViewStyleProvider", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetTreeViewStyleProvider", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -1767,6 +7074,24 @@ GuiTreeView :: IStyleProvider (vl::presentation::controls::GuiTreeView::IStylePr
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IStyleProvider", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"CreateItemBackground", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"CreateItemExpandingDecorator", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"TextColor", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetTextColor", IMemberDescriptor::Abstract))
+							)
+						);
 					}
 				
 				public:
@@ -1782,6 +7107,15 @@ GuiVirtualListView (vl::presentation::controls::GuiVirtualListView)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiVirtualListView", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ChangeItemStyle", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -1796,6 +7130,18 @@ GuiVirtualTextList (vl::presentation::controls::GuiVirtualTextList)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiVirtualTextList", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetStyleProvider", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ChangeItemStyle", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -1810,6 +7156,33 @@ GuiVirtualTreeListControl (vl::presentation::controls::GuiVirtualTreeListControl
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiVirtualTreeListControl", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetNodeStyleProvider", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"NodeItemView", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetNodeItemView", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"NodeRootProvider", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetNodeRootProvider", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"NodeStyleProvider", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetNodeStyleProvider", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -1824,6 +7197,12 @@ GuiWindow (vl::presentation::controls::GuiWindow)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiWindow", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -1838,6 +7217,39 @@ GuiWindowComposition (vl::presentation::elements::GuiWindowComposition)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"GuiWindowComposition", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetMargin", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AttachedWindow", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAttachedWindow", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetAttachedWindow", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Bounds", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBounds", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AttachedWindow", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAttachedWindow", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetAttachedWindow", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -1852,6 +7264,27 @@ ICollection_of_ListViewItem (vl::collections::ICollection<vl::Ptr<vl::presentati
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"ICollection", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Add", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Remove", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RemoveAt", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RemoveRange", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Clear", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -1866,6 +7299,27 @@ ICollection_of_MemoryNodeProvider (vl::collections::ICollection<vl::Ptr<vl::pres
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"ICollection", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Add", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Remove", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RemoveAt", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RemoveRange", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Clear", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -1880,6 +7334,27 @@ ICollection_of_TextItem (vl::collections::ICollection<vl::presentation::controls
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"ICollection", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Add", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Remove", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RemoveAt", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RemoveRange", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Clear", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -1894,6 +7369,12 @@ IDescriptable (vl::presentation::IDescriptable)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IDescriptable", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -1908,6 +7389,15 @@ IEnumerable_of_ListViewItem (vl::collections::IEnumerable<vl::Ptr<vl::presentati
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IEnumerable", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreateEnumerator", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -1922,6 +7412,12 @@ IEnumerable_of_MemoryNodeProvider (vl::collections::IEnumerable<vl::Ptr<vl::pres
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IEnumerable", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -1936,6 +7432,15 @@ IEnumerable_of_TextItem (vl::collections::IEnumerable<vl::presentation::controls
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IEnumerable", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreateEnumerator", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -1950,6 +7455,30 @@ IEnumerator_of_ListViewItem (vl::collections::IEnumerator<vl::Ptr<vl::presentati
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IEnumerator", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Clone", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Current", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Index", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Next", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Available", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Reset", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -1964,6 +7493,30 @@ IEnumerator_of_TextItem (vl::collections::IEnumerator<vl::presentation::controls
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IEnumerator", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Clone", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Current", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Index", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Next", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Available", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Reset", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -1978,6 +7531,30 @@ IGuiGraphicsAnimation (vl::presentation::elements::IGuiGraphicsAnimation)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IGuiGraphicsAnimation", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Play", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Stop", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"TotalLength", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetTotalLength", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"CurrentPosition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCurrentPosition", IMemberDescriptor::Abstract))
+						)
+					);
 				}
 			
 			public:
@@ -1992,6 +7569,24 @@ IGuiGraphicsElement (vl::presentation::elements::IGuiGraphicsElement)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IGuiGraphicsElement", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Factory", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Renderer", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRenderer", IMemberDescriptor::Abstract))
+						)
+					);
 				}
 			
 			public:
@@ -2006,6 +7601,18 @@ IGuiGraphicsElementFactory (vl::presentation::elements::IGuiGraphicsElementFacto
 			protected:
 				void FillTypeContent()
 				{
+					AddMethod(
+						(new MethodDescriptor(L"Create", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ElementTypeName", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetElementTypeName", IMemberDescriptor::Abstract))
+						)
+					);
 				}
 			
 			public:
@@ -2020,6 +7627,36 @@ IGuiGraphicsRenderer (vl::presentation::elements::IGuiGraphicsRenderer)
 			protected:
 				void FillTypeContent()
 				{
+					AddMethod(
+						(new MethodDescriptor(L"Initialize", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Finalize", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Render", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"OnElementStateChanged", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetRenderTarget", IMemberDescriptor::Abstract))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Factory", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MinSize", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMinSize", IMemberDescriptor::Abstract))
+						)
+					);
 				}
 			
 			public:
@@ -2034,6 +7671,12 @@ IGuiGraphicsRendererFactory (vl::presentation::elements::IGuiGraphicsRendererFac
 			protected:
 				void FillTypeContent()
 				{
+					AddMethod(
+						(new MethodDescriptor(L"Create", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2048,6 +7691,30 @@ IGuiGraphicsRenderTarget (vl::presentation::elements::IGuiGraphicsRenderTarget)
 			protected:
 				void FillTypeContent()
 				{
+					AddMethod(
+						(new MethodDescriptor(L"StartRendering", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"StopRendering", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"PushClipper", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"PopClipper", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsClipperCoverWholeTarget", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Clipper", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetClipper", IMemberDescriptor::Abstract))
+						)
+					);
 				}
 			
 			public:
@@ -2062,6 +7729,42 @@ IGuiMenuService (vl::presentation::controls::IGuiMenuService)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IGuiMenuService", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsActiveState", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"MenuItemExecuted", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"MenuOpened", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"MenuClosed", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Parent", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetParent", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"PreferredDirection", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetPreferredDirection", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"OpeningMenu", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetOpeningMenu", IMemberDescriptor::Virtual))
+						)
+					);
 				}
 			
 			public:
@@ -2075,6 +7778,18 @@ IGuiMenuService :: Direction (vl::presentation::controls::IGuiMenuService::Direc
 				protected:
 					void FillTypeContent()
 					{
+						AddProperty(
+							(new PropertyDescriptor(L"Horizontal", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Horizontal", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Vertical", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Vertical", IMemberDescriptor::Static))
+							)
+						);
 					}
 				
 				public:
@@ -2090,6 +7805,18 @@ IList_of_int (vl::collections::IList<int,int>)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IList", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Insert", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Set", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2104,6 +7831,12 @@ IList_of_ListViewColumn (vl::collections::IList<vl::Ptr<vl::presentation::contro
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IList", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2118,6 +7851,18 @@ IList_of_ListViewItem (vl::collections::IList<vl::Ptr<vl::presentation::controls
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IList", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Insert", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Set", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2132,6 +7877,18 @@ IList_of_MemoryNodeProvider (vl::collections::IList<vl::Ptr<vl::presentation::co
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IList", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Insert", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Set", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2146,6 +7903,18 @@ IList_of_TextItem (vl::collections::IList<vl::presentation::controls::list::Text
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IList", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Insert", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Set", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2163,6 +7932,30 @@ IMemberDescriptor :: MemberTypeEnum (vl::presentation::IMemberDescriptor::Member
 				protected:
 					void FillTypeContent()
 					{
+						AddProperty(
+							(new PropertyDescriptor(L"Static", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Static", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Abstract", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Abstract", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Virtual", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Virtual", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Normal", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Normal", IMemberDescriptor::Static))
+							)
+						);
 					}
 				
 				public:
@@ -2178,6 +7971,15 @@ INativeAsyncService (vl::presentation::INativeAsyncService)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"INativeAsyncService", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsInMainThread", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2192,6 +7994,18 @@ INativeCallbackService (vl::presentation::INativeCallbackService)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"INativeCallbackService", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"InstallListener", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"UninstallListener", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2206,6 +8020,24 @@ INativeClipboardService (vl::presentation::INativeClipboardService)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"INativeClipboardService", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ContainsText", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetText", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Text", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetText", IMemberDescriptor::Abstract))
+						)
+					);
 				}
 			
 			public:
@@ -2220,6 +8052,36 @@ INativeController (vl::presentation::INativeController)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"INativeController", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CallbackService", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ResourceService", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"AsyncService", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ClipboardService", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ImageService", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ScreenService", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"WindowService", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"InputService", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2234,6 +8096,39 @@ INativeControllerListener (vl::presentation::INativeControllerListener)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"INativeControllerListener", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"LeftButtonDown", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"LeftButtonUp", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RightButtonDown", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RightButtonUp", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"MouseMoving", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GlobalTimer", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ClipboardUpdated", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"NativeWindowCreated", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"NativeWindowDestroying", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2248,6 +8143,21 @@ INativeCursor (vl::presentation::INativeCursor)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"INativeCursor", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsSystemCursor", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"SystemCursorType", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetSystemCursorType", IMemberDescriptor::Abstract))
+						)
+					);
 				}
 			
 			public:
@@ -2261,6 +8171,84 @@ INativeCursor :: SystemCursorType (vl::presentation::INativeCursor::SystemCursor
 				protected:
 					void FillTypeContent()
 					{
+						AddProperty(
+							(new PropertyDescriptor(L"SmallWaiting", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_SmallWaiting", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"LargeWaiting", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_LargeWaiting", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Arrow", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Arrow", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Cross", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Cross", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Hand", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Hand", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Help", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Help", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"IBeam", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_IBeam", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"SizeAll", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_SizeAll", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"SizeNESW", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_SizeNESW", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"SizeNS", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_SizeNS", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"SizeNWSE", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_SizeNWSE", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"SizeWE", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_SizeWE", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"LastSystemCursor", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_LastSystemCursor", IMemberDescriptor::Static))
+							)
+						);
 					}
 				
 				public:
@@ -2276,6 +8264,33 @@ INativeImage (vl::presentation::INativeImage)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"INativeImage", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetFrame", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ImageService", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetImageService", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Format", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFormat", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"FrameCount", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetFrameCount", IMemberDescriptor::Abstract))
+						)
+					);
 				}
 			
 			public:
@@ -2289,6 +8304,54 @@ INativeImage :: FormatType (vl::presentation::INativeImage::FormatType)
 				protected:
 					void FillTypeContent()
 					{
+						AddProperty(
+							(new PropertyDescriptor(L"Bmp", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Bmp", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Gif", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Gif", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Icon", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Icon", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Jpeg", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Jpeg", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Png", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Png", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Tiff", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Tiff", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Wmp", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Wmp", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Unknown", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Unknown", IMemberDescriptor::Static))
+							)
+						);
 					}
 				
 				public:
@@ -2304,6 +8367,33 @@ INativeImageFrame (vl::presentation::INativeImageFrame)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"INativeImageFrame", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetCache", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetCache", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RemoveCache", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Image", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetImage", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Size", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetSize", IMemberDescriptor::Abstract))
+						)
+					);
 				}
 			
 			public:
@@ -2318,6 +8408,15 @@ INativeImageFrameCache (vl::presentation::INativeImageFrameCache)
 			protected:
 				void FillTypeContent()
 				{
+					AddMethod(
+						(new MethodDescriptor(L"OnAttach", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"OnDetach", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2332,6 +8431,15 @@ INativeImageService (vl::presentation::INativeImageService)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"INativeImageService", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreateImageFromFile", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2346,6 +8454,36 @@ INativeInputService (vl::presentation::INativeInputService)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"INativeInputService", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"StartHookMouse", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"StopHookMouse", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsHookingMouse", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"StartTimer", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"StopTimer", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsTimerEnabled", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsKeyPressing", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsKeyToggled", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2360,6 +8498,39 @@ INativeResourceService (vl::presentation::INativeResourceService)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"INativeResourceService", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetSystemCursor", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"DefaultSystemCursor", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetDefaultSystemCursor", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"DefaultFont", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetDefaultFont", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetDefaultFont", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"DefaultFont", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetDefaultFont", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetDefaultFont", IMemberDescriptor::Abstract))
+						)
+					);
 				}
 			
 			public:
@@ -2374,6 +8545,33 @@ INativeScreen (vl::presentation::INativeScreen)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"INativeScreen", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsPrimary", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Bounds", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBounds", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ClientBounds", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetClientBounds", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Name", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetName", IMemberDescriptor::Abstract))
+						)
+					);
 				}
 			
 			public:
@@ -2388,6 +8586,24 @@ INativeScreenService (vl::presentation::INativeScreenService)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"INativeScreenService", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetScreen", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetScreen", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ScreenCount", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetScreenCount", IMemberDescriptor::Abstract))
+						)
+					);
 				}
 			
 			public:
@@ -2402,6 +8618,345 @@ INativeWindow (vl::presentation::INativeWindow)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"INativeWindow", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Show", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ShowDeactivated", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ShowRestored", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ShowMaximized", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ShowMinimized", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Hide", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsVisible", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Enable", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Disable", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsEnabled", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetFocus", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsFocused", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetActivate", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsActivated", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ShowInTaskBar", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"HideInTaskBar", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsAppearedInTaskBar", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"EnableActivate", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"DisableActivate", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsEnabledActivate", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RequireCapture", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ReleaseCapture", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"InstallListener", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"UninstallListener", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RedrawContent", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Bounds", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBounds", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetBounds", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ClientSize", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetClientSize", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetClientSize", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ClientBoundsInScreen", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetClientBoundsInScreen", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Title", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetTitle", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetTitle", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"WindowCursor", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetWindowCursor", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetWindowCursor", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"CaretPoint", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCaretPoint", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetCaretPoint", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Parent", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetParent", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetParent", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AlwaysPassFocusToParent", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAlwaysPassFocusToParent", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetAlwaysPassFocusToParent", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MaximizedBox", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMaximizedBox", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetMaximizedBox", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MinimizedBox", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMinimizedBox", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetMinimizedBox", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Border", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBorder", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetBorder", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"SizeBox", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetSizeBox", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetSizeBox", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"IconVisible", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetIconVisible", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetIconVisible", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"TitleBar", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetTitleBar", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetTitleBar", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"TopMost", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetTopMost", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetTopMost", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Bounds", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBounds", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetBounds", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ClientSize", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetClientSize", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetClientSize", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Title", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetTitle", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetTitle", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"WindowCursor", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetWindowCursor", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetWindowCursor", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"CaretPoint", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCaretPoint", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetCaretPoint", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Parent", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetParent", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetParent", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"AlwaysPassFocusToParent", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetAlwaysPassFocusToParent", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetAlwaysPassFocusToParent", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MaximizedBox", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMaximizedBox", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetMaximizedBox", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MinimizedBox", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMinimizedBox", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetMinimizedBox", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Border", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBorder", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetBorder", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"SizeBox", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetSizeBox", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetSizeBox", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"IconVisible", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetIconVisible", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetIconVisible", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"TitleBar", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetTitleBar", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetTitleBar", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"TopMost", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetTopMost", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetTopMost", IMemberDescriptor::Abstract))
+						)
+					);
 				}
 			
 			public:
@@ -2416,6 +8971,111 @@ INativeWindowListener (vl::presentation::INativeWindowListener)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"INativeWindowListener", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Moving", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Moved", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Enabled", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Disabled", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GotFocus", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"LostFocus", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Activated", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Deactivated", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Opened", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Closing", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Closed", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Paint", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Destroying", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Destroyed", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"LeftButtonDown", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"LeftButtonUp", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"LeftButtonDoubleClick", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RightButtonDown", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RightButtonUp", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RightButtonDoubleClick", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"MiddleButtonDown", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"MiddleButtonUp", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"MiddleButtonDoubleClick", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"HorizontalWheel", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"VerticalWheel", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"MouseMoving", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"MouseEntered", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"MouseLeaved", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"KeyDown", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"KeyUp", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SysKeyDown", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SysKeyUp", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Char", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2430,6 +9090,30 @@ INativeWindowService (vl::presentation::INativeWindowService)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"INativeWindowService", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreateNativeWindow", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"DestroyNativeWindow", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetWindow", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Run", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MainWindow", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMainWindow", IMemberDescriptor::Abstract))
+						)
+					);
 				}
 			
 			public:
@@ -2444,6 +9128,15 @@ INodeItemPrimaryTextView (vl::presentation::controls::tree::INodeItemPrimaryText
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"INodeItemPrimaryTextView", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetPrimaryTextViewText", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2458,6 +9151,18 @@ INodeItemStyleController (vl::presentation::controls::tree::INodeItemStyleContro
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"INodeItemStyleController", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"NodeStyleProvider", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetNodeStyleProvider", IMemberDescriptor::Abstract))
+						)
+					);
 				}
 			
 			public:
@@ -2472,6 +9177,42 @@ INodeItemStyleProvider (vl::presentation::controls::tree::INodeItemStyleProvider
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"INodeItemStyleProvider", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"BindItemStyleProvider", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"AttachListControl", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"DetachListControl", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetItemStyleId", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreateItemStyle", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"DestroyItemStyle", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Install", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetStyleSelected", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"BindedItemStyleProvider", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBindedItemStyleProvider", IMemberDescriptor::Abstract))
+						)
+					);
 				}
 			
 			public:
@@ -2486,6 +9227,21 @@ INodeItemView (vl::presentation::controls::tree::INodeItemView)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"INodeItemView", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RequestNode", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ReleaseNode", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CalculateNodeVisibilityIndex", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2500,6 +9256,51 @@ INodeProvider (vl::presentation::controls::tree::INodeProvider)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"INodeProvider", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CalculateTotalVisibleNodes", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RequestChild", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ReleaseChild", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Expanding", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetExpanding", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetExpanding", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ChildCount", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetChildCount", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Parent", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetParent", IMemberDescriptor::Abstract))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Expanding", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetExpanding", IMemberDescriptor::Abstract))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetExpanding", IMemberDescriptor::Abstract))
+						)
+					);
 				}
 			
 			public:
@@ -2514,6 +9315,27 @@ INodeProviderCallback (vl::presentation::controls::tree::INodeProviderCallback)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"INodeProviderCallback", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"OnAttached", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"OnBeforeItemModified", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"OnAfterItemModified", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"OnItemExpanded", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"OnItemCollapsed", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2528,6 +9350,36 @@ INodeRootProvider (vl::presentation::controls::tree::INodeRootProvider)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"INodeRootProvider", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CanGetNodeByVisibleIndex", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetNodeByVisibleIndex", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"AttachCallback", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"DetachCallback", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RequestView", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ReleaseView", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"RootNode", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRootNode", IMemberDescriptor::Abstract))
+						)
+					);
 				}
 			
 			public:
@@ -2542,6 +9394,15 @@ IReadonlyList_of_ColorEntry (vl::collections::IReadonlyList<vl::presentation::el
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IReadonlyList", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Count", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2570,6 +9431,27 @@ IReadonlyList_of_GuiGraphicsComposition_raw_pointer (vl::collections::IReadonlyL
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IReadonlyList", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Count", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Get", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2584,6 +9466,27 @@ IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer (vl::collection
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IReadonlyList", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Count", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Get", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2598,6 +9501,27 @@ IReadonlyList_of_GuiStackItemComposition_raw_pointer (vl::collections::IReadonly
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IReadonlyList", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Count", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Get", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2612,6 +9536,27 @@ IReadonlyList_of_GuiTabPage_raw_pointer (vl::collections::IReadonlyList<vl::pres
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IReadonlyList", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Count", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Get", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2626,6 +9571,27 @@ IReadonlyList_of_GuiWindow_raw_pointer (vl::collections::IReadonlyList<vl::prese
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IReadonlyList", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Count", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Get", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2640,6 +9606,27 @@ IReadonlyList_of_int (vl::collections::IReadonlyList<int,int>)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IReadonlyList", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Count", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Get", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2654,6 +9641,27 @@ IReadonlyList_of_ListViewItem (vl::collections::IReadonlyList<vl::Ptr<vl::presen
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IReadonlyList", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Count", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Get", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2668,6 +9676,27 @@ IReadonlyList_of_MemoryNodeProvider (vl::collections::IReadonlyList<vl::Ptr<vl::
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IReadonlyList", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Count", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Get", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2682,6 +9711,27 @@ IReadonlyList_of_TextItem (vl::collections::IReadonlyList<vl::presentation::cont
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IReadonlyList", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Count", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Get", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2696,6 +9746,18 @@ ItemProviderBase (vl::presentation::controls::list::ItemProviderBase)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"ItemProviderBase", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"AttachCallback", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"DetachCallback", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2710,6 +9772,39 @@ ItemStyleControllerBase (vl::presentation::controls::list::ItemStyleControllerBa
 			protected:
 				void FillTypeContent()
 				{
+					AddMethod(
+						(new MethodDescriptor(L"IsCacheable", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsInstalled", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"OnInstalled", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"OnUninstalled", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"StyleProvider", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetStyleProvider", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ItemStyleId", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetItemStyleId", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"BoundsComposition", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBoundsComposition", IMemberDescriptor::Virtual))
+						)
+					);
 				}
 			
 			public:
@@ -2724,6 +9819,18 @@ ITreeViewItemView (vl::presentation::controls::tree::ITreeViewItemView)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"ITreeViewItemView", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetNodeImage", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetNodeText", IMemberDescriptor::Abstract))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2741,6 +9848,138 @@ IType :: TypeEnum (vl::presentation::IType::TypeEnum)
 				protected:
 					void FillTypeContent()
 					{
+						AddProperty(
+							(new PropertyDescriptor(L"SInt8", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_SInt8", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"UInt8", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_UInt8", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"SInt16", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_SInt16", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"UInt16", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_UInt16", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"SInt32", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_SInt32", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"UInt32", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_UInt32", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"SInt64", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_SInt64", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"UInt64", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_UInt64", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Float", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Float", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Bool", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Bool", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Char", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Char", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"String", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_String", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Enum", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Enum", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Struct", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Struct", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Class", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Class", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Pointer", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Pointer", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"SmartPointer", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_SmartPointer", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Reference", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Reference", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"RValueReference", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_RValueReference", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Array", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Array", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Const", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Const", IMemberDescriptor::Static))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Volatile", IMemberDescriptor::Static))
+							->Getter(
+								(new MethodDescriptor(L"get_Volatile", IMemberDescriptor::Static))
+							)
+						);
 					}
 				
 				public:
@@ -2756,6 +9995,12 @@ List_of_IMethodDescriptor_raw_pointer (vl::collections::List<vl::presentation::I
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"List", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2770,6 +10015,30 @@ List_of_ObjectString_of_wchar_t (vl::collections::List<vl::ObjectString<wchar_t>
 			protected:
 				void FillTypeContent()
 				{
+					AddMethod(
+						(new MethodDescriptor(L"Contains", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Add", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Insert", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Remove", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Set", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2784,6 +10053,12 @@ ListProvider_of_ListViewItem (vl::presentation::controls::list::ListProvider<vl:
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"ListProvider", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2798,6 +10073,12 @@ ListProvider_of_TextItem (vl::presentation::controls::list::ListProvider<vl::pre
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"ListProvider", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2812,6 +10093,27 @@ ListViewBigIconContentProvider (vl::presentation::controls::list::ListViewBigIco
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"ListViewBigIconContentProvider", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreatePreferredCoordinateTransformer", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreatePreferredArranger", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreateItemContent", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"AttachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"DetachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2826,6 +10128,18 @@ ListViewColumnItemArranger (vl::presentation::controls::list::ListViewColumnItem
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"ListViewColumnItemArranger", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"AttachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"DetachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2839,6 +10153,33 @@ ListViewColumnItemArranger :: IColumnItemView (vl::presentation::controls::list:
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IColumnItemView", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"AttachCallback", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"DetachCallback", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"GetColumnText", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"GetColumnSize", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetColumnSize", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"ColumnCount", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetColumnCount", IMemberDescriptor::Abstract))
+							)
+						);
 					}
 				
 				public:
@@ -2853,6 +10194,18 @@ ListViewColumnItemArranger :: IColumnItemViewCallback (vl::presentation::control
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IColumnItemViewCallback", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"OnColumnChanged", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"OnColumnSizeChanged", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
 					}
 				
 				public:
@@ -2868,6 +10221,27 @@ ListViewDetailContentProvider (vl::presentation::controls::list::ListViewDetailC
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"ListViewDetailContentProvider", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreatePreferredCoordinateTransformer", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreatePreferredArranger", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreateItemContent", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"AttachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"DetachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2882,6 +10256,27 @@ ListViewInformationContentProvider (vl::presentation::controls::list::ListViewIn
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"ListViewInformationContentProvider", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreatePreferredCoordinateTransformer", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreatePreferredArranger", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreateItemContent", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"AttachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"DetachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -2896,6 +10291,45 @@ ListViewItem (vl::presentation::controls::list::ListViewItem)
 			protected:
 				void FillTypeContent()
 				{
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"smallImage", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_smallImage", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_smallImage", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"largeImage", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_largeImage", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_largeImage", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"text", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_text", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_text", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"subItems", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_subItems", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_subItems", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -2910,6 +10344,36 @@ ListViewItemProvider (vl::presentation::controls::list::ListViewItemProvider)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"ListViewItemProvider", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RequestView", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ReleaseView", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"NotifyDataColumnsUpdated", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"NotifyColumnsUpdated", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"DataColumns", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetDataColumns", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Columns", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetColumns", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -2924,6 +10388,36 @@ ListViewItemStyleProvider (vl::presentation::controls::list::ListViewItemStylePr
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"ListViewItemStyleProvider", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"AttachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"DetachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreateItemStyle", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"DestroyItemStyle", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Install", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsItemStyleAttachedToListView", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"CreatedItemStyles", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCreatedItemStyles", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -2937,6 +10431,27 @@ ListViewItemStyleProvider :: IListViewItemContent (vl::presentation::controls::l
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IListViewItemContent", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"Install", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"ContentComposition", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetContentComposition", IMemberDescriptor::Abstract))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"BackgroundDecorator", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetBackgroundDecorator", IMemberDescriptor::Abstract))
+							)
+						);
 					}
 				
 				public:
@@ -2951,6 +10466,27 @@ ListViewItemStyleProvider :: IListViewItemContentProvider (vl::presentation::con
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IListViewItemContentProvider", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"CreatePreferredCoordinateTransformer", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"CreatePreferredArranger", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"CreateItemContent", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"AttachListControl", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"DetachListControl", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
 					}
 				
 				public:
@@ -2965,6 +10501,42 @@ ListViewItemStyleProvider :: IListViewItemView (vl::presentation::controls::list
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IListViewItemView", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"GetSmallImage", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"GetLargeImage", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"GetText", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"GetSubItem", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"GetDataColumn", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"GetColumnText", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"DataColumnCount", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetDataColumnCount", IMemberDescriptor::Abstract))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"ColumnCount", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetColumnCount", IMemberDescriptor::Abstract))
+							)
+						);
 					}
 				
 				public:
@@ -2979,6 +10551,21 @@ ListViewItemStyleProvider :: ListViewContentItemStyleController (vl::presentatio
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"ListViewContentItemStyleController", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"Install", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"ItemContent", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetItemContent", IMemberDescriptor::Normal))
+							)
+						);
 					}
 				
 				public:
@@ -2994,6 +10581,24 @@ ListViewItemStyleProviderBase (vl::presentation::controls::list::ListViewItemSty
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"ListViewItemStyleProviderBase", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"AttachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"DetachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetItemStyleId", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetStyleSelected", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -3007,6 +10612,30 @@ ListViewItemStyleProviderBase :: ListViewItemStyleController (vl::presentation::
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"ListViewItemStyleController", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Selected", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetSelected", IMemberDescriptor::Normal))
+							)
+							->Setter(
+								(new MethodDescriptor(L"SetSelected", IMemberDescriptor::Normal))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Selected", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetSelected", IMemberDescriptor::Normal))
+							)
+							->Setter(
+								(new MethodDescriptor(L"SetSelected", IMemberDescriptor::Normal))
+							)
+						);
 					}
 				
 				public:
@@ -3022,6 +10651,27 @@ ListViewListContentProvider (vl::presentation::controls::list::ListViewListConte
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"ListViewListContentProvider", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreatePreferredCoordinateTransformer", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreatePreferredArranger", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreateItemContent", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"AttachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"DetachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -3036,6 +10686,27 @@ ListViewSmallIconContentProvider (vl::presentation::controls::list::ListViewSmal
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"ListViewSmallIconContentProvider", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreatePreferredCoordinateTransformer", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreatePreferredArranger", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreateItemContent", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"AttachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"DetachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -3050,6 +10721,27 @@ ListViewTileContentProvider (vl::presentation::controls::list::ListViewTileConte
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"ListViewTileContentProvider", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreatePreferredCoordinateTransformer", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreatePreferredArranger", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreateItemContent", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"AttachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"DetachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -3064,6 +10756,54 @@ ListWrapperProvider_of_ListViewItem (vl::presentation::controls::list::ListWrapp
 			protected:
 				void FillTypeContent()
 				{
+					AddMethod(
+						(new MethodDescriptor(L"NotifyUpdate", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreateEnumerator", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Contains", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Count", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Count", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Get", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Add", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Remove", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RemoveAt", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RemoveRange", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Clear", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Insert", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Set", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -3078,6 +10818,54 @@ ListWrapperProvider_of_TextItem (vl::presentation::controls::list::ListWrapperPr
 			protected:
 				void FillTypeContent()
 				{
+					AddMethod(
+						(new MethodDescriptor(L"NotifyUpdate", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreateEnumerator", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Contains", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Count", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Count", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Get", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Add", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Remove", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RemoveAt", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RemoveRange", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Clear", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Insert", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Set", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -3092,6 +10880,54 @@ Margin (vl::presentation::Margin)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"Margin", IMemberDescriptor::Normal))
+					);
+					AddConstructor(
+						(new MethodDescriptor(L"Margin", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator==", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator!=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"left", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_left", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_left", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"top", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_top", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_top", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"right", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_right", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_right", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"bottom", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_bottom", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_bottom", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -3106,6 +10942,78 @@ MemoryNodeProvider (vl::presentation::controls::tree::MemoryNodeProvider)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"MemoryNodeProvider", IMemberDescriptor::Normal))
+					);
+					AddConstructor(
+						(new MethodDescriptor(L"MemoryNodeProvider", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"NotifyDataModified", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Children", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CalculateTotalVisibleNodes", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RequestChild", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ReleaseChild", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Data", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetData", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetData", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Expanding", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetExpanding", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetExpanding", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ChildCount", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetChildCount", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Parent", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetParent", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Data", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetData", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetData", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Expanding", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetExpanding", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetExpanding", IMemberDescriptor::Virtual))
+						)
+					);
 				}
 			
 			public:
@@ -3120,6 +11028,18 @@ MemoryNodeRootProvider (vl::presentation::controls::tree::MemoryNodeRootProvider
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"MemoryNodeRootProvider", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"RootNode", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRootNode", IMemberDescriptor::Virtual))
+						)
+					);
 				}
 			
 			public:
@@ -3176,6 +11096,27 @@ NodeItemProvider (vl::presentation::controls::tree::NodeItemProvider)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"NodeItemProvider", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Count", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RequestView", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ReleaseView", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Root", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRoot", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -3190,6 +11131,33 @@ NodeItemStyleProvider (vl::presentation::controls::tree::NodeItemStyleProvider)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"NodeItemStyleProvider", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"AttachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"DetachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetItemStyleId", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreateItemStyle", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"DestroyItemStyle", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Install", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetStyleSelected", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -3204,6 +11172,30 @@ NodeRootProviderBase (vl::presentation::controls::tree::NodeRootProviderBase)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"NodeRootProviderBase", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CanGetNodeByVisibleIndex", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetNodeByVisibleIndex", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"AttachCallback", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"DetachCallback", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RequestView", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ReleaseView", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -3218,6 +11210,105 @@ ObjectString_of_wchar_t (vl::ObjectString<wchar_t>)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"ObjectString", IMemberDescriptor::Normal))
+					);
+					AddConstructor(
+						(new MethodDescriptor(L"ObjectString", IMemberDescriptor::Normal))
+					);
+					AddConstructor(
+						(new MethodDescriptor(L"ObjectString", IMemberDescriptor::Normal))
+					);
+					AddConstructor(
+						(new MethodDescriptor(L"ObjectString", IMemberDescriptor::Normal))
+					);
+					AddConstructor(
+						(new MethodDescriptor(L"ObjectString", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Buffer", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator+=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator+", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator==", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator==", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator!=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator!=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator>", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator>", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator>=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator>=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator<", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator<", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator<=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator<=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Length", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Left", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Right", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Sub", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Remove", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Insert", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Compare", IMemberDescriptor::Static))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Empty", IMemberDescriptor::Static))
+						->Getter(
+							(new MethodDescriptor(L"get_Empty", IMemberDescriptor::Static))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_Empty", IMemberDescriptor::Static))
+						)
+					);
 				}
 			
 			public:
@@ -3232,6 +11323,36 @@ Point (vl::presentation::Point)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"Point", IMemberDescriptor::Normal))
+					);
+					AddConstructor(
+						(new MethodDescriptor(L"Point", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator==", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator!=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"x", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_x", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_x", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"y", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_y", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_y", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -3246,6 +11367,57 @@ RangedItemArrangerBase (vl::presentation::controls::list::RangedItemArrangerBase
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"RangedItemArrangerBase", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"OnAttached", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"OnItemModified", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"AttachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"DetachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetVisibleStyle", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetVisibleIndex", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"OnViewChanged", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Callback", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCallback", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetCallback", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"TotalSize", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetTotalSize", IMemberDescriptor::Virtual))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Callback", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCallback", IMemberDescriptor::Virtual))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetCallback", IMemberDescriptor::Virtual))
+						)
+					);
 				}
 			
 			public:
@@ -3260,6 +11432,102 @@ Rect (vl::presentation::Rect)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"Rect", IMemberDescriptor::Normal))
+					);
+					AddConstructor(
+						(new MethodDescriptor(L"Rect", IMemberDescriptor::Normal))
+					);
+					AddConstructor(
+						(new MethodDescriptor(L"Rect", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator==", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator!=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"LeftTop", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RightBottom", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Left", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Right", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Width", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Top", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Bottom", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Height", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Expand", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Expand", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Move", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Move", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Contains", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Size", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetSize", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"x1", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_x1", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_x1", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"y1", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_y1", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_y1", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"x2", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_x2", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_x2", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"y2", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_y2", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_y2", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -3274,6 +11542,36 @@ Size (vl::presentation::Size)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"Size", IMemberDescriptor::Normal))
+					);
+					AddConstructor(
+						(new MethodDescriptor(L"Size", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator==", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator!=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"x", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_x", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_x", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"y", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_y", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_y", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -3288,6 +11586,39 @@ TextItem (vl::presentation::controls::list::TextItem)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"TextItem", IMemberDescriptor::Normal))
+					);
+					AddConstructor(
+						(new MethodDescriptor(L"TextItem", IMemberDescriptor::Normal))
+					);
+					AddConstructor(
+						(new MethodDescriptor(L"TextItem", IMemberDescriptor::Normal))
+					);
+					AddConstructor(
+						(new MethodDescriptor(L"TextItem", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator==", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator!=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Text", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetText", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Checked", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetChecked", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -3302,6 +11633,24 @@ TextItemProvider (vl::presentation::controls::list::TextItemProvider)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"TextItemProvider", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetText", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetChecked", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RequestView", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ReleaseView", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -3316,6 +11665,33 @@ TextItemStyleProvider (vl::presentation::controls::list::TextItemStyleProvider)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"TextItemStyleProvider", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"AttachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"DetachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetItemStyleId", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreateItemStyle", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"DestroyItemStyle", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Install", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetStyleSelected", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -3329,6 +11705,18 @@ TextItemStyleProvider :: ITextItemStyleProvider (vl::presentation::controls::lis
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"ITextItemStyleProvider", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"CreateBackgroundStyleController", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"CreateBulletStyleController", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
 					}
 				
 				public:
@@ -3343,6 +11731,21 @@ TextItemStyleProvider :: ITextItemView (vl::presentation::controls::list::TextIt
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"ITextItemView", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"GetText", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"GetChecked", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"SetCheckedSilently", IMemberDescriptor::Abstract))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
 					}
 				
 				public:
@@ -3357,6 +11760,66 @@ TextItemStyleProvider :: TextItemStyleController (vl::presentation::controls::li
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"TextItemStyleController", IMemberDescriptor::Normal))
+						);
+						AddMethod(
+							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Selected", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetSelected", IMemberDescriptor::Normal))
+							)
+							->Setter(
+								(new MethodDescriptor(L"SetSelected", IMemberDescriptor::Normal))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Checked", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetChecked", IMemberDescriptor::Normal))
+							)
+							->Setter(
+								(new MethodDescriptor(L"SetChecked", IMemberDescriptor::Normal))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Text", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetText", IMemberDescriptor::Normal))
+							)
+							->Setter(
+								(new MethodDescriptor(L"SetText", IMemberDescriptor::Normal))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Selected", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetSelected", IMemberDescriptor::Normal))
+							)
+							->Setter(
+								(new MethodDescriptor(L"SetSelected", IMemberDescriptor::Normal))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Checked", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetChecked", IMemberDescriptor::Normal))
+							)
+							->Setter(
+								(new MethodDescriptor(L"SetChecked", IMemberDescriptor::Normal))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Text", IMemberDescriptor::Normal))
+							->Getter(
+								(new MethodDescriptor(L"GetText", IMemberDescriptor::Normal))
+							)
+							->Setter(
+								(new MethodDescriptor(L"SetText", IMemberDescriptor::Normal))
+							)
+						);
 					}
 				
 				public:
@@ -3372,6 +11835,81 @@ TextLine (vl::presentation::elements::text::TextLine)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"TextLine", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator==", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator!=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Initialize", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Finalize", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsReady", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Modify", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Split", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"AppendAndFinalize", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CalculateBufferLength", IMemberDescriptor::Static))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"text", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_text", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_text", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"att", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_att", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_att", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"availableOffsetCount", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_availableOffsetCount", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_availableOffsetCount", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"bufferLength", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_bufferLength", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_bufferLength", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"dataLength", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_dataLength", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_dataLength", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -3386,6 +11924,156 @@ TextLines (vl::presentation::elements::text::TextLines)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"TextLines", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetLine", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetText", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RemoveLines", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IsAvailable", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Normalize", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Modify", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Modify", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Modify", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Modify", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Clear", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ClearMeasurement", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"MeasureRow", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetRowWidth", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetTextPosFromPoint", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetPointFromTextPos", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetRectFromTextPos", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Count", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCount", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"CharMeasurer", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCharMeasurer", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetCharMeasurer", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"RenderTarget", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRenderTarget", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetRenderTarget", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Text", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetText", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetText", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"TabSpaceCount", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetTabSpaceCount", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetTabSpaceCount", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"RowHeight", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRowHeight", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MaxWidth", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMaxWidth", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"MaxHeight", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetMaxHeight", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"CharMeasurer", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetCharMeasurer", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetCharMeasurer", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"RenderTarget", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetRenderTarget", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetRenderTarget", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Text", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetText", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetText", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"TabSpaceCount", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetTabSpaceCount", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"SetTabSpaceCount", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -3400,6 +12088,51 @@ TextPos (vl::presentation::TextPos)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"TextPos", IMemberDescriptor::Normal))
+					);
+					AddConstructor(
+						(new MethodDescriptor(L"TextPos", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Compare", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator==", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator!=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator<", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator<=", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator>", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator>=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"row", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_row", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_row", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"column", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_column", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_column", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -3414,6 +12147,33 @@ TreeViewItem (vl::presentation::controls::tree::TreeViewItem)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"TreeViewItem", IMemberDescriptor::Normal))
+					);
+					AddConstructor(
+						(new MethodDescriptor(L"TreeViewItem", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"image", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_image", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_image", IMemberDescriptor::Normal))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"text", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"get_text", IMemberDescriptor::Normal))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_text", IMemberDescriptor::Normal))
+						)
+					);
 				}
 			
 			public:
@@ -3428,6 +12188,18 @@ TreeViewItemRootProvider (vl::presentation::controls::tree::TreeViewItemRootProv
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"TreeViewItemRootProvider", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"RequestView", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"ReleaseView", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
 				}
 			
 			public:
@@ -3442,6 +12214,42 @@ TreeViewNodeItemStyleProvider (vl::presentation::controls::tree::TreeViewNodeIte
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"TreeViewNodeItemStyleProvider", IMemberDescriptor::Normal))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"BindItemStyleProvider", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"AttachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"DetachListControl", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"GetItemStyleId", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"CreateItemStyle", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"DestroyItemStyle", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Install", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"SetStyleSelected", IMemberDescriptor::Virtual))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"BindedItemStyleProvider", IMemberDescriptor::Normal))
+						->Getter(
+							(new MethodDescriptor(L"GetBindedItemStyleProvider", IMemberDescriptor::Virtual))
+						)
+					);
 				}
 			
 			public:

@@ -72,6 +72,7 @@ namespace _TranslateXMLtoCode
         public RgacUDT[] BaseClasses { get; set; }
         public RgacMethod[] Constructors { get; set; }
         public RgacMethod[] Methods { get; set; }
+        public RgacMethod[] OverridingMethods { get; set; }
         public RgacMethod[] StaticMethods { get; set; }
         public RgacProperty[] Properties { get; set; }
         public RgacProperty[] StaticProperties { get; set; }
