@@ -64,10 +64,7 @@ namespace _TranslateXMLtoCode.Codegen
             WriteLine("->ReturnType(" + GetType(method.ReturnType) + ")");
             for (int i = 0; i < method.ParameterTypes.Length; i++)
             {
-                if (method.ParameterNames.Length > 0)
-                {
-                    WriteLine("->Parameter(L\"{0}\", {1})", method.ParameterNames[i], GetType(method.ParameterTypes[i]));
-                }
+                WriteLine("->Parameter(L\"{0}\", {1})", method.ParameterNames[i], GetType(method.ParameterTypes[i]));
             }
         }
 

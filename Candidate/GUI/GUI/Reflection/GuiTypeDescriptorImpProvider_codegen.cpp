@@ -291,7 +291,6 @@ Type Caching
 				Type* cache_NativeWindowCharInfo;
 				Type* cache_NativeWindowKeyInfo;
 				Type* cache_NativeWindowMouseInfo;
-				Type* cache_ObjectString_of_wchar_t;
 				Type* cache_Point;
 				Type* cache_Rect;
 				Type* cache_Size;
@@ -376,13 +375,48 @@ Array_of_ColorEntry (vl::collections::Array<vl::presentation::elements::text::Co
 						->Parameter(L"size", 0)
 					);
 					AddMethod(
+						(new MethodDescriptor(L"Contains", IMemberDescriptor::Normal))
+						->ReturnType(0)
+						->Parameter(L"item", 0)
+					);
+					AddMethod(
 						(new MethodDescriptor(L"Count", IMemberDescriptor::Normal))
 						->ReturnType(0)
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Get", IMemberDescriptor::Normal))
+						->ReturnType(0)
+						->Parameter(L"index", 0)
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Normal))
+						->ReturnType(0)
+						->Parameter(L"index", 0)
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Normal))
+						->ReturnType(0)
+						->Parameter(L"value", 0)
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Normal))
+						->ReturnType(0)
+						->Parameter(L"item", 0)
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Set", IMemberDescriptor::Normal))
+						->ReturnType(0)
+						->Parameter(L"index", 0)
+						->Parameter(L"item", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Resize", IMemberDescriptor::Normal))
 						->ReturnType(0)
 						->Parameter(L"size", 0)
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Wrap", IMemberDescriptor::Normal))
+						->ReturnType(0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -643,7 +677,7 @@ Color (vl::presentation::Color)
 					AddMethod(
 						(new MethodDescriptor(L"operator<", IMemberDescriptor::Normal))
 						->ReturnType(0)
-						->Parameter(L"value", 0)
+						->Parameter(L"color", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator<=", IMemberDescriptor::Normal))
@@ -653,7 +687,7 @@ Color (vl::presentation::Color)
 					AddMethod(
 						(new MethodDescriptor(L"operator>", IMemberDescriptor::Normal))
 						->ReturnType(0)
-						->Parameter(L"value", 0)
+						->Parameter(L"color", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator>=", IMemberDescriptor::Normal))
@@ -2217,6 +2251,10 @@ GuiColorizedTextElement :: ICallback (vl::presentation::elements::GuiColorizedTe
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"ICallback", IMemberDescriptor::Normal))
+							->ReturnType(0)
+						);
 						AddMethod(
 							(new MethodDescriptor(L"ColorChanged", IMemberDescriptor::Abstract))
 							->ReturnType(0)
@@ -4212,6 +4250,7 @@ GuiGraphicsEvent_of_GuiCharEventArgs (vl::presentation::elements::GuiGraphicsEve
 					AddMethod(
 						(new MethodDescriptor(L"Detach", IMemberDescriptor::Normal))
 						->ReturnType(0)
+						->Parameter(L"handler", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Execute", IMemberDescriptor::Normal))
@@ -4233,6 +4272,7 @@ GuiGraphicsEvent_of_GuiCharEventArgs (vl::presentation::elements::GuiGraphicsEve
 						->Setter(
 							(new MethodDescriptor(L"SetAssociatedComposition", IMemberDescriptor::Normal))
 							->ReturnType(0)
+							->Parameter(L"_sender", 0)
 						)
 					);
 					AddProperty(
@@ -4245,6 +4285,7 @@ GuiGraphicsEvent_of_GuiCharEventArgs (vl::presentation::elements::GuiGraphicsEve
 						->Setter(
 							(new MethodDescriptor(L"SetAssociatedComposition", IMemberDescriptor::Normal))
 							->ReturnType(0)
+							->Parameter(L"_sender", 0)
 						)
 					);
 				}
@@ -4267,6 +4308,8 @@ GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler (vl::presentation::elements::Gu
 						AddMethod(
 							(new MethodDescriptor(L"Execute", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"sender", 0)
+							->Parameter(L"argument", 0)
 						);
 						AddMethod(
 							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -4301,6 +4344,7 @@ GuiGraphicsEvent_of_GuiEventArgs (vl::presentation::elements::GuiGraphicsEvent<v
 					AddMethod(
 						(new MethodDescriptor(L"Detach", IMemberDescriptor::Normal))
 						->ReturnType(0)
+						->Parameter(L"handler", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Execute", IMemberDescriptor::Normal))
@@ -4358,6 +4402,8 @@ GuiGraphicsEvent_of_GuiEventArgs :: IHandler (vl::presentation::elements::GuiGra
 						AddMethod(
 							(new MethodDescriptor(L"Execute", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"sender", 0)
+							->Parameter(L"argument", 0)
 						);
 						AddMethod(
 							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -4392,6 +4438,7 @@ GuiGraphicsEvent_of_GuiKeyEventArgs (vl::presentation::elements::GuiGraphicsEven
 					AddMethod(
 						(new MethodDescriptor(L"Detach", IMemberDescriptor::Normal))
 						->ReturnType(0)
+						->Parameter(L"handler", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Execute", IMemberDescriptor::Normal))
@@ -4413,6 +4460,7 @@ GuiGraphicsEvent_of_GuiKeyEventArgs (vl::presentation::elements::GuiGraphicsEven
 						->Setter(
 							(new MethodDescriptor(L"SetAssociatedComposition", IMemberDescriptor::Normal))
 							->ReturnType(0)
+							->Parameter(L"_sender", 0)
 						)
 					);
 					AddProperty(
@@ -4425,6 +4473,7 @@ GuiGraphicsEvent_of_GuiKeyEventArgs (vl::presentation::elements::GuiGraphicsEven
 						->Setter(
 							(new MethodDescriptor(L"SetAssociatedComposition", IMemberDescriptor::Normal))
 							->ReturnType(0)
+							->Parameter(L"_sender", 0)
 						)
 					);
 				}
@@ -4447,6 +4496,8 @@ GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler (vl::presentation::elements::Gui
 						AddMethod(
 							(new MethodDescriptor(L"Execute", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"sender", 0)
+							->Parameter(L"argument", 0)
 						);
 						AddMethod(
 							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -4503,6 +4554,7 @@ GuiGraphicsEvent_of_GuiMouseEventArgs (vl::presentation::elements::GuiGraphicsEv
 						->Setter(
 							(new MethodDescriptor(L"SetAssociatedComposition", IMemberDescriptor::Normal))
 							->ReturnType(0)
+							->Parameter(L"_sender", 0)
 						)
 					);
 					AddProperty(
@@ -4515,6 +4567,7 @@ GuiGraphicsEvent_of_GuiMouseEventArgs (vl::presentation::elements::GuiGraphicsEv
 						->Setter(
 							(new MethodDescriptor(L"SetAssociatedComposition", IMemberDescriptor::Normal))
 							->ReturnType(0)
+							->Parameter(L"_sender", 0)
 						)
 					);
 				}
@@ -4537,6 +4590,8 @@ GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler (vl::presentation::elements::G
 						AddMethod(
 							(new MethodDescriptor(L"Execute", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"sender", 0)
+							->Parameter(L"argument", 0)
 						);
 						AddMethod(
 							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -4566,10 +4621,12 @@ GuiGraphicsEvent_of_GuiRequestEventArgs (vl::presentation::elements::GuiGraphics
 					AddMethod(
 						(new MethodDescriptor(L"Attach", IMemberDescriptor::Normal))
 						->ReturnType(0)
+						->Parameter(L"handler", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Detach", IMemberDescriptor::Normal))
 						->ReturnType(0)
+						->Parameter(L"handler", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Execute", IMemberDescriptor::Normal))
@@ -4620,9 +4677,15 @@ GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler (vl::presentation::elements:
 				protected:
 					void FillTypeContent()
 					{
+						AddConstructor(
+							(new MethodDescriptor(L"IHandler", IMemberDescriptor::Normal))
+							->ReturnType(0)
+						);
 						AddMethod(
 							(new MethodDescriptor(L"Execute", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"sender", 0)
+							->Parameter(L"argument", 0)
 						);
 						AddMethod(
 							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -5112,6 +5175,7 @@ GuiGraphicsResourceManager (vl::presentation::elements::GuiGraphicsResourceManag
 					AddMethod(
 						(new MethodDescriptor(L"GetRenderTarget", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"window", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -5542,22 +5606,29 @@ GuiListControl :: IItemArrangerCallback (vl::presentation::controls::GuiListCont
 						AddMethod(
 							(new MethodDescriptor(L"RequestItem", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"itemIndex", 0)
 						);
 						AddMethod(
 							(new MethodDescriptor(L"ReleaseItem", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"style", 0)
 						);
 						AddMethod(
 							(new MethodDescriptor(L"GetStylePreferredSize", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"style", 0)
 						);
 						AddMethod(
 							(new MethodDescriptor(L"SetStyleAlignmentToParent", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"style", 0)
+							->Parameter(L"margin", 0)
 						);
 						AddMethod(
 							(new MethodDescriptor(L"SetStyleBounds", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"style", 0)
+							->Parameter(L"bounds", 0)
 						);
 						AddMethod(
 							(new MethodDescriptor(L"OnTotalSizeChanged", IMemberDescriptor::Abstract))
@@ -5571,6 +5642,7 @@ GuiListControl :: IItemArrangerCallback (vl::presentation::controls::GuiListCont
 						AddMethod(
 							(new MethodDescriptor(L"SetViewLocation", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"value", 0)
 						);
 						AddProperty(
 							(new PropertyDescriptor(L"ContainerComposition", IMemberDescriptor::Normal))
@@ -7110,14 +7182,17 @@ GuiScroll :: ICommandExecutor (vl::presentation::controls::GuiScroll::ICommandEx
 						AddMethod(
 							(new MethodDescriptor(L"SetTotalSize", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"value", 0)
 						);
 						AddMethod(
 							(new MethodDescriptor(L"SetPageSize", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"value", 0)
 						);
 						AddMethod(
 							(new MethodDescriptor(L"SetPosition", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"value", 0)
 						);
 					}
 				
@@ -8978,6 +9053,7 @@ GuiTab :: ICommandExecutor (vl::presentation::controls::GuiTab::ICommandExecutor
 						AddMethod(
 							(new MethodDescriptor(L"ShowTab", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"index", 0)
 						);
 						AddMethod(
 							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -10298,6 +10374,10 @@ IEnumerable_of_MemoryNodeProvider (vl::collections::IEnumerable<vl::Ptr<vl::pres
 						->ReturnType(0)
 					);
 					AddMethod(
+						(new MethodDescriptor(L"CreateEnumerator", IMemberDescriptor::Abstract))
+						->ReturnType(0)
+					);
+					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
 						->ReturnType(0)
 						->Parameter(L"value", 0)
@@ -10444,6 +10524,8 @@ IGuiGraphicsAnimation (vl::presentation::elements::IGuiGraphicsAnimation)
 					AddMethod(
 						(new MethodDescriptor(L"Play", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"currentPosition", 0)
+						->Parameter(L"totalLength", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Stop", IMemberDescriptor::Abstract))
@@ -10523,6 +10605,10 @@ IGuiGraphicsElementFactory (vl::presentation::elements::IGuiGraphicsElementFacto
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IGuiGraphicsElementFactory", IMemberDescriptor::Normal))
+						->ReturnType(0)
+					);
 					AddMethod(
 						(new MethodDescriptor(L"Create", IMemberDescriptor::Abstract))
 						->ReturnType(0)
@@ -10554,9 +10640,14 @@ IGuiGraphicsRenderer (vl::presentation::elements::IGuiGraphicsRenderer)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IGuiGraphicsRenderer", IMemberDescriptor::Normal))
+						->ReturnType(0)
+					);
 					AddMethod(
 						(new MethodDescriptor(L"Initialize", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"_element", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Finalize", IMemberDescriptor::Abstract))
@@ -10565,6 +10656,7 @@ IGuiGraphicsRenderer (vl::presentation::elements::IGuiGraphicsRenderer)
 					AddMethod(
 						(new MethodDescriptor(L"Render", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"bounds", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"OnElementStateChanged", IMemberDescriptor::Abstract))
@@ -10578,6 +10670,7 @@ IGuiGraphicsRenderer (vl::presentation::elements::IGuiGraphicsRenderer)
 					AddMethod(
 						(new MethodDescriptor(L"SetRenderTarget", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"_renderTarget", 0)
 					);
 					AddProperty(
 						(new PropertyDescriptor(L"Factory", IMemberDescriptor::Normal))
@@ -10609,6 +10702,10 @@ IGuiGraphicsRendererFactory (vl::presentation::elements::IGuiGraphicsRendererFac
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IGuiGraphicsRendererFactory", IMemberDescriptor::Normal))
+						->ReturnType(0)
+					);
 					AddMethod(
 						(new MethodDescriptor(L"Create", IMemberDescriptor::Abstract))
 						->ReturnType(0)
@@ -10632,6 +10729,10 @@ IGuiGraphicsRenderTarget (vl::presentation::elements::IGuiGraphicsRenderTarget)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"IGuiGraphicsRenderTarget", IMemberDescriptor::Normal))
+						->ReturnType(0)
+					);
 					AddMethod(
 						(new MethodDescriptor(L"StartRendering", IMemberDescriptor::Abstract))
 						->ReturnType(0)
@@ -10643,6 +10744,7 @@ IGuiGraphicsRenderTarget (vl::presentation::elements::IGuiGraphicsRenderTarget)
 					AddMethod(
 						(new MethodDescriptor(L"PushClipper", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"clipper", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"PopClipper", IMemberDescriptor::Abstract))
@@ -10781,10 +10883,14 @@ IList_of_int (vl::collections::IList<int,int>)
 					AddMethod(
 						(new MethodDescriptor(L"Insert", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"index", 0)
+						->Parameter(L"item", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Set", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"index", 0)
+						->Parameter(L"item", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -10808,6 +10914,18 @@ IList_of_ListViewColumn (vl::collections::IList<vl::Ptr<vl::presentation::contro
 					AddConstructor(
 						(new MethodDescriptor(L"IList", IMemberDescriptor::Normal))
 						->ReturnType(0)
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Insert", IMemberDescriptor::Abstract))
+						->ReturnType(0)
+						->Parameter(L"index", 0)
+						->Parameter(L"item", 0)
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Set", IMemberDescriptor::Abstract))
+						->ReturnType(0)
+						->Parameter(L"index", 0)
+						->Parameter(L"item", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -11017,10 +11135,12 @@ INativeCallbackService (vl::presentation::INativeCallbackService)
 					AddMethod(
 						(new MethodDescriptor(L"InstallListener", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"listener", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"UninstallListener", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"listener", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -11052,6 +11172,7 @@ INativeClipboardService (vl::presentation::INativeClipboardService)
 					AddMethod(
 						(new MethodDescriptor(L"SetText", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"value", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -11361,6 +11482,7 @@ INativeImage (vl::presentation::INativeImage)
 					AddMethod(
 						(new MethodDescriptor(L"GetFrame", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"index", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -11490,14 +11612,18 @@ INativeImageFrame (vl::presentation::INativeImageFrame)
 					AddMethod(
 						(new MethodDescriptor(L"SetCache", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"key", 0)
+						->Parameter(L"cache", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"GetCache", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"key", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"RemoveCache", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"key", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -11534,13 +11660,19 @@ INativeImageFrameCache (vl::presentation::INativeImageFrameCache)
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"INativeImageFrameCache", IMemberDescriptor::Normal))
+						->ReturnType(0)
+					);
 					AddMethod(
 						(new MethodDescriptor(L"OnAttach", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"frame", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"OnDetach", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"frame", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -11568,6 +11700,7 @@ INativeImageService (vl::presentation::INativeImageService)
 					AddMethod(
 						(new MethodDescriptor(L"CreateImageFromFile", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"path", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -11619,10 +11752,12 @@ INativeInputService (vl::presentation::INativeInputService)
 					AddMethod(
 						(new MethodDescriptor(L"IsKeyPressing", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"code", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"IsKeyToggled", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"code", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -11650,6 +11785,7 @@ INativeResourceService (vl::presentation::INativeResourceService)
 					AddMethod(
 						(new MethodDescriptor(L"GetSystemCursor", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"type", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -11674,6 +11810,7 @@ INativeResourceService (vl::presentation::INativeResourceService)
 						->Setter(
 							(new MethodDescriptor(L"SetDefaultFont", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"value", 0)
 						)
 					);
 					AddProperty(
@@ -11686,6 +11823,7 @@ INativeResourceService (vl::presentation::INativeResourceService)
 						->Setter(
 							(new MethodDescriptor(L"SetDefaultFont", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"value", 0)
 						)
 					);
 				}
@@ -11760,10 +11898,12 @@ INativeScreenService (vl::presentation::INativeScreenService)
 					AddMethod(
 						(new MethodDescriptor(L"GetScreen", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"window", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"GetScreen", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"index", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -11887,10 +12027,12 @@ INativeWindow (vl::presentation::INativeWindow)
 					AddMethod(
 						(new MethodDescriptor(L"InstallListener", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"listener", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"UninstallListener", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"listener", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"RedrawContent", IMemberDescriptor::Abstract))
@@ -11911,6 +12053,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetBounds", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"bounds", 0)
 						)
 					);
 					AddProperty(
@@ -11923,6 +12066,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetClientSize", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"size", 0)
 						)
 					);
 					AddProperty(
@@ -11943,6 +12087,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetTitle", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"_title", 0)
 						)
 					);
 					AddProperty(
@@ -11955,6 +12100,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetWindowCursor", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"_cursor", 0)
 						)
 					);
 					AddProperty(
@@ -11967,6 +12113,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetCaretPoint", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"point", 0)
 						)
 					);
 					AddProperty(
@@ -11979,6 +12126,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetParent", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"parent", 0)
 						)
 					);
 					AddProperty(
@@ -11991,6 +12139,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetAlwaysPassFocusToParent", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"value", 0)
 						)
 					);
 					AddProperty(
@@ -12003,6 +12152,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetMaximizedBox", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"visible", 0)
 						)
 					);
 					AddProperty(
@@ -12015,6 +12165,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetMinimizedBox", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"visible", 0)
 						)
 					);
 					AddProperty(
@@ -12027,6 +12178,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetBorder", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"visible", 0)
 						)
 					);
 					AddProperty(
@@ -12039,6 +12191,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetSizeBox", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"visible", 0)
 						)
 					);
 					AddProperty(
@@ -12051,6 +12204,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetIconVisible", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"visible", 0)
 						)
 					);
 					AddProperty(
@@ -12063,6 +12217,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetTitleBar", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"visible", 0)
 						)
 					);
 					AddProperty(
@@ -12075,6 +12230,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetTopMost", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"topmost", 0)
 						)
 					);
 					AddProperty(
@@ -12087,6 +12243,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetBounds", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"bounds", 0)
 						)
 					);
 					AddProperty(
@@ -12099,6 +12256,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetClientSize", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"size", 0)
 						)
 					);
 					AddProperty(
@@ -12111,6 +12269,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetTitle", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"_title", 0)
 						)
 					);
 					AddProperty(
@@ -12123,6 +12282,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetWindowCursor", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"_cursor", 0)
 						)
 					);
 					AddProperty(
@@ -12135,6 +12295,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetCaretPoint", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"point", 0)
 						)
 					);
 					AddProperty(
@@ -12147,6 +12308,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetParent", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"parent", 0)
 						)
 					);
 					AddProperty(
@@ -12159,6 +12321,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetAlwaysPassFocusToParent", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"value", 0)
 						)
 					);
 					AddProperty(
@@ -12171,6 +12334,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetMaximizedBox", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"visible", 0)
 						)
 					);
 					AddProperty(
@@ -12183,6 +12347,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetMinimizedBox", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"visible", 0)
 						)
 					);
 					AddProperty(
@@ -12195,6 +12360,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetBorder", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"visible", 0)
 						)
 					);
 					AddProperty(
@@ -12207,6 +12373,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetSizeBox", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"visible", 0)
 						)
 					);
 					AddProperty(
@@ -12219,6 +12386,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetIconVisible", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"visible", 0)
 						)
 					);
 					AddProperty(
@@ -12231,6 +12399,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetTitleBar", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"visible", 0)
 						)
 					);
 					AddProperty(
@@ -12243,6 +12412,7 @@ INativeWindow (vl::presentation::INativeWindow)
 						->Setter(
 							(new MethodDescriptor(L"SetTopMost", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"topmost", 0)
 						)
 					);
 				}
@@ -12445,14 +12615,17 @@ INativeWindowService (vl::presentation::INativeWindowService)
 					AddMethod(
 						(new MethodDescriptor(L"DestroyNativeWindow", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"window", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"GetWindow", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"location", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Run", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"window", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -12848,8 +13021,28 @@ IReadonlyList_of_ColorEntry (vl::collections::IReadonlyList<vl::presentation::el
 						->ReturnType(0)
 					);
 					AddMethod(
+						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
+						->ReturnType(0)
+						->Parameter(L"item", 0)
+					);
+					AddMethod(
 						(new MethodDescriptor(L"Count", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Get", IMemberDescriptor::Abstract))
+						->ReturnType(0)
+						->Parameter(L"index", 0)
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Abstract))
+						->ReturnType(0)
+						->Parameter(L"index", 0)
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Abstract))
+						->ReturnType(0)
+						->Parameter(L"item", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -12891,6 +13084,7 @@ IReadonlyList_of_GuiGraphicsComposition_raw_pointer (vl::collections::IReadonlyL
 					AddMethod(
 						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"item", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Count", IMemberDescriptor::Abstract))
@@ -12899,15 +13093,17 @@ IReadonlyList_of_GuiGraphicsComposition_raw_pointer (vl::collections::IReadonlyL
 					AddMethod(
 						(new MethodDescriptor(L"Get", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"index", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Abstract))
 						->ReturnType(0)
-						->Parameter(L"value", 0)
+						->Parameter(L"index", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"item", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -12935,6 +13131,7 @@ IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer (vl::collection
 					AddMethod(
 						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"item", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Count", IMemberDescriptor::Abstract))
@@ -12943,15 +13140,17 @@ IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer (vl::collection
 					AddMethod(
 						(new MethodDescriptor(L"Get", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"index", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Abstract))
 						->ReturnType(0)
-						->Parameter(L"value", 0)
+						->Parameter(L"index", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"item", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -12979,6 +13178,7 @@ IReadonlyList_of_GuiStackItemComposition_raw_pointer (vl::collections::IReadonly
 					AddMethod(
 						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"item", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Count", IMemberDescriptor::Abstract))
@@ -12987,15 +13187,17 @@ IReadonlyList_of_GuiStackItemComposition_raw_pointer (vl::collections::IReadonly
 					AddMethod(
 						(new MethodDescriptor(L"Get", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"index", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Abstract))
 						->ReturnType(0)
-						->Parameter(L"value", 0)
+						->Parameter(L"index", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"item", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -13023,6 +13225,7 @@ IReadonlyList_of_GuiTabPage_raw_pointer (vl::collections::IReadonlyList<vl::pres
 					AddMethod(
 						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"item", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Count", IMemberDescriptor::Abstract))
@@ -13031,15 +13234,17 @@ IReadonlyList_of_GuiTabPage_raw_pointer (vl::collections::IReadonlyList<vl::pres
 					AddMethod(
 						(new MethodDescriptor(L"Get", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"index", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Abstract))
 						->ReturnType(0)
-						->Parameter(L"value", 0)
+						->Parameter(L"index", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"item", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -13067,6 +13272,7 @@ IReadonlyList_of_GuiWindow_raw_pointer (vl::collections::IReadonlyList<vl::prese
 					AddMethod(
 						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"item", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Count", IMemberDescriptor::Abstract))
@@ -13075,15 +13281,17 @@ IReadonlyList_of_GuiWindow_raw_pointer (vl::collections::IReadonlyList<vl::prese
 					AddMethod(
 						(new MethodDescriptor(L"Get", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"index", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Abstract))
 						->ReturnType(0)
-						->Parameter(L"value", 0)
+						->Parameter(L"index", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"item", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -13111,6 +13319,7 @@ IReadonlyList_of_int (vl::collections::IReadonlyList<int,int>)
 					AddMethod(
 						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"item", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Count", IMemberDescriptor::Abstract))
@@ -13119,15 +13328,17 @@ IReadonlyList_of_int (vl::collections::IReadonlyList<int,int>)
 					AddMethod(
 						(new MethodDescriptor(L"Get", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"index", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Abstract))
 						->ReturnType(0)
-						->Parameter(L"value", 0)
+						->Parameter(L"index", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Abstract))
 						->ReturnType(0)
+						->Parameter(L"item", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -13601,6 +13812,47 @@ List_of_IMethodDescriptor_raw_pointer (vl::collections::List<vl::presentation::I
 						->ReturnType(0)
 					);
 					AddMethod(
+						(new MethodDescriptor(L"Contains", IMemberDescriptor::Normal))
+						->ReturnType(0)
+						->Parameter(L"item", 0)
+					);
+					AddMethod(
+						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Normal))
+						->ReturnType(0)
+						->Parameter(L"item", 0)
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Add", IMemberDescriptor::Normal))
+						->ReturnType(0)
+						->Parameter(L"item", 0)
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Insert", IMemberDescriptor::Normal))
+						->ReturnType(0)
+						->Parameter(L"index", 0)
+						->Parameter(L"item", 0)
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Remove", IMemberDescriptor::Normal))
+						->ReturnType(0)
+						->Parameter(L"item", 0)
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Set", IMemberDescriptor::Normal))
+						->ReturnType(0)
+						->Parameter(L"index", 0)
+						->Parameter(L"item", 0)
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Normal))
+						->ReturnType(0)
+						->Parameter(L"index", 0)
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Wrap", IMemberDescriptor::Normal))
+						->ReturnType(0)
+					);
+					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
 						->ReturnType(0)
 						->Parameter(L"value", 0)
@@ -13619,34 +13871,50 @@ List_of_ObjectString_of_wchar_t (vl::collections::List<vl::ObjectString<wchar_t>
 			protected:
 				void FillTypeContent()
 				{
+					AddConstructor(
+						(new MethodDescriptor(L"List", IMemberDescriptor::Normal))
+						->ReturnType(0)
+					);
 					AddMethod(
 						(new MethodDescriptor(L"Contains", IMemberDescriptor::Normal))
 						->ReturnType(0)
+						->Parameter(L"item", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Normal))
 						->ReturnType(0)
+						->Parameter(L"item", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Add", IMemberDescriptor::Normal))
 						->ReturnType(0)
+						->Parameter(L"item", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Insert", IMemberDescriptor::Normal))
 						->ReturnType(0)
+						->Parameter(L"index", 0)
+						->Parameter(L"item", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Remove", IMemberDescriptor::Normal))
 						->ReturnType(0)
+						->Parameter(L"item", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Set", IMemberDescriptor::Normal))
 						->ReturnType(0)
+						->Parameter(L"index", 0)
+						->Parameter(L"item", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Normal))
 						->ReturnType(0)
 						->Parameter(L"index", 0)
+					);
+					AddMethod(
+						(new MethodDescriptor(L"Wrap", IMemberDescriptor::Normal))
+						->ReturnType(0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -14168,6 +14436,9 @@ ListViewItemStyleProvider :: IListViewItemContent (vl::presentation::controls::l
 						AddMethod(
 							(new MethodDescriptor(L"Install", IMemberDescriptor::Abstract))
 							->ReturnType(0)
+							->Parameter(L"styleProvider", 0)
+							->Parameter(L"view", 0)
+							->Parameter(L"itemIndex", 0)
 						);
 						AddMethod(
 							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -14686,6 +14957,8 @@ ListWrapperProvider_of_TextItem (vl::presentation::controls::list::ListWrapperPr
 					AddMethod(
 						(new MethodDescriptor(L"NotifyUpdate", IMemberDescriptor::Normal))
 						->ReturnType(0)
+						->Parameter(L"start", 0)
+						->Parameter(L"count", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"CreateEnumerator", IMemberDescriptor::Virtual))
@@ -15175,178 +15448,6 @@ NodeRootProviderBase (vl::presentation::controls::tree::NodeRootProviderBase)
 			};
 
 /***********************************************************************
-ObjectString_of_wchar_t (vl::ObjectString<wchar_t>)
-***********************************************************************/
-
-			class gacui_tpimp_ObjectString_of_wchar_t : public TypeDescriptor
-			{
-			protected:
-				void FillTypeContent()
-				{
-					AddConstructor(
-						(new MethodDescriptor(L"ObjectString", IMemberDescriptor::Normal))
-						->ReturnType(0)
-						->Parameter(L"string", 0)
-					);
-					AddConstructor(
-						(new MethodDescriptor(L"ObjectString", IMemberDescriptor::Normal))
-						->ReturnType(0)
-						->Parameter(L"_buffer", 0)
-						->Parameter(L"copy", 0)
-					);
-					AddConstructor(
-						(new MethodDescriptor(L"ObjectString", IMemberDescriptor::Normal))
-						->ReturnType(0)
-						->Parameter(L"_buffer", 0)
-						->Parameter(L"_length", 0)
-					);
-					AddConstructor(
-						(new MethodDescriptor(L"ObjectString", IMemberDescriptor::Normal))
-						->ReturnType(0)
-						->Parameter(L"_char", 0)
-					);
-					AddConstructor(
-						(new MethodDescriptor(L"ObjectString", IMemberDescriptor::Normal))
-						->ReturnType(0)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"Buffer", IMemberDescriptor::Normal))
-						->ReturnType(0)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
-						->ReturnType(0)
-						->Parameter(L"string", 0)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"operator+=", IMemberDescriptor::Normal))
-						->ReturnType(0)
-						->Parameter(L"value", 0)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"operator+", IMemberDescriptor::Normal))
-						->ReturnType(0)
-						->Parameter(L"string", 0)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"operator==", IMemberDescriptor::Normal))
-						->ReturnType(0)
-						->Parameter(L"buffer", 0)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"operator==", IMemberDescriptor::Normal))
-						->ReturnType(0)
-						->Parameter(L"string", 0)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"operator!=", IMemberDescriptor::Normal))
-						->ReturnType(0)
-						->Parameter(L"value", 0)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"operator!=", IMemberDescriptor::Normal))
-						->ReturnType(0)
-						->Parameter(L"string", 0)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"operator>", IMemberDescriptor::Normal))
-						->ReturnType(0)
-						->Parameter(L"value", 0)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"operator>", IMemberDescriptor::Normal))
-						->ReturnType(0)
-						->Parameter(L"string", 0)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"operator>=", IMemberDescriptor::Normal))
-						->ReturnType(0)
-						->Parameter(L"value", 0)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"operator>=", IMemberDescriptor::Normal))
-						->ReturnType(0)
-						->Parameter(L"value", 0)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"operator<", IMemberDescriptor::Normal))
-						->ReturnType(0)
-						->Parameter(L"value", 0)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"operator<", IMemberDescriptor::Normal))
-						->ReturnType(0)
-						->Parameter(L"string", 0)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"operator<=", IMemberDescriptor::Normal))
-						->ReturnType(0)
-						->Parameter(L"value", 0)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"operator<=", IMemberDescriptor::Normal))
-						->ReturnType(0)
-						->Parameter(L"value", 0)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Normal))
-						->ReturnType(0)
-						->Parameter(L"value", 0)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"Length", IMemberDescriptor::Normal))
-						->ReturnType(0)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Normal))
-						->ReturnType(0)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"Left", IMemberDescriptor::Normal))
-						->ReturnType(0)
-						->Parameter(L"count", 0)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"Right", IMemberDescriptor::Normal))
-						->ReturnType(0)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"Sub", IMemberDescriptor::Normal))
-						->ReturnType(0)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"Remove", IMemberDescriptor::Normal))
-						->ReturnType(0)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"Insert", IMemberDescriptor::Normal))
-						->ReturnType(0)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"Compare", IMemberDescriptor::Static))
-						->ReturnType(0)
-						->Parameter(L"strA", 0)
-						->Parameter(L"strB", 0)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Empty", IMemberDescriptor::Static))
-						->PropertyType(0)
-						->Getter(
-							(new MethodDescriptor(L"get_Empty", IMemberDescriptor::Static))
-							->ReturnType(0)
-						)
-						->Setter(
-							(new MethodDescriptor(L"set_Empty", IMemberDescriptor::Static))
-							->ReturnType(0)
-							->Parameter(L"value", 0)
-						)
-					);
-				}
-			
-			public:
-			};
-
-/***********************************************************************
 Point (vl::presentation::Point)
 ***********************************************************************/
 
@@ -15550,18 +15651,24 @@ Rect (vl::presentation::Rect)
 					AddMethod(
 						(new MethodDescriptor(L"Expand", IMemberDescriptor::Normal))
 						->ReturnType(0)
+						->Parameter(L"s", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Expand", IMemberDescriptor::Normal))
 						->ReturnType(0)
+						->Parameter(L"x", 0)
+						->Parameter(L"y", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Move", IMemberDescriptor::Normal))
 						->ReturnType(0)
+						->Parameter(L"s", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Move", IMemberDescriptor::Normal))
 						->ReturnType(0)
+						->Parameter(L"x", 0)
+						->Parameter(L"y", 0)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Contains", IMemberDescriptor::Normal))
@@ -18699,7 +18806,6 @@ Helper Functions
 				((gacui_tpimp_type_cache_table.cache_NativeWindowCharInfo) = typeProvider->CreateType(IType::Struct, L"gacui_tpimp_NativeWindowCharInfo", new gacui_tpimp_NativeWindowCharInfo));
 				((gacui_tpimp_type_cache_table.cache_NativeWindowKeyInfo) = typeProvider->CreateType(IType::Struct, L"gacui_tpimp_NativeWindowKeyInfo", new gacui_tpimp_NativeWindowKeyInfo));
 				((gacui_tpimp_type_cache_table.cache_NativeWindowMouseInfo) = typeProvider->CreateType(IType::Struct, L"gacui_tpimp_NativeWindowMouseInfo", new gacui_tpimp_NativeWindowMouseInfo));
-				((gacui_tpimp_type_cache_table.cache_ObjectString_of_wchar_t) = typeProvider->CreateType(IType::Class, L"gacui_tpimp_ObjectString_of_wchar_t", new gacui_tpimp_ObjectString_of_wchar_t));
 				((gacui_tpimp_type_cache_table.cache_Point) = typeProvider->CreateType(IType::Struct, L"gacui_tpimp_Point", new gacui_tpimp_Point));
 				((gacui_tpimp_type_cache_table.cache_Rect) = typeProvider->CreateType(IType::Struct, L"gacui_tpimp_Rect", new gacui_tpimp_Rect));
 				((gacui_tpimp_type_cache_table.cache_Size) = typeProvider->CreateType(IType::Struct, L"gacui_tpimp_Size", new gacui_tpimp_Size));

@@ -379,10 +379,8 @@ WindowsGDIResourceManager
 			};
 		}
 
-		namespace elements
+		namespace elements_windows_gdi
 		{
-			using namespace elements_windows_gdi;
-
 			IWindowsGDIResourceManager* windowsGDIResourceManager=0;
 
 			IWindowsGDIResourceManager* GetWindowsGDIResourceManager()
@@ -404,28 +402,27 @@ NativeMain
 
 using namespace vl::presentation;
 using namespace vl::presentation::elements;
-using namespace vl::presentation::elements_windows_gdi;
 
 void RendererMainGDI()
 {
-	WindowsGDIResourceManager resourceManager;
+	elements_windows_gdi::WindowsGDIResourceManager resourceManager;
 	SetGuiGraphicsResourceManager(&resourceManager);
-	SetWindowsGDIResourceManager(&resourceManager);
+	elements_windows_gdi::SetWindowsGDIResourceManager(&resourceManager);
 	GetCurrentController()->CallbackService()->InstallListener(&resourceManager);
 
-	GuiSolidBorderElementRenderer::Register();
-	GuiRoundBorderElementRenderer::Register();
-	Gui3DBorderElementRenderer::Register();
-	Gui3DSplitterElementRenderer::Register();
-	GuiSolidBackgroundElementRenderer::Register();
-	GuiGradientBackgroundElementRenderer::Register();
-	GuiSolidLabelElementRenderer::Register();
-	GuiImageFrameElementRenderer::Register();
-	GuiPolygonElementRenderer::Register();
-	GuiColorizedTextElementRenderer::Register();
+	elements_windows_gdi::GuiSolidBorderElementRenderer::Register();
+	elements_windows_gdi::GuiRoundBorderElementRenderer::Register();
+	elements_windows_gdi::Gui3DBorderElementRenderer::Register();
+	elements_windows_gdi::Gui3DSplitterElementRenderer::Register();
+	elements_windows_gdi::GuiSolidBackgroundElementRenderer::Register();
+	elements_windows_gdi::GuiGradientBackgroundElementRenderer::Register();
+	elements_windows_gdi::GuiSolidLabelElementRenderer::Register();
+	elements_windows_gdi::GuiImageFrameElementRenderer::Register();
+	elements_windows_gdi::GuiPolygonElementRenderer::Register();
+	elements_windows_gdi::GuiColorizedTextElementRenderer::Register();
 
 	GuiApplicationMain();
-	SetWindowsGDIResourceManager(0);
+	elements_windows_gdi::SetWindowsGDIResourceManager(0);
 	SetGuiGraphicsResourceManager(0);
 }
 

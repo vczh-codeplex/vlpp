@@ -19,6 +19,10 @@
 #include "..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\GuiGraphicsEventReceiver.cpp"
 #include "..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\GuiGraphicsHost.cpp"
 #include "..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\GuiGraphicsTextElement.cpp"
+#include "..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\WindowsGDI\GuiGraphicsWindowsGDI.cpp"
+#include "..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\WindowsGDI\GuiGraphicsRenderersWindowsGDI.cpp"
+#include "..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\WindowsDirect2D\GuiGraphicsWindowsDirect2D.cpp"
+#include "..\..\..\..\..\Candidate\GUI\GUI\GraphicsElement\WindowsDirect2D\GuiGraphicsRenderersWindowsDirect2D.cpp"
 //---------------------------------------------------------------
 #include "..\..\..\..\..\Candidate\GUI\GUI\Reflection\GuiTypeDescriptor.cpp"
 #include "..\..\..\..\..\Candidate\GUI\GUI\Reflection\GuiTypeDescriptorImpHelper.cpp"
@@ -45,3 +49,47 @@
 //#include "..\..\..\..\..\Library\Entity\TreeJson.cpp"
 //#include "..\..\..\..\..\Library\Entity\TreeQuery.cpp"
 //#include "..\..\..\..\..\Library\Entity\TreeXml.cpp"
+
+void GuiNotifyEventHandler(vl::presentation::elements::GuiGraphicsComposition*, vl::presentation::elements::GuiEventArgs&){}
+void GuiRequestEventHandler(vl::presentation::elements::GuiGraphicsComposition*, vl::presentation::elements::GuiRequestEventArgs&){}
+void GuiKeyEventEventHandler(vl::presentation::elements::GuiGraphicsComposition*, vl::presentation::elements::GuiKeyEventArgs&){}
+void GuiCharEventEventHandler(vl::presentation::elements::GuiGraphicsComposition*, vl::presentation::elements::GuiCharEventArgs&){}
+void GuiMouseEventEventHandler(vl::presentation::elements::GuiGraphicsComposition*, vl::presentation::elements::GuiMouseEventArgs&){}
+
+namespace fillabstractmethods
+{
+	void ClassNewer()
+	{
+		vl::presentation::elements::GuiNotifyEvent().AttachFunction(&GuiNotifyEventHandler);
+		vl::presentation::elements::GuiRequestEvent().AttachFunction(&GuiRequestEventHandler);
+		vl::presentation::elements::GuiKeyEvent().AttachFunction(&GuiKeyEventEventHandler);
+		vl::presentation::elements::GuiCharEvent().AttachFunction(&GuiCharEventEventHandler);
+		vl::presentation::elements::GuiMouseEvent().AttachFunction(&GuiMouseEventEventHandler);
+
+		vl::presentation::elements::GuiNotifyEvent().Detach(0);
+		vl::presentation::elements::GuiRequestEvent().Detach(0);
+		vl::presentation::elements::GuiKeyEvent().Detach(0);
+		vl::presentation::elements::GuiCharEvent().Detach(0);
+		vl::presentation::elements::GuiMouseEvent().Detach(0);
+
+		vl::presentation::elements::GuiNotifyEvent().SetAssociatedComposition(0);
+		vl::presentation::elements::GuiRequestEvent().SetAssociatedComposition(0);
+		vl::presentation::elements::GuiKeyEvent().SetAssociatedComposition(0);
+		vl::presentation::elements::GuiCharEvent().SetAssociatedComposition(0);
+		vl::presentation::elements::GuiMouseEvent().SetAssociatedComposition(0);
+
+		vl::presentation::controls::list::TextItemProvider().NotifyUpdate(0);
+		vl::presentation::Rect().Expand(0, 0);
+		vl::presentation::Rect().Expand(vl::presentation::Size(0, 0));
+		vl::presentation::Rect().Move(0, 0);
+		vl::presentation::Rect().Move(vl::presentation::Size(0, 0));
+
+		vl::collections::List<vl::WString> strings;
+		strings.Contains(L"");
+		strings.IndexOf(L"");
+		strings.Add(L"");
+		strings.Insert(0, L"");
+		strings.Remove(L"");
+		strings.Set(0, L"");
+	}
+}

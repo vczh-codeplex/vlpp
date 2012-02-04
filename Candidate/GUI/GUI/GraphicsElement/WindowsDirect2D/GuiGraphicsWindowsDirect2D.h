@@ -17,9 +17,9 @@ namespace vl
 {
 	namespace presentation
 	{
-		namespace elements
+		namespace elements_windows_d2d
 		{
-			class IWindowsDirect2DRenderTarget : public IGuiGraphicsRenderTarget
+			class IWindowsDirect2DRenderTarget : public elements::IGuiGraphicsRenderTarget
 			{
 			public:
 				virtual ID2D1RenderTarget*					GetDirect2DRenderTarget()=0;
