@@ -18,6 +18,8 @@ namespace _TranslateXMLtoCode
                 {
                     case "int":
                     case "wchar_t":
+                    case "wchar_t const_raw_pointer":
+                    case "void_raw_pointer":
                         yield return cppName.Name;
                         break;
                     default:
@@ -429,7 +431,7 @@ namespace _TranslateXMLtoCode
 
         #region ResolveAbstractMethodParameterNames
 
-        static void ResolveAbstractMethodParameterNames(RgacMethod method)
+        static void ResolveAbstractMethodParameterNames(RgacMethod method, List<RgacMethod> wrongMethods)
         {
             if (method.ParameterNames.Length != method.ParameterTypes.Length)
             {
@@ -451,14 +453,20 @@ namespace _TranslateXMLtoCode
                     {
                         if (method.OverridingDerivedMethods.Count == 0)
                         {
-                            return;
+                            throw new ArgumentException();
                         }
-                        method.ParameterNames = method.OverridingDerivedMethods[0].ParameterNames;
+                        method.ParameterNames = method
+                            .OverridingDerivedMethods
+                            .Where(m => m.ParameterNames.Length == method.ParameterTypes.Length)
+                            .First()
+                            .ParameterNames;
                     }
                 }
                 if (method.ParameterNames.Length != method.ParameterTypes.Length)
                 {
                     //throw new ArgumentException();
+                    wrongMethods.Add(method);
+                    return;
                 }
             }
         }
@@ -676,12 +684,23 @@ namespace _TranslateXMLtoCode
 
         public static ReflectedTypeAnalyzerResult Analyze(ReflectedTypeAnalyzerInput input)
         {
+            HashSet<string> exportableNames = new HashSet<string>(
+                input.DescriptableUdts.Keys.Concat(
+                input.ExportableClasses.Keys.Concat(
+                input.ExportableEnums.Keys.Concat(
+                input.ExportableStructs.Keys
+                ))));
+            exportableNames.Remove("vl::ObjectString<wchar_t>");
+
             Dictionary<string, RgacUDT> udts =
                 input.DescriptableUdts.Values.Concat(
                 input.ExportableClasses.Values.Concat(
                 input.ExportableEnums.Values.Concat(
-                input.ExportableStructs.Values
-                ))).Select(t => CreateUDT(input, t)).ToDictionary(t => t.AssociatedGacType.Name);
+                input.ExportableStructs.Values.Concat(
+                input.AvailableUdts.Values
+                )))).Distinct().Select(t => CreateUDT(input, t)).ToDictionary(t => t.AssociatedGacType.Name);
+
+            var unexportableNames = udts.Keys.Except(exportableNames).ToArray();
 
             foreach (var t in udts.Values)
             {
@@ -704,30 +723,51 @@ namespace _TranslateXMLtoCode
                     }
                 }
             }
+
+            List<RgacMethod> wrongMethods = new List<RgacMethod>();
             foreach (var t in udts.Values)
             {
-                CategorizeMethods(input, udts, t);
-                foreach (var m in t.Methods
-                    .Concat(t.StaticMethods)
-                    .Concat(t.Properties
-                        .SelectMany(p => new RgacMethod[] { p.Getter, p.Setter })
-                    )
-                    .Concat(t.StaticProperties
-                        .SelectMany(p => new RgacMethod[] { p.Getter, p.Setter })
-                    )
-                    .Where(m => m != null)
-                    )
+                if (exportableNames.Contains(t.AssociatedGacType.Name))
                 {
-                    ResolveAbstractMethodParameterNames(m);
+                    CategorizeMethods(input, udts, t);
+                    foreach (var m in t.Methods
+                        .Concat(t.StaticMethods)
+                        .Concat(t.Properties
+                            .SelectMany(p => new RgacMethod[] { p.Getter, p.Setter })
+                        )
+                        .Concat(t.StaticProperties
+                            .SelectMany(p => new RgacMethod[] { p.Getter, p.Setter })
+                        )
+                        .Where(m => m != null)
+                        )
+                    {
+                        ResolveAbstractMethodParameterNames(m, wrongMethods);
+                    }
                 }
+            }
+            var wrongGacs = wrongMethods
+                .Distinct()
+                .GroupBy(m => m.OwnerUDT)
+                .ToDictionary(g => g.Key, g => g.ToArray());
+            if (wrongGacs.Count > 0)
+            {
+                throw new ArgumentException();
             }
 
             var result = new ReflectedTypeAnalyzerResult
             {
-                Udts = udts.Values.OrderBy(t => t.ToString()).ToArray(),
+                Udts = udts
+                    .Where(p => exportableNames.Contains(p.Key))
+                    .Select(p => p.Value)
+                    .OrderBy(t => t.ToString()).ToArray(),
             };
 
-            var duplicates = udts.Values.GroupBy(t => t.ToString()).Where(g => g.Count() > 1).ToArray();
+            var duplicates = udts
+                    .Where(p => exportableNames.Contains(p.Key))
+                    .Select(p => p.Value)
+                    .GroupBy(t => t.ToString())
+                    .Where(g => g.Count() > 1)
+                    .ToArray();
             if (duplicates.Length > 0)
             {
                 throw new ArgumentException();

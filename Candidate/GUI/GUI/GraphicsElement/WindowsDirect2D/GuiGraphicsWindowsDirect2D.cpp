@@ -7,7 +7,7 @@ namespace vl
 {
 	namespace presentation
 	{
-		namespace elements
+		namespace elements_windows_d2d
 		{
 			using namespace windows;
 			using namespace elements;
@@ -479,10 +479,8 @@ WindowsGDIResourceManager
 			};
 		}
 
-		namespace elements
+		namespace elements_windows_d2d
 		{
-			using namespace elements_windows_d2d;
-
 			IWindowsDirect2DResourceManager* windowsDirect2DResourceManager=0;
 
 			IWindowsDirect2DResourceManager* GetWindowsDirect2DResourceManager()
@@ -504,28 +502,27 @@ NativeMain
 
 using namespace vl::presentation;
 using namespace vl::presentation::elements;
-using namespace vl::presentation::elements_windows_d2d;
 
 void RendererMainDirect2D()
 {
-	WindowsDirect2DResourceManager resourceManager;
+	elements_windows_d2d::WindowsDirect2DResourceManager resourceManager;
 	SetGuiGraphicsResourceManager(&resourceManager);
-	SetWindowsDirect2DResourceManager(&resourceManager);
+	elements_windows_d2d::SetWindowsDirect2DResourceManager(&resourceManager);
 	GetCurrentController()->CallbackService()->InstallListener(&resourceManager);
 
-	GuiSolidBorderElementRenderer::Register();
-	GuiRoundBorderElementRenderer::Register();
-	Gui3DBorderElementRenderer::Register();
-	Gui3DSplitterElementRenderer::Register();
-	GuiSolidBackgroundElementRenderer::Register();
-	GuiGradientBackgroundElementRenderer::Register();
-	GuiSolidLabelElementRenderer::Register();
-	GuiImageFrameElementRenderer::Register();
-	GuiPolygonElementRenderer::Register();
-	GuiColorizedTextElementRenderer::Register();
+	elements_windows_d2d::GuiSolidBorderElementRenderer::Register();
+	elements_windows_d2d::GuiRoundBorderElementRenderer::Register();
+	elements_windows_d2d::Gui3DBorderElementRenderer::Register();
+	elements_windows_d2d::Gui3DSplitterElementRenderer::Register();
+	elements_windows_d2d::GuiSolidBackgroundElementRenderer::Register();
+	elements_windows_d2d::GuiGradientBackgroundElementRenderer::Register();
+	elements_windows_d2d::GuiSolidLabelElementRenderer::Register();
+	elements_windows_d2d::GuiImageFrameElementRenderer::Register();
+	elements_windows_d2d::GuiPolygonElementRenderer::Register();
+	elements_windows_d2d::GuiColorizedTextElementRenderer::Register();
 
 	GuiApplicationMain();
-	SetWindowsDirect2DResourceManager(0);
+	elements_windows_d2d::SetWindowsDirect2DResourceManager(0);
 	SetGuiGraphicsResourceManager(0);
 }
 

@@ -383,6 +383,12 @@ namespace _TranslateXMLtoCode
 
             result.AvailableUdts = result.DescriptableUdts
                 .Concat(descriptableUdts.Concat(exportableUdts))
+                .Concat(udts
+                    .Where(p => 
+                        p.Key.StartsWith("vl::presentation::") ||
+                        p.Key.StartsWith("vl::collections::")
+                        )
+                    .Select(p => p.Value))
                 .Distinct()
                 .OrderBy(f => f.Name)
                 .ToArray();

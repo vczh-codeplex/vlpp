@@ -18,9 +18,9 @@ namespace vl
 {
 	namespace presentation
 	{
-		namespace elements
+		namespace elements_windows_gdi
 		{
-			class IWindowsGDIRenderTarget : public IGuiGraphicsRenderTarget
+			class IWindowsGDIRenderTarget : public elements::IGuiGraphicsRenderTarget
 			{
 			public:
 				virtual windows::WinDC*					GetDC()=0;
