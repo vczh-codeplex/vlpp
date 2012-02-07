@@ -282,14 +282,14 @@ namespace _TranslateXMLtoCode
             return !udt.Name.StartsWith("vl::presentation::Description<")
                 && !udt.Name.StartsWith("vl::Func<")
                 && !udt.Name.StartsWith("vl::presentation::windows::")
-                && udt.Name != "vl::presentation::DescriptableValue"
-                && udt.Name != "vl::presentation::IType"
-                && udt.Name != "vl::presentation::IMemberDescriptor"
-                && udt.Name != "vl::presentation::IParameterDescriptor"
-                && udt.Name != "vl::presentation::IMethodDescriptor"
-                && udt.Name != "vl::presentation::IPropertyDescriptor"
-                && udt.Name != "vl::presentation::ITypeDescriptor"
-                && udt.Name != "vl::presentation::ITypeProvider"
+                && !udt.Name .Contains( "vl::presentation::DescriptableValue")
+                && !udt.Name .Contains( "vl::presentation::IType")
+                && !udt.Name .Contains( "vl::presentation::IMemberDescriptor")
+                && !udt.Name .Contains( "vl::presentation::IParameterDescriptor")
+                && !udt.Name .Contains( "vl::presentation::IMethodDescriptor")
+                && !udt.Name .Contains( "vl::presentation::IPropertyDescriptor")
+                && !udt.Name .Contains( "vl::presentation::ITypeDescriptor")
+                && !udt.Name .Contains( "vl::presentation::ITypeProvider")
                 && udt.Name != "vl::Interface"
                 && udt.Name != "vl::Object"
                 ;

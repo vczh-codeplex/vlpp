@@ -140,6 +140,7 @@ ITypeDescriptor
 		public:
 			enum TypeEnum
 			{
+				Void,
 				SInt8,
 				UInt8,
 				SInt16,
@@ -249,6 +250,7 @@ Helper Functions
 		class ITypeProvider : public virtual Interface
 		{
 		public:
+			virtual IType*			Void()=0;
 			virtual IType*			SInt8()=0;
 			virtual IType*			UInt8()=0;
 			virtual IType*			SInt16()=0;

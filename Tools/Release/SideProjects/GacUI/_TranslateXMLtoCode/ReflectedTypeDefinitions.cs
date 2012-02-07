@@ -12,11 +12,13 @@ namespace _TranslateXMLtoCode
         ClassSmartPointer,
         ClassReference,
         ConstClassReference,
+
         Struct,
         StructPointer,
         StructSmartPointer,
         StructReference,
         ConstStructReference,
+
         Enum,
         Primitive,
         OtherGacType,

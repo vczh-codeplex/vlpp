@@ -534,6 +534,8 @@ TypeProvider
 
 			TypeProvider::TypeProvider()
 			{
+				typeVoid=CreateType(IType::Void, L"void", 0);
+
 				typeSInt8=CreateType(IType::SInt8, L"signed __int8", 0);
 				typeSInt16=CreateType(IType::SInt16, L"signed __int16", 0);
 				typeSInt32=CreateType(IType::SInt32, L"signed __int32", 0);
@@ -566,6 +568,11 @@ TypeProvider
 					createdTypeDescriptors.Add(_typeDescriptor);
 				}
 				return type;
+			}
+
+			IType* TypeProvider::Void()
+			{
+				return typeVoid;
 			}
 
 			IType* TypeProvider::SInt8()
