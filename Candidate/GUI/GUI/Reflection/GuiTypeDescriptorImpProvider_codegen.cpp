@@ -214,6 +214,8 @@ Type Caching
 				Type* cache_CharAtt;
 				Type* cache_CharMeasurer;
 				Type* cache_Color;
+				Type* cache_ColorEntry;
+				Type* cache_ColorItem;
 				Type* cache_CommonScrollStyle_member_Direction;
 				Type* cache_CommonTrackStyle_member_Direction;
 				Type* cache_DescriptableObject;
@@ -247,11 +249,6 @@ Type Caching
 				Type* cache_ICollection_of_MemoryNodeProvider;
 				Type* cache_ICollection_of_TextItem;
 				Type* cache_IDescriptable;
-				Type* cache_IEnumerable_of_ListViewItem;
-				Type* cache_IEnumerable_of_MemoryNodeProvider;
-				Type* cache_IEnumerable_of_TextItem;
-				Type* cache_IEnumerator_of_ListViewItem;
-				Type* cache_IEnumerator_of_TextItem;
 				Type* cache_IGuiGraphicsElementFactory;
 				Type* cache_IGuiGraphicsRenderer;
 				Type* cache_IGuiGraphicsRendererFactory;
@@ -294,6 +291,7 @@ Type Caching
 				Type* cache_List_of_ObjectString_of_wchar_t;
 				Type* cache_ListProvider_of_ListViewItem;
 				Type* cache_ListProvider_of_TextItem;
+				Type* cache_ListViewColumn;
 				Type* cache_ListViewItem;
 				Type* cache_ListViewItemStyleProviderBase_member_ListViewItemStyleController;
 				Type* cache_ListWrapperProvider_of_ListViewItem;
@@ -388,7 +386,7 @@ Array_of_ColorEntry (vl::collections::Array<vl::presentation::elements::text::Co
 					AddMethod(
 						(new MethodDescriptor(L"Contains", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Parameter(L"item", 0 /*UNKNOWN_TYPE[ vl::presentation::elements::text::ColorEntry const& ]*/)
+						->Parameter(L"item", (gacui_tpimp_type_cache_table.cache_ColorEntry)->GetConstReferenceType())
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Count", IMemberDescriptor::Normal))
@@ -396,38 +394,34 @@ Array_of_ColorEntry (vl::collections::Array<vl::presentation::elements::text::Co
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Get", IMemberDescriptor::Normal))
-						->ReturnType(0 /*UNKNOWN_TYPE[ vl::presentation::elements::text::ColorEntry const& ]*/)
+						->ReturnType((gacui_tpimp_type_cache_table.cache_ColorEntry)->GetConstReferenceType())
 						->Parameter(L"index", (gacui_tpimp_type_cache_table.primary_SInt32))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Normal))
-						->ReturnType(0 /*UNKNOWN_TYPE[ vl::presentation::elements::text::ColorEntry& ]*/)
+						->ReturnType((gacui_tpimp_type_cache_table.cache_ColorEntry)->GetReferenceType())
 						->Parameter(L"index", (gacui_tpimp_type_cache_table.primary_SInt32))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Normal))
-						->ReturnType(0 /*UNKNOWN_TYPE[ vl::presentation::elements::text::ColorEntry const& ]*/)
+						->ReturnType((gacui_tpimp_type_cache_table.cache_ColorEntry)->GetConstReferenceType())
 						->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_SInt32))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
-						->Parameter(L"item", 0 /*UNKNOWN_TYPE[ vl::presentation::elements::text::ColorEntry const& ]*/)
+						->Parameter(L"item", (gacui_tpimp_type_cache_table.cache_ColorEntry)->GetConstReferenceType())
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Set", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 						->Parameter(L"index", (gacui_tpimp_type_cache_table.primary_SInt32))
-						->Parameter(L"item", 0 /*UNKNOWN_TYPE[ vl::presentation::elements::text::ColorEntry const& ]*/)
+						->Parameter(L"item", (gacui_tpimp_type_cache_table.cache_ColorEntry)->GetConstReferenceType())
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Resize", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 						->Parameter(L"size", (gacui_tpimp_type_cache_table.primary_SInt32))
-					);
-					AddMethod(
-						(new MethodDescriptor(L"Wrap", IMemberDescriptor::Normal))
-						->ReturnType(0 /*UNKNOWN_TYPE[ vl::collections::IArray<vl::presentation::elements::text::ColorEntry,vl::presentation::elements::text::ColorEntry>& ]*/)
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -448,6 +442,9 @@ AxisAlignedItemCoordinateTransformer (vl::presentation::controls::list::AxisAlig
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemCoordinateTransformer));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"AxisAlignedItemCoordinateTransformer", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_AxisAlignedItemCoordinateTransformer)->GetPointerType())
@@ -616,11 +613,8 @@ CharMeasurer (vl::presentation::elements::text::CharMeasurer)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"CharMeasurer", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_CharMeasurer)->GetPointerType())
-						->Parameter(L"_rowHeight", (gacui_tpimp_type_cache_table.primary_SInt32))
-					);
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddMethod(
 						(new MethodDescriptor(L"MeasureWidth", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
@@ -776,6 +770,117 @@ Color (vl::presentation::Color)
 			};
 
 /***********************************************************************
+ColorEntry (vl::presentation::elements::text::ColorEntry)
+***********************************************************************/
+
+			class gacui_tpimp_ColorEntry : public TypeDescriptor
+			{
+			protected:
+				void FillTypeContent()
+				{
+					AddConstructor(
+						(new MethodDescriptor(L"ColorEntry", IMemberDescriptor::Normal))
+						->ReturnType((gacui_tpimp_type_cache_table.cache_ColorEntry))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator==", IMemberDescriptor::Normal))
+						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
+						->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_ColorEntry)->GetConstReferenceType())
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator!=", IMemberDescriptor::Normal))
+						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
+						->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_ColorEntry)->GetConstReferenceType())
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"normal", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.cache_ColorItem))
+						->Getter(
+							(new MethodDescriptor(L"get_normal", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.cache_ColorItem))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_normal", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_ColorItem))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"selectedFocused", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.cache_ColorItem))
+						->Getter(
+							(new MethodDescriptor(L"get_selectedFocused", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.cache_ColorItem))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_selectedFocused", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_ColorItem))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"selectedUnfocused", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.cache_ColorItem))
+						->Getter(
+							(new MethodDescriptor(L"get_selectedUnfocused", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.cache_ColorItem))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_selectedUnfocused", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_ColorItem))
+						)
+					);
+				}
+			
+			public:
+			};
+
+/***********************************************************************
+ColorItem (vl::presentation::elements::text::ColorItem)
+***********************************************************************/
+
+			class gacui_tpimp_ColorItem : public TypeDescriptor
+			{
+			protected:
+				void FillTypeContent()
+				{
+					AddConstructor(
+						(new MethodDescriptor(L"ColorItem", IMemberDescriptor::Normal))
+						->ReturnType((gacui_tpimp_type_cache_table.cache_ColorItem))
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"text", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.cache_Color))
+						->Getter(
+							(new MethodDescriptor(L"get_text", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.cache_Color))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_text", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_Color))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"background", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.cache_Color))
+						->Getter(
+							(new MethodDescriptor(L"get_background", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.cache_Color))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_background", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_Color))
+						)
+					);
+				}
+			
+			public:
+			};
+
+/***********************************************************************
 CommonScrollStyle (vl::presentation::common_styles::CommonScrollStyle)
 ***********************************************************************/
 
@@ -784,11 +889,10 @@ CommonScrollStyle (vl::presentation::common_styles::CommonScrollStyle)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"CommonScrollStyle", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_CommonScrollStyle)->GetPointerType())
-						->Parameter(L"_direction", (gacui_tpimp_type_cache_table.cache_CommonScrollStyle_member_Direction))
-					);
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScroll_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 					AddMethod(
 						(new MethodDescriptor(L"GetBoundsComposition", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiBoundsComposition)->GetPointerType())
@@ -886,11 +990,10 @@ CommonTrackStyle (vl::presentation::common_styles::CommonTrackStyle)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"CommonTrackStyle", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_CommonTrackStyle)->GetPointerType())
-						->Parameter(L"_direction", (gacui_tpimp_type_cache_table.cache_CommonTrackStyle_member_Direction))
-					);
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScroll_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 					AddMethod(
 						(new MethodDescriptor(L"GetBoundsComposition", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiBoundsComposition)->GetPointerType())
@@ -988,6 +1091,9 @@ DefaultItemCoordinateTransformer (vl::presentation::controls::list::DefaultItemC
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemCoordinateTransformer));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"DefaultItemCoordinateTransformer", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_DefaultItemCoordinateTransformer)->GetPointerType())
@@ -1112,6 +1218,11 @@ FixedHeightItemArranger (vl::presentation::controls::list::FixedHeightItemArrang
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_RangedItemArrangerBase));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProviderCallback));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemArranger));
 					AddConstructor(
 						(new MethodDescriptor(L"FixedHeightItemArranger", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_FixedHeightItemArranger)->GetPointerType())
@@ -1135,6 +1246,11 @@ FixedHeightMultiColumnItemArranger (vl::presentation::controls::list::FixedHeigh
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_RangedItemArrangerBase));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProviderCallback));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemArranger));
 					AddConstructor(
 						(new MethodDescriptor(L"FixedHeightMultiColumnItemArranger", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_FixedHeightMultiColumnItemArranger)->GetPointerType())
@@ -1158,6 +1274,11 @@ FixedSizeMultiColumnItemArranger (vl::presentation::controls::list::FixedSizeMul
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_RangedItemArrangerBase));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProviderCallback));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemArranger));
 					AddConstructor(
 						(new MethodDescriptor(L"FixedSizeMultiColumnItemArranger", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_FixedSizeMultiColumnItemArranger)->GetPointerType())
@@ -1335,6 +1456,9 @@ Gui3DBorderElement (vl::presentation::elements::Gui3DBorderElement)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElementFactory)->GetPointerType())
@@ -1396,6 +1520,9 @@ Gui3DSplitterElement (vl::presentation::elements::Gui3DSplitterElement)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElementFactory)->GetPointerType())
@@ -1513,6 +1640,7 @@ GuiApplication (vl::presentation::controls::GuiApplication)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_INativeControllerListener));
 					AddMethod(
 						(new MethodDescriptor(L"Run", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -1554,6 +1682,8 @@ GuiBoundsComposition (vl::presentation::elements::GuiBoundsComposition)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiGraphicsSite));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiBoundsComposition", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiBoundsComposition)->GetPointerType())
@@ -1641,6 +1771,8 @@ GuiButton (vl::presentation::controls::GuiButton)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiButton", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiButton)->GetPointerType())
@@ -1715,10 +1847,9 @@ GuiButton :: IStyleController (vl::presentation::controls::GuiButton::IStyleCont
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IStyleController", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddMethod(
 							(new MethodDescriptor(L"Transfer", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -1744,6 +1875,8 @@ GuiCellComposition (vl::presentation::elements::GuiCellComposition)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiGraphicsSite));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiCellComposition", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiCellComposition)->GetPointerType())
@@ -1938,6 +2071,8 @@ GuiCharEventArgs (vl::presentation::elements::GuiCharEventArgs)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiEventArgs));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_NativeWindowCharInfo));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiCharEventArgs", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiCharEventArgs))
@@ -1956,6 +2091,9 @@ GuiColorizedTextElement (vl::presentation::elements::GuiColorizedTextElement)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElementFactory)->GetPointerType())
@@ -2262,10 +2400,8 @@ GuiColorizedTextElement :: ICallback (vl::presentation::elements::GuiColorizedTe
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"ICallback", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiColorizedTextElement_member_ICallback)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"ColorChanged", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -2294,6 +2430,8 @@ GuiComboBoxBase (vl::presentation::controls::GuiComboBoxBase)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiComboBoxBase", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiComboBoxBase)->GetPointerType())
@@ -2381,10 +2519,8 @@ GuiComboBoxBase :: ICommandExecutor (vl::presentation::controls::GuiComboBoxBase
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"ICommandExecutor", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiComboBoxBase_member_ICommandExecutor)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"ShowPopup", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -2412,10 +2548,10 @@ GuiComboBoxBase :: IStyleController (vl::presentation::controls::GuiComboBoxBase
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IStyleController", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiComboBoxBase_member_IStyleController)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 						AddMethod(
 							(new MethodDescriptor(L"OnClicked", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -2461,6 +2597,8 @@ GuiComboBoxListControl (vl::presentation::controls::GuiComboBoxListControl)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiComboBoxBase));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiComboBoxListControl", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiComboBoxListControl)->GetPointerType())
@@ -2546,6 +2684,7 @@ GuiComponent (vl::presentation::controls::GuiComponent)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiComponent", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiComponent)->GetPointerType())
@@ -2577,6 +2716,7 @@ GuiControl (vl::presentation::controls::GuiControl)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiControl", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiControl)->GetPointerType())
@@ -2859,10 +2999,8 @@ GuiControl :: IStyleController (vl::presentation::controls::GuiControl::IStyleCo
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IStyleController", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController)->GetReferenceType())
@@ -2918,10 +3056,8 @@ GuiControl :: IStyleProvider (vl::presentation::controls::GuiControl::IStyleProv
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IStyleProvider", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleProvider)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"AssociateStyleController", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -2967,6 +3103,9 @@ GuiControlHost (vl::presentation::controls::GuiControlHost)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_INativeWindowListener));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiControlHost", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiControlHost)->GetPointerType())
@@ -3590,6 +3729,9 @@ GuiGradientBackgroundElement (vl::presentation::elements::GuiGradientBackgroundE
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElementFactory)->GetPointerType())
@@ -3785,10 +3927,7 @@ GuiGraphicsComposition (vl::presentation::elements::GuiGraphicsComposition)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"GuiGraphicsComposition", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsComposition)->GetPointerType())
-					);
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddMethod(
 						(new MethodDescriptor(L"Children", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_GuiGraphicsComposition_raw_pointer)->GetConstReferenceType())
@@ -4248,6 +4387,7 @@ GuiGraphicsEvent_of_GuiCharEventArgs (vl::presentation::elements::GuiGraphicsEve
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiGraphicsEvent", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiCharEventArgs)->GetPointerType())
@@ -4312,10 +4452,8 @@ GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler (vl::presentation::elements::Gu
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IHandler", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiCharEventArgs_member_IHandler)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"Execute", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -4342,6 +4480,7 @@ GuiGraphicsEvent_of_GuiEventArgs (vl::presentation::elements::GuiGraphicsEvent<v
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiGraphicsEvent", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs)->GetPointerType())
@@ -4406,10 +4545,8 @@ GuiGraphicsEvent_of_GuiEventArgs :: IHandler (vl::presentation::elements::GuiGra
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IHandler", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs_member_IHandler)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"Execute", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -4436,6 +4573,7 @@ GuiGraphicsEvent_of_GuiKeyEventArgs (vl::presentation::elements::GuiGraphicsEven
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiGraphicsEvent", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiKeyEventArgs)->GetPointerType())
@@ -4500,10 +4638,8 @@ GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler (vl::presentation::elements::Gui
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IHandler", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiKeyEventArgs_member_IHandler)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"Execute", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -4530,6 +4666,7 @@ GuiGraphicsEvent_of_GuiMouseEventArgs (vl::presentation::elements::GuiGraphicsEv
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiGraphicsEvent", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiMouseEventArgs)->GetPointerType())
@@ -4594,10 +4731,8 @@ GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler (vl::presentation::elements::G
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IHandler", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiMouseEventArgs_member_IHandler)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"Execute", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -4624,6 +4759,7 @@ GuiGraphicsEvent_of_GuiRequestEventArgs (vl::presentation::elements::GuiGraphics
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiGraphicsEvent", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiRequestEventArgs)->GetPointerType())
@@ -4688,10 +4824,8 @@ GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler (vl::presentation::elements:
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IHandler", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiRequestEventArgs_member_IHandler)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"Execute", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -5062,6 +5196,9 @@ GuiGraphicsHost (vl::presentation::elements::GuiGraphicsHost)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_INativeWindowListener));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_INativeControllerListener));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiGraphicsHost", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsHost)->GetPointerType())
@@ -5158,10 +5295,6 @@ GuiGraphicsResourceManager (vl::presentation::elements::GuiGraphicsResourceManag
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"GuiGraphicsResourceManager", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsResourceManager)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"RegisterElementFactory", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -5207,6 +5340,8 @@ GuiGraphicsSite (vl::presentation::elements::GuiGraphicsSite)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiGraphicsComposition));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiGraphicsSite", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsSite)->GetPointerType())
@@ -5291,6 +5426,9 @@ GuiImageFrameElement (vl::presentation::elements::GuiImageFrameElement)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElementFactory)->GetPointerType())
@@ -5400,6 +5538,8 @@ GuiKeyEventArgs (vl::presentation::elements::GuiKeyEventArgs)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiEventArgs));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_NativeWindowKeyInfo));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiKeyEventArgs", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiKeyEventArgs))
@@ -5418,6 +5558,8 @@ GuiListControl (vl::presentation::controls::GuiListControl)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScrollView));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiListControl", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiListControl)->GetPointerType())
@@ -5529,10 +5671,9 @@ GuiListControl :: IItemArranger (vl::presentation::controls::GuiListControl::IIt
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IItemArranger", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemArranger)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProviderCallback));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddMethod(
 							(new MethodDescriptor(L"AttachListControl", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -5610,10 +5751,8 @@ GuiListControl :: IItemArrangerCallback (vl::presentation::controls::GuiListCont
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IItemArrangerCallback", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemArrangerCallback)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"RequestItem", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemStyleController)->GetPointerType())
@@ -5677,10 +5816,8 @@ GuiListControl :: IItemCoordinateTransformer (vl::presentation::controls::GuiLis
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IItemCoordinateTransformer", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemCoordinateTransformer)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"RealSizeToVirtualSize", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_Size))
@@ -5744,10 +5881,8 @@ GuiListControl :: IItemPrimaryTextView (vl::presentation::controls::GuiListContr
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IItemPrimaryTextView", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemPrimaryTextView)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"GetPrimaryTextViewText", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_String))
@@ -5777,10 +5912,8 @@ GuiListControl :: IItemProvider (vl::presentation::controls::GuiListControl::IIt
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IItemProvider", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProvider)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"AttachCallback", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -5824,10 +5957,8 @@ GuiListControl :: IItemProviderCallback (vl::presentation::controls::GuiListCont
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IItemProviderCallback", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProviderCallback)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"OnAttached", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -5859,10 +5990,8 @@ GuiListControl :: IItemStyleController (vl::presentation::controls::GuiListContr
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IItemStyleController", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemStyleController)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"IsCacheable", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -5922,10 +6051,8 @@ GuiListControl :: IItemStyleProvider (vl::presentation::controls::GuiListControl
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IItemStyleProvider", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemStyleProvider)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"AttachListControl", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -5976,6 +6103,8 @@ GuiListView (vl::presentation::controls::GuiListView)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiVirtualListView));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiListView", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiListView)->GetPointerType())
@@ -6008,6 +6137,8 @@ GuiListViewBase (vl::presentation::controls::GuiListViewBase)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableListControl));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiListViewBase", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiListViewBase)->GetPointerType())
@@ -6045,10 +6176,10 @@ GuiListViewBase :: IStyleProvider (vl::presentation::controls::GuiListViewBase::
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IStyleProvider", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiListViewBase_member_IStyleProvider)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScrollView_member_IStyleProvider));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleProvider));
 						AddMethod(
 							(new MethodDescriptor(L"CreateItemBackground", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_IStyleController)->GetPointerType())
@@ -6101,6 +6232,10 @@ GuiMenu (vl::presentation::controls::GuiMenu)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiPopup));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiMenuService));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiMenu", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiMenu)->GetPointerType())
@@ -6135,6 +6270,10 @@ GuiMenuBar (vl::presentation::controls::GuiMenuBar)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiMenuService));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiMenuBar", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiMenuBar)->GetPointerType())
@@ -6164,6 +6303,8 @@ GuiMenuButton (vl::presentation::controls::GuiMenuButton)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiMenuButton", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiMenuButton)->GetPointerType())
@@ -6273,10 +6414,10 @@ GuiMenuButton :: IStyleController (vl::presentation::controls::GuiMenuButton::IS
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IStyleController", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiMenuButton_member_IStyleController)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 						AddMethod(
 							(new MethodDescriptor(L"CreateSubMenuStyleController", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController)->GetPointerType())
@@ -6311,6 +6452,8 @@ GuiMouseEventArgs (vl::presentation::elements::GuiMouseEventArgs)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiEventArgs));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_NativeWindowMouseInfo));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiMouseEventArgs", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiMouseEventArgs))
@@ -6329,6 +6472,9 @@ GuiMultilineTextBox (vl::presentation::controls::GuiMultilineTextBox)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScrollView));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiTextBoxCommonInterface));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiMultilineTextBox", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiMultilineTextBox)->GetPointerType())
@@ -6366,6 +6512,9 @@ GuiMultilineTextBox :: StyleController (vl::presentation::controls::GuiMultiline
 				protected:
 					void FillTypeContent()
 					{
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScrollView_member_StyleController));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddConstructor(
 							(new MethodDescriptor(L"StyleController", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiMultilineTextBox_member_StyleController)->GetPointerType())
@@ -6447,6 +6596,9 @@ GuiMultilineTextBox :: TextElementOperatorCallback (vl::presentation::controls::
 				protected:
 					void FillTypeContent()
 					{
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiTextElementOperator_member_DefaultCallback));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddConstructor(
 							(new MethodDescriptor(L"TextElementOperatorCallback", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiMultilineTextBox_member_TextElementOperatorCallback)->GetPointerType())
@@ -6491,6 +6643,8 @@ GuiPartialViewComposition (vl::presentation::elements::GuiPartialViewComposition
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiGraphicsSite));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiPartialViewComposition", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiPartialViewComposition)->GetPointerType())
@@ -6630,6 +6784,9 @@ GuiPolygonElement (vl::presentation::elements::GuiPolygonElement)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElementFactory)->GetPointerType())
@@ -6641,7 +6798,7 @@ GuiPolygonElement (vl::presentation::elements::GuiPolygonElement)
 					AddMethod(
 						(new MethodDescriptor(L"SetPoints", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-						->Parameter(L"p", 0 /*UNKNOWN_TYPE[ vl::presentation::Point const* ]*/)
+						->Parameter(L"p", (gacui_tpimp_type_cache_table.cache_Point)->GetPointerType())
 						->Parameter(L"count", (gacui_tpimp_type_cache_table.primary_SInt32))
 					);
 					AddMethod(
@@ -6668,10 +6825,10 @@ GuiPolygonElement (vl::presentation::elements::GuiPolygonElement)
 					);
 					AddProperty(
 						(new PropertyDescriptor(L"Points", IMemberDescriptor::Normal))
-						->PropertyType(0 /*UNKNOWN_TYPE[ vl::presentation::Point const* ]*/)
+						->PropertyType((gacui_tpimp_type_cache_table.cache_Point)->GetPointerType())
 						->Getter(
 							(new MethodDescriptor(L"GetPoints", IMemberDescriptor::Normal))
-							->ReturnType(0 /*UNKNOWN_TYPE[ vl::presentation::Point const* ]*/)
+							->ReturnType((gacui_tpimp_type_cache_table.cache_Point)->GetPointerType())
 						)
 					);
 					AddProperty(
@@ -6769,6 +6926,8 @@ GuiPopup (vl::presentation::controls::GuiPopup)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiWindow));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiPopup", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiPopup)->GetPointerType())
@@ -6809,6 +6968,7 @@ GuiRequestEventArgs (vl::presentation::elements::GuiRequestEventArgs)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiEventArgs));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiRequestEventArgs", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiRequestEventArgs))
@@ -6840,6 +7000,9 @@ GuiRoundBorderElement (vl::presentation::elements::GuiRoundBorderElement)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElementFactory)->GetPointerType())
@@ -6931,6 +7094,8 @@ GuiScroll (vl::presentation::controls::GuiScroll)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiScroll", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiScroll)->GetPointerType())
@@ -7165,10 +7330,8 @@ GuiScroll :: ICommandExecutor (vl::presentation::controls::GuiScroll::ICommandEx
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"ICommandExecutor", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiScroll_member_ICommandExecutor)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"SmallDecrease", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -7219,10 +7382,9 @@ GuiScroll :: IStyleController (vl::presentation::controls::GuiScroll::IStyleCont
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IStyleController", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiScroll_member_IStyleController)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddMethod(
 							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiScroll_member_IStyleController)->GetReferenceType())
@@ -7263,6 +7425,8 @@ GuiScrollContainer (vl::presentation::controls::GuiScrollContainer)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScrollView));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiScrollContainer", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiScrollContainer)->GetPointerType())
@@ -7286,6 +7450,9 @@ GuiScrollContainer :: StyleController (vl::presentation::controls::GuiScrollCont
 				protected:
 					void FillTypeContent()
 					{
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScrollView_member_StyleController));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddConstructor(
 							(new MethodDescriptor(L"StyleController", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiScrollContainer_member_StyleController)->GetPointerType())
@@ -7320,11 +7487,8 @@ GuiScrollView (vl::presentation::controls::GuiScrollView)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"GuiScrollView", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiScrollView)->GetPointerType())
-						->Parameter(L"styleProvider", (gacui_tpimp_type_cache_table.cache_GuiScrollView_member_IStyleProvider)->GetPointerType())
-					);
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddMethod(
 						(new MethodDescriptor(L"CalculateView", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -7431,10 +7595,9 @@ GuiScrollView :: IStyleProvider (vl::presentation::controls::GuiScrollView::ISty
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IStyleProvider", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiScrollView_member_IStyleProvider)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleProvider));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddMethod(
 							(new MethodDescriptor(L"CreateHorizontalScrollStyle", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiScroll_member_IStyleController)->GetPointerType())
@@ -7475,6 +7638,9 @@ GuiScrollView :: StyleController (vl::presentation::controls::GuiScrollView::Sty
 				protected:
 					void FillTypeContent()
 					{
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddConstructor(
 							(new MethodDescriptor(L"StyleController", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiScrollView_member_StyleController)->GetPointerType())
@@ -7630,6 +7796,8 @@ GuiSelectableButton (vl::presentation::controls::GuiSelectableButton)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiSelectableButton", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton)->GetPointerType())
@@ -7770,10 +7938,8 @@ GuiSelectableButton :: GroupController (vl::presentation::controls::GuiSelectabl
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"GroupController", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_GroupController)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiComponent));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"Attach", IMemberDescriptor::Virtual))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -7808,10 +7974,10 @@ GuiSelectableButton :: IStyleController (vl::presentation::controls::GuiSelectab
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IStyleController", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_IStyleController)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 						AddMethod(
 							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_IStyleController)->GetReferenceType())
@@ -7836,6 +8002,8 @@ GuiSelectableButton :: MutexGroupController (vl::presentation::controls::GuiSele
 				protected:
 					void FillTypeContent()
 					{
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_GroupController));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddConstructor(
 							(new MethodDescriptor(L"MutexGroupController", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_MutexGroupController)->GetPointerType())
@@ -7865,6 +8033,8 @@ GuiSelectableListControl (vl::presentation::controls::GuiSelectableListControl)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiSelectableListControl", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiSelectableListControl)->GetPointerType())
@@ -7956,10 +8126,9 @@ GuiSelectableListControl :: IItemStyleProvider (vl::presentation::controls::GuiS
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IItemStyleProvider", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiSelectableListControl_member_IItemStyleProvider)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemStyleProvider));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddMethod(
 							(new MethodDescriptor(L"SetStyleSelected", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -7986,6 +8155,8 @@ GuiSideAlignedComposition (vl::presentation::elements::GuiSideAlignedComposition
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiGraphicsSite));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiSideAlignedComposition", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiSideAlignedComposition)->GetPointerType())
@@ -8145,6 +8316,9 @@ GuiSinglelineTextBox (vl::presentation::controls::GuiSinglelineTextBox)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiTextBoxCommonInterface));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiSinglelineTextBox", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiSinglelineTextBox)->GetPointerType())
@@ -8182,10 +8356,9 @@ GuiSinglelineTextBox :: IStyleProvider (vl::presentation::controls::GuiSinglelin
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IStyleProvider", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiSinglelineTextBox_member_IStyleProvider)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleProvider));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddMethod(
 							(new MethodDescriptor(L"InstallBackground", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsComposition)->GetPointerType())
@@ -8210,6 +8383,9 @@ GuiSinglelineTextBox :: StyleController (vl::presentation::controls::GuiSingleli
 				protected:
 					void FillTypeContent()
 					{
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddConstructor(
 							(new MethodDescriptor(L"StyleController", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiSinglelineTextBox_member_StyleController)->GetPointerType())
@@ -8308,6 +8484,9 @@ GuiSinglelineTextBox :: TextElementOperatorCallback (vl::presentation::controls:
 				protected:
 					void FillTypeContent()
 					{
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiTextElementOperator_member_DefaultCallback));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddConstructor(
 							(new MethodDescriptor(L"TextElementOperatorCallback", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiSinglelineTextBox_member_TextElementOperatorCallback)->GetPointerType())
@@ -8360,6 +8539,9 @@ GuiSolidBackgroundElement (vl::presentation::elements::GuiSolidBackgroundElement
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElementFactory)->GetPointerType())
@@ -8451,6 +8633,9 @@ GuiSolidBorderElement (vl::presentation::elements::GuiSolidBorderElement)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElementFactory)->GetPointerType())
@@ -8542,6 +8727,9 @@ GuiSolidLabelElement (vl::presentation::elements::GuiSolidLabelElement)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElementFactory)->GetPointerType())
@@ -8759,6 +8947,8 @@ GuiStackComposition (vl::presentation::elements::GuiStackComposition)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiBoundsComposition));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiStackComposition", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiStackComposition)->GetPointerType())
@@ -8912,6 +9102,8 @@ GuiStackItemComposition (vl::presentation::elements::GuiStackItemComposition)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiGraphicsSite));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiStackItemComposition", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiStackItemComposition)->GetPointerType())
@@ -8978,6 +9170,8 @@ GuiTab (vl::presentation::controls::GuiTab)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiTab", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiTab)->GetPointerType())
@@ -9057,10 +9251,8 @@ GuiTab :: ICommandExecutor (vl::presentation::controls::GuiTab::ICommandExecutor
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"ICommandExecutor", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiTab_member_ICommandExecutor)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"ShowTab", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -9085,10 +9277,9 @@ GuiTab :: IStyleController (vl::presentation::controls::GuiTab::IStyleController
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IStyleController", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiTab_member_IStyleController)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddMethod(
 							(new MethodDescriptor(L"InsertTab", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -9145,6 +9336,8 @@ GuiTableComposition (vl::presentation::elements::GuiTableComposition)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiBoundsComposition));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiTableComposition", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiTableComposition)->GetPointerType())
@@ -9264,6 +9457,7 @@ GuiTabPage (vl::presentation::controls::GuiTabPage)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiTabPage)->GetReferenceType())
@@ -9346,6 +9540,7 @@ GuiTextBoxCommonInterface (vl::presentation::controls::GuiTextBoxCommonInterface
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiTextBoxCommonInterface", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiTextBoxCommonInterface)->GetPointerType())
@@ -9542,6 +9737,7 @@ GuiTextElementOperator (vl::presentation::controls::GuiTextElementOperator)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiTextElementOperator", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiTextElementOperator)->GetPointerType())
@@ -9704,6 +9900,9 @@ GuiTextElementOperator :: DefaultCallback (vl::presentation::controls::GuiTextEl
 				protected:
 					void FillTypeContent()
 					{
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiTextElementOperator_member_ICallback));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddConstructor(
 							(new MethodDescriptor(L"DefaultCallback", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiTextElementOperator_member_DefaultCallback)->GetPointerType())
@@ -9758,10 +9957,8 @@ GuiTextElementOperator :: ICallback (vl::presentation::controls::GuiTextElementO
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"ICallback", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiTextElementOperator_member_ICallback)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"GetLeftWord", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_TextPos))
@@ -9838,6 +10035,8 @@ GuiTextList (vl::presentation::controls::GuiTextList)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiVirtualTextList));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiTextList", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiTextList)->GetPointerType())
@@ -9871,6 +10070,9 @@ GuiTimeBasedAnimation (vl::presentation::elements::GuiTimeBasedAnimation)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsAnimation));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiTimeBasedAnimation", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiTimeBasedAnimation)->GetPointerType())
@@ -9908,6 +10110,8 @@ GuiTreeView (vl::presentation::controls::GuiTreeView)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiVirtualTreeListControl));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiTreeView", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiTreeView)->GetPointerType())
@@ -9944,10 +10148,10 @@ GuiTreeView :: IStyleProvider (vl::presentation::controls::GuiTreeView::IStylePr
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IStyleProvider", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiTreeView_member_IStyleProvider)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScrollView_member_IStyleProvider));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleProvider));
 						AddMethod(
 							(new MethodDescriptor(L"CreateItemBackground", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_IStyleController)->GetPointerType())
@@ -9984,6 +10188,8 @@ GuiVirtualListView (vl::presentation::controls::GuiVirtualListView)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListViewBase));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiVirtualListView", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiVirtualListView)->GetPointerType())
@@ -10014,6 +10220,8 @@ GuiVirtualTextList (vl::presentation::controls::GuiVirtualTextList)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableListControl));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiVirtualTextList", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiVirtualTextList)->GetPointerType())
@@ -10050,6 +10258,8 @@ GuiVirtualTreeListControl (vl::presentation::controls::GuiVirtualTreeListControl
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableListControl));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiVirtualTreeListControl", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiVirtualTreeListControl)->GetPointerType())
@@ -10104,6 +10314,8 @@ GuiWindow (vl::presentation::controls::GuiWindow)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControlHost));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiWindow", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiWindow)->GetPointerType())
@@ -10128,6 +10340,8 @@ GuiWindowComposition (vl::presentation::elements::GuiWindowComposition)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiGraphicsSite));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiWindowComposition", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiWindowComposition)->GetPointerType())
@@ -10186,10 +10400,7 @@ ICollection_of_ListViewItem (vl::collections::ICollection<vl::Ptr<vl::presentati
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"ICollection", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_ICollection_of_ListViewItem)->GetPointerType())
-					);
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_ListViewItem));
 					AddMethod(
 						(new MethodDescriptor(L"Add", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
@@ -10234,10 +10445,7 @@ ICollection_of_MemoryNodeProvider (vl::collections::ICollection<vl::Ptr<vl::pres
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"ICollection", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_ICollection_of_MemoryNodeProvider)->GetPointerType())
-					);
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_MemoryNodeProvider));
 					AddMethod(
 						(new MethodDescriptor(L"Add", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
@@ -10282,10 +10490,7 @@ ICollection_of_TextItem (vl::collections::ICollection<vl::presentation::controls
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"ICollection", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_ICollection_of_TextItem)->GetPointerType())
-					);
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_TextItem));
 					AddMethod(
 						(new MethodDescriptor(L"Add", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
@@ -10330,6 +10535,7 @@ IDescriptable (vl::presentation::IDescriptable)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"IDescriptable", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_IDescriptable)->GetPointerType())
@@ -10345,181 +10551,6 @@ IDescriptable (vl::presentation::IDescriptable)
 			};
 
 /***********************************************************************
-IEnumerable_of_ListViewItem (vl::collections::IEnumerable<vl::Ptr<vl::presentation::controls::list::ListViewItem> >)
-***********************************************************************/
-
-			class gacui_tpimp_IEnumerable_of_ListViewItem : public TypeDescriptor
-			{
-			protected:
-				void FillTypeContent()
-				{
-					AddConstructor(
-						(new MethodDescriptor(L"IEnumerable", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IEnumerable_of_ListViewItem)->GetPointerType())
-					);
-					AddMethod(
-						(new MethodDescriptor(L"CreateEnumerator", IMemberDescriptor::Abstract))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IEnumerator_of_ListViewItem)->GetPointerType())
-					);
-					AddMethod(
-						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IEnumerable_of_ListViewItem)->GetReferenceType())
-						->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_IEnumerable_of_ListViewItem)->GetConstReferenceType())
-					);
-				}
-			
-			public:
-			};
-
-/***********************************************************************
-IEnumerable_of_MemoryNodeProvider (vl::collections::IEnumerable<vl::Ptr<vl::presentation::controls::tree::MemoryNodeProvider> >)
-***********************************************************************/
-
-			class gacui_tpimp_IEnumerable_of_MemoryNodeProvider : public TypeDescriptor
-			{
-			protected:
-				void FillTypeContent()
-				{
-					AddConstructor(
-						(new MethodDescriptor(L"IEnumerable", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IEnumerable_of_MemoryNodeProvider)->GetPointerType())
-					);
-					AddMethod(
-						(new MethodDescriptor(L"CreateEnumerator", IMemberDescriptor::Abstract))
-						->ReturnType(0 /*UNKNOWN_TYPE[ vl::collections::IEnumerator<vl::Ptr<vl::presentation::controls::tree::MemoryNodeProvider> >* ]*/)
-					);
-					AddMethod(
-						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IEnumerable_of_MemoryNodeProvider)->GetReferenceType())
-						->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_IEnumerable_of_MemoryNodeProvider)->GetConstReferenceType())
-					);
-				}
-			
-			public:
-			};
-
-/***********************************************************************
-IEnumerable_of_TextItem (vl::collections::IEnumerable<vl::presentation::controls::list::TextItem>)
-***********************************************************************/
-
-			class gacui_tpimp_IEnumerable_of_TextItem : public TypeDescriptor
-			{
-			protected:
-				void FillTypeContent()
-				{
-					AddConstructor(
-						(new MethodDescriptor(L"IEnumerable", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IEnumerable_of_TextItem)->GetPointerType())
-					);
-					AddMethod(
-						(new MethodDescriptor(L"CreateEnumerator", IMemberDescriptor::Abstract))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IEnumerator_of_TextItem)->GetPointerType())
-					);
-					AddMethod(
-						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IEnumerable_of_TextItem)->GetReferenceType())
-						->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_IEnumerable_of_TextItem)->GetConstReferenceType())
-					);
-				}
-			
-			public:
-			};
-
-/***********************************************************************
-IEnumerator_of_ListViewItem (vl::collections::IEnumerator<vl::Ptr<vl::presentation::controls::list::ListViewItem> >)
-***********************************************************************/
-
-			class gacui_tpimp_IEnumerator_of_ListViewItem : public TypeDescriptor
-			{
-			protected:
-				void FillTypeContent()
-				{
-					AddConstructor(
-						(new MethodDescriptor(L"IEnumerator", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IEnumerator_of_ListViewItem)->GetPointerType())
-					);
-					AddMethod(
-						(new MethodDescriptor(L"Clone", IMemberDescriptor::Abstract))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IEnumerator_of_ListViewItem)->GetPointerType())
-					);
-					AddMethod(
-						(new MethodDescriptor(L"Current", IMemberDescriptor::Abstract))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_ListViewItem)->GetSmartPointerType())
-					);
-					AddMethod(
-						(new MethodDescriptor(L"Index", IMemberDescriptor::Abstract))
-						->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
-					);
-					AddMethod(
-						(new MethodDescriptor(L"Next", IMemberDescriptor::Abstract))
-						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-					);
-					AddMethod(
-						(new MethodDescriptor(L"Available", IMemberDescriptor::Abstract))
-						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-					);
-					AddMethod(
-						(new MethodDescriptor(L"Reset", IMemberDescriptor::Abstract))
-						->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-					);
-					AddMethod(
-						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IEnumerator_of_ListViewItem)->GetReferenceType())
-						->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_IEnumerator_of_ListViewItem)->GetConstReferenceType())
-					);
-				}
-			
-			public:
-			};
-
-/***********************************************************************
-IEnumerator_of_TextItem (vl::collections::IEnumerator<vl::presentation::controls::list::TextItem>)
-***********************************************************************/
-
-			class gacui_tpimp_IEnumerator_of_TextItem : public TypeDescriptor
-			{
-			protected:
-				void FillTypeContent()
-				{
-					AddConstructor(
-						(new MethodDescriptor(L"IEnumerator", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IEnumerator_of_TextItem)->GetPointerType())
-					);
-					AddMethod(
-						(new MethodDescriptor(L"Clone", IMemberDescriptor::Abstract))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IEnumerator_of_TextItem)->GetPointerType())
-					);
-					AddMethod(
-						(new MethodDescriptor(L"Current", IMemberDescriptor::Abstract))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_TextItem)->GetConstReferenceType())
-					);
-					AddMethod(
-						(new MethodDescriptor(L"Index", IMemberDescriptor::Abstract))
-						->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
-					);
-					AddMethod(
-						(new MethodDescriptor(L"Next", IMemberDescriptor::Abstract))
-						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-					);
-					AddMethod(
-						(new MethodDescriptor(L"Available", IMemberDescriptor::Abstract))
-						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-					);
-					AddMethod(
-						(new MethodDescriptor(L"Reset", IMemberDescriptor::Abstract))
-						->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-					);
-					AddMethod(
-						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IEnumerator_of_TextItem)->GetReferenceType())
-						->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_IEnumerator_of_TextItem)->GetConstReferenceType())
-					);
-				}
-			
-			public:
-			};
-
-/***********************************************************************
 IGuiGraphicsAnimation (vl::presentation::elements::IGuiGraphicsAnimation)
 ***********************************************************************/
 
@@ -10528,10 +10559,8 @@ IGuiGraphicsAnimation (vl::presentation::elements::IGuiGraphicsAnimation)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"IGuiGraphicsAnimation", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsAnimation)->GetPointerType())
-					);
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddMethod(
 						(new MethodDescriptor(L"Play", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -10577,10 +10606,8 @@ IGuiGraphicsElement (vl::presentation::elements::IGuiGraphicsElement)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"IGuiGraphicsElement", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement)->GetPointerType())
-					);
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement)->GetReferenceType())
@@ -10616,10 +10643,6 @@ IGuiGraphicsElementFactory (vl::presentation::elements::IGuiGraphicsElementFacto
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"IGuiGraphicsElementFactory", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElementFactory)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"Create", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement)->GetPointerType())
@@ -10651,10 +10674,6 @@ IGuiGraphicsRenderer (vl::presentation::elements::IGuiGraphicsRenderer)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"IGuiGraphicsRenderer", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsRenderer)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"Initialize", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -10713,10 +10732,6 @@ IGuiGraphicsRendererFactory (vl::presentation::elements::IGuiGraphicsRendererFac
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"IGuiGraphicsRendererFactory", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsRendererFactory)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"Create", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsRenderer)->GetPointerType())
@@ -10740,10 +10755,6 @@ IGuiGraphicsRenderTarget (vl::presentation::elements::IGuiGraphicsRenderTarget)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"IGuiGraphicsRenderTarget", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsRenderTarget)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"StartRendering", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -10792,10 +10803,8 @@ IGuiMenuService (vl::presentation::controls::IGuiMenuService)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"IGuiMenuService", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IGuiMenuService)->GetPointerType())
-					);
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddMethod(
 						(new MethodDescriptor(L"IsActiveState", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -10887,10 +10896,7 @@ IList_of_int (vl::collections::IList<int,int>)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"IList", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IList_of_int)->GetPointerType())
-					);
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_int));
 					AddMethod(
 						(new MethodDescriptor(L"Insert", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
@@ -10922,21 +10928,17 @@ IList_of_ListViewColumn (vl::collections::IList<vl::Ptr<vl::presentation::contro
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"IList", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IList_of_ListViewColumn)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"Insert", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
 						->Parameter(L"index", (gacui_tpimp_type_cache_table.primary_SInt32))
-						->Parameter(L"item", 0 /*UNKNOWN_TYPE[ vl::Ptr<vl::presentation::controls::list::ListViewColumn> ]*/)
+						->Parameter(L"item", (gacui_tpimp_type_cache_table.cache_ListViewColumn)->GetSmartPointerType())
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Set", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
 						->Parameter(L"index", (gacui_tpimp_type_cache_table.primary_SInt32))
-						->Parameter(L"item", 0 /*UNKNOWN_TYPE[ vl::Ptr<vl::presentation::controls::list::ListViewColumn> ]*/)
+						->Parameter(L"item", (gacui_tpimp_type_cache_table.cache_ListViewColumn)->GetSmartPointerType())
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -10957,10 +10959,8 @@ IList_of_ListViewItem (vl::collections::IList<vl::Ptr<vl::presentation::controls
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"IList", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IList_of_ListViewItem)->GetPointerType())
-					);
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ICollection_of_ListViewItem));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_ListViewItem));
 					AddMethod(
 						(new MethodDescriptor(L"Insert", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
@@ -10992,10 +10992,8 @@ IList_of_MemoryNodeProvider (vl::collections::IList<vl::Ptr<vl::presentation::co
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"IList", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IList_of_MemoryNodeProvider)->GetPointerType())
-					);
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ICollection_of_MemoryNodeProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_MemoryNodeProvider));
 					AddMethod(
 						(new MethodDescriptor(L"Insert", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
@@ -11027,10 +11025,8 @@ IList_of_TextItem (vl::collections::IList<vl::presentation::controls::list::Text
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"IList", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IList_of_TextItem)->GetPointerType())
-					);
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ICollection_of_TextItem));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_TextItem));
 					AddMethod(
 						(new MethodDescriptor(L"Insert", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
@@ -11062,10 +11058,6 @@ INativeAsyncService (vl::presentation::INativeAsyncService)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"INativeAsyncService", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_INativeAsyncService)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"IsInMainThread", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -11089,10 +11081,6 @@ INativeCallbackService (vl::presentation::INativeCallbackService)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"INativeCallbackService", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_INativeCallbackService)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"InstallListener", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -11122,10 +11110,6 @@ INativeClipboardService (vl::presentation::INativeClipboardService)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"INativeClipboardService", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_INativeClipboardService)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"ContainsText", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -11162,10 +11146,6 @@ INativeController (vl::presentation::INativeController)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"INativeController", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_INativeController)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"CallbackService", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_INativeCallbackService)->GetPointerType())
@@ -11283,10 +11263,6 @@ INativeCursor (vl::presentation::INativeCursor)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"INativeCursor", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_INativeCursor)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"IsSystemCursor", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -11436,10 +11412,6 @@ INativeImage (vl::presentation::INativeImage)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"INativeImage", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_INativeImage)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"GetFrame", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_INativeImageFrame)->GetPointerType())
@@ -11566,10 +11538,6 @@ INativeImageFrame (vl::presentation::INativeImageFrame)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"INativeImageFrame", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_INativeImageFrame)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"SetCache", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -11621,10 +11589,6 @@ INativeImageFrameCache (vl::presentation::INativeImageFrameCache)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"INativeImageFrameCache", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_INativeImageFrameCache)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"OnAttach", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -11654,10 +11618,6 @@ INativeImageService (vl::presentation::INativeImageService)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"INativeImageService", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_INativeImageService)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"CreateImageFromFile", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_INativeImage)->GetSmartPointerType())
@@ -11682,10 +11642,6 @@ INativeInputService (vl::presentation::INativeInputService)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"INativeInputService", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_INativeInputService)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"StartHookMouse", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -11739,10 +11695,6 @@ INativeResourceService (vl::presentation::INativeResourceService)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"INativeResourceService", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_INativeResourceService)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"GetSystemCursor", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_INativeCursor)->GetPointerType())
@@ -11801,10 +11753,6 @@ INativeScreen (vl::presentation::INativeScreen)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"INativeScreen", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_INativeScreen)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"IsPrimary", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -11852,10 +11800,6 @@ INativeScreenService (vl::presentation::INativeScreenService)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"INativeScreenService", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_INativeScreenService)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"GetScreen", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_INativeScreen)->GetPointerType())
@@ -11893,10 +11837,6 @@ INativeWindow (vl::presentation::INativeWindow)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"INativeWindow", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_INativeWindow)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"Show", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -12565,10 +12505,6 @@ INativeWindowService (vl::presentation::INativeWindowService)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"INativeWindowService", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_INativeWindowService)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"CreateNativeWindow", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_INativeWindow)->GetPointerType())
@@ -12615,10 +12551,8 @@ INodeItemPrimaryTextView (vl::presentation::controls::tree::INodeItemPrimaryText
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"INodeItemPrimaryTextView", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_INodeItemPrimaryTextView)->GetPointerType())
-					);
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddMethod(
 						(new MethodDescriptor(L"GetPrimaryTextViewText", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_String))
@@ -12643,10 +12577,9 @@ INodeItemStyleController (vl::presentation::controls::tree::INodeItemStyleContro
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"INodeItemStyleController", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_INodeItemStyleController)->GetPointerType())
-					);
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_INodeItemStyleController)->GetReferenceType())
@@ -12674,10 +12607,8 @@ INodeItemStyleProvider (vl::presentation::controls::tree::INodeItemStyleProvider
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"INodeItemStyleProvider", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_INodeItemStyleProvider)->GetPointerType())
-					);
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddMethod(
 						(new MethodDescriptor(L"BindItemStyleProvider", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -12746,10 +12677,9 @@ INodeItemView (vl::presentation::controls::tree::INodeItemView)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"INodeItemView", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_INodeItemView)->GetPointerType())
-					);
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemPrimaryTextView));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"RequestNode", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_INodeProvider)->GetPointerType())
@@ -12784,10 +12714,8 @@ INodeProvider (vl::presentation::controls::tree::INodeProvider)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"INodeProvider", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_INodeProvider)->GetPointerType())
-					);
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddMethod(
 						(new MethodDescriptor(L"CalculateTotalVisibleNodes", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
@@ -12863,10 +12791,8 @@ INodeProviderCallback (vl::presentation::controls::tree::INodeProviderCallback)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"INodeProviderCallback", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_INodeProviderCallback)->GetPointerType())
-					);
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddMethod(
 						(new MethodDescriptor(L"OnAttached", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -12917,10 +12843,8 @@ INodeRootProvider (vl::presentation::controls::tree::INodeRootProvider)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"INodeRootProvider", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_INodeRootProvider)->GetPointerType())
-					);
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddMethod(
 						(new MethodDescriptor(L"CanGetNodeByVisibleIndex", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -12977,14 +12901,10 @@ IReadonlyList_of_ColorEntry (vl::collections::IReadonlyList<vl::presentation::el
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"IReadonlyList", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_ColorEntry)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Parameter(L"item", 0 /*UNKNOWN_TYPE[ vl::presentation::elements::text::ColorEntry const& ]*/)
+						->Parameter(L"item", (gacui_tpimp_type_cache_table.cache_ColorEntry)->GetConstReferenceType())
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Count", IMemberDescriptor::Abstract))
@@ -12992,18 +12912,18 @@ IReadonlyList_of_ColorEntry (vl::collections::IReadonlyList<vl::presentation::el
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Get", IMemberDescriptor::Abstract))
-						->ReturnType(0 /*UNKNOWN_TYPE[ vl::presentation::elements::text::ColorEntry const& ]*/)
+						->ReturnType((gacui_tpimp_type_cache_table.cache_ColorEntry)->GetConstReferenceType())
 						->Parameter(L"index", (gacui_tpimp_type_cache_table.primary_SInt32))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Abstract))
-						->ReturnType(0 /*UNKNOWN_TYPE[ vl::presentation::elements::text::ColorEntry const& ]*/)
+						->ReturnType((gacui_tpimp_type_cache_table.cache_ColorEntry)->GetConstReferenceType())
 						->Parameter(L"index", (gacui_tpimp_type_cache_table.primary_SInt32))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
-						->Parameter(L"item", 0 /*UNKNOWN_TYPE[ vl::presentation::elements::text::ColorEntry const& ]*/)
+						->Parameter(L"item", (gacui_tpimp_type_cache_table.cache_ColorEntry)->GetConstReferenceType())
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -13024,10 +12944,6 @@ IReadonlyList_of_GuiGraphicsComposition_raw_pointer (vl::collections::IReadonlyL
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"IReadonlyList", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_GuiGraphicsComposition_raw_pointer)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -13071,10 +12987,6 @@ IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer (vl::collection
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"IReadonlyList", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -13118,10 +13030,6 @@ IReadonlyList_of_GuiStackItemComposition_raw_pointer (vl::collections::IReadonly
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"IReadonlyList", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_GuiStackItemComposition_raw_pointer)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -13165,10 +13073,6 @@ IReadonlyList_of_GuiTabPage_raw_pointer (vl::collections::IReadonlyList<vl::pres
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"IReadonlyList", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_GuiTabPage_raw_pointer)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -13212,10 +13116,6 @@ IReadonlyList_of_GuiWindow_raw_pointer (vl::collections::IReadonlyList<vl::prese
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"IReadonlyList", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_GuiWindow_raw_pointer)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -13259,10 +13159,6 @@ IReadonlyList_of_int (vl::collections::IReadonlyList<int,int>)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"IReadonlyList", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_int)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -13306,10 +13202,6 @@ IReadonlyList_of_ListViewItem (vl::collections::IReadonlyList<vl::Ptr<vl::presen
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"IReadonlyList", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_ListViewItem)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -13353,10 +13245,6 @@ IReadonlyList_of_MemoryNodeProvider (vl::collections::IReadonlyList<vl::Ptr<vl::
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"IReadonlyList", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_MemoryNodeProvider)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -13400,10 +13288,6 @@ IReadonlyList_of_TextItem (vl::collections::IReadonlyList<vl::presentation::cont
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"IReadonlyList", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_TextItem)->GetPointerType())
-					);
 					AddMethod(
 						(new MethodDescriptor(L"Contains", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -13447,6 +13331,9 @@ ItemProviderBase (vl::presentation::controls::list::ItemProviderBase)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"ItemProviderBase", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_ItemProviderBase)->GetPointerType())
@@ -13480,6 +13367,9 @@ ItemStyleControllerBase (vl::presentation::controls::list::ItemStyleControllerBa
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"GetStyleProvider", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemStyleProvider)->GetPointerType())
@@ -13527,10 +13417,9 @@ ITreeViewItemView (vl::presentation::controls::tree::ITreeViewItemView)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"ITreeViewItemView", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_ITreeViewItemView)->GetPointerType())
-					);
+					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeItemPrimaryTextView));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"GetNodeImage", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiImageData)->GetSmartPointerType())
@@ -13602,10 +13491,6 @@ List_of_ObjectString_of_wchar_t (vl::collections::List<vl::ObjectString<wchar_t>
 						->Parameter(L"index", (gacui_tpimp_type_cache_table.primary_SInt32))
 					);
 					AddMethod(
-						(new MethodDescriptor(L"Wrap", IMemberDescriptor::Normal))
-						->ReturnType(0 /*UNKNOWN_TYPE[ vl::collections::IList<vl::ObjectString<wchar_t>,vl::ObjectString<wchar_t> >& ]*/)
-					);
-					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_List_of_ObjectString_of_wchar_t)->GetReferenceType())
 						->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_List_of_ObjectString_of_wchar_t)->GetConstReferenceType())
@@ -13624,6 +13509,12 @@ ListProvider_of_ListViewItem (vl::presentation::controls::list::ListProvider<vl:
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ListWrapperProvider_of_ListViewItem));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_ListViewItem));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ICollection_of_ListViewItem));
 					AddConstructor(
 						(new MethodDescriptor(L"ListProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_ListProvider_of_ListViewItem)->GetPointerType())
@@ -13647,6 +13538,12 @@ ListProvider_of_TextItem (vl::presentation::controls::list::ListProvider<vl::pre
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ListWrapperProvider_of_TextItem));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_TextItem));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ICollection_of_TextItem));
 					AddConstructor(
 						(new MethodDescriptor(L"ListProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_ListProvider_of_TextItem)->GetPointerType())
@@ -13670,6 +13567,9 @@ ListViewBigIconContentProvider (vl::presentation::controls::list::ListViewBigIco
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProvider_member_IListViewItemContentProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"ListViewBigIconContentProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_ListViewBigIconContentProvider)->GetPointerType())
@@ -13708,6 +13608,57 @@ ListViewBigIconContentProvider (vl::presentation::controls::list::ListViewBigIco
 			};
 
 /***********************************************************************
+ListViewColumn (vl::presentation::controls::list::ListViewColumn)
+***********************************************************************/
+
+			class gacui_tpimp_ListViewColumn : public TypeDescriptor
+			{
+			protected:
+				void FillTypeContent()
+				{
+					AddConstructor(
+						(new MethodDescriptor(L"ListViewColumn", IMemberDescriptor::Normal))
+						->ReturnType((gacui_tpimp_type_cache_table.cache_ListViewColumn))
+						->Parameter(L"_text", (gacui_tpimp_type_cache_table.primary_String)->GetConstReferenceType())
+						->Parameter(L"_size", (gacui_tpimp_type_cache_table.primary_SInt32))
+					);
+					AddMethod(
+						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
+						->ReturnType((gacui_tpimp_type_cache_table.cache_ListViewColumn)->GetReferenceType())
+						->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_ListViewColumn)->GetConstReferenceType())
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"text", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_String))
+						->Getter(
+							(new MethodDescriptor(L"get_text", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_String))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_text", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_String))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"size", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_SInt32))
+						->Getter(
+							(new MethodDescriptor(L"get_size", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_size", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_SInt32))
+						)
+					);
+				}
+			
+			public:
+			};
+
+/***********************************************************************
 ListViewColumnItemArranger (vl::presentation::controls::list::ListViewColumnItemArranger)
 ***********************************************************************/
 
@@ -13716,6 +13667,11 @@ ListViewColumnItemArranger (vl::presentation::controls::list::ListViewColumnItem
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_FixedHeightItemArranger));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProviderCallback));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemArranger));
 					AddConstructor(
 						(new MethodDescriptor(L"ListViewColumnItemArranger", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_ListViewColumnItemArranger)->GetPointerType())
@@ -13747,10 +13703,8 @@ ListViewColumnItemArranger :: IColumnItemView (vl::presentation::controls::list:
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IColumnItemView", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_ListViewColumnItemArranger_member_IColumnItemView)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"AttachCallback", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -13804,10 +13758,8 @@ ListViewColumnItemArranger :: IColumnItemViewCallback (vl::presentation::control
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IColumnItemViewCallback", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_ListViewColumnItemArranger_member_IColumnItemViewCallback)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"OnColumnChanged", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -13837,6 +13789,10 @@ ListViewDetailContentProvider (vl::presentation::controls::list::ListViewDetailC
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProvider_member_IListViewItemContentProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewColumnItemArranger_member_IColumnItemViewCallback));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"ListViewDetailContentProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_ListViewDetailContentProvider)->GetPointerType())
@@ -13883,6 +13839,9 @@ ListViewInformationContentProvider (vl::presentation::controls::list::ListViewIn
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProvider_member_IListViewItemContentProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"ListViewInformationContentProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_ListViewInformationContentProvider)->GetPointerType())
@@ -14000,6 +13959,15 @@ ListViewItemProvider (vl::presentation::controls::list::ListViewItemProvider)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ListProvider_of_ListViewItem));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProvider_member_IListViewItemView));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewColumnItemArranger_member_IColumnItemView));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_ListViewItem));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ICollection_of_ListViewItem));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemPrimaryTextView));
 					AddConstructor(
 						(new MethodDescriptor(L"ListViewItemProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_ListViewItemProvider)->GetPointerType())
@@ -14057,6 +14025,10 @@ ListViewItemStyleProvider (vl::presentation::controls::list::ListViewItemStylePr
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProviderBase));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemStyleProvider));
 					AddConstructor(
 						(new MethodDescriptor(L"ListViewItemStyleProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProvider)->GetPointerType())
@@ -14118,10 +14090,8 @@ ListViewItemStyleProvider :: IListViewItemContent (vl::presentation::controls::l
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IListViewItemContent", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProvider_member_IListViewItemContent)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"Install", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -14164,10 +14134,8 @@ ListViewItemStyleProvider :: IListViewItemContentProvider (vl::presentation::con
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IListViewItemContentProvider", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProvider_member_IListViewItemContentProvider)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"CreatePreferredCoordinateTransformer", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemCoordinateTransformer)->GetPointerType())
@@ -14209,10 +14177,9 @@ ListViewItemStyleProvider :: IListViewItemView (vl::presentation::controls::list
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"IListViewItemView", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProvider_member_IListViewItemView)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemPrimaryTextView));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddMethod(
 							(new MethodDescriptor(L"GetSmallImage", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiImageData)->GetSmartPointerType())
@@ -14279,6 +14246,10 @@ ListViewItemStyleProvider :: ListViewContentItemStyleController (vl::presentatio
 				protected:
 					void FillTypeContent()
 					{
+						AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProviderBase_member_ListViewItemStyleController));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemStyleController));
 						AddConstructor(
 							(new MethodDescriptor(L"ListViewContentItemStyleController", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProvider_member_ListViewContentItemStyleController)->GetPointerType())
@@ -14318,6 +14289,10 @@ ListViewItemStyleProviderBase (vl::presentation::controls::list::ListViewItemSty
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableListControl_member_IItemStyleProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemStyleProvider));
 					AddConstructor(
 						(new MethodDescriptor(L"ListViewItemStyleProviderBase", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProviderBase)->GetPointerType())
@@ -14360,6 +14335,10 @@ ListViewItemStyleProviderBase :: ListViewItemStyleController (vl::presentation::
 				protected:
 					void FillTypeContent()
 					{
+						AddBaseType((gacui_tpimp_type_cache_table.cache_ItemStyleControllerBase));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemStyleController));
 						AddConstructor(
 							(new MethodDescriptor(L"ListViewItemStyleController", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProviderBase_member_ListViewItemStyleController)->GetPointerType())
@@ -14411,6 +14390,9 @@ ListViewListContentProvider (vl::presentation::controls::list::ListViewListConte
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProvider_member_IListViewItemContentProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"ListViewListContentProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_ListViewListContentProvider)->GetPointerType())
@@ -14457,6 +14439,9 @@ ListViewSmallIconContentProvider (vl::presentation::controls::list::ListViewSmal
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProvider_member_IListViewItemContentProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"ListViewSmallIconContentProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_ListViewSmallIconContentProvider)->GetPointerType())
@@ -14503,6 +14488,9 @@ ListViewTileContentProvider (vl::presentation::controls::list::ListViewTileConte
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProvider_member_IListViewItemContentProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"ListViewTileContentProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_ListViewTileContentProvider)->GetPointerType())
@@ -14549,15 +14537,18 @@ ListWrapperProvider_of_ListViewItem (vl::presentation::controls::list::ListWrapp
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ItemProviderBase));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IList_of_ListViewItem));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_ListViewItem));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ICollection_of_ListViewItem));
 					AddMethod(
 						(new MethodDescriptor(L"NotifyUpdate", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
 						->Parameter(L"start", (gacui_tpimp_type_cache_table.primary_SInt32))
 						->Parameter(L"count", (gacui_tpimp_type_cache_table.primary_SInt32))
-					);
-					AddMethod(
-						(new MethodDescriptor(L"CreateEnumerator", IMemberDescriptor::Virtual))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IEnumerator_of_ListViewItem)->GetPointerType())
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Contains", IMemberDescriptor::Virtual))
@@ -14643,15 +14634,18 @@ ListWrapperProvider_of_TextItem (vl::presentation::controls::list::ListWrapperPr
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ItemProviderBase));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IList_of_TextItem));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_TextItem));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ICollection_of_TextItem));
 					AddMethod(
 						(new MethodDescriptor(L"NotifyUpdate", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
 						->Parameter(L"start", (gacui_tpimp_type_cache_table.primary_SInt32))
 						->Parameter(L"count", (gacui_tpimp_type_cache_table.primary_SInt32))
-					);
-					AddMethod(
-						(new MethodDescriptor(L"CreateEnumerator", IMemberDescriptor::Virtual))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_IEnumerator_of_TextItem)->GetPointerType())
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Contains", IMemberDescriptor::Virtual))
@@ -14825,6 +14819,12 @@ MemoryNodeProvider (vl::presentation::controls::tree::MemoryNodeProvider)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IList_of_MemoryNodeProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_MemoryNodeProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ICollection_of_MemoryNodeProvider));
 					AddConstructor(
 						(new MethodDescriptor(L"MemoryNodeProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_MemoryNodeProvider)->GetPointerType())
@@ -14918,6 +14918,15 @@ MemoryNodeRootProvider (vl::presentation::controls::tree::MemoryNodeRootProvider
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_MemoryNodeProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_NodeRootProviderBase));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_MemoryNodeProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ICollection_of_MemoryNodeProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeRootProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeProviderCallback));
 					AddConstructor(
 						(new MethodDescriptor(L"MemoryNodeRootProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_MemoryNodeRootProvider)->GetPointerType())
@@ -14987,6 +14996,13 @@ NodeItemProvider (vl::presentation::controls::tree::NodeItemProvider)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ItemProviderBase));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeProviderCallback));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeItemView));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemPrimaryTextView));
 					AddConstructor(
 						(new MethodDescriptor(L"NodeItemProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_NodeItemProvider)->GetPointerType())
@@ -15033,6 +15049,10 @@ NodeItemStyleProvider (vl::presentation::controls::tree::NodeItemStyleProvider)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableListControl_member_IItemStyleProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemStyleProvider));
 					AddConstructor(
 						(new MethodDescriptor(L"NodeItemStyleProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_NodeItemStyleProvider)->GetPointerType())
@@ -15093,6 +15113,10 @@ NodeRootProviderBase (vl::presentation::controls::tree::NodeRootProviderBase)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeRootProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeProviderCallback));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"NodeRootProviderBase", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_NodeRootProviderBase)->GetPointerType())
@@ -15205,10 +15229,10 @@ RangedItemArrangerBase (vl::presentation::controls::list::RangedItemArrangerBase
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"RangedItemArrangerBase", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_RangedItemArrangerBase)->GetPointerType())
-					);
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemArranger));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProviderCallback));
 					AddMethod(
 						(new MethodDescriptor(L"OnAttached", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -15564,6 +15588,14 @@ TextItemProvider (vl::presentation::controls::list::TextItemProvider)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ListProvider_of_TextItem));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_TextItemStyleProvider_member_ITextItemView));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_TextItem));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ICollection_of_TextItem));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemPrimaryTextView));
 					AddConstructor(
 						(new MethodDescriptor(L"TextItemProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_TextItemProvider)->GetPointerType())
@@ -15609,6 +15641,10 @@ TextItemStyleProvider (vl::presentation::controls::list::TextItemStyleProvider)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableListControl_member_IItemStyleProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemStyleProvider));
 					AddConstructor(
 						(new MethodDescriptor(L"TextItemStyleProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_TextItemStyleProvider)->GetPointerType())
@@ -15668,10 +15704,8 @@ TextItemStyleProvider :: ITextItemStyleProvider (vl::presentation::controls::lis
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"ITextItemStyleProvider", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_TextItemStyleProvider_member_ITextItemStyleProvider)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"CreateBackgroundStyleController", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_IStyleController)->GetPointerType())
@@ -15699,10 +15733,9 @@ TextItemStyleProvider :: ITextItemView (vl::presentation::controls::list::TextIt
 				protected:
 					void FillTypeContent()
 					{
-						AddConstructor(
-							(new MethodDescriptor(L"ITextItemView", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_TextItemStyleProvider_member_ITextItemView)->GetPointerType())
-						);
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemPrimaryTextView));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddMethod(
 							(new MethodDescriptor(L"GetText", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_String))
@@ -15738,6 +15771,10 @@ TextItemStyleProvider :: TextItemStyleController (vl::presentation::controls::li
 				protected:
 					void FillTypeContent()
 					{
+						AddBaseType((gacui_tpimp_type_cache_table.cache_ItemStyleControllerBase));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemStyleController));
 						AddConstructor(
 							(new MethodDescriptor(L"TextItemStyleController", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_TextItemStyleProvider_member_TextItemStyleController)->GetPointerType())
@@ -16304,6 +16341,7 @@ TreeViewItem (vl::presentation::controls::tree::TreeViewItem)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"TreeViewItem", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_TreeViewItem)->GetPointerType())
@@ -16359,6 +16397,16 @@ TreeViewItemRootProvider (vl::presentation::controls::tree::TreeViewItemRootProv
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_MemoryNodeRootProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ITreeViewItemView));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_MemoryNodeProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_ICollection_of_MemoryNodeProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeRootProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeProviderCallback));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeItemPrimaryTextView));
 					AddConstructor(
 						(new MethodDescriptor(L"TreeViewItemRootProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_TreeViewItemRootProvider)->GetPointerType())
@@ -16392,6 +16440,10 @@ TreeViewNodeItemStyleProvider (vl::presentation::controls::tree::TreeViewNodeIte
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeItemStyleProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeProviderCallback));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"TreeViewNodeItemStyleProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_TreeViewNodeItemStyleProvider)->GetPointerType())
@@ -16730,6 +16782,12 @@ Win7ButtonStyle (vl::presentation::win7::Win7ButtonStyle)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_Win7ButtonStyleBase));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_IStyleController));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7ButtonStyle", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7ButtonStyle)->GetPointerType())
@@ -16754,15 +16812,11 @@ Win7ButtonStyleBase (vl::presentation::win7::Win7ButtonStyleBase)
 			protected:
 				void FillTypeContent()
 				{
-					AddConstructor(
-						(new MethodDescriptor(L"Win7ButtonStyleBase", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7ButtonStyleBase)->GetPointerType())
-						->Parameter(L"verticalGradient", (gacui_tpimp_type_cache_table.primary_Bool))
-						->Parameter(L"roundBorder", (gacui_tpimp_type_cache_table.primary_Bool))
-						->Parameter(L"initialColor", (gacui_tpimp_type_cache_table.cache_Win7ButtonColors)->GetConstReferenceType())
-						->Parameter(L"horizontal", (gacui_tpimp_type_cache_table.cache_Alignment_member_Type))
-						->Parameter(L"vertical", (gacui_tpimp_type_cache_table.cache_Alignment_member_Type))
-					);
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
 					AddMethod(
 						(new MethodDescriptor(L"GetBoundsComposition", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiBoundsComposition)->GetPointerType())
@@ -16898,6 +16952,11 @@ Win7CheckBoxStyle (vl::presentation::win7::Win7CheckBoxStyle)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7CheckBoxStyle", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7CheckBoxStyle)->GetPointerType())
@@ -16991,6 +17050,10 @@ Win7CheckTextListProvider (vl::presentation::win7::Win7CheckTextListProvider)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_Win7TextListProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_TextItemStyleProvider_member_ITextItemStyleProvider));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7CheckTextListProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7CheckTextListProvider)->GetPointerType())
@@ -17018,6 +17081,13 @@ Win7DropDownComboBoxStyle (vl::presentation::win7::Win7DropDownComboBoxStyle)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_Win7ButtonStyle));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiComboBoxBase_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_IStyleController));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7DropDownComboBoxStyle", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7DropDownComboBoxStyle)->GetPointerType())
@@ -17070,6 +17140,9 @@ Win7EmptyStyle (vl::presentation::win7::Win7EmptyStyle)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7EmptyStyle", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7EmptyStyle)->GetPointerType())
@@ -17122,6 +17195,9 @@ Win7GroupBoxStyle (vl::presentation::win7::Win7GroupBoxStyle)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7GroupBoxStyle", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7GroupBoxStyle)->GetPointerType())
@@ -17173,6 +17249,11 @@ Win7ListViewColumnDropDownStyle (vl::presentation::win7::Win7ListViewColumnDropD
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7ListViewColumnDropDownStyle", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7ListViewColumnDropDownStyle)->GetPointerType())
@@ -17234,6 +17315,11 @@ Win7ListViewColumnHeaderStyle (vl::presentation::win7::Win7ListViewColumnHeaderS
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7ListViewColumnHeaderStyle", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7ListViewColumnHeaderStyle)->GetPointerType())
@@ -17295,6 +17381,12 @@ Win7ListViewProvider (vl::presentation::win7::Win7ListViewProvider)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_Win7MultilineTextBoxProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListViewBase_member_IStyleProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScrollView_member_IStyleProvider));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7ListViewProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7ListViewProvider)->GetPointerType())
@@ -17338,6 +17430,10 @@ Win7MenuBarButtonStyle (vl::presentation::win7::Win7MenuBarButtonStyle)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiMenuButton_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7MenuBarButtonStyle", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7MenuBarButtonStyle)->GetPointerType())
@@ -17408,6 +17504,9 @@ Win7MenuBarStyle (vl::presentation::win7::Win7MenuBarStyle)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7MenuBarStyle", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7MenuBarStyle)->GetPointerType())
@@ -17459,6 +17558,10 @@ Win7MenuItemButtonStyle (vl::presentation::win7::Win7MenuItemButtonStyle)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiMenuButton_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7MenuItemButtonStyle", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7MenuItemButtonStyle)->GetPointerType())
@@ -17529,6 +17632,9 @@ Win7MenuSplitterStyle (vl::presentation::win7::Win7MenuSplitterStyle)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7MenuSplitterStyle", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7MenuSplitterStyle)->GetPointerType())
@@ -17580,6 +17686,9 @@ Win7MenuStyle (vl::presentation::win7::Win7MenuStyle)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7MenuStyle", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7MenuStyle)->GetPointerType())
@@ -17631,6 +17740,11 @@ Win7MultilineTextBoxProvider (vl::presentation::win7::Win7MultilineTextBoxProvid
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_Win7ScrollViewProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScrollView_member_IStyleProvider));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7MultilineTextBoxProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7MultilineTextBoxProvider)->GetPointerType())
@@ -17674,6 +17788,10 @@ Win7RadioTextListProvider (vl::presentation::win7::Win7RadioTextListProvider)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_Win7TextListProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_TextItemStyleProvider_member_ITextItemStyleProvider));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7RadioTextListProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7RadioTextListProvider)->GetPointerType())
@@ -17701,6 +17819,11 @@ Win7ScrollStyle (vl::presentation::win7::Win7ScrollStyle)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_CommonScrollStyle));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScroll_member_IStyleController));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7ScrollStyle", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7ScrollStyle)->GetPointerType())
@@ -17725,6 +17848,10 @@ Win7ScrollViewProvider (vl::presentation::win7::Win7ScrollViewProvider)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScrollView_member_IStyleProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleProvider));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7ScrollViewProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7ScrollViewProvider)->GetPointerType())
@@ -17790,6 +17917,12 @@ Win7SelectableItemStyle (vl::presentation::win7::Win7SelectableItemStyle)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_Win7ButtonStyleBase));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_IStyleController));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7SelectableItemStyle", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7SelectableItemStyle)->GetPointerType())
@@ -17813,6 +17946,10 @@ Win7SinglelineTextBoxProvider (vl::presentation::win7::Win7SinglelineTextBoxProv
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSinglelineTextBox_member_IStyleProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleProvider));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7SinglelineTextBoxProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7SinglelineTextBoxProvider)->GetPointerType())
@@ -17866,6 +18003,12 @@ Win7TabPageHeaderStyle (vl::presentation::win7::Win7TabPageHeaderStyle)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_Win7ButtonStyleBase));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_IStyleController));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7TabPageHeaderStyle", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7TabPageHeaderStyle)->GetPointerType())
@@ -17894,6 +18037,10 @@ Win7TabStyle (vl::presentation::win7::Win7TabStyle)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiTab_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7TabStyle", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7TabStyle)->GetPointerType())
@@ -17981,6 +18128,7 @@ Win7TextBoxBackground (vl::presentation::win7::Win7TextBoxBackground)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7TextBoxBackground", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7TextBoxBackground)->GetPointerType())
@@ -18029,6 +18177,9 @@ Win7TextListProvider (vl::presentation::win7::Win7TextListProvider)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_TextItemStyleProvider_member_ITextItemStyleProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7TextListProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7TextListProvider)->GetPointerType())
@@ -18060,6 +18211,12 @@ Win7ToolstripButtonStyle (vl::presentation::win7::Win7ToolstripButtonStyle)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_Win7ButtonStyleBase));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_IStyleController));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7ToolstripButtonStyle", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7ToolstripButtonStyle)->GetPointerType())
@@ -18084,6 +18241,11 @@ Win7TrackStyle (vl::presentation::win7::Win7TrackStyle)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_CommonTrackStyle));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScroll_member_IStyleController));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7TrackStyle", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7TrackStyle)->GetPointerType())
@@ -18108,6 +18270,11 @@ Win7TreeViewExpandingButtonStyle (vl::presentation::win7::Win7TreeViewExpandingB
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7TreeViewExpandingButtonStyle", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7TreeViewExpandingButtonStyle)->GetPointerType())
@@ -18169,6 +18336,12 @@ Win7TreeViewProvider (vl::presentation::win7::Win7TreeViewProvider)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_Win7MultilineTextBoxProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiTreeView_member_IStyleProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleProvider));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScrollView_member_IStyleProvider));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7TreeViewProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7TreeViewProvider)->GetPointerType())
@@ -18204,6 +18377,10 @@ Win7WindowStyle (vl::presentation::win7::Win7WindowStyle)
 			protected:
 				void FillTypeContent()
 				{
+					AddBaseType((gacui_tpimp_type_cache_table.cache_Win7EmptyStyle));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
+					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7WindowStyle", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7WindowStyle)->GetPointerType())
@@ -18418,6 +18595,8 @@ Helper Functions
 				((gacui_tpimp_type_cache_table.cache_CharAtt) = typeProvider->CreateType(IType::Struct, L"gacui_tpimp_CharAtt", new gacui_tpimp_CharAtt));
 				((gacui_tpimp_type_cache_table.cache_CharMeasurer) = typeProvider->CreateType(IType::Class, L"gacui_tpimp_CharMeasurer", new gacui_tpimp_CharMeasurer));
 				((gacui_tpimp_type_cache_table.cache_Color) = typeProvider->CreateType(IType::Struct, L"gacui_tpimp_Color", new gacui_tpimp_Color));
+				((gacui_tpimp_type_cache_table.cache_ColorEntry) = typeProvider->CreateType(IType::Struct, L"gacui_tpimp_ColorEntry", new gacui_tpimp_ColorEntry));
+				((gacui_tpimp_type_cache_table.cache_ColorItem) = typeProvider->CreateType(IType::Struct, L"gacui_tpimp_ColorItem", new gacui_tpimp_ColorItem));
 				((gacui_tpimp_type_cache_table.cache_CommonScrollStyle_member_Direction) = typeProvider->CreateType(IType::Enum, L"gacui_tpimp_CommonScrollStyle :: gacui_tpimp_Direction", new gacui_tpimp_CommonScrollStyle :: gacui_tpimp_Direction));
 				((gacui_tpimp_type_cache_table.cache_CommonTrackStyle_member_Direction) = typeProvider->CreateType(IType::Enum, L"gacui_tpimp_CommonTrackStyle :: gacui_tpimp_Direction", new gacui_tpimp_CommonTrackStyle :: gacui_tpimp_Direction));
 				((gacui_tpimp_type_cache_table.cache_DescriptableObject) = typeProvider->CreateType(IType::Struct, L"gacui_tpimp_DescriptableObject", new gacui_tpimp_DescriptableObject));
@@ -18451,11 +18630,6 @@ Helper Functions
 				((gacui_tpimp_type_cache_table.cache_ICollection_of_MemoryNodeProvider) = typeProvider->CreateType(IType::Interface, L"gacui_tpimp_ICollection_of_MemoryNodeProvider", new gacui_tpimp_ICollection_of_MemoryNodeProvider));
 				((gacui_tpimp_type_cache_table.cache_ICollection_of_TextItem) = typeProvider->CreateType(IType::Interface, L"gacui_tpimp_ICollection_of_TextItem", new gacui_tpimp_ICollection_of_TextItem));
 				((gacui_tpimp_type_cache_table.cache_IDescriptable) = typeProvider->CreateType(IType::Interface, L"gacui_tpimp_IDescriptable", new gacui_tpimp_IDescriptable));
-				((gacui_tpimp_type_cache_table.cache_IEnumerable_of_ListViewItem) = typeProvider->CreateType(IType::Interface, L"gacui_tpimp_IEnumerable_of_ListViewItem", new gacui_tpimp_IEnumerable_of_ListViewItem));
-				((gacui_tpimp_type_cache_table.cache_IEnumerable_of_MemoryNodeProvider) = typeProvider->CreateType(IType::Interface, L"gacui_tpimp_IEnumerable_of_MemoryNodeProvider", new gacui_tpimp_IEnumerable_of_MemoryNodeProvider));
-				((gacui_tpimp_type_cache_table.cache_IEnumerable_of_TextItem) = typeProvider->CreateType(IType::Interface, L"gacui_tpimp_IEnumerable_of_TextItem", new gacui_tpimp_IEnumerable_of_TextItem));
-				((gacui_tpimp_type_cache_table.cache_IEnumerator_of_ListViewItem) = typeProvider->CreateType(IType::Interface, L"gacui_tpimp_IEnumerator_of_ListViewItem", new gacui_tpimp_IEnumerator_of_ListViewItem));
-				((gacui_tpimp_type_cache_table.cache_IEnumerator_of_TextItem) = typeProvider->CreateType(IType::Interface, L"gacui_tpimp_IEnumerator_of_TextItem", new gacui_tpimp_IEnumerator_of_TextItem));
 				((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElementFactory) = typeProvider->CreateType(IType::Interface, L"gacui_tpimp_IGuiGraphicsElementFactory", new gacui_tpimp_IGuiGraphicsElementFactory));
 				((gacui_tpimp_type_cache_table.cache_IGuiGraphicsRenderer) = typeProvider->CreateType(IType::Interface, L"gacui_tpimp_IGuiGraphicsRenderer", new gacui_tpimp_IGuiGraphicsRenderer));
 				((gacui_tpimp_type_cache_table.cache_IGuiGraphicsRendererFactory) = typeProvider->CreateType(IType::Interface, L"gacui_tpimp_IGuiGraphicsRendererFactory", new gacui_tpimp_IGuiGraphicsRendererFactory));
@@ -18498,6 +18672,7 @@ Helper Functions
 				((gacui_tpimp_type_cache_table.cache_List_of_ObjectString_of_wchar_t) = typeProvider->CreateType(IType::Class, L"gacui_tpimp_List_of_ObjectString_of_wchar_t", new gacui_tpimp_List_of_ObjectString_of_wchar_t));
 				((gacui_tpimp_type_cache_table.cache_ListProvider_of_ListViewItem) = typeProvider->CreateType(IType::Class, L"gacui_tpimp_ListProvider_of_ListViewItem", new gacui_tpimp_ListProvider_of_ListViewItem));
 				((gacui_tpimp_type_cache_table.cache_ListProvider_of_TextItem) = typeProvider->CreateType(IType::Class, L"gacui_tpimp_ListProvider_of_TextItem", new gacui_tpimp_ListProvider_of_TextItem));
+				((gacui_tpimp_type_cache_table.cache_ListViewColumn) = typeProvider->CreateType(IType::Struct, L"gacui_tpimp_ListViewColumn", new gacui_tpimp_ListViewColumn));
 				((gacui_tpimp_type_cache_table.cache_ListViewItem) = typeProvider->CreateType(IType::Struct, L"gacui_tpimp_ListViewItem", new gacui_tpimp_ListViewItem));
 				((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProviderBase_member_ListViewItemStyleController) = typeProvider->CreateType(IType::Class, L"gacui_tpimp_ListViewItemStyleProviderBase :: gacui_tpimp_ListViewItemStyleController", new gacui_tpimp_ListViewItemStyleProviderBase :: gacui_tpimp_ListViewItemStyleController));
 				((gacui_tpimp_type_cache_table.cache_ListWrapperProvider_of_ListViewItem) = typeProvider->CreateType(IType::Class, L"gacui_tpimp_ListWrapperProvider_of_ListViewItem", new gacui_tpimp_ListWrapperProvider_of_ListViewItem));

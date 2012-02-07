@@ -52,7 +52,7 @@ namespace _TranslateXMLtoCode.Codegen
             }
             WriteLine("");
             foreach (var udt in this.options.Udts
-                .OrderBy(t => (t.Descriptable ? "0" : "1") + t.ToString())
+                .OrderBy(t => (t.Descriptable ? "0" : "1") + GetTypeCacheVariableName(t))
                 )
             {
                 WriteLine("Type* {0};", GetTypeCacheVariableName(udt));
@@ -149,6 +149,15 @@ namespace _TranslateXMLtoCode.Codegen
                     {
                         return GetType(type.ElementType);
                     }
+                case GacTypeKind.UDT:
+                    {
+                        RgacUDT elementType = options.Udts.Where(t => t.AssociatedGacType == type.AssociatedUDT).FirstOrDefault();
+                        if (elementType != null)
+                        {
+                            return GetTypeCacheVariable(elementType);
+                        }
+                    }
+                    break;
             }
             return null;
         }
@@ -323,13 +332,23 @@ namespace _TranslateXMLtoCode.Codegen
             }
             else
             {
+                foreach (var t in udt.BaseClasses)
+                {
+                    if (options.Udts.Contains(t))
+                    {
+                        WriteLine("AddBaseType(" + GetTypeCacheVariable(t) + ");");
+                    }
+                }
                 if (udt.Constructors.Length > 0)
                 {
-                    foreach (var m in udt.Constructors)
+                    if (!udt.IsAbstract)
                     {
-                        Begin("AddConstructor(");
-                        GenerateMethod(udt, m, false);
-                        End(");");
+                        foreach (var m in udt.Constructors)
+                        {
+                            Begin("AddConstructor(");
+                            GenerateMethod(udt, m, false);
+                            End(");");
+                        }
                     }
                 }
                 foreach (var m in udt.Methods)
