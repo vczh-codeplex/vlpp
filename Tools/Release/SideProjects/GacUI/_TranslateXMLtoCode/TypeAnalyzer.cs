@@ -282,14 +282,14 @@ namespace _TranslateXMLtoCode
             return !udt.Name.StartsWith("vl::presentation::Description<")
                 && !udt.Name.StartsWith("vl::Func<")
                 && !udt.Name.StartsWith("vl::presentation::windows::")
-                && !udt.Name .Contains( "vl::presentation::DescriptableValue")
-                && !udt.Name .Contains( "vl::presentation::IType")
-                && !udt.Name .Contains( "vl::presentation::IMemberDescriptor")
-                && !udt.Name .Contains( "vl::presentation::IParameterDescriptor")
-                && !udt.Name .Contains( "vl::presentation::IMethodDescriptor")
-                && !udt.Name .Contains( "vl::presentation::IPropertyDescriptor")
-                && !udt.Name .Contains( "vl::presentation::ITypeDescriptor")
-                && !udt.Name .Contains( "vl::presentation::ITypeProvider")
+                && !udt.Name.Contains("vl::presentation::DescriptableValue")
+                && !udt.Name.Contains("vl::presentation::IType")
+                && !udt.Name.Contains("vl::presentation::IMemberDescriptor")
+                && !udt.Name.Contains("vl::presentation::IParameterDescriptor")
+                && !udt.Name.Contains("vl::presentation::IMethodDescriptor")
+                && !udt.Name.Contains("vl::presentation::IPropertyDescriptor")
+                && !udt.Name.Contains("vl::presentation::ITypeDescriptor")
+                && !udt.Name.Contains("vl::presentation::ITypeProvider")
                 && udt.Name != "vl::Interface"
                 && udt.Name != "vl::Object"
                 ;
@@ -346,6 +346,15 @@ namespace _TranslateXMLtoCode
             var descriptableUdts = ExtractDescriptableUDT(udts);
             var relatedUdts = descriptableUdts.SelectMany(ExtractRelatedUDT)
                 .Concat(descriptableMethods.SelectMany(m => ExtractRelatedUDT(m.Type)))
+                .Concat(
+                    udts.Values.Where(t =>
+                        t.Name.StartsWith("vl::presentation::elements::text::") ||
+                        t.Name.StartsWith("vl::presentation::controls::text::") ||
+                        t.Name.StartsWith("vl::presentation::controls::list::") ||
+                        t.Name.StartsWith("vl::presentation::controls::tree::")
+                        )
+                    .Where(t => t.Name.Split(new string[] { "::" }, StringSplitOptions.RemoveEmptyEntries).Length == 5)
+                    )
                 .Distinct().ToArray();
             while (true)
             {
@@ -379,12 +388,13 @@ namespace _TranslateXMLtoCode
             result.ExportableClasses = exportableUdts
                 .Where(t => t.Kind == GacUDTKind.Class)
                 .Where(t => InheritsFromObjectOrInterface(t))
+                .Where(t => !t.Name.StartsWith("vl::collections::IEnumerator<") && !t.Name.StartsWith("vl::collections::IEnumerable<"))
                 .ToArray();
 
             result.AvailableUdts = result.DescriptableUdts
                 .Concat(descriptableUdts.Concat(exportableUdts))
                 .Concat(udts
-                    .Where(p => 
+                    .Where(p =>
                         p.Key.StartsWith("vl::presentation::") ||
                         p.Key.StartsWith("vl::collections::")
                         )

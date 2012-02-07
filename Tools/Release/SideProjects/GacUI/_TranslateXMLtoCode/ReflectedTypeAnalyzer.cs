@@ -676,7 +676,10 @@ namespace _TranslateXMLtoCode
                         }
                         if (!processed)
                         {
-                            methods.Add(m);
+                            if (m.Name != "Wrap" && m.Name != "CreateEnumerator")
+                            {
+                                methods.Add(m);
+                            }
                         }
                     }
                 }
