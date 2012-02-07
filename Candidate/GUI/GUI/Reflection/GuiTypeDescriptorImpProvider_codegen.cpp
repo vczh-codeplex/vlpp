@@ -599,6 +599,32 @@ CharAtt (vl::presentation::elements::text::CharAtt)
 			protected:
 				void FillTypeContent()
 				{
+					AddProperty(
+						(new PropertyDescriptor(L"rightOffset", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_UInt32))
+						->Getter(
+							(new MethodDescriptor(L"get_rightOffset", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_UInt32))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_rightOffset", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_UInt32))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"colorIndex", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_UInt32))
+						->Getter(
+							(new MethodDescriptor(L"get_colorIndex", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_UInt32))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_colorIndex", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_UInt32))
+						)
+					);
 				}
 			
 			public:
@@ -5898,6 +5924,19 @@ GuiListControl :: IItemPrimaryTextView (vl::presentation::controls::GuiListContr
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemPrimaryTextView)->GetReferenceType())
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemPrimaryTextView)->GetConstReferenceType())
 						);
+						AddProperty(
+							(new PropertyDescriptor(L"Identifier", IMemberDescriptor::Static))
+							->PropertyType((gacui_tpimp_type_cache_table.primary_Char)->GetPointerType())
+							->Getter(
+								(new MethodDescriptor(L"get_Identifier", IMemberDescriptor::Static))
+								->ReturnType((gacui_tpimp_type_cache_table.primary_Char)->GetPointerType())
+							)
+							->Setter(
+								(new MethodDescriptor(L"set_Identifier", IMemberDescriptor::Static))
+								->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+								->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Char)->GetPointerType())
+							)
+						);
 					}
 				
 				public:
@@ -10852,6 +10891,19 @@ IGuiMenuService (vl::presentation::controls::IGuiMenuService)
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiMenu)->GetPointerType())
 						)
 					);
+					AddProperty(
+						(new PropertyDescriptor(L"Identifier", IMemberDescriptor::Static))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_Char)->GetPointerType())
+						->Getter(
+							(new MethodDescriptor(L"get_Identifier", IMemberDescriptor::Static))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Char)->GetPointerType())
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_Identifier", IMemberDescriptor::Static))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Char)->GetPointerType())
+						)
+					);
 				}
 			
 			public:
@@ -12563,6 +12615,19 @@ INodeItemPrimaryTextView (vl::presentation::controls::tree::INodeItemPrimaryText
 						->ReturnType((gacui_tpimp_type_cache_table.cache_INodeItemPrimaryTextView)->GetReferenceType())
 						->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_INodeItemPrimaryTextView)->GetConstReferenceType())
 					);
+					AddProperty(
+						(new PropertyDescriptor(L"Identifier", IMemberDescriptor::Static))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_Char)->GetPointerType())
+						->Getter(
+							(new MethodDescriptor(L"get_Identifier", IMemberDescriptor::Static))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Char)->GetPointerType())
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_Identifier", IMemberDescriptor::Static))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Char)->GetPointerType())
+						)
+					);
 				}
 			
 			public:
@@ -12699,6 +12764,19 @@ INodeItemView (vl::presentation::controls::tree::INodeItemView)
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_INodeItemView)->GetReferenceType())
 						->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_INodeItemView)->GetConstReferenceType())
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"Identifier", IMemberDescriptor::Static))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_Char)->GetPointerType())
+						->Getter(
+							(new MethodDescriptor(L"get_Identifier", IMemberDescriptor::Static))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Char)->GetPointerType())
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_Identifier", IMemberDescriptor::Static))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Char)->GetPointerType())
+						)
 					);
 				}
 			
@@ -13435,6 +13513,19 @@ ITreeViewItemView (vl::presentation::controls::tree::ITreeViewItemView)
 						->ReturnType((gacui_tpimp_type_cache_table.cache_ITreeViewItemView)->GetReferenceType())
 						->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_ITreeViewItemView)->GetConstReferenceType())
 					);
+					AddProperty(
+						(new PropertyDescriptor(L"Identifier", IMemberDescriptor::Static))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_Char)->GetPointerType())
+						->Getter(
+							(new MethodDescriptor(L"get_Identifier", IMemberDescriptor::Static))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Char)->GetPointerType())
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_Identifier", IMemberDescriptor::Static))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Char)->GetPointerType())
+						)
+					);
 				}
 			
 			public:
@@ -13742,6 +13833,19 @@ ListViewColumnItemArranger :: IColumnItemView (vl::presentation::controls::list:
 							->Getter(
 								(new MethodDescriptor(L"GetColumnCount", IMemberDescriptor::Abstract))
 								->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Identifier", IMemberDescriptor::Static))
+							->PropertyType((gacui_tpimp_type_cache_table.primary_Char)->GetPointerType())
+							->Getter(
+								(new MethodDescriptor(L"get_Identifier", IMemberDescriptor::Static))
+								->ReturnType((gacui_tpimp_type_cache_table.primary_Char)->GetPointerType())
+							)
+							->Setter(
+								(new MethodDescriptor(L"set_Identifier", IMemberDescriptor::Static))
+								->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+								->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Char)->GetPointerType())
 							)
 						);
 					}
@@ -14230,6 +14334,19 @@ ListViewItemStyleProvider :: IListViewItemView (vl::presentation::controls::list
 							->Getter(
 								(new MethodDescriptor(L"GetColumnCount", IMemberDescriptor::Abstract))
 								->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
+							)
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Identifier", IMemberDescriptor::Static))
+							->PropertyType((gacui_tpimp_type_cache_table.primary_Char)->GetPointerType())
+							->Getter(
+								(new MethodDescriptor(L"get_Identifier", IMemberDescriptor::Static))
+								->ReturnType((gacui_tpimp_type_cache_table.primary_Char)->GetPointerType())
+							)
+							->Setter(
+								(new MethodDescriptor(L"set_Identifier", IMemberDescriptor::Static))
+								->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+								->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Char)->GetPointerType())
 							)
 						);
 					}
@@ -14954,6 +15071,71 @@ NativeWindowCharInfo (vl::presentation::NativeWindowCharInfo)
 			protected:
 				void FillTypeContent()
 				{
+					AddProperty(
+						(new PropertyDescriptor(L"code", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_Char))
+						->Getter(
+							(new MethodDescriptor(L"get_code", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Char))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_code", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Char))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ctrl", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
+						->Getter(
+							(new MethodDescriptor(L"get_ctrl", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_ctrl", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"shift", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
+						->Getter(
+							(new MethodDescriptor(L"get_shift", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_shift", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"alt", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
+						->Getter(
+							(new MethodDescriptor(L"get_alt", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_alt", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"capslock", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
+						->Getter(
+							(new MethodDescriptor(L"get_capslock", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_capslock", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
+						)
+					);
 				}
 			
 			public:
@@ -14968,6 +15150,71 @@ NativeWindowKeyInfo (vl::presentation::NativeWindowKeyInfo)
 			protected:
 				void FillTypeContent()
 				{
+					AddProperty(
+						(new PropertyDescriptor(L"code", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_SInt32))
+						->Getter(
+							(new MethodDescriptor(L"get_code", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_code", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_SInt32))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"ctrl", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
+						->Getter(
+							(new MethodDescriptor(L"get_ctrl", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_ctrl", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"shift", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
+						->Getter(
+							(new MethodDescriptor(L"get_shift", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_shift", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"alt", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
+						->Getter(
+							(new MethodDescriptor(L"get_alt", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_alt", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"capslock", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
+						->Getter(
+							(new MethodDescriptor(L"get_capslock", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_capslock", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
+						)
+					);
 				}
 			
 			public:
@@ -14982,6 +15229,110 @@ NativeWindowMouseInfo (vl::presentation::NativeWindowMouseInfo)
 			protected:
 				void FillTypeContent()
 				{
+					AddProperty(
+						(new PropertyDescriptor(L"ctrl", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
+						->Getter(
+							(new MethodDescriptor(L"get_ctrl", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_ctrl", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"shift", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
+						->Getter(
+							(new MethodDescriptor(L"get_shift", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_shift", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"left", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
+						->Getter(
+							(new MethodDescriptor(L"get_left", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_left", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"middle", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
+						->Getter(
+							(new MethodDescriptor(L"get_middle", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_middle", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"right", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
+						->Getter(
+							(new MethodDescriptor(L"get_right", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_right", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"x", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_SInt32))
+						->Getter(
+							(new MethodDescriptor(L"get_x", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_x", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_SInt32))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"y", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_SInt32))
+						->Getter(
+							(new MethodDescriptor(L"get_y", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_y", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_SInt32))
+						)
+					);
+					AddProperty(
+						(new PropertyDescriptor(L"wheel", IMemberDescriptor::Normal))
+						->PropertyType((gacui_tpimp_type_cache_table.primary_SInt32))
+						->Getter(
+							(new MethodDescriptor(L"get_wheel", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
+						)
+						->Setter(
+							(new MethodDescriptor(L"set_wheel", IMemberDescriptor::Normal))
+							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_SInt32))
+						)
+					);
 				}
 			
 			public:
@@ -15756,6 +16107,19 @@ TextItemStyleProvider :: ITextItemView (vl::presentation::controls::list::TextIt
 							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_TextItemStyleProvider_member_ITextItemView)->GetReferenceType())
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_TextItemStyleProvider_member_ITextItemView)->GetConstReferenceType())
+						);
+						AddProperty(
+							(new PropertyDescriptor(L"Identifier", IMemberDescriptor::Static))
+							->PropertyType((gacui_tpimp_type_cache_table.primary_Char)->GetPointerType())
+							->Getter(
+								(new MethodDescriptor(L"get_Identifier", IMemberDescriptor::Static))
+								->ReturnType((gacui_tpimp_type_cache_table.primary_Char)->GetPointerType())
+							)
+							->Setter(
+								(new MethodDescriptor(L"set_Identifier", IMemberDescriptor::Static))
+								->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
+								->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Char)->GetPointerType())
+							)
 						);
 					}
 				

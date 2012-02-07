@@ -716,21 +716,21 @@ namespace _TranslateXMLtoCode
                         throw new ArgumentException();
                     }
                 }
+            }
 
-                foreach (var field in inputFields.Where(f => f.Access == GacAccess.Public))
+            foreach (var field in inputFields.Where(f => f.Access == GacAccess.Public))
+            {
+                if (field.Type.Kind != GacTypeKind.Const)
                 {
-                    if (field.Type.Kind != GacTypeKind.Const)
+                    RgacProperty prop = new RgacProperty()
                     {
-                        RgacProperty prop = new RgacProperty()
-                        {
-                            Name = field.Name,
-                            PropertyType = TranslateType(input, udts, field.Type),
-                            OwnerUDT = udt,
-                            PublicGacFieldAccessor = field,
-                            IsEventField = field.Type.Name.StartsWith("vl::presentation::elements::GuiGraphicsEvent<"),
-                        };
-                        properties.Add(prop);
-                    }
+                        Name = field.Name,
+                        PropertyType = TranslateType(input, udts, field.Type),
+                        OwnerUDT = udt,
+                        PublicGacFieldAccessor = field,
+                        IsEventField = field.Type.Name.StartsWith("vl::presentation::elements::GuiGraphicsEvent<"),
+                    };
+                    properties.Add(prop);
                 }
             }
             outputConstructors = constructors.ToArray();
