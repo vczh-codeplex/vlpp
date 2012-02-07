@@ -42,6 +42,7 @@ IType
 				Type*								pointerType;
 				Type*								smartPointerType;
 				Type*								referenceType;
+				Type*								constReferenceType;
 				Type*								rvalueReferenceType;
 				ArrayTypeMap						arrayTypes;
 			protected:
@@ -52,6 +53,7 @@ IType
 				Type*								GetPointerType();
 				Type*								GetSmartPointerType();
 				Type*								GetReferenceType();
+				Type*								GetConstReferenceType();
 				Type*								GetRValueReferenceType();
 				Type*								GetArrayType(int length);
 
@@ -215,6 +217,7 @@ ITypeProvider
 				Type*								typeSInt64;
 				Type*								typeUInt64;
 				Type*								typeFloat;
+				Type*								typeDouble;
 				Type*								typeBool;
 				Type*								typeChar;
 				Type*								typeString;
@@ -232,12 +235,14 @@ ITypeProvider
 				IType*								SInt64()override;
 				IType*								UInt64()override;
 				IType*								Float()override;
+				IType*								Double()override;
 				IType*								Bool()override;
 				IType*								Char()override;
 				IType*								String()override;
 				IType*								Pointer(IType* elementType)override;
 				IType*								SmartPointer(IType* elementType)override;
 				IType*								Reference(IType* elementType)override;
+				IType*								ConstReference(IType* elementType)override;
 				IType*								RValueReference(IType* elementType)override;
 				IType*								Array(IType* elementType, int length)override;
 
