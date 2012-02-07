@@ -149,6 +149,7 @@ ITypeDescriptor
 				SInt64,
 				UInt64,
 				Float,
+				Double,
 				Bool,
 				Char,
 				String,
@@ -160,6 +161,7 @@ ITypeDescriptor
 				Pointer,
 				SmartPointer,
 				Reference,
+				ConstReference,
 				RValueReference,
 				Array,
 				Const,
@@ -256,12 +258,14 @@ Helper Functions
 			virtual IType*			SInt64()=0;
 			virtual IType*			UInt64()=0;
 			virtual IType*			Float()=0;
+			virtual IType*			Double()=0;
 			virtual IType*			Bool()=0;
 			virtual IType*			Char()=0;
 			virtual IType*			String()=0;
 			virtual IType*			Pointer(IType* elementType)=0;
 			virtual IType*			SmartPointer(IType* elementType)=0;
 			virtual IType*			Reference(IType* elementType)=0;
+			virtual IType*			ConstReference(IType* elementType)=0;
 			virtual IType*			RValueReference(IType* elementType)=0;
 			virtual IType*			Array(IType* elementType, int length)=0;
 

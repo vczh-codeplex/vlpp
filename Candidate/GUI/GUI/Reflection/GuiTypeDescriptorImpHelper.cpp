@@ -22,6 +22,7 @@ IType
 				,pointerType(0)
 				,smartPointerType(0)
 				,referenceType(0)
+				,constReferenceType(0)
 				,rvalueReferenceType(0)
 			{
 			}
@@ -58,6 +59,16 @@ IType
 					pointerType->elementType=this;
 				}
 				return referenceType;
+			}
+
+			Type* Type::GetConstReferenceType()
+			{
+				if(!constReferenceType)
+				{
+					constReferenceType=owner->CreateType(IType::ConstReference, name+L" const&", 0);
+					pointerType->elementType=this;
+				}
+				return constReferenceType;
 			}
 
 			Type* Type::GetRValueReferenceType()
@@ -523,6 +534,21 @@ TypeProvider
 
 			TypeProvider::TypeProvider()
 			{
+				typeSInt8=CreateType(IType::SInt8, L"signed __int8", 0);
+				typeSInt16=CreateType(IType::SInt16, L"signed __int16", 0);
+				typeSInt32=CreateType(IType::SInt32, L"signed __int32", 0);
+				typeSInt64=CreateType(IType::SInt64, L"signed __int64", 0);
+				
+				typeUInt8=CreateType(IType::UInt8, L"unsigned __int8", 0);
+				typeUInt16=CreateType(IType::UInt16, L"unsigned __int16", 0);
+				typeUInt32=CreateType(IType::UInt32, L"unsigned __int32", 0);
+				typeUInt64=CreateType(IType::UInt64, L"unsigned __int64", 0);
+				
+				typeFloat=CreateType(IType::Float, L"float", 0);
+				typeDouble=CreateType(IType::Double, L"double", 0);
+				typeBool=CreateType(IType::Bool, L"bool", 0);
+				typeChar=CreateType(IType::Char, L"wchar_t", 0);
+				typeString=CreateType(IType::String, L"wstring", 0);
 			}
 
 			TypeProvider::~TypeProvider()
@@ -587,6 +613,11 @@ TypeProvider
 				return typeFloat;
 			}
 
+			IType* TypeProvider::Double()
+			{
+				return typeDouble;
+			}
+
 			IType* TypeProvider::Bool()
 			{
 				return typeBool;
@@ -628,6 +659,16 @@ TypeProvider
 				if(type)
 				{
 					return type->GetReferenceType();
+				}
+				return 0;
+			}
+
+			IType* TypeProvider::ConstReference(IType* elementType)
+			{
+				Type* type=dynamic_cast<Type*>(elementType);
+				if(type)
+				{
+					return type->GetConstReferenceType();
 				}
 				return 0;
 			}

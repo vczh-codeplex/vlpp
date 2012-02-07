@@ -115,22 +115,66 @@ namespace _TranslateXMLtoCode
                     switch (type.Name)
                     {
                         case "int":
+                            return new RgacType
+                            {
+                                Kind = RgacTypeKind.Primitive,
+                                PrimitiveKind = RgacPrimitiveKind.SInt32,
+                                OriginalGacType = type,
+                            };
                         case "signed __int8":
+                            return new RgacType
+                            {
+                                Kind = RgacTypeKind.Primitive,
+                                PrimitiveKind = RgacPrimitiveKind.SInt8,
+                                OriginalGacType = type,
+                            };
                         case "signed __int16":
+                            return new RgacType
+                            {
+                                Kind = RgacTypeKind.Primitive,
+                                PrimitiveKind = RgacPrimitiveKind.SInt16,
+                                OriginalGacType = type,
+                            };
                         case "signed __int32":
                             return new RgacType
                             {
                                 Kind = RgacTypeKind.Primitive,
-                                PrimitiveKind = RgacPrimitiveKind.SInt,
+                                PrimitiveKind = RgacPrimitiveKind.SInt32,
+                                OriginalGacType = type,
+                            };
+                        case "signed __int64":
+                            return new RgacType
+                            {
+                                Kind = RgacTypeKind.Primitive,
+                                PrimitiveKind = RgacPrimitiveKind.SInt64,
                                 OriginalGacType = type,
                             };
                         case "unsigned __int8":
+                            return new RgacType
+                            {
+                                Kind = RgacTypeKind.Primitive,
+                                PrimitiveKind = RgacPrimitiveKind.SInt8,
+                                OriginalGacType = type,
+                            };
                         case "unsigned __int16":
+                            return new RgacType
+                            {
+                                Kind = RgacTypeKind.Primitive,
+                                PrimitiveKind = RgacPrimitiveKind.SInt16,
+                                OriginalGacType = type,
+                            };
                         case "unsigned __int32":
                             return new RgacType
                             {
                                 Kind = RgacTypeKind.Primitive,
-                                PrimitiveKind = RgacPrimitiveKind.UInt,
+                                PrimitiveKind = RgacPrimitiveKind.UInt32,
+                                OriginalGacType = type,
+                            };
+                        case "unsigned __int64":
+                            return new RgacType
+                            {
+                                Kind = RgacTypeKind.Primitive,
+                                PrimitiveKind = RgacPrimitiveKind.UInt64,
                                 OriginalGacType = type,
                             };
                         case "bool":
@@ -208,12 +252,45 @@ namespace _TranslateXMLtoCode
                                 OriginalGacType = type,
                             };
                         }
+                        else if (input.ExportableStructs.ContainsKey(type.ElementType.AssociatedUDT.Name))
+                        {
+                            return new RgacType
+                            {
+                                Kind = RgacTypeKind.StructSmartPointer,
+                                AssociatedRgacType = udts[type.ElementType.AssociatedUDT.Name],
+                                OriginalGacType = type,
+                            };
+                        }
                     }
                     break;
+                case GacTypeKind.Const:
+                    {
+                        return TranslateType(input, udts, type.ElementType);
+                    }
                 case GacTypeKind.Reference:
                     if (type.ElementType.AssociatedUDT != null)
                     {
-                        if (input.ExportableStructs.ContainsKey(type.ElementType.AssociatedUDT.Name))
+                        if (type.ElementType.AssociatedUDT.Name == "vl::ObjectString<wchar_t>")
+                        {
+                            return new RgacType
+                            {
+                                Kind = RgacTypeKind.Primitive,
+                                PrimitiveKind = RgacPrimitiveKind.StringReference,
+                                OriginalGacType = type,
+                            };
+                        }
+                        else if (input.ExportableClasses.ContainsKey(type.ElementType.AssociatedUDT.Name)
+                            || input.DescriptableUdts.ContainsKey(type.ElementType.AssociatedUDT.Name)
+                            )
+                        {
+                            return new RgacType
+                            {
+                                Kind = RgacTypeKind.ClassReference,
+                                AssociatedRgacType = udts[type.ElementType.AssociatedUDT.Name],
+                                OriginalGacType = type,
+                            };
+                        }
+                        else if (input.ExportableStructs.ContainsKey(type.ElementType.AssociatedUDT.Name))
                         {
                             return new RgacType
                             {
@@ -236,6 +313,17 @@ namespace _TranslateXMLtoCode
                                     OriginalGacType = type,
                                 };
                             }
+                            else if (input.ExportableClasses.ContainsKey(type.ElementType.ElementType.AssociatedUDT.Name)
+                                || input.DescriptableUdts.ContainsKey(type.ElementType.ElementType.AssociatedUDT.Name)
+                                )
+                            {
+                                return new RgacType
+                                {
+                                    Kind = RgacTypeKind.ConstClassReference,
+                                    AssociatedRgacType = udts[type.ElementType.ElementType.AssociatedUDT.Name],
+                                    OriginalGacType = type,
+                                };
+                            }
                             else if (input.ExportableStructs.ContainsKey(type.ElementType.ElementType.AssociatedUDT.Name))
                             {
                                 return new RgacType
@@ -245,6 +333,10 @@ namespace _TranslateXMLtoCode
                                     OriginalGacType = type,
                                 };
                             }
+                        }
+                        else
+                        {
+                            return TranslateType(input, udts, type.ElementType.ElementType);
                         }
                     }
                     break;
@@ -921,11 +1013,17 @@ namespace _TranslateXMLtoCode
                     return type.AssociatedRgacType.ToString() + "*";
                 case RgacTypeKind.ClassSmartPointer:
                     return "Ptr<" + type.AssociatedRgacType.ToString() + ">";
+                case RgacTypeKind.ClassReference:
+                    return type.AssociatedRgacType.ToString() + " &";
+                case RgacTypeKind.ConstClassReference:
+                    return type.AssociatedRgacType.ToString() + " const&";
 
                 case RgacTypeKind.Struct:
                     return type.AssociatedRgacType.ToString();
                 case RgacTypeKind.StructPointer:
                     return type.AssociatedRgacType.ToString() + "*";
+                case RgacTypeKind.StructSmartPointer:
+                    return "Ptr<" + type.AssociatedRgacType.ToString() + ">";
                 case RgacTypeKind.StructReference:
                     return type.AssociatedRgacType.ToString() + "&";
                 case RgacTypeKind.ConstStructReference:
