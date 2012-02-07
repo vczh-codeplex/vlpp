@@ -207,7 +207,8 @@ ITypeProvider
 				TypeList							createdTypes;
 				TypeDescriptorList					createdTypeDescriptors;
 				NameTypeMap							namedTypes;
-
+				
+				Type*								typeVoid;
 				Type*								typeSInt8;
 				Type*								typeUInt8;
 				Type*								typeSInt16;
@@ -226,6 +227,7 @@ ITypeProvider
 				~TypeProvider();
 
 				Type*								CreateType(IType::TypeEnum _typeEnum, const WString& _name, TypeDescriptor* _typeDescriptor);
+				IType*								Void()override;
 				IType*								SInt8()override;
 				IType*								UInt8()override;
 				IType*								SInt16()override;

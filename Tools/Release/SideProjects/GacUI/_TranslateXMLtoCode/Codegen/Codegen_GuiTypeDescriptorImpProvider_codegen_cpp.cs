@@ -17,6 +17,7 @@ namespace _TranslateXMLtoCode.Codegen
             "SInt8", "SInt16", "SInt32", "SInt64",
             "UInt8", "UInt16", "UInt32", "UInt64",
             "Float", "Double", "Char", "String", "Bool",
+            "Void",
         };
 
         protected string GetTypeCacheVariableName(RgacUDT udt)
@@ -63,6 +64,8 @@ namespace _TranslateXMLtoCode.Codegen
 
         #region TypeProvider
 
+        protected HashSet<string> UnknownTypes = new HashSet<string>();
+
         protected string GetCppClassName(string name)
         {
             return "gacui_tpimp_" + name;
@@ -73,6 +76,81 @@ namespace _TranslateXMLtoCode.Codegen
             return udt.Name
                 .Select(n => GetCppClassName(n))
                 .Aggregate((a, b) => a + " :: " + b);
+        }
+
+        protected string GetType(GacType type)
+        {
+            switch (type.Kind)
+            {
+                case GacTypeKind.Primitive:
+                    {
+                        switch (type.Name)
+                        {
+                            case "signed __int8":
+                                return GetPrimaryTypeCacheVariable("SInt8");
+                            case "signed __int16":
+                                return GetPrimaryTypeCacheVariable("SInt16");
+                            case "int":
+                            case "signed __int32":
+                                return GetPrimaryTypeCacheVariable("SInt32");
+                            case "signed __int64":
+                                return GetPrimaryTypeCacheVariable("SInt64");
+                            case "unsigned __int8":
+                                return GetPrimaryTypeCacheVariable("UInt8");
+                            case "unsigned __int16":
+                                return GetPrimaryTypeCacheVariable("UInt16");
+                            case "unsigned __int32":
+                                return GetPrimaryTypeCacheVariable("UInt32");
+                            case "unsigned __int64":
+                                return GetPrimaryTypeCacheVariable("UInt64");
+                            case "wchar_t":
+                                return GetPrimaryTypeCacheVariable("Char");
+                            case "bool":
+                                return GetPrimaryTypeCacheVariable("Bool");
+                            case "float":
+                                return GetPrimaryTypeCacheVariable("Float");
+                            case "double":
+                                return GetPrimaryTypeCacheVariable("Double");
+                            case "void":
+                                return GetPrimaryTypeCacheVariable("Void");
+                        }
+                    }
+                    break;
+                case GacTypeKind.Pointer:
+                    {
+                        string element = GetType(type.ElementType);
+                        if (element != null)
+                        {
+                            return element + "->GetPointerType()";
+                        }
+                    }
+                    break;
+                case GacTypeKind.Reference:
+                    {
+                        if (type.ElementType.Kind == GacTypeKind.Const)
+                        {
+                            string element = GetType(type.ElementType);
+                            if (element != null)
+                            {
+                                return element + "->GetConstReferenceType()";
+                            }
+                        }
+                        else
+                        {
+                            string element = GetType(type.ElementType);
+                            if (element != null)
+                            {
+                                return element + "->GetReferenceType()";
+                            }
+                        }
+                    }
+                    break;
+                case GacTypeKind.Const:
+                    {
+                        return GetType(type.ElementType);
+                    }
+            }
+            return null;
         }
 
         protected string GetType(RgacType type)
@@ -114,7 +192,7 @@ namespace _TranslateXMLtoCode.Codegen
                             case RgacPrimitiveKind.Double:
                                 return GetPrimaryTypeCacheVariable("Double");
                             case RgacPrimitiveKind.Void:
-                                return "0 /*[ void ]*/";
+                                return GetPrimaryTypeCacheVariable("Void");
                         }
                     }
                     break;
@@ -143,7 +221,14 @@ namespace _TranslateXMLtoCode.Codegen
 
                 case RgacTypeKind.Enum:
                     return GetTypeCacheVariable(type.AssociatedRgacType);
+                case RgacTypeKind.OtherGacType:
+                    {
+                        string result = GetType(type.OriginalGacType);
+                        if (result != null) return result;
+                    }
+                    break;
             }
+            UnknownTypes.Add(type.ToString());
             return "0 /*UNKNOWN_TYPE[ " + type.ToString() + " ]*/";
         }
 
@@ -393,6 +478,14 @@ namespace _TranslateXMLtoCode.Codegen
             End("}");
             End("}");
             End("}");
+
+            if (UnknownTypes.Count > 0)
+            {
+                foreach (var name in UnknownTypes)
+                {
+                    Console.WriteLine("    [UNKNOWN TYPE]: " + name);
+                }
+            }
         }
 
         public Codegen_GuiTypeDescriptorImpProvider_codegen_cpp(CodeGeneratorOptions options)
