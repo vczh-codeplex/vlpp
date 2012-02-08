@@ -92,6 +92,7 @@ ITypeDescriptor
 				friend class TypeDescriptor;
 
 				typedef collections::List<Ptr<ParameterDescriptor>>																	ParameterList;
+			public:
 				typedef Func<DescriptableValue(const DescriptableValue&, const collections::IReadonlyList<DescriptableValue>&)>		HandlerFuncType;
 			protected:
 				WString								name;
