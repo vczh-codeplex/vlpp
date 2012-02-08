@@ -241,7 +241,23 @@ namespace _TranslateXMLtoCode.Codegen
             return "0 /*UNKNOWN_TYPE[ " + type.ToString() + " ]*/";
         }
 
-        protected void GenerateMethod(RgacUDT owner, RgacMethod method, bool isStatic)
+        protected void GenerateMethodHandler(RgacUDT owner, string methodInvokerName)
+        {
+            WriteLine("->Handler(MethodDescriptor::HandlerFuncType(&{0}::{1}))", GetCppClassName(owner), methodInvokerName);
+        }
+
+        protected void GenerateMethodInvoker(RgacUDT owner, string methodInvokerName, List<Action> methodInvokers, Action action)
+        {
+            methodInvokers.Add(() =>
+            {
+                WriteLine("static DescriptableValue {0}(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)", methodInvokerName);
+                Begin("{");
+                action();
+                End("}");
+            });
+        }
+
+        protected void GenerateMethod(RgacUDT owner, RgacMethod method, bool isStatic, List<Action> methodInvokers)
         {
             WriteLine("(new MethodDescriptor(L\"{0}\", IMemberDescriptor::{1}))", method.Name, (isStatic ? "Static" : method.Kind.ToString()));
             WriteLine("->ReturnType(" + GetType(method.ReturnType) + ")");
@@ -249,15 +265,46 @@ namespace _TranslateXMLtoCode.Codegen
             {
                 WriteLine("->Parameter(L\"{0}\", {1})", method.ParameterNames[i], GetType(method.ParameterTypes[i]));
             }
+
+            string methodName = method.Name;
+            if (methodName.StartsWith("operator"))
+            {
+                switch (methodName)
+                {
+                    case "operator[]": methodName = "operator_index"; break;
+                    case "operator=": methodName = "operator_assign"; break;
+                    case "operator<": methodName = "operator_lt"; break;
+                    case "operator<=": methodName = "operator_le"; break;
+                    case "operator>": methodName = "operator_gt"; break;
+                    case "operator>=": methodName = "operator_ge"; break;
+                    case "operator==": methodName = "operator_eq"; break;
+                    case "operator!=": methodName = "operator_ne"; break;
+                    default:
+                        throw new ArgumentException();
+                }
+            }
+            string methodInvokerName = "method_handler_" + methodName + "_" + methodInvokers.Count.ToString();
+            GenerateMethodHandler(owner, methodInvokerName);
+            GenerateMethodInvoker(owner, methodInvokerName, methodInvokers, () =>
+            {
+                WriteLine("throw 0;");
+            });
         }
 
-        protected void GenerateFieldAccessGetter(RgacUDT owner, RgacType type, string name, bool isStatic)
+        protected void GenerateFieldAccessGetter(RgacUDT owner, RgacType type, string name, bool isStatic, List<Action> methodInvokers)
         {
             WriteLine("(new MethodDescriptor(L\"{0}\", IMemberDescriptor::{1}))", "get_" + name, (isStatic ? "Static" : "Normal"));
             WriteLine("->ReturnType(" + GetType(type) + ")");
+
+            string methodInvokerName = "method_handler_get_" + name + "_" + methodInvokers.Count.ToString();
+            GenerateMethodHandler(owner, methodInvokerName);
+            GenerateMethodInvoker(owner, methodInvokerName, methodInvokers, () =>
+            {
+                WriteLine("throw 0;");
+            });
         }
 
-        protected void GenerateFieldAccessSetter(RgacUDT owner, RgacType type, string name, bool isStatic)
+        protected void GenerateFieldAccessSetter(RgacUDT owner, RgacType type, string name, bool isStatic, List<Action> methodInvokers)
         {
             WriteLine("(new MethodDescriptor(L\"{0}\", IMemberDescriptor::{1}))", "set_" + name, (isStatic ? "Static" : "Normal"));
             WriteLine("->ReturnType(" + GetType(new RgacType
@@ -266,9 +313,16 @@ namespace _TranslateXMLtoCode.Codegen
                 PrimitiveKind = RgacPrimitiveKind.Void,
             }) + ")");
             WriteLine("->Parameter(L\"value\", " + GetType(type) + ")");
+
+            string methodInvokerName = "method_handler_set_" + name + "_" + methodInvokers.Count.ToString();
+            GenerateMethodHandler(owner, methodInvokerName);
+            GenerateMethodInvoker(owner, methodInvokerName, methodInvokers, () =>
+            {
+                WriteLine("throw 0;");
+            });
         }
 
-        protected void GenerateProperty(RgacUDT owner, RgacProperty property, bool isStatic)
+        protected void GenerateProperty(RgacUDT owner, RgacProperty property, bool isStatic, List<Action> methodInvokers)
         {
             WriteLine("(new PropertyDescriptor(L\"{0}\", IMemberDescriptor::{1}))", property.Name, (isStatic ? "Static" : "Normal"));
             WriteLine("->PropertyType(" + GetType(property.PropertyType) + ")");
@@ -277,38 +331,38 @@ namespace _TranslateXMLtoCode.Codegen
                 if (property.Getter != null)
                 {
                     Begin("->Getter(");
-                    GenerateMethod(owner, property.Getter, isStatic);
+                    GenerateMethod(owner, property.Getter, isStatic, methodInvokers);
                     End(")");
                 }
                 if (property.Setter != null)
                 {
                     Begin("->Setter(");
-                    GenerateMethod(owner, property.Setter, isStatic);
+                    GenerateMethod(owner, property.Setter, isStatic, methodInvokers);
                     End(")");
                 }
             }
             else
             {
                 Begin("->Getter(");
-                GenerateFieldAccessGetter(owner, property.PropertyType, property.Name, isStatic);
+                GenerateFieldAccessGetter(owner, property.PropertyType, property.Name, isStatic, methodInvokers);
                 End(")");
 
                 Begin("->Setter(");
-                GenerateFieldAccessSetter(owner, property.PropertyType, property.Name, isStatic);
+                GenerateFieldAccessSetter(owner, property.PropertyType, property.Name, isStatic, methodInvokers);
                 End(")");
             }
         }
 
-        protected void GenerateEnumItemProperty(RgacUDT owner, RgacType ownerType, GacConst enumItem)
+        protected void GenerateEnumItemProperty(RgacUDT owner, RgacType ownerType, GacConst enumItem, List<Action> methodInvokers)
         {
             WriteLine("(new PropertyDescriptor(L\"{0}\", IMemberDescriptor::{1}))", enumItem.Name, "Static");
             WriteLine("->PropertyType(" + GetType(ownerType) + ")");
             Begin("->Getter(");
-            GenerateFieldAccessGetter(owner, ownerType, enumItem.Name, true);
+            GenerateFieldAccessGetter(owner, ownerType, enumItem.Name, true, methodInvokers);
             End(")");
         }
 
-        protected void GenerateTypeDescriptorBody(RgacUDT udt)
+        protected void GenerateTypeDescriptorBody(RgacUDT udt, List<Action> methodInvokers)
         {
             if (udt.Kind == RgacUDTKind.Enum)
             {
@@ -326,7 +380,7 @@ namespace _TranslateXMLtoCode.Codegen
                 foreach (var c in udt.AssociatedGacType.Constants)
                 {
                     Begin("AddProperty(");
-                    GenerateEnumItemProperty(udt, enumType, c);
+                    GenerateEnumItemProperty(udt, enumType, c, methodInvokers);
                     End(");");
                 }
             }
@@ -346,7 +400,7 @@ namespace _TranslateXMLtoCode.Codegen
                         foreach (var m in udt.Constructors)
                         {
                             Begin("AddConstructor(");
-                            GenerateMethod(udt, m, false);
+                            GenerateMethod(udt, m, false, methodInvokers);
                             End(");");
                         }
                     }
@@ -354,25 +408,25 @@ namespace _TranslateXMLtoCode.Codegen
                 foreach (var m in udt.Methods)
                 {
                     Begin("AddMethod(");
-                    GenerateMethod(udt, m, false);
+                    GenerateMethod(udt, m, false, methodInvokers);
                     End(");");
                 }
                 foreach (var m in udt.StaticMethods)
                 {
                     Begin("AddMethod(");
-                    GenerateMethod(udt, m, true);
+                    GenerateMethod(udt, m, true, methodInvokers);
                     End(");");
                 }
                 foreach (var p in udt.Properties)
                 {
                     Begin("AddProperty(");
-                    GenerateProperty(udt, p, false);
+                    GenerateProperty(udt, p, false, methodInvokers);
                     End(");");
                 }
                 foreach (var p in udt.StaticProperties)
                 {
                     Begin("AddProperty(");
-                    GenerateProperty(udt, p, true);
+                    GenerateProperty(udt, p, true, methodInvokers);
                     End(");");
                 }
             }
@@ -407,21 +461,31 @@ namespace _TranslateXMLtoCode.Codegen
                 {
                     string className = udt.Name[i];
                     classNames.Add(className);
+                    string cppClassName = GetCppClassName(className);
+
                     if (i == udt.Name.Length - 1)
                     {
-                        WriteLine("class {0} : public TypeDescriptor", GetCppClassName(className));
+                        List<Action> methodInvokers = new List<Action>();
+                        WriteLine("class {0} : public TypeDescriptor", cppClassName);
                         WriteLine("{");
                         Begin("protected:");
                         WriteLine("void FillTypeContent()");
                         Begin("{");
-                        GenerateTypeDescriptorBody(udt);
+                        GenerateTypeDescriptorBody(udt, methodInvokers);
                         End("}");
+                        End("");
+                        Begin("private:");
+                        foreach (var action in methodInvokers)
+                        {
+                            WriteLine("");
+                            action();
+                        }
                         End("");
                         Begin("public:");
                     }
                     else
                     {
-                        WriteLine("class {0}", GetCppClassName(className));
+                        WriteLine("class {0}", cppClassName);
                         WriteLine("{");
                         Begin("public:");
                     }
