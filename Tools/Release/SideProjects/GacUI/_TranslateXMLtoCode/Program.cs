@@ -49,6 +49,8 @@ namespace _TranslateXMLtoCode
             List<CodeGenerator> generators = new List<CodeGenerator>();
             generators.Add(new Codegen_GuiTypeDescriptorImpProvider_codegen_h(options));
             generators.Add(new Codegen_GuiTypeDescriptorImpProvider_codegen_cpp(options));
+            generators.Add(new Codegen_GacUI_codegen_h(options));
+            generators.Add(new Codegen_GacUI_codegen_cpp(options));
 
             // generate code
             foreach (var codegen in generators)

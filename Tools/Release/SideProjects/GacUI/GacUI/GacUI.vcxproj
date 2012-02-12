@@ -135,6 +135,8 @@ $(SolutionDir)$(Configuration)\_TranslateXMLtoCode.exe $(SolutionDir)</Command>
     <ClCompile Include="..\..\..\..\..\Library\String.cpp" />
     <ClCompile Include="..\..\..\..\..\Library\Threading.cpp" />
     <ClCompile Include="DllMain.cpp" />
+    <ClCompile Include="GacUI.cpp" />
+    <ClCompile Include="GacUICommon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\ExtendedControls\GuiComboControls.h" />
@@ -207,7 +209,8 @@ $(SolutionDir)$(Configuration)\_TranslateXMLtoCode.exe $(SolutionDir)</Command>
     <ClInclude Include="..\..\..\..\..\Library\Stream\RecorderStream.h" />
     <ClInclude Include="..\..\..\..\..\Library\String.h" />
     <ClInclude Include="..\..\..\..\..\Library\Threading.h" />
-    <ClInclude Include="GacUICpp.h" />
+    <ClInclude Include="GacUI.h" />
+    <ClInclude Include="GacUICommon.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\_GenPDB\_GenPDB.vcxproj">
