@@ -207,6 +207,12 @@
     <ClCompile Include="..\..\..\..\..\Candidate\GUI\GUI\Reflection\GuiTypeDescriptorImpProvider_codegen.cpp">
       <Filter>GUI\Reflection</Filter>
     </ClCompile>
+    <ClCompile Include="GacUICommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GacUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\Controls\ExtendedControls\GuiComboControls.h">
@@ -413,14 +419,17 @@
     <ClInclude Include="..\..\..\..\..\Library\Stream\RecorderStream.h">
       <Filter>Library\Stream</Filter>
     </ClInclude>
-    <ClInclude Include="GacUICpp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\Reflection\GuiTypeDescriptorImpHelper.h">
       <Filter>GUI\Reflection</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\Candidate\GUI\GUI\Reflection\GuiTypeDescriptorImpProvider_codegen.h">
       <Filter>GUI\Reflection</Filter>
+    </ClInclude>
+    <ClInclude Include="GacUICommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GacUI.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
