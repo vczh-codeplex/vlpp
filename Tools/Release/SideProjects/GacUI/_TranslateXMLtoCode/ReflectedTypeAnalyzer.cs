@@ -733,6 +733,7 @@ namespace _TranslateXMLtoCode
                     properties.Add(prop);
                 }
             }
+
             outputConstructors = constructors.ToArray();
             outputMethods = methods.ToArray();
             outputOverridingMethods = overridingMethods.ToArray();
