@@ -70,6 +70,7 @@ namespace _TranslateXMLtoCode.Codegen
 
         protected void GenerateMembers(RgacUDT udt)
         {
+            End("");
             Begin("public:");
             if (udt.Name.Length == 1)
             {
@@ -173,8 +174,12 @@ namespace _TranslateXMLtoCode.Codegen
                     {
                         WriteLine("class GACUI_API {0}", className);
                         WriteLine("{");
-                        GenerateMembers(udt);
+                        Begin("public:");
                     }
+                }
+                if (udt.Kind != RgacUDTKind.Enum)
+                {
+                    GenerateMembers(udt);
                 }
             }
             for (int i = 0; i < classNames.Count; i++)

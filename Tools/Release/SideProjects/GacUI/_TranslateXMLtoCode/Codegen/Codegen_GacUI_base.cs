@@ -195,7 +195,7 @@ namespace _TranslateXMLtoCode.Codegen
         {
             List<Tuple<RgacUDT[], HashSet<RgacUDT>>> udts = this.options.Udts
                 .GroupBy(t => t.Name[0])
-                .Select(g => g.ToArray())
+                .Select(g => g.OrderBy(t => (t.Kind == RgacUDTKind.Enum ? "0" : "1") + t.ToString()).ToArray())
                 .Select(g => Tuple.Create(g, new HashSet<RgacUDT>(g.SelectMany(GetRelatedUdts).Distinct().Except(g))))
                 .ToList();
 
