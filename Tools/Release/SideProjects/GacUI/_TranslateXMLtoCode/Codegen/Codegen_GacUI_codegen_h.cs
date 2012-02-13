@@ -5,9 +5,112 @@ using System.Text;
 
 namespace _TranslateXMLtoCode.Codegen
 {
-    class Codegen_GacUI_codegen_h : CodeGenerator
+    class Codegen_GacUI_codegen_h : Codegen_GacUI_base
     {
-        private CodeGeneratorOptions options;
+        #region GenerateMembers
+
+        protected void GenerateConstructor(RgacMethod method)
+        {
+            WriteLine("static rptr<{0}> Create({1});",
+                GacUdtTypeName(method.OwnerUDT),
+                method.ParameterTypes
+                    .Zip(method.ParameterNames, Tuple.Create)
+                    .Select(t => string.Format("{0} {1}", GetType(t.Item1), t.Item2))
+                    .Aggregate("", (a, b) => a == "" ? b : a + ", " + b)
+                );
+
+            if (method.OwnerUDT.Kind == RgacUDTKind.Struct)
+            {
+                WriteLine("{0}({1});",
+                    method.OwnerUDT.Name.Last(),
+                    method.ParameterTypes
+                        .Zip(method.ParameterNames, Tuple.Create)
+                        .Select(t => string.Format("{0} {1}", GetType(t.Item1), t.Item2))
+                        .Aggregate("", (a, b) => a == "" ? b : a + ", " + b)
+                    );
+            }
+        }
+
+        protected void GenerateMethod(RgacMethod method, bool isStatic)
+        {
+            WriteLine("{0}{1} {2}({3});",
+                (isStatic ? "static " : ""),
+                GetType(method.ReturnType),
+                method.Name,
+                method.ParameterTypes
+                    .Zip(method.ParameterNames, Tuple.Create)
+                    .Select(t => string.Format("{0} {1}", GetType(t.Item1), t.Item2))
+                    .Aggregate("", (a, b) => a == "" ? b : a + ", " + b)
+                );
+        }
+
+        protected void GenerateProperty(RgacProperty property, bool isStatic)
+        {
+            if (property.Getter != null)
+                GenerateMethod(property.Getter, isStatic);
+            if (property.Setter != null)
+                GenerateMethod(property.Setter, isStatic);
+            if (property.PublicGacFieldAccessor != null)
+            {
+                WriteLine("{0}{1} get_{2}();",
+                    (isStatic ? "static " : ""),
+                    GetType(property.PropertyType),
+                    property.Name
+                    );
+                if (!property.IsEventField)
+                {
+                    WriteLine("{0}void set_{1}({2} value);",
+                        (isStatic ? "static " : ""),
+                        property.Name,
+                        GetType(property.PropertyType)
+                        );
+                }
+            }
+        }
+
+        protected void GenerateMembers(RgacUDT udt)
+        {
+            Begin("protected:");
+            End("");
+            Begin("public:");
+
+            if (udt.Constructors.Length > 0 && !udt.IsAbstract)
+            {
+                foreach (var m in udt.Constructors)
+                    GenerateConstructor(m);
+                WriteLine("");
+            }
+
+            if (udt.Methods.Length > 0)
+            {
+                foreach (var m in udt.Methods)
+                    GenerateMethod(m, false);
+                WriteLine("");
+            }
+
+            if (udt.StaticMethods.Length > 0)
+            {
+                foreach (var m in udt.StaticMethods)
+                    GenerateMethod(m, true);
+                WriteLine("");
+            }
+
+            if (udt.Properties.Length > 0)
+            {
+                foreach (var m in udt.Properties)
+                    GenerateProperty(m, false);
+                WriteLine("");
+            }
+
+            if (udt.StaticProperties.Length > 0)
+            {
+                foreach (var m in udt.StaticProperties)
+                    GenerateProperty(m, true);
+                WriteLine("");
+            }
+        }
+
+        #endregion
 
         protected void GenerateCppHeader()
         {
@@ -53,7 +156,7 @@ namespace _TranslateXMLtoCode.Codegen
                     {
                         WriteLine("class GACUI_API {0}", className);
                         WriteLine("{");
-                        Begin("public:");
+                        GenerateMembers(udt);
                     }
                 }
             }
@@ -82,9 +185,8 @@ namespace _TranslateXMLtoCode.Codegen
         }
 
         public Codegen_GacUI_codegen_h(CodeGeneratorOptions options)
-            : base(options.GacuiPath + "GacUI.h")
+            : base(options, options.GacuiPath + "GacUI.h")
         {
-            this.options = options;
         }
     }
 }

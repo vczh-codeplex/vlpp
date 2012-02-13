@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Codegen\CodeGenerator.cs" />
+    <Compile Include="Codegen\Codegen_GacUI_base.cs" />
     <Compile Include="Codegen\Codegen_GacUI_codegen_cpp.cs" />
     <Compile Include="Codegen\Codegen_GacUI_codegen_h.cs" />
     <Compile Include="Codegen\Codegen_GuiTypeDescriptorImpProvider_codegen_h.cs" />
