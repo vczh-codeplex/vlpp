@@ -70,9 +70,21 @@ namespace _TranslateXMLtoCode.Codegen
 
         protected void GenerateMembers(RgacUDT udt)
         {
-            Begin("protected:");
-            End("");
             Begin("public:");
+            if (udt.Name.Length == 1)
+            {
+                foreach (var t in this.options.Udts)
+                {
+                    if (t.Kind != RgacUDTKind.Enum)
+                    {
+                        if (t.Name.Length == 2 && t.Name[0] == udt.Name[0])
+                        {
+                            WriteLine("class {0};", t.Name[1]);
+                        }
+                    }
+                }
+                WriteLine("");
+            }
 
             if (udt.Constructors.Length > 0 && !udt.IsAbstract)
             {
@@ -114,8 +126,13 @@ namespace _TranslateXMLtoCode.Codegen
 
         protected void GenerateCppHeader()
         {
+            foreach (var udt in this.PredeclaredClasses)
+            {
+                WriteLine("class {0};", udt);
+            }
+
             List<string> classNames = new List<string>();
-            foreach (var udt in this.options.Udts)
+            foreach (var udt in GetSortedUdts().ToArray())
             {
                 int commonClassNames = 0;
                 for (int i = 0; i < udt.Name.Length; i++)

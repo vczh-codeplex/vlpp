@@ -12,6 +12,22 @@ Developer: 陈梓瀚(vczh)
 
 namespace gacui_cpp
 {
+	class GuiGraphicsComposition;
+	class GuiControl;
+	class GuiControlHost;
+	class GuiComponent;
+	class IGuiMenuService;
+	class IGuiGraphicsElement;
+	class IGuiGraphicsRenderer;
+	class GuiTableComposition;
+	class GuiTab;
+	class INodeProvider;
+	class INodeRootProvider;
+	class INodeItemStyleProvider;
+	class MemoryNodeProvider;
+	class INativeImage;
+	class INativeImageFrame;
+	class INativeWindow;
 
 /***********************************************************************
 Alignment :: Type
@@ -19,8 +35,6 @@ Alignment :: Type
 
 	class GACUI_API Alignment
 	{
-	protected:
-	
 	public:
 		enum Type
 		{
@@ -35,103 +49,17 @@ Alignment :: Type
 	
 
 /***********************************************************************
-Array_of_ColorEntry
-***********************************************************************/
-
-	class GACUI_API Array_of_ColorEntry
-	{
-	protected:
-	
-	public:
-		static rptr<Array_of_ColorEntry> Create(signed __int32 size);
-		
-		bool Contains(constColorEntry& item);
-		signed __int32 Count();
-		constColorEntry& Get(signed __int32 index);
-		ColorEntry& operator[](signed __int32 index);
-		constColorEntry& operator[](signed __int32 value);
-		signed __int32 IndexOf(constColorEntry& item);
-		void Set(signed __int32 index, constColorEntry& item);
-		void Resize(signed __int32 size);
-		rptr<Array_of_ColorEntry> operator=(rptr<Array_of_ColorEntry> value);
-		
-	};
-	
-
-/***********************************************************************
-AxisAlignedItemCoordinateTransformer
-***********************************************************************/
-
-	class GACUI_API AxisAlignedItemCoordinateTransformer
-	{
-	protected:
-	
-	public:
-		static rptr<AxisAlignedItemCoordinateTransformer> Create(AxisAlignedItemCoordinateTransformer :: Alignment _alignment);
-		
-		Size RealSizeToVirtualSize(Size size);
-		Size VirtualSizeToRealSize(Size size);
-		Point RealPointToVirtualPoint(Size realFullSize, Point point);
-		Point VirtualPointToRealPoint(Size realFullSize, Point point);
-		Rect RealRectToVirtualRect(Size realFullSize, Rect rect);
-		Rect VirtualRectToRealRect(Size realFullSize, Rect rect);
-		Margin RealMarginToVirtualMargin(Margin margin);
-		Margin VirtualMarginToRealMargin(Margin margin);
-		rptr<AxisAlignedItemCoordinateTransformer> operator=(rptr<AxisAlignedItemCoordinateTransformer> value);
-		
-		AxisAlignedItemCoordinateTransformer :: Alignment GetAlignment();
-		
-
-/***********************************************************************
-AxisAlignedItemCoordinateTransformer :: Alignment
-***********************************************************************/
-
-		enum Alignment
-		{
-			LeftDown = 0,
-			RightDown = 1,
-			LeftUp = 2,
-			RightUp = 3,
-			DownLeft = 4,
-			DownRight = 5,
-			UpLeft = 6,
-			UpRight = 7,
-		};
-		
-	};
-	
-
-/***********************************************************************
 CharAtt
 ***********************************************************************/
 
 	class GACUI_API CharAtt
 	{
-	protected:
-	
 	public:
+		
 		unsigned __int32 get_rightOffset();
 		void set_rightOffset(unsigned __int32 value);
 		unsigned __int32 get_colorIndex();
 		void set_colorIndex(unsigned __int32 value);
-		
-	};
-	
-
-/***********************************************************************
-CharMeasurer
-***********************************************************************/
-
-	class GACUI_API CharMeasurer
-	{
-	protected:
-	
-	public:
-		signed __int32 MeasureWidth(wchar_t character);
-		rptr<CharMeasurer> operator=(rptr<CharMeasurer> value);
-		void SetRenderTarget(rptr<IGuiGraphicsRenderTarget> value);
-		
-		signed __int32 GetRowHeight();
 		
 	};
 	
@@ -142,9 +70,8 @@ Color
 
 	class GACUI_API Color
 	{
-	protected:
-	
 	public:
+		
 		static rptr<Color> Create(unsigned __int8 _r, unsigned __int8 _g, unsigned __int8 _b, unsigned __int8 _a);
 		Color(unsigned __int8 _r, unsigned __int8 _g, unsigned __int8 _b, unsigned __int8 _a);
 		static rptr<Color> Create();
@@ -173,39 +100,13 @@ Color
 	
 
 /***********************************************************************
-ColorEntry
-***********************************************************************/
-
-	class GACUI_API ColorEntry
-	{
-	protected:
-	
-	public:
-		static rptr<ColorEntry> Create();
-		ColorEntry();
-		
-		bool operator==(constColorEntry& value);
-		bool operator!=(constColorEntry& value);
-		
-		ColorItem get_normal();
-		void set_normal(ColorItem value);
-		ColorItem get_selectedFocused();
-		void set_selectedFocused(ColorItem value);
-		ColorItem get_selectedUnfocused();
-		void set_selectedUnfocused(ColorItem value);
-		
-	};
-	
-
-/***********************************************************************
 ColorItem
 ***********************************************************************/
 
 	class GACUI_API ColorItem
 	{
-	protected:
-	
 	public:
+		
 		static rptr<ColorItem> Create();
 		ColorItem();
 		
@@ -218,178 +119,17 @@ ColorItem
 	
 
 /***********************************************************************
-CommonScrollStyle
-***********************************************************************/
-
-	class GACUI_API CommonScrollStyle
-	{
-	protected:
-	
-	public:
-		rptr<GuiBoundsComposition> GetBoundsComposition();
-		rptr<GuiGraphicsComposition> GetContainerComposition();
-		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
-		void SetText(const GacString& value);
-		void SetFont(constFontProperties& value);
-		void SetVisuallyEnabled(bool value);
-		void SetCommandExecutor(rptr<GuiScroll :: ICommandExecutor> value);
-		void SetTotalSize(signed __int32 value);
-		void SetPageSize(signed __int32 value);
-		void SetPosition(signed __int32 value);
-		rptr<CommonScrollStyle> operator=(rptr<CommonScrollStyle> value);
-		
-
-/***********************************************************************
-CommonScrollStyle :: Direction
-***********************************************************************/
-
-		enum Direction
-		{
-			Horizontal = 0,
-			Vertical = 1,
-		};
-		
-	};
-	
-
-/***********************************************************************
-CommonTrackStyle
-***********************************************************************/
-
-	class GACUI_API CommonTrackStyle
-	{
-	protected:
-	
-	public:
-		rptr<GuiBoundsComposition> GetBoundsComposition();
-		rptr<GuiGraphicsComposition> GetContainerComposition();
-		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
-		void SetText(const GacString& value);
-		void SetFont(constFontProperties& value);
-		void SetVisuallyEnabled(bool value);
-		void SetCommandExecutor(rptr<GuiScroll :: ICommandExecutor> value);
-		void SetTotalSize(signed __int32 value);
-		void SetPageSize(signed __int32 value);
-		void SetPosition(signed __int32 value);
-		rptr<CommonTrackStyle> operator=(rptr<CommonTrackStyle> value);
-		
-
-/***********************************************************************
-CommonTrackStyle :: Direction
-***********************************************************************/
-
-		enum Direction
-		{
-			Horizontal = 0,
-			Vertical = 1,
-		};
-		
-	};
-	
-
-/***********************************************************************
-DefaultItemCoordinateTransformer
-***********************************************************************/
-
-	class GACUI_API DefaultItemCoordinateTransformer
-	{
-	protected:
-	
-	public:
-		static rptr<DefaultItemCoordinateTransformer> Create();
-		
-		Size RealSizeToVirtualSize(Size size);
-		Size VirtualSizeToRealSize(Size size);
-		Point RealPointToVirtualPoint(Size realFullSize, Point point);
-		Point VirtualPointToRealPoint(Size realFullSize, Point point);
-		Rect RealRectToVirtualRect(Size realFullSize, Rect rect);
-		Rect VirtualRectToRealRect(Size realFullSize, Rect rect);
-		Margin RealMarginToVirtualMargin(Margin margin);
-		Margin VirtualMarginToRealMargin(Margin margin);
-		rptr<DefaultItemCoordinateTransformer> operator=(rptr<DefaultItemCoordinateTransformer> value);
-		
-	};
-	
-
-/***********************************************************************
 DescriptableObject
 ***********************************************************************/
 
 	class GACUI_API DescriptableObject
 	{
-	protected:
-	
 	public:
+		
 		static rptr<DescriptableObject> Create();
 		DescriptableObject();
 		
-		DescriptableObject& operator=(constDescriptableObject& value);
-		
-	};
-	
-
-/***********************************************************************
-ElementShape :: Type
-***********************************************************************/
-
-	class GACUI_API ElementShape
-	{
-	protected:
-	
-	public:
-		enum Type
-		{
-			Rectangle = 0,
-			Ellipse = 1,
-		};
-		
-	};
-	
-
-/***********************************************************************
-FixedHeightItemArranger
-***********************************************************************/
-
-	class GACUI_API FixedHeightItemArranger
-	{
-	protected:
-	
-	public:
-		static rptr<FixedHeightItemArranger> Create();
-		
-		rptr<FixedHeightItemArranger> operator=(rptr<FixedHeightItemArranger> value);
-		
-	};
-	
-
-/***********************************************************************
-FixedHeightMultiColumnItemArranger
-***********************************************************************/
-
-	class GACUI_API FixedHeightMultiColumnItemArranger
-	{
-	protected:
-	
-	public:
-		static rptr<FixedHeightMultiColumnItemArranger> Create();
-		
-		rptr<FixedHeightMultiColumnItemArranger> operator=(rptr<FixedHeightMultiColumnItemArranger> value);
-		
-	};
-	
-
-/***********************************************************************
-FixedSizeMultiColumnItemArranger
-***********************************************************************/
-
-	class GACUI_API FixedSizeMultiColumnItemArranger
-	{
-	protected:
-	
-	public:
-		static rptr<FixedSizeMultiColumnItemArranger> Create();
-		
-		rptr<FixedSizeMultiColumnItemArranger> operator=(rptr<FixedSizeMultiColumnItemArranger> value);
+		DescriptableObject& operator=(const DescriptableObject& value);
 		
 	};
 	
@@ -400,25 +140,24 @@ FontProperties
 
 	class GACUI_API FontProperties
 	{
-	protected:
-	
 	public:
-		static rptr<FontProperties> Create(constFontProperties& __that);
-		FontProperties(constFontProperties& __that);
+		
+		static rptr<FontProperties> Create(const FontProperties& __that);
+		FontProperties(const FontProperties& __that);
 		static rptr<FontProperties> Create();
 		FontProperties();
 		
-		signed __int32 Compare(constFontProperties& value);
-		bool operator==(constFontProperties& value);
-		bool operator!=(constFontProperties& value);
-		bool operator<(constFontProperties& value);
-		bool operator<=(constFontProperties& value);
-		bool operator>(constFontProperties& value);
-		bool operator>=(constFontProperties& value);
-		FontProperties& operator=(constFontProperties& __that);
+		signed __int32 Compare(const FontProperties& value);
+		bool operator==(const FontProperties& value);
+		bool operator!=(const FontProperties& value);
+		bool operator<(const FontProperties& value);
+		bool operator<=(const FontProperties& value);
+		bool operator>(const FontProperties& value);
+		bool operator>=(const FontProperties& value);
+		FontProperties& operator=(const FontProperties& __that);
 		
-		vl::ObjectString<wchar_t> get_fontFamily();
-		void set_fontFamily(vl::ObjectString<wchar_t> value);
+		GacString get_fontFamily();
+		void set_fontFamily(GacString value);
 		signed __int32 get_size();
 		void set_size(signed __int32 value);
 		bool get_bold();
@@ -436,198 +175,18 @@ FontProperties
 	
 
 /***********************************************************************
-Gui3DBorderElement
-***********************************************************************/
-
-	class GACUI_API Gui3DBorderElement
-	{
-	protected:
-	
-	public:
-		rptr<IGuiGraphicsElementFactory> GetFactory();
-		rptr<IGuiGraphicsRenderer> GetRenderer();
-		void SetColors(Color value1, Color value2);
-		rptr<Gui3DBorderElement> operator=(rptr<Gui3DBorderElement> value);
-		
-		static rptr<Gui3DBorderElement> Create();
-		
-		Color GetColor1();
-		Color GetColor2();
-		
-		static vl::ObjectString<wchar_t> GetElementTypeName();
-		
-	};
-	
-
-/***********************************************************************
-Gui3DSplitterElement
-***********************************************************************/
-
-	class GACUI_API Gui3DSplitterElement
-	{
-	protected:
-	
-	public:
-		rptr<IGuiGraphicsElementFactory> GetFactory();
-		rptr<IGuiGraphicsRenderer> GetRenderer();
-		void SetColors(Color value1, Color value2);
-		rptr<Gui3DSplitterElement> operator=(rptr<Gui3DSplitterElement> value);
-		
-		static rptr<Gui3DSplitterElement> Create();
-		
-		Color GetColor1();
-		Color GetColor2();
-		Gui3DSplitterElement :: Direction GetDirection();
-		void SetDirection(Gui3DSplitterElement :: Direction value);
-		Gui3DSplitterElement :: Direction GetDirection();
-		void SetDirection(Gui3DSplitterElement :: Direction value);
-		
-		static vl::ObjectString<wchar_t> GetElementTypeName();
-		
-
-/***********************************************************************
-Gui3DSplitterElement :: Direction
-***********************************************************************/
-
-		enum Direction
-		{
-			Horizontal = 0,
-			Vertical = 1,
-		};
-		
-	};
-	
-
-/***********************************************************************
-GuiApplication
-***********************************************************************/
-
-	class GACUI_API GuiApplication
-	{
-	protected:
-	
-	public:
-		void Run(rptr<GuiWindow> _mainWindow);
-		rptr<GuiWindow> GetWindow(Point location);
-		bool IsInMainThread();
-		rptr<GuiApplication> operator=(rptr<GuiApplication> value);
-		
-		rptr<IReadonlyList_of_GuiWindow_raw_pointer> GetWindows();
-		
-	};
-	
-
-/***********************************************************************
-GuiBoundsComposition
-***********************************************************************/
-
-	class GACUI_API GuiBoundsComposition
-	{
-	protected:
-	
-	public:
-		static rptr<GuiBoundsComposition> Create();
-		
-		GuiGraphicsComposition :: ParentSizeAffection GetAffectionFromParent();
-		Rect GetPreferredBounds();
-		Rect GetBounds();
-		void ClearAlignmentToParent();
-		bool IsAlignedToParent();
-		rptr<GuiBoundsComposition> operator=(rptr<GuiBoundsComposition> value);
-		void SetBounds(Rect value);
-		
-		Margin GetAlignmentToParent();
-		void SetAlignmentToParent(Margin value);
-		Margin GetAlignmentToParent();
-		void SetAlignmentToParent(Margin value);
-		GuiGraphicsEvent_of_GuiEventArgs get_BoundsChanged();
-		
-	};
-	
-
-/***********************************************************************
-GuiButton
-***********************************************************************/
-
-	class GACUI_API GuiButton
-	{
-	protected:
-	
-	public:
-		static rptr<GuiButton> Create(rptr<GuiButton :: IStyleController> _styleController);
-		
-		rptr<GuiButton> operator=(rptr<GuiButton> value);
-		
-		GuiGraphicsEvent_of_GuiEventArgs get_Clicked();
-		
-
-/***********************************************************************
-GuiButton :: ControlState
-***********************************************************************/
-
-		enum ControlState
-		{
-			Normal = 0,
-			Active = 1,
-			Pressed = 2,
-		};
-		
-
-/***********************************************************************
-GuiButton :: IStyleController
-***********************************************************************/
-
-		class GACUI_API IStyleController
-		{
-		protected:
-		
-		public:
-			void Transfer(GuiButton :: ControlState value);
-			rptr<GuiButton :: IStyleController> operator=(rptr<GuiButton :: IStyleController> value);
-			
-		};
-		
-	};
-	
-
-/***********************************************************************
-GuiCellComposition
-***********************************************************************/
-
-	class GACUI_API GuiCellComposition
-	{
-	protected:
-	
-	public:
-		static rptr<GuiCellComposition> Create();
-		
-		bool SetSite(signed __int32 _row, signed __int32 _column, signed __int32 _rowSpan, signed __int32 _columnSpan);
-		Rect GetBounds();
-		rptr<GuiCellComposition> operator=(rptr<GuiCellComposition> value);
-		
-		rptr<GuiTableComposition> GetTableParent();
-		signed __int32 GetRow();
-		signed __int32 GetRowSpan();
-		signed __int32 GetColumn();
-		signed __int32 GetColumnSpan();
-		
-	};
-	
-
-/***********************************************************************
 GuiCellOption
 ***********************************************************************/
 
 	class GACUI_API GuiCellOption
 	{
-	protected:
-	
 	public:
+		
 		static rptr<GuiCellOption> Create();
 		GuiCellOption();
 		
-		bool operator==(constGuiCellOption& value);
-		bool operator!=(constGuiCellOption& value);
+		bool operator==(const GuiCellOption& value);
+		bool operator!=(const GuiCellOption& value);
 		
 		static GuiCellOption AbsoluteOption(signed __int32 value);
 		static GuiCellOption PercentageOption(double value);
@@ -656,16 +215,2125 @@ GuiCellOption :: ComposeType
 	
 
 /***********************************************************************
+GuiComponent
+***********************************************************************/
+
+	class GACUI_API GuiComponent
+	{
+	public:
+		
+		static rptr<GuiComponent> Create();
+		
+		rptr<GuiComponent> operator=(rptr<GuiComponent> value);
+		
+		rptr<GuiControlHost> GetControlHost();
+		
+	};
+	
+
+/***********************************************************************
+GuiEventArgs
+***********************************************************************/
+
+	class GACUI_API GuiEventArgs
+	{
+	public:
+		
+		static rptr<GuiEventArgs> Create(rptr<GuiGraphicsComposition> composition);
+		GuiEventArgs(rptr<GuiGraphicsComposition> composition);
+		
+		rptr<GuiGraphicsComposition> get_compositionSource();
+		void set_compositionSource(rptr<GuiGraphicsComposition> value);
+		rptr<GuiGraphicsComposition> get_eventSource();
+		void set_eventSource(rptr<GuiGraphicsComposition> value);
+		bool get_handled();
+		void set_handled(bool value);
+		
+	};
+	
+
+/***********************************************************************
+GuiImageData
+***********************************************************************/
+
+	class GACUI_API GuiImageData
+	{
+	public:
+		
+		static rptr<GuiImageData> Create(sptr<INativeImage> _image, signed __int32 _frameIndex);
+		GuiImageData(sptr<INativeImage> _image, signed __int32 _frameIndex);
+		static rptr<GuiImageData> Create();
+		GuiImageData();
+		
+		GuiImageData& operator=(const GuiImageData& value);
+		
+		sptr<INativeImage> GetImage();
+		signed __int32 GetFrameIndex();
+		
+	};
+	
+
+/***********************************************************************
+GuiRequestEventArgs
+***********************************************************************/
+
+	class GACUI_API GuiRequestEventArgs
+	{
+	public:
+		
+		static rptr<GuiRequestEventArgs> Create();
+		GuiRequestEventArgs();
+		
+		bool get_cancel();
+		void set_cancel(bool value);
+		
+	};
+	
+
+/***********************************************************************
+IDescriptable
+***********************************************************************/
+
+	class GACUI_API IDescriptable
+	{
+	public:
+		
+		static rptr<IDescriptable> Create();
+		
+		rptr<IDescriptable> operator=(rptr<IDescriptable> value);
+		
+	};
+	
+
+/***********************************************************************
+IGuiGraphicsElementFactory
+***********************************************************************/
+
+	class GACUI_API IGuiGraphicsElementFactory
+	{
+	public:
+		
+		rptr<IGuiGraphicsElement> Create();
+		rptr<IGuiGraphicsElementFactory> operator=(rptr<IGuiGraphicsElementFactory> value);
+		
+		GacString GetElementTypeName();
+		
+	};
+	
+
+/***********************************************************************
+IGuiGraphicsRendererFactory
+***********************************************************************/
+
+	class GACUI_API IGuiGraphicsRendererFactory
+	{
+	public:
+		
+		rptr<IGuiGraphicsRenderer> Create();
+		rptr<IGuiGraphicsRendererFactory> operator=(rptr<IGuiGraphicsRendererFactory> value);
+		
+	};
+	
+
+/***********************************************************************
+INativeAsyncService
+***********************************************************************/
+
+	class GACUI_API INativeAsyncService
+	{
+	public:
+		
+		bool IsInMainThread();
+		rptr<INativeAsyncService> operator=(rptr<INativeAsyncService> value);
+		
+	};
+	
+
+/***********************************************************************
+INativeClipboardService
+***********************************************************************/
+
+	class GACUI_API INativeClipboardService
+	{
+	public:
+		
+		bool ContainsText();
+		bool SetText(const GacString& value);
+		rptr<INativeClipboardService> operator=(rptr<INativeClipboardService> value);
+		
+		GacString GetText();
+		
+	};
+	
+
+/***********************************************************************
+INativeCursor
+***********************************************************************/
+
+	class GACUI_API INativeCursor
+	{
+	public:
+		
+		bool IsSystemCursor();
+		rptr<INativeCursor> operator=(rptr<INativeCursor> value);
+		
+		INativeCursor :: SystemCursorType GetSystemCursorType();
+		
+
+/***********************************************************************
+INativeCursor :: SystemCursorType
+***********************************************************************/
+
+		enum SystemCursorType
+		{
+			SmallWaiting = 0,
+			LargeWaiting = 1,
+			Arrow = 2,
+			Cross = 3,
+			Hand = 4,
+			Help = 5,
+			IBeam = 6,
+			SizeAll = 7,
+			SizeNESW = 8,
+			SizeNS = 9,
+			SizeNWSE = 10,
+			SizeWE = 11,
+			LastSystemCursor = 11,
+		};
+		
+	};
+	
+
+/***********************************************************************
+INativeImageFrameCache
+***********************************************************************/
+
+	class GACUI_API INativeImageFrameCache
+	{
+	public:
+		
+		void OnAttach(rptr<INativeImageFrame> frame);
+		void OnDetach(rptr<INativeImageFrame> frame);
+		rptr<INativeImageFrameCache> operator=(rptr<INativeImageFrameCache> value);
+		
+	};
+	
+
+/***********************************************************************
+INativeInputService
+***********************************************************************/
+
+	class GACUI_API INativeInputService
+	{
+	public:
+		
+		void StartHookMouse();
+		void StopHookMouse();
+		bool IsHookingMouse();
+		void StartTimer();
+		void StopTimer();
+		bool IsTimerEnabled();
+		bool IsKeyPressing(signed __int32 code);
+		bool IsKeyToggled(signed __int32 code);
+		rptr<INativeInputService> operator=(rptr<INativeInputService> value);
+		
+	};
+	
+
+/***********************************************************************
+INodeItemPrimaryTextView
+***********************************************************************/
+
+	class GACUI_API INodeItemPrimaryTextView
+	{
+	public:
+		
+		GacString GetPrimaryTextViewText(rptr<INodeProvider> node);
+		rptr<INodeItemPrimaryTextView> operator=(rptr<INodeItemPrimaryTextView> value);
+		
+		static wchar_t* get_Identifier();
+		static void set_Identifier(wchar_t* value);
+		
+	};
+	
+
+/***********************************************************************
+INodeProvider
+***********************************************************************/
+
+	class GACUI_API INodeProvider
+	{
+	public:
+		
+		signed __int32 CalculateTotalVisibleNodes();
+		rptr<INodeProvider> RequestChild(signed __int32 index);
+		void ReleaseChild(rptr<INodeProvider> node);
+		rptr<INodeProvider> operator=(rptr<INodeProvider> value);
+		
+		bool GetExpanding();
+		void SetExpanding(bool value);
+		signed __int32 GetChildCount();
+		rptr<INodeProvider> GetParent();
+		
+	};
+	
+
+/***********************************************************************
+IReadonlyList_of_GuiGraphicsComposition_raw_pointer
+***********************************************************************/
+
+	class GACUI_API IReadonlyList_of_GuiGraphicsComposition_raw_pointer
+	{
+	public:
+		
+		bool Contains(rptr<GuiGraphicsComposition> item);
+		signed __int32 Count();
+		rptr<GuiGraphicsComposition> Get(signed __int32 index);
+		rptr<GuiGraphicsComposition> operator[](signed __int32 index);
+		signed __int32 IndexOf(rptr<GuiGraphicsComposition> item);
+		rptr<IReadonlyList_of_GuiGraphicsComposition_raw_pointer> operator=(rptr<IReadonlyList_of_GuiGraphicsComposition_raw_pointer> value);
+		
+	};
+	
+
+/***********************************************************************
+IReadonlyList_of_int
+***********************************************************************/
+
+	class GACUI_API IReadonlyList_of_int
+	{
+	public:
+		
+		bool Contains(signed __int32 item);
+		signed __int32 Count();
+		signed __int32 Get(signed __int32 index);
+		signed __int32 operator[](signed __int32 index);
+		signed __int32 IndexOf(signed __int32 item);
+		rptr<IReadonlyList_of_int> operator=(rptr<IReadonlyList_of_int> value);
+		
+	};
+	
+
+/***********************************************************************
+IReadonlyList_of_MemoryNodeProvider
+***********************************************************************/
+
+	class GACUI_API IReadonlyList_of_MemoryNodeProvider
+	{
+	public:
+		
+		bool Contains(rptr<MemoryNodeProvider> item);
+		signed __int32 Count();
+		sptr<MemoryNodeProvider> Get(signed __int32 index);
+		sptr<MemoryNodeProvider> operator[](signed __int32 index);
+		signed __int32 IndexOf(rptr<MemoryNodeProvider> item);
+		rptr<IReadonlyList_of_MemoryNodeProvider> operator=(rptr<IReadonlyList_of_MemoryNodeProvider> value);
+		
+	};
+	
+
+/***********************************************************************
+ITreeViewItemView
+***********************************************************************/
+
+	class GACUI_API ITreeViewItemView
+	{
+	public:
+		
+		sptr<GuiImageData> GetNodeImage(rptr<INodeProvider> node);
+		GacString GetNodeText(rptr<INodeProvider> node);
+		rptr<ITreeViewItemView> operator=(rptr<ITreeViewItemView> value);
+		
+		static wchar_t* get_Identifier();
+		static void set_Identifier(wchar_t* value);
+		
+	};
+	
+
+/***********************************************************************
+ListViewColumn
+***********************************************************************/
+
+	class GACUI_API ListViewColumn
+	{
+	public:
+		
+		static rptr<ListViewColumn> Create(const GacString& _text, signed __int32 _size);
+		ListViewColumn(const GacString& _text, signed __int32 _size);
+		
+		ListViewColumn& operator=(const ListViewColumn& value);
+		
+		GacString get_text();
+		void set_text(GacString value);
+		signed __int32 get_size();
+		void set_size(signed __int32 value);
+		
+	};
+	
+
+/***********************************************************************
+Margin
+***********************************************************************/
+
+	class GACUI_API Margin
+	{
+	public:
+		
+		static rptr<Margin> Create(signed __int32 _left, signed __int32 _top, signed __int32 _right, signed __int32 _bottom);
+		Margin(signed __int32 _left, signed __int32 _top, signed __int32 _right, signed __int32 _bottom);
+		static rptr<Margin> Create();
+		Margin();
+		
+		bool operator==(Margin margin);
+		bool operator!=(Margin margin);
+		
+		signed __int32 get_left();
+		void set_left(signed __int32 value);
+		signed __int32 get_top();
+		void set_top(signed __int32 value);
+		signed __int32 get_right();
+		void set_right(signed __int32 value);
+		signed __int32 get_bottom();
+		void set_bottom(signed __int32 value);
+		
+	};
+	
+
+/***********************************************************************
+NativeWindowCharInfo
+***********************************************************************/
+
+	class GACUI_API NativeWindowCharInfo
+	{
+	public:
+		
+		wchar_t get_code();
+		void set_code(wchar_t value);
+		bool get_ctrl();
+		void set_ctrl(bool value);
+		bool get_shift();
+		void set_shift(bool value);
+		bool get_alt();
+		void set_alt(bool value);
+		bool get_capslock();
+		void set_capslock(bool value);
+		
+	};
+	
+
+/***********************************************************************
+NativeWindowMouseInfo
+***********************************************************************/
+
+	class GACUI_API NativeWindowMouseInfo
+	{
+	public:
+		
+		bool get_ctrl();
+		void set_ctrl(bool value);
+		bool get_shift();
+		void set_shift(bool value);
+		bool get_left();
+		void set_left(bool value);
+		bool get_middle();
+		void set_middle(bool value);
+		bool get_right();
+		void set_right(bool value);
+		signed __int32 get_x();
+		void set_x(signed __int32 value);
+		signed __int32 get_y();
+		void set_y(signed __int32 value);
+		signed __int32 get_wheel();
+		void set_wheel(signed __int32 value);
+		
+	};
+	
+
+/***********************************************************************
+Point
+***********************************************************************/
+
+	class GACUI_API Point
+	{
+	public:
+		
+		static rptr<Point> Create(signed __int32 _x, signed __int32 _y);
+		Point(signed __int32 _x, signed __int32 _y);
+		static rptr<Point> Create();
+		Point();
+		
+		bool operator==(Point point);
+		bool operator!=(Point point);
+		
+		signed __int32 get_x();
+		void set_x(signed __int32 value);
+		signed __int32 get_y();
+		void set_y(signed __int32 value);
+		
+	};
+	
+
+/***********************************************************************
+Size
+***********************************************************************/
+
+	class GACUI_API Size
+	{
+	public:
+		
+		static rptr<Size> Create(signed __int32 _x, signed __int32 _y);
+		Size(signed __int32 _x, signed __int32 _y);
+		static rptr<Size> Create();
+		Size();
+		
+		bool operator==(Size size);
+		bool operator!=(Size size);
+		
+		signed __int32 get_x();
+		void set_x(signed __int32 value);
+		signed __int32 get_y();
+		void set_y(signed __int32 value);
+		
+	};
+	
+
+/***********************************************************************
+TextLine
+***********************************************************************/
+
+	class GACUI_API TextLine
+	{
+	public:
+		
+		static rptr<TextLine> Create();
+		TextLine();
+		
+		bool operator==(const TextLine& value);
+		bool operator!=(const TextLine& value);
+		void Initialize();
+		void Finalize();
+		bool IsReady();
+		bool Modify(signed __int32 start, signed __int32 count, wchar_t* input, signed __int32 inputCount);
+		TextLine Split(signed __int32 index);
+		void AppendAndFinalize(TextLine& line);
+		
+		static signed __int32 CalculateBufferLength(signed __int32 dataLength);
+		
+		wchar_t* get_text();
+		void set_text(wchar_t* value);
+		rptr<CharAtt> get_att();
+		void set_att(rptr<CharAtt> value);
+		signed __int32 get_availableOffsetCount();
+		void set_availableOffsetCount(signed __int32 value);
+		signed __int32 get_bufferLength();
+		void set_bufferLength(signed __int32 value);
+		signed __int32 get_dataLength();
+		void set_dataLength(signed __int32 value);
+		
+	};
+	
+
+/***********************************************************************
+TextPos
+***********************************************************************/
+
+	class GACUI_API TextPos
+	{
+	public:
+		
+		static rptr<TextPos> Create(signed __int32 _row, signed __int32 _column);
+		TextPos(signed __int32 _row, signed __int32 _column);
+		static rptr<TextPos> Create();
+		TextPos();
+		
+		signed __int32 Compare(const TextPos& value);
+		bool operator==(const TextPos& value);
+		bool operator!=(const TextPos& value);
+		bool operator<(const TextPos& value);
+		bool operator<=(const TextPos& value);
+		bool operator>(const TextPos& value);
+		bool operator>=(const TextPos& value);
+		
+		signed __int32 get_row();
+		void set_row(signed __int32 value);
+		signed __int32 get_column();
+		void set_column(signed __int32 value);
+		
+	};
+	
+
+/***********************************************************************
+Win7ButtonColors
+***********************************************************************/
+
+	class GACUI_API Win7ButtonColors
+	{
+	public:
+		
+		static rptr<Win7ButtonColors> Create();
+		Win7ButtonColors();
+		
+		bool operator==(const Win7ButtonColors& colors);
+		bool operator!=(const Win7ButtonColors& colors);
+		void SetAlphaWithoutText(unsigned __int8 a);
+		
+		static Win7ButtonColors Blend(const Win7ButtonColors& c1, const Win7ButtonColors& c2, signed __int32 ratio, signed __int32 total);
+		static Win7ButtonColors ButtonNormal();
+		static Win7ButtonColors ButtonActive();
+		static Win7ButtonColors ButtonPressed();
+		static Win7ButtonColors ButtonDisabled();
+		static Win7ButtonColors ItemNormal();
+		static Win7ButtonColors ItemActive();
+		static Win7ButtonColors ItemSelected();
+		static Win7ButtonColors ItemDisabled();
+		static Win7ButtonColors CheckedNormal(bool selected);
+		static Win7ButtonColors CheckedActive(bool selected);
+		static Win7ButtonColors CheckedPressed(bool selected);
+		static Win7ButtonColors CheckedDisabled(bool selected);
+		static Win7ButtonColors ToolstripButtonNormal();
+		static Win7ButtonColors ToolstripButtonActive();
+		static Win7ButtonColors ToolstripButtonPressed();
+		static Win7ButtonColors ToolstripButtonDisabled();
+		static Win7ButtonColors MenuBarButtonNormal();
+		static Win7ButtonColors MenuBarButtonActive();
+		static Win7ButtonColors MenuBarButtonPressed();
+		static Win7ButtonColors MenuBarButtonDisabled();
+		static Win7ButtonColors MenuItemButtonNormal();
+		static Win7ButtonColors MenuItemButtonNormalActive();
+		static Win7ButtonColors MenuItemButtonDisabled();
+		static Win7ButtonColors MenuItemButtonDisabledActive();
+		static Win7ButtonColors TabPageHeaderNormal();
+		static Win7ButtonColors TabPageHeaderActive();
+		static Win7ButtonColors TabPageHeaderSelected();
+		
+		Color get_borderColor();
+		void set_borderColor(Color value);
+		Color get_backgroundColor();
+		void set_backgroundColor(Color value);
+		Color get_g1();
+		void set_g1(Color value);
+		Color get_g2();
+		void set_g2(Color value);
+		Color get_g3();
+		void set_g3(Color value);
+		Color get_g4();
+		void set_g4(Color value);
+		Color get_textColor();
+		void set_textColor(Color value);
+		Color get_bulletLight();
+		void set_bulletLight(Color value);
+		Color get_bulletDark();
+		void set_bulletDark(Color value);
+		
+	};
+	
+
+/***********************************************************************
+ColorEntry
+***********************************************************************/
+
+	class GACUI_API ColorEntry
+	{
+	public:
+		
+		static rptr<ColorEntry> Create();
+		ColorEntry();
+		
+		bool operator==(const ColorEntry& value);
+		bool operator!=(const ColorEntry& value);
+		
+		ColorItem get_normal();
+		void set_normal(ColorItem value);
+		ColorItem get_selectedFocused();
+		void set_selectedFocused(ColorItem value);
+		ColorItem get_selectedUnfocused();
+		void set_selectedUnfocused(ColorItem value);
+		
+	};
+	
+
+/***********************************************************************
+ElementShape :: Type
+***********************************************************************/
+
+	class GACUI_API ElementShape
+	{
+	public:
+		enum Type
+		{
+			Rectangle = 0,
+			Ellipse = 1,
+		};
+		
+	};
+	
+
+/***********************************************************************
+Gui3DBorderElement
+***********************************************************************/
+
+	class GACUI_API Gui3DBorderElement
+	{
+	public:
+		
+		rptr<IGuiGraphicsElementFactory> GetFactory();
+		rptr<IGuiGraphicsRenderer> GetRenderer();
+		void SetColors(Color value1, Color value2);
+		rptr<Gui3DBorderElement> operator=(rptr<Gui3DBorderElement> value);
+		
+		static rptr<Gui3DBorderElement> Create();
+		
+		Color GetColor1();
+		Color GetColor2();
+		
+		static GacString GetElementTypeName();
+		
+	};
+	
+
+/***********************************************************************
 GuiCharEventArgs
 ***********************************************************************/
 
 	class GACUI_API GuiCharEventArgs
 	{
-	protected:
-	
 	public:
+		
 		static rptr<GuiCharEventArgs> Create();
 		GuiCharEventArgs();
+		
+	};
+	
+
+/***********************************************************************
+GuiGradientBackgroundElement
+***********************************************************************/
+
+	class GACUI_API GuiGradientBackgroundElement
+	{
+	public:
+		
+		rptr<IGuiGraphicsElementFactory> GetFactory();
+		rptr<IGuiGraphicsRenderer> GetRenderer();
+		void SetColors(Color value1, Color value2);
+		rptr<GuiGradientBackgroundElement> operator=(rptr<GuiGradientBackgroundElement> value);
+		
+		static rptr<GuiGradientBackgroundElement> Create();
+		
+		Color GetColor1();
+		Color GetColor2();
+		GuiGradientBackgroundElement :: Direction GetDirection();
+		void SetDirection(GuiGradientBackgroundElement :: Direction value);
+		ElementShape :: Type GetShape();
+		void SetShape(ElementShape :: Type value);
+		
+		static GacString GetElementTypeName();
+		
+
+/***********************************************************************
+GuiGradientBackgroundElement :: Direction
+***********************************************************************/
+
+		enum Direction
+		{
+			Horizontal = 0,
+			Vertical = 1,
+			Slash = 2,
+			Backslash = 3,
+		};
+		
+	};
+	
+
+/***********************************************************************
+GuiGraphicsEvent_of_GuiCharEventArgs
+***********************************************************************/
+
+	class GACUI_API GuiGraphicsEvent_of_GuiCharEventArgs
+	{
+	public:
+		class IHandler;
+		
+		static rptr<GuiGraphicsEvent_of_GuiCharEventArgs> Create(rptr<GuiGraphicsComposition> _sender);
+		
+		bool Attach(sptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> handler);
+		bool Detach(sptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> handler);
+		void Execute(GuiCharEventArgs& argument);
+		rptr<GuiGraphicsEvent_of_GuiCharEventArgs> operator=(rptr<GuiGraphicsEvent_of_GuiCharEventArgs> value);
+		
+		rptr<GuiGraphicsComposition> GetAssociatedComposition();
+		void SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender);
+		
+
+/***********************************************************************
+GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler
+***********************************************************************/
+
+		class GACUI_API IHandler
+		{
+		public:
+			void Execute(rptr<GuiGraphicsComposition> sender, GuiCharEventArgs& argument);
+			rptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> operator=(rptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> value);
+			
+		};
+		
+	};
+	
+
+/***********************************************************************
+GuiGraphicsEvent_of_GuiRequestEventArgs
+***********************************************************************/
+
+	class GACUI_API GuiGraphicsEvent_of_GuiRequestEventArgs
+	{
+	public:
+		class IHandler;
+		
+		static rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> Create(rptr<GuiGraphicsComposition> _sender);
+		
+		bool Attach(sptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> handler);
+		bool Detach(sptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> handler);
+		void Execute(GuiRequestEventArgs& argument);
+		rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> operator=(rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> value);
+		
+		rptr<GuiGraphicsComposition> GetAssociatedComposition();
+		void SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender);
+		
+
+/***********************************************************************
+GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler
+***********************************************************************/
+
+		class GACUI_API IHandler
+		{
+		public:
+			void Execute(rptr<GuiGraphicsComposition> sender, GuiRequestEventArgs& argument);
+			rptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> operator=(rptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> value);
+			
+		};
+		
+	};
+	
+
+/***********************************************************************
+GuiImageFrameElement
+***********************************************************************/
+
+	class GACUI_API GuiImageFrameElement
+	{
+	public:
+		
+		rptr<IGuiGraphicsElementFactory> GetFactory();
+		rptr<IGuiGraphicsRenderer> GetRenderer();
+		void SetImage(sptr<INativeImage> _image, signed __int32 _frameIndex);
+		void SetAlignments(Alignment :: Type horizontal, Alignment :: Type vertical);
+		rptr<GuiImageFrameElement> operator=(rptr<GuiImageFrameElement> value);
+		
+		static rptr<GuiImageFrameElement> Create();
+		
+		sptr<INativeImage> GetImage();
+		signed __int32 GetFrameIndex();
+		Alignment :: Type GetHorizontalAlignment();
+		Alignment :: Type GetVerticalAlignment();
+		bool GetStretch();
+		void SetStretch(bool value);
+		
+		static GacString GetElementTypeName();
+		
+	};
+	
+
+/***********************************************************************
+GuiMouseEventArgs
+***********************************************************************/
+
+	class GACUI_API GuiMouseEventArgs
+	{
+	public:
+		
+		static rptr<GuiMouseEventArgs> Create();
+		GuiMouseEventArgs();
+		
+	};
+	
+
+/***********************************************************************
+GuiPolygonElement
+***********************************************************************/
+
+	class GACUI_API GuiPolygonElement
+	{
+	public:
+		
+		rptr<IGuiGraphicsElementFactory> GetFactory();
+		rptr<IGuiGraphicsRenderer> GetRenderer();
+		void SetPoints(Point* p, signed __int32 count);
+		rptr<GuiPolygonElement> operator=(rptr<GuiPolygonElement> value);
+		
+		static rptr<GuiPolygonElement> Create();
+		
+		Size GetSize();
+		void SetSize(Size value);
+		Point* GetPoints();
+		signed __int32 GetPointCount();
+		Color GetBorderColor();
+		void SetBorderColor(Color value);
+		Color GetBackgroundColor();
+		void SetBackgroundColor(Color value);
+		
+		static GacString GetElementTypeName();
+		
+	};
+	
+
+/***********************************************************************
+GuiRoundBorderElement
+***********************************************************************/
+
+	class GACUI_API GuiRoundBorderElement
+	{
+	public:
+		
+		rptr<IGuiGraphicsElementFactory> GetFactory();
+		rptr<IGuiGraphicsRenderer> GetRenderer();
+		rptr<GuiRoundBorderElement> operator=(rptr<GuiRoundBorderElement> value);
+		
+		static rptr<GuiRoundBorderElement> Create();
+		
+		Color GetColor();
+		void SetColor(Color value);
+		signed __int32 GetRadius();
+		void SetRadius(signed __int32 value);
+		
+		static GacString GetElementTypeName();
+		
+	};
+	
+
+/***********************************************************************
+GuiSolidBackgroundElement
+***********************************************************************/
+
+	class GACUI_API GuiSolidBackgroundElement
+	{
+	public:
+		
+		rptr<IGuiGraphicsElementFactory> GetFactory();
+		rptr<IGuiGraphicsRenderer> GetRenderer();
+		rptr<GuiSolidBackgroundElement> operator=(rptr<GuiSolidBackgroundElement> value);
+		
+		static rptr<GuiSolidBackgroundElement> Create();
+		
+		Color GetColor();
+		void SetColor(Color value);
+		ElementShape :: Type GetShape();
+		void SetShape(ElementShape :: Type value);
+		
+		static GacString GetElementTypeName();
+		
+	};
+	
+
+/***********************************************************************
+GuiSolidLabelElement
+***********************************************************************/
+
+	class GACUI_API GuiSolidLabelElement
+	{
+	public:
+		
+		rptr<IGuiGraphicsElementFactory> GetFactory();
+		rptr<IGuiGraphicsRenderer> GetRenderer();
+		void SetAlignments(Alignment :: Type horizontal, Alignment :: Type vertical);
+		rptr<GuiSolidLabelElement> operator=(rptr<GuiSolidLabelElement> value);
+		
+		static rptr<GuiSolidLabelElement> Create();
+		
+		Color GetColor();
+		void SetColor(Color value);
+		const FontProperties& GetFont();
+		void SetFont(const FontProperties& value);
+		const GacString& GetText();
+		void SetText(const GacString& value);
+		Alignment :: Type GetHorizontalAlignment();
+		Alignment :: Type GetVerticalAlignment();
+		bool GetWrapLine();
+		void SetWrapLine(bool value);
+		bool GetEllipse();
+		void SetEllipse(bool value);
+		bool GetMultiline();
+		void SetMultiline(bool value);
+		
+		static GacString GetElementTypeName();
+		
+	};
+	
+
+/***********************************************************************
+ICollection_of_MemoryNodeProvider
+***********************************************************************/
+
+	class GACUI_API ICollection_of_MemoryNodeProvider
+	{
+	public:
+		
+		signed __int32 Add(sptr<MemoryNodeProvider> item);
+		bool Remove(rptr<MemoryNodeProvider> item);
+		bool RemoveAt(signed __int32 index);
+		bool RemoveRange(signed __int32 index, signed __int32 count);
+		bool Clear();
+		rptr<ICollection_of_MemoryNodeProvider> operator=(rptr<ICollection_of_MemoryNodeProvider> value);
+		
+	};
+	
+
+/***********************************************************************
+IGuiGraphicsAnimation
+***********************************************************************/
+
+	class GACUI_API IGuiGraphicsAnimation
+	{
+	public:
+		
+		void Play(signed __int32 currentPosition, signed __int32 totalLength);
+		void Stop();
+		rptr<IGuiGraphicsAnimation> operator=(rptr<IGuiGraphicsAnimation> value);
+		
+		signed __int32 GetTotalLength();
+		signed __int32 GetCurrentPosition();
+		
+	};
+	
+
+/***********************************************************************
+IList_of_int
+***********************************************************************/
+
+	class GACUI_API IList_of_int
+	{
+	public:
+		
+		signed __int32 Insert(signed __int32 index, signed __int32 item);
+		bool Set(signed __int32 index, signed __int32 item);
+		rptr<IList_of_int> operator=(rptr<IList_of_int> value);
+		
+	};
+	
+
+/***********************************************************************
+IList_of_MemoryNodeProvider
+***********************************************************************/
+
+	class GACUI_API IList_of_MemoryNodeProvider
+	{
+	public:
+		
+		signed __int32 Insert(signed __int32 index, sptr<MemoryNodeProvider> item);
+		bool Set(signed __int32 index, sptr<MemoryNodeProvider> item);
+		rptr<IList_of_MemoryNodeProvider> operator=(rptr<IList_of_MemoryNodeProvider> value);
+		
+	};
+	
+
+/***********************************************************************
+INativeControllerListener
+***********************************************************************/
+
+	class GACUI_API INativeControllerListener
+	{
+	public:
+		
+		static rptr<INativeControllerListener> Create();
+		
+		void LeftButtonDown(Point position);
+		void LeftButtonUp(Point position);
+		void RightButtonDown(Point position);
+		void RightButtonUp(Point position);
+		void MouseMoving(Point position);
+		void GlobalTimer();
+		void ClipboardUpdated();
+		void NativeWindowCreated(rptr<INativeWindow> window);
+		void NativeWindowDestroying(rptr<INativeWindow> window);
+		rptr<INativeControllerListener> operator=(rptr<INativeControllerListener> value);
+		
+	};
+	
+
+/***********************************************************************
+INativeImageFrame
+***********************************************************************/
+
+	class GACUI_API INativeImageFrame
+	{
+	public:
+		
+		bool SetCache(void* key, sptr<INativeImageFrameCache> cache);
+		sptr<INativeImageFrameCache> GetCache(void* key);
+		sptr<INativeImageFrameCache> RemoveCache(void* key);
+		rptr<INativeImageFrame> operator=(rptr<INativeImageFrame> value);
+		
+		rptr<INativeImage> GetImage();
+		Size GetSize();
+		
+	};
+	
+
+/***********************************************************************
+INativeResourceService
+***********************************************************************/
+
+	class GACUI_API INativeResourceService
+	{
+	public:
+		
+		rptr<INativeCursor> GetSystemCursor(INativeCursor :: SystemCursorType type);
+		rptr<INativeResourceService> operator=(rptr<INativeResourceService> value);
+		
+		rptr<INativeCursor> GetDefaultSystemCursor();
+		FontProperties GetDefaultFont();
+		void SetDefaultFont(const FontProperties& value);
+		
+	};
+	
+
+/***********************************************************************
+INativeWindowService
+***********************************************************************/
+
+	class GACUI_API INativeWindowService
+	{
+	public:
+		
+		rptr<INativeWindow> CreateNativeWindow();
+		void DestroyNativeWindow(rptr<INativeWindow> window);
+		rptr<INativeWindow> GetWindow(Point location);
+		void Run(rptr<INativeWindow> window);
+		rptr<INativeWindowService> operator=(rptr<INativeWindowService> value);
+		
+		rptr<INativeWindow> GetMainWindow();
+		
+	};
+	
+
+/***********************************************************************
+INodeProviderCallback
+***********************************************************************/
+
+	class GACUI_API INodeProviderCallback
+	{
+	public:
+		
+		void OnAttached(rptr<INodeRootProvider> provider);
+		void OnBeforeItemModified(rptr<INodeProvider> parentNode, signed __int32 start, signed __int32 count, signed __int32 newCount);
+		void OnAfterItemModified(rptr<INodeProvider> parentNode, signed __int32 start, signed __int32 count, signed __int32 newCount);
+		void OnItemExpanded(rptr<INodeProvider> node);
+		void OnItemCollapsed(rptr<INodeProvider> node);
+		rptr<INodeProviderCallback> operator=(rptr<INodeProviderCallback> value);
+		
+	};
+	
+
+/***********************************************************************
+IReadonlyList_of_ColorEntry
+***********************************************************************/
+
+	class GACUI_API IReadonlyList_of_ColorEntry
+	{
+	public:
+		
+		bool Contains(const ColorEntry& item);
+		signed __int32 Count();
+		const ColorEntry& Get(signed __int32 index);
+		const ColorEntry& operator[](signed __int32 index);
+		signed __int32 IndexOf(const ColorEntry& item);
+		rptr<IReadonlyList_of_ColorEntry> operator=(rptr<IReadonlyList_of_ColorEntry> value);
+		
+	};
+	
+
+/***********************************************************************
+List_of_ObjectString_of_wchar_t
+***********************************************************************/
+
+	class GACUI_API List_of_ObjectString_of_wchar_t
+	{
+	public:
+		
+		static rptr<List_of_ObjectString_of_wchar_t> Create();
+		
+		bool Contains(const GacString& item);
+		signed __int32 IndexOf(const GacString& item);
+		signed __int32 Add(const GacString& item);
+		signed __int32 Insert(signed __int32 index, const GacString& item);
+		bool Remove(const GacString& item);
+		bool Set(signed __int32 index, const GacString& item);
+		GacString& operator[](signed __int32 index);
+		rptr<List_of_ObjectString_of_wchar_t> operator=(rptr<List_of_ObjectString_of_wchar_t> value);
+		
+	};
+	
+
+/***********************************************************************
+ListViewItem
+***********************************************************************/
+
+	class GACUI_API ListViewItem
+	{
+	public:
+		
+		ListViewItem& operator=(const ListViewItem& value);
+		
+		sptr<GuiImageData> get_smallImage();
+		void set_smallImage(sptr<GuiImageData> value);
+		sptr<GuiImageData> get_largeImage();
+		void set_largeImage(sptr<GuiImageData> value);
+		GacString get_text();
+		void set_text(GacString value);
+		List_of_ObjectString_of_wchar_t get_subItems();
+		void set_subItems(List_of_ObjectString_of_wchar_t value);
+		
+	};
+	
+
+/***********************************************************************
+MemoryNodeProvider
+***********************************************************************/
+
+	class GACUI_API MemoryNodeProvider
+	{
+	public:
+		
+		static rptr<MemoryNodeProvider> Create(sptr<DescriptableObject> _data);
+		static rptr<MemoryNodeProvider> Create();
+		
+		void NotifyDataModified();
+		rptr<IList_of_MemoryNodeProvider> Children();
+		bool GetExpanding();
+		void SetExpanding(bool value);
+		signed __int32 CalculateTotalVisibleNodes();
+		signed __int32 GetChildCount();
+		rptr<INodeProvider> GetParent();
+		rptr<INodeProvider> RequestChild(signed __int32 index);
+		void ReleaseChild(rptr<INodeProvider> node);
+		rptr<MemoryNodeProvider> operator=(rptr<MemoryNodeProvider> value);
+		
+		sptr<DescriptableObject> GetData();
+		void SetData(sptr<DescriptableObject> value);
+		
+	};
+	
+
+/***********************************************************************
+NativeWindowKeyInfo
+***********************************************************************/
+
+	class GACUI_API NativeWindowKeyInfo
+	{
+	public:
+		
+		signed __int32 get_code();
+		void set_code(signed __int32 value);
+		bool get_ctrl();
+		void set_ctrl(bool value);
+		bool get_shift();
+		void set_shift(bool value);
+		bool get_alt();
+		void set_alt(bool value);
+		bool get_capslock();
+		void set_capslock(bool value);
+		
+	};
+	
+
+/***********************************************************************
+NodeRootProviderBase
+***********************************************************************/
+
+	class GACUI_API NodeRootProviderBase
+	{
+	public:
+		
+		static rptr<NodeRootProviderBase> Create();
+		
+		bool CanGetNodeByVisibleIndex();
+		rptr<INodeProvider> GetNodeByVisibleIndex(signed __int32 index);
+		bool AttachCallback(rptr<INodeProviderCallback> value);
+		bool DetachCallback(rptr<INodeProviderCallback> value);
+		rptr<IDescriptable> RequestView(const GacString& identifier);
+		void ReleaseView(rptr<IDescriptable> view);
+		rptr<NodeRootProviderBase> operator=(rptr<NodeRootProviderBase> value);
+		
+	};
+	
+
+/***********************************************************************
+Rect
+***********************************************************************/
+
+	class GACUI_API Rect
+	{
+	public:
+		
+		static rptr<Rect> Create(Point p, Size s);
+		Rect(Point p, Size s);
+		static rptr<Rect> Create(signed __int32 _x1, signed __int32 _y1, signed __int32 _x2, signed __int32 _y2);
+		Rect(signed __int32 _x1, signed __int32 _y1, signed __int32 _x2, signed __int32 _y2);
+		static rptr<Rect> Create();
+		Rect();
+		
+		bool operator==(Rect rect);
+		bool operator!=(Rect rect);
+		Point LeftTop();
+		Point RightBottom();
+		signed __int32 Left();
+		signed __int32 Right();
+		signed __int32 Width();
+		signed __int32 Top();
+		signed __int32 Bottom();
+		signed __int32 Height();
+		void Expand(Size s);
+		void Expand(signed __int32 x, signed __int32 y);
+		void Move(Size s);
+		void Move(signed __int32 x, signed __int32 y);
+		bool Contains(Point p);
+		
+		Size GetSize();
+		signed __int32 get_x1();
+		void set_x1(signed __int32 value);
+		signed __int32 get_y1();
+		void set_y1(signed __int32 value);
+		signed __int32 get_x2();
+		void set_x2(signed __int32 value);
+		signed __int32 get_y2();
+		void set_y2(signed __int32 value);
+		
+	};
+	
+
+/***********************************************************************
+TreeViewItem
+***********************************************************************/
+
+	class GACUI_API TreeViewItem
+	{
+	public:
+		
+		static rptr<TreeViewItem> Create(sptr<GuiImageData> _image, const GacString& _text);
+		static rptr<TreeViewItem> Create();
+		
+		rptr<TreeViewItem> operator=(rptr<TreeViewItem> value);
+		
+		sptr<GuiImageData> get_image();
+		void set_image(sptr<GuiImageData> value);
+		GacString get_text();
+		void set_text(GacString value);
+		
+	};
+	
+
+/***********************************************************************
+Array_of_ColorEntry
+***********************************************************************/
+
+	class GACUI_API Array_of_ColorEntry
+	{
+	public:
+		
+		static rptr<Array_of_ColorEntry> Create(signed __int32 size);
+		
+		bool Contains(const ColorEntry& item);
+		signed __int32 Count();
+		const ColorEntry& Get(signed __int32 index);
+		ColorEntry& operator[](signed __int32 index);
+		const ColorEntry& operator[](signed __int32 value);
+		signed __int32 IndexOf(const ColorEntry& item);
+		void Set(signed __int32 index, const ColorEntry& item);
+		void Resize(signed __int32 size);
+		rptr<Array_of_ColorEntry> operator=(rptr<Array_of_ColorEntry> value);
+		
+	};
+	
+
+/***********************************************************************
+Gui3DSplitterElement
+***********************************************************************/
+
+	class GACUI_API Gui3DSplitterElement
+	{
+	public:
+		
+		rptr<IGuiGraphicsElementFactory> GetFactory();
+		rptr<IGuiGraphicsRenderer> GetRenderer();
+		void SetColors(Color value1, Color value2);
+		rptr<Gui3DSplitterElement> operator=(rptr<Gui3DSplitterElement> value);
+		
+		static rptr<Gui3DSplitterElement> Create();
+		
+		Color GetColor1();
+		Color GetColor2();
+		Gui3DSplitterElement :: Direction GetDirection();
+		void SetDirection(Gui3DSplitterElement :: Direction value);
+		
+		static GacString GetElementTypeName();
+		
+
+/***********************************************************************
+Gui3DSplitterElement :: Direction
+***********************************************************************/
+
+		enum Direction
+		{
+			Horizontal = 0,
+			Vertical = 1,
+		};
+		
+	};
+	
+
+/***********************************************************************
+GuiGraphicsAnimationManager
+***********************************************************************/
+
+	class GACUI_API GuiGraphicsAnimationManager
+	{
+	public:
+		
+		static rptr<GuiGraphicsAnimationManager> Create();
+		
+		void AddAnimation(sptr<IGuiGraphicsAnimation> animation);
+		bool HasAnimation();
+		void Play();
+		rptr<GuiGraphicsAnimationManager> operator=(rptr<GuiGraphicsAnimationManager> value);
+		
+	};
+	
+
+/***********************************************************************
+GuiGraphicsEvent_of_GuiEventArgs
+***********************************************************************/
+
+	class GACUI_API GuiGraphicsEvent_of_GuiEventArgs
+	{
+	public:
+		class IHandler;
+		
+		static rptr<GuiGraphicsEvent_of_GuiEventArgs> Create(rptr<GuiGraphicsComposition> _sender);
+		
+		bool Attach(sptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> handler);
+		bool Detach(sptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> handler);
+		void Execute(GuiEventArgs& argument);
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> operator=(rptr<GuiGraphicsEvent_of_GuiEventArgs> value);
+		
+		rptr<GuiGraphicsComposition> GetAssociatedComposition();
+		void SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender);
+		
+
+/***********************************************************************
+GuiGraphicsEvent_of_GuiEventArgs :: IHandler
+***********************************************************************/
+
+		class GACUI_API IHandler
+		{
+		public:
+			void Execute(rptr<GuiGraphicsComposition> sender, GuiEventArgs& argument);
+			rptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> operator=(rptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> value);
+			
+		};
+		
+	};
+	
+
+/***********************************************************************
+GuiGraphicsEvent_of_GuiMouseEventArgs
+***********************************************************************/
+
+	class GACUI_API GuiGraphicsEvent_of_GuiMouseEventArgs
+	{
+	public:
+		class IHandler;
+		
+		static rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> Create(rptr<GuiGraphicsComposition> _sender);
+		
+		bool Attach(sptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> handler);
+		bool Detach(sptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> handler);
+		void Execute(GuiMouseEventArgs& argument);
+		rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> operator=(rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> value);
+		
+		rptr<GuiGraphicsComposition> GetAssociatedComposition();
+		void SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender);
+		
+
+/***********************************************************************
+GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler
+***********************************************************************/
+
+		class GACUI_API IHandler
+		{
+		public:
+			void Execute(rptr<GuiGraphicsComposition> sender, GuiMouseEventArgs& argument);
+			rptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> operator=(rptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> value);
+			
+		};
+		
+	};
+	
+
+/***********************************************************************
+GuiKeyEventArgs
+***********************************************************************/
+
+	class GACUI_API GuiKeyEventArgs
+	{
+	public:
+		
+		static rptr<GuiKeyEventArgs> Create();
+		GuiKeyEventArgs();
+		
+	};
+	
+
+/***********************************************************************
+GuiSolidBorderElement
+***********************************************************************/
+
+	class GACUI_API GuiSolidBorderElement
+	{
+	public:
+		
+		rptr<IGuiGraphicsElementFactory> GetFactory();
+		rptr<IGuiGraphicsRenderer> GetRenderer();
+		rptr<GuiSolidBorderElement> operator=(rptr<GuiSolidBorderElement> value);
+		
+		static rptr<GuiSolidBorderElement> Create();
+		
+		Color GetColor();
+		void SetColor(Color value);
+		ElementShape :: Type GetShape();
+		void SetShape(ElementShape :: Type value);
+		
+		static GacString GetElementTypeName();
+		
+	};
+	
+
+/***********************************************************************
+GuiTabPage
+***********************************************************************/
+
+	class GACUI_API GuiTabPage
+	{
+	public:
+		
+		rptr<GuiTabPage> operator=(rptr<GuiTabPage> value);
+		
+		rptr<GuiControl> GetContainer();
+		rptr<GuiTab> GetOwnerTab();
+		const GacString& GetText();
+		void SetText(const GacString& value);
+		bool GetSelected();
+		GuiGraphicsEvent_of_GuiEventArgs get_TextChanged();
+		
+	};
+	
+
+/***********************************************************************
+GuiTimeBasedAnimation
+***********************************************************************/
+
+	class GACUI_API GuiTimeBasedAnimation
+	{
+	public:
+		
+		static rptr<GuiTimeBasedAnimation> Create(signed __int32 totalMilliseconds);
+		
+		void Restart(signed __int32 totalMilliseconds);
+		signed __int32 GetTotalLength();
+		signed __int32 GetCurrentPosition();
+		rptr<GuiTimeBasedAnimation> operator=(rptr<GuiTimeBasedAnimation> value);
+		
+	};
+	
+
+/***********************************************************************
+IGuiGraphicsElement
+***********************************************************************/
+
+	class GACUI_API IGuiGraphicsElement
+	{
+	public:
+		
+		rptr<IGuiGraphicsElement> operator=(rptr<IGuiGraphicsElement> value);
+		
+		rptr<IGuiGraphicsElementFactory> GetFactory();
+		rptr<IGuiGraphicsRenderer> GetRenderer();
+		
+	};
+	
+
+/***********************************************************************
+IGuiGraphicsRenderTarget
+***********************************************************************/
+
+	class GACUI_API IGuiGraphicsRenderTarget
+	{
+	public:
+		
+		void StartRendering();
+		void StopRendering();
+		void PushClipper(Rect clipper);
+		void PopClipper();
+		bool IsClipperCoverWholeTarget();
+		rptr<IGuiGraphicsRenderTarget> operator=(rptr<IGuiGraphicsRenderTarget> value);
+		
+		Rect GetClipper();
+		
+	};
+	
+
+/***********************************************************************
+IList_of_ListViewColumn
+***********************************************************************/
+
+	class GACUI_API IList_of_ListViewColumn
+	{
+	public:
+		
+		signed __int32 Insert(signed __int32 index, sptr<ListViewColumn> item);
+		bool Set(signed __int32 index, sptr<ListViewColumn> item);
+		rptr<IList_of_ListViewColumn> operator=(rptr<IList_of_ListViewColumn> value);
+		
+	};
+	
+
+/***********************************************************************
+INativeCallbackService
+***********************************************************************/
+
+	class GACUI_API INativeCallbackService
+	{
+	public:
+		
+		bool InstallListener(rptr<INativeControllerListener> listener);
+		bool UninstallListener(rptr<INativeControllerListener> listener);
+		rptr<INativeCallbackService> operator=(rptr<INativeCallbackService> value);
+		
+	};
+	
+
+/***********************************************************************
+INativeImageService
+***********************************************************************/
+
+	class GACUI_API INativeImageService
+	{
+	public:
+		
+		sptr<INativeImage> CreateImageFromFile(const GacString& path);
+		rptr<INativeImageService> operator=(rptr<INativeImageService> value);
+		
+	};
+	
+
+/***********************************************************************
+INativeWindowListener
+***********************************************************************/
+
+	class GACUI_API INativeWindowListener
+	{
+	public:
+		
+		static rptr<INativeWindowListener> Create();
+		
+		void Moving(Rect& bounds, bool fixSizeOnly);
+		void Moved();
+		void Enabled();
+		void Disabled();
+		void GotFocus();
+		void LostFocus();
+		void Activated();
+		void Deactivated();
+		void Opened();
+		void Closing(bool& cancel);
+		void Closed();
+		void Paint();
+		void Destroying();
+		void Destroyed();
+		void LeftButtonDown(const NativeWindowMouseInfo& info);
+		void LeftButtonUp(const NativeWindowMouseInfo& info);
+		void LeftButtonDoubleClick(const NativeWindowMouseInfo& info);
+		void RightButtonDown(const NativeWindowMouseInfo& info);
+		void RightButtonUp(const NativeWindowMouseInfo& info);
+		void RightButtonDoubleClick(const NativeWindowMouseInfo& info);
+		void MiddleButtonDown(const NativeWindowMouseInfo& info);
+		void MiddleButtonUp(const NativeWindowMouseInfo& info);
+		void MiddleButtonDoubleClick(const NativeWindowMouseInfo& info);
+		void HorizontalWheel(const NativeWindowMouseInfo& info);
+		void VerticalWheel(const NativeWindowMouseInfo& info);
+		void MouseMoving(const NativeWindowMouseInfo& info);
+		void MouseEntered();
+		void MouseLeaved();
+		void KeyDown(const NativeWindowKeyInfo& info);
+		void KeyUp(const NativeWindowKeyInfo& info);
+		void SysKeyDown(const NativeWindowKeyInfo& info);
+		void SysKeyUp(const NativeWindowKeyInfo& info);
+		void Char(const NativeWindowCharInfo& info);
+		rptr<INativeWindowListener> operator=(rptr<INativeWindowListener> value);
+		
+	};
+	
+
+/***********************************************************************
+INodeRootProvider
+***********************************************************************/
+
+	class GACUI_API INodeRootProvider
+	{
+	public:
+		
+		bool CanGetNodeByVisibleIndex();
+		rptr<INodeProvider> GetNodeByVisibleIndex(signed __int32 index);
+		bool AttachCallback(rptr<INodeProviderCallback> value);
+		bool DetachCallback(rptr<INodeProviderCallback> value);
+		rptr<IDescriptable> RequestView(const GacString& identifier);
+		void ReleaseView(rptr<IDescriptable> view);
+		rptr<INodeRootProvider> operator=(rptr<INodeRootProvider> value);
+		
+		rptr<INodeProvider> GetRootNode();
+		
+	};
+	
+
+/***********************************************************************
+IReadonlyList_of_GuiTabPage_raw_pointer
+***********************************************************************/
+
+	class GACUI_API IReadonlyList_of_GuiTabPage_raw_pointer
+	{
+	public:
+		
+		bool Contains(rptr<GuiTabPage> item);
+		signed __int32 Count();
+		rptr<GuiTabPage> Get(signed __int32 index);
+		rptr<GuiTabPage> operator[](signed __int32 index);
+		signed __int32 IndexOf(rptr<GuiTabPage> item);
+		rptr<IReadonlyList_of_GuiTabPage_raw_pointer> operator=(rptr<IReadonlyList_of_GuiTabPage_raw_pointer> value);
+		
+	};
+	
+
+/***********************************************************************
+IReadonlyList_of_ListViewItem
+***********************************************************************/
+
+	class GACUI_API IReadonlyList_of_ListViewItem
+	{
+	public:
+		
+		bool Contains(rptr<ListViewItem> item);
+		signed __int32 Count();
+		sptr<ListViewItem> Get(signed __int32 index);
+		sptr<ListViewItem> operator[](signed __int32 index);
+		signed __int32 IndexOf(rptr<ListViewItem> item);
+		rptr<IReadonlyList_of_ListViewItem> operator=(rptr<IReadonlyList_of_ListViewItem> value);
+		
+	};
+	
+
+/***********************************************************************
+MemoryNodeRootProvider
+***********************************************************************/
+
+	class GACUI_API MemoryNodeRootProvider
+	{
+	public:
+		
+		static rptr<MemoryNodeRootProvider> Create();
+		
+		rptr<INodeProvider> GetRootNode();
+		rptr<MemoryNodeRootProvider> operator=(rptr<MemoryNodeRootProvider> value);
+		
+	};
+	
+
+/***********************************************************************
+TextItem
+***********************************************************************/
+
+	class GACUI_API TextItem
+	{
+	public:
+		
+		static rptr<TextItem> Create(wchar_t* _text, bool _checked);
+		TextItem(wchar_t* _text, bool _checked);
+		static rptr<TextItem> Create(const GacString& _text, bool _checked);
+		TextItem(const GacString& _text, bool _checked);
+		static rptr<TextItem> Create(const TextItem& item);
+		TextItem(const TextItem& item);
+		static rptr<TextItem> Create();
+		TextItem();
+		
+		bool operator==(const TextItem& value);
+		bool operator!=(const TextItem& value);
+		TextItem& operator=(const TextItem& __that);
+		
+		const GacString& GetText();
+		bool GetChecked();
+		
+	};
+	
+
+/***********************************************************************
+TreeViewItemRootProvider
+***********************************************************************/
+
+	class GACUI_API TreeViewItemRootProvider
+	{
+	public:
+		
+		static rptr<TreeViewItemRootProvider> Create();
+		
+		rptr<IDescriptable> RequestView(const GacString& identifier);
+		void ReleaseView(rptr<IDescriptable> view);
+		rptr<TreeViewItemRootProvider> operator=(rptr<TreeViewItemRootProvider> value);
+		
+	};
+	
+
+/***********************************************************************
+CharMeasurer
+***********************************************************************/
+
+	class GACUI_API CharMeasurer
+	{
+	public:
+		
+		signed __int32 MeasureWidth(wchar_t character);
+		rptr<CharMeasurer> operator=(rptr<CharMeasurer> value);
+		void SetRenderTarget(rptr<IGuiGraphicsRenderTarget> value);
+		
+		signed __int32 GetRowHeight();
+		
+	};
+	
+
+/***********************************************************************
+GuiGraphicsEvent_of_GuiKeyEventArgs
+***********************************************************************/
+
+	class GACUI_API GuiGraphicsEvent_of_GuiKeyEventArgs
+	{
+	public:
+		class IHandler;
+		
+		static rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> Create(rptr<GuiGraphicsComposition> _sender);
+		
+		bool Attach(sptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> handler);
+		bool Detach(sptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> handler);
+		void Execute(GuiKeyEventArgs& argument);
+		rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> operator=(rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> value);
+		
+		rptr<GuiGraphicsComposition> GetAssociatedComposition();
+		void SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender);
+		
+
+/***********************************************************************
+GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler
+***********************************************************************/
+
+		class GACUI_API IHandler
+		{
+		public:
+			void Execute(rptr<GuiGraphicsComposition> sender, GuiKeyEventArgs& argument);
+			rptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> operator=(rptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> value);
+			
+		};
+		
+	};
+	
+
+/***********************************************************************
+GuiGraphicsHost
+***********************************************************************/
+
+	class GACUI_API GuiGraphicsHost
+	{
+	public:
+		
+		static rptr<GuiGraphicsHost> Create();
+		
+		void Render();
+		bool SetFocus(rptr<GuiGraphicsComposition> composition);
+		void SetCaretPoint(Point value, rptr<GuiGraphicsComposition> referenceComposition);
+		rptr<GuiGraphicsHost> operator=(rptr<GuiGraphicsHost> value);
+		
+		rptr<INativeWindow> GetNativeWindow();
+		void SetNativeWindow(rptr<INativeWindow> _nativeWindow);
+		rptr<GuiGraphicsComposition> GetMainComposition();
+		rptr<GuiGraphicsComposition> GetFocusedComposition();
+		Point GetCaretPoint();
+		rptr<GuiGraphicsAnimationManager> GetAnimationManager();
+		
+	};
+	
+
+/***********************************************************************
+GuiTextBoxCommonInterface
+***********************************************************************/
+
+	class GACUI_API GuiTextBoxCommonInterface
+	{
+	public:
+		
+		static rptr<GuiTextBoxCommonInterface> Create();
+		
+		bool CanCut();
+		bool CanCopy();
+		bool CanPaste();
+		void SelectAll();
+		bool Cut();
+		bool Copy();
+		bool Paste();
+		GacString GetRowText(signed __int32 row);
+		GacString GetFragmentText(TextPos start, TextPos end);
+		signed __int32 GetRowWidth(signed __int32 row);
+		TextPos GetTextPosFromPoint(Point point);
+		Point GetPointFromTextPos(TextPos pos);
+		Rect GetRectFromTextPos(TextPos pos);
+		TextPos GetNearestTextPos(Point point);
+		void Select(TextPos begin, TextPos end);
+		rptr<GuiTextBoxCommonInterface> operator=(rptr<GuiTextBoxCommonInterface> value);
+		
+		rptr<GuiGraphicsComposition> GetTextComposition();
+		signed __int32 GetRowHeight();
+		signed __int32 GetMaxWidth();
+		signed __int32 GetMaxHeight();
+		TextPos GetCaretBegin();
+		TextPos GetCaretEnd();
+		TextPos GetCaretSmall();
+		TextPos GetCaretLarge();
+		GacString GetSelectionText();
+		void SetSelectionText(const GacString& value);
+		GuiGraphicsEvent_of_GuiEventArgs get_SelectionChanged();
+		
+	};
+	
+
+/***********************************************************************
+ICollection_of_ListViewItem
+***********************************************************************/
+
+	class GACUI_API ICollection_of_ListViewItem
+	{
+	public:
+		
+		signed __int32 Add(sptr<ListViewItem> item);
+		bool Remove(rptr<ListViewItem> item);
+		bool RemoveAt(signed __int32 index);
+		bool RemoveRange(signed __int32 index, signed __int32 count);
+		bool Clear();
+		rptr<ICollection_of_ListViewItem> operator=(rptr<ICollection_of_ListViewItem> value);
+		
+	};
+	
+
+/***********************************************************************
+IGuiGraphicsRenderer
+***********************************************************************/
+
+	class GACUI_API IGuiGraphicsRenderer
+	{
+	public:
+		
+		void Initialize(rptr<IGuiGraphicsElement> _element);
+		void Finalize();
+		void Render(Rect bounds);
+		void OnElementStateChanged();
+		rptr<IGuiGraphicsRenderer> operator=(rptr<IGuiGraphicsRenderer> value);
+		void SetRenderTarget(rptr<IGuiGraphicsRenderTarget> _renderTarget);
+		
+		rptr<IGuiGraphicsRendererFactory> GetFactory();
+		Size GetMinSize();
+		
+	};
+	
+
+/***********************************************************************
+IList_of_ListViewItem
+***********************************************************************/
+
+	class GACUI_API IList_of_ListViewItem
+	{
+	public:
+		
+		signed __int32 Insert(signed __int32 index, sptr<ListViewItem> item);
+		bool Set(signed __int32 index, sptr<ListViewItem> item);
+		rptr<IList_of_ListViewItem> operator=(rptr<IList_of_ListViewItem> value);
+		
+	};
+	
+
+/***********************************************************************
+INativeImage
+***********************************************************************/
+
+	class GACUI_API INativeImage
+	{
+	public:
+		
+		rptr<INativeImageFrame> GetFrame(signed __int32 index);
+		rptr<INativeImage> operator=(rptr<INativeImage> value);
+		
+		rptr<INativeImageService> GetImageService();
+		INativeImage :: FormatType GetFormat();
+		signed __int32 GetFrameCount();
+		
+
+/***********************************************************************
+INativeImage :: FormatType
+***********************************************************************/
+
+		enum FormatType
+		{
+			Bmp = 0,
+			Gif = 1,
+			Icon = 2,
+			Jpeg = 3,
+			Png = 4,
+			Tiff = 5,
+			Wmp = 6,
+			Unknown = 7,
+		};
+		
+	};
+	
+
+/***********************************************************************
+INativeWindow
+***********************************************************************/
+
+	class GACUI_API INativeWindow
+	{
+	public:
+		
+		void Show();
+		void ShowDeactivated();
+		void ShowRestored();
+		void ShowMaximized();
+		void ShowMinimized();
+		void Hide();
+		bool IsVisible();
+		void Enable();
+		void Disable();
+		bool IsEnabled();
+		void SetFocus();
+		bool IsFocused();
+		void SetActivate();
+		bool IsActivated();
+		void ShowInTaskBar();
+		void HideInTaskBar();
+		bool IsAppearedInTaskBar();
+		void EnableActivate();
+		void DisableActivate();
+		bool IsEnabledActivate();
+		bool RequireCapture();
+		bool ReleaseCapture();
+		bool InstallListener(rptr<INativeWindowListener> listener);
+		bool UninstallListener(rptr<INativeWindowListener> listener);
+		void RedrawContent();
+		rptr<INativeWindow> operator=(rptr<INativeWindow> value);
+		
+		Rect GetBounds();
+		void SetBounds(const Rect& bounds);
+		Size GetClientSize();
+		void SetClientSize(Size size);
+		Rect GetClientBoundsInScreen();
+		GacString GetTitle();
+		void SetTitle(GacString _title);
+		rptr<INativeCursor> GetWindowCursor();
+		void SetWindowCursor(rptr<INativeCursor> _cursor);
+		Point GetCaretPoint();
+		void SetCaretPoint(Point point);
+		rptr<INativeWindow> GetParent();
+		void SetParent(rptr<INativeWindow> parent);
+		bool GetAlwaysPassFocusToParent();
+		void SetAlwaysPassFocusToParent(bool value);
+		bool GetMaximizedBox();
+		void SetMaximizedBox(bool visible);
+		bool GetMinimizedBox();
+		void SetMinimizedBox(bool visible);
+		bool GetBorder();
+		void SetBorder(bool visible);
+		bool GetSizeBox();
+		void SetSizeBox(bool visible);
+		bool GetIconVisible();
+		void SetIconVisible(bool visible);
+		bool GetTitleBar();
+		void SetTitleBar(bool visible);
+		bool GetTopMost();
+		void SetTopMost(bool topmost);
+		
+	};
+	
+
+/***********************************************************************
+IReadonlyList_of_TextItem
+***********************************************************************/
+
+	class GACUI_API IReadonlyList_of_TextItem
+	{
+	public:
+		
+		bool Contains(const TextItem& item);
+		signed __int32 Count();
+		const TextItem& Get(signed __int32 index);
+		const TextItem& operator[](signed __int32 index);
+		signed __int32 IndexOf(const TextItem& item);
+		rptr<IReadonlyList_of_TextItem> operator=(rptr<IReadonlyList_of_TextItem> value);
+		
+	};
+	
+
+/***********************************************************************
+TextLines
+***********************************************************************/
+
+	class GACUI_API TextLines
+	{
+	public:
+		
+		static rptr<TextLines> Create();
+		TextLines();
+		
+		TextLine& GetLine(signed __int32 row);
+		GacString GetText(TextPos start, TextPos end);
+		bool RemoveLines(signed __int32 start, signed __int32 count);
+		bool IsAvailable(TextPos pos);
+		TextPos Normalize(TextPos pos);
+		TextPos Modify(TextPos start, TextPos end, const GacString& input);
+		TextPos Modify(TextPos start, TextPos end, wchar_t* input);
+		TextPos Modify(TextPos start, TextPos end, wchar_t* input, signed __int32 inputCount);
+		TextPos Modify(TextPos start, TextPos end, wchar_t** inputs, signed __int32* inputCounts, signed __int32 rows);
+		void Clear();
+		void ClearMeasurement();
+		void MeasureRow(signed __int32 row);
+		signed __int32 GetRowWidth(signed __int32 row);
+		TextPos GetTextPosFromPoint(Point point);
+		Point GetPointFromTextPos(TextPos pos);
+		Rect GetRectFromTextPos(TextPos pos);
+		TextLines& operator=(const TextLines& value);
+		
+		signed __int32 GetCount();
+		rptr<CharMeasurer> GetCharMeasurer();
+		void SetCharMeasurer(rptr<CharMeasurer> value);
+		rptr<IGuiGraphicsRenderTarget> GetRenderTarget();
+		void SetRenderTarget(rptr<IGuiGraphicsRenderTarget> value);
+		GacString GetText();
+		void SetText(const GacString& value);
+		signed __int32 GetTabSpaceCount();
+		void SetTabSpaceCount(signed __int32 value);
+		signed __int32 GetRowHeight();
+		signed __int32 GetMaxWidth();
+		signed __int32 GetMaxHeight();
 		
 	};
 	
@@ -676,9 +2344,9 @@ GuiColorizedTextElement
 
 	class GACUI_API GuiColorizedTextElement
 	{
-	protected:
-	
 	public:
+		class ICallback;
+		
 		rptr<IGuiGraphicsElementFactory> GetFactory();
 		rptr<IGuiGraphicsRenderer> GetRenderer();
 		rptr<GuiColorizedTextElement> operator=(rptr<GuiColorizedTextElement> value);
@@ -690,28 +2358,8 @@ GuiColorizedTextElement
 		void SetCallback(rptr<GuiColorizedTextElement :: ICallback> value);
 		rptr<IReadonlyList_of_ColorEntry> GetColors();
 		void SetColors(rptr<Array_of_ColorEntry> value);
-		constFontProperties& GetFont();
-		void SetFont(constFontProperties& value);
-		Point GetViewPosition();
-		void SetViewPosition(Point value);
-		bool GetVisuallyEnabled();
-		void SetVisuallyEnabled(bool value);
-		bool GetFocused();
-		void SetFocused(bool value);
-		TextPos GetCaretBegin();
-		void SetCaretBegin(TextPos value);
-		TextPos GetCaretEnd();
-		void SetCaretEnd(TextPos value);
-		bool GetCaretVisible();
-		void SetCaretVisible(bool value);
-		Color GetCaretColor();
-		void SetCaretColor(Color value);
-		rptr<GuiColorizedTextElement :: ICallback> GetCallback();
-		void SetCallback(rptr<GuiColorizedTextElement :: ICallback> value);
-		rptr<IReadonlyList_of_ColorEntry> GetColors();
-		void SetColors(rptr<Array_of_ColorEntry> value);
-		constFontProperties& GetFont();
-		void SetFont(constFontProperties& value);
+		const FontProperties& GetFont();
+		void SetFont(const FontProperties& value);
 		Point GetViewPosition();
 		void SetViewPosition(Point value);
 		bool GetVisuallyEnabled();
@@ -727,7 +2375,7 @@ GuiColorizedTextElement
 		Color GetCaretColor();
 		void SetCaretColor(Color value);
 		
-		static vl::ObjectString<wchar_t> GetElementTypeName();
+		static GacString GetElementTypeName();
 		
 
 /***********************************************************************
@@ -736,8 +2384,6 @@ GuiColorizedTextElement :: ICallback
 
 		class GACUI_API ICallback
 		{
-		protected:
-		
 		public:
 			void ColorChanged();
 			void FontChanged();
@@ -749,58 +2395,116 @@ GuiColorizedTextElement :: ICallback
 	
 
 /***********************************************************************
-GuiComboBoxBase
+GuiGraphicsEventReceiver
 ***********************************************************************/
 
-	class GACUI_API GuiComboBoxBase
+	class GACUI_API GuiGraphicsEventReceiver
 	{
-	protected:
-	
 	public:
-		static rptr<GuiComboBoxBase> Create(rptr<GuiComboBoxBase :: IStyleController> _styleController);
 		
-		void ShowPopup();
-		rptr<GuiComboBoxBase> operator=(rptr<GuiComboBoxBase> value);
+		static rptr<GuiGraphicsEventReceiver> Create(rptr<GuiGraphicsComposition> _sender);
 		
-		rptr<GuiPopup> GetPopup();
-		GuiGraphicsEvent_of_GuiEventArgs get_PopupOpened();
-		GuiGraphicsEvent_of_GuiEventArgs get_PopupClosed();
-		GuiGraphicsEvent_of_GuiEventArgs get_ItemSelecting();
-		GuiGraphicsEvent_of_GuiEventArgs get_ItemSelected();
+		rptr<GuiGraphicsEventReceiver> operator=(rptr<GuiGraphicsEventReceiver> value);
+		
+		rptr<GuiGraphicsComposition> GetAssociatedComposition();
+		GuiGraphicsEvent_of_GuiMouseEventArgs get_leftButtonDown();
+		GuiGraphicsEvent_of_GuiMouseEventArgs get_leftButtonUp();
+		GuiGraphicsEvent_of_GuiMouseEventArgs get_leftButtonDoubleClick();
+		GuiGraphicsEvent_of_GuiMouseEventArgs get_middleButtonDown();
+		GuiGraphicsEvent_of_GuiMouseEventArgs get_middleButtonUp();
+		GuiGraphicsEvent_of_GuiMouseEventArgs get_middleButtonDoubleClick();
+		GuiGraphicsEvent_of_GuiMouseEventArgs get_rightButtonDown();
+		GuiGraphicsEvent_of_GuiMouseEventArgs get_rightButtonUp();
+		GuiGraphicsEvent_of_GuiMouseEventArgs get_rightButtonDoubleClick();
+		GuiGraphicsEvent_of_GuiMouseEventArgs get_horizontalWheel();
+		GuiGraphicsEvent_of_GuiMouseEventArgs get_verticalWheel();
+		GuiGraphicsEvent_of_GuiMouseEventArgs get_mouseMove();
+		GuiGraphicsEvent_of_GuiEventArgs get_mouseEnter();
+		GuiGraphicsEvent_of_GuiEventArgs get_mouseLeave();
+		GuiGraphicsEvent_of_GuiKeyEventArgs get_previewKey();
+		GuiGraphicsEvent_of_GuiKeyEventArgs get_keyDown();
+		GuiGraphicsEvent_of_GuiKeyEventArgs get_keyUp();
+		GuiGraphicsEvent_of_GuiKeyEventArgs get_systemKeyDown();
+		GuiGraphicsEvent_of_GuiKeyEventArgs get_systemKeyUp();
+		GuiGraphicsEvent_of_GuiCharEventArgs get_previewCharInput();
+		GuiGraphicsEvent_of_GuiCharEventArgs get_charInput();
+		GuiGraphicsEvent_of_GuiEventArgs get_gotFocus();
+		GuiGraphicsEvent_of_GuiEventArgs get_lostFocus();
+		GuiGraphicsEvent_of_GuiEventArgs get_caretNotify();
+		
+	};
+	
+
+/***********************************************************************
+GuiTextElementOperator
+***********************************************************************/
+
+	class GACUI_API GuiTextElementOperator
+	{
+	public:
+		class DefaultCallback;
+		class ICallback;
+		
+		static rptr<GuiTextElementOperator> Create();
+		
+		void Install(rptr<GuiColorizedTextElement> _textElement, rptr<GuiGraphicsComposition> _textComposition, rptr<GuiControl> _textControl);
+		TextPos GetNearestTextPos(Point point);
+		void Select(TextPos begin, TextPos end);
+		bool CanCut();
+		bool CanCopy();
+		bool CanPaste();
+		void SelectAll();
+		bool Cut();
+		bool Copy();
+		bool Paste();
+		rptr<GuiTextElementOperator> operator=(rptr<GuiTextElementOperator> value);
+		
+		rptr<GuiTextElementOperator :: ICallback> GetCallback();
+		void SetCallback(rptr<GuiTextElementOperator :: ICallback> value);
+		rptr<GuiTextBoxCommonInterface> GetTextBoxCommonInterface();
+		void SetTextBoxCommonInterface(rptr<GuiTextBoxCommonInterface> value);
+		rptr<GuiColorizedTextElement> GetTextElement();
+		rptr<GuiGraphicsComposition> GetTextComposition();
+		GacString GetSelectionText();
+		void SetSelectionText(const GacString& value);
 		
 
 /***********************************************************************
-GuiComboBoxBase :: ICommandExecutor
+GuiTextElementOperator :: DefaultCallback
 ***********************************************************************/
 
-		class GACUI_API ICommandExecutor
+		class GACUI_API DefaultCallback
 		{
-		protected:
-		
 		public:
-			void ShowPopup();
-			void SelectItem();
-			rptr<GuiComboBoxBase :: ICommandExecutor> operator=(rptr<GuiComboBoxBase :: ICommandExecutor> value);
+			static rptr<GuiTextElementOperator :: DefaultCallback> Create(rptr<GuiColorizedTextElement> _textElement, rptr<GuiGraphicsComposition> _textComposition);
+			
+			TextPos GetLeftWord(TextPos pos);
+			TextPos GetRightWord(TextPos pos);
+			void GetWord(TextPos pos, TextPos& begin, TextPos& end);
+			signed __int32 GetPageRows();
+			bool BeforeModify(TextPos& start, TextPos& end, const GacString& originalText, GacString& inputText);
+			rptr<GuiTextElementOperator :: DefaultCallback> operator=(rptr<GuiTextElementOperator :: DefaultCallback> value);
 			
 		};
 		
 
 /***********************************************************************
-GuiComboBoxBase :: IStyleController
+GuiTextElementOperator :: ICallback
 ***********************************************************************/
 
-		class GACUI_API IStyleController
+		class GACUI_API ICallback
 		{
-		protected:
-		
 		public:
-			void OnClicked();
-			void OnPopupOpened();
-			void OnPopupClosed();
-			void OnItemSelected();
-			rptr<GuiControl :: IStyleController> CreatePopupStyle();
-			rptr<GuiComboBoxBase :: IStyleController> operator=(rptr<GuiComboBoxBase :: IStyleController> value);
-			void SetCommandExecutor(rptr<GuiComboBoxBase :: ICommandExecutor> value);
+			TextPos GetLeftWord(TextPos pos);
+			TextPos GetRightWord(TextPos pos);
+			void GetWord(TextPos pos, TextPos& begin, TextPos& end);
+			bool BeforeModify(TextPos& start, TextPos& end, const GacString& originalText, GacString& inputText);
+			void AfterModify(TextPos originalStart, TextPos originalEnd, const GacString& originalText, TextPos inputStart, TextPos inputEnd, const GacString& inputText);
+			void ScrollToView(Point point);
+			rptr<GuiTextElementOperator :: ICallback> operator=(rptr<GuiTextElementOperator :: ICallback> value);
+			
+			signed __int32 GetPageRows();
+			signed __int32 GetTextMargin();
 			
 		};
 		
@@ -808,44 +2512,338 @@ GuiComboBoxBase :: IStyleController
 	
 
 /***********************************************************************
-GuiComboBoxListControl
+ICollection_of_TextItem
 ***********************************************************************/
 
-	class GACUI_API GuiComboBoxListControl
+	class GACUI_API ICollection_of_TextItem
 	{
-	protected:
-	
 	public:
-		static rptr<GuiComboBoxListControl> Create(rptr<GuiComboBoxBase :: IStyleController> _styleController, rptr<GuiSelectableListControl> _containedListControl);
 		
-		void SetFont(constFontProperties& value);
-		rptr<GuiComboBoxListControl> operator=(rptr<GuiComboBoxListControl> value);
-		
-		rptr<GuiSelectableListControl> GetContainedListControl();
-		signed __int32 GetSelectedIndex();
-		void SetSelectedIndex(signed __int32 value);
-		rptr<GuiListControl :: IItemProvider> GetItemProvider();
-		signed __int32 GetSelectedIndex();
-		void SetSelectedIndex(signed __int32 value);
-		GuiGraphicsEvent_of_GuiEventArgs get_SelectedIndexChanged();
+		signed __int32 Add(const TextItem& item);
+		bool Remove(const TextItem& item);
+		bool RemoveAt(signed __int32 index);
+		bool RemoveRange(signed __int32 index, signed __int32 count);
+		bool Clear();
+		rptr<ICollection_of_TextItem> operator=(rptr<ICollection_of_TextItem> value);
 		
 	};
 	
 
 /***********************************************************************
-GuiComponent
+IList_of_TextItem
 ***********************************************************************/
 
-	class GACUI_API GuiComponent
+	class GACUI_API IList_of_TextItem
 	{
-	protected:
-	
 	public:
-		static rptr<GuiComponent> Create();
 		
-		rptr<GuiComponent> operator=(rptr<GuiComponent> value);
+		signed __int32 Insert(signed __int32 index, const TextItem& item);
+		bool Set(signed __int32 index, const TextItem& item);
+		rptr<IList_of_TextItem> operator=(rptr<IList_of_TextItem> value);
 		
-		rptr<GuiControlHost> GetControlHost();
+	};
+	
+
+/***********************************************************************
+INativeScreen
+***********************************************************************/
+
+	class GACUI_API INativeScreen
+	{
+	public:
+		
+		bool IsPrimary();
+		rptr<INativeScreen> operator=(rptr<INativeScreen> value);
+		
+		Rect GetBounds();
+		Rect GetClientBounds();
+		GacString GetName();
+		
+	};
+	
+
+/***********************************************************************
+GuiGraphicsComposition
+***********************************************************************/
+
+	class GACUI_API GuiGraphicsComposition
+	{
+	public:
+		
+		rptr<IReadonlyList_of_GuiGraphicsComposition_raw_pointer> Children();
+		bool AddChild(rptr<GuiGraphicsComposition> child);
+		bool InsertChild(signed __int32 index, rptr<GuiGraphicsComposition> child);
+		bool RemoveChild(rptr<GuiGraphicsComposition> child);
+		bool MoveChild(rptr<GuiGraphicsComposition> child, signed __int32 newIndex);
+		void Render(Size offset);
+		bool HasEventReceiver();
+		rptr<GuiGraphicsComposition> FindComposition(Point location);
+		bool IsSizeAffectParent();
+		rptr<GuiGraphicsComposition> operator=(rptr<GuiGraphicsComposition> value);
+		
+		rptr<GuiGraphicsComposition> GetParent();
+		sptr<IGuiGraphicsElement> GetOwnedElement();
+		void SetOwnedElement(sptr<IGuiGraphicsElement> element);
+		bool GetVisible();
+		void SetVisible(bool value);
+		GuiGraphicsComposition :: MinSizeLimitation GetMinSizeLimitation();
+		void SetMinSizeLimitation(GuiGraphicsComposition :: MinSizeLimitation value);
+		rptr<IGuiGraphicsRenderTarget> GetRenderTarget();
+		void SetRenderTarget(rptr<IGuiGraphicsRenderTarget> value);
+		rptr<GuiGraphicsEventReceiver> GetEventReceiver();
+		Rect GetGlobalBounds();
+		rptr<GuiControl> GetAssociatedControl();
+		rptr<GuiGraphicsHost> GetAssociatedHost();
+		rptr<INativeCursor> GetAssociatedCursor();
+		void SetAssociatedCursor(rptr<INativeCursor> cursor);
+		rptr<GuiControl> GetRelatedControl();
+		rptr<GuiGraphicsHost> GetRelatedGraphicsHost();
+		rptr<GuiControlHost> GetRelatedControlHost();
+		rptr<INativeCursor> GetRelatedCursor();
+		Margin GetMargin();
+		void SetMargin(Margin value);
+		Margin GetInternalMargin();
+		void SetInternalMargin(Margin value);
+		Size GetPreferredMinSize();
+		void SetPreferredMinSize(Size value);
+		Rect GetClientArea();
+		GuiGraphicsComposition :: ParentSizeAffection GetAffectionFromParent();
+		Size GetMinPreferredClientSize();
+		Rect GetPreferredBounds();
+		Rect GetBounds();
+		
+
+/***********************************************************************
+GuiGraphicsComposition :: MinSizeLimitation
+***********************************************************************/
+
+		enum MinSizeLimitation
+		{
+			NoLimit = 0,
+			LimitToElement = 1,
+			LimitToElementAndChildren = 2,
+		};
+		
+
+/***********************************************************************
+GuiGraphicsComposition :: ParentSizeAffection
+***********************************************************************/
+
+		enum ParentSizeAffection
+		{
+			NotAffectedByParent = 0,
+			AffectedByParent = 1,
+			TotallyDecidedByParent = 2,
+		};
+		
+	};
+	
+
+/***********************************************************************
+GuiGraphicsSite
+***********************************************************************/
+
+	class GACUI_API GuiGraphicsSite
+	{
+	public:
+		
+		static rptr<GuiGraphicsSite> Create();
+		
+		GuiGraphicsComposition :: ParentSizeAffection GetAffectionFromParent();
+		bool IsSizeAffectParent();
+		Size GetMinPreferredClientSize();
+		Rect GetPreferredBounds();
+		rptr<GuiGraphicsSite> operator=(rptr<GuiGraphicsSite> value);
+		
+	};
+	
+
+/***********************************************************************
+GuiPartialViewComposition
+***********************************************************************/
+
+	class GACUI_API GuiPartialViewComposition
+	{
+	public:
+		
+		static rptr<GuiPartialViewComposition> Create();
+		
+		GuiGraphicsComposition :: ParentSizeAffection GetAffectionFromParent();
+		bool IsSizeAffectParent();
+		Rect GetBounds();
+		rptr<GuiPartialViewComposition> operator=(rptr<GuiPartialViewComposition> value);
+		
+		double GetWidthRatio();
+		void SetWidthRatio(double value);
+		double GetWidthPageSize();
+		void SetWidthPageSize(double value);
+		double GetHeightRatio();
+		void SetHeightRatio(double value);
+		double GetHeightPageSize();
+		void SetHeightPageSize(double value);
+		
+	};
+	
+
+/***********************************************************************
+GuiSideAlignedComposition
+***********************************************************************/
+
+	class GACUI_API GuiSideAlignedComposition
+	{
+	public:
+		
+		static rptr<GuiSideAlignedComposition> Create();
+		
+		GuiGraphicsComposition :: ParentSizeAffection GetAffectionFromParent();
+		bool IsSizeAffectParent();
+		Rect GetBounds();
+		rptr<GuiSideAlignedComposition> operator=(rptr<GuiSideAlignedComposition> value);
+		
+		GuiSideAlignedComposition :: Direction GetDirection();
+		void SetDirection(GuiSideAlignedComposition :: Direction value);
+		signed __int32 GetMaxLength();
+		void SetMaxLength(signed __int32 value);
+		double GetMaxRatio();
+		void SetMaxRatio(double value);
+		
+
+/***********************************************************************
+GuiSideAlignedComposition :: Direction
+***********************************************************************/
+
+		enum Direction
+		{
+			Left = 0,
+			Top = 1,
+			Right = 2,
+			Bottom = 3,
+		};
+		
+	};
+	
+
+/***********************************************************************
+GuiStackItemComposition
+***********************************************************************/
+
+	class GACUI_API GuiStackItemComposition
+	{
+	public:
+		
+		static rptr<GuiStackItemComposition> Create();
+		
+		GuiGraphicsComposition :: ParentSizeAffection GetAffectionFromParent();
+		bool IsSizeAffectParent();
+		Rect GetBounds();
+		rptr<GuiStackItemComposition> operator=(rptr<GuiStackItemComposition> value);
+		void SetBounds(Rect value);
+		
+		Margin GetExtraMargin();
+		void SetExtraMargin(Margin value);
+		
+	};
+	
+
+/***********************************************************************
+GuiWindowComposition
+***********************************************************************/
+
+	class GACUI_API GuiWindowComposition
+	{
+	public:
+		
+		static rptr<GuiWindowComposition> Create();
+		
+		Rect GetBounds();
+		void SetMargin(Margin value);
+		rptr<GuiWindowComposition> operator=(rptr<GuiWindowComposition> value);
+		
+		rptr<INativeWindow> GetAttachedWindow();
+		void SetAttachedWindow(rptr<INativeWindow> window);
+		
+	};
+	
+
+/***********************************************************************
+INativeScreenService
+***********************************************************************/
+
+	class GACUI_API INativeScreenService
+	{
+	public:
+		
+		rptr<INativeScreen> GetScreen(rptr<INativeWindow> window);
+		rptr<INativeScreen> GetScreen(signed __int32 index);
+		rptr<INativeScreenService> operator=(rptr<INativeScreenService> value);
+		
+		signed __int32 GetScreenCount();
+		
+	};
+	
+
+/***********************************************************************
+IReadonlyList_of_GuiStackItemComposition_raw_pointer
+***********************************************************************/
+
+	class GACUI_API IReadonlyList_of_GuiStackItemComposition_raw_pointer
+	{
+	public:
+		
+		bool Contains(rptr<GuiStackItemComposition> item);
+		signed __int32 Count();
+		rptr<GuiStackItemComposition> Get(signed __int32 index);
+		rptr<GuiStackItemComposition> operator[](signed __int32 index);
+		signed __int32 IndexOf(rptr<GuiStackItemComposition> item);
+		rptr<IReadonlyList_of_GuiStackItemComposition_raw_pointer> operator=(rptr<IReadonlyList_of_GuiStackItemComposition_raw_pointer> value);
+		
+	};
+	
+
+/***********************************************************************
+GuiBoundsComposition
+***********************************************************************/
+
+	class GACUI_API GuiBoundsComposition
+	{
+	public:
+		
+		static rptr<GuiBoundsComposition> Create();
+		
+		GuiGraphicsComposition :: ParentSizeAffection GetAffectionFromParent();
+		Rect GetPreferredBounds();
+		Rect GetBounds();
+		void ClearAlignmentToParent();
+		bool IsAlignedToParent();
+		rptr<GuiBoundsComposition> operator=(rptr<GuiBoundsComposition> value);
+		void SetBounds(Rect value);
+		
+		Margin GetAlignmentToParent();
+		void SetAlignmentToParent(Margin value);
+		GuiGraphicsEvent_of_GuiEventArgs get_BoundsChanged();
+		
+	};
+	
+
+/***********************************************************************
+GuiCellComposition
+***********************************************************************/
+
+	class GACUI_API GuiCellComposition
+	{
+	public:
+		
+		static rptr<GuiCellComposition> Create();
+		
+		bool SetSite(signed __int32 _row, signed __int32 _column, signed __int32 _rowSpan, signed __int32 _columnSpan);
+		Rect GetBounds();
+		rptr<GuiCellComposition> operator=(rptr<GuiCellComposition> value);
+		
+		rptr<GuiTableComposition> GetTableParent();
+		signed __int32 GetRow();
+		signed __int32 GetRowSpan();
+		signed __int32 GetColumn();
+		signed __int32 GetColumnSpan();
 		
 	};
 	
@@ -856,9 +2854,10 @@ GuiControl
 
 	class GACUI_API GuiControl
 	{
-	protected:
-	
 	public:
+		class IStyleController;
+		class IStyleProvider;
+		
 		static rptr<GuiControl> Create(rptr<GuiControl :: IStyleController> _styleController);
 		
 		rptr<GuiControl> GetChild(signed __int32 index);
@@ -881,16 +2880,8 @@ GuiControl
 		void SetVisible(bool value);
 		const GacString& GetText();
 		void SetText(const GacString& value);
-		constFontProperties& GetFont();
-		void SetFont(constFontProperties& value);
-		bool GetEnabled();
-		void SetEnabled(bool value);
-		bool GetVisible();
-		void SetVisible(bool value);
-		const GacString& GetText();
-		void SetText(const GacString& value);
-		constFontProperties& GetFont();
-		void SetFont(constFontProperties& value);
+		const FontProperties& GetFont();
+		void SetFont(const FontProperties& value);
 		GuiGraphicsEvent_of_GuiEventArgs get_VisibleChanged();
 		GuiGraphicsEvent_of_GuiEventArgs get_EnabledChanged();
 		GuiGraphicsEvent_of_GuiEventArgs get_VisuallyEnabledChanged();
@@ -904,13 +2895,11 @@ GuiControl :: IStyleController
 
 		class GACUI_API IStyleController
 		{
-		protected:
-		
 		public:
 			rptr<GuiControl :: IStyleController> operator=(rptr<GuiControl :: IStyleController> value);
 			void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
 			void SetText(const GacString& value);
-			void SetFont(constFontProperties& value);
+			void SetFont(const FontProperties& value);
 			void SetVisuallyEnabled(bool value);
 			
 			rptr<GuiBoundsComposition> GetBoundsComposition();
@@ -925,17 +2914,588 @@ GuiControl :: IStyleProvider
 
 		class GACUI_API IStyleProvider
 		{
-		protected:
-		
 		public:
 			void AssociateStyleController(rptr<GuiControl :: IStyleController> controller);
 			rptr<GuiControl :: IStyleProvider> operator=(rptr<GuiControl :: IStyleProvider> value);
 			void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
 			void SetText(const GacString& value);
-			void SetFont(constFontProperties& value);
+			void SetFont(const FontProperties& value);
 			void SetVisuallyEnabled(bool value);
 			
 		};
+		
+	};
+	
+
+/***********************************************************************
+GuiGraphicsResourceManager
+***********************************************************************/
+
+	class GACUI_API GuiGraphicsResourceManager
+	{
+	public:
+		
+		bool RegisterElementFactory(rptr<IGuiGraphicsElementFactory> factory);
+		bool RegisterRendererFactory(const GacString& elementTypeName, rptr<IGuiGraphicsRendererFactory> factory);
+		rptr<IGuiGraphicsElementFactory> GetElementFactory(const GacString& elementTypeName);
+		rptr<IGuiGraphicsRendererFactory> GetRendererFactory(const GacString& elementTypeName);
+		rptr<IGuiGraphicsRenderTarget> GetRenderTarget(rptr<INativeWindow> window);
+		rptr<GuiGraphicsResourceManager> operator=(rptr<GuiGraphicsResourceManager> value);
+		
+	};
+	
+
+/***********************************************************************
+GuiMenuBar
+***********************************************************************/
+
+	class GACUI_API GuiMenuBar
+	{
+	public:
+		
+		static rptr<GuiMenuBar> Create(rptr<GuiControl :: IStyleController> _styleController);
+		
+		rptr<IDescriptable> QueryService(const GacString& identifier);
+		rptr<GuiMenuBar> operator=(rptr<GuiMenuBar> value);
+		
+	};
+	
+
+/***********************************************************************
+GuiScroll
+***********************************************************************/
+
+	class GACUI_API GuiScroll
+	{
+	public:
+		class ICommandExecutor;
+		class IStyleController;
+		
+		static rptr<GuiScroll> Create(rptr<GuiScroll :: IStyleController> _styleController);
+		
+		rptr<GuiScroll> operator=(rptr<GuiScroll> value);
+		
+		signed __int32 GetTotalSize();
+		void SetTotalSize(signed __int32 value);
+		signed __int32 GetPageSize();
+		void SetPageSize(signed __int32 value);
+		signed __int32 GetPosition();
+		void SetPosition(signed __int32 value);
+		signed __int32 GetSmallMove();
+		void SetSmallMove(signed __int32 value);
+		signed __int32 GetBigMove();
+		void SetBigMove(signed __int32 value);
+		signed __int32 GetMinPosition();
+		signed __int32 GetMaxPosition();
+		GuiGraphicsEvent_of_GuiEventArgs get_TotalSizeChanged();
+		GuiGraphicsEvent_of_GuiEventArgs get_PageSizeChanged();
+		GuiGraphicsEvent_of_GuiEventArgs get_PositionChanged();
+		GuiGraphicsEvent_of_GuiEventArgs get_SmallMoveChanged();
+		GuiGraphicsEvent_of_GuiEventArgs get_BigMoveChanged();
+		
+
+/***********************************************************************
+GuiScroll :: ICommandExecutor
+***********************************************************************/
+
+		class GACUI_API ICommandExecutor
+		{
+		public:
+			void SmallDecrease();
+			void SmallIncrease();
+			void BigDecrease();
+			void BigIncrease();
+			rptr<GuiScroll :: ICommandExecutor> operator=(rptr<GuiScroll :: ICommandExecutor> value);
+			void SetTotalSize(signed __int32 value);
+			void SetPageSize(signed __int32 value);
+			void SetPosition(signed __int32 value);
+			
+		};
+		
+
+/***********************************************************************
+GuiScroll :: IStyleController
+***********************************************************************/
+
+		class GACUI_API IStyleController
+		{
+		public:
+			rptr<GuiScroll :: IStyleController> operator=(rptr<GuiScroll :: IStyleController> value);
+			void SetCommandExecutor(rptr<GuiScroll :: ICommandExecutor> value);
+			void SetTotalSize(signed __int32 value);
+			void SetPageSize(signed __int32 value);
+			void SetPosition(signed __int32 value);
+			
+		};
+		
+	};
+	
+
+/***********************************************************************
+GuiScrollView
+***********************************************************************/
+
+	class GACUI_API GuiScrollView
+	{
+	public:
+		class IStyleProvider;
+		class StyleController;
+		
+		void CalculateView();
+		rptr<GuiScrollView> operator=(rptr<GuiScrollView> value);
+		
+		Size GetViewSize();
+		Rect GetViewBounds();
+		rptr<GuiScroll> GetHorizontalScroll();
+		rptr<GuiScroll> GetVerticalScroll();
+		bool GetHorizontalAlwaysVisible();
+		void SetHorizontalAlwaysVisible(bool value);
+		bool GetVerticalAlwaysVisible();
+		void SetVerticalAlwaysVisible(bool value);
+		
+
+/***********************************************************************
+GuiScrollView :: IStyleProvider
+***********************************************************************/
+
+		class GACUI_API IStyleProvider
+		{
+		public:
+			rptr<GuiScroll :: IStyleController> CreateHorizontalScrollStyle();
+			rptr<GuiScroll :: IStyleController> CreateVerticalScrollStyle();
+			rptr<GuiGraphicsComposition> InstallBackground(rptr<GuiBoundsComposition> boundsComposition);
+			rptr<GuiScrollView :: IStyleProvider> operator=(rptr<GuiScrollView :: IStyleProvider> value);
+			
+			signed __int32 GetDefaultScrollSize();
+			
+		};
+		
+
+/***********************************************************************
+GuiScrollView :: StyleController
+***********************************************************************/
+
+		class GACUI_API StyleController
+		{
+		public:
+			static rptr<GuiScrollView :: StyleController> Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider);
+			
+			void AdjustView(Size fullSize);
+			rptr<GuiBoundsComposition> GetBoundsComposition();
+			rptr<GuiGraphicsComposition> GetContainerComposition();
+			void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
+			void SetText(const GacString& value);
+			void SetFont(const FontProperties& value);
+			void SetVisuallyEnabled(bool value);
+			rptr<GuiScrollView :: StyleController> operator=(rptr<GuiScrollView :: StyleController> value);
+			void SetScrollView(rptr<GuiScrollView> _scrollView);
+			
+			rptr<GuiScrollView :: IStyleProvider> GetStyleProvider();
+			rptr<GuiScroll> GetHorizontalScroll();
+			rptr<GuiScroll> GetVerticalScroll();
+			rptr<GuiTableComposition> GetInternalTableComposition();
+			rptr<GuiBoundsComposition> GetInternalContainerComposition();
+			bool GetHorizontalAlwaysVisible();
+			void SetHorizontalAlwaysVisible(bool value);
+			bool GetVerticalAlwaysVisible();
+			void SetVerticalAlwaysVisible(bool value);
+			
+		};
+		
+	};
+	
+
+/***********************************************************************
+GuiSinglelineTextBox
+***********************************************************************/
+
+	class GACUI_API GuiSinglelineTextBox
+	{
+	public:
+		class IStyleProvider;
+		class StyleController;
+		class TextElementOperatorCallback;
+		
+		static rptr<GuiSinglelineTextBox> Create(rptr<GuiSinglelineTextBox :: IStyleProvider> styleProvider);
+		
+		const GacString& GetText();
+		void SetText(const GacString& value);
+		void SetFont(const FontProperties& value);
+		rptr<GuiSinglelineTextBox> operator=(rptr<GuiSinglelineTextBox> value);
+		
+
+/***********************************************************************
+GuiSinglelineTextBox :: IStyleProvider
+***********************************************************************/
+
+		class GACUI_API IStyleProvider
+		{
+		public:
+			rptr<GuiGraphicsComposition> InstallBackground(rptr<GuiBoundsComposition> boundsComposition);
+			rptr<GuiSinglelineTextBox :: IStyleProvider> operator=(rptr<GuiSinglelineTextBox :: IStyleProvider> value);
+			
+		};
+		
+
+/***********************************************************************
+GuiSinglelineTextBox :: StyleController
+***********************************************************************/
+
+		class GACUI_API StyleController
+		{
+		public:
+			static rptr<GuiSinglelineTextBox :: StyleController> Create(rptr<GuiSinglelineTextBox :: IStyleProvider> _styleProvider);
+			
+			void RearrangeTextElement();
+			rptr<GuiBoundsComposition> GetBoundsComposition();
+			rptr<GuiGraphicsComposition> GetContainerComposition();
+			void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
+			void SetText(const GacString& value);
+			void SetFont(const FontProperties& value);
+			void SetVisuallyEnabled(bool value);
+			rptr<GuiSinglelineTextBox :: StyleController> operator=(rptr<GuiSinglelineTextBox :: StyleController> value);
+			void SetTextBox(rptr<GuiSinglelineTextBox> value);
+			void SetViewPosition(Point value);
+			
+			GacString GetText();
+			rptr<GuiColorizedTextElement> GetTextElement();
+			rptr<GuiGraphicsComposition> GetTextComposition();
+			rptr<GuiTextElementOperator> GetTextElementOperator();
+			
+		};
+		
+
+/***********************************************************************
+GuiSinglelineTextBox :: TextElementOperatorCallback
+***********************************************************************/
+
+		class GACUI_API TextElementOperatorCallback
+		{
+		public:
+			static rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> Create(rptr<GuiSinglelineTextBox> _textControl);
+			
+			bool BeforeModify(TextPos& start, TextPos& end, const GacString& originalText, GacString& inputText);
+			void AfterModify(TextPos originalStart, TextPos originalEnd, const GacString& originalText, TextPos inputStart, TextPos inputEnd, const GacString& inputText);
+			void ScrollToView(Point point);
+			signed __int32 GetTextMargin();
+			rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> operator=(rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> value);
+			
+		};
+		
+	};
+	
+
+/***********************************************************************
+GuiTab
+***********************************************************************/
+
+	class GACUI_API GuiTab
+	{
+	public:
+		class ICommandExecutor;
+		class IStyleController;
+		
+		static rptr<GuiTab> Create(rptr<GuiTab :: IStyleController> _styleController);
+		
+		bool CreatePage(rptr<GuiTabPage> page, signed __int32 index);
+		rptr<GuiTabPage> CreatePage(signed __int32 index);
+		bool RemovePage(rptr<GuiTabPage> value);
+		bool MovePage(rptr<GuiTabPage> page, signed __int32 newIndex);
+		bool SetSelectedPage(rptr<GuiTabPage> value);
+		rptr<GuiTab> operator=(rptr<GuiTab> value);
+		
+		rptr<IReadonlyList_of_GuiTabPage_raw_pointer> GetPages();
+		rptr<GuiTabPage> GetSelectedPage();
+		GuiGraphicsEvent_of_GuiEventArgs get_SelectedPageChanged();
+		
+
+/***********************************************************************
+GuiTab :: ICommandExecutor
+***********************************************************************/
+
+		class GACUI_API ICommandExecutor
+		{
+		public:
+			void ShowTab(signed __int32 index);
+			rptr<GuiTab :: ICommandExecutor> operator=(rptr<GuiTab :: ICommandExecutor> value);
+			
+		};
+		
+
+/***********************************************************************
+GuiTab :: IStyleController
+***********************************************************************/
+
+		class GACUI_API IStyleController
+		{
+		public:
+			void InsertTab(signed __int32 index);
+			void SetTabText(signed __int32 index, const GacString& value);
+			void RemoveTab(signed __int32 index);
+			void MoveTab(signed __int32 oldIndex, signed __int32 newIndex);
+			rptr<GuiControl :: IStyleController> CreateTabPageStyleController();
+			rptr<GuiTab :: IStyleController> operator=(rptr<GuiTab :: IStyleController> value);
+			void SetCommandExecutor(rptr<GuiTab :: ICommandExecutor> value);
+			void SetSelectedTab(signed __int32 index);
+			
+		};
+		
+	};
+	
+
+/***********************************************************************
+GuiWindow
+***********************************************************************/
+
+	class GACUI_API GuiWindow
+	{
+	public:
+		
+		static rptr<GuiWindow> Create(rptr<GuiControl :: IStyleController> _styleController);
+		
+		rptr<GuiWindow> operator=(rptr<GuiWindow> value);
+		
+	};
+	
+
+/***********************************************************************
+INativeController
+***********************************************************************/
+
+	class GACUI_API INativeController
+	{
+	public:
+		
+		rptr<INativeCallbackService> CallbackService();
+		rptr<INativeResourceService> ResourceService();
+		rptr<INativeAsyncService> AsyncService();
+		rptr<INativeClipboardService> ClipboardService();
+		rptr<INativeImageService> ImageService();
+		rptr<INativeScreenService> ScreenService();
+		rptr<INativeWindowService> WindowService();
+		rptr<INativeInputService> InputService();
+		rptr<INativeController> operator=(rptr<INativeController> value);
+		
+	};
+	
+
+/***********************************************************************
+IReadonlyList_of_GuiWindow_raw_pointer
+***********************************************************************/
+
+	class GACUI_API IReadonlyList_of_GuiWindow_raw_pointer
+	{
+	public:
+		
+		bool Contains(rptr<GuiWindow> item);
+		signed __int32 Count();
+		rptr<GuiWindow> Get(signed __int32 index);
+		rptr<GuiWindow> operator[](signed __int32 index);
+		signed __int32 IndexOf(rptr<GuiWindow> item);
+		rptr<IReadonlyList_of_GuiWindow_raw_pointer> operator=(rptr<IReadonlyList_of_GuiWindow_raw_pointer> value);
+		
+	};
+	
+
+/***********************************************************************
+Win7EmptyStyle
+***********************************************************************/
+
+	class GACUI_API Win7EmptyStyle
+	{
+	public:
+		
+		static rptr<Win7EmptyStyle> Create(Color color);
+		
+		rptr<GuiBoundsComposition> GetBoundsComposition();
+		rptr<GuiGraphicsComposition> GetContainerComposition();
+		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
+		void SetText(const GacString& value);
+		void SetFont(const FontProperties& value);
+		void SetVisuallyEnabled(bool value);
+		rptr<Win7EmptyStyle> operator=(rptr<Win7EmptyStyle> value);
+		
+	};
+	
+
+/***********************************************************************
+Win7MenuBarStyle
+***********************************************************************/
+
+	class GACUI_API Win7MenuBarStyle
+	{
+	public:
+		
+		static rptr<Win7MenuBarStyle> Create();
+		
+		rptr<GuiBoundsComposition> GetBoundsComposition();
+		rptr<GuiGraphicsComposition> GetContainerComposition();
+		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
+		void SetText(const GacString& value);
+		void SetFont(const FontProperties& value);
+		void SetVisuallyEnabled(bool value);
+		rptr<Win7MenuBarStyle> operator=(rptr<Win7MenuBarStyle> value);
+		
+	};
+	
+
+/***********************************************************************
+Win7MenuSplitterStyle
+***********************************************************************/
+
+	class GACUI_API Win7MenuSplitterStyle
+	{
+	public:
+		
+		static rptr<Win7MenuSplitterStyle> Create();
+		
+		rptr<GuiBoundsComposition> GetBoundsComposition();
+		rptr<GuiGraphicsComposition> GetContainerComposition();
+		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
+		void SetText(const GacString& value);
+		void SetFont(const FontProperties& value);
+		void SetVisuallyEnabled(bool value);
+		rptr<Win7MenuSplitterStyle> operator=(rptr<Win7MenuSplitterStyle> value);
+		
+	};
+	
+
+/***********************************************************************
+Win7ScrollViewProvider
+***********************************************************************/
+
+	class GACUI_API Win7ScrollViewProvider
+	{
+	public:
+		
+		static rptr<Win7ScrollViewProvider> Create();
+		
+		void AssociateStyleController(rptr<GuiControl :: IStyleController> controller);
+		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
+		void SetText(const GacString& value);
+		void SetFont(const FontProperties& value);
+		void SetVisuallyEnabled(bool value);
+		rptr<GuiScroll :: IStyleController> CreateHorizontalScrollStyle();
+		rptr<GuiScroll :: IStyleController> CreateVerticalScrollStyle();
+		signed __int32 GetDefaultScrollSize();
+		rptr<GuiGraphicsComposition> InstallBackground(rptr<GuiBoundsComposition> boundsComposition);
+		rptr<Win7ScrollViewProvider> operator=(rptr<Win7ScrollViewProvider> value);
+		
+	};
+	
+
+/***********************************************************************
+Win7SinglelineTextBoxProvider
+***********************************************************************/
+
+	class GACUI_API Win7SinglelineTextBoxProvider
+	{
+	public:
+		
+		static rptr<Win7SinglelineTextBoxProvider> Create();
+		
+		void AssociateStyleController(rptr<GuiControl :: IStyleController> controller);
+		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
+		void SetText(const GacString& value);
+		void SetFont(const FontProperties& value);
+		void SetVisuallyEnabled(bool value);
+		rptr<GuiGraphicsComposition> InstallBackground(rptr<GuiBoundsComposition> boundsComposition);
+		rptr<Win7SinglelineTextBoxProvider> operator=(rptr<Win7SinglelineTextBoxProvider> value);
+		
+	};
+	
+
+/***********************************************************************
+Win7TabStyle
+***********************************************************************/
+
+	class GACUI_API Win7TabStyle
+	{
+	public:
+		
+		static rptr<Win7TabStyle> Create();
+		
+		rptr<GuiBoundsComposition> GetBoundsComposition();
+		rptr<GuiGraphicsComposition> GetContainerComposition();
+		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
+		void SetText(const GacString& value);
+		void SetFont(const FontProperties& value);
+		void SetVisuallyEnabled(bool value);
+		void SetCommandExecutor(rptr<GuiTab :: ICommandExecutor> value);
+		void InsertTab(signed __int32 index);
+		void SetTabText(signed __int32 index, const GacString& value);
+		void RemoveTab(signed __int32 index);
+		void MoveTab(signed __int32 oldIndex, signed __int32 newIndex);
+		void SetSelectedTab(signed __int32 index);
+		rptr<GuiControl :: IStyleController> CreateTabPageStyleController();
+		rptr<Win7TabStyle> operator=(rptr<Win7TabStyle> value);
+		
+	};
+	
+
+/***********************************************************************
+Win7WindowStyle
+***********************************************************************/
+
+	class GACUI_API Win7WindowStyle
+	{
+	public:
+		
+		static rptr<Win7WindowStyle> Create();
+		
+		rptr<Win7WindowStyle> operator=(rptr<Win7WindowStyle> value);
+		
+	};
+	
+
+/***********************************************************************
+CommonScrollStyle
+***********************************************************************/
+
+	class GACUI_API CommonScrollStyle
+	{
+	public:
+		
+		rptr<GuiBoundsComposition> GetBoundsComposition();
+		rptr<GuiGraphicsComposition> GetContainerComposition();
+		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
+		void SetText(const GacString& value);
+		void SetFont(const FontProperties& value);
+		void SetVisuallyEnabled(bool value);
+		void SetCommandExecutor(rptr<GuiScroll :: ICommandExecutor> value);
+		void SetTotalSize(signed __int32 value);
+		void SetPageSize(signed __int32 value);
+		void SetPosition(signed __int32 value);
+		rptr<CommonScrollStyle> operator=(rptr<CommonScrollStyle> value);
+		
+
+/***********************************************************************
+CommonScrollStyle :: Direction
+***********************************************************************/
+
+		enum Direction
+		{
+			Horizontal = 0,
+			Vertical = 1,
+		};
+		
+	};
+	
+
+/***********************************************************************
+GuiApplication
+***********************************************************************/
+
+	class GACUI_API GuiApplication
+	{
+	public:
+		
+		void Run(rptr<GuiWindow> _mainWindow);
+		rptr<GuiWindow> GetWindow(Point location);
+		bool IsInMainThread();
+		rptr<GuiApplication> operator=(rptr<GuiApplication> value);
+		
+		rptr<IReadonlyList_of_GuiWindow_raw_pointer> GetWindows();
 		
 	};
 	
@@ -946,9 +3506,8 @@ GuiControlHost
 
 	class GACUI_API GuiControlHost
 	{
-	protected:
-	
 	public:
+		
 		static rptr<GuiControlHost> Create(rptr<GuiControl :: IStyleController> _styleController);
 		
 		void Render();
@@ -1001,30 +3560,6 @@ GuiControlHost
 		void SetBounds(Rect value);
 		rptr<INativeScreen> GetRelatedScreen();
 		bool GetOpening();
-		rptr<INativeWindow> GetNativeWindow();
-		void SetNativeWindow(rptr<INativeWindow> window);
-		bool GetShowInTaskBar();
-		void SetShowInTaskBar(bool value);
-		bool GetEnabledActivate();
-		void SetEnabledActivate(bool value);
-		bool GetMaximizedBox();
-		void SetMaximizedBox(bool visible);
-		bool GetMinimizedBox();
-		void SetMinimizedBox(bool visible);
-		bool GetBorder();
-		void SetBorder(bool visible);
-		bool GetSizeBox();
-		void SetSizeBox(bool visible);
-		bool GetIconVisible();
-		void SetIconVisible(bool visible);
-		bool GetTitleBar();
-		void SetTitleBar(bool visible);
-		bool GetTopMost();
-		void SetTopMost(bool topmost);
-		Size GetClientSize();
-		void SetClientSize(Size value);
-		Rect GetBounds();
-		void SetBounds(Rect value);
 		GuiGraphicsEvent_of_GuiEventArgs get_WindowGotFocus();
 		GuiGraphicsEvent_of_GuiEventArgs get_WindowLostFocus();
 		GuiGraphicsEvent_of_GuiEventArgs get_WindowActivated();
@@ -1038,918 +3573,20 @@ GuiControlHost
 	
 
 /***********************************************************************
-GuiEventArgs
-***********************************************************************/
-
-	class GACUI_API GuiEventArgs
-	{
-	protected:
-	
-	public:
-		static rptr<GuiEventArgs> Create(rptr<GuiGraphicsComposition> composition);
-		GuiEventArgs(rptr<GuiGraphicsComposition> composition);
-		
-		rptr<GuiGraphicsComposition> get_compositionSource();
-		void set_compositionSource(rptr<GuiGraphicsComposition> value);
-		rptr<GuiGraphicsComposition> get_eventSource();
-		void set_eventSource(rptr<GuiGraphicsComposition> value);
-		bool get_handled();
-		void set_handled(bool value);
-		
-	};
-	
-
-/***********************************************************************
-GuiGradientBackgroundElement
-***********************************************************************/
-
-	class GACUI_API GuiGradientBackgroundElement
-	{
-	protected:
-	
-	public:
-		rptr<IGuiGraphicsElementFactory> GetFactory();
-		rptr<IGuiGraphicsRenderer> GetRenderer();
-		void SetColors(Color value1, Color value2);
-		rptr<GuiGradientBackgroundElement> operator=(rptr<GuiGradientBackgroundElement> value);
-		
-		static rptr<GuiGradientBackgroundElement> Create();
-		
-		Color GetColor1();
-		Color GetColor2();
-		GuiGradientBackgroundElement :: Direction GetDirection();
-		void SetDirection(GuiGradientBackgroundElement :: Direction value);
-		ElementShape :: Type GetShape();
-		void SetShape(ElementShape :: Type value);
-		GuiGradientBackgroundElement :: Direction GetDirection();
-		void SetDirection(GuiGradientBackgroundElement :: Direction value);
-		ElementShape :: Type GetShape();
-		void SetShape(ElementShape :: Type value);
-		
-		static vl::ObjectString<wchar_t> GetElementTypeName();
-		
-
-/***********************************************************************
-GuiGradientBackgroundElement :: Direction
-***********************************************************************/
-
-		enum Direction
-		{
-			Horizontal = 0,
-			Vertical = 1,
-			Slash = 2,
-			Backslash = 3,
-		};
-		
-	};
-	
-
-/***********************************************************************
-GuiGraphicsAnimationManager
-***********************************************************************/
-
-	class GACUI_API GuiGraphicsAnimationManager
-	{
-	protected:
-	
-	public:
-		static rptr<GuiGraphicsAnimationManager> Create();
-		
-		void AddAnimation(sptr<IGuiGraphicsAnimation> animation);
-		bool HasAnimation();
-		void Play();
-		rptr<GuiGraphicsAnimationManager> operator=(rptr<GuiGraphicsAnimationManager> value);
-		
-	};
-	
-
-/***********************************************************************
-GuiGraphicsComposition
-***********************************************************************/
-
-	class GACUI_API GuiGraphicsComposition
-	{
-	protected:
-	
-	public:
-		rptr<IReadonlyList_of_GuiGraphicsComposition_raw_pointer> Children();
-		bool AddChild(rptr<GuiGraphicsComposition> child);
-		bool InsertChild(signed __int32 index, rptr<GuiGraphicsComposition> child);
-		bool RemoveChild(rptr<GuiGraphicsComposition> child);
-		bool MoveChild(rptr<GuiGraphicsComposition> child, signed __int32 newIndex);
-		void Render(Size offset);
-		bool HasEventReceiver();
-		rptr<GuiGraphicsComposition> FindComposition(Point location);
-		bool IsSizeAffectParent();
-		rptr<GuiGraphicsComposition> operator=(rptr<GuiGraphicsComposition> value);
-		
-		rptr<GuiGraphicsComposition> GetParent();
-		sptr<IGuiGraphicsElement> GetOwnedElement();
-		void SetOwnedElement(sptr<IGuiGraphicsElement> element);
-		bool GetVisible();
-		void SetVisible(bool value);
-		GuiGraphicsComposition :: MinSizeLimitation GetMinSizeLimitation();
-		void SetMinSizeLimitation(GuiGraphicsComposition :: MinSizeLimitation value);
-		rptr<IGuiGraphicsRenderTarget> GetRenderTarget();
-		void SetRenderTarget(rptr<IGuiGraphicsRenderTarget> value);
-		rptr<GuiGraphicsEventReceiver> GetEventReceiver();
-		Rect GetGlobalBounds();
-		rptr<GuiControl> GetAssociatedControl();
-		rptr<GuiGraphicsHost> GetAssociatedHost();
-		rptr<INativeCursor> GetAssociatedCursor();
-		void SetAssociatedCursor(rptr<INativeCursor> cursor);
-		rptr<GuiControl> GetRelatedControl();
-		rptr<GuiGraphicsHost> GetRelatedGraphicsHost();
-		rptr<GuiControlHost> GetRelatedControlHost();
-		rptr<INativeCursor> GetRelatedCursor();
-		Margin GetMargin();
-		void SetMargin(Margin value);
-		Margin GetInternalMargin();
-		void SetInternalMargin(Margin value);
-		Size GetPreferredMinSize();
-		void SetPreferredMinSize(Size value);
-		Rect GetClientArea();
-		GuiGraphicsComposition :: ParentSizeAffection GetAffectionFromParent();
-		Size GetMinPreferredClientSize();
-		Rect GetPreferredBounds();
-		Rect GetBounds();
-		sptr<IGuiGraphicsElement> GetOwnedElement();
-		void SetOwnedElement(sptr<IGuiGraphicsElement> element);
-		bool GetVisible();
-		void SetVisible(bool value);
-		GuiGraphicsComposition :: MinSizeLimitation GetMinSizeLimitation();
-		void SetMinSizeLimitation(GuiGraphicsComposition :: MinSizeLimitation value);
-		rptr<IGuiGraphicsRenderTarget> GetRenderTarget();
-		void SetRenderTarget(rptr<IGuiGraphicsRenderTarget> value);
-		rptr<INativeCursor> GetAssociatedCursor();
-		void SetAssociatedCursor(rptr<INativeCursor> cursor);
-		Margin GetMargin();
-		void SetMargin(Margin value);
-		Margin GetInternalMargin();
-		void SetInternalMargin(Margin value);
-		Size GetPreferredMinSize();
-		void SetPreferredMinSize(Size value);
-		
-
-/***********************************************************************
-GuiGraphicsComposition :: MinSizeLimitation
-***********************************************************************/
-
-		enum MinSizeLimitation
-		{
-			NoLimit = 0,
-			LimitToElement = 1,
-			LimitToElementAndChildren = 2,
-		};
-		
-
-/***********************************************************************
-GuiGraphicsComposition :: ParentSizeAffection
-***********************************************************************/
-
-		enum ParentSizeAffection
-		{
-			NotAffectedByParent = 0,
-			AffectedByParent = 1,
-			TotallyDecidedByParent = 2,
-		};
-		
-	};
-	
-
-/***********************************************************************
-GuiGraphicsEvent_of_GuiCharEventArgs
-***********************************************************************/
-
-	class GACUI_API GuiGraphicsEvent_of_GuiCharEventArgs
-	{
-	protected:
-	
-	public:
-		static rptr<GuiGraphicsEvent_of_GuiCharEventArgs> Create(rptr<GuiGraphicsComposition> _sender);
-		
-		bool Attach(sptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> handler);
-		bool Detach(sptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> handler);
-		void Execute(GuiCharEventArgs& argument);
-		rptr<GuiGraphicsEvent_of_GuiCharEventArgs> operator=(rptr<GuiGraphicsEvent_of_GuiCharEventArgs> value);
-		
-		rptr<GuiGraphicsComposition> GetAssociatedComposition();
-		void SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender);
-		rptr<GuiGraphicsComposition> GetAssociatedComposition();
-		void SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender);
-		
-
-/***********************************************************************
-GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler
-***********************************************************************/
-
-		class GACUI_API IHandler
-		{
-		protected:
-		
-		public:
-			void Execute(rptr<GuiGraphicsComposition> sender, GuiCharEventArgs& argument);
-			rptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> operator=(rptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> value);
-			
-		};
-		
-	};
-	
-
-/***********************************************************************
-GuiGraphicsEvent_of_GuiEventArgs
-***********************************************************************/
-
-	class GACUI_API GuiGraphicsEvent_of_GuiEventArgs
-	{
-	protected:
-	
-	public:
-		static rptr<GuiGraphicsEvent_of_GuiEventArgs> Create(rptr<GuiGraphicsComposition> _sender);
-		
-		bool Attach(sptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> handler);
-		bool Detach(sptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> handler);
-		void Execute(GuiEventArgs& argument);
-		rptr<GuiGraphicsEvent_of_GuiEventArgs> operator=(rptr<GuiGraphicsEvent_of_GuiEventArgs> value);
-		
-		rptr<GuiGraphicsComposition> GetAssociatedComposition();
-		void SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender);
-		rptr<GuiGraphicsComposition> GetAssociatedComposition();
-		void SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender);
-		
-
-/***********************************************************************
-GuiGraphicsEvent_of_GuiEventArgs :: IHandler
-***********************************************************************/
-
-		class GACUI_API IHandler
-		{
-		protected:
-		
-		public:
-			void Execute(rptr<GuiGraphicsComposition> sender, GuiEventArgs& argument);
-			rptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> operator=(rptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> value);
-			
-		};
-		
-	};
-	
-
-/***********************************************************************
-GuiGraphicsEvent_of_GuiKeyEventArgs
-***********************************************************************/
-
-	class GACUI_API GuiGraphicsEvent_of_GuiKeyEventArgs
-	{
-	protected:
-	
-	public:
-		static rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> Create(rptr<GuiGraphicsComposition> _sender);
-		
-		bool Attach(sptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> handler);
-		bool Detach(sptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> handler);
-		void Execute(GuiKeyEventArgs& argument);
-		rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> operator=(rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> value);
-		
-		rptr<GuiGraphicsComposition> GetAssociatedComposition();
-		void SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender);
-		rptr<GuiGraphicsComposition> GetAssociatedComposition();
-		void SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender);
-		
-
-/***********************************************************************
-GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler
-***********************************************************************/
-
-		class GACUI_API IHandler
-		{
-		protected:
-		
-		public:
-			void Execute(rptr<GuiGraphicsComposition> sender, GuiKeyEventArgs& argument);
-			rptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> operator=(rptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> value);
-			
-		};
-		
-	};
-	
-
-/***********************************************************************
-GuiGraphicsEvent_of_GuiMouseEventArgs
-***********************************************************************/
-
-	class GACUI_API GuiGraphicsEvent_of_GuiMouseEventArgs
-	{
-	protected:
-	
-	public:
-		static rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> Create(rptr<GuiGraphicsComposition> _sender);
-		
-		bool Attach(sptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> handler);
-		bool Detach(sptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> handler);
-		void Execute(GuiMouseEventArgs& argument);
-		rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> operator=(rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> value);
-		
-		rptr<GuiGraphicsComposition> GetAssociatedComposition();
-		void SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender);
-		rptr<GuiGraphicsComposition> GetAssociatedComposition();
-		void SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender);
-		
-
-/***********************************************************************
-GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler
-***********************************************************************/
-
-		class GACUI_API IHandler
-		{
-		protected:
-		
-		public:
-			void Execute(rptr<GuiGraphicsComposition> sender, GuiMouseEventArgs& argument);
-			rptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> operator=(rptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> value);
-			
-		};
-		
-	};
-	
-
-/***********************************************************************
-GuiGraphicsEvent_of_GuiRequestEventArgs
-***********************************************************************/
-
-	class GACUI_API GuiGraphicsEvent_of_GuiRequestEventArgs
-	{
-	protected:
-	
-	public:
-		static rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> Create(rptr<GuiGraphicsComposition> _sender);
-		
-		bool Attach(sptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> handler);
-		bool Detach(sptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> handler);
-		void Execute(GuiRequestEventArgs& argument);
-		rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> operator=(rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> value);
-		
-		rptr<GuiGraphicsComposition> GetAssociatedComposition();
-		void SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender);
-		rptr<GuiGraphicsComposition> GetAssociatedComposition();
-		void SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender);
-		
-
-/***********************************************************************
-GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler
-***********************************************************************/
-
-		class GACUI_API IHandler
-		{
-		protected:
-		
-		public:
-			void Execute(rptr<GuiGraphicsComposition> sender, GuiRequestEventArgs& argument);
-			rptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> operator=(rptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> value);
-			
-		};
-		
-	};
-	
-
-/***********************************************************************
-GuiGraphicsEventReceiver
-***********************************************************************/
-
-	class GACUI_API GuiGraphicsEventReceiver
-	{
-	protected:
-	
-	public:
-		static rptr<GuiGraphicsEventReceiver> Create(rptr<GuiGraphicsComposition> _sender);
-		
-		rptr<GuiGraphicsEventReceiver> operator=(rptr<GuiGraphicsEventReceiver> value);
-		
-		rptr<GuiGraphicsComposition> GetAssociatedComposition();
-		GuiGraphicsEvent_of_GuiMouseEventArgs get_leftButtonDown();
-		GuiGraphicsEvent_of_GuiMouseEventArgs get_leftButtonUp();
-		GuiGraphicsEvent_of_GuiMouseEventArgs get_leftButtonDoubleClick();
-		GuiGraphicsEvent_of_GuiMouseEventArgs get_middleButtonDown();
-		GuiGraphicsEvent_of_GuiMouseEventArgs get_middleButtonUp();
-		GuiGraphicsEvent_of_GuiMouseEventArgs get_middleButtonDoubleClick();
-		GuiGraphicsEvent_of_GuiMouseEventArgs get_rightButtonDown();
-		GuiGraphicsEvent_of_GuiMouseEventArgs get_rightButtonUp();
-		GuiGraphicsEvent_of_GuiMouseEventArgs get_rightButtonDoubleClick();
-		GuiGraphicsEvent_of_GuiMouseEventArgs get_horizontalWheel();
-		GuiGraphicsEvent_of_GuiMouseEventArgs get_verticalWheel();
-		GuiGraphicsEvent_of_GuiMouseEventArgs get_mouseMove();
-		GuiGraphicsEvent_of_GuiEventArgs get_mouseEnter();
-		GuiGraphicsEvent_of_GuiEventArgs get_mouseLeave();
-		GuiGraphicsEvent_of_GuiKeyEventArgs get_previewKey();
-		GuiGraphicsEvent_of_GuiKeyEventArgs get_keyDown();
-		GuiGraphicsEvent_of_GuiKeyEventArgs get_keyUp();
-		GuiGraphicsEvent_of_GuiKeyEventArgs get_systemKeyDown();
-		GuiGraphicsEvent_of_GuiKeyEventArgs get_systemKeyUp();
-		GuiGraphicsEvent_of_GuiCharEventArgs get_previewCharInput();
-		GuiGraphicsEvent_of_GuiCharEventArgs get_charInput();
-		GuiGraphicsEvent_of_GuiEventArgs get_gotFocus();
-		GuiGraphicsEvent_of_GuiEventArgs get_lostFocus();
-		GuiGraphicsEvent_of_GuiEventArgs get_caretNotify();
-		
-	};
-	
-
-/***********************************************************************
-GuiGraphicsHost
-***********************************************************************/
-
-	class GACUI_API GuiGraphicsHost
-	{
-	protected:
-	
-	public:
-		static rptr<GuiGraphicsHost> Create();
-		
-		void Render();
-		bool SetFocus(rptr<GuiGraphicsComposition> composition);
-		void SetCaretPoint(Point value, rptr<GuiGraphicsComposition> referenceComposition);
-		rptr<GuiGraphicsHost> operator=(rptr<GuiGraphicsHost> value);
-		
-		rptr<INativeWindow> GetNativeWindow();
-		void SetNativeWindow(rptr<INativeWindow> _nativeWindow);
-		rptr<GuiGraphicsComposition> GetMainComposition();
-		rptr<GuiGraphicsComposition> GetFocusedComposition();
-		Point GetCaretPoint();
-		rptr<GuiGraphicsAnimationManager> GetAnimationManager();
-		rptr<INativeWindow> GetNativeWindow();
-		void SetNativeWindow(rptr<INativeWindow> _nativeWindow);
-		
-	};
-	
-
-/***********************************************************************
-GuiGraphicsResourceManager
-***********************************************************************/
-
-	class GACUI_API GuiGraphicsResourceManager
-	{
-	protected:
-	
-	public:
-		bool RegisterElementFactory(rptr<IGuiGraphicsElementFactory> factory);
-		bool RegisterRendererFactory(const GacString& elementTypeName, rptr<IGuiGraphicsRendererFactory> factory);
-		rptr<IGuiGraphicsElementFactory> GetElementFactory(const GacString& elementTypeName);
-		rptr<IGuiGraphicsRendererFactory> GetRendererFactory(const GacString& elementTypeName);
-		rptr<IGuiGraphicsRenderTarget> GetRenderTarget(rptr<INativeWindow> window);
-		rptr<GuiGraphicsResourceManager> operator=(rptr<GuiGraphicsResourceManager> value);
-		
-	};
-	
-
-/***********************************************************************
-GuiGraphicsSite
-***********************************************************************/
-
-	class GACUI_API GuiGraphicsSite
-	{
-	protected:
-	
-	public:
-		static rptr<GuiGraphicsSite> Create();
-		
-		GuiGraphicsComposition :: ParentSizeAffection GetAffectionFromParent();
-		bool IsSizeAffectParent();
-		Size GetMinPreferredClientSize();
-		Rect GetPreferredBounds();
-		rptr<GuiGraphicsSite> operator=(rptr<GuiGraphicsSite> value);
-		
-	};
-	
-
-/***********************************************************************
-GuiImageData
-***********************************************************************/
-
-	class GACUI_API GuiImageData
-	{
-	protected:
-	
-	public:
-		static rptr<GuiImageData> Create(sptr<INativeImage> _image, signed __int32 _frameIndex);
-		GuiImageData(sptr<INativeImage> _image, signed __int32 _frameIndex);
-		static rptr<GuiImageData> Create();
-		GuiImageData();
-		
-		GuiImageData& operator=(constGuiImageData& value);
-		
-		sptr<INativeImage> GetImage();
-		signed __int32 GetFrameIndex();
-		
-	};
-	
-
-/***********************************************************************
-GuiImageFrameElement
-***********************************************************************/
-
-	class GACUI_API GuiImageFrameElement
-	{
-	protected:
-	
-	public:
-		rptr<IGuiGraphicsElementFactory> GetFactory();
-		rptr<IGuiGraphicsRenderer> GetRenderer();
-		void SetImage(sptr<INativeImage> _image, signed __int32 _frameIndex);
-		void SetAlignments(Alignment :: Type horizontal, Alignment :: Type vertical);
-		rptr<GuiImageFrameElement> operator=(rptr<GuiImageFrameElement> value);
-		
-		static rptr<GuiImageFrameElement> Create();
-		
-		sptr<INativeImage> GetImage();
-		signed __int32 GetFrameIndex();
-		Alignment :: Type GetHorizontalAlignment();
-		Alignment :: Type GetVerticalAlignment();
-		bool GetStretch();
-		void SetStretch(bool value);
-		bool GetStretch();
-		void SetStretch(bool value);
-		
-		static vl::ObjectString<wchar_t> GetElementTypeName();
-		
-	};
-	
-
-/***********************************************************************
-GuiKeyEventArgs
-***********************************************************************/
-
-	class GACUI_API GuiKeyEventArgs
-	{
-	protected:
-	
-	public:
-		static rptr<GuiKeyEventArgs> Create();
-		GuiKeyEventArgs();
-		
-	};
-	
-
-/***********************************************************************
-GuiListControl
-***********************************************************************/
-
-	class GACUI_API GuiListControl
-	{
-	protected:
-	
-	public:
-		static rptr<GuiListControl> Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider, bool acceptFocus);
-		
-		sptr<GuiListControl :: IItemStyleProvider> SetStyleProvider(sptr<GuiListControl :: IItemStyleProvider> value);
-		sptr<GuiListControl :: IItemArranger> SetArranger(sptr<GuiListControl :: IItemArranger> value);
-		sptr<GuiListControl :: IItemCoordinateTransformer> SetCoordinateTransformer(sptr<GuiListControl :: IItemCoordinateTransformer> value);
-		rptr<GuiListControl> operator=(rptr<GuiListControl> value);
-		
-		rptr<GuiListControl :: IItemProvider> GetItemProvider();
-		rptr<GuiListControl :: IItemStyleProvider> GetStyleProvider();
-		rptr<GuiListControl :: IItemArranger> GetArranger();
-		rptr<GuiListControl :: IItemCoordinateTransformer> GetCoordinateTransformer();
-		GuiGraphicsEvent_of_GuiEventArgs get_StyleProviderChanged();
-		GuiGraphicsEvent_of_GuiEventArgs get_ArrangerChanged();
-		GuiGraphicsEvent_of_GuiEventArgs get_CoordinateTransformerChanged();
-		
-
-/***********************************************************************
-GuiListControl :: IItemArranger
-***********************************************************************/
-
-		class GACUI_API IItemArranger
-		{
-		protected:
-		
-		public:
-			void AttachListControl(rptr<GuiListControl> value);
-			void DetachListControl();
-			rptr<GuiListControl :: IItemStyleController> GetVisibleStyle(signed __int32 itemIndex);
-			signed __int32 GetVisibleIndex(rptr<GuiListControl :: IItemStyleController> style);
-			void OnViewChanged(Rect bounds);
-			rptr<GuiListControl :: IItemArranger> operator=(rptr<GuiListControl :: IItemArranger> value);
-			
-			rptr<GuiListControl :: IItemArrangerCallback> GetCallback();
-			void SetCallback(rptr<GuiListControl :: IItemArrangerCallback> value);
-			Size GetTotalSize();
-			rptr<GuiListControl :: IItemArrangerCallback> GetCallback();
-			void SetCallback(rptr<GuiListControl :: IItemArrangerCallback> value);
-			
-		};
-		
-
-/***********************************************************************
-GuiListControl :: IItemArrangerCallback
-***********************************************************************/
-
-		class GACUI_API IItemArrangerCallback
-		{
-		protected:
-		
-		public:
-			rptr<GuiListControl :: IItemStyleController> RequestItem(signed __int32 itemIndex);
-			void ReleaseItem(rptr<GuiListControl :: IItemStyleController> style);
-			Size GetStylePreferredSize(rptr<GuiListControl :: IItemStyleController> style);
-			void SetStyleAlignmentToParent(rptr<GuiListControl :: IItemStyleController> style, Margin margin);
-			void SetStyleBounds(rptr<GuiListControl :: IItemStyleController> style, Rect bounds);
-			void OnTotalSizeChanged();
-			rptr<GuiListControl :: IItemArrangerCallback> operator=(rptr<GuiListControl :: IItemArrangerCallback> value);
-			void SetViewLocation(Point value);
-			
-			rptr<GuiGraphicsComposition> GetContainerComposition();
-			
-		};
-		
-
-/***********************************************************************
-GuiListControl :: IItemCoordinateTransformer
-***********************************************************************/
-
-		class GACUI_API IItemCoordinateTransformer
-		{
-		protected:
-		
-		public:
-			Size RealSizeToVirtualSize(Size size);
-			Size VirtualSizeToRealSize(Size size);
-			Point RealPointToVirtualPoint(Size realFullSize, Point point);
-			Point VirtualPointToRealPoint(Size realFullSize, Point point);
-			Rect RealRectToVirtualRect(Size realFullSize, Rect rect);
-			Rect VirtualRectToRealRect(Size realFullSize, Rect rect);
-			Margin RealMarginToVirtualMargin(Margin margin);
-			Margin VirtualMarginToRealMargin(Margin margin);
-			rptr<GuiListControl :: IItemCoordinateTransformer> operator=(rptr<GuiListControl :: IItemCoordinateTransformer> value);
-			
-		};
-		
-
-/***********************************************************************
-GuiListControl :: IItemPrimaryTextView
-***********************************************************************/
-
-		class GACUI_API IItemPrimaryTextView
-		{
-		protected:
-		
-		public:
-			vl::ObjectString<wchar_t> GetPrimaryTextViewText(signed __int32 itemIndex);
-			bool ContainsPrimaryText(signed __int32 itemIndex);
-			rptr<GuiListControl :: IItemPrimaryTextView> operator=(rptr<GuiListControl :: IItemPrimaryTextView> value);
-			
-			static wchar_t->GetPointerType() get_Identifier();
-			static void set_Identifier(wchar_t->GetPointerType() value);
-			
-		};
-		
-
-/***********************************************************************
-GuiListControl :: IItemProvider
-***********************************************************************/
-
-		class GACUI_API IItemProvider
-		{
-		protected:
-		
-		public:
-			bool AttachCallback(rptr<GuiListControl :: IItemProviderCallback> value);
-			bool DetachCallback(rptr<GuiListControl :: IItemProviderCallback> value);
-			signed __int32 Count();
-			rptr<IDescriptable> RequestView(const GacString& identifier);
-			void ReleaseView(rptr<IDescriptable> view);
-			rptr<GuiListControl :: IItemProvider> operator=(rptr<GuiListControl :: IItemProvider> value);
-			
-		};
-		
-
-/***********************************************************************
-GuiListControl :: IItemProviderCallback
-***********************************************************************/
-
-		class GACUI_API IItemProviderCallback
-		{
-		protected:
-		
-		public:
-			void OnAttached(rptr<GuiListControl :: IItemProvider> provider);
-			void OnItemModified(signed __int32 start, signed __int32 count, signed __int32 newCount);
-			rptr<GuiListControl :: IItemProviderCallback> operator=(rptr<GuiListControl :: IItemProviderCallback> value);
-			
-		};
-		
-
-/***********************************************************************
-GuiListControl :: IItemStyleController
-***********************************************************************/
-
-		class GACUI_API IItemStyleController
-		{
-		protected:
-		
-		public:
-			bool IsCacheable();
-			bool IsInstalled();
-			void OnInstalled();
-			void OnUninstalled();
-			rptr<GuiListControl :: IItemStyleController> operator=(rptr<GuiListControl :: IItemStyleController> value);
-			
-			rptr<GuiListControl :: IItemStyleProvider> GetStyleProvider();
-			signed __int32 GetItemStyleId();
-			rptr<GuiBoundsComposition> GetBoundsComposition();
-			
-		};
-		
-
-/***********************************************************************
-GuiListControl :: IItemStyleProvider
-***********************************************************************/
-
-		class GACUI_API IItemStyleProvider
-		{
-		protected:
-		
-		public:
-			void AttachListControl(rptr<GuiListControl> value);
-			void DetachListControl();
-			signed __int32 GetItemStyleId(signed __int32 itemIndex);
-			rptr<GuiListControl :: IItemStyleController> CreateItemStyle(signed __int32 styleId);
-			void DestroyItemStyle(rptr<GuiListControl :: IItemStyleController> style);
-			void Install(rptr<GuiListControl :: IItemStyleController> style, signed __int32 itemIndex);
-			rptr<GuiListControl :: IItemStyleProvider> operator=(rptr<GuiListControl :: IItemStyleProvider> value);
-			
-		};
-		
-	};
-	
-
-/***********************************************************************
-GuiListView
-***********************************************************************/
-
-	class GACUI_API GuiListView
-	{
-	protected:
-	
-	public:
-		static rptr<GuiListView> Create(rptr<GuiListViewBase :: IStyleProvider> _styleProvider);
-		
-		rptr<GuiListView> operator=(rptr<GuiListView> value);
-		
-		rptr<ListViewItemProvider> GetItems();
-		
-	};
-	
-
-/***********************************************************************
-GuiListViewBase
-***********************************************************************/
-
-	class GACUI_API GuiListViewBase
-	{
-	protected:
-	
-	public:
-		static rptr<GuiListViewBase> Create(rptr<GuiListViewBase :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider);
-		
-		sptr<GuiListControl :: IItemStyleProvider> SetStyleProvider(sptr<GuiListControl :: IItemStyleProvider> value);
-		rptr<GuiListViewBase> operator=(rptr<GuiListViewBase> value);
-		
-		rptr<GuiListViewBase :: IStyleProvider> GetListViewStyleProvider();
-		
-
-/***********************************************************************
-GuiListViewBase :: IStyleProvider
-***********************************************************************/
-
-		class GACUI_API IStyleProvider
-		{
-		protected:
-		
-		public:
-			rptr<GuiSelectableButton :: IStyleController> CreateItemBackground();
-			rptr<GuiSelectableButton :: IStyleController> CreateColumnStyle();
-			rptr<GuiListViewBase :: IStyleProvider> operator=(rptr<GuiListViewBase :: IStyleProvider> value);
-			
-			Color GetPrimaryTextColor();
-			Color GetSecondaryTextColor();
-			Color GetItemSeparatorColor();
-			
-		};
-		
-	};
-	
-
-/***********************************************************************
-GuiMenu
-***********************************************************************/
-
-	class GACUI_API GuiMenu
-	{
-	protected:
-	
-	public:
-		static rptr<GuiMenu> Create(rptr<GuiControl :: IStyleController> _styleController, rptr<GuiControl> _owner);
-		
-		void UpdateMenuService();
-		rptr<IDescriptable> QueryService(const GacString& identifier);
-		rptr<GuiMenu> operator=(rptr<GuiMenu> value);
-		
-	};
-	
-
-/***********************************************************************
-GuiMenuBar
-***********************************************************************/
-
-	class GACUI_API GuiMenuBar
-	{
-	protected:
-	
-	public:
-		static rptr<GuiMenuBar> Create(rptr<GuiControl :: IStyleController> _styleController);
-		
-		rptr<IDescriptable> QueryService(const GacString& identifier);
-		rptr<GuiMenuBar> operator=(rptr<GuiMenuBar> value);
-		
-	};
-	
-
-/***********************************************************************
-GuiMenuButton
-***********************************************************************/
-
-	class GACUI_API GuiMenuButton
-	{
-	protected:
-	
-	public:
-		static rptr<GuiMenuButton> Create(rptr<GuiMenuButton :: IStyleController> _styleController);
-		
-		bool IsSubMenuExists();
-		void CreateSubMenu(rptr<GuiControl :: IStyleController> subMenuStyleController);
-		void DestroySubMenu();
-		rptr<GuiMenuButton> operator=(rptr<GuiMenuButton> value);
-		
-		rptr<GuiMenu> GetSubMenu();
-		bool GetSubMenuOpening();
-		void SetSubMenuOpening(bool value);
-		Size GetPreferredMenuClientSize();
-		void SetPreferredMenuClientSize(Size value);
-		bool GetSubMenuOpening();
-		void SetSubMenuOpening(bool value);
-		Size GetPreferredMenuClientSize();
-		void SetPreferredMenuClientSize(Size value);
-		GuiGraphicsEvent_of_GuiEventArgs get_SubMenuOpeningChanged();
-		
-
-/***********************************************************************
-GuiMenuButton :: IStyleController
-***********************************************************************/
-
-		class GACUI_API IStyleController
-		{
-		protected:
-		
-		public:
-			rptr<GuiControl :: IStyleController> CreateSubMenuStyleController();
-			rptr<GuiMenuButton :: IStyleController> operator=(rptr<GuiMenuButton :: IStyleController> value);
-			void SetSubMenuExisting(bool value);
-			void SetSubMenuOpening(bool value);
-			
-		};
-		
-	};
-	
-
-/***********************************************************************
-GuiMouseEventArgs
-***********************************************************************/
-
-	class GACUI_API GuiMouseEventArgs
-	{
-	protected:
-	
-	public:
-		static rptr<GuiMouseEventArgs> Create();
-		GuiMouseEventArgs();
-		
-	};
-	
-
-/***********************************************************************
 GuiMultilineTextBox
 ***********************************************************************/
 
 	class GACUI_API GuiMultilineTextBox
 	{
-	protected:
-	
 	public:
+		class StyleController;
+		class TextElementOperatorCallback;
+		
 		static rptr<GuiMultilineTextBox> Create(rptr<GuiScrollView :: IStyleProvider> styleProvider);
 		
 		const GacString& GetText();
 		void SetText(const GacString& value);
-		void SetFont(constFontProperties& value);
+		void SetFont(const FontProperties& value);
 		rptr<GuiMultilineTextBox> operator=(rptr<GuiMultilineTextBox> value);
 		
 
@@ -1959,14 +3596,12 @@ GuiMultilineTextBox :: StyleController
 
 		class GACUI_API StyleController
 		{
-		protected:
-		
 		public:
 			static rptr<GuiMultilineTextBox :: StyleController> Create(rptr<GuiScrollView :: IStyleProvider> styleProvider);
 			
 			void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
 			void SetText(const GacString& value);
-			void SetFont(constFontProperties& value);
+			void SetFont(const FontProperties& value);
 			void SetVisuallyEnabled(bool value);
 			rptr<GuiMultilineTextBox :: StyleController> operator=(rptr<GuiMultilineTextBox :: StyleController> value);
 			void SetViewPosition(Point value);
@@ -1974,7 +3609,7 @@ GuiMultilineTextBox :: StyleController
 			rptr<GuiColorizedTextElement> GetTextElement();
 			rptr<GuiGraphicsComposition> GetTextComposition();
 			rptr<GuiTextElementOperator> GetTextElementOperator();
-			vl::ObjectString<wchar_t> GetText();
+			GacString GetText();
 			
 		};
 		
@@ -1985,8 +3620,6 @@ GuiMultilineTextBox :: TextElementOperatorCallback
 
 		class GACUI_API TextElementOperatorCallback
 		{
-		protected:
-		
 		public:
 			static rptr<GuiMultilineTextBox :: TextElementOperatorCallback> Create(rptr<GuiMultilineTextBox> _textControl);
 			
@@ -2001,235 +3634,14 @@ GuiMultilineTextBox :: TextElementOperatorCallback
 	
 
 /***********************************************************************
-GuiPartialViewComposition
-***********************************************************************/
-
-	class GACUI_API GuiPartialViewComposition
-	{
-	protected:
-	
-	public:
-		static rptr<GuiPartialViewComposition> Create();
-		
-		GuiGraphicsComposition :: ParentSizeAffection GetAffectionFromParent();
-		bool IsSizeAffectParent();
-		Rect GetBounds();
-		rptr<GuiPartialViewComposition> operator=(rptr<GuiPartialViewComposition> value);
-		
-		double GetWidthRatio();
-		void SetWidthRatio(double value);
-		double GetWidthPageSize();
-		void SetWidthPageSize(double value);
-		double GetHeightRatio();
-		void SetHeightRatio(double value);
-		double GetHeightPageSize();
-		void SetHeightPageSize(double value);
-		double GetWidthRatio();
-		void SetWidthRatio(double value);
-		double GetWidthPageSize();
-		void SetWidthPageSize(double value);
-		double GetHeightRatio();
-		void SetHeightRatio(double value);
-		double GetHeightPageSize();
-		void SetHeightPageSize(double value);
-		
-	};
-	
-
-/***********************************************************************
-GuiPolygonElement
-***********************************************************************/
-
-	class GACUI_API GuiPolygonElement
-	{
-	protected:
-	
-	public:
-		rptr<IGuiGraphicsElementFactory> GetFactory();
-		rptr<IGuiGraphicsRenderer> GetRenderer();
-		void SetPoints(Point->GetPointerType() p, signed __int32 count);
-		rptr<GuiPolygonElement> operator=(rptr<GuiPolygonElement> value);
-		
-		static rptr<GuiPolygonElement> Create();
-		
-		Size GetSize();
-		void SetSize(Size value);
-		Point->GetPointerType() GetPoints();
-		signed __int32 GetPointCount();
-		Color GetBorderColor();
-		void SetBorderColor(Color value);
-		Color GetBackgroundColor();
-		void SetBackgroundColor(Color value);
-		Size GetSize();
-		void SetSize(Size value);
-		Color GetBorderColor();
-		void SetBorderColor(Color value);
-		Color GetBackgroundColor();
-		void SetBackgroundColor(Color value);
-		
-		static vl::ObjectString<wchar_t> GetElementTypeName();
-		
-	};
-	
-
-/***********************************************************************
-GuiPopup
-***********************************************************************/
-
-	class GACUI_API GuiPopup
-	{
-	protected:
-	
-	public:
-		static rptr<GuiPopup> Create(rptr<GuiControl :: IStyleController> _styleController);
-		
-		bool IsClippedByScreen(Point location);
-		void ShowPopup(rptr<GuiControl> control, bool preferredTopBottomSide);
-		void ShowPopup(Point location);
-		rptr<GuiPopup> operator=(rptr<GuiPopup> value);
-		
-	};
-	
-
-/***********************************************************************
-GuiRequestEventArgs
-***********************************************************************/
-
-	class GACUI_API GuiRequestEventArgs
-	{
-	protected:
-	
-	public:
-		static rptr<GuiRequestEventArgs> Create();
-		GuiRequestEventArgs();
-		
-		bool get_cancel();
-		void set_cancel(bool value);
-		
-	};
-	
-
-/***********************************************************************
-GuiRoundBorderElement
-***********************************************************************/
-
-	class GACUI_API GuiRoundBorderElement
-	{
-	protected:
-	
-	public:
-		rptr<IGuiGraphicsElementFactory> GetFactory();
-		rptr<IGuiGraphicsRenderer> GetRenderer();
-		rptr<GuiRoundBorderElement> operator=(rptr<GuiRoundBorderElement> value);
-		
-		static rptr<GuiRoundBorderElement> Create();
-		
-		Color GetColor();
-		void SetColor(Color value);
-		signed __int32 GetRadius();
-		void SetRadius(signed __int32 value);
-		Color GetColor();
-		void SetColor(Color value);
-		signed __int32 GetRadius();
-		void SetRadius(signed __int32 value);
-		
-		static vl::ObjectString<wchar_t> GetElementTypeName();
-		
-	};
-	
-
-/***********************************************************************
-GuiScroll
-***********************************************************************/
-
-	class GACUI_API GuiScroll
-	{
-	protected:
-	
-	public:
-		static rptr<GuiScroll> Create(rptr<GuiScroll :: IStyleController> _styleController);
-		
-		rptr<GuiScroll> operator=(rptr<GuiScroll> value);
-		
-		signed __int32 GetTotalSize();
-		void SetTotalSize(signed __int32 value);
-		signed __int32 GetPageSize();
-		void SetPageSize(signed __int32 value);
-		signed __int32 GetPosition();
-		void SetPosition(signed __int32 value);
-		signed __int32 GetSmallMove();
-		void SetSmallMove(signed __int32 value);
-		signed __int32 GetBigMove();
-		void SetBigMove(signed __int32 value);
-		signed __int32 GetMinPosition();
-		signed __int32 GetMaxPosition();
-		signed __int32 GetTotalSize();
-		void SetTotalSize(signed __int32 value);
-		signed __int32 GetPageSize();
-		void SetPageSize(signed __int32 value);
-		signed __int32 GetPosition();
-		void SetPosition(signed __int32 value);
-		signed __int32 GetSmallMove();
-		void SetSmallMove(signed __int32 value);
-		signed __int32 GetBigMove();
-		void SetBigMove(signed __int32 value);
-		GuiGraphicsEvent_of_GuiEventArgs get_TotalSizeChanged();
-		GuiGraphicsEvent_of_GuiEventArgs get_PageSizeChanged();
-		GuiGraphicsEvent_of_GuiEventArgs get_PositionChanged();
-		GuiGraphicsEvent_of_GuiEventArgs get_SmallMoveChanged();
-		GuiGraphicsEvent_of_GuiEventArgs get_BigMoveChanged();
-		
-
-/***********************************************************************
-GuiScroll :: ICommandExecutor
-***********************************************************************/
-
-		class GACUI_API ICommandExecutor
-		{
-		protected:
-		
-		public:
-			void SmallDecrease();
-			void SmallIncrease();
-			void BigDecrease();
-			void BigIncrease();
-			rptr<GuiScroll :: ICommandExecutor> operator=(rptr<GuiScroll :: ICommandExecutor> value);
-			void SetTotalSize(signed __int32 value);
-			void SetPageSize(signed __int32 value);
-			void SetPosition(signed __int32 value);
-			
-		};
-		
-
-/***********************************************************************
-GuiScroll :: IStyleController
-***********************************************************************/
-
-		class GACUI_API IStyleController
-		{
-		protected:
-		
-		public:
-			rptr<GuiScroll :: IStyleController> operator=(rptr<GuiScroll :: IStyleController> value);
-			void SetCommandExecutor(rptr<GuiScroll :: ICommandExecutor> value);
-			void SetTotalSize(signed __int32 value);
-			void SetPageSize(signed __int32 value);
-			void SetPosition(signed __int32 value);
-			
-		};
-		
-	};
-	
-
-/***********************************************************************
 GuiScrollContainer
 ***********************************************************************/
 
 	class GACUI_API GuiScrollContainer
 	{
-	protected:
-	
 	public:
+		class StyleController;
+		
 		static rptr<GuiScrollContainer> Create(rptr<GuiScrollView :: IStyleProvider> styleProvider);
 		
 		rptr<GuiScrollContainer> operator=(rptr<GuiScrollContainer> value);
@@ -2241,8 +3653,6 @@ GuiScrollContainer :: StyleController
 
 		class GACUI_API StyleController
 		{
-		protected:
-		
 		public:
 			static rptr<GuiScrollContainer :: StyleController> Create(rptr<GuiScrollView :: IStyleProvider> styleProvider);
 			
@@ -2256,457 +3666,13 @@ GuiScrollContainer :: StyleController
 	
 
 /***********************************************************************
-GuiScrollView
-***********************************************************************/
-
-	class GACUI_API GuiScrollView
-	{
-	protected:
-	
-	public:
-		void CalculateView();
-		rptr<GuiScrollView> operator=(rptr<GuiScrollView> value);
-		
-		Size GetViewSize();
-		Rect GetViewBounds();
-		rptr<GuiScroll> GetHorizontalScroll();
-		rptr<GuiScroll> GetVerticalScroll();
-		bool GetHorizontalAlwaysVisible();
-		void SetHorizontalAlwaysVisible(bool value);
-		bool GetVerticalAlwaysVisible();
-		void SetVerticalAlwaysVisible(bool value);
-		bool GetHorizontalAlwaysVisible();
-		void SetHorizontalAlwaysVisible(bool value);
-		bool GetVerticalAlwaysVisible();
-		void SetVerticalAlwaysVisible(bool value);
-		
-
-/***********************************************************************
-GuiScrollView :: IStyleProvider
-***********************************************************************/
-
-		class GACUI_API IStyleProvider
-		{
-		protected:
-		
-		public:
-			rptr<GuiScroll :: IStyleController> CreateHorizontalScrollStyle();
-			rptr<GuiScroll :: IStyleController> CreateVerticalScrollStyle();
-			rptr<GuiGraphicsComposition> InstallBackground(rptr<GuiBoundsComposition> boundsComposition);
-			rptr<GuiScrollView :: IStyleProvider> operator=(rptr<GuiScrollView :: IStyleProvider> value);
-			
-			signed __int32 GetDefaultScrollSize();
-			
-		};
-		
-
-/***********************************************************************
-GuiScrollView :: StyleController
-***********************************************************************/
-
-		class GACUI_API StyleController
-		{
-		protected:
-		
-		public:
-			static rptr<GuiScrollView :: StyleController> Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider);
-			
-			void AdjustView(Size fullSize);
-			rptr<GuiBoundsComposition> GetBoundsComposition();
-			rptr<GuiGraphicsComposition> GetContainerComposition();
-			void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
-			void SetText(const GacString& value);
-			void SetFont(constFontProperties& value);
-			void SetVisuallyEnabled(bool value);
-			rptr<GuiScrollView :: StyleController> operator=(rptr<GuiScrollView :: StyleController> value);
-			void SetScrollView(rptr<GuiScrollView> _scrollView);
-			
-			rptr<GuiScrollView :: IStyleProvider> GetStyleProvider();
-			rptr<GuiScroll> GetHorizontalScroll();
-			rptr<GuiScroll> GetVerticalScroll();
-			rptr<GuiTableComposition> GetInternalTableComposition();
-			rptr<GuiBoundsComposition> GetInternalContainerComposition();
-			bool GetHorizontalAlwaysVisible();
-			void SetHorizontalAlwaysVisible(bool value);
-			bool GetVerticalAlwaysVisible();
-			void SetVerticalAlwaysVisible(bool value);
-			bool GetHorizontalAlwaysVisible();
-			void SetHorizontalAlwaysVisible(bool value);
-			bool GetVerticalAlwaysVisible();
-			void SetVerticalAlwaysVisible(bool value);
-			
-		};
-		
-	};
-	
-
-/***********************************************************************
-GuiSelectableButton
-***********************************************************************/
-
-	class GACUI_API GuiSelectableButton
-	{
-	protected:
-	
-	public:
-		static rptr<GuiSelectableButton> Create(rptr<GuiSelectableButton :: IStyleController> _styleController);
-		
-		rptr<GuiSelectableButton> operator=(rptr<GuiSelectableButton> value);
-		
-		rptr<GuiSelectableButton :: GroupController> GetGroupController();
-		void SetGroupController(rptr<GuiSelectableButton :: GroupController> value);
-		bool GetAutoSelection();
-		void SetAutoSelection(bool value);
-		bool GetSelected();
-		void SetSelected(bool value);
-		rptr<GuiSelectableButton :: GroupController> GetGroupController();
-		void SetGroupController(rptr<GuiSelectableButton :: GroupController> value);
-		bool GetAutoSelection();
-		void SetAutoSelection(bool value);
-		bool GetSelected();
-		void SetSelected(bool value);
-		GuiGraphicsEvent_of_GuiEventArgs get_GroupControllerChanged();
-		GuiGraphicsEvent_of_GuiEventArgs get_AutoSelectionChanged();
-		GuiGraphicsEvent_of_GuiEventArgs get_SelectedChanged();
-		
-
-/***********************************************************************
-GuiSelectableButton :: GroupController
-***********************************************************************/
-
-		class GACUI_API GroupController
-		{
-		protected:
-		
-		public:
-			void Attach(rptr<GuiSelectableButton> button);
-			void Detach(rptr<GuiSelectableButton> button);
-			void OnSelectedChanged(rptr<GuiSelectableButton> button);
-			rptr<GuiSelectableButton :: GroupController> operator=(rptr<GuiSelectableButton :: GroupController> value);
-			
-		};
-		
-
-/***********************************************************************
-GuiSelectableButton :: IStyleController
-***********************************************************************/
-
-		class GACUI_API IStyleController
-		{
-		protected:
-		
-		public:
-			rptr<GuiSelectableButton :: IStyleController> operator=(rptr<GuiSelectableButton :: IStyleController> value);
-			void SetSelected(bool value);
-			
-		};
-		
-
-/***********************************************************************
-GuiSelectableButton :: MutexGroupController
-***********************************************************************/
-
-		class GACUI_API MutexGroupController
-		{
-		protected:
-		
-		public:
-			static rptr<GuiSelectableButton :: MutexGroupController> Create();
-			
-			void OnSelectedChanged(rptr<GuiSelectableButton> button);
-			rptr<GuiSelectableButton :: MutexGroupController> operator=(rptr<GuiSelectableButton :: MutexGroupController> value);
-			
-		};
-		
-	};
-	
-
-/***********************************************************************
-GuiSelectableListControl
-***********************************************************************/
-
-	class GACUI_API GuiSelectableListControl
-	{
-	protected:
-	
-	public:
-		static rptr<GuiSelectableListControl> Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider);
-		
-		sptr<GuiListControl :: IItemStyleProvider> SetStyleProvider(sptr<GuiListControl :: IItemStyleProvider> value);
-		bool GetSelected(signed __int32 itemIndex);
-		void SetSelected(signed __int32 itemIndex, bool value);
-		void ClearSelection();
-		rptr<GuiSelectableListControl> operator=(rptr<GuiSelectableListControl> value);
-		
-		bool GetMultiSelect();
-		void SetMultiSelect(bool value);
-		rptr<IReadonlyList_of_int> GetSelectedItems();
-		bool GetMultiSelect();
-		void SetMultiSelect(bool value);
-		GuiGraphicsEvent_of_GuiEventArgs get_SelectionChanged();
-		
-
-/***********************************************************************
-GuiSelectableListControl :: IItemStyleProvider
-***********************************************************************/
-
-		class GACUI_API IItemStyleProvider
-		{
-		protected:
-		
-		public:
-			void SetStyleSelected(rptr<GuiListControl :: IItemStyleController> style, bool value);
-			rptr<GuiSelectableListControl :: IItemStyleProvider> operator=(rptr<GuiSelectableListControl :: IItemStyleProvider> value);
-			
-		};
-		
-	};
-	
-
-/***********************************************************************
-GuiSideAlignedComposition
-***********************************************************************/
-
-	class GACUI_API GuiSideAlignedComposition
-	{
-	protected:
-	
-	public:
-		static rptr<GuiSideAlignedComposition> Create();
-		
-		GuiGraphicsComposition :: ParentSizeAffection GetAffectionFromParent();
-		bool IsSizeAffectParent();
-		Rect GetBounds();
-		rptr<GuiSideAlignedComposition> operator=(rptr<GuiSideAlignedComposition> value);
-		
-		GuiSideAlignedComposition :: Direction GetDirection();
-		void SetDirection(GuiSideAlignedComposition :: Direction value);
-		signed __int32 GetMaxLength();
-		void SetMaxLength(signed __int32 value);
-		double GetMaxRatio();
-		void SetMaxRatio(double value);
-		GuiSideAlignedComposition :: Direction GetDirection();
-		void SetDirection(GuiSideAlignedComposition :: Direction value);
-		signed __int32 GetMaxLength();
-		void SetMaxLength(signed __int32 value);
-		double GetMaxRatio();
-		void SetMaxRatio(double value);
-		
-
-/***********************************************************************
-GuiSideAlignedComposition :: Direction
-***********************************************************************/
-
-		enum Direction
-		{
-			Left = 0,
-			Top = 1,
-			Right = 2,
-			Bottom = 3,
-		};
-		
-	};
-	
-
-/***********************************************************************
-GuiSinglelineTextBox
-***********************************************************************/
-
-	class GACUI_API GuiSinglelineTextBox
-	{
-	protected:
-	
-	public:
-		static rptr<GuiSinglelineTextBox> Create(rptr<GuiSinglelineTextBox :: IStyleProvider> styleProvider);
-		
-		const GacString& GetText();
-		void SetText(const GacString& value);
-		void SetFont(constFontProperties& value);
-		rptr<GuiSinglelineTextBox> operator=(rptr<GuiSinglelineTextBox> value);
-		
-
-/***********************************************************************
-GuiSinglelineTextBox :: IStyleProvider
-***********************************************************************/
-
-		class GACUI_API IStyleProvider
-		{
-		protected:
-		
-		public:
-			rptr<GuiGraphicsComposition> InstallBackground(rptr<GuiBoundsComposition> boundsComposition);
-			rptr<GuiSinglelineTextBox :: IStyleProvider> operator=(rptr<GuiSinglelineTextBox :: IStyleProvider> value);
-			
-		};
-		
-
-/***********************************************************************
-GuiSinglelineTextBox :: StyleController
-***********************************************************************/
-
-		class GACUI_API StyleController
-		{
-		protected:
-		
-		public:
-			static rptr<GuiSinglelineTextBox :: StyleController> Create(rptr<GuiSinglelineTextBox :: IStyleProvider> _styleProvider);
-			
-			void RearrangeTextElement();
-			rptr<GuiBoundsComposition> GetBoundsComposition();
-			rptr<GuiGraphicsComposition> GetContainerComposition();
-			void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
-			void SetText(const GacString& value);
-			void SetFont(constFontProperties& value);
-			void SetVisuallyEnabled(bool value);
-			rptr<GuiSinglelineTextBox :: StyleController> operator=(rptr<GuiSinglelineTextBox :: StyleController> value);
-			void SetTextBox(rptr<GuiSinglelineTextBox> value);
-			void SetViewPosition(Point value);
-			
-			vl::ObjectString<wchar_t> GetText();
-			rptr<GuiColorizedTextElement> GetTextElement();
-			rptr<GuiGraphicsComposition> GetTextComposition();
-			rptr<GuiTextElementOperator> GetTextElementOperator();
-			
-		};
-		
-
-/***********************************************************************
-GuiSinglelineTextBox :: TextElementOperatorCallback
-***********************************************************************/
-
-		class GACUI_API TextElementOperatorCallback
-		{
-		protected:
-		
-		public:
-			static rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> Create(rptr<GuiSinglelineTextBox> _textControl);
-			
-			bool BeforeModify(TextPos& start, TextPos& end, const GacString& originalText, GacString& inputText);
-			void AfterModify(TextPos originalStart, TextPos originalEnd, const GacString& originalText, TextPos inputStart, TextPos inputEnd, const GacString& inputText);
-			void ScrollToView(Point point);
-			signed __int32 GetTextMargin();
-			rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> operator=(rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> value);
-			
-		};
-		
-	};
-	
-
-/***********************************************************************
-GuiSolidBackgroundElement
-***********************************************************************/
-
-	class GACUI_API GuiSolidBackgroundElement
-	{
-	protected:
-	
-	public:
-		rptr<IGuiGraphicsElementFactory> GetFactory();
-		rptr<IGuiGraphicsRenderer> GetRenderer();
-		rptr<GuiSolidBackgroundElement> operator=(rptr<GuiSolidBackgroundElement> value);
-		
-		static rptr<GuiSolidBackgroundElement> Create();
-		
-		Color GetColor();
-		void SetColor(Color value);
-		ElementShape :: Type GetShape();
-		void SetShape(ElementShape :: Type value);
-		Color GetColor();
-		void SetColor(Color value);
-		ElementShape :: Type GetShape();
-		void SetShape(ElementShape :: Type value);
-		
-		static vl::ObjectString<wchar_t> GetElementTypeName();
-		
-	};
-	
-
-/***********************************************************************
-GuiSolidBorderElement
-***********************************************************************/
-
-	class GACUI_API GuiSolidBorderElement
-	{
-	protected:
-	
-	public:
-		rptr<IGuiGraphicsElementFactory> GetFactory();
-		rptr<IGuiGraphicsRenderer> GetRenderer();
-		rptr<GuiSolidBorderElement> operator=(rptr<GuiSolidBorderElement> value);
-		
-		static rptr<GuiSolidBorderElement> Create();
-		
-		Color GetColor();
-		void SetColor(Color value);
-		ElementShape :: Type GetShape();
-		void SetShape(ElementShape :: Type value);
-		Color GetColor();
-		void SetColor(Color value);
-		ElementShape :: Type GetShape();
-		void SetShape(ElementShape :: Type value);
-		
-		static vl::ObjectString<wchar_t> GetElementTypeName();
-		
-	};
-	
-
-/***********************************************************************
-GuiSolidLabelElement
-***********************************************************************/
-
-	class GACUI_API GuiSolidLabelElement
-	{
-	protected:
-	
-	public:
-		rptr<IGuiGraphicsElementFactory> GetFactory();
-		rptr<IGuiGraphicsRenderer> GetRenderer();
-		void SetAlignments(Alignment :: Type horizontal, Alignment :: Type vertical);
-		rptr<GuiSolidLabelElement> operator=(rptr<GuiSolidLabelElement> value);
-		
-		static rptr<GuiSolidLabelElement> Create();
-		
-		Color GetColor();
-		void SetColor(Color value);
-		constFontProperties& GetFont();
-		void SetFont(constFontProperties& value);
-		const GacString& GetText();
-		void SetText(const GacString& value);
-		Alignment :: Type GetHorizontalAlignment();
-		Alignment :: Type GetVerticalAlignment();
-		bool GetWrapLine();
-		void SetWrapLine(bool value);
-		bool GetEllipse();
-		void SetEllipse(bool value);
-		bool GetMultiline();
-		void SetMultiline(bool value);
-		Color GetColor();
-		void SetColor(Color value);
-		constFontProperties& GetFont();
-		void SetFont(constFontProperties& value);
-		const GacString& GetText();
-		void SetText(const GacString& value);
-		bool GetWrapLine();
-		void SetWrapLine(bool value);
-		bool GetEllipse();
-		void SetEllipse(bool value);
-		bool GetMultiline();
-		void SetMultiline(bool value);
-		
-		static vl::ObjectString<wchar_t> GetElementTypeName();
-		
-	};
-	
-
-/***********************************************************************
 GuiStackComposition
 ***********************************************************************/
 
 	class GACUI_API GuiStackComposition
 	{
-	protected:
-	
 	public:
+		
 		static rptr<GuiStackComposition> Create();
 		
 		bool InsertStackItem(signed __int32 index, rptr<GuiStackItemComposition> item);
@@ -2715,12 +3681,6 @@ GuiStackComposition
 		rptr<GuiStackComposition> operator=(rptr<GuiStackComposition> value);
 		
 		rptr<IReadonlyList_of_GuiStackItemComposition_raw_pointer> GetStackItems();
-		GuiStackComposition :: Direction GetDirection();
-		void SetDirection(GuiStackComposition :: Direction value);
-		signed __int32 GetPadding();
-		void SetPadding(signed __int32 value);
-		Margin GetExtraMargin();
-		void SetExtraMargin(Margin value);
 		GuiStackComposition :: Direction GetDirection();
 		void SetDirection(GuiStackComposition :: Direction value);
 		signed __int32 GetPadding();
@@ -2743,655 +3703,105 @@ GuiStackComposition :: Direction
 	
 
 /***********************************************************************
-GuiStackItemComposition
+Win7GroupBoxStyle
 ***********************************************************************/
 
-	class GACUI_API GuiStackItemComposition
+	class GACUI_API Win7GroupBoxStyle
 	{
-	protected:
-	
 	public:
-		static rptr<GuiStackItemComposition> Create();
 		
-		GuiGraphicsComposition :: ParentSizeAffection GetAffectionFromParent();
-		bool IsSizeAffectParent();
-		Rect GetBounds();
-		rptr<GuiStackItemComposition> operator=(rptr<GuiStackItemComposition> value);
-		void SetBounds(Rect value);
+		static rptr<Win7GroupBoxStyle> Create();
 		
-		Margin GetExtraMargin();
-		void SetExtraMargin(Margin value);
-		Margin GetExtraMargin();
-		void SetExtraMargin(Margin value);
-		
-	};
-	
-
-/***********************************************************************
-GuiTab
-***********************************************************************/
-
-	class GACUI_API GuiTab
-	{
-	protected:
-	
-	public:
-		static rptr<GuiTab> Create(rptr<GuiTab :: IStyleController> _styleController);
-		
-		bool CreatePage(rptr<GuiTabPage> page, signed __int32 index);
-		rptr<GuiTabPage> CreatePage(signed __int32 index);
-		bool RemovePage(rptr<GuiTabPage> value);
-		bool MovePage(rptr<GuiTabPage> page, signed __int32 newIndex);
-		bool SetSelectedPage(rptr<GuiTabPage> value);
-		rptr<GuiTab> operator=(rptr<GuiTab> value);
-		
-		rptr<IReadonlyList_of_GuiTabPage_raw_pointer> GetPages();
-		rptr<GuiTabPage> GetSelectedPage();
-		GuiGraphicsEvent_of_GuiEventArgs get_SelectedPageChanged();
-		
-
-/***********************************************************************
-GuiTab :: ICommandExecutor
-***********************************************************************/
-
-		class GACUI_API ICommandExecutor
-		{
-		protected:
-		
-		public:
-			void ShowTab(signed __int32 index);
-			rptr<GuiTab :: ICommandExecutor> operator=(rptr<GuiTab :: ICommandExecutor> value);
-			
-		};
-		
-
-/***********************************************************************
-GuiTab :: IStyleController
-***********************************************************************/
-
-		class GACUI_API IStyleController
-		{
-		protected:
-		
-		public:
-			void InsertTab(signed __int32 index);
-			void SetTabText(signed __int32 index, const GacString& value);
-			void RemoveTab(signed __int32 index);
-			void MoveTab(signed __int32 oldIndex, signed __int32 newIndex);
-			rptr<GuiControl :: IStyleController> CreateTabPageStyleController();
-			rptr<GuiTab :: IStyleController> operator=(rptr<GuiTab :: IStyleController> value);
-			void SetCommandExecutor(rptr<GuiTab :: ICommandExecutor> value);
-			void SetSelectedTab(signed __int32 index);
-			
-		};
-		
-	};
-	
-
-/***********************************************************************
-GuiTableComposition
-***********************************************************************/
-
-	class GACUI_API GuiTableComposition
-	{
-	protected:
-	
-	public:
-		static rptr<GuiTableComposition> Create();
-		
-		bool SetRowsAndColumns(signed __int32 _rows, signed __int32 _columns);
-		rptr<GuiCellComposition> GetSitedCell(signed __int32 _row, signed __int32 _column);
-		GuiCellOption GetRowOption(signed __int32 _row);
-		void SetRowOption(signed __int32 _row, GuiCellOption option);
-		GuiCellOption GetColumnOption(signed __int32 _column);
-		void SetColumnOption(signed __int32 _column, GuiCellOption option);
-		void UpdateCellBounds();
-		Size GetMinPreferredClientSize();
-		Rect GetBounds();
-		rptr<GuiTableComposition> operator=(rptr<GuiTableComposition> value);
-		
-		signed __int32 GetRows();
-		signed __int32 GetColumns();
-		signed __int32 GetCellPadding();
-		void SetCellPadding(signed __int32 value);
-		Rect GetCellArea();
-		signed __int32 GetCellPadding();
-		void SetCellPadding(signed __int32 value);
-		
-	};
-	
-
-/***********************************************************************
-GuiTabPage
-***********************************************************************/
-
-	class GACUI_API GuiTabPage
-	{
-	protected:
-	
-	public:
-		rptr<GuiTabPage> operator=(rptr<GuiTabPage> value);
-		
-		rptr<GuiControl> GetContainer();
-		rptr<GuiTab> GetOwnerTab();
-		const GacString& GetText();
+		rptr<GuiBoundsComposition> GetBoundsComposition();
+		rptr<GuiGraphicsComposition> GetContainerComposition();
+		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
 		void SetText(const GacString& value);
-		bool GetSelected();
-		const GacString& GetText();
+		void SetFont(const FontProperties& value);
+		void SetVisuallyEnabled(bool value);
+		rptr<Win7GroupBoxStyle> operator=(rptr<Win7GroupBoxStyle> value);
+		
+	};
+	
+
+/***********************************************************************
+Win7MenuStyle
+***********************************************************************/
+
+	class GACUI_API Win7MenuStyle
+	{
+	public:
+		
+		static rptr<Win7MenuStyle> Create();
+		
+		rptr<GuiBoundsComposition> GetBoundsComposition();
+		rptr<GuiGraphicsComposition> GetContainerComposition();
+		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
 		void SetText(const GacString& value);
-		GuiGraphicsEvent_of_GuiEventArgs get_TextChanged();
+		void SetFont(const FontProperties& value);
+		void SetVisuallyEnabled(bool value);
+		rptr<Win7MenuStyle> operator=(rptr<Win7MenuStyle> value);
 		
 	};
 	
 
 /***********************************************************************
-GuiTextBoxCommonInterface
+Win7ScrollStyle
 ***********************************************************************/
 
-	class GACUI_API GuiTextBoxCommonInterface
+	class GACUI_API Win7ScrollStyle
 	{
-	protected:
-	
 	public:
-		static rptr<GuiTextBoxCommonInterface> Create();
 		
-		bool CanCut();
-		bool CanCopy();
-		bool CanPaste();
-		void SelectAll();
-		bool Cut();
-		bool Copy();
-		bool Paste();
-		vl::ObjectString<wchar_t> GetRowText(signed __int32 row);
-		vl::ObjectString<wchar_t> GetFragmentText(TextPos start, TextPos end);
-		signed __int32 GetRowWidth(signed __int32 row);
-		TextPos GetTextPosFromPoint(Point point);
-		Point GetPointFromTextPos(TextPos pos);
-		Rect GetRectFromTextPos(TextPos pos);
-		TextPos GetNearestTextPos(Point point);
-		void Select(TextPos begin, TextPos end);
-		rptr<GuiTextBoxCommonInterface> operator=(rptr<GuiTextBoxCommonInterface> value);
+		static rptr<Win7ScrollStyle> Create(CommonScrollStyle :: Direction _direction);
 		
-		rptr<GuiGraphicsComposition> GetTextComposition();
-		signed __int32 GetRowHeight();
-		signed __int32 GetMaxWidth();
-		signed __int32 GetMaxHeight();
-		TextPos GetCaretBegin();
-		TextPos GetCaretEnd();
-		TextPos GetCaretSmall();
-		TextPos GetCaretLarge();
-		vl::ObjectString<wchar_t> GetSelectionText();
-		void SetSelectionText(const GacString& value);
-		vl::ObjectString<wchar_t> GetSelectionText();
-		void SetSelectionText(const GacString& value);
-		GuiGraphicsEvent_of_GuiEventArgs get_SelectionChanged();
+		rptr<Win7ScrollStyle> operator=(rptr<Win7ScrollStyle> value);
 		
 	};
 	
 
 /***********************************************************************
-GuiTextElementOperator
+Win7TextBoxBackground
 ***********************************************************************/
 
-	class GACUI_API GuiTextElementOperator
+	class GACUI_API Win7TextBoxBackground
 	{
-	protected:
-	
 	public:
-		static rptr<GuiTextElementOperator> Create();
 		
-		void Install(rptr<GuiColorizedTextElement> _textElement, rptr<GuiGraphicsComposition> _textComposition, rptr<GuiControl> _textControl);
-		TextPos GetNearestTextPos(Point point);
-		void Select(TextPos begin, TextPos end);
-		bool CanCut();
-		bool CanCopy();
-		bool CanPaste();
-		void SelectAll();
-		bool Cut();
-		bool Copy();
-		bool Paste();
-		rptr<GuiTextElementOperator> operator=(rptr<GuiTextElementOperator> value);
+		static rptr<Win7TextBoxBackground> Create();
 		
-		rptr<GuiTextElementOperator :: ICallback> GetCallback();
-		void SetCallback(rptr<GuiTextElementOperator :: ICallback> value);
-		rptr<GuiTextBoxCommonInterface> GetTextBoxCommonInterface();
-		void SetTextBoxCommonInterface(rptr<GuiTextBoxCommonInterface> value);
-		rptr<GuiColorizedTextElement> GetTextElement();
-		rptr<GuiGraphicsComposition> GetTextComposition();
-		vl::ObjectString<wchar_t> GetSelectionText();
-		void SetSelectionText(const GacString& value);
-		rptr<GuiTextElementOperator :: ICallback> GetCallback();
-		void SetCallback(rptr<GuiTextElementOperator :: ICallback> value);
-		rptr<GuiTextBoxCommonInterface> GetTextBoxCommonInterface();
-		void SetTextBoxCommonInterface(rptr<GuiTextBoxCommonInterface> value);
-		vl::ObjectString<wchar_t> GetSelectionText();
-		void SetSelectionText(const GacString& value);
-		
-
-/***********************************************************************
-GuiTextElementOperator :: DefaultCallback
-***********************************************************************/
-
-		class GACUI_API DefaultCallback
-		{
-		protected:
-		
-		public:
-			static rptr<GuiTextElementOperator :: DefaultCallback> Create(rptr<GuiColorizedTextElement> _textElement, rptr<GuiGraphicsComposition> _textComposition);
-			
-			TextPos GetLeftWord(TextPos pos);
-			TextPos GetRightWord(TextPos pos);
-			void GetWord(TextPos pos, TextPos& begin, TextPos& end);
-			signed __int32 GetPageRows();
-			bool BeforeModify(TextPos& start, TextPos& end, const GacString& originalText, GacString& inputText);
-			rptr<GuiTextElementOperator :: DefaultCallback> operator=(rptr<GuiTextElementOperator :: DefaultCallback> value);
-			
-		};
-		
-
-/***********************************************************************
-GuiTextElementOperator :: ICallback
-***********************************************************************/
-
-		class GACUI_API ICallback
-		{
-		protected:
-		
-		public:
-			TextPos GetLeftWord(TextPos pos);
-			TextPos GetRightWord(TextPos pos);
-			void GetWord(TextPos pos, TextPos& begin, TextPos& end);
-			bool BeforeModify(TextPos& start, TextPos& end, const GacString& originalText, GacString& inputText);
-			void AfterModify(TextPos originalStart, TextPos originalEnd, const GacString& originalText, TextPos inputStart, TextPos inputEnd, const GacString& inputText);
-			void ScrollToView(Point point);
-			rptr<GuiTextElementOperator :: ICallback> operator=(rptr<GuiTextElementOperator :: ICallback> value);
-			
-			signed __int32 GetPageRows();
-			signed __int32 GetTextMargin();
-			
-		};
+		void AssociateStyleController(rptr<GuiControl :: IStyleController> controller);
+		rptr<GuiGraphicsComposition> InstallBackground(rptr<GuiBoundsComposition> boundsComposition);
+		void InitializeTextElement(rptr<GuiColorizedTextElement> _textElement);
+		rptr<Win7TextBoxBackground> operator=(rptr<Win7TextBoxBackground> value);
+		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
+		void SetVisuallyEnabled(bool value);
 		
 	};
 	
 
 /***********************************************************************
-GuiTextList
+CommonTrackStyle
 ***********************************************************************/
 
-	class GACUI_API GuiTextList
+	class GACUI_API CommonTrackStyle
 	{
-	protected:
-	
 	public:
-		static rptr<GuiTextList> Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<TextItemStyleProvider :: ITextItemStyleProvider> _itemStyleProvider);
 		
-		rptr<GuiTextList> operator=(rptr<GuiTextList> value);
-		
-		rptr<TextItemProvider> GetItems();
-		
-	};
-	
-
-/***********************************************************************
-GuiTimeBasedAnimation
-***********************************************************************/
-
-	class GACUI_API GuiTimeBasedAnimation
-	{
-	protected:
-	
-	public:
-		static rptr<GuiTimeBasedAnimation> Create(signed __int32 totalMilliseconds);
-		
-		void Restart(signed __int32 totalMilliseconds);
-		signed __int32 GetTotalLength();
-		signed __int32 GetCurrentPosition();
-		rptr<GuiTimeBasedAnimation> operator=(rptr<GuiTimeBasedAnimation> value);
-		
-	};
-	
-
-/***********************************************************************
-GuiTreeView
-***********************************************************************/
-
-	class GACUI_API GuiTreeView
-	{
-	protected:
-	
-	public:
-		static rptr<GuiTreeView> Create(rptr<GuiTreeView :: IStyleProvider> _styleProvider, rptr<INodeRootProvider> _nodeRootProvider);
-		
-		sptr<TreeViewItemRootProvider> Nodes();
-		rptr<GuiTreeView> operator=(rptr<GuiTreeView> value);
-		
-		rptr<GuiTreeView :: IStyleProvider> GetTreeViewStyleProvider();
+		rptr<GuiBoundsComposition> GetBoundsComposition();
+		rptr<GuiGraphicsComposition> GetContainerComposition();
+		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
+		void SetText(const GacString& value);
+		void SetFont(const FontProperties& value);
+		void SetVisuallyEnabled(bool value);
+		void SetCommandExecutor(rptr<GuiScroll :: ICommandExecutor> value);
+		void SetTotalSize(signed __int32 value);
+		void SetPageSize(signed __int32 value);
+		void SetPosition(signed __int32 value);
+		rptr<CommonTrackStyle> operator=(rptr<CommonTrackStyle> value);
 		
 
 /***********************************************************************
-GuiTreeView :: IStyleProvider
-***********************************************************************/
-
-		class GACUI_API IStyleProvider
-		{
-		protected:
-		
-		public:
-			rptr<GuiSelectableButton :: IStyleController> CreateItemBackground();
-			rptr<GuiSelectableButton :: IStyleController> CreateItemExpandingDecorator();
-			rptr<GuiTreeView :: IStyleProvider> operator=(rptr<GuiTreeView :: IStyleProvider> value);
-			
-			Color GetTextColor();
-			
-		};
-		
-	};
-	
-
-/***********************************************************************
-GuiVirtualListView
-***********************************************************************/
-
-	class GACUI_API GuiVirtualListView
-	{
-	protected:
-	
-	public:
-		static rptr<GuiVirtualListView> Create(rptr<GuiListViewBase :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider);
-		
-		void ChangeItemStyle(rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> contentProvider);
-		rptr<GuiVirtualListView> operator=(rptr<GuiVirtualListView> value);
-		
-	};
-	
-
-/***********************************************************************
-GuiVirtualTextList
-***********************************************************************/
-
-	class GACUI_API GuiVirtualTextList
-	{
-	protected:
-	
-	public:
-		static rptr<GuiVirtualTextList> Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<TextItemStyleProvider :: ITextItemStyleProvider> _itemStyleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider);
-		
-		sptr<GuiListControl :: IItemStyleProvider> SetStyleProvider(sptr<GuiListControl :: IItemStyleProvider> value);
-		sptr<GuiListControl :: IItemStyleProvider> ChangeItemStyle(rptr<TextItemStyleProvider :: ITextItemStyleProvider> itemStyleProvider);
-		rptr<GuiVirtualTextList> operator=(rptr<GuiVirtualTextList> value);
-		
-	};
-	
-
-/***********************************************************************
-GuiVirtualTreeListControl
-***********************************************************************/
-
-	class GACUI_API GuiVirtualTreeListControl
-	{
-	protected:
-	
-	public:
-		static rptr<GuiVirtualTreeListControl> Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<INodeRootProvider> _nodeRootProvider);
-		
-		sptr<INodeItemStyleProvider> SetNodeStyleProvider(sptr<INodeItemStyleProvider> styleProvider);
-		rptr<GuiVirtualTreeListControl> operator=(rptr<GuiVirtualTreeListControl> value);
-		
-		rptr<INodeItemView> GetNodeItemView();
-		rptr<INodeRootProvider> GetNodeRootProvider();
-		rptr<INodeItemStyleProvider> GetNodeStyleProvider();
-		
-	};
-	
-
-/***********************************************************************
-GuiWindow
-***********************************************************************/
-
-	class GACUI_API GuiWindow
-	{
-	protected:
-	
-	public:
-		static rptr<GuiWindow> Create(rptr<GuiControl :: IStyleController> _styleController);
-		
-		rptr<GuiWindow> operator=(rptr<GuiWindow> value);
-		
-	};
-	
-
-/***********************************************************************
-GuiWindowComposition
-***********************************************************************/
-
-	class GACUI_API GuiWindowComposition
-	{
-	protected:
-	
-	public:
-		static rptr<GuiWindowComposition> Create();
-		
-		Rect GetBounds();
-		void SetMargin(Margin value);
-		rptr<GuiWindowComposition> operator=(rptr<GuiWindowComposition> value);
-		
-		rptr<INativeWindow> GetAttachedWindow();
-		void SetAttachedWindow(rptr<INativeWindow> window);
-		rptr<INativeWindow> GetAttachedWindow();
-		void SetAttachedWindow(rptr<INativeWindow> window);
-		
-	};
-	
-
-/***********************************************************************
-ICollection_of_ListViewItem
-***********************************************************************/
-
-	class GACUI_API ICollection_of_ListViewItem
-	{
-	protected:
-	
-	public:
-		signed __int32 Add(sptr<ListViewItem> item);
-		bool Remove(rptr<ListViewItem> item);
-		bool RemoveAt(signed __int32 index);
-		bool RemoveRange(signed __int32 index, signed __int32 count);
-		bool Clear();
-		rptr<ICollection_of_ListViewItem> operator=(rptr<ICollection_of_ListViewItem> value);
-		
-	};
-	
-
-/***********************************************************************
-ICollection_of_MemoryNodeProvider
-***********************************************************************/
-
-	class GACUI_API ICollection_of_MemoryNodeProvider
-	{
-	protected:
-	
-	public:
-		signed __int32 Add(sptr<MemoryNodeProvider> item);
-		bool Remove(rptr<MemoryNodeProvider> item);
-		bool RemoveAt(signed __int32 index);
-		bool RemoveRange(signed __int32 index, signed __int32 count);
-		bool Clear();
-		rptr<ICollection_of_MemoryNodeProvider> operator=(rptr<ICollection_of_MemoryNodeProvider> value);
-		
-	};
-	
-
-/***********************************************************************
-ICollection_of_TextItem
-***********************************************************************/
-
-	class GACUI_API ICollection_of_TextItem
-	{
-	protected:
-	
-	public:
-		signed __int32 Add(constTextItem& item);
-		bool Remove(constTextItem& item);
-		bool RemoveAt(signed __int32 index);
-		bool RemoveRange(signed __int32 index, signed __int32 count);
-		bool Clear();
-		rptr<ICollection_of_TextItem> operator=(rptr<ICollection_of_TextItem> value);
-		
-	};
-	
-
-/***********************************************************************
-IDescriptable
-***********************************************************************/
-
-	class GACUI_API IDescriptable
-	{
-	protected:
-	
-	public:
-		static rptr<IDescriptable> Create();
-		
-		rptr<IDescriptable> operator=(rptr<IDescriptable> value);
-		
-	};
-	
-
-/***********************************************************************
-IGuiGraphicsAnimation
-***********************************************************************/
-
-	class GACUI_API IGuiGraphicsAnimation
-	{
-	protected:
-	
-	public:
-		void Play(signed __int32 currentPosition, signed __int32 totalLength);
-		void Stop();
-		rptr<IGuiGraphicsAnimation> operator=(rptr<IGuiGraphicsAnimation> value);
-		
-		signed __int32 GetTotalLength();
-		signed __int32 GetCurrentPosition();
-		
-	};
-	
-
-/***********************************************************************
-IGuiGraphicsElement
-***********************************************************************/
-
-	class GACUI_API IGuiGraphicsElement
-	{
-	protected:
-	
-	public:
-		rptr<IGuiGraphicsElement> operator=(rptr<IGuiGraphicsElement> value);
-		
-		rptr<IGuiGraphicsElementFactory> GetFactory();
-		rptr<IGuiGraphicsRenderer> GetRenderer();
-		
-	};
-	
-
-/***********************************************************************
-IGuiGraphicsElementFactory
-***********************************************************************/
-
-	class GACUI_API IGuiGraphicsElementFactory
-	{
-	protected:
-	
-	public:
-		rptr<IGuiGraphicsElement> Create();
-		rptr<IGuiGraphicsElementFactory> operator=(rptr<IGuiGraphicsElementFactory> value);
-		
-		vl::ObjectString<wchar_t> GetElementTypeName();
-		
-	};
-	
-
-/***********************************************************************
-IGuiGraphicsRenderer
-***********************************************************************/
-
-	class GACUI_API IGuiGraphicsRenderer
-	{
-	protected:
-	
-	public:
-		void Initialize(rptr<IGuiGraphicsElement> _element);
-		void Finalize();
-		void Render(Rect bounds);
-		void OnElementStateChanged();
-		rptr<IGuiGraphicsRenderer> operator=(rptr<IGuiGraphicsRenderer> value);
-		void SetRenderTarget(rptr<IGuiGraphicsRenderTarget> _renderTarget);
-		
-		rptr<IGuiGraphicsRendererFactory> GetFactory();
-		Size GetMinSize();
-		
-	};
-	
-
-/***********************************************************************
-IGuiGraphicsRendererFactory
-***********************************************************************/
-
-	class GACUI_API IGuiGraphicsRendererFactory
-	{
-	protected:
-	
-	public:
-		rptr<IGuiGraphicsRenderer> Create();
-		rptr<IGuiGraphicsRendererFactory> operator=(rptr<IGuiGraphicsRendererFactory> value);
-		
-	};
-	
-
-/***********************************************************************
-IGuiGraphicsRenderTarget
-***********************************************************************/
-
-	class GACUI_API IGuiGraphicsRenderTarget
-	{
-	protected:
-	
-	public:
-		void StartRendering();
-		void StopRendering();
-		void PushClipper(Rect clipper);
-		void PopClipper();
-		bool IsClipperCoverWholeTarget();
-		rptr<IGuiGraphicsRenderTarget> operator=(rptr<IGuiGraphicsRenderTarget> value);
-		
-		Rect GetClipper();
-		
-	};
-	
-
-/***********************************************************************
-IGuiMenuService
-***********************************************************************/
-
-	class GACUI_API IGuiMenuService
-	{
-	protected:
-	
-	public:
-		bool IsActiveState();
-		void MenuItemExecuted();
-		void MenuOpened(rptr<GuiMenu> menu);
-		void MenuClosed(rptr<GuiMenu> menu);
-		rptr<IGuiMenuService> operator=(rptr<IGuiMenuService> value);
-		
-		rptr<IGuiMenuService> GetParent();
-		IGuiMenuService :: Direction GetPreferredDirection();
-		rptr<GuiMenu> GetOpeningMenu();
-		
-		static wchar_t->GetPointerType() get_Identifier();
-		static void set_Identifier(wchar_t->GetPointerType() value);
-		
-
-/***********************************************************************
-IGuiMenuService :: Direction
+CommonTrackStyle :: Direction
 ***********************************************************************/
 
 		enum Direction
@@ -3404,567 +3814,282 @@ IGuiMenuService :: Direction
 	
 
 /***********************************************************************
-IList_of_int
+GuiButton
 ***********************************************************************/
 
-	class GACUI_API IList_of_int
+	class GACUI_API GuiButton
 	{
-	protected:
-	
 	public:
-		signed __int32 Insert(signed __int32 index, signed __int32 item);
-		bool Set(signed __int32 index, signed __int32 item);
-		rptr<IList_of_int> operator=(rptr<IList_of_int> value);
+		class IStyleController;
 		
-	};
-	
-
-/***********************************************************************
-IList_of_ListViewColumn
-***********************************************************************/
-
-	class GACUI_API IList_of_ListViewColumn
-	{
-	protected:
-	
-	public:
-		signed __int32 Insert(signed __int32 index, sptr<ListViewColumn> item);
-		bool Set(signed __int32 index, sptr<ListViewColumn> item);
-		rptr<IList_of_ListViewColumn> operator=(rptr<IList_of_ListViewColumn> value);
+		static rptr<GuiButton> Create(rptr<GuiButton :: IStyleController> _styleController);
 		
-	};
-	
-
-/***********************************************************************
-IList_of_ListViewItem
-***********************************************************************/
-
-	class GACUI_API IList_of_ListViewItem
-	{
-	protected:
-	
-	public:
-		signed __int32 Insert(signed __int32 index, sptr<ListViewItem> item);
-		bool Set(signed __int32 index, sptr<ListViewItem> item);
-		rptr<IList_of_ListViewItem> operator=(rptr<IList_of_ListViewItem> value);
+		rptr<GuiButton> operator=(rptr<GuiButton> value);
 		
-	};
-	
-
-/***********************************************************************
-IList_of_MemoryNodeProvider
-***********************************************************************/
-
-	class GACUI_API IList_of_MemoryNodeProvider
-	{
-	protected:
-	
-	public:
-		signed __int32 Insert(signed __int32 index, sptr<MemoryNodeProvider> item);
-		bool Set(signed __int32 index, sptr<MemoryNodeProvider> item);
-		rptr<IList_of_MemoryNodeProvider> operator=(rptr<IList_of_MemoryNodeProvider> value);
-		
-	};
-	
-
-/***********************************************************************
-IList_of_TextItem
-***********************************************************************/
-
-	class GACUI_API IList_of_TextItem
-	{
-	protected:
-	
-	public:
-		signed __int32 Insert(signed __int32 index, constTextItem& item);
-		bool Set(signed __int32 index, constTextItem& item);
-		rptr<IList_of_TextItem> operator=(rptr<IList_of_TextItem> value);
-		
-	};
-	
-
-/***********************************************************************
-INativeAsyncService
-***********************************************************************/
-
-	class GACUI_API INativeAsyncService
-	{
-	protected:
-	
-	public:
-		bool IsInMainThread();
-		rptr<INativeAsyncService> operator=(rptr<INativeAsyncService> value);
-		
-	};
-	
-
-/***********************************************************************
-INativeCallbackService
-***********************************************************************/
-
-	class GACUI_API INativeCallbackService
-	{
-	protected:
-	
-	public:
-		bool InstallListener(rptr<INativeControllerListener> listener);
-		bool UninstallListener(rptr<INativeControllerListener> listener);
-		rptr<INativeCallbackService> operator=(rptr<INativeCallbackService> value);
-		
-	};
-	
-
-/***********************************************************************
-INativeClipboardService
-***********************************************************************/
-
-	class GACUI_API INativeClipboardService
-	{
-	protected:
-	
-	public:
-		bool ContainsText();
-		bool SetText(const GacString& value);
-		rptr<INativeClipboardService> operator=(rptr<INativeClipboardService> value);
-		
-		vl::ObjectString<wchar_t> GetText();
-		
-	};
-	
-
-/***********************************************************************
-INativeController
-***********************************************************************/
-
-	class GACUI_API INativeController
-	{
-	protected:
-	
-	public:
-		rptr<INativeCallbackService> CallbackService();
-		rptr<INativeResourceService> ResourceService();
-		rptr<INativeAsyncService> AsyncService();
-		rptr<INativeClipboardService> ClipboardService();
-		rptr<INativeImageService> ImageService();
-		rptr<INativeScreenService> ScreenService();
-		rptr<INativeWindowService> WindowService();
-		rptr<INativeInputService> InputService();
-		rptr<INativeController> operator=(rptr<INativeController> value);
-		
-	};
-	
-
-/***********************************************************************
-INativeControllerListener
-***********************************************************************/
-
-	class GACUI_API INativeControllerListener
-	{
-	protected:
-	
-	public:
-		static rptr<INativeControllerListener> Create();
-		
-		void LeftButtonDown(Point position);
-		void LeftButtonUp(Point position);
-		void RightButtonDown(Point position);
-		void RightButtonUp(Point position);
-		void MouseMoving(Point position);
-		void GlobalTimer();
-		void ClipboardUpdated();
-		void NativeWindowCreated(rptr<INativeWindow> window);
-		void NativeWindowDestroying(rptr<INativeWindow> window);
-		rptr<INativeControllerListener> operator=(rptr<INativeControllerListener> value);
-		
-	};
-	
-
-/***********************************************************************
-INativeCursor
-***********************************************************************/
-
-	class GACUI_API INativeCursor
-	{
-	protected:
-	
-	public:
-		bool IsSystemCursor();
-		rptr<INativeCursor> operator=(rptr<INativeCursor> value);
-		
-		INativeCursor :: SystemCursorType GetSystemCursorType();
+		GuiGraphicsEvent_of_GuiEventArgs get_Clicked();
 		
 
 /***********************************************************************
-INativeCursor :: SystemCursorType
+GuiButton :: ControlState
 ***********************************************************************/
 
-		enum SystemCursorType
+		enum ControlState
 		{
-			SmallWaiting = 0,
-			LargeWaiting = 1,
-			Arrow = 2,
-			Cross = 3,
-			Hand = 4,
-			Help = 5,
-			IBeam = 6,
-			SizeAll = 7,
-			SizeNESW = 8,
-			SizeNS = 9,
-			SizeNWSE = 10,
-			SizeWE = 11,
-			LastSystemCursor = 11,
+			Normal = 0,
+			Active = 1,
+			Pressed = 2,
+		};
+		
+
+/***********************************************************************
+GuiButton :: IStyleController
+***********************************************************************/
+
+		class GACUI_API IStyleController
+		{
+		public:
+			void Transfer(GuiButton :: ControlState value);
+			rptr<GuiButton :: IStyleController> operator=(rptr<GuiButton :: IStyleController> value);
+			
 		};
 		
 	};
 	
 
 /***********************************************************************
-INativeImage
+GuiListControl
 ***********************************************************************/
 
-	class GACUI_API INativeImage
+	class GACUI_API GuiListControl
 	{
-	protected:
-	
 	public:
-		rptr<INativeImageFrame> GetFrame(signed __int32 index);
-		rptr<INativeImage> operator=(rptr<INativeImage> value);
+		class IItemArranger;
+		class IItemArrangerCallback;
+		class IItemCoordinateTransformer;
+		class IItemPrimaryTextView;
+		class IItemProvider;
+		class IItemProviderCallback;
+		class IItemStyleController;
+		class IItemStyleProvider;
 		
-		rptr<INativeImageService> GetImageService();
-		INativeImage :: FormatType GetFormat();
-		signed __int32 GetFrameCount();
+		static rptr<GuiListControl> Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider, bool acceptFocus);
+		
+		sptr<GuiListControl :: IItemStyleProvider> SetStyleProvider(sptr<GuiListControl :: IItemStyleProvider> value);
+		sptr<GuiListControl :: IItemArranger> SetArranger(sptr<GuiListControl :: IItemArranger> value);
+		sptr<GuiListControl :: IItemCoordinateTransformer> SetCoordinateTransformer(sptr<GuiListControl :: IItemCoordinateTransformer> value);
+		rptr<GuiListControl> operator=(rptr<GuiListControl> value);
+		
+		rptr<GuiListControl :: IItemProvider> GetItemProvider();
+		rptr<GuiListControl :: IItemStyleProvider> GetStyleProvider();
+		rptr<GuiListControl :: IItemArranger> GetArranger();
+		rptr<GuiListControl :: IItemCoordinateTransformer> GetCoordinateTransformer();
+		GuiGraphicsEvent_of_GuiEventArgs get_StyleProviderChanged();
+		GuiGraphicsEvent_of_GuiEventArgs get_ArrangerChanged();
+		GuiGraphicsEvent_of_GuiEventArgs get_CoordinateTransformerChanged();
 		
 
 /***********************************************************************
-INativeImage :: FormatType
+GuiListControl :: IItemArranger
 ***********************************************************************/
 
-		enum FormatType
+		class GACUI_API IItemArranger
 		{
-			Bmp = 0,
-			Gif = 1,
-			Icon = 2,
-			Jpeg = 3,
-			Png = 4,
-			Tiff = 5,
-			Wmp = 6,
-			Unknown = 7,
+		public:
+			void AttachListControl(rptr<GuiListControl> value);
+			void DetachListControl();
+			rptr<GuiListControl :: IItemStyleController> GetVisibleStyle(signed __int32 itemIndex);
+			signed __int32 GetVisibleIndex(rptr<GuiListControl :: IItemStyleController> style);
+			void OnViewChanged(Rect bounds);
+			rptr<GuiListControl :: IItemArranger> operator=(rptr<GuiListControl :: IItemArranger> value);
+			
+			rptr<GuiListControl :: IItemArrangerCallback> GetCallback();
+			void SetCallback(rptr<GuiListControl :: IItemArrangerCallback> value);
+			Size GetTotalSize();
+			
+		};
+		
+
+/***********************************************************************
+GuiListControl :: IItemArrangerCallback
+***********************************************************************/
+
+		class GACUI_API IItemArrangerCallback
+		{
+		public:
+			rptr<GuiListControl :: IItemStyleController> RequestItem(signed __int32 itemIndex);
+			void ReleaseItem(rptr<GuiListControl :: IItemStyleController> style);
+			Size GetStylePreferredSize(rptr<GuiListControl :: IItemStyleController> style);
+			void SetStyleAlignmentToParent(rptr<GuiListControl :: IItemStyleController> style, Margin margin);
+			void SetStyleBounds(rptr<GuiListControl :: IItemStyleController> style, Rect bounds);
+			void OnTotalSizeChanged();
+			rptr<GuiListControl :: IItemArrangerCallback> operator=(rptr<GuiListControl :: IItemArrangerCallback> value);
+			void SetViewLocation(Point value);
+			
+			rptr<GuiGraphicsComposition> GetContainerComposition();
+			
+		};
+		
+
+/***********************************************************************
+GuiListControl :: IItemCoordinateTransformer
+***********************************************************************/
+
+		class GACUI_API IItemCoordinateTransformer
+		{
+		public:
+			Size RealSizeToVirtualSize(Size size);
+			Size VirtualSizeToRealSize(Size size);
+			Point RealPointToVirtualPoint(Size realFullSize, Point point);
+			Point VirtualPointToRealPoint(Size realFullSize, Point point);
+			Rect RealRectToVirtualRect(Size realFullSize, Rect rect);
+			Rect VirtualRectToRealRect(Size realFullSize, Rect rect);
+			Margin RealMarginToVirtualMargin(Margin margin);
+			Margin VirtualMarginToRealMargin(Margin margin);
+			rptr<GuiListControl :: IItemCoordinateTransformer> operator=(rptr<GuiListControl :: IItemCoordinateTransformer> value);
+			
+		};
+		
+
+/***********************************************************************
+GuiListControl :: IItemPrimaryTextView
+***********************************************************************/
+
+		class GACUI_API IItemPrimaryTextView
+		{
+		public:
+			GacString GetPrimaryTextViewText(signed __int32 itemIndex);
+			bool ContainsPrimaryText(signed __int32 itemIndex);
+			rptr<GuiListControl :: IItemPrimaryTextView> operator=(rptr<GuiListControl :: IItemPrimaryTextView> value);
+			
+			static wchar_t* get_Identifier();
+			static void set_Identifier(wchar_t* value);
+			
+		};
+		
+
+/***********************************************************************
+GuiListControl :: IItemProvider
+***********************************************************************/
+
+		class GACUI_API IItemProvider
+		{
+		public:
+			bool AttachCallback(rptr<GuiListControl :: IItemProviderCallback> value);
+			bool DetachCallback(rptr<GuiListControl :: IItemProviderCallback> value);
+			signed __int32 Count();
+			rptr<IDescriptable> RequestView(const GacString& identifier);
+			void ReleaseView(rptr<IDescriptable> view);
+			rptr<GuiListControl :: IItemProvider> operator=(rptr<GuiListControl :: IItemProvider> value);
+			
+		};
+		
+
+/***********************************************************************
+GuiListControl :: IItemProviderCallback
+***********************************************************************/
+
+		class GACUI_API IItemProviderCallback
+		{
+		public:
+			void OnAttached(rptr<GuiListControl :: IItemProvider> provider);
+			void OnItemModified(signed __int32 start, signed __int32 count, signed __int32 newCount);
+			rptr<GuiListControl :: IItemProviderCallback> operator=(rptr<GuiListControl :: IItemProviderCallback> value);
+			
+		};
+		
+
+/***********************************************************************
+GuiListControl :: IItemStyleController
+***********************************************************************/
+
+		class GACUI_API IItemStyleController
+		{
+		public:
+			bool IsCacheable();
+			bool IsInstalled();
+			void OnInstalled();
+			void OnUninstalled();
+			rptr<GuiListControl :: IItemStyleController> operator=(rptr<GuiListControl :: IItemStyleController> value);
+			
+			rptr<GuiListControl :: IItemStyleProvider> GetStyleProvider();
+			signed __int32 GetItemStyleId();
+			rptr<GuiBoundsComposition> GetBoundsComposition();
+			
+		};
+		
+
+/***********************************************************************
+GuiListControl :: IItemStyleProvider
+***********************************************************************/
+
+		class GACUI_API IItemStyleProvider
+		{
+		public:
+			void AttachListControl(rptr<GuiListControl> value);
+			void DetachListControl();
+			signed __int32 GetItemStyleId(signed __int32 itemIndex);
+			rptr<GuiListControl :: IItemStyleController> CreateItemStyle(signed __int32 styleId);
+			void DestroyItemStyle(rptr<GuiListControl :: IItemStyleController> style);
+			void Install(rptr<GuiListControl :: IItemStyleController> style, signed __int32 itemIndex);
+			rptr<GuiListControl :: IItemStyleProvider> operator=(rptr<GuiListControl :: IItemStyleProvider> value);
+			
 		};
 		
 	};
 	
 
 /***********************************************************************
-INativeImageFrame
+GuiPopup
 ***********************************************************************/
 
-	class GACUI_API INativeImageFrame
+	class GACUI_API GuiPopup
 	{
-	protected:
-	
 	public:
-		bool SetCache(void->GetPointerType() key, sptr<INativeImageFrameCache> cache);
-		sptr<INativeImageFrameCache> GetCache(void->GetPointerType() key);
-		sptr<INativeImageFrameCache> RemoveCache(void->GetPointerType() key);
-		rptr<INativeImageFrame> operator=(rptr<INativeImageFrame> value);
 		
-		rptr<INativeImage> GetImage();
-		Size GetSize();
+		static rptr<GuiPopup> Create(rptr<GuiControl :: IStyleController> _styleController);
+		
+		bool IsClippedByScreen(Point location);
+		void ShowPopup(rptr<GuiControl> control, bool preferredTopBottomSide);
+		void ShowPopup(Point location);
+		rptr<GuiPopup> operator=(rptr<GuiPopup> value);
 		
 	};
 	
 
 /***********************************************************************
-INativeImageFrameCache
+GuiSelectableListControl
 ***********************************************************************/
 
-	class GACUI_API INativeImageFrameCache
+	class GACUI_API GuiSelectableListControl
 	{
-	protected:
-	
 	public:
-		void OnAttach(rptr<INativeImageFrame> frame);
-		void OnDetach(rptr<INativeImageFrame> frame);
-		rptr<INativeImageFrameCache> operator=(rptr<INativeImageFrameCache> value);
+		class IItemStyleProvider;
 		
-	};
-	
+		static rptr<GuiSelectableListControl> Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider);
+		
+		sptr<GuiListControl :: IItemStyleProvider> SetStyleProvider(sptr<GuiListControl :: IItemStyleProvider> value);
+		bool GetSelected(signed __int32 itemIndex);
+		void SetSelected(signed __int32 itemIndex, bool value);
+		void ClearSelection();
+		rptr<GuiSelectableListControl> operator=(rptr<GuiSelectableListControl> value);
+		
+		bool GetMultiSelect();
+		void SetMultiSelect(bool value);
+		rptr<IReadonlyList_of_int> GetSelectedItems();
+		GuiGraphicsEvent_of_GuiEventArgs get_SelectionChanged();
+		
 
 /***********************************************************************
-INativeImageService
+GuiSelectableListControl :: IItemStyleProvider
 ***********************************************************************/
 
-	class GACUI_API INativeImageService
-	{
-	protected:
-	
-	public:
-		sptr<INativeImage> CreateImageFromFile(const GacString& path);
-		rptr<INativeImageService> operator=(rptr<INativeImageService> value);
-		
-	};
-	
-
-/***********************************************************************
-INativeInputService
-***********************************************************************/
-
-	class GACUI_API INativeInputService
-	{
-	protected:
-	
-	public:
-		void StartHookMouse();
-		void StopHookMouse();
-		bool IsHookingMouse();
-		void StartTimer();
-		void StopTimer();
-		bool IsTimerEnabled();
-		bool IsKeyPressing(signed __int32 code);
-		bool IsKeyToggled(signed __int32 code);
-		rptr<INativeInputService> operator=(rptr<INativeInputService> value);
-		
-	};
-	
-
-/***********************************************************************
-INativeResourceService
-***********************************************************************/
-
-	class GACUI_API INativeResourceService
-	{
-	protected:
-	
-	public:
-		rptr<INativeCursor> GetSystemCursor(INativeCursor :: SystemCursorType type);
-		rptr<INativeResourceService> operator=(rptr<INativeResourceService> value);
-		
-		rptr<INativeCursor> GetDefaultSystemCursor();
-		FontProperties GetDefaultFont();
-		void SetDefaultFont(constFontProperties& value);
-		FontProperties GetDefaultFont();
-		void SetDefaultFont(constFontProperties& value);
-		
-	};
-	
-
-/***********************************************************************
-INativeScreen
-***********************************************************************/
-
-	class GACUI_API INativeScreen
-	{
-	protected:
-	
-	public:
-		bool IsPrimary();
-		rptr<INativeScreen> operator=(rptr<INativeScreen> value);
-		
-		Rect GetBounds();
-		Rect GetClientBounds();
-		vl::ObjectString<wchar_t> GetName();
-		
-	};
-	
-
-/***********************************************************************
-INativeScreenService
-***********************************************************************/
-
-	class GACUI_API INativeScreenService
-	{
-	protected:
-	
-	public:
-		rptr<INativeScreen> GetScreen(rptr<INativeWindow> window);
-		rptr<INativeScreen> GetScreen(signed __int32 index);
-		rptr<INativeScreenService> operator=(rptr<INativeScreenService> value);
-		
-		signed __int32 GetScreenCount();
-		
-	};
-	
-
-/***********************************************************************
-INativeWindow
-***********************************************************************/
-
-	class GACUI_API INativeWindow
-	{
-	protected:
-	
-	public:
-		void Show();
-		void ShowDeactivated();
-		void ShowRestored();
-		void ShowMaximized();
-		void ShowMinimized();
-		void Hide();
-		bool IsVisible();
-		void Enable();
-		void Disable();
-		bool IsEnabled();
-		void SetFocus();
-		bool IsFocused();
-		void SetActivate();
-		bool IsActivated();
-		void ShowInTaskBar();
-		void HideInTaskBar();
-		bool IsAppearedInTaskBar();
-		void EnableActivate();
-		void DisableActivate();
-		bool IsEnabledActivate();
-		bool RequireCapture();
-		bool ReleaseCapture();
-		bool InstallListener(rptr<INativeWindowListener> listener);
-		bool UninstallListener(rptr<INativeWindowListener> listener);
-		void RedrawContent();
-		rptr<INativeWindow> operator=(rptr<INativeWindow> value);
-		
-		Rect GetBounds();
-		void SetBounds(constRect& bounds);
-		Size GetClientSize();
-		void SetClientSize(Size size);
-		Rect GetClientBoundsInScreen();
-		vl::ObjectString<wchar_t> GetTitle();
-		void SetTitle(vl::ObjectString<wchar_t> _title);
-		rptr<INativeCursor> GetWindowCursor();
-		void SetWindowCursor(rptr<INativeCursor> _cursor);
-		Point GetCaretPoint();
-		void SetCaretPoint(Point point);
-		rptr<INativeWindow> GetParent();
-		void SetParent(rptr<INativeWindow> parent);
-		bool GetAlwaysPassFocusToParent();
-		void SetAlwaysPassFocusToParent(bool value);
-		bool GetMaximizedBox();
-		void SetMaximizedBox(bool visible);
-		bool GetMinimizedBox();
-		void SetMinimizedBox(bool visible);
-		bool GetBorder();
-		void SetBorder(bool visible);
-		bool GetSizeBox();
-		void SetSizeBox(bool visible);
-		bool GetIconVisible();
-		void SetIconVisible(bool visible);
-		bool GetTitleBar();
-		void SetTitleBar(bool visible);
-		bool GetTopMost();
-		void SetTopMost(bool topmost);
-		Rect GetBounds();
-		void SetBounds(constRect& bounds);
-		Size GetClientSize();
-		void SetClientSize(Size size);
-		vl::ObjectString<wchar_t> GetTitle();
-		void SetTitle(vl::ObjectString<wchar_t> _title);
-		rptr<INativeCursor> GetWindowCursor();
-		void SetWindowCursor(rptr<INativeCursor> _cursor);
-		Point GetCaretPoint();
-		void SetCaretPoint(Point point);
-		rptr<INativeWindow> GetParent();
-		void SetParent(rptr<INativeWindow> parent);
-		bool GetAlwaysPassFocusToParent();
-		void SetAlwaysPassFocusToParent(bool value);
-		bool GetMaximizedBox();
-		void SetMaximizedBox(bool visible);
-		bool GetMinimizedBox();
-		void SetMinimizedBox(bool visible);
-		bool GetBorder();
-		void SetBorder(bool visible);
-		bool GetSizeBox();
-		void SetSizeBox(bool visible);
-		bool GetIconVisible();
-		void SetIconVisible(bool visible);
-		bool GetTitleBar();
-		void SetTitleBar(bool visible);
-		bool GetTopMost();
-		void SetTopMost(bool topmost);
-		
-	};
-	
-
-/***********************************************************************
-INativeWindowListener
-***********************************************************************/
-
-	class GACUI_API INativeWindowListener
-	{
-	protected:
-	
-	public:
-		static rptr<INativeWindowListener> Create();
-		
-		void Moving(Rect& bounds, bool fixSizeOnly);
-		void Moved();
-		void Enabled();
-		void Disabled();
-		void GotFocus();
-		void LostFocus();
-		void Activated();
-		void Deactivated();
-		void Opened();
-		void Closing(bool->GetReferenceType() cancel);
-		void Closed();
-		void Paint();
-		void Destroying();
-		void Destroyed();
-		void LeftButtonDown(constNativeWindowMouseInfo& info);
-		void LeftButtonUp(constNativeWindowMouseInfo& info);
-		void LeftButtonDoubleClick(constNativeWindowMouseInfo& info);
-		void RightButtonDown(constNativeWindowMouseInfo& info);
-		void RightButtonUp(constNativeWindowMouseInfo& info);
-		void RightButtonDoubleClick(constNativeWindowMouseInfo& info);
-		void MiddleButtonDown(constNativeWindowMouseInfo& info);
-		void MiddleButtonUp(constNativeWindowMouseInfo& info);
-		void MiddleButtonDoubleClick(constNativeWindowMouseInfo& info);
-		void HorizontalWheel(constNativeWindowMouseInfo& info);
-		void VerticalWheel(constNativeWindowMouseInfo& info);
-		void MouseMoving(constNativeWindowMouseInfo& info);
-		void MouseEntered();
-		void MouseLeaved();
-		void KeyDown(constNativeWindowKeyInfo& info);
-		void KeyUp(constNativeWindowKeyInfo& info);
-		void SysKeyDown(constNativeWindowKeyInfo& info);
-		void SysKeyUp(constNativeWindowKeyInfo& info);
-		void Char(constNativeWindowCharInfo& info);
-		rptr<INativeWindowListener> operator=(rptr<INativeWindowListener> value);
-		
-	};
-	
-
-/***********************************************************************
-INativeWindowService
-***********************************************************************/
-
-	class GACUI_API INativeWindowService
-	{
-	protected:
-	
-	public:
-		rptr<INativeWindow> CreateNativeWindow();
-		void DestroyNativeWindow(rptr<INativeWindow> window);
-		rptr<INativeWindow> GetWindow(Point location);
-		void Run(rptr<INativeWindow> window);
-		rptr<INativeWindowService> operator=(rptr<INativeWindowService> value);
-		
-		rptr<INativeWindow> GetMainWindow();
-		
-	};
-	
-
-/***********************************************************************
-INodeItemPrimaryTextView
-***********************************************************************/
-
-	class GACUI_API INodeItemPrimaryTextView
-	{
-	protected:
-	
-	public:
-		vl::ObjectString<wchar_t> GetPrimaryTextViewText(rptr<INodeProvider> node);
-		rptr<INodeItemPrimaryTextView> operator=(rptr<INodeItemPrimaryTextView> value);
-		
-		static wchar_t->GetPointerType() get_Identifier();
-		static void set_Identifier(wchar_t->GetPointerType() value);
+		class GACUI_API IItemStyleProvider
+		{
+		public:
+			void SetStyleSelected(rptr<GuiListControl :: IItemStyleController> style, bool value);
+			rptr<GuiSelectableListControl :: IItemStyleProvider> operator=(rptr<GuiSelectableListControl :: IItemStyleProvider> value);
+			
+		};
 		
 	};
 	
@@ -3975,36 +4100,11 @@ INodeItemStyleController
 
 	class GACUI_API INodeItemStyleController
 	{
-	protected:
-	
 	public:
+		
 		rptr<INodeItemStyleController> operator=(rptr<INodeItemStyleController> value);
 		
 		rptr<INodeItemStyleProvider> GetNodeStyleProvider();
-		
-	};
-	
-
-/***********************************************************************
-INodeItemStyleProvider
-***********************************************************************/
-
-	class GACUI_API INodeItemStyleProvider
-	{
-	protected:
-	
-	public:
-		void BindItemStyleProvider(rptr<GuiListControl :: IItemStyleProvider> styleProvider);
-		void AttachListControl(rptr<GuiListControl> value);
-		void DetachListControl();
-		signed __int32 GetItemStyleId(rptr<INodeProvider> node);
-		rptr<INodeItemStyleController> CreateItemStyle(signed __int32 styleId);
-		void DestroyItemStyle(rptr<INodeItemStyleController> style);
-		void Install(rptr<INodeItemStyleController> style, rptr<INodeProvider> node);
-		void SetStyleSelected(rptr<INodeItemStyleController> style, bool value);
-		rptr<INodeItemStyleProvider> operator=(rptr<INodeItemStyleProvider> value);
-		
-		rptr<GuiListControl :: IItemStyleProvider> GetBindedItemStyleProvider();
 		
 	};
 	
@@ -4015,271 +4115,15 @@ INodeItemView
 
 	class GACUI_API INodeItemView
 	{
-	protected:
-	
 	public:
+		
 		rptr<INodeProvider> RequestNode(signed __int32 index);
 		void ReleaseNode(rptr<INodeProvider> node);
 		signed __int32 CalculateNodeVisibilityIndex(rptr<INodeProvider> node);
 		rptr<INodeItemView> operator=(rptr<INodeItemView> value);
 		
-		static wchar_t->GetPointerType() get_Identifier();
-		static void set_Identifier(wchar_t->GetPointerType() value);
-		
-	};
-	
-
-/***********************************************************************
-INodeProvider
-***********************************************************************/
-
-	class GACUI_API INodeProvider
-	{
-	protected:
-	
-	public:
-		signed __int32 CalculateTotalVisibleNodes();
-		rptr<INodeProvider> RequestChild(signed __int32 index);
-		void ReleaseChild(rptr<INodeProvider> node);
-		rptr<INodeProvider> operator=(rptr<INodeProvider> value);
-		
-		bool GetExpanding();
-		void SetExpanding(bool value);
-		signed __int32 GetChildCount();
-		rptr<INodeProvider> GetParent();
-		bool GetExpanding();
-		void SetExpanding(bool value);
-		
-	};
-	
-
-/***********************************************************************
-INodeProviderCallback
-***********************************************************************/
-
-	class GACUI_API INodeProviderCallback
-	{
-	protected:
-	
-	public:
-		void OnAttached(rptr<INodeRootProvider> provider);
-		void OnBeforeItemModified(rptr<INodeProvider> parentNode, signed __int32 start, signed __int32 count, signed __int32 newCount);
-		void OnAfterItemModified(rptr<INodeProvider> parentNode, signed __int32 start, signed __int32 count, signed __int32 newCount);
-		void OnItemExpanded(rptr<INodeProvider> node);
-		void OnItemCollapsed(rptr<INodeProvider> node);
-		rptr<INodeProviderCallback> operator=(rptr<INodeProviderCallback> value);
-		
-	};
-	
-
-/***********************************************************************
-INodeRootProvider
-***********************************************************************/
-
-	class GACUI_API INodeRootProvider
-	{
-	protected:
-	
-	public:
-		bool CanGetNodeByVisibleIndex();
-		rptr<INodeProvider> GetNodeByVisibleIndex(signed __int32 index);
-		bool AttachCallback(rptr<INodeProviderCallback> value);
-		bool DetachCallback(rptr<INodeProviderCallback> value);
-		rptr<IDescriptable> RequestView(const GacString& identifier);
-		void ReleaseView(rptr<IDescriptable> view);
-		rptr<INodeRootProvider> operator=(rptr<INodeRootProvider> value);
-		
-		rptr<INodeProvider> GetRootNode();
-		
-	};
-	
-
-/***********************************************************************
-IReadonlyList_of_ColorEntry
-***********************************************************************/
-
-	class GACUI_API IReadonlyList_of_ColorEntry
-	{
-	protected:
-	
-	public:
-		bool Contains(constColorEntry& item);
-		signed __int32 Count();
-		constColorEntry& Get(signed __int32 index);
-		constColorEntry& operator[](signed __int32 index);
-		signed __int32 IndexOf(constColorEntry& item);
-		rptr<IReadonlyList_of_ColorEntry> operator=(rptr<IReadonlyList_of_ColorEntry> value);
-		
-	};
-	
-
-/***********************************************************************
-IReadonlyList_of_GuiGraphicsComposition_raw_pointer
-***********************************************************************/
-
-	class GACUI_API IReadonlyList_of_GuiGraphicsComposition_raw_pointer
-	{
-	protected:
-	
-	public:
-		bool Contains(rptr<GuiGraphicsComposition> item);
-		signed __int32 Count();
-		rptr<GuiGraphicsComposition> Get(signed __int32 index);
-		rptr<GuiGraphicsComposition> operator[](signed __int32 index);
-		signed __int32 IndexOf(rptr<GuiGraphicsComposition> item);
-		rptr<IReadonlyList_of_GuiGraphicsComposition_raw_pointer> operator=(rptr<IReadonlyList_of_GuiGraphicsComposition_raw_pointer> value);
-		
-	};
-	
-
-/***********************************************************************
-IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer
-***********************************************************************/
-
-	class GACUI_API IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer
-	{
-	protected:
-	
-	public:
-		bool Contains(rptr<GuiListControl :: IItemStyleController> item);
-		signed __int32 Count();
-		rptr<GuiListControl :: IItemStyleController> Get(signed __int32 index);
-		rptr<GuiListControl :: IItemStyleController> operator[](signed __int32 index);
-		signed __int32 IndexOf(rptr<GuiListControl :: IItemStyleController> item);
-		rptr<IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer> operator=(rptr<IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer> value);
-		
-	};
-	
-
-/***********************************************************************
-IReadonlyList_of_GuiStackItemComposition_raw_pointer
-***********************************************************************/
-
-	class GACUI_API IReadonlyList_of_GuiStackItemComposition_raw_pointer
-	{
-	protected:
-	
-	public:
-		bool Contains(rptr<GuiStackItemComposition> item);
-		signed __int32 Count();
-		rptr<GuiStackItemComposition> Get(signed __int32 index);
-		rptr<GuiStackItemComposition> operator[](signed __int32 index);
-		signed __int32 IndexOf(rptr<GuiStackItemComposition> item);
-		rptr<IReadonlyList_of_GuiStackItemComposition_raw_pointer> operator=(rptr<IReadonlyList_of_GuiStackItemComposition_raw_pointer> value);
-		
-	};
-	
-
-/***********************************************************************
-IReadonlyList_of_GuiTabPage_raw_pointer
-***********************************************************************/
-
-	class GACUI_API IReadonlyList_of_GuiTabPage_raw_pointer
-	{
-	protected:
-	
-	public:
-		bool Contains(rptr<GuiTabPage> item);
-		signed __int32 Count();
-		rptr<GuiTabPage> Get(signed __int32 index);
-		rptr<GuiTabPage> operator[](signed __int32 index);
-		signed __int32 IndexOf(rptr<GuiTabPage> item);
-		rptr<IReadonlyList_of_GuiTabPage_raw_pointer> operator=(rptr<IReadonlyList_of_GuiTabPage_raw_pointer> value);
-		
-	};
-	
-
-/***********************************************************************
-IReadonlyList_of_GuiWindow_raw_pointer
-***********************************************************************/
-
-	class GACUI_API IReadonlyList_of_GuiWindow_raw_pointer
-	{
-	protected:
-	
-	public:
-		bool Contains(rptr<GuiWindow> item);
-		signed __int32 Count();
-		rptr<GuiWindow> Get(signed __int32 index);
-		rptr<GuiWindow> operator[](signed __int32 index);
-		signed __int32 IndexOf(rptr<GuiWindow> item);
-		rptr<IReadonlyList_of_GuiWindow_raw_pointer> operator=(rptr<IReadonlyList_of_GuiWindow_raw_pointer> value);
-		
-	};
-	
-
-/***********************************************************************
-IReadonlyList_of_int
-***********************************************************************/
-
-	class GACUI_API IReadonlyList_of_int
-	{
-	protected:
-	
-	public:
-		bool Contains(signed __int32 item);
-		signed __int32 Count();
-		signed __int32 Get(signed __int32 index);
-		signed __int32 operator[](signed __int32 index);
-		signed __int32 IndexOf(signed __int32 item);
-		rptr<IReadonlyList_of_int> operator=(rptr<IReadonlyList_of_int> value);
-		
-	};
-	
-
-/***********************************************************************
-IReadonlyList_of_ListViewItem
-***********************************************************************/
-
-	class GACUI_API IReadonlyList_of_ListViewItem
-	{
-	protected:
-	
-	public:
-		bool Contains(rptr<ListViewItem> item);
-		signed __int32 Count();
-		sptr<ListViewItem> Get(signed __int32 index);
-		sptr<ListViewItem> operator[](signed __int32 index);
-		signed __int32 IndexOf(rptr<ListViewItem> item);
-		rptr<IReadonlyList_of_ListViewItem> operator=(rptr<IReadonlyList_of_ListViewItem> value);
-		
-	};
-	
-
-/***********************************************************************
-IReadonlyList_of_MemoryNodeProvider
-***********************************************************************/
-
-	class GACUI_API IReadonlyList_of_MemoryNodeProvider
-	{
-	protected:
-	
-	public:
-		bool Contains(rptr<MemoryNodeProvider> item);
-		signed __int32 Count();
-		sptr<MemoryNodeProvider> Get(signed __int32 index);
-		sptr<MemoryNodeProvider> operator[](signed __int32 index);
-		signed __int32 IndexOf(rptr<MemoryNodeProvider> item);
-		rptr<IReadonlyList_of_MemoryNodeProvider> operator=(rptr<IReadonlyList_of_MemoryNodeProvider> value);
-		
-	};
-	
-
-/***********************************************************************
-IReadonlyList_of_TextItem
-***********************************************************************/
-
-	class GACUI_API IReadonlyList_of_TextItem
-	{
-	protected:
-	
-	public:
-		bool Contains(constTextItem& item);
-		signed __int32 Count();
-		constTextItem& Get(signed __int32 index);
-		constTextItem& operator[](signed __int32 index);
-		signed __int32 IndexOf(constTextItem& item);
-		rptr<IReadonlyList_of_TextItem> operator=(rptr<IReadonlyList_of_TextItem> value);
+		static wchar_t* get_Identifier();
+		static void set_Identifier(wchar_t* value);
 		
 	};
 	
@@ -4290,9 +4134,8 @@ ItemProviderBase
 
 	class GACUI_API ItemProviderBase
 	{
-	protected:
-	
 	public:
+		
 		static rptr<ItemProviderBase> Create();
 		
 		bool AttachCallback(rptr<GuiListControl :: IItemProviderCallback> value);
@@ -4303,508 +4146,13 @@ ItemProviderBase
 	
 
 /***********************************************************************
-ItemStyleControllerBase
-***********************************************************************/
-
-	class GACUI_API ItemStyleControllerBase
-	{
-	protected:
-	
-	public:
-		rptr<GuiListControl :: IItemStyleProvider> GetStyleProvider();
-		signed __int32 GetItemStyleId();
-		rptr<GuiBoundsComposition> GetBoundsComposition();
-		bool IsCacheable();
-		bool IsInstalled();
-		void OnInstalled();
-		void OnUninstalled();
-		rptr<ItemStyleControllerBase> operator=(rptr<ItemStyleControllerBase> value);
-		
-	};
-	
-
-/***********************************************************************
-ITreeViewItemView
-***********************************************************************/
-
-	class GACUI_API ITreeViewItemView
-	{
-	protected:
-	
-	public:
-		sptr<GuiImageData> GetNodeImage(rptr<INodeProvider> node);
-		vl::ObjectString<wchar_t> GetNodeText(rptr<INodeProvider> node);
-		rptr<ITreeViewItemView> operator=(rptr<ITreeViewItemView> value);
-		
-		static wchar_t->GetPointerType() get_Identifier();
-		static void set_Identifier(wchar_t->GetPointerType() value);
-		
-	};
-	
-
-/***********************************************************************
-List_of_ObjectString_of_wchar_t
-***********************************************************************/
-
-	class GACUI_API List_of_ObjectString_of_wchar_t
-	{
-	protected:
-	
-	public:
-		static rptr<List_of_ObjectString_of_wchar_t> Create();
-		
-		bool Contains(const GacString& item);
-		signed __int32 IndexOf(const GacString& item);
-		signed __int32 Add(const GacString& item);
-		signed __int32 Insert(signed __int32 index, const GacString& item);
-		bool Remove(const GacString& item);
-		bool Set(signed __int32 index, const GacString& item);
-		GacString& operator[](signed __int32 index);
-		rptr<List_of_ObjectString_of_wchar_t> operator=(rptr<List_of_ObjectString_of_wchar_t> value);
-		
-	};
-	
-
-/***********************************************************************
-ListProvider_of_ListViewItem
-***********************************************************************/
-
-	class GACUI_API ListProvider_of_ListViewItem
-	{
-	protected:
-	
-	public:
-		static rptr<ListProvider_of_ListViewItem> Create();
-		
-		rptr<ListProvider_of_ListViewItem> operator=(rptr<ListProvider_of_ListViewItem> value);
-		
-	};
-	
-
-/***********************************************************************
-ListProvider_of_TextItem
-***********************************************************************/
-
-	class GACUI_API ListProvider_of_TextItem
-	{
-	protected:
-	
-	public:
-		static rptr<ListProvider_of_TextItem> Create();
-		
-		rptr<ListProvider_of_TextItem> operator=(rptr<ListProvider_of_TextItem> value);
-		
-	};
-	
-
-/***********************************************************************
-ListViewBigIconContentProvider
-***********************************************************************/
-
-	class GACUI_API ListViewBigIconContentProvider
-	{
-	protected:
-	
-	public:
-		static rptr<ListViewBigIconContentProvider> Create(Size _iconSize);
-		
-		rptr<GuiListControl :: IItemCoordinateTransformer> CreatePreferredCoordinateTransformer();
-		rptr<GuiListControl :: IItemArranger> CreatePreferredArranger();
-		rptr<ListViewItemStyleProvider :: IListViewItemContent> CreateItemContent(constFontProperties& font);
-		void AttachListControl(rptr<GuiListControl> value);
-		void DetachListControl();
-		rptr<ListViewBigIconContentProvider> operator=(rptr<ListViewBigIconContentProvider> value);
-		
-	};
-	
-
-/***********************************************************************
-ListViewColumn
-***********************************************************************/
-
-	class GACUI_API ListViewColumn
-	{
-	protected:
-	
-	public:
-		static rptr<ListViewColumn> Create(const GacString& _text, signed __int32 _size);
-		ListViewColumn(const GacString& _text, signed __int32 _size);
-		
-		ListViewColumn& operator=(constListViewColumn& value);
-		
-		vl::ObjectString<wchar_t> get_text();
-		void set_text(vl::ObjectString<wchar_t> value);
-		signed __int32 get_size();
-		void set_size(signed __int32 value);
-		
-	};
-	
-
-/***********************************************************************
-ListViewColumnItemArranger
-***********************************************************************/
-
-	class GACUI_API ListViewColumnItemArranger
-	{
-	protected:
-	
-	public:
-		static rptr<ListViewColumnItemArranger> Create();
-		
-		void AttachListControl(rptr<GuiListControl> value);
-		void DetachListControl();
-		rptr<ListViewColumnItemArranger> operator=(rptr<ListViewColumnItemArranger> value);
-		
-
-/***********************************************************************
-ListViewColumnItemArranger :: IColumnItemView
-***********************************************************************/
-
-		class GACUI_API IColumnItemView
-		{
-		protected:
-		
-		public:
-			bool AttachCallback(rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> value);
-			bool DetachCallback(rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> value);
-			vl::ObjectString<wchar_t> GetColumnText(signed __int32 index);
-			signed __int32 GetColumnSize(signed __int32 index);
-			void SetColumnSize(signed __int32 index, signed __int32 value);
-			rptr<ListViewColumnItemArranger :: IColumnItemView> operator=(rptr<ListViewColumnItemArranger :: IColumnItemView> value);
-			
-			signed __int32 GetColumnCount();
-			
-			static wchar_t->GetPointerType() get_Identifier();
-			static void set_Identifier(wchar_t->GetPointerType() value);
-			
-		};
-		
-
-/***********************************************************************
-ListViewColumnItemArranger :: IColumnItemViewCallback
-***********************************************************************/
-
-		class GACUI_API IColumnItemViewCallback
-		{
-		protected:
-		
-		public:
-			void OnColumnChanged();
-			void OnColumnSizeChanged(signed __int32 index);
-			rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> operator=(rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> value);
-			
-		};
-		
-	};
-	
-
-/***********************************************************************
-ListViewDetailContentProvider
-***********************************************************************/
-
-	class GACUI_API ListViewDetailContentProvider
-	{
-	protected:
-	
-	public:
-		static rptr<ListViewDetailContentProvider> Create(Size _iconSize);
-		
-		rptr<GuiListControl :: IItemCoordinateTransformer> CreatePreferredCoordinateTransformer();
-		rptr<GuiListControl :: IItemArranger> CreatePreferredArranger();
-		rptr<ListViewItemStyleProvider :: IListViewItemContent> CreateItemContent(constFontProperties& font);
-		void AttachListControl(rptr<GuiListControl> value);
-		void DetachListControl();
-		rptr<ListViewDetailContentProvider> operator=(rptr<ListViewDetailContentProvider> value);
-		
-	};
-	
-
-/***********************************************************************
-ListViewInformationContentProvider
-***********************************************************************/
-
-	class GACUI_API ListViewInformationContentProvider
-	{
-	protected:
-	
-	public:
-		static rptr<ListViewInformationContentProvider> Create(Size _iconSize);
-		
-		rptr<GuiListControl :: IItemCoordinateTransformer> CreatePreferredCoordinateTransformer();
-		rptr<GuiListControl :: IItemArranger> CreatePreferredArranger();
-		rptr<ListViewItemStyleProvider :: IListViewItemContent> CreateItemContent(constFontProperties& font);
-		void AttachListControl(rptr<GuiListControl> value);
-		void DetachListControl();
-		rptr<ListViewInformationContentProvider> operator=(rptr<ListViewInformationContentProvider> value);
-		
-	};
-	
-
-/***********************************************************************
-ListViewItem
-***********************************************************************/
-
-	class GACUI_API ListViewItem
-	{
-	protected:
-	
-	public:
-		ListViewItem& operator=(constListViewItem& value);
-		
-		sptr<GuiImageData> get_smallImage();
-		void set_smallImage(sptr<GuiImageData> value);
-		sptr<GuiImageData> get_largeImage();
-		void set_largeImage(sptr<GuiImageData> value);
-		vl::ObjectString<wchar_t> get_text();
-		void set_text(vl::ObjectString<wchar_t> value);
-		List_of_ObjectString_of_wchar_t get_subItems();
-		void set_subItems(List_of_ObjectString_of_wchar_t value);
-		
-	};
-	
-
-/***********************************************************************
-ListViewItemProvider
-***********************************************************************/
-
-	class GACUI_API ListViewItemProvider
-	{
-	protected:
-	
-	public:
-		static rptr<ListViewItemProvider> Create();
-		
-		rptr<IDescriptable> RequestView(const GacString& identifier);
-		void ReleaseView(rptr<IDescriptable> view);
-		void NotifyDataColumnsUpdated();
-		void NotifyColumnsUpdated();
-		rptr<ListViewItemProvider> operator=(rptr<ListViewItemProvider> value);
-		
-		rptr<IList_of_int> GetDataColumns();
-		rptr<IList_of_ListViewColumn> GetColumns();
-		
-	};
-	
-
-/***********************************************************************
-ListViewItemStyleProvider
-***********************************************************************/
-
-	class GACUI_API ListViewItemStyleProvider
-	{
-	protected:
-	
-	public:
-		static rptr<ListViewItemStyleProvider> Create(rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> itemContentProvider);
-		
-		void AttachListControl(rptr<GuiListControl> value);
-		void DetachListControl();
-		rptr<GuiListControl :: IItemStyleController> CreateItemStyle(signed __int32 styleId);
-		void DestroyItemStyle(rptr<GuiListControl :: IItemStyleController> style);
-		void Install(rptr<GuiListControl :: IItemStyleController> style, signed __int32 itemIndex);
-		bool IsItemStyleAttachedToListView(rptr<GuiListControl :: IItemStyleController> itemStyle);
-		rptr<ListViewItemStyleProvider> operator=(rptr<ListViewItemStyleProvider> value);
-		
-		rptr<IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer> GetCreatedItemStyles();
-		
-
-/***********************************************************************
-ListViewItemStyleProvider :: IListViewItemContent
-***********************************************************************/
-
-		class GACUI_API IListViewItemContent
-		{
-		protected:
-		
-		public:
-			void Install(rptr<GuiListViewBase :: IStyleProvider> styleProvider, rptr<ListViewItemStyleProvider :: IListViewItemView> view, signed __int32 itemIndex);
-			rptr<ListViewItemStyleProvider :: IListViewItemContent> operator=(rptr<ListViewItemStyleProvider :: IListViewItemContent> value);
-			
-			rptr<GuiBoundsComposition> GetContentComposition();
-			rptr<GuiBoundsComposition> GetBackgroundDecorator();
-			
-		};
-		
-
-/***********************************************************************
-ListViewItemStyleProvider :: IListViewItemContentProvider
-***********************************************************************/
-
-		class GACUI_API IListViewItemContentProvider
-		{
-		protected:
-		
-		public:
-			rptr<GuiListControl :: IItemCoordinateTransformer> CreatePreferredCoordinateTransformer();
-			rptr<GuiListControl :: IItemArranger> CreatePreferredArranger();
-			rptr<ListViewItemStyleProvider :: IListViewItemContent> CreateItemContent(constFontProperties& font);
-			void AttachListControl(rptr<GuiListControl> value);
-			void DetachListControl();
-			rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> operator=(rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> value);
-			
-		};
-		
-
-/***********************************************************************
-ListViewItemStyleProvider :: IListViewItemView
-***********************************************************************/
-
-		class GACUI_API IListViewItemView
-		{
-		protected:
-		
-		public:
-			sptr<GuiImageData> GetSmallImage(signed __int32 itemIndex);
-			sptr<GuiImageData> GetLargeImage(signed __int32 itemIndex);
-			vl::ObjectString<wchar_t> GetText(signed __int32 itemIndex);
-			vl::ObjectString<wchar_t> GetSubItem(signed __int32 itemIndex, signed __int32 index);
-			signed __int32 GetDataColumn(signed __int32 index);
-			vl::ObjectString<wchar_t> GetColumnText(signed __int32 index);
-			rptr<ListViewItemStyleProvider :: IListViewItemView> operator=(rptr<ListViewItemStyleProvider :: IListViewItemView> value);
-			
-			signed __int32 GetDataColumnCount();
-			signed __int32 GetColumnCount();
-			
-			static wchar_t->GetPointerType() get_Identifier();
-			static void set_Identifier(wchar_t->GetPointerType() value);
-			
-		};
-		
-
-/***********************************************************************
-ListViewItemStyleProvider :: ListViewContentItemStyleController
-***********************************************************************/
-
-		class GACUI_API ListViewContentItemStyleController
-		{
-		protected:
-		
-		public:
-			static rptr<ListViewItemStyleProvider :: ListViewContentItemStyleController> Create(rptr<ListViewItemStyleProvider> provider);
-			
-			void Install(rptr<ListViewItemStyleProvider :: IListViewItemView> view, signed __int32 itemIndex);
-			rptr<ListViewItemStyleProvider :: ListViewContentItemStyleController> operator=(rptr<ListViewItemStyleProvider :: ListViewContentItemStyleController> value);
-			
-			rptr<ListViewItemStyleProvider :: IListViewItemContent> GetItemContent();
-			
-		};
-		
-	};
-	
-
-/***********************************************************************
-ListViewItemStyleProviderBase
-***********************************************************************/
-
-	class GACUI_API ListViewItemStyleProviderBase
-	{
-	protected:
-	
-	public:
-		static rptr<ListViewItemStyleProviderBase> Create();
-		
-		void AttachListControl(rptr<GuiListControl> value);
-		void DetachListControl();
-		signed __int32 GetItemStyleId(signed __int32 itemIndex);
-		void SetStyleSelected(rptr<GuiListControl :: IItemStyleController> style, bool value);
-		rptr<ListViewItemStyleProviderBase> operator=(rptr<ListViewItemStyleProviderBase> value);
-		
-
-/***********************************************************************
-ListViewItemStyleProviderBase :: ListViewItemStyleController
-***********************************************************************/
-
-		class GACUI_API ListViewItemStyleController
-		{
-		protected:
-		
-		public:
-			static rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> Create(rptr<ListViewItemStyleProviderBase> provider);
-			
-			rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> operator=(rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> value);
-			
-			bool GetSelected();
-			void SetSelected(bool value);
-			bool GetSelected();
-			void SetSelected(bool value);
-			
-		};
-		
-	};
-	
-
-/***********************************************************************
-ListViewListContentProvider
-***********************************************************************/
-
-	class GACUI_API ListViewListContentProvider
-	{
-	protected:
-	
-	public:
-		static rptr<ListViewListContentProvider> Create(Size _iconSize);
-		
-		rptr<GuiListControl :: IItemCoordinateTransformer> CreatePreferredCoordinateTransformer();
-		rptr<GuiListControl :: IItemArranger> CreatePreferredArranger();
-		rptr<ListViewItemStyleProvider :: IListViewItemContent> CreateItemContent(constFontProperties& font);
-		void AttachListControl(rptr<GuiListControl> value);
-		void DetachListControl();
-		rptr<ListViewListContentProvider> operator=(rptr<ListViewListContentProvider> value);
-		
-	};
-	
-
-/***********************************************************************
-ListViewSmallIconContentProvider
-***********************************************************************/
-
-	class GACUI_API ListViewSmallIconContentProvider
-	{
-	protected:
-	
-	public:
-		static rptr<ListViewSmallIconContentProvider> Create(Size _iconSize);
-		
-		rptr<GuiListControl :: IItemCoordinateTransformer> CreatePreferredCoordinateTransformer();
-		rptr<GuiListControl :: IItemArranger> CreatePreferredArranger();
-		rptr<ListViewItemStyleProvider :: IListViewItemContent> CreateItemContent(constFontProperties& font);
-		void AttachListControl(rptr<GuiListControl> value);
-		void DetachListControl();
-		rptr<ListViewSmallIconContentProvider> operator=(rptr<ListViewSmallIconContentProvider> value);
-		
-	};
-	
-
-/***********************************************************************
-ListViewTileContentProvider
-***********************************************************************/
-
-	class GACUI_API ListViewTileContentProvider
-	{
-	protected:
-	
-	public:
-		static rptr<ListViewTileContentProvider> Create(Size _iconSize);
-		
-		rptr<GuiListControl :: IItemCoordinateTransformer> CreatePreferredCoordinateTransformer();
-		rptr<GuiListControl :: IItemArranger> CreatePreferredArranger();
-		rptr<ListViewItemStyleProvider :: IListViewItemContent> CreateItemContent(constFontProperties& font);
-		void AttachListControl(rptr<GuiListControl> value);
-		void DetachListControl();
-		rptr<ListViewTileContentProvider> operator=(rptr<ListViewTileContentProvider> value);
-		
-	};
-	
-
-/***********************************************************************
 ListWrapperProvider_of_ListViewItem
 ***********************************************************************/
 
 	class GACUI_API ListWrapperProvider_of_ListViewItem
 	{
-	protected:
-	
 	public:
+		
 		bool NotifyUpdate(signed __int32 start, signed __int32 count);
 		bool Contains(rptr<ListViewItem> item);
 		signed __int32 Count();
@@ -4825,194 +4173,13 @@ ListWrapperProvider_of_ListViewItem
 	
 
 /***********************************************************************
-ListWrapperProvider_of_TextItem
-***********************************************************************/
-
-	class GACUI_API ListWrapperProvider_of_TextItem
-	{
-	protected:
-	
-	public:
-		bool NotifyUpdate(signed __int32 start, signed __int32 count);
-		bool Contains(constTextItem& item);
-		signed __int32 Count();
-		signed __int32 Count();
-		constTextItem& Get(signed __int32 index);
-		constTextItem& operator[](signed __int32 index);
-		signed __int32 IndexOf(constTextItem& item);
-		signed __int32 Add(constTextItem& item);
-		bool Remove(constTextItem& item);
-		bool RemoveAt(signed __int32 index);
-		bool RemoveRange(signed __int32 index, signed __int32 count);
-		bool Clear();
-		signed __int32 Insert(signed __int32 index, constTextItem& item);
-		bool Set(signed __int32 index, constTextItem& item);
-		rptr<ListWrapperProvider_of_TextItem> operator=(rptr<ListWrapperProvider_of_TextItem> value);
-		
-	};
-	
-
-/***********************************************************************
-Margin
-***********************************************************************/
-
-	class GACUI_API Margin
-	{
-	protected:
-	
-	public:
-		static rptr<Margin> Create(signed __int32 _left, signed __int32 _top, signed __int32 _right, signed __int32 _bottom);
-		Margin(signed __int32 _left, signed __int32 _top, signed __int32 _right, signed __int32 _bottom);
-		static rptr<Margin> Create();
-		Margin();
-		
-		bool operator==(Margin margin);
-		bool operator!=(Margin margin);
-		
-		signed __int32 get_left();
-		void set_left(signed __int32 value);
-		signed __int32 get_top();
-		void set_top(signed __int32 value);
-		signed __int32 get_right();
-		void set_right(signed __int32 value);
-		signed __int32 get_bottom();
-		void set_bottom(signed __int32 value);
-		
-	};
-	
-
-/***********************************************************************
-MemoryNodeProvider
-***********************************************************************/
-
-	class GACUI_API MemoryNodeProvider
-	{
-	protected:
-	
-	public:
-		static rptr<MemoryNodeProvider> Create(sptr<DescriptableObject> _data);
-		static rptr<MemoryNodeProvider> Create();
-		
-		void NotifyDataModified();
-		rptr<IList_of_MemoryNodeProvider> Children();
-		bool GetExpanding();
-		void SetExpanding(bool value);
-		signed __int32 CalculateTotalVisibleNodes();
-		signed __int32 GetChildCount();
-		rptr<INodeProvider> GetParent();
-		rptr<INodeProvider> RequestChild(signed __int32 index);
-		void ReleaseChild(rptr<INodeProvider> node);
-		rptr<MemoryNodeProvider> operator=(rptr<MemoryNodeProvider> value);
-		
-		sptr<DescriptableObject> GetData();
-		void SetData(sptr<DescriptableObject> value);
-		sptr<DescriptableObject> GetData();
-		void SetData(sptr<DescriptableObject> value);
-		
-	};
-	
-
-/***********************************************************************
-MemoryNodeRootProvider
-***********************************************************************/
-
-	class GACUI_API MemoryNodeRootProvider
-	{
-	protected:
-	
-	public:
-		static rptr<MemoryNodeRootProvider> Create();
-		
-		rptr<INodeProvider> GetRootNode();
-		rptr<MemoryNodeRootProvider> operator=(rptr<MemoryNodeRootProvider> value);
-		
-	};
-	
-
-/***********************************************************************
-NativeWindowCharInfo
-***********************************************************************/
-
-	class GACUI_API NativeWindowCharInfo
-	{
-	protected:
-	
-	public:
-		wchar_t get_code();
-		void set_code(wchar_t value);
-		bool get_ctrl();
-		void set_ctrl(bool value);
-		bool get_shift();
-		void set_shift(bool value);
-		bool get_alt();
-		void set_alt(bool value);
-		bool get_capslock();
-		void set_capslock(bool value);
-		
-	};
-	
-
-/***********************************************************************
-NativeWindowKeyInfo
-***********************************************************************/
-
-	class GACUI_API NativeWindowKeyInfo
-	{
-	protected:
-	
-	public:
-		signed __int32 get_code();
-		void set_code(signed __int32 value);
-		bool get_ctrl();
-		void set_ctrl(bool value);
-		bool get_shift();
-		void set_shift(bool value);
-		bool get_alt();
-		void set_alt(bool value);
-		bool get_capslock();
-		void set_capslock(bool value);
-		
-	};
-	
-
-/***********************************************************************
-NativeWindowMouseInfo
-***********************************************************************/
-
-	class GACUI_API NativeWindowMouseInfo
-	{
-	protected:
-	
-	public:
-		bool get_ctrl();
-		void set_ctrl(bool value);
-		bool get_shift();
-		void set_shift(bool value);
-		bool get_left();
-		void set_left(bool value);
-		bool get_middle();
-		void set_middle(bool value);
-		bool get_right();
-		void set_right(bool value);
-		signed __int32 get_x();
-		void set_x(signed __int32 value);
-		signed __int32 get_y();
-		void set_y(signed __int32 value);
-		signed __int32 get_wheel();
-		void set_wheel(signed __int32 value);
-		
-	};
-	
-
-/***********************************************************************
 NodeItemProvider
 ***********************************************************************/
 
 	class GACUI_API NodeItemProvider
 	{
-	protected:
-	
 	public:
+		
 		static rptr<NodeItemProvider> Create(rptr<INodeRootProvider> _root);
 		
 		signed __int32 Count();
@@ -5026,84 +4193,13 @@ NodeItemProvider
 	
 
 /***********************************************************************
-NodeItemStyleProvider
-***********************************************************************/
-
-	class GACUI_API NodeItemStyleProvider
-	{
-	protected:
-	
-	public:
-		static rptr<NodeItemStyleProvider> Create(sptr<INodeItemStyleProvider> provider);
-		
-		void AttachListControl(rptr<GuiListControl> value);
-		void DetachListControl();
-		signed __int32 GetItemStyleId(signed __int32 itemIndex);
-		rptr<GuiListControl :: IItemStyleController> CreateItemStyle(signed __int32 styleId);
-		void DestroyItemStyle(rptr<GuiListControl :: IItemStyleController> style);
-		void Install(rptr<GuiListControl :: IItemStyleController> style, signed __int32 itemIndex);
-		void SetStyleSelected(rptr<GuiListControl :: IItemStyleController> style, bool value);
-		rptr<NodeItemStyleProvider> operator=(rptr<NodeItemStyleProvider> value);
-		
-	};
-	
-
-/***********************************************************************
-NodeRootProviderBase
-***********************************************************************/
-
-	class GACUI_API NodeRootProviderBase
-	{
-	protected:
-	
-	public:
-		static rptr<NodeRootProviderBase> Create();
-		
-		bool CanGetNodeByVisibleIndex();
-		rptr<INodeProvider> GetNodeByVisibleIndex(signed __int32 index);
-		bool AttachCallback(rptr<INodeProviderCallback> value);
-		bool DetachCallback(rptr<INodeProviderCallback> value);
-		rptr<IDescriptable> RequestView(const GacString& identifier);
-		void ReleaseView(rptr<IDescriptable> view);
-		rptr<NodeRootProviderBase> operator=(rptr<NodeRootProviderBase> value);
-		
-	};
-	
-
-/***********************************************************************
-Point
-***********************************************************************/
-
-	class GACUI_API Point
-	{
-	protected:
-	
-	public:
-		static rptr<Point> Create(signed __int32 _x, signed __int32 _y);
-		Point(signed __int32 _x, signed __int32 _y);
-		static rptr<Point> Create();
-		Point();
-		
-		bool operator==(Point point);
-		bool operator!=(Point point);
-		
-		signed __int32 get_x();
-		void set_x(signed __int32 value);
-		signed __int32 get_y();
-		void set_y(signed __int32 value);
-		
-	};
-	
-
-/***********************************************************************
 RangedItemArrangerBase
 ***********************************************************************/
 
 	class GACUI_API RangedItemArrangerBase
 	{
-	protected:
-	
 	public:
+		
 		void OnAttached(rptr<GuiListControl :: IItemProvider> provider);
 		void OnItemModified(signed __int32 start, signed __int32 count, signed __int32 newCount);
 		void AttachListControl(rptr<GuiListControl> value);
@@ -5120,119 +4216,401 @@ RangedItemArrangerBase
 	
 
 /***********************************************************************
-Rect
+TreeViewNodeItemStyleProvider
 ***********************************************************************/
 
-	class GACUI_API Rect
+	class GACUI_API TreeViewNodeItemStyleProvider
 	{
-	protected:
-	
 	public:
-		static rptr<Rect> Create(Point p, Size s);
-		Rect(Point p, Size s);
-		static rptr<Rect> Create(signed __int32 _x1, signed __int32 _y1, signed __int32 _x2, signed __int32 _y2);
-		Rect(signed __int32 _x1, signed __int32 _y1, signed __int32 _x2, signed __int32 _y2);
-		static rptr<Rect> Create();
-		Rect();
 		
-		bool operator==(Rect rect);
-		bool operator!=(Rect rect);
-		Point LeftTop();
-		Point RightBottom();
-		signed __int32 Left();
-		signed __int32 Right();
-		signed __int32 Width();
-		signed __int32 Top();
-		signed __int32 Bottom();
-		signed __int32 Height();
-		void Expand(Size s);
-		void Expand(signed __int32 x, signed __int32 y);
-		void Move(Size s);
-		void Move(signed __int32 x, signed __int32 y);
-		bool Contains(Point p);
+		static rptr<TreeViewNodeItemStyleProvider> Create();
 		
-		Size GetSize();
-		signed __int32 get_x1();
-		void set_x1(signed __int32 value);
-		signed __int32 get_y1();
-		void set_y1(signed __int32 value);
-		signed __int32 get_x2();
-		void set_x2(signed __int32 value);
-		signed __int32 get_y2();
-		void set_y2(signed __int32 value);
+		void BindItemStyleProvider(rptr<GuiListControl :: IItemStyleProvider> styleProvider);
+		rptr<GuiListControl :: IItemStyleProvider> GetBindedItemStyleProvider();
+		void AttachListControl(rptr<GuiListControl> value);
+		void DetachListControl();
+		signed __int32 GetItemStyleId(rptr<INodeProvider> node);
+		rptr<INodeItemStyleController> CreateItemStyle(signed __int32 styleId);
+		void DestroyItemStyle(rptr<INodeItemStyleController> style);
+		void Install(rptr<INodeItemStyleController> style, rptr<INodeProvider> node);
+		void SetStyleSelected(rptr<INodeItemStyleController> style, bool value);
+		rptr<TreeViewNodeItemStyleProvider> operator=(rptr<TreeViewNodeItemStyleProvider> value);
 		
 	};
 	
 
 /***********************************************************************
-Size
+Win7MultilineTextBoxProvider
 ***********************************************************************/
 
-	class GACUI_API Size
+	class GACUI_API Win7MultilineTextBoxProvider
 	{
-	protected:
-	
 	public:
-		static rptr<Size> Create(signed __int32 _x, signed __int32 _y);
-		Size(signed __int32 _x, signed __int32 _y);
-		static rptr<Size> Create();
-		Size();
 		
-		bool operator==(Size size);
-		bool operator!=(Size size);
+		static rptr<Win7MultilineTextBoxProvider> Create();
 		
-		signed __int32 get_x();
-		void set_x(signed __int32 value);
-		signed __int32 get_y();
-		void set_y(signed __int32 value);
+		void AssociateStyleController(rptr<GuiControl :: IStyleController> controller);
+		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
+		void SetVisuallyEnabled(bool value);
+		rptr<GuiGraphicsComposition> InstallBackground(rptr<GuiBoundsComposition> boundsComposition);
+		rptr<Win7MultilineTextBoxProvider> operator=(rptr<Win7MultilineTextBoxProvider> value);
 		
 	};
 	
 
 /***********************************************************************
-TextItem
+Win7TrackStyle
 ***********************************************************************/
 
-	class GACUI_API TextItem
+	class GACUI_API Win7TrackStyle
 	{
-	protected:
-	
 	public:
-		static rptr<TextItem> Create(wchar_t->GetPointerType() _text, bool _checked);
-		TextItem(wchar_t->GetPointerType() _text, bool _checked);
-		static rptr<TextItem> Create(const GacString& _text, bool _checked);
-		TextItem(const GacString& _text, bool _checked);
-		static rptr<TextItem> Create(constTextItem& item);
-		TextItem(constTextItem& item);
-		static rptr<TextItem> Create();
-		TextItem();
 		
-		bool operator==(constTextItem& value);
-		bool operator!=(constTextItem& value);
-		TextItem& operator=(constTextItem& __that);
+		static rptr<Win7TrackStyle> Create(CommonTrackStyle :: Direction _direction);
 		
-		const GacString& GetText();
-		bool GetChecked();
+		rptr<Win7TrackStyle> operator=(rptr<Win7TrackStyle> value);
 		
 	};
 	
 
 /***********************************************************************
-TextItemProvider
+AxisAlignedItemCoordinateTransformer
 ***********************************************************************/
 
-	class GACUI_API TextItemProvider
+	class GACUI_API AxisAlignedItemCoordinateTransformer
 	{
-	protected:
-	
 	public:
-		static rptr<TextItemProvider> Create();
 		
-		void SetText(signed __int32 itemIndex, const GacString& value);
-		void SetChecked(signed __int32 itemIndex, bool value);
-		rptr<IDescriptable> RequestView(const GacString& identifier);
-		void ReleaseView(rptr<IDescriptable> view);
-		rptr<TextItemProvider> operator=(rptr<TextItemProvider> value);
+		static rptr<AxisAlignedItemCoordinateTransformer> Create(AxisAlignedItemCoordinateTransformer :: Alignment _alignment);
+		
+		Size RealSizeToVirtualSize(Size size);
+		Size VirtualSizeToRealSize(Size size);
+		Point RealPointToVirtualPoint(Size realFullSize, Point point);
+		Point VirtualPointToRealPoint(Size realFullSize, Point point);
+		Rect RealRectToVirtualRect(Size realFullSize, Rect rect);
+		Rect VirtualRectToRealRect(Size realFullSize, Rect rect);
+		Margin RealMarginToVirtualMargin(Margin margin);
+		Margin VirtualMarginToRealMargin(Margin margin);
+		rptr<AxisAlignedItemCoordinateTransformer> operator=(rptr<AxisAlignedItemCoordinateTransformer> value);
+		
+		AxisAlignedItemCoordinateTransformer :: Alignment GetAlignment();
+		
+
+/***********************************************************************
+AxisAlignedItemCoordinateTransformer :: Alignment
+***********************************************************************/
+
+		enum Alignment
+		{
+			LeftDown = 0,
+			RightDown = 1,
+			LeftUp = 2,
+			RightUp = 3,
+			DownLeft = 4,
+			DownRight = 5,
+			UpLeft = 6,
+			UpRight = 7,
+		};
+		
+	};
+	
+
+/***********************************************************************
+FixedHeightItemArranger
+***********************************************************************/
+
+	class GACUI_API FixedHeightItemArranger
+	{
+	public:
+		
+		static rptr<FixedHeightItemArranger> Create();
+		
+		rptr<FixedHeightItemArranger> operator=(rptr<FixedHeightItemArranger> value);
+		
+	};
+	
+
+/***********************************************************************
+FixedSizeMultiColumnItemArranger
+***********************************************************************/
+
+	class GACUI_API FixedSizeMultiColumnItemArranger
+	{
+	public:
+		
+		static rptr<FixedSizeMultiColumnItemArranger> Create();
+		
+		rptr<FixedSizeMultiColumnItemArranger> operator=(rptr<FixedSizeMultiColumnItemArranger> value);
+		
+	};
+	
+
+/***********************************************************************
+GuiMenu
+***********************************************************************/
+
+	class GACUI_API GuiMenu
+	{
+	public:
+		
+		static rptr<GuiMenu> Create(rptr<GuiControl :: IStyleController> _styleController, rptr<GuiControl> _owner);
+		
+		void UpdateMenuService();
+		rptr<IDescriptable> QueryService(const GacString& identifier);
+		rptr<GuiMenu> operator=(rptr<GuiMenu> value);
+		
+	};
+	
+
+/***********************************************************************
+GuiSelectableButton
+***********************************************************************/
+
+	class GACUI_API GuiSelectableButton
+	{
+	public:
+		class GroupController;
+		class IStyleController;
+		class MutexGroupController;
+		
+		static rptr<GuiSelectableButton> Create(rptr<GuiSelectableButton :: IStyleController> _styleController);
+		
+		rptr<GuiSelectableButton> operator=(rptr<GuiSelectableButton> value);
+		
+		rptr<GuiSelectableButton :: GroupController> GetGroupController();
+		void SetGroupController(rptr<GuiSelectableButton :: GroupController> value);
+		bool GetAutoSelection();
+		void SetAutoSelection(bool value);
+		bool GetSelected();
+		void SetSelected(bool value);
+		GuiGraphicsEvent_of_GuiEventArgs get_GroupControllerChanged();
+		GuiGraphicsEvent_of_GuiEventArgs get_AutoSelectionChanged();
+		GuiGraphicsEvent_of_GuiEventArgs get_SelectedChanged();
+		
+
+/***********************************************************************
+GuiSelectableButton :: GroupController
+***********************************************************************/
+
+		class GACUI_API GroupController
+		{
+		public:
+			void Attach(rptr<GuiSelectableButton> button);
+			void Detach(rptr<GuiSelectableButton> button);
+			void OnSelectedChanged(rptr<GuiSelectableButton> button);
+			rptr<GuiSelectableButton :: GroupController> operator=(rptr<GuiSelectableButton :: GroupController> value);
+			
+		};
+		
+
+/***********************************************************************
+GuiSelectableButton :: IStyleController
+***********************************************************************/
+
+		class GACUI_API IStyleController
+		{
+		public:
+			rptr<GuiSelectableButton :: IStyleController> operator=(rptr<GuiSelectableButton :: IStyleController> value);
+			void SetSelected(bool value);
+			
+		};
+		
+
+/***********************************************************************
+GuiSelectableButton :: MutexGroupController
+***********************************************************************/
+
+		class GACUI_API MutexGroupController
+		{
+		public:
+			static rptr<GuiSelectableButton :: MutexGroupController> Create();
+			
+			void OnSelectedChanged(rptr<GuiSelectableButton> button);
+			rptr<GuiSelectableButton :: MutexGroupController> operator=(rptr<GuiSelectableButton :: MutexGroupController> value);
+			
+		};
+		
+	};
+	
+
+/***********************************************************************
+GuiVirtualTreeListControl
+***********************************************************************/
+
+	class GACUI_API GuiVirtualTreeListControl
+	{
+	public:
+		
+		static rptr<GuiVirtualTreeListControl> Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<INodeRootProvider> _nodeRootProvider);
+		
+		sptr<INodeItemStyleProvider> SetNodeStyleProvider(sptr<INodeItemStyleProvider> styleProvider);
+		rptr<GuiVirtualTreeListControl> operator=(rptr<GuiVirtualTreeListControl> value);
+		
+		rptr<INodeItemView> GetNodeItemView();
+		rptr<INodeRootProvider> GetNodeRootProvider();
+		rptr<INodeItemStyleProvider> GetNodeStyleProvider();
+		
+	};
+	
+
+/***********************************************************************
+INodeItemStyleProvider
+***********************************************************************/
+
+	class GACUI_API INodeItemStyleProvider
+	{
+	public:
+		
+		void BindItemStyleProvider(rptr<GuiListControl :: IItemStyleProvider> styleProvider);
+		void AttachListControl(rptr<GuiListControl> value);
+		void DetachListControl();
+		signed __int32 GetItemStyleId(rptr<INodeProvider> node);
+		rptr<INodeItemStyleController> CreateItemStyle(signed __int32 styleId);
+		void DestroyItemStyle(rptr<INodeItemStyleController> style);
+		void Install(rptr<INodeItemStyleController> style, rptr<INodeProvider> node);
+		void SetStyleSelected(rptr<INodeItemStyleController> style, bool value);
+		rptr<INodeItemStyleProvider> operator=(rptr<INodeItemStyleProvider> value);
+		
+		rptr<GuiListControl :: IItemStyleProvider> GetBindedItemStyleProvider();
+		
+	};
+	
+
+/***********************************************************************
+ItemStyleControllerBase
+***********************************************************************/
+
+	class GACUI_API ItemStyleControllerBase
+	{
+	public:
+		
+		rptr<GuiListControl :: IItemStyleProvider> GetStyleProvider();
+		signed __int32 GetItemStyleId();
+		rptr<GuiBoundsComposition> GetBoundsComposition();
+		bool IsCacheable();
+		bool IsInstalled();
+		void OnInstalled();
+		void OnUninstalled();
+		rptr<ItemStyleControllerBase> operator=(rptr<ItemStyleControllerBase> value);
+		
+	};
+	
+
+/***********************************************************************
+ListViewColumnItemArranger
+***********************************************************************/
+
+	class GACUI_API ListViewColumnItemArranger
+	{
+	public:
+		class IColumnItemView;
+		class IColumnItemViewCallback;
+		
+		static rptr<ListViewColumnItemArranger> Create();
+		
+		void AttachListControl(rptr<GuiListControl> value);
+		void DetachListControl();
+		rptr<ListViewColumnItemArranger> operator=(rptr<ListViewColumnItemArranger> value);
+		
+
+/***********************************************************************
+ListViewColumnItemArranger :: IColumnItemView
+***********************************************************************/
+
+		class GACUI_API IColumnItemView
+		{
+		public:
+			bool AttachCallback(rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> value);
+			bool DetachCallback(rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> value);
+			GacString GetColumnText(signed __int32 index);
+			signed __int32 GetColumnSize(signed __int32 index);
+			void SetColumnSize(signed __int32 index, signed __int32 value);
+			rptr<ListViewColumnItemArranger :: IColumnItemView> operator=(rptr<ListViewColumnItemArranger :: IColumnItemView> value);
+			
+			signed __int32 GetColumnCount();
+			
+			static wchar_t* get_Identifier();
+			static void set_Identifier(wchar_t* value);
+			
+		};
+		
+
+/***********************************************************************
+ListViewColumnItemArranger :: IColumnItemViewCallback
+***********************************************************************/
+
+		class GACUI_API IColumnItemViewCallback
+		{
+		public:
+			void OnColumnChanged();
+			void OnColumnSizeChanged(signed __int32 index);
+			rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> operator=(rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> value);
+			
+		};
+		
+	};
+	
+
+/***********************************************************************
+ListViewItemStyleProviderBase
+***********************************************************************/
+
+	class GACUI_API ListViewItemStyleProviderBase
+	{
+	public:
+		class ListViewItemStyleController;
+		
+		static rptr<ListViewItemStyleProviderBase> Create();
+		
+		void AttachListControl(rptr<GuiListControl> value);
+		void DetachListControl();
+		signed __int32 GetItemStyleId(signed __int32 itemIndex);
+		void SetStyleSelected(rptr<GuiListControl :: IItemStyleController> style, bool value);
+		rptr<ListViewItemStyleProviderBase> operator=(rptr<ListViewItemStyleProviderBase> value);
+		
+
+/***********************************************************************
+ListViewItemStyleProviderBase :: ListViewItemStyleController
+***********************************************************************/
+
+		class GACUI_API ListViewItemStyleController
+		{
+		public:
+			static rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> Create(rptr<ListViewItemStyleProviderBase> provider);
+			
+			rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> operator=(rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> value);
+			
+			bool GetSelected();
+			void SetSelected(bool value);
+			
+		};
+		
+	};
+	
+
+/***********************************************************************
+ListWrapperProvider_of_TextItem
+***********************************************************************/
+
+	class GACUI_API ListWrapperProvider_of_TextItem
+	{
+	public:
+		
+		bool NotifyUpdate(signed __int32 start, signed __int32 count);
+		bool Contains(const TextItem& item);
+		signed __int32 Count();
+		signed __int32 Count();
+		const TextItem& Get(signed __int32 index);
+		const TextItem& operator[](signed __int32 index);
+		signed __int32 IndexOf(const TextItem& item);
+		signed __int32 Add(const TextItem& item);
+		bool Remove(const TextItem& item);
+		bool RemoveAt(signed __int32 index);
+		bool RemoveRange(signed __int32 index, signed __int32 count);
+		bool Clear();
+		signed __int32 Insert(signed __int32 index, const TextItem& item);
+		bool Set(signed __int32 index, const TextItem& item);
+		rptr<ListWrapperProvider_of_TextItem> operator=(rptr<ListWrapperProvider_of_TextItem> value);
 		
 	};
 	
@@ -5243,9 +4621,11 @@ TextItemStyleProvider
 
 	class GACUI_API TextItemStyleProvider
 	{
-	protected:
-	
 	public:
+		class ITextItemStyleProvider;
+		class ITextItemView;
+		class TextItemStyleController;
+		
 		static rptr<TextItemStyleProvider> Create(rptr<TextItemStyleProvider :: ITextItemStyleProvider> _textItemStyleProvider);
 		
 		void AttachListControl(rptr<GuiListControl> value);
@@ -5264,8 +4644,6 @@ TextItemStyleProvider :: ITextItemStyleProvider
 
 		class GACUI_API ITextItemStyleProvider
 		{
-		protected:
-		
 		public:
 			rptr<GuiSelectableButton :: IStyleController> CreateBackgroundStyleController();
 			rptr<GuiSelectableButton :: IStyleController> CreateBulletStyleController();
@@ -5280,16 +4658,14 @@ TextItemStyleProvider :: ITextItemView
 
 		class GACUI_API ITextItemView
 		{
-		protected:
-		
 		public:
-			vl::ObjectString<wchar_t> GetText(signed __int32 itemIndex);
+			GacString GetText(signed __int32 itemIndex);
 			bool GetChecked(signed __int32 itemIndex);
 			void SetCheckedSilently(signed __int32 itemIndex, bool value);
 			rptr<TextItemStyleProvider :: ITextItemView> operator=(rptr<TextItemStyleProvider :: ITextItemView> value);
 			
-			static wchar_t->GetPointerType() get_Identifier();
-			static void set_Identifier(wchar_t->GetPointerType() value);
+			static wchar_t* get_Identifier();
+			static void set_Identifier(wchar_t* value);
 			
 		};
 		
@@ -5300,8 +4676,6 @@ TextItemStyleProvider :: TextItemStyleController
 
 		class GACUI_API TextItemStyleController
 		{
-		protected:
-		
 		public:
 			static rptr<TextItemStyleProvider :: TextItemStyleController> Create(rptr<TextItemStyleProvider> provider);
 			
@@ -5313,283 +4687,8 @@ TextItemStyleProvider :: TextItemStyleController
 			void SetChecked(bool value);
 			const GacString& GetText();
 			void SetText(const GacString& value);
-			bool GetSelected();
-			void SetSelected(bool value);
-			bool GetChecked();
-			void SetChecked(bool value);
-			const GacString& GetText();
-			void SetText(const GacString& value);
 			
 		};
-		
-	};
-	
-
-/***********************************************************************
-TextLine
-***********************************************************************/
-
-	class GACUI_API TextLine
-	{
-	protected:
-	
-	public:
-		static rptr<TextLine> Create();
-		TextLine();
-		
-		bool operator==(constTextLine& value);
-		bool operator!=(constTextLine& value);
-		void Initialize();
-		void Finalize();
-		bool IsReady();
-		bool Modify(signed __int32 start, signed __int32 count, wchar_t->GetPointerType() input, signed __int32 inputCount);
-		TextLine Split(signed __int32 index);
-		void AppendAndFinalize(TextLine& line);
-		
-		static signed __int32 CalculateBufferLength(signed __int32 dataLength);
-		
-		wchar_t->GetPointerType() get_text();
-		void set_text(wchar_t->GetPointerType() value);
-		rptr<CharAtt> get_att();
-		void set_att(rptr<CharAtt> value);
-		signed __int32 get_availableOffsetCount();
-		void set_availableOffsetCount(signed __int32 value);
-		signed __int32 get_bufferLength();
-		void set_bufferLength(signed __int32 value);
-		signed __int32 get_dataLength();
-		void set_dataLength(signed __int32 value);
-		
-	};
-	
-
-/***********************************************************************
-TextLines
-***********************************************************************/
-
-	class GACUI_API TextLines
-	{
-	protected:
-	
-	public:
-		static rptr<TextLines> Create();
-		TextLines();
-		
-		TextLine& GetLine(signed __int32 row);
-		vl::ObjectString<wchar_t> GetText(TextPos start, TextPos end);
-		bool RemoveLines(signed __int32 start, signed __int32 count);
-		bool IsAvailable(TextPos pos);
-		TextPos Normalize(TextPos pos);
-		TextPos Modify(TextPos start, TextPos end, const GacString& input);
-		TextPos Modify(TextPos start, TextPos end, wchar_t->GetPointerType() input);
-		TextPos Modify(TextPos start, TextPos end, wchar_t->GetPointerType() input, signed __int32 inputCount);
-		TextPos Modify(TextPos start, TextPos end, wchar_t->GetPointerType()->GetPointerType() inputs, signed __int32->GetPointerType() inputCounts, signed __int32 rows);
-		void Clear();
-		void ClearMeasurement();
-		void MeasureRow(signed __int32 row);
-		signed __int32 GetRowWidth(signed __int32 row);
-		TextPos GetTextPosFromPoint(Point point);
-		Point GetPointFromTextPos(TextPos pos);
-		Rect GetRectFromTextPos(TextPos pos);
-		TextLines& operator=(constTextLines& value);
-		
-		signed __int32 GetCount();
-		rptr<CharMeasurer> GetCharMeasurer();
-		void SetCharMeasurer(rptr<CharMeasurer> value);
-		rptr<IGuiGraphicsRenderTarget> GetRenderTarget();
-		void SetRenderTarget(rptr<IGuiGraphicsRenderTarget> value);
-		vl::ObjectString<wchar_t> GetText();
-		void SetText(const GacString& value);
-		signed __int32 GetTabSpaceCount();
-		void SetTabSpaceCount(signed __int32 value);
-		signed __int32 GetRowHeight();
-		signed __int32 GetMaxWidth();
-		signed __int32 GetMaxHeight();
-		rptr<CharMeasurer> GetCharMeasurer();
-		void SetCharMeasurer(rptr<CharMeasurer> value);
-		rptr<IGuiGraphicsRenderTarget> GetRenderTarget();
-		void SetRenderTarget(rptr<IGuiGraphicsRenderTarget> value);
-		vl::ObjectString<wchar_t> GetText();
-		void SetText(const GacString& value);
-		signed __int32 GetTabSpaceCount();
-		void SetTabSpaceCount(signed __int32 value);
-		
-	};
-	
-
-/***********************************************************************
-TextPos
-***********************************************************************/
-
-	class GACUI_API TextPos
-	{
-	protected:
-	
-	public:
-		static rptr<TextPos> Create(signed __int32 _row, signed __int32 _column);
-		TextPos(signed __int32 _row, signed __int32 _column);
-		static rptr<TextPos> Create();
-		TextPos();
-		
-		signed __int32 Compare(constTextPos& value);
-		bool operator==(constTextPos& value);
-		bool operator!=(constTextPos& value);
-		bool operator<(constTextPos& value);
-		bool operator<=(constTextPos& value);
-		bool operator>(constTextPos& value);
-		bool operator>=(constTextPos& value);
-		
-		signed __int32 get_row();
-		void set_row(signed __int32 value);
-		signed __int32 get_column();
-		void set_column(signed __int32 value);
-		
-	};
-	
-
-/***********************************************************************
-TreeViewItem
-***********************************************************************/
-
-	class GACUI_API TreeViewItem
-	{
-	protected:
-	
-	public:
-		static rptr<TreeViewItem> Create(sptr<GuiImageData> _image, const GacString& _text);
-		static rptr<TreeViewItem> Create();
-		
-		rptr<TreeViewItem> operator=(rptr<TreeViewItem> value);
-		
-		sptr<GuiImageData> get_image();
-		void set_image(sptr<GuiImageData> value);
-		vl::ObjectString<wchar_t> get_text();
-		void set_text(vl::ObjectString<wchar_t> value);
-		
-	};
-	
-
-/***********************************************************************
-TreeViewItemRootProvider
-***********************************************************************/
-
-	class GACUI_API TreeViewItemRootProvider
-	{
-	protected:
-	
-	public:
-		static rptr<TreeViewItemRootProvider> Create();
-		
-		rptr<IDescriptable> RequestView(const GacString& identifier);
-		void ReleaseView(rptr<IDescriptable> view);
-		rptr<TreeViewItemRootProvider> operator=(rptr<TreeViewItemRootProvider> value);
-		
-	};
-	
-
-/***********************************************************************
-TreeViewNodeItemStyleProvider
-***********************************************************************/
-
-	class GACUI_API TreeViewNodeItemStyleProvider
-	{
-	protected:
-	
-	public:
-		static rptr<TreeViewNodeItemStyleProvider> Create();
-		
-		void BindItemStyleProvider(rptr<GuiListControl :: IItemStyleProvider> styleProvider);
-		rptr<GuiListControl :: IItemStyleProvider> GetBindedItemStyleProvider();
-		void AttachListControl(rptr<GuiListControl> value);
-		void DetachListControl();
-		signed __int32 GetItemStyleId(rptr<INodeProvider> node);
-		rptr<INodeItemStyleController> CreateItemStyle(signed __int32 styleId);
-		void DestroyItemStyle(rptr<INodeItemStyleController> style);
-		void Install(rptr<INodeItemStyleController> style, rptr<INodeProvider> node);
-		void SetStyleSelected(rptr<INodeItemStyleController> style, bool value);
-		rptr<TreeViewNodeItemStyleProvider> operator=(rptr<TreeViewNodeItemStyleProvider> value);
-		
-	};
-	
-
-/***********************************************************************
-Win7ButtonColors
-***********************************************************************/
-
-	class GACUI_API Win7ButtonColors
-	{
-	protected:
-	
-	public:
-		static rptr<Win7ButtonColors> Create();
-		Win7ButtonColors();
-		
-		bool operator==(constWin7ButtonColors& colors);
-		bool operator!=(constWin7ButtonColors& colors);
-		void SetAlphaWithoutText(unsigned __int8 a);
-		
-		static Win7ButtonColors Blend(constWin7ButtonColors& c1, constWin7ButtonColors& c2, signed __int32 ratio, signed __int32 total);
-		static Win7ButtonColors ButtonNormal();
-		static Win7ButtonColors ButtonActive();
-		static Win7ButtonColors ButtonPressed();
-		static Win7ButtonColors ButtonDisabled();
-		static Win7ButtonColors ItemNormal();
-		static Win7ButtonColors ItemActive();
-		static Win7ButtonColors ItemSelected();
-		static Win7ButtonColors ItemDisabled();
-		static Win7ButtonColors CheckedNormal(bool selected);
-		static Win7ButtonColors CheckedActive(bool selected);
-		static Win7ButtonColors CheckedPressed(bool selected);
-		static Win7ButtonColors CheckedDisabled(bool selected);
-		static Win7ButtonColors ToolstripButtonNormal();
-		static Win7ButtonColors ToolstripButtonActive();
-		static Win7ButtonColors ToolstripButtonPressed();
-		static Win7ButtonColors ToolstripButtonDisabled();
-		static Win7ButtonColors MenuBarButtonNormal();
-		static Win7ButtonColors MenuBarButtonActive();
-		static Win7ButtonColors MenuBarButtonPressed();
-		static Win7ButtonColors MenuBarButtonDisabled();
-		static Win7ButtonColors MenuItemButtonNormal();
-		static Win7ButtonColors MenuItemButtonNormalActive();
-		static Win7ButtonColors MenuItemButtonDisabled();
-		static Win7ButtonColors MenuItemButtonDisabledActive();
-		static Win7ButtonColors TabPageHeaderNormal();
-		static Win7ButtonColors TabPageHeaderActive();
-		static Win7ButtonColors TabPageHeaderSelected();
-		
-		Color get_borderColor();
-		void set_borderColor(Color value);
-		Color get_backgroundColor();
-		void set_backgroundColor(Color value);
-		Color get_g1();
-		void set_g1(Color value);
-		Color get_g2();
-		void set_g2(Color value);
-		Color get_g3();
-		void set_g3(Color value);
-		Color get_g4();
-		void set_g4(Color value);
-		Color get_textColor();
-		void set_textColor(Color value);
-		Color get_bulletLight();
-		void set_bulletLight(Color value);
-		Color get_bulletDark();
-		void set_bulletDark(Color value);
-		
-	};
-	
-
-/***********************************************************************
-Win7ButtonStyle
-***********************************************************************/
-
-	class GACUI_API Win7ButtonStyle
-	{
-	protected:
-	
-	public:
-		static rptr<Win7ButtonStyle> Create(bool verticalGradient);
-		
-		rptr<Win7ButtonStyle> operator=(rptr<Win7ButtonStyle> value);
 		
 	};
 	
@@ -5600,14 +4699,13 @@ Win7ButtonStyleBase
 
 	class GACUI_API Win7ButtonStyleBase
 	{
-	protected:
-	
 	public:
+		
 		rptr<GuiBoundsComposition> GetBoundsComposition();
 		rptr<GuiGraphicsComposition> GetContainerComposition();
 		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
 		void SetText(const GacString& value);
-		void SetFont(constFontProperties& value);
+		void SetFont(const FontProperties& value);
 		void SetVisuallyEnabled(bool value);
 		void SetSelected(bool value);
 		void Transfer(GuiButton :: ControlState value);
@@ -5619,12 +4717,692 @@ Win7ButtonStyleBase
 		void SetTransparentWhenDisabled(bool value);
 		bool GetAutoSizeForText();
 		void SetAutoSizeForText(bool value);
-		bool GetTransparentWhenInactive();
-		void SetTransparentWhenInactive(bool value);
-		bool GetTransparentWhenDisabled();
-		void SetTransparentWhenDisabled(bool value);
-		bool GetAutoSizeForText();
-		void SetAutoSizeForText(bool value);
+		
+	};
+	
+
+/***********************************************************************
+Win7ListViewColumnDropDownStyle
+***********************************************************************/
+
+	class GACUI_API Win7ListViewColumnDropDownStyle
+	{
+	public:
+		
+		static rptr<Win7ListViewColumnDropDownStyle> Create();
+		
+		rptr<GuiBoundsComposition> GetBoundsComposition();
+		rptr<GuiGraphicsComposition> GetContainerComposition();
+		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
+		void SetText(const GacString& value);
+		void SetFont(const FontProperties& value);
+		void SetVisuallyEnabled(bool value);
+		void SetSelected(bool value);
+		void Transfer(GuiButton :: ControlState value);
+		rptr<Win7ListViewColumnDropDownStyle> operator=(rptr<Win7ListViewColumnDropDownStyle> value);
+		
+	};
+	
+
+/***********************************************************************
+Win7SelectableItemStyle
+***********************************************************************/
+
+	class GACUI_API Win7SelectableItemStyle
+	{
+	public:
+		
+		static rptr<Win7SelectableItemStyle> Create();
+		
+		rptr<Win7SelectableItemStyle> operator=(rptr<Win7SelectableItemStyle> value);
+		
+	};
+	
+
+/***********************************************************************
+Win7TextListProvider
+***********************************************************************/
+
+	class GACUI_API Win7TextListProvider
+	{
+	public:
+		
+		static rptr<Win7TextListProvider> Create();
+		
+		rptr<GuiSelectableButton :: IStyleController> CreateBackgroundStyleController();
+		rptr<GuiSelectableButton :: IStyleController> CreateBulletStyleController();
+		rptr<Win7TextListProvider> operator=(rptr<Win7TextListProvider> value);
+		
+	};
+	
+
+/***********************************************************************
+Win7TreeViewExpandingButtonStyle
+***********************************************************************/
+
+	class GACUI_API Win7TreeViewExpandingButtonStyle
+	{
+	public:
+		
+		static rptr<Win7TreeViewExpandingButtonStyle> Create();
+		
+		rptr<GuiBoundsComposition> GetBoundsComposition();
+		rptr<GuiGraphicsComposition> GetContainerComposition();
+		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
+		void SetText(const GacString& value);
+		void SetFont(const FontProperties& value);
+		void SetVisuallyEnabled(bool value);
+		void SetSelected(bool value);
+		void Transfer(GuiButton :: ControlState value);
+		rptr<Win7TreeViewExpandingButtonStyle> operator=(rptr<Win7TreeViewExpandingButtonStyle> value);
+		
+	};
+	
+
+/***********************************************************************
+DefaultItemCoordinateTransformer
+***********************************************************************/
+
+	class GACUI_API DefaultItemCoordinateTransformer
+	{
+	public:
+		
+		static rptr<DefaultItemCoordinateTransformer> Create();
+		
+		Size RealSizeToVirtualSize(Size size);
+		Size VirtualSizeToRealSize(Size size);
+		Point RealPointToVirtualPoint(Size realFullSize, Point point);
+		Point VirtualPointToRealPoint(Size realFullSize, Point point);
+		Rect RealRectToVirtualRect(Size realFullSize, Rect rect);
+		Rect VirtualRectToRealRect(Size realFullSize, Rect rect);
+		Margin RealMarginToVirtualMargin(Margin margin);
+		Margin VirtualMarginToRealMargin(Margin margin);
+		rptr<DefaultItemCoordinateTransformer> operator=(rptr<DefaultItemCoordinateTransformer> value);
+		
+	};
+	
+
+/***********************************************************************
+GuiComboBoxBase
+***********************************************************************/
+
+	class GACUI_API GuiComboBoxBase
+	{
+	public:
+		class ICommandExecutor;
+		class IStyleController;
+		
+		static rptr<GuiComboBoxBase> Create(rptr<GuiComboBoxBase :: IStyleController> _styleController);
+		
+		void ShowPopup();
+		rptr<GuiComboBoxBase> operator=(rptr<GuiComboBoxBase> value);
+		
+		rptr<GuiPopup> GetPopup();
+		GuiGraphicsEvent_of_GuiEventArgs get_PopupOpened();
+		GuiGraphicsEvent_of_GuiEventArgs get_PopupClosed();
+		GuiGraphicsEvent_of_GuiEventArgs get_ItemSelecting();
+		GuiGraphicsEvent_of_GuiEventArgs get_ItemSelected();
+		
+
+/***********************************************************************
+GuiComboBoxBase :: ICommandExecutor
+***********************************************************************/
+
+		class GACUI_API ICommandExecutor
+		{
+		public:
+			void ShowPopup();
+			void SelectItem();
+			rptr<GuiComboBoxBase :: ICommandExecutor> operator=(rptr<GuiComboBoxBase :: ICommandExecutor> value);
+			
+		};
+		
+
+/***********************************************************************
+GuiComboBoxBase :: IStyleController
+***********************************************************************/
+
+		class GACUI_API IStyleController
+		{
+		public:
+			void OnClicked();
+			void OnPopupOpened();
+			void OnPopupClosed();
+			void OnItemSelected();
+			rptr<GuiControl :: IStyleController> CreatePopupStyle();
+			rptr<GuiComboBoxBase :: IStyleController> operator=(rptr<GuiComboBoxBase :: IStyleController> value);
+			void SetCommandExecutor(rptr<GuiComboBoxBase :: ICommandExecutor> value);
+			
+		};
+		
+	};
+	
+
+/***********************************************************************
+GuiListViewBase
+***********************************************************************/
+
+	class GACUI_API GuiListViewBase
+	{
+	public:
+		class IStyleProvider;
+		
+		static rptr<GuiListViewBase> Create(rptr<GuiListViewBase :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider);
+		
+		sptr<GuiListControl :: IItemStyleProvider> SetStyleProvider(sptr<GuiListControl :: IItemStyleProvider> value);
+		rptr<GuiListViewBase> operator=(rptr<GuiListViewBase> value);
+		
+		rptr<GuiListViewBase :: IStyleProvider> GetListViewStyleProvider();
+		
+
+/***********************************************************************
+GuiListViewBase :: IStyleProvider
+***********************************************************************/
+
+		class GACUI_API IStyleProvider
+		{
+		public:
+			rptr<GuiSelectableButton :: IStyleController> CreateItemBackground();
+			rptr<GuiSelectableButton :: IStyleController> CreateColumnStyle();
+			rptr<GuiListViewBase :: IStyleProvider> operator=(rptr<GuiListViewBase :: IStyleProvider> value);
+			
+			Color GetPrimaryTextColor();
+			Color GetSecondaryTextColor();
+			Color GetItemSeparatorColor();
+			
+		};
+		
+	};
+	
+
+/***********************************************************************
+GuiTableComposition
+***********************************************************************/
+
+	class GACUI_API GuiTableComposition
+	{
+	public:
+		
+		static rptr<GuiTableComposition> Create();
+		
+		bool SetRowsAndColumns(signed __int32 _rows, signed __int32 _columns);
+		rptr<GuiCellComposition> GetSitedCell(signed __int32 _row, signed __int32 _column);
+		GuiCellOption GetRowOption(signed __int32 _row);
+		void SetRowOption(signed __int32 _row, GuiCellOption option);
+		GuiCellOption GetColumnOption(signed __int32 _column);
+		void SetColumnOption(signed __int32 _column, GuiCellOption option);
+		void UpdateCellBounds();
+		Size GetMinPreferredClientSize();
+		Rect GetBounds();
+		rptr<GuiTableComposition> operator=(rptr<GuiTableComposition> value);
+		
+		signed __int32 GetRows();
+		signed __int32 GetColumns();
+		signed __int32 GetCellPadding();
+		void SetCellPadding(signed __int32 value);
+		Rect GetCellArea();
+		
+	};
+	
+
+/***********************************************************************
+GuiTreeView
+***********************************************************************/
+
+	class GACUI_API GuiTreeView
+	{
+	public:
+		class IStyleProvider;
+		
+		static rptr<GuiTreeView> Create(rptr<GuiTreeView :: IStyleProvider> _styleProvider, rptr<INodeRootProvider> _nodeRootProvider);
+		
+		sptr<TreeViewItemRootProvider> Nodes();
+		rptr<GuiTreeView> operator=(rptr<GuiTreeView> value);
+		
+		rptr<GuiTreeView :: IStyleProvider> GetTreeViewStyleProvider();
+		
+
+/***********************************************************************
+GuiTreeView :: IStyleProvider
+***********************************************************************/
+
+		class GACUI_API IStyleProvider
+		{
+		public:
+			rptr<GuiSelectableButton :: IStyleController> CreateItemBackground();
+			rptr<GuiSelectableButton :: IStyleController> CreateItemExpandingDecorator();
+			rptr<GuiTreeView :: IStyleProvider> operator=(rptr<GuiTreeView :: IStyleProvider> value);
+			
+			Color GetTextColor();
+			
+		};
+		
+	};
+	
+
+/***********************************************************************
+GuiVirtualTextList
+***********************************************************************/
+
+	class GACUI_API GuiVirtualTextList
+	{
+	public:
+		
+		static rptr<GuiVirtualTextList> Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<TextItemStyleProvider :: ITextItemStyleProvider> _itemStyleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider);
+		
+		sptr<GuiListControl :: IItemStyleProvider> SetStyleProvider(sptr<GuiListControl :: IItemStyleProvider> value);
+		sptr<GuiListControl :: IItemStyleProvider> ChangeItemStyle(rptr<TextItemStyleProvider :: ITextItemStyleProvider> itemStyleProvider);
+		rptr<GuiVirtualTextList> operator=(rptr<GuiVirtualTextList> value);
+		
+	};
+	
+
+/***********************************************************************
+IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer
+***********************************************************************/
+
+	class GACUI_API IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer
+	{
+	public:
+		
+		bool Contains(rptr<GuiListControl :: IItemStyleController> item);
+		signed __int32 Count();
+		rptr<GuiListControl :: IItemStyleController> Get(signed __int32 index);
+		rptr<GuiListControl :: IItemStyleController> operator[](signed __int32 index);
+		signed __int32 IndexOf(rptr<GuiListControl :: IItemStyleController> item);
+		rptr<IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer> operator=(rptr<IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer> value);
+		
+	};
+	
+
+/***********************************************************************
+ListProvider_of_TextItem
+***********************************************************************/
+
+	class GACUI_API ListProvider_of_TextItem
+	{
+	public:
+		
+		static rptr<ListProvider_of_TextItem> Create();
+		
+		rptr<ListProvider_of_TextItem> operator=(rptr<ListProvider_of_TextItem> value);
+		
+	};
+	
+
+/***********************************************************************
+ListViewItemStyleProvider
+***********************************************************************/
+
+	class GACUI_API ListViewItemStyleProvider
+	{
+	public:
+		class IListViewItemContent;
+		class IListViewItemContentProvider;
+		class IListViewItemView;
+		class ListViewContentItemStyleController;
+		
+		static rptr<ListViewItemStyleProvider> Create(rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> itemContentProvider);
+		
+		void AttachListControl(rptr<GuiListControl> value);
+		void DetachListControl();
+		rptr<GuiListControl :: IItemStyleController> CreateItemStyle(signed __int32 styleId);
+		void DestroyItemStyle(rptr<GuiListControl :: IItemStyleController> style);
+		void Install(rptr<GuiListControl :: IItemStyleController> style, signed __int32 itemIndex);
+		bool IsItemStyleAttachedToListView(rptr<GuiListControl :: IItemStyleController> itemStyle);
+		rptr<ListViewItemStyleProvider> operator=(rptr<ListViewItemStyleProvider> value);
+		
+		rptr<IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer> GetCreatedItemStyles();
+		
+
+/***********************************************************************
+ListViewItemStyleProvider :: IListViewItemContent
+***********************************************************************/
+
+		class GACUI_API IListViewItemContent
+		{
+		public:
+			void Install(rptr<GuiListViewBase :: IStyleProvider> styleProvider, rptr<ListViewItemStyleProvider :: IListViewItemView> view, signed __int32 itemIndex);
+			rptr<ListViewItemStyleProvider :: IListViewItemContent> operator=(rptr<ListViewItemStyleProvider :: IListViewItemContent> value);
+			
+			rptr<GuiBoundsComposition> GetContentComposition();
+			rptr<GuiBoundsComposition> GetBackgroundDecorator();
+			
+		};
+		
+
+/***********************************************************************
+ListViewItemStyleProvider :: IListViewItemContentProvider
+***********************************************************************/
+
+		class GACUI_API IListViewItemContentProvider
+		{
+		public:
+			rptr<GuiListControl :: IItemCoordinateTransformer> CreatePreferredCoordinateTransformer();
+			rptr<GuiListControl :: IItemArranger> CreatePreferredArranger();
+			rptr<ListViewItemStyleProvider :: IListViewItemContent> CreateItemContent(const FontProperties& font);
+			void AttachListControl(rptr<GuiListControl> value);
+			void DetachListControl();
+			rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> operator=(rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> value);
+			
+		};
+		
+
+/***********************************************************************
+ListViewItemStyleProvider :: IListViewItemView
+***********************************************************************/
+
+		class GACUI_API IListViewItemView
+		{
+		public:
+			sptr<GuiImageData> GetSmallImage(signed __int32 itemIndex);
+			sptr<GuiImageData> GetLargeImage(signed __int32 itemIndex);
+			GacString GetText(signed __int32 itemIndex);
+			GacString GetSubItem(signed __int32 itemIndex, signed __int32 index);
+			signed __int32 GetDataColumn(signed __int32 index);
+			GacString GetColumnText(signed __int32 index);
+			rptr<ListViewItemStyleProvider :: IListViewItemView> operator=(rptr<ListViewItemStyleProvider :: IListViewItemView> value);
+			
+			signed __int32 GetDataColumnCount();
+			signed __int32 GetColumnCount();
+			
+			static wchar_t* get_Identifier();
+			static void set_Identifier(wchar_t* value);
+			
+		};
+		
+
+/***********************************************************************
+ListViewItemStyleProvider :: ListViewContentItemStyleController
+***********************************************************************/
+
+		class GACUI_API ListViewContentItemStyleController
+		{
+		public:
+			static rptr<ListViewItemStyleProvider :: ListViewContentItemStyleController> Create(rptr<ListViewItemStyleProvider> provider);
+			
+			void Install(rptr<ListViewItemStyleProvider :: IListViewItemView> view, signed __int32 itemIndex);
+			rptr<ListViewItemStyleProvider :: ListViewContentItemStyleController> operator=(rptr<ListViewItemStyleProvider :: ListViewContentItemStyleController> value);
+			
+			rptr<ListViewItemStyleProvider :: IListViewItemContent> GetItemContent();
+			
+		};
+		
+	};
+	
+
+/***********************************************************************
+ListViewSmallIconContentProvider
+***********************************************************************/
+
+	class GACUI_API ListViewSmallIconContentProvider
+	{
+	public:
+		
+		static rptr<ListViewSmallIconContentProvider> Create(Size _iconSize);
+		
+		rptr<GuiListControl :: IItemCoordinateTransformer> CreatePreferredCoordinateTransformer();
+		rptr<GuiListControl :: IItemArranger> CreatePreferredArranger();
+		rptr<ListViewItemStyleProvider :: IListViewItemContent> CreateItemContent(const FontProperties& font);
+		void AttachListControl(rptr<GuiListControl> value);
+		void DetachListControl();
+		rptr<ListViewSmallIconContentProvider> operator=(rptr<ListViewSmallIconContentProvider> value);
+		
+	};
+	
+
+/***********************************************************************
+NodeItemStyleProvider
+***********************************************************************/
+
+	class GACUI_API NodeItemStyleProvider
+	{
+	public:
+		
+		static rptr<NodeItemStyleProvider> Create(sptr<INodeItemStyleProvider> provider);
+		
+		void AttachListControl(rptr<GuiListControl> value);
+		void DetachListControl();
+		signed __int32 GetItemStyleId(signed __int32 itemIndex);
+		rptr<GuiListControl :: IItemStyleController> CreateItemStyle(signed __int32 styleId);
+		void DestroyItemStyle(rptr<GuiListControl :: IItemStyleController> style);
+		void Install(rptr<GuiListControl :: IItemStyleController> style, signed __int32 itemIndex);
+		void SetStyleSelected(rptr<GuiListControl :: IItemStyleController> style, bool value);
+		rptr<NodeItemStyleProvider> operator=(rptr<NodeItemStyleProvider> value);
+		
+	};
+	
+
+/***********************************************************************
+Win7ButtonStyle
+***********************************************************************/
+
+	class GACUI_API Win7ButtonStyle
+	{
+	public:
+		
+		static rptr<Win7ButtonStyle> Create(bool verticalGradient);
+		
+		rptr<Win7ButtonStyle> operator=(rptr<Win7ButtonStyle> value);
+		
+	};
+	
+
+/***********************************************************************
+Win7CheckTextListProvider
+***********************************************************************/
+
+	class GACUI_API Win7CheckTextListProvider
+	{
+	public:
+		
+		static rptr<Win7CheckTextListProvider> Create();
+		
+		rptr<GuiSelectableButton :: IStyleController> CreateBulletStyleController();
+		rptr<Win7CheckTextListProvider> operator=(rptr<Win7CheckTextListProvider> value);
+		
+	};
+	
+
+/***********************************************************************
+Win7ListViewColumnHeaderStyle
+***********************************************************************/
+
+	class GACUI_API Win7ListViewColumnHeaderStyle
+	{
+	public:
+		
+		static rptr<Win7ListViewColumnHeaderStyle> Create();
+		
+		rptr<GuiBoundsComposition> GetBoundsComposition();
+		rptr<GuiGraphicsComposition> GetContainerComposition();
+		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
+		void SetText(const GacString& value);
+		void SetFont(const FontProperties& value);
+		void SetVisuallyEnabled(bool value);
+		void SetSelected(bool value);
+		void Transfer(GuiButton :: ControlState value);
+		rptr<Win7ListViewColumnHeaderStyle> operator=(rptr<Win7ListViewColumnHeaderStyle> value);
+		
+	};
+	
+
+/***********************************************************************
+Win7RadioTextListProvider
+***********************************************************************/
+
+	class GACUI_API Win7RadioTextListProvider
+	{
+	public:
+		
+		static rptr<Win7RadioTextListProvider> Create();
+		
+		rptr<GuiSelectableButton :: IStyleController> CreateBulletStyleController();
+		rptr<Win7RadioTextListProvider> operator=(rptr<Win7RadioTextListProvider> value);
+		
+	};
+	
+
+/***********************************************************************
+Win7ToolstripButtonStyle
+***********************************************************************/
+
+	class GACUI_API Win7ToolstripButtonStyle
+	{
+	public:
+		
+		static rptr<Win7ToolstripButtonStyle> Create(bool transparent);
+		
+		rptr<Win7ToolstripButtonStyle> operator=(rptr<Win7ToolstripButtonStyle> value);
+		
+	};
+	
+
+/***********************************************************************
+FixedHeightMultiColumnItemArranger
+***********************************************************************/
+
+	class GACUI_API FixedHeightMultiColumnItemArranger
+	{
+	public:
+		
+		static rptr<FixedHeightMultiColumnItemArranger> Create();
+		
+		rptr<FixedHeightMultiColumnItemArranger> operator=(rptr<FixedHeightMultiColumnItemArranger> value);
+		
+	};
+	
+
+/***********************************************************************
+GuiMenuButton
+***********************************************************************/
+
+	class GACUI_API GuiMenuButton
+	{
+	public:
+		class IStyleController;
+		
+		static rptr<GuiMenuButton> Create(rptr<GuiMenuButton :: IStyleController> _styleController);
+		
+		bool IsSubMenuExists();
+		void CreateSubMenu(rptr<GuiControl :: IStyleController> subMenuStyleController);
+		void DestroySubMenu();
+		rptr<GuiMenuButton> operator=(rptr<GuiMenuButton> value);
+		
+		rptr<GuiMenu> GetSubMenu();
+		bool GetSubMenuOpening();
+		void SetSubMenuOpening(bool value);
+		Size GetPreferredMenuClientSize();
+		void SetPreferredMenuClientSize(Size value);
+		GuiGraphicsEvent_of_GuiEventArgs get_SubMenuOpeningChanged();
+		
+
+/***********************************************************************
+GuiMenuButton :: IStyleController
+***********************************************************************/
+
+		class GACUI_API IStyleController
+		{
+		public:
+			rptr<GuiControl :: IStyleController> CreateSubMenuStyleController();
+			rptr<GuiMenuButton :: IStyleController> operator=(rptr<GuiMenuButton :: IStyleController> value);
+			void SetSubMenuExisting(bool value);
+			void SetSubMenuOpening(bool value);
+			
+		};
+		
+	};
+	
+
+/***********************************************************************
+GuiVirtualListView
+***********************************************************************/
+
+	class GACUI_API GuiVirtualListView
+	{
+	public:
+		
+		static rptr<GuiVirtualListView> Create(rptr<GuiListViewBase :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider);
+		
+		void ChangeItemStyle(rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> contentProvider);
+		rptr<GuiVirtualListView> operator=(rptr<GuiVirtualListView> value);
+		
+	};
+	
+
+/***********************************************************************
+ListProvider_of_ListViewItem
+***********************************************************************/
+
+	class GACUI_API ListProvider_of_ListViewItem
+	{
+	public:
+		
+		static rptr<ListProvider_of_ListViewItem> Create();
+		
+		rptr<ListProvider_of_ListViewItem> operator=(rptr<ListProvider_of_ListViewItem> value);
+		
+	};
+	
+
+/***********************************************************************
+ListViewDetailContentProvider
+***********************************************************************/
+
+	class GACUI_API ListViewDetailContentProvider
+	{
+	public:
+		
+		static rptr<ListViewDetailContentProvider> Create(Size _iconSize);
+		
+		rptr<GuiListControl :: IItemCoordinateTransformer> CreatePreferredCoordinateTransformer();
+		rptr<GuiListControl :: IItemArranger> CreatePreferredArranger();
+		rptr<ListViewItemStyleProvider :: IListViewItemContent> CreateItemContent(const FontProperties& font);
+		void AttachListControl(rptr<GuiListControl> value);
+		void DetachListControl();
+		rptr<ListViewDetailContentProvider> operator=(rptr<ListViewDetailContentProvider> value);
+		
+	};
+	
+
+/***********************************************************************
+ListViewItemProvider
+***********************************************************************/
+
+	class GACUI_API ListViewItemProvider
+	{
+	public:
+		
+		static rptr<ListViewItemProvider> Create();
+		
+		rptr<IDescriptable> RequestView(const GacString& identifier);
+		void ReleaseView(rptr<IDescriptable> view);
+		void NotifyDataColumnsUpdated();
+		void NotifyColumnsUpdated();
+		rptr<ListViewItemProvider> operator=(rptr<ListViewItemProvider> value);
+		
+		rptr<IList_of_int> GetDataColumns();
+		rptr<IList_of_ListViewColumn> GetColumns();
+		
+	};
+	
+
+/***********************************************************************
+ListViewTileContentProvider
+***********************************************************************/
+
+	class GACUI_API ListViewTileContentProvider
+	{
+	public:
+		
+		static rptr<ListViewTileContentProvider> Create(Size _iconSize);
+		
+		rptr<GuiListControl :: IItemCoordinateTransformer> CreatePreferredCoordinateTransformer();
+		rptr<GuiListControl :: IItemArranger> CreatePreferredArranger();
+		rptr<ListViewItemStyleProvider :: IListViewItemContent> CreateItemContent(const FontProperties& font);
+		void AttachListControl(rptr<GuiListControl> value);
+		void DetachListControl();
+		rptr<ListViewTileContentProvider> operator=(rptr<ListViewTileContentProvider> value);
 		
 	};
 	
@@ -5635,16 +5413,15 @@ Win7CheckBoxStyle
 
 	class GACUI_API Win7CheckBoxStyle
 	{
-	protected:
-	
 	public:
+		
 		static rptr<Win7CheckBoxStyle> Create(Win7CheckBoxStyle :: BulletStyle bulletStyle, bool backgroundVisible);
 		
 		rptr<GuiBoundsComposition> GetBoundsComposition();
 		rptr<GuiGraphicsComposition> GetContainerComposition();
 		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
 		void SetText(const GacString& value);
-		void SetFont(constFontProperties& value);
+		void SetFont(const FontProperties& value);
 		void SetVisuallyEnabled(bool value);
 		void SetSelected(bool value);
 		void Transfer(GuiButton :: ControlState value);
@@ -5665,18 +5442,222 @@ Win7CheckBoxStyle :: BulletStyle
 	
 
 /***********************************************************************
-Win7CheckTextListProvider
+Win7ListViewProvider
 ***********************************************************************/
 
-	class GACUI_API Win7CheckTextListProvider
+	class GACUI_API Win7ListViewProvider
 	{
-	protected:
-	
 	public:
-		static rptr<Win7CheckTextListProvider> Create();
 		
-		rptr<GuiSelectableButton :: IStyleController> CreateBulletStyleController();
-		rptr<Win7CheckTextListProvider> operator=(rptr<Win7CheckTextListProvider> value);
+		static rptr<Win7ListViewProvider> Create();
+		
+		rptr<GuiSelectableButton :: IStyleController> CreateItemBackground();
+		rptr<GuiSelectableButton :: IStyleController> CreateColumnStyle();
+		Color GetPrimaryTextColor();
+		Color GetSecondaryTextColor();
+		Color GetItemSeparatorColor();
+		rptr<Win7ListViewProvider> operator=(rptr<Win7ListViewProvider> value);
+		
+	};
+	
+
+/***********************************************************************
+Win7MenuItemButtonStyle
+***********************************************************************/
+
+	class GACUI_API Win7MenuItemButtonStyle
+	{
+	public:
+		
+		static rptr<Win7MenuItemButtonStyle> Create();
+		
+		rptr<GuiBoundsComposition> GetBoundsComposition();
+		rptr<GuiGraphicsComposition> GetContainerComposition();
+		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
+		void SetText(const GacString& value);
+		void SetFont(const FontProperties& value);
+		void SetVisuallyEnabled(bool value);
+		rptr<GuiControl :: IStyleController> CreateSubMenuStyleController();
+		void SetSubMenuExisting(bool value);
+		void SetSubMenuOpening(bool value);
+		void Transfer(GuiButton :: ControlState value);
+		rptr<Win7MenuItemButtonStyle> operator=(rptr<Win7MenuItemButtonStyle> value);
+		
+	};
+	
+
+/***********************************************************************
+Win7TreeViewProvider
+***********************************************************************/
+
+	class GACUI_API Win7TreeViewProvider
+	{
+	public:
+		
+		static rptr<Win7TreeViewProvider> Create();
+		
+		rptr<GuiSelectableButton :: IStyleController> CreateItemBackground();
+		rptr<GuiSelectableButton :: IStyleController> CreateItemExpandingDecorator();
+		Color GetTextColor();
+		rptr<Win7TreeViewProvider> operator=(rptr<Win7TreeViewProvider> value);
+		
+	};
+	
+
+/***********************************************************************
+GuiComboBoxListControl
+***********************************************************************/
+
+	class GACUI_API GuiComboBoxListControl
+	{
+	public:
+		
+		static rptr<GuiComboBoxListControl> Create(rptr<GuiComboBoxBase :: IStyleController> _styleController, rptr<GuiSelectableListControl> _containedListControl);
+		
+		void SetFont(const FontProperties& value);
+		rptr<GuiComboBoxListControl> operator=(rptr<GuiComboBoxListControl> value);
+		
+		rptr<GuiSelectableListControl> GetContainedListControl();
+		signed __int32 GetSelectedIndex();
+		void SetSelectedIndex(signed __int32 value);
+		rptr<GuiListControl :: IItemProvider> GetItemProvider();
+		GuiGraphicsEvent_of_GuiEventArgs get_SelectedIndexChanged();
+		
+	};
+	
+
+/***********************************************************************
+IGuiMenuService
+***********************************************************************/
+
+	class GACUI_API IGuiMenuService
+	{
+	public:
+		
+		bool IsActiveState();
+		void MenuItemExecuted();
+		void MenuOpened(rptr<GuiMenu> menu);
+		void MenuClosed(rptr<GuiMenu> menu);
+		rptr<IGuiMenuService> operator=(rptr<IGuiMenuService> value);
+		
+		rptr<IGuiMenuService> GetParent();
+		IGuiMenuService :: Direction GetPreferredDirection();
+		rptr<GuiMenu> GetOpeningMenu();
+		
+		static wchar_t* get_Identifier();
+		static void set_Identifier(wchar_t* value);
+		
+
+/***********************************************************************
+IGuiMenuService :: Direction
+***********************************************************************/
+
+		enum Direction
+		{
+			Horizontal = 0,
+			Vertical = 1,
+		};
+		
+	};
+	
+
+/***********************************************************************
+ListViewInformationContentProvider
+***********************************************************************/
+
+	class GACUI_API ListViewInformationContentProvider
+	{
+	public:
+		
+		static rptr<ListViewInformationContentProvider> Create(Size _iconSize);
+		
+		rptr<GuiListControl :: IItemCoordinateTransformer> CreatePreferredCoordinateTransformer();
+		rptr<GuiListControl :: IItemArranger> CreatePreferredArranger();
+		rptr<ListViewItemStyleProvider :: IListViewItemContent> CreateItemContent(const FontProperties& font);
+		void AttachListControl(rptr<GuiListControl> value);
+		void DetachListControl();
+		rptr<ListViewInformationContentProvider> operator=(rptr<ListViewInformationContentProvider> value);
+		
+	};
+	
+
+/***********************************************************************
+TextItemProvider
+***********************************************************************/
+
+	class GACUI_API TextItemProvider
+	{
+	public:
+		
+		static rptr<TextItemProvider> Create();
+		
+		void SetText(signed __int32 itemIndex, const GacString& value);
+		void SetChecked(signed __int32 itemIndex, bool value);
+		rptr<IDescriptable> RequestView(const GacString& identifier);
+		void ReleaseView(rptr<IDescriptable> view);
+		rptr<TextItemProvider> operator=(rptr<TextItemProvider> value);
+		
+	};
+	
+
+/***********************************************************************
+Win7MenuBarButtonStyle
+***********************************************************************/
+
+	class GACUI_API Win7MenuBarButtonStyle
+	{
+	public:
+		
+		static rptr<Win7MenuBarButtonStyle> Create();
+		
+		rptr<GuiBoundsComposition> GetBoundsComposition();
+		rptr<GuiGraphicsComposition> GetContainerComposition();
+		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
+		void SetText(const GacString& value);
+		void SetFont(const FontProperties& value);
+		void SetVisuallyEnabled(bool value);
+		rptr<GuiControl :: IStyleController> CreateSubMenuStyleController();
+		void SetSubMenuExisting(bool value);
+		void SetSubMenuOpening(bool value);
+		void Transfer(GuiButton :: ControlState value);
+		rptr<Win7MenuBarButtonStyle> operator=(rptr<Win7MenuBarButtonStyle> value);
+		
+	};
+	
+
+/***********************************************************************
+GuiListView
+***********************************************************************/
+
+	class GACUI_API GuiListView
+	{
+	public:
+		
+		static rptr<GuiListView> Create(rptr<GuiListViewBase :: IStyleProvider> _styleProvider);
+		
+		rptr<GuiListView> operator=(rptr<GuiListView> value);
+		
+		rptr<ListViewItemProvider> GetItems();
+		
+	};
+	
+
+/***********************************************************************
+ListViewBigIconContentProvider
+***********************************************************************/
+
+	class GACUI_API ListViewBigIconContentProvider
+	{
+	public:
+		
+		static rptr<ListViewBigIconContentProvider> Create(Size _iconSize);
+		
+		rptr<GuiListControl :: IItemCoordinateTransformer> CreatePreferredCoordinateTransformer();
+		rptr<GuiListControl :: IItemArranger> CreatePreferredArranger();
+		rptr<ListViewItemStyleProvider :: IListViewItemContent> CreateItemContent(const FontProperties& font);
+		void AttachListControl(rptr<GuiListControl> value);
+		void DetachListControl();
+		rptr<ListViewBigIconContentProvider> operator=(rptr<ListViewBigIconContentProvider> value);
 		
 	};
 	
@@ -5687,9 +5668,8 @@ Win7DropDownComboBoxStyle
 
 	class GACUI_API Win7DropDownComboBoxStyle
 	{
-	protected:
-	
 	public:
+		
 		static rptr<Win7DropDownComboBoxStyle> Create();
 		
 		rptr<GuiGraphicsComposition> GetContainerComposition();
@@ -5705,348 +5685,18 @@ Win7DropDownComboBoxStyle
 	
 
 /***********************************************************************
-Win7EmptyStyle
+GuiTextList
 ***********************************************************************/
 
-	class GACUI_API Win7EmptyStyle
+	class GACUI_API GuiTextList
 	{
-	protected:
-	
 	public:
-		static rptr<Win7EmptyStyle> Create(Color color);
 		
-		rptr<GuiBoundsComposition> GetBoundsComposition();
-		rptr<GuiGraphicsComposition> GetContainerComposition();
-		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
-		void SetText(const GacString& value);
-		void SetFont(constFontProperties& value);
-		void SetVisuallyEnabled(bool value);
-		rptr<Win7EmptyStyle> operator=(rptr<Win7EmptyStyle> value);
+		static rptr<GuiTextList> Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<TextItemStyleProvider :: ITextItemStyleProvider> _itemStyleProvider);
 		
-	};
-	
-
-/***********************************************************************
-Win7GroupBoxStyle
-***********************************************************************/
-
-	class GACUI_API Win7GroupBoxStyle
-	{
-	protected:
-	
-	public:
-		static rptr<Win7GroupBoxStyle> Create();
+		rptr<GuiTextList> operator=(rptr<GuiTextList> value);
 		
-		rptr<GuiBoundsComposition> GetBoundsComposition();
-		rptr<GuiGraphicsComposition> GetContainerComposition();
-		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
-		void SetText(const GacString& value);
-		void SetFont(constFontProperties& value);
-		void SetVisuallyEnabled(bool value);
-		rptr<Win7GroupBoxStyle> operator=(rptr<Win7GroupBoxStyle> value);
-		
-	};
-	
-
-/***********************************************************************
-Win7ListViewColumnDropDownStyle
-***********************************************************************/
-
-	class GACUI_API Win7ListViewColumnDropDownStyle
-	{
-	protected:
-	
-	public:
-		static rptr<Win7ListViewColumnDropDownStyle> Create();
-		
-		rptr<GuiBoundsComposition> GetBoundsComposition();
-		rptr<GuiGraphicsComposition> GetContainerComposition();
-		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
-		void SetText(const GacString& value);
-		void SetFont(constFontProperties& value);
-		void SetVisuallyEnabled(bool value);
-		void SetSelected(bool value);
-		void Transfer(GuiButton :: ControlState value);
-		rptr<Win7ListViewColumnDropDownStyle> operator=(rptr<Win7ListViewColumnDropDownStyle> value);
-		
-	};
-	
-
-/***********************************************************************
-Win7ListViewColumnHeaderStyle
-***********************************************************************/
-
-	class GACUI_API Win7ListViewColumnHeaderStyle
-	{
-	protected:
-	
-	public:
-		static rptr<Win7ListViewColumnHeaderStyle> Create();
-		
-		rptr<GuiBoundsComposition> GetBoundsComposition();
-		rptr<GuiGraphicsComposition> GetContainerComposition();
-		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
-		void SetText(const GacString& value);
-		void SetFont(constFontProperties& value);
-		void SetVisuallyEnabled(bool value);
-		void SetSelected(bool value);
-		void Transfer(GuiButton :: ControlState value);
-		rptr<Win7ListViewColumnHeaderStyle> operator=(rptr<Win7ListViewColumnHeaderStyle> value);
-		
-	};
-	
-
-/***********************************************************************
-Win7ListViewProvider
-***********************************************************************/
-
-	class GACUI_API Win7ListViewProvider
-	{
-	protected:
-	
-	public:
-		static rptr<Win7ListViewProvider> Create();
-		
-		rptr<GuiSelectableButton :: IStyleController> CreateItemBackground();
-		rptr<GuiSelectableButton :: IStyleController> CreateColumnStyle();
-		Color GetPrimaryTextColor();
-		Color GetSecondaryTextColor();
-		Color GetItemSeparatorColor();
-		rptr<Win7ListViewProvider> operator=(rptr<Win7ListViewProvider> value);
-		
-	};
-	
-
-/***********************************************************************
-Win7MenuBarButtonStyle
-***********************************************************************/
-
-	class GACUI_API Win7MenuBarButtonStyle
-	{
-	protected:
-	
-	public:
-		static rptr<Win7MenuBarButtonStyle> Create();
-		
-		rptr<GuiBoundsComposition> GetBoundsComposition();
-		rptr<GuiGraphicsComposition> GetContainerComposition();
-		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
-		void SetText(const GacString& value);
-		void SetFont(constFontProperties& value);
-		void SetVisuallyEnabled(bool value);
-		rptr<GuiControl :: IStyleController> CreateSubMenuStyleController();
-		void SetSubMenuExisting(bool value);
-		void SetSubMenuOpening(bool value);
-		void Transfer(GuiButton :: ControlState value);
-		rptr<Win7MenuBarButtonStyle> operator=(rptr<Win7MenuBarButtonStyle> value);
-		
-	};
-	
-
-/***********************************************************************
-Win7MenuBarStyle
-***********************************************************************/
-
-	class GACUI_API Win7MenuBarStyle
-	{
-	protected:
-	
-	public:
-		static rptr<Win7MenuBarStyle> Create();
-		
-		rptr<GuiBoundsComposition> GetBoundsComposition();
-		rptr<GuiGraphicsComposition> GetContainerComposition();
-		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
-		void SetText(const GacString& value);
-		void SetFont(constFontProperties& value);
-		void SetVisuallyEnabled(bool value);
-		rptr<Win7MenuBarStyle> operator=(rptr<Win7MenuBarStyle> value);
-		
-	};
-	
-
-/***********************************************************************
-Win7MenuItemButtonStyle
-***********************************************************************/
-
-	class GACUI_API Win7MenuItemButtonStyle
-	{
-	protected:
-	
-	public:
-		static rptr<Win7MenuItemButtonStyle> Create();
-		
-		rptr<GuiBoundsComposition> GetBoundsComposition();
-		rptr<GuiGraphicsComposition> GetContainerComposition();
-		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
-		void SetText(const GacString& value);
-		void SetFont(constFontProperties& value);
-		void SetVisuallyEnabled(bool value);
-		rptr<GuiControl :: IStyleController> CreateSubMenuStyleController();
-		void SetSubMenuExisting(bool value);
-		void SetSubMenuOpening(bool value);
-		void Transfer(GuiButton :: ControlState value);
-		rptr<Win7MenuItemButtonStyle> operator=(rptr<Win7MenuItemButtonStyle> value);
-		
-	};
-	
-
-/***********************************************************************
-Win7MenuSplitterStyle
-***********************************************************************/
-
-	class GACUI_API Win7MenuSplitterStyle
-	{
-	protected:
-	
-	public:
-		static rptr<Win7MenuSplitterStyle> Create();
-		
-		rptr<GuiBoundsComposition> GetBoundsComposition();
-		rptr<GuiGraphicsComposition> GetContainerComposition();
-		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
-		void SetText(const GacString& value);
-		void SetFont(constFontProperties& value);
-		void SetVisuallyEnabled(bool value);
-		rptr<Win7MenuSplitterStyle> operator=(rptr<Win7MenuSplitterStyle> value);
-		
-	};
-	
-
-/***********************************************************************
-Win7MenuStyle
-***********************************************************************/
-
-	class GACUI_API Win7MenuStyle
-	{
-	protected:
-	
-	public:
-		static rptr<Win7MenuStyle> Create();
-		
-		rptr<GuiBoundsComposition> GetBoundsComposition();
-		rptr<GuiGraphicsComposition> GetContainerComposition();
-		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
-		void SetText(const GacString& value);
-		void SetFont(constFontProperties& value);
-		void SetVisuallyEnabled(bool value);
-		rptr<Win7MenuStyle> operator=(rptr<Win7MenuStyle> value);
-		
-	};
-	
-
-/***********************************************************************
-Win7MultilineTextBoxProvider
-***********************************************************************/
-
-	class GACUI_API Win7MultilineTextBoxProvider
-	{
-	protected:
-	
-	public:
-		static rptr<Win7MultilineTextBoxProvider> Create();
-		
-		void AssociateStyleController(rptr<GuiControl :: IStyleController> controller);
-		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
-		void SetVisuallyEnabled(bool value);
-		rptr<GuiGraphicsComposition> InstallBackground(rptr<GuiBoundsComposition> boundsComposition);
-		rptr<Win7MultilineTextBoxProvider> operator=(rptr<Win7MultilineTextBoxProvider> value);
-		
-	};
-	
-
-/***********************************************************************
-Win7RadioTextListProvider
-***********************************************************************/
-
-	class GACUI_API Win7RadioTextListProvider
-	{
-	protected:
-	
-	public:
-		static rptr<Win7RadioTextListProvider> Create();
-		
-		rptr<GuiSelectableButton :: IStyleController> CreateBulletStyleController();
-		rptr<Win7RadioTextListProvider> operator=(rptr<Win7RadioTextListProvider> value);
-		
-	};
-	
-
-/***********************************************************************
-Win7ScrollStyle
-***********************************************************************/
-
-	class GACUI_API Win7ScrollStyle
-	{
-	protected:
-	
-	public:
-		static rptr<Win7ScrollStyle> Create(CommonScrollStyle :: Direction _direction);
-		
-		rptr<Win7ScrollStyle> operator=(rptr<Win7ScrollStyle> value);
-		
-	};
-	
-
-/***********************************************************************
-Win7ScrollViewProvider
-***********************************************************************/
-
-	class GACUI_API Win7ScrollViewProvider
-	{
-	protected:
-	
-	public:
-		static rptr<Win7ScrollViewProvider> Create();
-		
-		void AssociateStyleController(rptr<GuiControl :: IStyleController> controller);
-		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
-		void SetText(const GacString& value);
-		void SetFont(constFontProperties& value);
-		void SetVisuallyEnabled(bool value);
-		rptr<GuiScroll :: IStyleController> CreateHorizontalScrollStyle();
-		rptr<GuiScroll :: IStyleController> CreateVerticalScrollStyle();
-		signed __int32 GetDefaultScrollSize();
-		rptr<GuiGraphicsComposition> InstallBackground(rptr<GuiBoundsComposition> boundsComposition);
-		rptr<Win7ScrollViewProvider> operator=(rptr<Win7ScrollViewProvider> value);
-		
-	};
-	
-
-/***********************************************************************
-Win7SelectableItemStyle
-***********************************************************************/
-
-	class GACUI_API Win7SelectableItemStyle
-	{
-	protected:
-	
-	public:
-		static rptr<Win7SelectableItemStyle> Create();
-		
-		rptr<Win7SelectableItemStyle> operator=(rptr<Win7SelectableItemStyle> value);
-		
-	};
-	
-
-/***********************************************************************
-Win7SinglelineTextBoxProvider
-***********************************************************************/
-
-	class GACUI_API Win7SinglelineTextBoxProvider
-	{
-	protected:
-	
-	public:
-		static rptr<Win7SinglelineTextBoxProvider> Create();
-		
-		void AssociateStyleController(rptr<GuiControl :: IStyleController> controller);
-		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
-		void SetText(const GacString& value);
-		void SetFont(constFontProperties& value);
-		void SetVisuallyEnabled(bool value);
-		rptr<GuiGraphicsComposition> InstallBackground(rptr<GuiBoundsComposition> boundsComposition);
-		rptr<Win7SinglelineTextBoxProvider> operator=(rptr<Win7SinglelineTextBoxProvider> value);
+		rptr<TextItemProvider> GetItems();
 		
 	};
 	
@@ -6057,172 +5707,32 @@ Win7TabPageHeaderStyle
 
 	class GACUI_API Win7TabPageHeaderStyle
 	{
-	protected:
-	
 	public:
+		
 		static rptr<Win7TabPageHeaderStyle> Create();
 		
-		void SetFont(constFontProperties& value);
+		void SetFont(const FontProperties& value);
 		rptr<Win7TabPageHeaderStyle> operator=(rptr<Win7TabPageHeaderStyle> value);
 		
 	};
 	
 
 /***********************************************************************
-Win7TabStyle
+ListViewListContentProvider
 ***********************************************************************/
 
-	class GACUI_API Win7TabStyle
+	class GACUI_API ListViewListContentProvider
 	{
-	protected:
-	
 	public:
-		static rptr<Win7TabStyle> Create();
 		
-		rptr<GuiBoundsComposition> GetBoundsComposition();
-		rptr<GuiGraphicsComposition> GetContainerComposition();
-		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
-		void SetText(const GacString& value);
-		void SetFont(constFontProperties& value);
-		void SetVisuallyEnabled(bool value);
-		void SetCommandExecutor(rptr<GuiTab :: ICommandExecutor> value);
-		void InsertTab(signed __int32 index);
-		void SetTabText(signed __int32 index, const GacString& value);
-		void RemoveTab(signed __int32 index);
-		void MoveTab(signed __int32 oldIndex, signed __int32 newIndex);
-		void SetSelectedTab(signed __int32 index);
-		rptr<GuiControl :: IStyleController> CreateTabPageStyleController();
-		rptr<Win7TabStyle> operator=(rptr<Win7TabStyle> value);
+		static rptr<ListViewListContentProvider> Create(Size _iconSize);
 		
-	};
-	
-
-/***********************************************************************
-Win7TextBoxBackground
-***********************************************************************/
-
-	class GACUI_API Win7TextBoxBackground
-	{
-	protected:
-	
-	public:
-		static rptr<Win7TextBoxBackground> Create();
-		
-		void AssociateStyleController(rptr<GuiControl :: IStyleController> controller);
-		rptr<GuiGraphicsComposition> InstallBackground(rptr<GuiBoundsComposition> boundsComposition);
-		void InitializeTextElement(rptr<GuiColorizedTextElement> _textElement);
-		rptr<Win7TextBoxBackground> operator=(rptr<Win7TextBoxBackground> value);
-		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
-		void SetVisuallyEnabled(bool value);
-		
-	};
-	
-
-/***********************************************************************
-Win7TextListProvider
-***********************************************************************/
-
-	class GACUI_API Win7TextListProvider
-	{
-	protected:
-	
-	public:
-		static rptr<Win7TextListProvider> Create();
-		
-		rptr<GuiSelectableButton :: IStyleController> CreateBackgroundStyleController();
-		rptr<GuiSelectableButton :: IStyleController> CreateBulletStyleController();
-		rptr<Win7TextListProvider> operator=(rptr<Win7TextListProvider> value);
-		
-	};
-	
-
-/***********************************************************************
-Win7ToolstripButtonStyle
-***********************************************************************/
-
-	class GACUI_API Win7ToolstripButtonStyle
-	{
-	protected:
-	
-	public:
-		static rptr<Win7ToolstripButtonStyle> Create(bool transparent);
-		
-		rptr<Win7ToolstripButtonStyle> operator=(rptr<Win7ToolstripButtonStyle> value);
-		
-	};
-	
-
-/***********************************************************************
-Win7TrackStyle
-***********************************************************************/
-
-	class GACUI_API Win7TrackStyle
-	{
-	protected:
-	
-	public:
-		static rptr<Win7TrackStyle> Create(CommonTrackStyle :: Direction _direction);
-		
-		rptr<Win7TrackStyle> operator=(rptr<Win7TrackStyle> value);
-		
-	};
-	
-
-/***********************************************************************
-Win7TreeViewExpandingButtonStyle
-***********************************************************************/
-
-	class GACUI_API Win7TreeViewExpandingButtonStyle
-	{
-	protected:
-	
-	public:
-		static rptr<Win7TreeViewExpandingButtonStyle> Create();
-		
-		rptr<GuiBoundsComposition> GetBoundsComposition();
-		rptr<GuiGraphicsComposition> GetContainerComposition();
-		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
-		void SetText(const GacString& value);
-		void SetFont(constFontProperties& value);
-		void SetVisuallyEnabled(bool value);
-		void SetSelected(bool value);
-		void Transfer(GuiButton :: ControlState value);
-		rptr<Win7TreeViewExpandingButtonStyle> operator=(rptr<Win7TreeViewExpandingButtonStyle> value);
-		
-	};
-	
-
-/***********************************************************************
-Win7TreeViewProvider
-***********************************************************************/
-
-	class GACUI_API Win7TreeViewProvider
-	{
-	protected:
-	
-	public:
-		static rptr<Win7TreeViewProvider> Create();
-		
-		rptr<GuiSelectableButton :: IStyleController> CreateItemBackground();
-		rptr<GuiSelectableButton :: IStyleController> CreateItemExpandingDecorator();
-		Color GetTextColor();
-		rptr<Win7TreeViewProvider> operator=(rptr<Win7TreeViewProvider> value);
-		
-	};
-	
-
-/***********************************************************************
-Win7WindowStyle
-***********************************************************************/
-
-	class GACUI_API Win7WindowStyle
-	{
-	protected:
-	
-	public:
-		static rptr<Win7WindowStyle> Create();
-		
-		rptr<Win7WindowStyle> operator=(rptr<Win7WindowStyle> value);
+		rptr<GuiListControl :: IItemCoordinateTransformer> CreatePreferredCoordinateTransformer();
+		rptr<GuiListControl :: IItemArranger> CreatePreferredArranger();
+		rptr<ListViewItemStyleProvider :: IListViewItemContent> CreateItemContent(const FontProperties& font);
+		void AttachListControl(rptr<GuiListControl> value);
+		void DetachListControl();
+		rptr<ListViewListContentProvider> operator=(rptr<ListViewListContentProvider> value);
 		
 	};
 }

@@ -694,7 +694,7 @@ namespace _TranslateXMLtoCode
                     }
                 }
 
-                foreach (var name in getters.Keys.Concat(setters.Keys))
+                foreach (var name in getters.Keys.Concat(setters.Keys).Distinct())
                 {
                     RgacMethod getter = null;
                     RgacMethod setter = null;

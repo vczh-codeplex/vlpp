@@ -10,7 +10,7 @@ namespace _TranslateXMLtoCode.Codegen
         protected CodeGeneratorOptions options;
 
         protected Codegen_GacUI_base(CodeGeneratorOptions options, string path)
-            :base(path)
+            : base(path)
         {
             this.options = options;
         }
@@ -36,7 +36,7 @@ namespace _TranslateXMLtoCode.Codegen
                         string element = GetType(type.ElementType);
                         if (element != null)
                         {
-                            return element + "->GetPointerType()";
+                            return element + "*";
                         }
                     }
                     break;
@@ -47,7 +47,7 @@ namespace _TranslateXMLtoCode.Codegen
                             string element = GetType(type.ElementType);
                             if (element != null)
                             {
-                                return element + "->GetConstReferenceType()";
+                                return "const " + element + "&";
                             }
                         }
                         else
@@ -55,7 +55,7 @@ namespace _TranslateXMLtoCode.Codegen
                             string element = GetType(type.ElementType);
                             if (element != null)
                             {
-                                return element + "->GetReferenceType()";
+                                return element + "&";
                             }
                         }
                     }
@@ -85,6 +85,8 @@ namespace _TranslateXMLtoCode.Codegen
                     {
                         switch (type.PrimitiveKind)
                         {
+                            case RgacPrimitiveKind.String:
+                                return "GacString";
                             case RgacPrimitiveKind.StringReference:
                                 return "GacString&";
                             case RgacPrimitiveKind.ConstStringReference:
@@ -114,7 +116,7 @@ namespace _TranslateXMLtoCode.Codegen
                 case RgacTypeKind.StructReference:
                     return GacUdtTypeName(type.AssociatedRgacType) + "&";
                 case RgacTypeKind.ConstStructReference:
-                    return "const" + GacUdtTypeName(type.AssociatedRgacType) + "&";
+                    return "const " + GacUdtTypeName(type.AssociatedRgacType) + "&";
 
                 case RgacTypeKind.Enum:
                     return GacUdtTypeName(type.AssociatedRgacType);
@@ -126,6 +128,109 @@ namespace _TranslateXMLtoCode.Codegen
                     break;
             }
             return "0 /*UNKNOWN_TYPE[ " + type.ToString() + " ]*/";
+        }
+
+        #endregion
+
+        #region UDT Sorter
+
+        protected HashSet<string> PredeclaredClasses = new HashSet<string>
+        {
+            "GuiGraphicsComposition",
+            "GuiControl",
+            "GuiControlHost",
+            "GuiComponent",
+            "IGuiMenuService",
+            "IGuiGraphicsElement",
+            "IGuiGraphicsRenderer",
+            "GuiTableComposition",
+            "GuiTab",
+
+            "INodeProvider",
+            "INodeRootProvider",
+            "INodeItemStyleProvider",
+            "MemoryNodeProvider",
+
+            "INativeImage",
+            "INativeImageFrame",
+            "INativeWindow",
+        };
+
+        protected IEnumerable<RgacUDT> GetRelatedUdts(RgacType type)
+        {
+            if (type.AssociatedRgacType != null)
+            {
+                yield return type.AssociatedRgacType;
+            }
+        }
+
+        protected IEnumerable<RgacUDT> GetRelatedUdts(RgacMethod method)
+        {
+            return GetRelatedUdts(method.ReturnType)
+                .Concat(method.ParameterTypes.SelectMany(GetRelatedUdts));
+        }
+
+        protected IEnumerable<RgacUDT> GetRelatedUdts(RgacProperty property)
+        {
+            return GetRelatedUdts(property.PropertyType);
+        }
+
+        protected RgacUDT[] GetRelatedUdts(RgacUDT udt)
+        {
+            return
+                udt.BaseClasses.Concat(
+                udt.Constructors.SelectMany(GetRelatedUdts).Concat(
+                udt.Methods.SelectMany(GetRelatedUdts).Concat(
+                udt.StaticMethods.SelectMany(GetRelatedUdts).Concat(
+                udt.Properties.SelectMany(GetRelatedUdts).Concat(
+                udt.StaticProperties.SelectMany(GetRelatedUdts)
+                )))))
+                .Distinct()
+                .Where(t => this.options.Udts.Contains(t))
+                .Where(t => !this.PredeclaredClasses.Contains(t.ToString()))
+                .ToArray();
+        }
+
+        protected IEnumerable<RgacUDT> GetSortedUdts()
+        {
+            List<Tuple<RgacUDT[], HashSet<RgacUDT>>> udts = this.options.Udts
+                .GroupBy(t => t.Name[0])
+                .Select(g => g.ToArray())
+                .Select(g => Tuple.Create(g, new HashSet<RgacUDT>(g.SelectMany(GetRelatedUdts).Distinct().Except(g))))
+                .ToList();
+
+            while (udts.Count > 0)
+            {
+                bool found = false;
+                for (int i = 0; i < udts.Count; i++)
+                {
+                    if (udts[i].Item2.Count == 0)
+                    {
+                        var udtg = udts[i].Item1;
+                        udts.RemoveAt(i);
+                        foreach (var t in udts)
+                        {
+                            foreach (var udt in udtg)
+                            {
+                                t.Item2.Remove(udt);
+                            }
+                        }
+                        foreach (var udt in udtg)
+                            yield return udt;
+                        found = true;
+                    }
+                }
+                if (!found) break;
+            }
+            if (udts.Count > 0)
+            {
+                var needs = udts.SelectMany(t => t.Item2)
+                    .GroupBy(t => t)
+                    .Select(g => g.ToArray())
+                    .OrderByDescending(g => g.Length)
+                    .ToArray();
+                throw new ArgumentException();
+            }
         }
 
         #endregion
