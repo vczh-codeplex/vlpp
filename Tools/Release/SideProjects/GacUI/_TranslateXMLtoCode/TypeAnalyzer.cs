@@ -241,6 +241,11 @@ namespace _TranslateXMLtoCode
             udt.IsAbstract = udt.Methods.Any(m => m.Kind == GacMethodKind.Abstract);
         }
 
+        static GacUDT[] GetBaseClasses(GacUDT udt)
+        {
+            return udt.BaseClasses.Concat(udt.BaseClasses.SelectMany(GetBaseClasses)).ToArray();
+        }
+
         static Dictionary<string, GacUDT> LoadXML(XDocument document)
         {
             Dictionary<string, GacUDT> udts = new Dictionary<string, GacUDT>();
@@ -262,6 +267,19 @@ namespace _TranslateXMLtoCode
             foreach (var udtElement in document.Root.Elements().Where(e => e.Name != "functions"))
             {
                 FillUdt(udts, udts[udtElement.Attribute("name").Value], udtElement);
+            }
+            foreach (var udt in udts.Values)
+            {
+                List<GacUDT> newBaseClasses = new List<GacUDT>();
+                HashSet<GacUDT> baseBaseClasses = new HashSet<GacUDT>(udt.BaseClasses.SelectMany(GetBaseClasses));
+                foreach (var baseUdt in udt.BaseClasses)
+                {
+                    if (!baseBaseClasses.Contains(baseUdt))
+                    {
+                        newBaseClasses.Add(baseUdt);
+                    }
+                }
+                udt.BaseClasses = newBaseClasses.ToArray();
             }
             return udts;
         }
@@ -365,7 +383,7 @@ namespace _TranslateXMLtoCode
             var undescriptableUdts = relatedUdts.Except(descriptableUdts).ToArray();
             var importantUdts = undescriptableUdts.Where(IsUDTImportant).ToArray();
             var exportableUdts = importantUdts
-                .Where(t => t.Name.StartsWith("vl::") && t.Name != "vl::presentation::DescriptableObject" && !t.Name.StartsWith("vl::presentation::Description<"))
+                .Where(t => t.Name.StartsWith("vl::"))
                 .OrderBy(f => f.Name).ToArray();
 
             var result = new TypeAnalyzerResult();

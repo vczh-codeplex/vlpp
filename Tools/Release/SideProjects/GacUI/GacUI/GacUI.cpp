@@ -170,6 +170,131 @@ ColorItem
 	
 
 /***********************************************************************
+ColorEntry
+***********************************************************************/
+
+	rptr<ColorEntry> ColorEntry::Create()
+	{
+		throw 0;
+	}
+	ColorEntry::ColorEntry()
+	{
+		throw 0;
+	}
+	
+	bool ColorEntry::operator==(const ColorEntry& value)
+	{
+		throw 0;
+	}
+	
+	bool ColorEntry::operator!=(const ColorEntry& value)
+	{
+		throw 0;
+	}
+	
+	ColorItem ColorEntry::get_normal()
+	{
+		throw 0;
+	}
+	void ColorEntry::set_normal(ColorItem value)
+	{
+		throw 0;
+	}
+	
+	ColorItem ColorEntry::get_selectedFocused()
+	{
+		throw 0;
+	}
+	void ColorEntry::set_selectedFocused(ColorItem value)
+	{
+		throw 0;
+	}
+	
+	ColorItem ColorEntry::get_selectedUnfocused()
+	{
+		throw 0;
+	}
+	void ColorEntry::set_selectedUnfocused(ColorItem value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+Array_of_ColorEntry
+***********************************************************************/
+
+	rptr<Array_of_ColorEntry> Array_of_ColorEntry::Create(signed __int32 size)
+	{
+		throw 0;
+	}
+	
+	bool Array_of_ColorEntry::Contains(const ColorEntry& item)
+	{
+		throw 0;
+	}
+	
+	signed __int32 Array_of_ColorEntry::Count()
+	{
+		throw 0;
+	}
+	
+	const ColorEntry& Array_of_ColorEntry::Get(signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	ColorEntry& Array_of_ColorEntry::operator[](signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	const ColorEntry& Array_of_ColorEntry::operator[](signed __int32 value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 Array_of_ColorEntry::IndexOf(const ColorEntry& item)
+	{
+		throw 0;
+	}
+	
+	void Array_of_ColorEntry::Set(signed __int32 index, const ColorEntry& item)
+	{
+		throw 0;
+	}
+	
+	void Array_of_ColorEntry::Resize(signed __int32 size)
+	{
+		throw 0;
+	}
+	
+	rptr<Array_of_ColorEntry> Array_of_ColorEntry::operator=(rptr<Array_of_ColorEntry> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+DescriptableObject
+***********************************************************************/
+
+	rptr<DescriptableObject> DescriptableObject::Create()
+	{
+		throw 0;
+	}
+	DescriptableObject::DescriptableObject()
+	{
+		throw 0;
+	}
+	
+	DescriptableObject& DescriptableObject::operator=(const DescriptableObject& value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
 FontProperties
 ***********************************************************************/
 
@@ -499,6 +624,243 @@ IDescriptable
 	
 
 /***********************************************************************
+GuiGraphicsEvent_of_GuiEventArgs
+***********************************************************************/
+
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiGraphicsEvent_of_GuiEventArgs::Create(rptr<GuiGraphicsComposition> _sender)
+	{
+		throw 0;
+	}
+	
+	bool GuiGraphicsEvent_of_GuiEventArgs::Attach(sptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> handler)
+	{
+		throw 0;
+	}
+	
+	bool GuiGraphicsEvent_of_GuiEventArgs::Detach(sptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> handler)
+	{
+		throw 0;
+	}
+	
+	void GuiGraphicsEvent_of_GuiEventArgs::Execute(GuiEventArgs& argument)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiGraphicsEvent_of_GuiEventArgs::operator=(rptr<GuiGraphicsEvent_of_GuiEventArgs> value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsComposition> GuiGraphicsEvent_of_GuiEventArgs::GetAssociatedComposition()
+	{
+		throw 0;
+	}
+	void GuiGraphicsEvent_of_GuiEventArgs::SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiGraphicsEvent_of_GuiEventArgs :: IHandler
+***********************************************************************/
+
+	void GuiGraphicsEvent_of_GuiEventArgs::IHandler::Execute(rptr<GuiGraphicsComposition> sender, GuiEventArgs& argument)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> GuiGraphicsEvent_of_GuiEventArgs::IHandler::operator=(rptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiGraphicsEvent_of_GuiRequestEventArgs
+***********************************************************************/
+
+	rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> GuiGraphicsEvent_of_GuiRequestEventArgs::Create(rptr<GuiGraphicsComposition> _sender)
+	{
+		throw 0;
+	}
+	
+	bool GuiGraphicsEvent_of_GuiRequestEventArgs::Attach(sptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> handler)
+	{
+		throw 0;
+	}
+	
+	bool GuiGraphicsEvent_of_GuiRequestEventArgs::Detach(sptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> handler)
+	{
+		throw 0;
+	}
+	
+	void GuiGraphicsEvent_of_GuiRequestEventArgs::Execute(GuiRequestEventArgs& argument)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> GuiGraphicsEvent_of_GuiRequestEventArgs::operator=(rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsComposition> GuiGraphicsEvent_of_GuiRequestEventArgs::GetAssociatedComposition()
+	{
+		throw 0;
+	}
+	void GuiGraphicsEvent_of_GuiRequestEventArgs::SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler
+***********************************************************************/
+
+	void GuiGraphicsEvent_of_GuiRequestEventArgs::IHandler::Execute(rptr<GuiGraphicsComposition> sender, GuiRequestEventArgs& argument)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> GuiGraphicsEvent_of_GuiRequestEventArgs::IHandler::operator=(rptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiTabPage
+***********************************************************************/
+
+	rptr<GuiTabPage> GuiTabPage::operator=(rptr<GuiTabPage> value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiControl> GuiTabPage::GetContainer()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiTab> GuiTabPage::GetOwnerTab()
+	{
+		throw 0;
+	}
+	
+	const GacString& GuiTabPage::GetText()
+	{
+		throw 0;
+	}
+	void GuiTabPage::SetText(const GacString& value)
+	{
+		throw 0;
+	}
+	
+	bool GuiTabPage::GetSelected()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiEventArgs GuiTabPage::get_TextChanged()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+IGuiGraphicsAnimation
+***********************************************************************/
+
+	void IGuiGraphicsAnimation::Play(signed __int32 currentPosition, signed __int32 totalLength)
+	{
+		throw 0;
+	}
+	
+	void IGuiGraphicsAnimation::Stop()
+	{
+		throw 0;
+	}
+	
+	rptr<IGuiGraphicsAnimation> IGuiGraphicsAnimation::operator=(rptr<IGuiGraphicsAnimation> value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 IGuiGraphicsAnimation::GetTotalLength()
+	{
+		throw 0;
+	}
+	
+	signed __int32 IGuiGraphicsAnimation::GetCurrentPosition()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiGraphicsAnimationManager
+***********************************************************************/
+
+	rptr<GuiGraphicsAnimationManager> GuiGraphicsAnimationManager::Create()
+	{
+		throw 0;
+	}
+	
+	void GuiGraphicsAnimationManager::AddAnimation(sptr<IGuiGraphicsAnimation> animation)
+	{
+		throw 0;
+	}
+	
+	bool GuiGraphicsAnimationManager::HasAnimation()
+	{
+		throw 0;
+	}
+	
+	void GuiGraphicsAnimationManager::Play()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsAnimationManager> GuiGraphicsAnimationManager::operator=(rptr<GuiGraphicsAnimationManager> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiTimeBasedAnimation
+***********************************************************************/
+
+	rptr<GuiTimeBasedAnimation> GuiTimeBasedAnimation::Create(signed __int32 totalMilliseconds)
+	{
+		throw 0;
+	}
+	
+	void GuiTimeBasedAnimation::Restart(signed __int32 totalMilliseconds)
+	{
+		throw 0;
+	}
+	
+	signed __int32 GuiTimeBasedAnimation::GetTotalLength()
+	{
+		throw 0;
+	}
+	
+	signed __int32 GuiTimeBasedAnimation::GetCurrentPosition()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiTimeBasedAnimation> GuiTimeBasedAnimation::operator=(rptr<GuiTimeBasedAnimation> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
 IGuiGraphicsElementFactory
 ***********************************************************************/
 
@@ -519,1163 +881,20 @@ IGuiGraphicsElementFactory
 	
 
 /***********************************************************************
-IGuiGraphicsRendererFactory
+IGuiGraphicsElement
 ***********************************************************************/
 
-	rptr<IGuiGraphicsRenderer> IGuiGraphicsRendererFactory::Create()
+	rptr<IGuiGraphicsElement> IGuiGraphicsElement::operator=(rptr<IGuiGraphicsElement> value)
 	{
 		throw 0;
 	}
 	
-	rptr<IGuiGraphicsRendererFactory> IGuiGraphicsRendererFactory::operator=(rptr<IGuiGraphicsRendererFactory> value)
+	rptr<IGuiGraphicsElementFactory> IGuiGraphicsElement::GetFactory()
 	{
 		throw 0;
 	}
 	
-
-/***********************************************************************
-INativeAsyncService
-***********************************************************************/
-
-	bool INativeAsyncService::IsInMainThread()
-	{
-		throw 0;
-	}
-	
-	rptr<INativeAsyncService> INativeAsyncService::operator=(rptr<INativeAsyncService> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-INativeClipboardService
-***********************************************************************/
-
-	bool INativeClipboardService::ContainsText()
-	{
-		throw 0;
-	}
-	
-	bool INativeClipboardService::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	rptr<INativeClipboardService> INativeClipboardService::operator=(rptr<INativeClipboardService> value)
-	{
-		throw 0;
-	}
-	
-	GacString INativeClipboardService::GetText()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-INativeCursor
-***********************************************************************/
-
-	bool INativeCursor::IsSystemCursor()
-	{
-		throw 0;
-	}
-	
-	rptr<INativeCursor> INativeCursor::operator=(rptr<INativeCursor> value)
-	{
-		throw 0;
-	}
-	
-	INativeCursor :: SystemCursorType INativeCursor::GetSystemCursorType()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-INativeImageFrameCache
-***********************************************************************/
-
-	void INativeImageFrameCache::OnAttach(rptr<INativeImageFrame> frame)
-	{
-		throw 0;
-	}
-	
-	void INativeImageFrameCache::OnDetach(rptr<INativeImageFrame> frame)
-	{
-		throw 0;
-	}
-	
-	rptr<INativeImageFrameCache> INativeImageFrameCache::operator=(rptr<INativeImageFrameCache> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-INativeInputService
-***********************************************************************/
-
-	void INativeInputService::StartHookMouse()
-	{
-		throw 0;
-	}
-	
-	void INativeInputService::StopHookMouse()
-	{
-		throw 0;
-	}
-	
-	bool INativeInputService::IsHookingMouse()
-	{
-		throw 0;
-	}
-	
-	void INativeInputService::StartTimer()
-	{
-		throw 0;
-	}
-	
-	void INativeInputService::StopTimer()
-	{
-		throw 0;
-	}
-	
-	bool INativeInputService::IsTimerEnabled()
-	{
-		throw 0;
-	}
-	
-	bool INativeInputService::IsKeyPressing(signed __int32 code)
-	{
-		throw 0;
-	}
-	
-	bool INativeInputService::IsKeyToggled(signed __int32 code)
-	{
-		throw 0;
-	}
-	
-	rptr<INativeInputService> INativeInputService::operator=(rptr<INativeInputService> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-INodeItemPrimaryTextView
-***********************************************************************/
-
-	GacString INodeItemPrimaryTextView::GetPrimaryTextViewText(rptr<INodeProvider> node)
-	{
-		throw 0;
-	}
-	
-	rptr<INodeItemPrimaryTextView> INodeItemPrimaryTextView::operator=(rptr<INodeItemPrimaryTextView> value)
-	{
-		throw 0;
-	}
-	
-	wchar_t* INodeItemPrimaryTextView::get_Identifier()
-	{
-		throw 0;
-	}
-	void INodeItemPrimaryTextView::set_Identifier(wchar_t* value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-INodeProvider
-***********************************************************************/
-
-	signed __int32 INodeProvider::CalculateTotalVisibleNodes()
-	{
-		throw 0;
-	}
-	
-	rptr<INodeProvider> INodeProvider::RequestChild(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	void INodeProvider::ReleaseChild(rptr<INodeProvider> node)
-	{
-		throw 0;
-	}
-	
-	rptr<INodeProvider> INodeProvider::operator=(rptr<INodeProvider> value)
-	{
-		throw 0;
-	}
-	
-	bool INodeProvider::GetExpanding()
-	{
-		throw 0;
-	}
-	void INodeProvider::SetExpanding(bool value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 INodeProvider::GetChildCount()
-	{
-		throw 0;
-	}
-	
-	rptr<INodeProvider> INodeProvider::GetParent()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-IReadonlyList_of_GuiGraphicsComposition_raw_pointer
-***********************************************************************/
-
-	bool IReadonlyList_of_GuiGraphicsComposition_raw_pointer::Contains(rptr<GuiGraphicsComposition> item)
-	{
-		throw 0;
-	}
-	
-	signed __int32 IReadonlyList_of_GuiGraphicsComposition_raw_pointer::Count()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> IReadonlyList_of_GuiGraphicsComposition_raw_pointer::Get(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> IReadonlyList_of_GuiGraphicsComposition_raw_pointer::operator[](signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	signed __int32 IReadonlyList_of_GuiGraphicsComposition_raw_pointer::IndexOf(rptr<GuiGraphicsComposition> item)
-	{
-		throw 0;
-	}
-	
-	rptr<IReadonlyList_of_GuiGraphicsComposition_raw_pointer> IReadonlyList_of_GuiGraphicsComposition_raw_pointer::operator=(rptr<IReadonlyList_of_GuiGraphicsComposition_raw_pointer> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-IReadonlyList_of_int
-***********************************************************************/
-
-	bool IReadonlyList_of_int::Contains(signed __int32 item)
-	{
-		throw 0;
-	}
-	
-	signed __int32 IReadonlyList_of_int::Count()
-	{
-		throw 0;
-	}
-	
-	signed __int32 IReadonlyList_of_int::Get(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	signed __int32 IReadonlyList_of_int::operator[](signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	signed __int32 IReadonlyList_of_int::IndexOf(signed __int32 item)
-	{
-		throw 0;
-	}
-	
-	rptr<IReadonlyList_of_int> IReadonlyList_of_int::operator=(rptr<IReadonlyList_of_int> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-IReadonlyList_of_MemoryNodeProvider
-***********************************************************************/
-
-	bool IReadonlyList_of_MemoryNodeProvider::Contains(rptr<MemoryNodeProvider> item)
-	{
-		throw 0;
-	}
-	
-	signed __int32 IReadonlyList_of_MemoryNodeProvider::Count()
-	{
-		throw 0;
-	}
-	
-	sptr<MemoryNodeProvider> IReadonlyList_of_MemoryNodeProvider::Get(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	sptr<MemoryNodeProvider> IReadonlyList_of_MemoryNodeProvider::operator[](signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	signed __int32 IReadonlyList_of_MemoryNodeProvider::IndexOf(rptr<MemoryNodeProvider> item)
-	{
-		throw 0;
-	}
-	
-	rptr<IReadonlyList_of_MemoryNodeProvider> IReadonlyList_of_MemoryNodeProvider::operator=(rptr<IReadonlyList_of_MemoryNodeProvider> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-ITreeViewItemView
-***********************************************************************/
-
-	sptr<GuiImageData> ITreeViewItemView::GetNodeImage(rptr<INodeProvider> node)
-	{
-		throw 0;
-	}
-	
-	GacString ITreeViewItemView::GetNodeText(rptr<INodeProvider> node)
-	{
-		throw 0;
-	}
-	
-	rptr<ITreeViewItemView> ITreeViewItemView::operator=(rptr<ITreeViewItemView> value)
-	{
-		throw 0;
-	}
-	
-	wchar_t* ITreeViewItemView::get_Identifier()
-	{
-		throw 0;
-	}
-	void ITreeViewItemView::set_Identifier(wchar_t* value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-ListViewColumn
-***********************************************************************/
-
-	rptr<ListViewColumn> ListViewColumn::Create(const GacString& _text, signed __int32 _size)
-	{
-		throw 0;
-	}
-	ListViewColumn::ListViewColumn(const GacString& _text, signed __int32 _size)
-	{
-		throw 0;
-	}
-	
-	ListViewColumn& ListViewColumn::operator=(const ListViewColumn& value)
-	{
-		throw 0;
-	}
-	
-	GacString ListViewColumn::get_text()
-	{
-		throw 0;
-	}
-	void ListViewColumn::set_text(GacString value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 ListViewColumn::get_size()
-	{
-		throw 0;
-	}
-	void ListViewColumn::set_size(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-Margin
-***********************************************************************/
-
-	rptr<Margin> Margin::Create(signed __int32 _left, signed __int32 _top, signed __int32 _right, signed __int32 _bottom)
-	{
-		throw 0;
-	}
-	Margin::Margin(signed __int32 _left, signed __int32 _top, signed __int32 _right, signed __int32 _bottom)
-	{
-		throw 0;
-	}
-	
-	rptr<Margin> Margin::Create()
-	{
-		throw 0;
-	}
-	Margin::Margin()
-	{
-		throw 0;
-	}
-	
-	bool Margin::operator==(Margin margin)
-	{
-		throw 0;
-	}
-	
-	bool Margin::operator!=(Margin margin)
-	{
-		throw 0;
-	}
-	
-	signed __int32 Margin::get_left()
-	{
-		throw 0;
-	}
-	void Margin::set_left(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 Margin::get_top()
-	{
-		throw 0;
-	}
-	void Margin::set_top(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 Margin::get_right()
-	{
-		throw 0;
-	}
-	void Margin::set_right(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 Margin::get_bottom()
-	{
-		throw 0;
-	}
-	void Margin::set_bottom(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-NativeWindowCharInfo
-***********************************************************************/
-
-	wchar_t NativeWindowCharInfo::get_code()
-	{
-		throw 0;
-	}
-	void NativeWindowCharInfo::set_code(wchar_t value)
-	{
-		throw 0;
-	}
-	
-	bool NativeWindowCharInfo::get_ctrl()
-	{
-		throw 0;
-	}
-	void NativeWindowCharInfo::set_ctrl(bool value)
-	{
-		throw 0;
-	}
-	
-	bool NativeWindowCharInfo::get_shift()
-	{
-		throw 0;
-	}
-	void NativeWindowCharInfo::set_shift(bool value)
-	{
-		throw 0;
-	}
-	
-	bool NativeWindowCharInfo::get_alt()
-	{
-		throw 0;
-	}
-	void NativeWindowCharInfo::set_alt(bool value)
-	{
-		throw 0;
-	}
-	
-	bool NativeWindowCharInfo::get_capslock()
-	{
-		throw 0;
-	}
-	void NativeWindowCharInfo::set_capslock(bool value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-NativeWindowMouseInfo
-***********************************************************************/
-
-	bool NativeWindowMouseInfo::get_ctrl()
-	{
-		throw 0;
-	}
-	void NativeWindowMouseInfo::set_ctrl(bool value)
-	{
-		throw 0;
-	}
-	
-	bool NativeWindowMouseInfo::get_shift()
-	{
-		throw 0;
-	}
-	void NativeWindowMouseInfo::set_shift(bool value)
-	{
-		throw 0;
-	}
-	
-	bool NativeWindowMouseInfo::get_left()
-	{
-		throw 0;
-	}
-	void NativeWindowMouseInfo::set_left(bool value)
-	{
-		throw 0;
-	}
-	
-	bool NativeWindowMouseInfo::get_middle()
-	{
-		throw 0;
-	}
-	void NativeWindowMouseInfo::set_middle(bool value)
-	{
-		throw 0;
-	}
-	
-	bool NativeWindowMouseInfo::get_right()
-	{
-		throw 0;
-	}
-	void NativeWindowMouseInfo::set_right(bool value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 NativeWindowMouseInfo::get_x()
-	{
-		throw 0;
-	}
-	void NativeWindowMouseInfo::set_x(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 NativeWindowMouseInfo::get_y()
-	{
-		throw 0;
-	}
-	void NativeWindowMouseInfo::set_y(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 NativeWindowMouseInfo::get_wheel()
-	{
-		throw 0;
-	}
-	void NativeWindowMouseInfo::set_wheel(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-Point
-***********************************************************************/
-
-	rptr<Point> Point::Create(signed __int32 _x, signed __int32 _y)
-	{
-		throw 0;
-	}
-	Point::Point(signed __int32 _x, signed __int32 _y)
-	{
-		throw 0;
-	}
-	
-	rptr<Point> Point::Create()
-	{
-		throw 0;
-	}
-	Point::Point()
-	{
-		throw 0;
-	}
-	
-	bool Point::operator==(Point point)
-	{
-		throw 0;
-	}
-	
-	bool Point::operator!=(Point point)
-	{
-		throw 0;
-	}
-	
-	signed __int32 Point::get_x()
-	{
-		throw 0;
-	}
-	void Point::set_x(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 Point::get_y()
-	{
-		throw 0;
-	}
-	void Point::set_y(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-Size
-***********************************************************************/
-
-	rptr<Size> Size::Create(signed __int32 _x, signed __int32 _y)
-	{
-		throw 0;
-	}
-	Size::Size(signed __int32 _x, signed __int32 _y)
-	{
-		throw 0;
-	}
-	
-	rptr<Size> Size::Create()
-	{
-		throw 0;
-	}
-	Size::Size()
-	{
-		throw 0;
-	}
-	
-	bool Size::operator==(Size size)
-	{
-		throw 0;
-	}
-	
-	bool Size::operator!=(Size size)
-	{
-		throw 0;
-	}
-	
-	signed __int32 Size::get_x()
-	{
-		throw 0;
-	}
-	void Size::set_x(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 Size::get_y()
-	{
-		throw 0;
-	}
-	void Size::set_y(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-TextLine
-***********************************************************************/
-
-	rptr<TextLine> TextLine::Create()
-	{
-		throw 0;
-	}
-	TextLine::TextLine()
-	{
-		throw 0;
-	}
-	
-	bool TextLine::operator==(const TextLine& value)
-	{
-		throw 0;
-	}
-	
-	bool TextLine::operator!=(const TextLine& value)
-	{
-		throw 0;
-	}
-	
-	void TextLine::Initialize()
-	{
-		throw 0;
-	}
-	
-	void TextLine::Finalize()
-	{
-		throw 0;
-	}
-	
-	bool TextLine::IsReady()
-	{
-		throw 0;
-	}
-	
-	bool TextLine::Modify(signed __int32 start, signed __int32 count, wchar_t* input, signed __int32 inputCount)
-	{
-		throw 0;
-	}
-	
-	TextLine TextLine::Split(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	void TextLine::AppendAndFinalize(TextLine& line)
-	{
-		throw 0;
-	}
-	
-	signed __int32 TextLine::CalculateBufferLength(signed __int32 dataLength)
-	{
-		throw 0;
-	}
-	
-	wchar_t* TextLine::get_text()
-	{
-		throw 0;
-	}
-	void TextLine::set_text(wchar_t* value)
-	{
-		throw 0;
-	}
-	
-	rptr<CharAtt> TextLine::get_att()
-	{
-		throw 0;
-	}
-	void TextLine::set_att(rptr<CharAtt> value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 TextLine::get_availableOffsetCount()
-	{
-		throw 0;
-	}
-	void TextLine::set_availableOffsetCount(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 TextLine::get_bufferLength()
-	{
-		throw 0;
-	}
-	void TextLine::set_bufferLength(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 TextLine::get_dataLength()
-	{
-		throw 0;
-	}
-	void TextLine::set_dataLength(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-TextPos
-***********************************************************************/
-
-	rptr<TextPos> TextPos::Create(signed __int32 _row, signed __int32 _column)
-	{
-		throw 0;
-	}
-	TextPos::TextPos(signed __int32 _row, signed __int32 _column)
-	{
-		throw 0;
-	}
-	
-	rptr<TextPos> TextPos::Create()
-	{
-		throw 0;
-	}
-	TextPos::TextPos()
-	{
-		throw 0;
-	}
-	
-	signed __int32 TextPos::Compare(const TextPos& value)
-	{
-		throw 0;
-	}
-	
-	bool TextPos::operator==(const TextPos& value)
-	{
-		throw 0;
-	}
-	
-	bool TextPos::operator!=(const TextPos& value)
-	{
-		throw 0;
-	}
-	
-	bool TextPos::operator<(const TextPos& value)
-	{
-		throw 0;
-	}
-	
-	bool TextPos::operator<=(const TextPos& value)
-	{
-		throw 0;
-	}
-	
-	bool TextPos::operator>(const TextPos& value)
-	{
-		throw 0;
-	}
-	
-	bool TextPos::operator>=(const TextPos& value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 TextPos::get_row()
-	{
-		throw 0;
-	}
-	void TextPos::set_row(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 TextPos::get_column()
-	{
-		throw 0;
-	}
-	void TextPos::set_column(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-Win7ButtonColors
-***********************************************************************/
-
-	rptr<Win7ButtonColors> Win7ButtonColors::Create()
-	{
-		throw 0;
-	}
-	Win7ButtonColors::Win7ButtonColors()
-	{
-		throw 0;
-	}
-	
-	bool Win7ButtonColors::operator==(const Win7ButtonColors& colors)
-	{
-		throw 0;
-	}
-	
-	bool Win7ButtonColors::operator!=(const Win7ButtonColors& colors)
-	{
-		throw 0;
-	}
-	
-	void Win7ButtonColors::SetAlphaWithoutText(unsigned __int8 a)
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::Blend(const Win7ButtonColors& c1, const Win7ButtonColors& c2, signed __int32 ratio, signed __int32 total)
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::ButtonNormal()
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::ButtonActive()
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::ButtonPressed()
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::ButtonDisabled()
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::ItemNormal()
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::ItemActive()
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::ItemSelected()
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::ItemDisabled()
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::CheckedNormal(bool selected)
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::CheckedActive(bool selected)
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::CheckedPressed(bool selected)
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::CheckedDisabled(bool selected)
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::ToolstripButtonNormal()
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::ToolstripButtonActive()
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::ToolstripButtonPressed()
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::ToolstripButtonDisabled()
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::MenuBarButtonNormal()
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::MenuBarButtonActive()
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::MenuBarButtonPressed()
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::MenuBarButtonDisabled()
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::MenuItemButtonNormal()
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::MenuItemButtonNormalActive()
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::MenuItemButtonDisabled()
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::MenuItemButtonDisabledActive()
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::TabPageHeaderNormal()
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::TabPageHeaderActive()
-	{
-		throw 0;
-	}
-	
-	Win7ButtonColors Win7ButtonColors::TabPageHeaderSelected()
-	{
-		throw 0;
-	}
-	
-	Color Win7ButtonColors::get_borderColor()
-	{
-		throw 0;
-	}
-	void Win7ButtonColors::set_borderColor(Color value)
-	{
-		throw 0;
-	}
-	
-	Color Win7ButtonColors::get_backgroundColor()
-	{
-		throw 0;
-	}
-	void Win7ButtonColors::set_backgroundColor(Color value)
-	{
-		throw 0;
-	}
-	
-	Color Win7ButtonColors::get_g1()
-	{
-		throw 0;
-	}
-	void Win7ButtonColors::set_g1(Color value)
-	{
-		throw 0;
-	}
-	
-	Color Win7ButtonColors::get_g2()
-	{
-		throw 0;
-	}
-	void Win7ButtonColors::set_g2(Color value)
-	{
-		throw 0;
-	}
-	
-	Color Win7ButtonColors::get_g3()
-	{
-		throw 0;
-	}
-	void Win7ButtonColors::set_g3(Color value)
-	{
-		throw 0;
-	}
-	
-	Color Win7ButtonColors::get_g4()
-	{
-		throw 0;
-	}
-	void Win7ButtonColors::set_g4(Color value)
-	{
-		throw 0;
-	}
-	
-	Color Win7ButtonColors::get_textColor()
-	{
-		throw 0;
-	}
-	void Win7ButtonColors::set_textColor(Color value)
-	{
-		throw 0;
-	}
-	
-	Color Win7ButtonColors::get_bulletLight()
-	{
-		throw 0;
-	}
-	void Win7ButtonColors::set_bulletLight(Color value)
-	{
-		throw 0;
-	}
-	
-	Color Win7ButtonColors::get_bulletDark()
-	{
-		throw 0;
-	}
-	void Win7ButtonColors::set_bulletDark(Color value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-ColorEntry
-***********************************************************************/
-
-	rptr<ColorEntry> ColorEntry::Create()
-	{
-		throw 0;
-	}
-	ColorEntry::ColorEntry()
-	{
-		throw 0;
-	}
-	
-	bool ColorEntry::operator==(const ColorEntry& value)
-	{
-		throw 0;
-	}
-	
-	bool ColorEntry::operator!=(const ColorEntry& value)
-	{
-		throw 0;
-	}
-	
-	ColorItem ColorEntry::get_normal()
-	{
-		throw 0;
-	}
-	void ColorEntry::set_normal(ColorItem value)
-	{
-		throw 0;
-	}
-	
-	ColorItem ColorEntry::get_selectedFocused()
-	{
-		throw 0;
-	}
-	void ColorEntry::set_selectedFocused(ColorItem value)
-	{
-		throw 0;
-	}
-	
-	ColorItem ColorEntry::get_selectedUnfocused()
-	{
-		throw 0;
-	}
-	void ColorEntry::set_selectedUnfocused(ColorItem value)
+	rptr<IGuiGraphicsRenderer> IGuiGraphicsElement::GetRenderer()
 	{
 		throw 0;
 	}
@@ -1727,14 +946,54 @@ Gui3DBorderElement
 	
 
 /***********************************************************************
-GuiCharEventArgs
+Gui3DSplitterElement
 ***********************************************************************/
 
-	rptr<GuiCharEventArgs> GuiCharEventArgs::Create()
+	rptr<IGuiGraphicsElementFactory> Gui3DSplitterElement::GetFactory()
 	{
 		throw 0;
 	}
-	GuiCharEventArgs::GuiCharEventArgs()
+	
+	rptr<IGuiGraphicsRenderer> Gui3DSplitterElement::GetRenderer()
+	{
+		throw 0;
+	}
+	
+	void Gui3DSplitterElement::SetColors(Color value1, Color value2)
+	{
+		throw 0;
+	}
+	
+	rptr<Gui3DSplitterElement> Gui3DSplitterElement::operator=(rptr<Gui3DSplitterElement> value)
+	{
+		throw 0;
+	}
+	
+	rptr<Gui3DSplitterElement> Gui3DSplitterElement::Create()
+	{
+		throw 0;
+	}
+	
+	Color Gui3DSplitterElement::GetColor1()
+	{
+		throw 0;
+	}
+	
+	Color Gui3DSplitterElement::GetColor2()
+	{
+		throw 0;
+	}
+	
+	Gui3DSplitterElement :: Direction Gui3DSplitterElement::GetDirection()
+	{
+		throw 0;
+	}
+	void Gui3DSplitterElement::SetDirection(Gui3DSplitterElement :: Direction value)
+	{
+		throw 0;
+	}
+	
+	GacString Gui3DSplitterElement::GetElementTypeName()
 	{
 		throw 0;
 	}
@@ -1804,114 +1063,6 @@ GuiGradientBackgroundElement
 	
 
 /***********************************************************************
-GuiGraphicsEvent_of_GuiCharEventArgs
-***********************************************************************/
-
-	rptr<GuiGraphicsEvent_of_GuiCharEventArgs> GuiGraphicsEvent_of_GuiCharEventArgs::Create(rptr<GuiGraphicsComposition> _sender)
-	{
-		throw 0;
-	}
-	
-	bool GuiGraphicsEvent_of_GuiCharEventArgs::Attach(sptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> handler)
-	{
-		throw 0;
-	}
-	
-	bool GuiGraphicsEvent_of_GuiCharEventArgs::Detach(sptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> handler)
-	{
-		throw 0;
-	}
-	
-	void GuiGraphicsEvent_of_GuiCharEventArgs::Execute(GuiCharEventArgs& argument)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsEvent_of_GuiCharEventArgs> GuiGraphicsEvent_of_GuiCharEventArgs::operator=(rptr<GuiGraphicsEvent_of_GuiCharEventArgs> value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> GuiGraphicsEvent_of_GuiCharEventArgs::GetAssociatedComposition()
-	{
-		throw 0;
-	}
-	void GuiGraphicsEvent_of_GuiCharEventArgs::SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler
-***********************************************************************/
-
-	void GuiGraphicsEvent_of_GuiCharEventArgs::IHandler::Execute(rptr<GuiGraphicsComposition> sender, GuiCharEventArgs& argument)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> GuiGraphicsEvent_of_GuiCharEventArgs::IHandler::operator=(rptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiGraphicsEvent_of_GuiRequestEventArgs
-***********************************************************************/
-
-	rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> GuiGraphicsEvent_of_GuiRequestEventArgs::Create(rptr<GuiGraphicsComposition> _sender)
-	{
-		throw 0;
-	}
-	
-	bool GuiGraphicsEvent_of_GuiRequestEventArgs::Attach(sptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> handler)
-	{
-		throw 0;
-	}
-	
-	bool GuiGraphicsEvent_of_GuiRequestEventArgs::Detach(sptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> handler)
-	{
-		throw 0;
-	}
-	
-	void GuiGraphicsEvent_of_GuiRequestEventArgs::Execute(GuiRequestEventArgs& argument)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> GuiGraphicsEvent_of_GuiRequestEventArgs::operator=(rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> GuiGraphicsEvent_of_GuiRequestEventArgs::GetAssociatedComposition()
-	{
-		throw 0;
-	}
-	void GuiGraphicsEvent_of_GuiRequestEventArgs::SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler
-***********************************************************************/
-
-	void GuiGraphicsEvent_of_GuiRequestEventArgs::IHandler::Execute(rptr<GuiGraphicsComposition> sender, GuiRequestEventArgs& argument)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> GuiGraphicsEvent_of_GuiRequestEventArgs::IHandler::operator=(rptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
 GuiImageFrameElement
 ***********************************************************************/
 
@@ -1975,92 +1126,6 @@ GuiImageFrameElement
 	}
 	
 	GacString GuiImageFrameElement::GetElementTypeName()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiMouseEventArgs
-***********************************************************************/
-
-	rptr<GuiMouseEventArgs> GuiMouseEventArgs::Create()
-	{
-		throw 0;
-	}
-	GuiMouseEventArgs::GuiMouseEventArgs()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiPolygonElement
-***********************************************************************/
-
-	rptr<IGuiGraphicsElementFactory> GuiPolygonElement::GetFactory()
-	{
-		throw 0;
-	}
-	
-	rptr<IGuiGraphicsRenderer> GuiPolygonElement::GetRenderer()
-	{
-		throw 0;
-	}
-	
-	void GuiPolygonElement::SetPoints(Point* p, signed __int32 count)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiPolygonElement> GuiPolygonElement::operator=(rptr<GuiPolygonElement> value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiPolygonElement> GuiPolygonElement::Create()
-	{
-		throw 0;
-	}
-	
-	Size GuiPolygonElement::GetSize()
-	{
-		throw 0;
-	}
-	void GuiPolygonElement::SetSize(Size value)
-	{
-		throw 0;
-	}
-	
-	Point* GuiPolygonElement::GetPoints()
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiPolygonElement::GetPointCount()
-	{
-		throw 0;
-	}
-	
-	Color GuiPolygonElement::GetBorderColor()
-	{
-		throw 0;
-	}
-	void GuiPolygonElement::SetBorderColor(Color value)
-	{
-		throw 0;
-	}
-	
-	Color GuiPolygonElement::GetBackgroundColor()
-	{
-		throw 0;
-	}
-	void GuiPolygonElement::SetBackgroundColor(Color value)
-	{
-		throw 0;
-	}
-	
-	GacString GuiPolygonElement::GetElementTypeName()
 	{
 		throw 0;
 	}
@@ -2157,6 +1222,54 @@ GuiSolidBackgroundElement
 	}
 	
 	GacString GuiSolidBackgroundElement::GetElementTypeName()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiSolidBorderElement
+***********************************************************************/
+
+	rptr<IGuiGraphicsElementFactory> GuiSolidBorderElement::GetFactory()
+	{
+		throw 0;
+	}
+	
+	rptr<IGuiGraphicsRenderer> GuiSolidBorderElement::GetRenderer()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiSolidBorderElement> GuiSolidBorderElement::operator=(rptr<GuiSolidBorderElement> value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiSolidBorderElement> GuiSolidBorderElement::Create()
+	{
+		throw 0;
+	}
+	
+	Color GuiSolidBorderElement::GetColor()
+	{
+		throw 0;
+	}
+	void GuiSolidBorderElement::SetColor(Color value)
+	{
+		throw 0;
+	}
+	
+	ElementShape :: Type GuiSolidBorderElement::GetShape()
+	{
+		throw 0;
+	}
+	void GuiSolidBorderElement::SetShape(ElementShape :: Type value)
+	{
+		throw 0;
+	}
+	
+	GacString GuiSolidBorderElement::GetElementTypeName()
 	{
 		throw 0;
 	}
@@ -2262,65 +1375,69 @@ GuiSolidLabelElement
 	
 
 /***********************************************************************
-ICollection_of_MemoryNodeProvider
+IGuiGraphicsRendererFactory
 ***********************************************************************/
 
-	signed __int32 ICollection_of_MemoryNodeProvider::Add(sptr<MemoryNodeProvider> item)
+	rptr<IGuiGraphicsRenderer> IGuiGraphicsRendererFactory::Create()
 	{
 		throw 0;
 	}
 	
-	bool ICollection_of_MemoryNodeProvider::Remove(rptr<MemoryNodeProvider> item)
-	{
-		throw 0;
-	}
-	
-	bool ICollection_of_MemoryNodeProvider::RemoveAt(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	bool ICollection_of_MemoryNodeProvider::RemoveRange(signed __int32 index, signed __int32 count)
-	{
-		throw 0;
-	}
-	
-	bool ICollection_of_MemoryNodeProvider::Clear()
-	{
-		throw 0;
-	}
-	
-	rptr<ICollection_of_MemoryNodeProvider> ICollection_of_MemoryNodeProvider::operator=(rptr<ICollection_of_MemoryNodeProvider> value)
+	rptr<IGuiGraphicsRendererFactory> IGuiGraphicsRendererFactory::operator=(rptr<IGuiGraphicsRendererFactory> value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-IGuiGraphicsAnimation
+IGuiMenuService
 ***********************************************************************/
 
-	void IGuiGraphicsAnimation::Play(signed __int32 currentPosition, signed __int32 totalLength)
+	bool IGuiMenuService::IsActiveState()
 	{
 		throw 0;
 	}
 	
-	void IGuiGraphicsAnimation::Stop()
+	void IGuiMenuService::MenuItemExecuted()
 	{
 		throw 0;
 	}
 	
-	rptr<IGuiGraphicsAnimation> IGuiGraphicsAnimation::operator=(rptr<IGuiGraphicsAnimation> value)
+	void IGuiMenuService::MenuOpened(rptr<GuiMenu> menu)
 	{
 		throw 0;
 	}
 	
-	signed __int32 IGuiGraphicsAnimation::GetTotalLength()
+	void IGuiMenuService::MenuClosed(rptr<GuiMenu> menu)
 	{
 		throw 0;
 	}
 	
-	signed __int32 IGuiGraphicsAnimation::GetCurrentPosition()
+	rptr<IGuiMenuService> IGuiMenuService::operator=(rptr<IGuiMenuService> value)
+	{
+		throw 0;
+	}
+	
+	rptr<IGuiMenuService> IGuiMenuService::GetParent()
+	{
+		throw 0;
+	}
+	
+	IGuiMenuService :: Direction IGuiMenuService::GetPreferredDirection()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiMenu> IGuiMenuService::GetOpeningMenu()
+	{
+		throw 0;
+	}
+	
+	wchar_t* IGuiMenuService::get_Identifier()
+	{
+		throw 0;
+	}
+	void IGuiMenuService::set_Identifier(wchar_t* value)
 	{
 		throw 0;
 	}
@@ -2361,6 +1478,1480 @@ IList_of_MemoryNodeProvider
 	}
 	
 	rptr<IList_of_MemoryNodeProvider> IList_of_MemoryNodeProvider::operator=(rptr<IList_of_MemoryNodeProvider> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+INativeAsyncService
+***********************************************************************/
+
+	bool INativeAsyncService::IsInMainThread()
+	{
+		throw 0;
+	}
+	
+	rptr<INativeAsyncService> INativeAsyncService::operator=(rptr<INativeAsyncService> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+INativeClipboardService
+***********************************************************************/
+
+	bool INativeClipboardService::ContainsText()
+	{
+		throw 0;
+	}
+	
+	bool INativeClipboardService::SetText(const GacString& value)
+	{
+		throw 0;
+	}
+	
+	rptr<INativeClipboardService> INativeClipboardService::operator=(rptr<INativeClipboardService> value)
+	{
+		throw 0;
+	}
+	
+	GacString INativeClipboardService::GetText()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+INativeCursor
+***********************************************************************/
+
+	bool INativeCursor::IsSystemCursor()
+	{
+		throw 0;
+	}
+	
+	rptr<INativeCursor> INativeCursor::operator=(rptr<INativeCursor> value)
+	{
+		throw 0;
+	}
+	
+	INativeCursor :: SystemCursorType INativeCursor::GetSystemCursorType()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+INativeImageFrameCache
+***********************************************************************/
+
+	void INativeImageFrameCache::OnAttach(rptr<INativeImageFrame> frame)
+	{
+		throw 0;
+	}
+	
+	void INativeImageFrameCache::OnDetach(rptr<INativeImageFrame> frame)
+	{
+		throw 0;
+	}
+	
+	rptr<INativeImageFrameCache> INativeImageFrameCache::operator=(rptr<INativeImageFrameCache> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+INativeImageService
+***********************************************************************/
+
+	sptr<INativeImage> INativeImageService::CreateImageFromFile(const GacString& path)
+	{
+		throw 0;
+	}
+	
+	rptr<INativeImageService> INativeImageService::operator=(rptr<INativeImageService> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+INativeImage
+***********************************************************************/
+
+	rptr<INativeImageFrame> INativeImage::GetFrame(signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	rptr<INativeImage> INativeImage::operator=(rptr<INativeImage> value)
+	{
+		throw 0;
+	}
+	
+	rptr<INativeImageService> INativeImage::GetImageService()
+	{
+		throw 0;
+	}
+	
+	INativeImage :: FormatType INativeImage::GetFormat()
+	{
+		throw 0;
+	}
+	
+	signed __int32 INativeImage::GetFrameCount()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+INativeInputService
+***********************************************************************/
+
+	void INativeInputService::StartHookMouse()
+	{
+		throw 0;
+	}
+	
+	void INativeInputService::StopHookMouse()
+	{
+		throw 0;
+	}
+	
+	bool INativeInputService::IsHookingMouse()
+	{
+		throw 0;
+	}
+	
+	void INativeInputService::StartTimer()
+	{
+		throw 0;
+	}
+	
+	void INativeInputService::StopTimer()
+	{
+		throw 0;
+	}
+	
+	bool INativeInputService::IsTimerEnabled()
+	{
+		throw 0;
+	}
+	
+	bool INativeInputService::IsKeyPressing(signed __int32 code)
+	{
+		throw 0;
+	}
+	
+	bool INativeInputService::IsKeyToggled(signed __int32 code)
+	{
+		throw 0;
+	}
+	
+	rptr<INativeInputService> INativeInputService::operator=(rptr<INativeInputService> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+INativeResourceService
+***********************************************************************/
+
+	rptr<INativeCursor> INativeResourceService::GetSystemCursor(INativeCursor :: SystemCursorType type)
+	{
+		throw 0;
+	}
+	
+	rptr<INativeResourceService> INativeResourceService::operator=(rptr<INativeResourceService> value)
+	{
+		throw 0;
+	}
+	
+	rptr<INativeCursor> INativeResourceService::GetDefaultSystemCursor()
+	{
+		throw 0;
+	}
+	
+	FontProperties INativeResourceService::GetDefaultFont()
+	{
+		throw 0;
+	}
+	void INativeResourceService::SetDefaultFont(const FontProperties& value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+INodeItemPrimaryTextView
+***********************************************************************/
+
+	GacString INodeItemPrimaryTextView::GetPrimaryTextViewText(rptr<INodeProvider> node)
+	{
+		throw 0;
+	}
+	
+	rptr<INodeItemPrimaryTextView> INodeItemPrimaryTextView::operator=(rptr<INodeItemPrimaryTextView> value)
+	{
+		throw 0;
+	}
+	
+	wchar_t* INodeItemPrimaryTextView::get_Identifier()
+	{
+		throw 0;
+	}
+	void INodeItemPrimaryTextView::set_Identifier(wchar_t* value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+INodeProvider
+***********************************************************************/
+
+	signed __int32 INodeProvider::CalculateTotalVisibleNodes()
+	{
+		throw 0;
+	}
+	
+	rptr<INodeProvider> INodeProvider::RequestChild(signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	void INodeProvider::ReleaseChild(rptr<INodeProvider> node)
+	{
+		throw 0;
+	}
+	
+	rptr<INodeProvider> INodeProvider::operator=(rptr<INodeProvider> value)
+	{
+		throw 0;
+	}
+	
+	bool INodeProvider::GetExpanding()
+	{
+		throw 0;
+	}
+	void INodeProvider::SetExpanding(bool value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 INodeProvider::GetChildCount()
+	{
+		throw 0;
+	}
+	
+	rptr<INodeProvider> INodeProvider::GetParent()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+INodeProviderCallback
+***********************************************************************/
+
+	void INodeProviderCallback::OnAttached(rptr<INodeRootProvider> provider)
+	{
+		throw 0;
+	}
+	
+	void INodeProviderCallback::OnBeforeItemModified(rptr<INodeProvider> parentNode, signed __int32 start, signed __int32 count, signed __int32 newCount)
+	{
+		throw 0;
+	}
+	
+	void INodeProviderCallback::OnAfterItemModified(rptr<INodeProvider> parentNode, signed __int32 start, signed __int32 count, signed __int32 newCount)
+	{
+		throw 0;
+	}
+	
+	void INodeProviderCallback::OnItemExpanded(rptr<INodeProvider> node)
+	{
+		throw 0;
+	}
+	
+	void INodeProviderCallback::OnItemCollapsed(rptr<INodeProvider> node)
+	{
+		throw 0;
+	}
+	
+	rptr<INodeProviderCallback> INodeProviderCallback::operator=(rptr<INodeProviderCallback> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+INodeRootProvider
+***********************************************************************/
+
+	bool INodeRootProvider::CanGetNodeByVisibleIndex()
+	{
+		throw 0;
+	}
+	
+	rptr<INodeProvider> INodeRootProvider::GetNodeByVisibleIndex(signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	bool INodeRootProvider::AttachCallback(rptr<INodeProviderCallback> value)
+	{
+		throw 0;
+	}
+	
+	bool INodeRootProvider::DetachCallback(rptr<INodeProviderCallback> value)
+	{
+		throw 0;
+	}
+	
+	rptr<IDescriptable> INodeRootProvider::RequestView(const GacString& identifier)
+	{
+		throw 0;
+	}
+	
+	void INodeRootProvider::ReleaseView(rptr<IDescriptable> view)
+	{
+		throw 0;
+	}
+	
+	rptr<INodeRootProvider> INodeRootProvider::operator=(rptr<INodeRootProvider> value)
+	{
+		throw 0;
+	}
+	
+	rptr<INodeProvider> INodeRootProvider::GetRootNode()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+IReadonlyList_of_ColorEntry
+***********************************************************************/
+
+	bool IReadonlyList_of_ColorEntry::Contains(const ColorEntry& item)
+	{
+		throw 0;
+	}
+	
+	signed __int32 IReadonlyList_of_ColorEntry::Count()
+	{
+		throw 0;
+	}
+	
+	const ColorEntry& IReadonlyList_of_ColorEntry::Get(signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	const ColorEntry& IReadonlyList_of_ColorEntry::operator[](signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	signed __int32 IReadonlyList_of_ColorEntry::IndexOf(const ColorEntry& item)
+	{
+		throw 0;
+	}
+	
+	rptr<IReadonlyList_of_ColorEntry> IReadonlyList_of_ColorEntry::operator=(rptr<IReadonlyList_of_ColorEntry> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+IReadonlyList_of_GuiGraphicsComposition_raw_pointer
+***********************************************************************/
+
+	bool IReadonlyList_of_GuiGraphicsComposition_raw_pointer::Contains(rptr<GuiGraphicsComposition> item)
+	{
+		throw 0;
+	}
+	
+	signed __int32 IReadonlyList_of_GuiGraphicsComposition_raw_pointer::Count()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsComposition> IReadonlyList_of_GuiGraphicsComposition_raw_pointer::Get(signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsComposition> IReadonlyList_of_GuiGraphicsComposition_raw_pointer::operator[](signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	signed __int32 IReadonlyList_of_GuiGraphicsComposition_raw_pointer::IndexOf(rptr<GuiGraphicsComposition> item)
+	{
+		throw 0;
+	}
+	
+	rptr<IReadonlyList_of_GuiGraphicsComposition_raw_pointer> IReadonlyList_of_GuiGraphicsComposition_raw_pointer::operator=(rptr<IReadonlyList_of_GuiGraphicsComposition_raw_pointer> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+IReadonlyList_of_GuiTabPage_raw_pointer
+***********************************************************************/
+
+	bool IReadonlyList_of_GuiTabPage_raw_pointer::Contains(rptr<GuiTabPage> item)
+	{
+		throw 0;
+	}
+	
+	signed __int32 IReadonlyList_of_GuiTabPage_raw_pointer::Count()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiTabPage> IReadonlyList_of_GuiTabPage_raw_pointer::Get(signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiTabPage> IReadonlyList_of_GuiTabPage_raw_pointer::operator[](signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	signed __int32 IReadonlyList_of_GuiTabPage_raw_pointer::IndexOf(rptr<GuiTabPage> item)
+	{
+		throw 0;
+	}
+	
+	rptr<IReadonlyList_of_GuiTabPage_raw_pointer> IReadonlyList_of_GuiTabPage_raw_pointer::operator=(rptr<IReadonlyList_of_GuiTabPage_raw_pointer> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+IReadonlyList_of_int
+***********************************************************************/
+
+	bool IReadonlyList_of_int::Contains(signed __int32 item)
+	{
+		throw 0;
+	}
+	
+	signed __int32 IReadonlyList_of_int::Count()
+	{
+		throw 0;
+	}
+	
+	signed __int32 IReadonlyList_of_int::Get(signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	signed __int32 IReadonlyList_of_int::operator[](signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	signed __int32 IReadonlyList_of_int::IndexOf(signed __int32 item)
+	{
+		throw 0;
+	}
+	
+	rptr<IReadonlyList_of_int> IReadonlyList_of_int::operator=(rptr<IReadonlyList_of_int> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+ITreeViewItemView
+***********************************************************************/
+
+	sptr<GuiImageData> ITreeViewItemView::GetNodeImage(rptr<INodeProvider> node)
+	{
+		throw 0;
+	}
+	
+	GacString ITreeViewItemView::GetNodeText(rptr<INodeProvider> node)
+	{
+		throw 0;
+	}
+	
+	rptr<ITreeViewItemView> ITreeViewItemView::operator=(rptr<ITreeViewItemView> value)
+	{
+		throw 0;
+	}
+	
+	wchar_t* ITreeViewItemView::get_Identifier()
+	{
+		throw 0;
+	}
+	void ITreeViewItemView::set_Identifier(wchar_t* value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+List_of_ObjectString_of_wchar_t
+***********************************************************************/
+
+	rptr<List_of_ObjectString_of_wchar_t> List_of_ObjectString_of_wchar_t::Create()
+	{
+		throw 0;
+	}
+	
+	bool List_of_ObjectString_of_wchar_t::Contains(const GacString& item)
+	{
+		throw 0;
+	}
+	
+	signed __int32 List_of_ObjectString_of_wchar_t::IndexOf(const GacString& item)
+	{
+		throw 0;
+	}
+	
+	signed __int32 List_of_ObjectString_of_wchar_t::Add(const GacString& item)
+	{
+		throw 0;
+	}
+	
+	signed __int32 List_of_ObjectString_of_wchar_t::Insert(signed __int32 index, const GacString& item)
+	{
+		throw 0;
+	}
+	
+	bool List_of_ObjectString_of_wchar_t::Remove(const GacString& item)
+	{
+		throw 0;
+	}
+	
+	bool List_of_ObjectString_of_wchar_t::Set(signed __int32 index, const GacString& item)
+	{
+		throw 0;
+	}
+	
+	GacString& List_of_ObjectString_of_wchar_t::operator[](signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	rptr<List_of_ObjectString_of_wchar_t> List_of_ObjectString_of_wchar_t::operator=(rptr<List_of_ObjectString_of_wchar_t> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+ListViewColumn
+***********************************************************************/
+
+	rptr<ListViewColumn> ListViewColumn::Create(const GacString& _text, signed __int32 _size)
+	{
+		throw 0;
+	}
+	ListViewColumn::ListViewColumn(const GacString& _text, signed __int32 _size)
+	{
+		throw 0;
+	}
+	
+	ListViewColumn& ListViewColumn::operator=(const ListViewColumn& value)
+	{
+		throw 0;
+	}
+	
+	GacString ListViewColumn::get_text()
+	{
+		throw 0;
+	}
+	void ListViewColumn::set_text(GacString value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 ListViewColumn::get_size()
+	{
+		throw 0;
+	}
+	void ListViewColumn::set_size(signed __int32 value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+IList_of_ListViewColumn
+***********************************************************************/
+
+	signed __int32 IList_of_ListViewColumn::Insert(signed __int32 index, sptr<ListViewColumn> item)
+	{
+		throw 0;
+	}
+	
+	bool IList_of_ListViewColumn::Set(signed __int32 index, sptr<ListViewColumn> item)
+	{
+		throw 0;
+	}
+	
+	rptr<IList_of_ListViewColumn> IList_of_ListViewColumn::operator=(rptr<IList_of_ListViewColumn> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+ListViewItem
+***********************************************************************/
+
+	ListViewItem& ListViewItem::operator=(const ListViewItem& value)
+	{
+		throw 0;
+	}
+	
+	sptr<GuiImageData> ListViewItem::get_smallImage()
+	{
+		throw 0;
+	}
+	void ListViewItem::set_smallImage(sptr<GuiImageData> value)
+	{
+		throw 0;
+	}
+	
+	sptr<GuiImageData> ListViewItem::get_largeImage()
+	{
+		throw 0;
+	}
+	void ListViewItem::set_largeImage(sptr<GuiImageData> value)
+	{
+		throw 0;
+	}
+	
+	GacString ListViewItem::get_text()
+	{
+		throw 0;
+	}
+	void ListViewItem::set_text(GacString value)
+	{
+		throw 0;
+	}
+	
+	List_of_ObjectString_of_wchar_t ListViewItem::get_subItems()
+	{
+		throw 0;
+	}
+	void ListViewItem::set_subItems(List_of_ObjectString_of_wchar_t value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+IList_of_ListViewItem
+***********************************************************************/
+
+	signed __int32 IList_of_ListViewItem::Insert(signed __int32 index, sptr<ListViewItem> item)
+	{
+		throw 0;
+	}
+	
+	bool IList_of_ListViewItem::Set(signed __int32 index, sptr<ListViewItem> item)
+	{
+		throw 0;
+	}
+	
+	rptr<IList_of_ListViewItem> IList_of_ListViewItem::operator=(rptr<IList_of_ListViewItem> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+Margin
+***********************************************************************/
+
+	rptr<Margin> Margin::Create(signed __int32 _left, signed __int32 _top, signed __int32 _right, signed __int32 _bottom)
+	{
+		throw 0;
+	}
+	Margin::Margin(signed __int32 _left, signed __int32 _top, signed __int32 _right, signed __int32 _bottom)
+	{
+		throw 0;
+	}
+	
+	rptr<Margin> Margin::Create()
+	{
+		throw 0;
+	}
+	Margin::Margin()
+	{
+		throw 0;
+	}
+	
+	bool Margin::operator==(Margin margin)
+	{
+		throw 0;
+	}
+	
+	bool Margin::operator!=(Margin margin)
+	{
+		throw 0;
+	}
+	
+	signed __int32 Margin::get_left()
+	{
+		throw 0;
+	}
+	void Margin::set_left(signed __int32 value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 Margin::get_top()
+	{
+		throw 0;
+	}
+	void Margin::set_top(signed __int32 value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 Margin::get_right()
+	{
+		throw 0;
+	}
+	void Margin::set_right(signed __int32 value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 Margin::get_bottom()
+	{
+		throw 0;
+	}
+	void Margin::set_bottom(signed __int32 value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+MemoryNodeProvider
+***********************************************************************/
+
+	rptr<MemoryNodeProvider> MemoryNodeProvider::Create(sptr<DescriptableObject> _data)
+	{
+		throw 0;
+	}
+	
+	rptr<MemoryNodeProvider> MemoryNodeProvider::Create()
+	{
+		throw 0;
+	}
+	
+	void MemoryNodeProvider::NotifyDataModified()
+	{
+		throw 0;
+	}
+	
+	rptr<IList_of_MemoryNodeProvider> MemoryNodeProvider::Children()
+	{
+		throw 0;
+	}
+	
+	bool MemoryNodeProvider::GetExpanding()
+	{
+		throw 0;
+	}
+	
+	void MemoryNodeProvider::SetExpanding(bool value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 MemoryNodeProvider::CalculateTotalVisibleNodes()
+	{
+		throw 0;
+	}
+	
+	signed __int32 MemoryNodeProvider::GetChildCount()
+	{
+		throw 0;
+	}
+	
+	rptr<INodeProvider> MemoryNodeProvider::GetParent()
+	{
+		throw 0;
+	}
+	
+	rptr<INodeProvider> MemoryNodeProvider::RequestChild(signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	void MemoryNodeProvider::ReleaseChild(rptr<INodeProvider> node)
+	{
+		throw 0;
+	}
+	
+	rptr<MemoryNodeProvider> MemoryNodeProvider::operator=(rptr<MemoryNodeProvider> value)
+	{
+		throw 0;
+	}
+	
+	sptr<DescriptableObject> MemoryNodeProvider::GetData()
+	{
+		throw 0;
+	}
+	void MemoryNodeProvider::SetData(sptr<DescriptableObject> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+NativeWindowCharInfo
+***********************************************************************/
+
+	wchar_t NativeWindowCharInfo::get_code()
+	{
+		throw 0;
+	}
+	void NativeWindowCharInfo::set_code(wchar_t value)
+	{
+		throw 0;
+	}
+	
+	bool NativeWindowCharInfo::get_ctrl()
+	{
+		throw 0;
+	}
+	void NativeWindowCharInfo::set_ctrl(bool value)
+	{
+		throw 0;
+	}
+	
+	bool NativeWindowCharInfo::get_shift()
+	{
+		throw 0;
+	}
+	void NativeWindowCharInfo::set_shift(bool value)
+	{
+		throw 0;
+	}
+	
+	bool NativeWindowCharInfo::get_alt()
+	{
+		throw 0;
+	}
+	void NativeWindowCharInfo::set_alt(bool value)
+	{
+		throw 0;
+	}
+	
+	bool NativeWindowCharInfo::get_capslock()
+	{
+		throw 0;
+	}
+	void NativeWindowCharInfo::set_capslock(bool value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiCharEventArgs
+***********************************************************************/
+
+	rptr<GuiCharEventArgs> GuiCharEventArgs::Create()
+	{
+		throw 0;
+	}
+	GuiCharEventArgs::GuiCharEventArgs()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiGraphicsEvent_of_GuiCharEventArgs
+***********************************************************************/
+
+	rptr<GuiGraphicsEvent_of_GuiCharEventArgs> GuiGraphicsEvent_of_GuiCharEventArgs::Create(rptr<GuiGraphicsComposition> _sender)
+	{
+		throw 0;
+	}
+	
+	bool GuiGraphicsEvent_of_GuiCharEventArgs::Attach(sptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> handler)
+	{
+		throw 0;
+	}
+	
+	bool GuiGraphicsEvent_of_GuiCharEventArgs::Detach(sptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> handler)
+	{
+		throw 0;
+	}
+	
+	void GuiGraphicsEvent_of_GuiCharEventArgs::Execute(GuiCharEventArgs& argument)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsEvent_of_GuiCharEventArgs> GuiGraphicsEvent_of_GuiCharEventArgs::operator=(rptr<GuiGraphicsEvent_of_GuiCharEventArgs> value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsComposition> GuiGraphicsEvent_of_GuiCharEventArgs::GetAssociatedComposition()
+	{
+		throw 0;
+	}
+	void GuiGraphicsEvent_of_GuiCharEventArgs::SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler
+***********************************************************************/
+
+	void GuiGraphicsEvent_of_GuiCharEventArgs::IHandler::Execute(rptr<GuiGraphicsComposition> sender, GuiCharEventArgs& argument)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> GuiGraphicsEvent_of_GuiCharEventArgs::IHandler::operator=(rptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+NativeWindowKeyInfo
+***********************************************************************/
+
+	signed __int32 NativeWindowKeyInfo::get_code()
+	{
+		throw 0;
+	}
+	void NativeWindowKeyInfo::set_code(signed __int32 value)
+	{
+		throw 0;
+	}
+	
+	bool NativeWindowKeyInfo::get_ctrl()
+	{
+		throw 0;
+	}
+	void NativeWindowKeyInfo::set_ctrl(bool value)
+	{
+		throw 0;
+	}
+	
+	bool NativeWindowKeyInfo::get_shift()
+	{
+		throw 0;
+	}
+	void NativeWindowKeyInfo::set_shift(bool value)
+	{
+		throw 0;
+	}
+	
+	bool NativeWindowKeyInfo::get_alt()
+	{
+		throw 0;
+	}
+	void NativeWindowKeyInfo::set_alt(bool value)
+	{
+		throw 0;
+	}
+	
+	bool NativeWindowKeyInfo::get_capslock()
+	{
+		throw 0;
+	}
+	void NativeWindowKeyInfo::set_capslock(bool value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiKeyEventArgs
+***********************************************************************/
+
+	rptr<GuiKeyEventArgs> GuiKeyEventArgs::Create()
+	{
+		throw 0;
+	}
+	GuiKeyEventArgs::GuiKeyEventArgs()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiGraphicsEvent_of_GuiKeyEventArgs
+***********************************************************************/
+
+	rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> GuiGraphicsEvent_of_GuiKeyEventArgs::Create(rptr<GuiGraphicsComposition> _sender)
+	{
+		throw 0;
+	}
+	
+	bool GuiGraphicsEvent_of_GuiKeyEventArgs::Attach(sptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> handler)
+	{
+		throw 0;
+	}
+	
+	bool GuiGraphicsEvent_of_GuiKeyEventArgs::Detach(sptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> handler)
+	{
+		throw 0;
+	}
+	
+	void GuiGraphicsEvent_of_GuiKeyEventArgs::Execute(GuiKeyEventArgs& argument)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> GuiGraphicsEvent_of_GuiKeyEventArgs::operator=(rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsComposition> GuiGraphicsEvent_of_GuiKeyEventArgs::GetAssociatedComposition()
+	{
+		throw 0;
+	}
+	void GuiGraphicsEvent_of_GuiKeyEventArgs::SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler
+***********************************************************************/
+
+	void GuiGraphicsEvent_of_GuiKeyEventArgs::IHandler::Execute(rptr<GuiGraphicsComposition> sender, GuiKeyEventArgs& argument)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> GuiGraphicsEvent_of_GuiKeyEventArgs::IHandler::operator=(rptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+NativeWindowMouseInfo
+***********************************************************************/
+
+	bool NativeWindowMouseInfo::get_ctrl()
+	{
+		throw 0;
+	}
+	void NativeWindowMouseInfo::set_ctrl(bool value)
+	{
+		throw 0;
+	}
+	
+	bool NativeWindowMouseInfo::get_shift()
+	{
+		throw 0;
+	}
+	void NativeWindowMouseInfo::set_shift(bool value)
+	{
+		throw 0;
+	}
+	
+	bool NativeWindowMouseInfo::get_left()
+	{
+		throw 0;
+	}
+	void NativeWindowMouseInfo::set_left(bool value)
+	{
+		throw 0;
+	}
+	
+	bool NativeWindowMouseInfo::get_middle()
+	{
+		throw 0;
+	}
+	void NativeWindowMouseInfo::set_middle(bool value)
+	{
+		throw 0;
+	}
+	
+	bool NativeWindowMouseInfo::get_right()
+	{
+		throw 0;
+	}
+	void NativeWindowMouseInfo::set_right(bool value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 NativeWindowMouseInfo::get_x()
+	{
+		throw 0;
+	}
+	void NativeWindowMouseInfo::set_x(signed __int32 value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 NativeWindowMouseInfo::get_y()
+	{
+		throw 0;
+	}
+	void NativeWindowMouseInfo::set_y(signed __int32 value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 NativeWindowMouseInfo::get_wheel()
+	{
+		throw 0;
+	}
+	void NativeWindowMouseInfo::set_wheel(signed __int32 value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiMouseEventArgs
+***********************************************************************/
+
+	rptr<GuiMouseEventArgs> GuiMouseEventArgs::Create()
+	{
+		throw 0;
+	}
+	GuiMouseEventArgs::GuiMouseEventArgs()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiGraphicsEvent_of_GuiMouseEventArgs
+***********************************************************************/
+
+	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> GuiGraphicsEvent_of_GuiMouseEventArgs::Create(rptr<GuiGraphicsComposition> _sender)
+	{
+		throw 0;
+	}
+	
+	bool GuiGraphicsEvent_of_GuiMouseEventArgs::Attach(sptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> handler)
+	{
+		throw 0;
+	}
+	
+	bool GuiGraphicsEvent_of_GuiMouseEventArgs::Detach(sptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> handler)
+	{
+		throw 0;
+	}
+	
+	void GuiGraphicsEvent_of_GuiMouseEventArgs::Execute(GuiMouseEventArgs& argument)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> GuiGraphicsEvent_of_GuiMouseEventArgs::operator=(rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsComposition> GuiGraphicsEvent_of_GuiMouseEventArgs::GetAssociatedComposition()
+	{
+		throw 0;
+	}
+	void GuiGraphicsEvent_of_GuiMouseEventArgs::SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler
+***********************************************************************/
+
+	void GuiGraphicsEvent_of_GuiMouseEventArgs::IHandler::Execute(rptr<GuiGraphicsComposition> sender, GuiMouseEventArgs& argument)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> GuiGraphicsEvent_of_GuiMouseEventArgs::IHandler::operator=(rptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiGraphicsEventReceiver
+***********************************************************************/
+
+	rptr<GuiGraphicsEventReceiver> GuiGraphicsEventReceiver::Create(rptr<GuiGraphicsComposition> _sender)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsEventReceiver> GuiGraphicsEventReceiver::operator=(rptr<GuiGraphicsEventReceiver> value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsComposition> GuiGraphicsEventReceiver::GetAssociatedComposition()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_leftButtonDown()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_leftButtonUp()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_leftButtonDoubleClick()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_middleButtonDown()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_middleButtonUp()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_middleButtonDoubleClick()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_rightButtonDown()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_rightButtonUp()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_rightButtonDoubleClick()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_horizontalWheel()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_verticalWheel()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_mouseMove()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiEventArgs GuiGraphicsEventReceiver::get_mouseEnter()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiEventArgs GuiGraphicsEventReceiver::get_mouseLeave()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiKeyEventArgs GuiGraphicsEventReceiver::get_previewKey()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiKeyEventArgs GuiGraphicsEventReceiver::get_keyDown()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiKeyEventArgs GuiGraphicsEventReceiver::get_keyUp()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiKeyEventArgs GuiGraphicsEventReceiver::get_systemKeyDown()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiKeyEventArgs GuiGraphicsEventReceiver::get_systemKeyUp()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiCharEventArgs GuiGraphicsEventReceiver::get_previewCharInput()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiCharEventArgs GuiGraphicsEventReceiver::get_charInput()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiEventArgs GuiGraphicsEventReceiver::get_gotFocus()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiEventArgs GuiGraphicsEventReceiver::get_lostFocus()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiEventArgs GuiGraphicsEventReceiver::get_caretNotify()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+NodeRootProviderBase
+***********************************************************************/
+
+	rptr<NodeRootProviderBase> NodeRootProviderBase::Create()
+	{
+		throw 0;
+	}
+	
+	bool NodeRootProviderBase::CanGetNodeByVisibleIndex()
+	{
+		throw 0;
+	}
+	
+	rptr<INodeProvider> NodeRootProviderBase::GetNodeByVisibleIndex(signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	bool NodeRootProviderBase::AttachCallback(rptr<INodeProviderCallback> value)
+	{
+		throw 0;
+	}
+	
+	bool NodeRootProviderBase::DetachCallback(rptr<INodeProviderCallback> value)
+	{
+		throw 0;
+	}
+	
+	rptr<IDescriptable> NodeRootProviderBase::RequestView(const GacString& identifier)
+	{
+		throw 0;
+	}
+	
+	void NodeRootProviderBase::ReleaseView(rptr<IDescriptable> view)
+	{
+		throw 0;
+	}
+	
+	rptr<NodeRootProviderBase> NodeRootProviderBase::operator=(rptr<NodeRootProviderBase> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+MemoryNodeRootProvider
+***********************************************************************/
+
+	rptr<MemoryNodeRootProvider> MemoryNodeRootProvider::Create()
+	{
+		throw 0;
+	}
+	
+	rptr<INodeProvider> MemoryNodeRootProvider::GetRootNode()
+	{
+		throw 0;
+	}
+	
+	rptr<MemoryNodeRootProvider> MemoryNodeRootProvider::operator=(rptr<MemoryNodeRootProvider> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+Point
+***********************************************************************/
+
+	rptr<Point> Point::Create(signed __int32 _x, signed __int32 _y)
+	{
+		throw 0;
+	}
+	Point::Point(signed __int32 _x, signed __int32 _y)
+	{
+		throw 0;
+	}
+	
+	rptr<Point> Point::Create()
+	{
+		throw 0;
+	}
+	Point::Point()
+	{
+		throw 0;
+	}
+	
+	bool Point::operator==(Point point)
+	{
+		throw 0;
+	}
+	
+	bool Point::operator!=(Point point)
+	{
+		throw 0;
+	}
+	
+	signed __int32 Point::get_x()
+	{
+		throw 0;
+	}
+	void Point::set_x(signed __int32 value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 Point::get_y()
+	{
+		throw 0;
+	}
+	void Point::set_y(signed __int32 value)
 	{
 		throw 0;
 	}
@@ -2427,64 +3018,20 @@ INativeControllerListener
 	
 
 /***********************************************************************
-INativeImageFrame
+INativeCallbackService
 ***********************************************************************/
 
-	bool INativeImageFrame::SetCache(void* key, sptr<INativeImageFrameCache> cache)
+	bool INativeCallbackService::InstallListener(rptr<INativeControllerListener> listener)
 	{
 		throw 0;
 	}
 	
-	sptr<INativeImageFrameCache> INativeImageFrame::GetCache(void* key)
+	bool INativeCallbackService::UninstallListener(rptr<INativeControllerListener> listener)
 	{
 		throw 0;
 	}
 	
-	sptr<INativeImageFrameCache> INativeImageFrame::RemoveCache(void* key)
-	{
-		throw 0;
-	}
-	
-	rptr<INativeImageFrame> INativeImageFrame::operator=(rptr<INativeImageFrame> value)
-	{
-		throw 0;
-	}
-	
-	rptr<INativeImage> INativeImageFrame::GetImage()
-	{
-		throw 0;
-	}
-	
-	Size INativeImageFrame::GetSize()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-INativeResourceService
-***********************************************************************/
-
-	rptr<INativeCursor> INativeResourceService::GetSystemCursor(INativeCursor :: SystemCursorType type)
-	{
-		throw 0;
-	}
-	
-	rptr<INativeResourceService> INativeResourceService::operator=(rptr<INativeResourceService> value)
-	{
-		throw 0;
-	}
-	
-	rptr<INativeCursor> INativeResourceService::GetDefaultSystemCursor()
-	{
-		throw 0;
-	}
-	
-	FontProperties INativeResourceService::GetDefaultFont()
-	{
-		throw 0;
-	}
-	void INativeResourceService::SetDefaultFont(const FontProperties& value)
+	rptr<INativeCallbackService> INativeCallbackService::operator=(rptr<INativeCallbackService> value)
 	{
 		throw 0;
 	}
@@ -2526,335 +3073,158 @@ INativeWindowService
 	
 
 /***********************************************************************
-INodeProviderCallback
+Size
 ***********************************************************************/
 
-	void INodeProviderCallback::OnAttached(rptr<INodeRootProvider> provider)
+	rptr<Size> Size::Create(signed __int32 _x, signed __int32 _y)
+	{
+		throw 0;
+	}
+	Size::Size(signed __int32 _x, signed __int32 _y)
 	{
 		throw 0;
 	}
 	
-	void INodeProviderCallback::OnBeforeItemModified(rptr<INodeProvider> parentNode, signed __int32 start, signed __int32 count, signed __int32 newCount)
+	rptr<Size> Size::Create()
+	{
+		throw 0;
+	}
+	Size::Size()
 	{
 		throw 0;
 	}
 	
-	void INodeProviderCallback::OnAfterItemModified(rptr<INodeProvider> parentNode, signed __int32 start, signed __int32 count, signed __int32 newCount)
+	bool Size::operator==(Size size)
 	{
 		throw 0;
 	}
 	
-	void INodeProviderCallback::OnItemExpanded(rptr<INodeProvider> node)
+	bool Size::operator!=(Size size)
 	{
 		throw 0;
 	}
 	
-	void INodeProviderCallback::OnItemCollapsed(rptr<INodeProvider> node)
+	signed __int32 Size::get_x()
+	{
+		throw 0;
+	}
+	void Size::set_x(signed __int32 value)
 	{
 		throw 0;
 	}
 	
-	rptr<INodeProviderCallback> INodeProviderCallback::operator=(rptr<INodeProviderCallback> value)
+	signed __int32 Size::get_y()
+	{
+		throw 0;
+	}
+	void Size::set_y(signed __int32 value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-IReadonlyList_of_ColorEntry
+GuiPolygonElement
 ***********************************************************************/
 
-	bool IReadonlyList_of_ColorEntry::Contains(const ColorEntry& item)
+	rptr<IGuiGraphicsElementFactory> GuiPolygonElement::GetFactory()
 	{
 		throw 0;
 	}
 	
-	signed __int32 IReadonlyList_of_ColorEntry::Count()
+	rptr<IGuiGraphicsRenderer> GuiPolygonElement::GetRenderer()
 	{
 		throw 0;
 	}
 	
-	const ColorEntry& IReadonlyList_of_ColorEntry::Get(signed __int32 index)
+	void GuiPolygonElement::SetPoints(Point* p, signed __int32 count)
 	{
 		throw 0;
 	}
 	
-	const ColorEntry& IReadonlyList_of_ColorEntry::operator[](signed __int32 index)
+	rptr<GuiPolygonElement> GuiPolygonElement::operator=(rptr<GuiPolygonElement> value)
 	{
 		throw 0;
 	}
 	
-	signed __int32 IReadonlyList_of_ColorEntry::IndexOf(const ColorEntry& item)
+	rptr<GuiPolygonElement> GuiPolygonElement::Create()
 	{
 		throw 0;
 	}
 	
-	rptr<IReadonlyList_of_ColorEntry> IReadonlyList_of_ColorEntry::operator=(rptr<IReadonlyList_of_ColorEntry> value)
+	Size GuiPolygonElement::GetSize()
+	{
+		throw 0;
+	}
+	void GuiPolygonElement::SetSize(Size value)
+	{
+		throw 0;
+	}
+	
+	Point* GuiPolygonElement::GetPoints()
+	{
+		throw 0;
+	}
+	
+	signed __int32 GuiPolygonElement::GetPointCount()
+	{
+		throw 0;
+	}
+	
+	Color GuiPolygonElement::GetBorderColor()
+	{
+		throw 0;
+	}
+	void GuiPolygonElement::SetBorderColor(Color value)
+	{
+		throw 0;
+	}
+	
+	Color GuiPolygonElement::GetBackgroundColor()
+	{
+		throw 0;
+	}
+	void GuiPolygonElement::SetBackgroundColor(Color value)
+	{
+		throw 0;
+	}
+	
+	GacString GuiPolygonElement::GetElementTypeName()
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-List_of_ObjectString_of_wchar_t
+INativeImageFrame
 ***********************************************************************/
 
-	rptr<List_of_ObjectString_of_wchar_t> List_of_ObjectString_of_wchar_t::Create()
+	bool INativeImageFrame::SetCache(void* key, sptr<INativeImageFrameCache> cache)
 	{
 		throw 0;
 	}
 	
-	bool List_of_ObjectString_of_wchar_t::Contains(const GacString& item)
+	sptr<INativeImageFrameCache> INativeImageFrame::GetCache(void* key)
 	{
 		throw 0;
 	}
 	
-	signed __int32 List_of_ObjectString_of_wchar_t::IndexOf(const GacString& item)
+	sptr<INativeImageFrameCache> INativeImageFrame::RemoveCache(void* key)
 	{
 		throw 0;
 	}
 	
-	signed __int32 List_of_ObjectString_of_wchar_t::Add(const GacString& item)
+	rptr<INativeImageFrame> INativeImageFrame::operator=(rptr<INativeImageFrame> value)
 	{
 		throw 0;
 	}
 	
-	signed __int32 List_of_ObjectString_of_wchar_t::Insert(signed __int32 index, const GacString& item)
+	rptr<INativeImage> INativeImageFrame::GetImage()
 	{
 		throw 0;
 	}
 	
-	bool List_of_ObjectString_of_wchar_t::Remove(const GacString& item)
-	{
-		throw 0;
-	}
-	
-	bool List_of_ObjectString_of_wchar_t::Set(signed __int32 index, const GacString& item)
-	{
-		throw 0;
-	}
-	
-	GacString& List_of_ObjectString_of_wchar_t::operator[](signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	rptr<List_of_ObjectString_of_wchar_t> List_of_ObjectString_of_wchar_t::operator=(rptr<List_of_ObjectString_of_wchar_t> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-ListViewItem
-***********************************************************************/
-
-	ListViewItem& ListViewItem::operator=(const ListViewItem& value)
-	{
-		throw 0;
-	}
-	
-	sptr<GuiImageData> ListViewItem::get_smallImage()
-	{
-		throw 0;
-	}
-	void ListViewItem::set_smallImage(sptr<GuiImageData> value)
-	{
-		throw 0;
-	}
-	
-	sptr<GuiImageData> ListViewItem::get_largeImage()
-	{
-		throw 0;
-	}
-	void ListViewItem::set_largeImage(sptr<GuiImageData> value)
-	{
-		throw 0;
-	}
-	
-	GacString ListViewItem::get_text()
-	{
-		throw 0;
-	}
-	void ListViewItem::set_text(GacString value)
-	{
-		throw 0;
-	}
-	
-	List_of_ObjectString_of_wchar_t ListViewItem::get_subItems()
-	{
-		throw 0;
-	}
-	void ListViewItem::set_subItems(List_of_ObjectString_of_wchar_t value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-MemoryNodeProvider
-***********************************************************************/
-
-	rptr<MemoryNodeProvider> MemoryNodeProvider::Create(0 /*UNKNOWN_TYPE[ vl::Ptr<vl::presentation::DescriptableObject> ]*/ _data)
-	{
-		throw 0;
-	}
-	
-	rptr<MemoryNodeProvider> MemoryNodeProvider::Create()
-	{
-		throw 0;
-	}
-	
-	void MemoryNodeProvider::NotifyDataModified()
-	{
-		throw 0;
-	}
-	
-	rptr<IList_of_MemoryNodeProvider> MemoryNodeProvider::Children()
-	{
-		throw 0;
-	}
-	
-	bool MemoryNodeProvider::GetExpanding()
-	{
-		throw 0;
-	}
-	
-	void MemoryNodeProvider::SetExpanding(bool value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 MemoryNodeProvider::CalculateTotalVisibleNodes()
-	{
-		throw 0;
-	}
-	
-	signed __int32 MemoryNodeProvider::GetChildCount()
-	{
-		throw 0;
-	}
-	
-	rptr<INodeProvider> MemoryNodeProvider::GetParent()
-	{
-		throw 0;
-	}
-	
-	rptr<INodeProvider> MemoryNodeProvider::RequestChild(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	void MemoryNodeProvider::ReleaseChild(rptr<INodeProvider> node)
-	{
-		throw 0;
-	}
-	
-	rptr<MemoryNodeProvider> MemoryNodeProvider::operator=(rptr<MemoryNodeProvider> value)
-	{
-		throw 0;
-	}
-	
-	0 /*UNKNOWN_TYPE[ vl::Ptr<vl::presentation::DescriptableObject> ]*/ MemoryNodeProvider::GetData()
-	{
-		throw 0;
-	}
-	void MemoryNodeProvider::SetData(0 /*UNKNOWN_TYPE[ vl::Ptr<vl::presentation::DescriptableObject> ]*/ value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-NativeWindowKeyInfo
-***********************************************************************/
-
-	signed __int32 NativeWindowKeyInfo::get_code()
-	{
-		throw 0;
-	}
-	void NativeWindowKeyInfo::set_code(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	bool NativeWindowKeyInfo::get_ctrl()
-	{
-		throw 0;
-	}
-	void NativeWindowKeyInfo::set_ctrl(bool value)
-	{
-		throw 0;
-	}
-	
-	bool NativeWindowKeyInfo::get_shift()
-	{
-		throw 0;
-	}
-	void NativeWindowKeyInfo::set_shift(bool value)
-	{
-		throw 0;
-	}
-	
-	bool NativeWindowKeyInfo::get_alt()
-	{
-		throw 0;
-	}
-	void NativeWindowKeyInfo::set_alt(bool value)
-	{
-		throw 0;
-	}
-	
-	bool NativeWindowKeyInfo::get_capslock()
-	{
-		throw 0;
-	}
-	void NativeWindowKeyInfo::set_capslock(bool value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-NodeRootProviderBase
-***********************************************************************/
-
-	rptr<NodeRootProviderBase> NodeRootProviderBase::Create()
-	{
-		throw 0;
-	}
-	
-	bool NodeRootProviderBase::CanGetNodeByVisibleIndex()
-	{
-		throw 0;
-	}
-	
-	rptr<INodeProvider> NodeRootProviderBase::GetNodeByVisibleIndex(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	bool NodeRootProviderBase::AttachCallback(rptr<INodeProviderCallback> value)
-	{
-		throw 0;
-	}
-	
-	bool NodeRootProviderBase::DetachCallback(rptr<INodeProviderCallback> value)
-	{
-		throw 0;
-	}
-	
-	rptr<IDescriptable> NodeRootProviderBase::RequestView(const GacString& identifier)
-	{
-		throw 0;
-	}
-	
-	void NodeRootProviderBase::ReleaseView(rptr<IDescriptable> view)
-	{
-		throw 0;
-	}
-	
-	rptr<NodeRootProviderBase> NodeRootProviderBase::operator=(rptr<NodeRootProviderBase> value)
+	Size INativeImageFrame::GetSize()
 	{
 		throw 0;
 	}
@@ -3009,442 +3379,6 @@ Rect
 	
 
 /***********************************************************************
-TreeViewItem
-***********************************************************************/
-
-	rptr<TreeViewItem> TreeViewItem::Create(sptr<GuiImageData> _image, const GacString& _text)
-	{
-		throw 0;
-	}
-	
-	rptr<TreeViewItem> TreeViewItem::Create()
-	{
-		throw 0;
-	}
-	
-	rptr<TreeViewItem> TreeViewItem::operator=(rptr<TreeViewItem> value)
-	{
-		throw 0;
-	}
-	
-	sptr<GuiImageData> TreeViewItem::get_image()
-	{
-		throw 0;
-	}
-	void TreeViewItem::set_image(sptr<GuiImageData> value)
-	{
-		throw 0;
-	}
-	
-	GacString TreeViewItem::get_text()
-	{
-		throw 0;
-	}
-	void TreeViewItem::set_text(GacString value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-Array_of_ColorEntry
-***********************************************************************/
-
-	rptr<Array_of_ColorEntry> Array_of_ColorEntry::Create(signed __int32 size)
-	{
-		throw 0;
-	}
-	
-	bool Array_of_ColorEntry::Contains(const ColorEntry& item)
-	{
-		throw 0;
-	}
-	
-	signed __int32 Array_of_ColorEntry::Count()
-	{
-		throw 0;
-	}
-	
-	const ColorEntry& Array_of_ColorEntry::Get(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	ColorEntry& Array_of_ColorEntry::operator[](signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	const ColorEntry& Array_of_ColorEntry::operator[](signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 Array_of_ColorEntry::IndexOf(const ColorEntry& item)
-	{
-		throw 0;
-	}
-	
-	void Array_of_ColorEntry::Set(signed __int32 index, const ColorEntry& item)
-	{
-		throw 0;
-	}
-	
-	void Array_of_ColorEntry::Resize(signed __int32 size)
-	{
-		throw 0;
-	}
-	
-	rptr<Array_of_ColorEntry> Array_of_ColorEntry::operator=(rptr<Array_of_ColorEntry> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-Gui3DSplitterElement
-***********************************************************************/
-
-	rptr<IGuiGraphicsElementFactory> Gui3DSplitterElement::GetFactory()
-	{
-		throw 0;
-	}
-	
-	rptr<IGuiGraphicsRenderer> Gui3DSplitterElement::GetRenderer()
-	{
-		throw 0;
-	}
-	
-	void Gui3DSplitterElement::SetColors(Color value1, Color value2)
-	{
-		throw 0;
-	}
-	
-	rptr<Gui3DSplitterElement> Gui3DSplitterElement::operator=(rptr<Gui3DSplitterElement> value)
-	{
-		throw 0;
-	}
-	
-	rptr<Gui3DSplitterElement> Gui3DSplitterElement::Create()
-	{
-		throw 0;
-	}
-	
-	Color Gui3DSplitterElement::GetColor1()
-	{
-		throw 0;
-	}
-	
-	Color Gui3DSplitterElement::GetColor2()
-	{
-		throw 0;
-	}
-	
-	Gui3DSplitterElement :: Direction Gui3DSplitterElement::GetDirection()
-	{
-		throw 0;
-	}
-	void Gui3DSplitterElement::SetDirection(Gui3DSplitterElement :: Direction value)
-	{
-		throw 0;
-	}
-	
-	GacString Gui3DSplitterElement::GetElementTypeName()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiGraphicsAnimationManager
-***********************************************************************/
-
-	rptr<GuiGraphicsAnimationManager> GuiGraphicsAnimationManager::Create()
-	{
-		throw 0;
-	}
-	
-	void GuiGraphicsAnimationManager::AddAnimation(sptr<IGuiGraphicsAnimation> animation)
-	{
-		throw 0;
-	}
-	
-	bool GuiGraphicsAnimationManager::HasAnimation()
-	{
-		throw 0;
-	}
-	
-	void GuiGraphicsAnimationManager::Play()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsAnimationManager> GuiGraphicsAnimationManager::operator=(rptr<GuiGraphicsAnimationManager> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiGraphicsEvent_of_GuiEventArgs
-***********************************************************************/
-
-	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiGraphicsEvent_of_GuiEventArgs::Create(rptr<GuiGraphicsComposition> _sender)
-	{
-		throw 0;
-	}
-	
-	bool GuiGraphicsEvent_of_GuiEventArgs::Attach(sptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> handler)
-	{
-		throw 0;
-	}
-	
-	bool GuiGraphicsEvent_of_GuiEventArgs::Detach(sptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> handler)
-	{
-		throw 0;
-	}
-	
-	void GuiGraphicsEvent_of_GuiEventArgs::Execute(GuiEventArgs& argument)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiGraphicsEvent_of_GuiEventArgs::operator=(rptr<GuiGraphicsEvent_of_GuiEventArgs> value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> GuiGraphicsEvent_of_GuiEventArgs::GetAssociatedComposition()
-	{
-		throw 0;
-	}
-	void GuiGraphicsEvent_of_GuiEventArgs::SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiGraphicsEvent_of_GuiEventArgs :: IHandler
-***********************************************************************/
-
-	void GuiGraphicsEvent_of_GuiEventArgs::IHandler::Execute(rptr<GuiGraphicsComposition> sender, GuiEventArgs& argument)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> GuiGraphicsEvent_of_GuiEventArgs::IHandler::operator=(rptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiGraphicsEvent_of_GuiMouseEventArgs
-***********************************************************************/
-
-	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> GuiGraphicsEvent_of_GuiMouseEventArgs::Create(rptr<GuiGraphicsComposition> _sender)
-	{
-		throw 0;
-	}
-	
-	bool GuiGraphicsEvent_of_GuiMouseEventArgs::Attach(sptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> handler)
-	{
-		throw 0;
-	}
-	
-	bool GuiGraphicsEvent_of_GuiMouseEventArgs::Detach(sptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> handler)
-	{
-		throw 0;
-	}
-	
-	void GuiGraphicsEvent_of_GuiMouseEventArgs::Execute(GuiMouseEventArgs& argument)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> GuiGraphicsEvent_of_GuiMouseEventArgs::operator=(rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> GuiGraphicsEvent_of_GuiMouseEventArgs::GetAssociatedComposition()
-	{
-		throw 0;
-	}
-	void GuiGraphicsEvent_of_GuiMouseEventArgs::SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler
-***********************************************************************/
-
-	void GuiGraphicsEvent_of_GuiMouseEventArgs::IHandler::Execute(rptr<GuiGraphicsComposition> sender, GuiMouseEventArgs& argument)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> GuiGraphicsEvent_of_GuiMouseEventArgs::IHandler::operator=(rptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiKeyEventArgs
-***********************************************************************/
-
-	rptr<GuiKeyEventArgs> GuiKeyEventArgs::Create()
-	{
-		throw 0;
-	}
-	GuiKeyEventArgs::GuiKeyEventArgs()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiSolidBorderElement
-***********************************************************************/
-
-	rptr<IGuiGraphicsElementFactory> GuiSolidBorderElement::GetFactory()
-	{
-		throw 0;
-	}
-	
-	rptr<IGuiGraphicsRenderer> GuiSolidBorderElement::GetRenderer()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiSolidBorderElement> GuiSolidBorderElement::operator=(rptr<GuiSolidBorderElement> value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiSolidBorderElement> GuiSolidBorderElement::Create()
-	{
-		throw 0;
-	}
-	
-	Color GuiSolidBorderElement::GetColor()
-	{
-		throw 0;
-	}
-	void GuiSolidBorderElement::SetColor(Color value)
-	{
-		throw 0;
-	}
-	
-	ElementShape :: Type GuiSolidBorderElement::GetShape()
-	{
-		throw 0;
-	}
-	void GuiSolidBorderElement::SetShape(ElementShape :: Type value)
-	{
-		throw 0;
-	}
-	
-	GacString GuiSolidBorderElement::GetElementTypeName()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiTabPage
-***********************************************************************/
-
-	rptr<GuiTabPage> GuiTabPage::operator=(rptr<GuiTabPage> value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiControl> GuiTabPage::GetContainer()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiTab> GuiTabPage::GetOwnerTab()
-	{
-		throw 0;
-	}
-	
-	const GacString& GuiTabPage::GetText()
-	{
-		throw 0;
-	}
-	void GuiTabPage::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	bool GuiTabPage::GetSelected()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiEventArgs GuiTabPage::get_TextChanged()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiTimeBasedAnimation
-***********************************************************************/
-
-	rptr<GuiTimeBasedAnimation> GuiTimeBasedAnimation::Create(signed __int32 totalMilliseconds)
-	{
-		throw 0;
-	}
-	
-	void GuiTimeBasedAnimation::Restart(signed __int32 totalMilliseconds)
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiTimeBasedAnimation::GetTotalLength()
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiTimeBasedAnimation::GetCurrentPosition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiTimeBasedAnimation> GuiTimeBasedAnimation::operator=(rptr<GuiTimeBasedAnimation> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-IGuiGraphicsElement
-***********************************************************************/
-
-	rptr<IGuiGraphicsElement> IGuiGraphicsElement::operator=(rptr<IGuiGraphicsElement> value)
-	{
-		throw 0;
-	}
-	
-	rptr<IGuiGraphicsElementFactory> IGuiGraphicsElement::GetFactory()
-	{
-		throw 0;
-	}
-	
-	rptr<IGuiGraphicsRenderer> IGuiGraphicsElement::GetRenderer()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
 IGuiGraphicsRenderTarget
 ***********************************************************************/
 
@@ -3485,55 +3419,210 @@ IGuiGraphicsRenderTarget
 	
 
 /***********************************************************************
-IList_of_ListViewColumn
+CharMeasurer
 ***********************************************************************/
 
-	signed __int32 IList_of_ListViewColumn::Insert(signed __int32 index, sptr<ListViewColumn> item)
+	signed __int32 CharMeasurer::MeasureWidth(wchar_t character)
 	{
 		throw 0;
 	}
 	
-	bool IList_of_ListViewColumn::Set(signed __int32 index, sptr<ListViewColumn> item)
+	rptr<CharMeasurer> CharMeasurer::operator=(rptr<CharMeasurer> value)
 	{
 		throw 0;
 	}
 	
-	rptr<IList_of_ListViewColumn> IList_of_ListViewColumn::operator=(rptr<IList_of_ListViewColumn> value)
+	void CharMeasurer::SetRenderTarget(rptr<IGuiGraphicsRenderTarget> value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 CharMeasurer::GetRowHeight()
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-INativeCallbackService
+GuiGraphicsResourceManager
 ***********************************************************************/
 
-	bool INativeCallbackService::InstallListener(rptr<INativeControllerListener> listener)
+	bool GuiGraphicsResourceManager::RegisterElementFactory(rptr<IGuiGraphicsElementFactory> factory)
 	{
 		throw 0;
 	}
 	
-	bool INativeCallbackService::UninstallListener(rptr<INativeControllerListener> listener)
+	bool GuiGraphicsResourceManager::RegisterRendererFactory(const GacString& elementTypeName, rptr<IGuiGraphicsRendererFactory> factory)
 	{
 		throw 0;
 	}
 	
-	rptr<INativeCallbackService> INativeCallbackService::operator=(rptr<INativeCallbackService> value)
+	rptr<IGuiGraphicsElementFactory> GuiGraphicsResourceManager::GetElementFactory(const GacString& elementTypeName)
+	{
+		throw 0;
+	}
+	
+	rptr<IGuiGraphicsRendererFactory> GuiGraphicsResourceManager::GetRendererFactory(const GacString& elementTypeName)
+	{
+		throw 0;
+	}
+	
+	rptr<IGuiGraphicsRenderTarget> GuiGraphicsResourceManager::GetRenderTarget(rptr<INativeWindow> window)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsResourceManager> GuiGraphicsResourceManager::operator=(rptr<GuiGraphicsResourceManager> value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-INativeImageService
+IGuiGraphicsRenderer
 ***********************************************************************/
 
-	sptr<INativeImage> INativeImageService::CreateImageFromFile(const GacString& path)
+	void IGuiGraphicsRenderer::Initialize(rptr<IGuiGraphicsElement> _element)
 	{
 		throw 0;
 	}
 	
-	rptr<INativeImageService> INativeImageService::operator=(rptr<INativeImageService> value)
+	void IGuiGraphicsRenderer::Finalize()
+	{
+		throw 0;
+	}
+	
+	void IGuiGraphicsRenderer::Render(Rect bounds)
+	{
+		throw 0;
+	}
+	
+	void IGuiGraphicsRenderer::OnElementStateChanged()
+	{
+		throw 0;
+	}
+	
+	rptr<IGuiGraphicsRenderer> IGuiGraphicsRenderer::operator=(rptr<IGuiGraphicsRenderer> value)
+	{
+		throw 0;
+	}
+	
+	void IGuiGraphicsRenderer::SetRenderTarget(rptr<IGuiGraphicsRenderTarget> _renderTarget)
+	{
+		throw 0;
+	}
+	
+	rptr<IGuiGraphicsRendererFactory> IGuiGraphicsRenderer::GetFactory()
+	{
+		throw 0;
+	}
+	
+	Size IGuiGraphicsRenderer::GetMinSize()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+INativeScreen
+***********************************************************************/
+
+	bool INativeScreen::IsPrimary()
+	{
+		throw 0;
+	}
+	
+	rptr<INativeScreen> INativeScreen::operator=(rptr<INativeScreen> value)
+	{
+		throw 0;
+	}
+	
+	Rect INativeScreen::GetBounds()
+	{
+		throw 0;
+	}
+	
+	Rect INativeScreen::GetClientBounds()
+	{
+		throw 0;
+	}
+	
+	GacString INativeScreen::GetName()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+INativeScreenService
+***********************************************************************/
+
+	rptr<INativeScreen> INativeScreenService::GetScreen(rptr<INativeWindow> window)
+	{
+		throw 0;
+	}
+	
+	rptr<INativeScreen> INativeScreenService::GetScreen(signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	rptr<INativeScreenService> INativeScreenService::operator=(rptr<INativeScreenService> value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 INativeScreenService::GetScreenCount()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+INativeController
+***********************************************************************/
+
+	rptr<INativeCallbackService> INativeController::CallbackService()
+	{
+		throw 0;
+	}
+	
+	rptr<INativeResourceService> INativeController::ResourceService()
+	{
+		throw 0;
+	}
+	
+	rptr<INativeAsyncService> INativeController::AsyncService()
+	{
+		throw 0;
+	}
+	
+	rptr<INativeClipboardService> INativeController::ClipboardService()
+	{
+		throw 0;
+	}
+	
+	rptr<INativeImageService> INativeController::ImageService()
+	{
+		throw 0;
+	}
+	
+	rptr<INativeScreenService> INativeController::ScreenService()
+	{
+		throw 0;
+	}
+	
+	rptr<INativeWindowService> INativeController::WindowService()
+	{
+		throw 0;
+	}
+	
+	rptr<INativeInputService> INativeController::InputService()
+	{
+		throw 0;
+	}
+	
+	rptr<INativeController> INativeController::operator=(rptr<INativeController> value)
 	{
 		throw 0;
 	}
@@ -3720,311 +3809,6 @@ INativeWindowListener
 	
 
 /***********************************************************************
-INodeRootProvider
-***********************************************************************/
-
-	bool INodeRootProvider::CanGetNodeByVisibleIndex()
-	{
-		throw 0;
-	}
-	
-	rptr<INodeProvider> INodeRootProvider::GetNodeByVisibleIndex(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	bool INodeRootProvider::AttachCallback(rptr<INodeProviderCallback> value)
-	{
-		throw 0;
-	}
-	
-	bool INodeRootProvider::DetachCallback(rptr<INodeProviderCallback> value)
-	{
-		throw 0;
-	}
-	
-	rptr<IDescriptable> INodeRootProvider::RequestView(const GacString& identifier)
-	{
-		throw 0;
-	}
-	
-	void INodeRootProvider::ReleaseView(rptr<IDescriptable> view)
-	{
-		throw 0;
-	}
-	
-	rptr<INodeRootProvider> INodeRootProvider::operator=(rptr<INodeRootProvider> value)
-	{
-		throw 0;
-	}
-	
-	rptr<INodeProvider> INodeRootProvider::GetRootNode()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-IReadonlyList_of_GuiTabPage_raw_pointer
-***********************************************************************/
-
-	bool IReadonlyList_of_GuiTabPage_raw_pointer::Contains(rptr<GuiTabPage> item)
-	{
-		throw 0;
-	}
-	
-	signed __int32 IReadonlyList_of_GuiTabPage_raw_pointer::Count()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiTabPage> IReadonlyList_of_GuiTabPage_raw_pointer::Get(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiTabPage> IReadonlyList_of_GuiTabPage_raw_pointer::operator[](signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	signed __int32 IReadonlyList_of_GuiTabPage_raw_pointer::IndexOf(rptr<GuiTabPage> item)
-	{
-		throw 0;
-	}
-	
-	rptr<IReadonlyList_of_GuiTabPage_raw_pointer> IReadonlyList_of_GuiTabPage_raw_pointer::operator=(rptr<IReadonlyList_of_GuiTabPage_raw_pointer> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-IReadonlyList_of_ListViewItem
-***********************************************************************/
-
-	bool IReadonlyList_of_ListViewItem::Contains(rptr<ListViewItem> item)
-	{
-		throw 0;
-	}
-	
-	signed __int32 IReadonlyList_of_ListViewItem::Count()
-	{
-		throw 0;
-	}
-	
-	sptr<ListViewItem> IReadonlyList_of_ListViewItem::Get(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	sptr<ListViewItem> IReadonlyList_of_ListViewItem::operator[](signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	signed __int32 IReadonlyList_of_ListViewItem::IndexOf(rptr<ListViewItem> item)
-	{
-		throw 0;
-	}
-	
-	rptr<IReadonlyList_of_ListViewItem> IReadonlyList_of_ListViewItem::operator=(rptr<IReadonlyList_of_ListViewItem> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-MemoryNodeRootProvider
-***********************************************************************/
-
-	rptr<MemoryNodeRootProvider> MemoryNodeRootProvider::Create()
-	{
-		throw 0;
-	}
-	
-	rptr<INodeProvider> MemoryNodeRootProvider::GetRootNode()
-	{
-		throw 0;
-	}
-	
-	rptr<MemoryNodeRootProvider> MemoryNodeRootProvider::operator=(rptr<MemoryNodeRootProvider> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-TextItem
-***********************************************************************/
-
-	rptr<TextItem> TextItem::Create(wchar_t* _text, bool _checked)
-	{
-		throw 0;
-	}
-	TextItem::TextItem(wchar_t* _text, bool _checked)
-	{
-		throw 0;
-	}
-	
-	rptr<TextItem> TextItem::Create(const GacString& _text, bool _checked)
-	{
-		throw 0;
-	}
-	TextItem::TextItem(const GacString& _text, bool _checked)
-	{
-		throw 0;
-	}
-	
-	rptr<TextItem> TextItem::Create(const TextItem& item)
-	{
-		throw 0;
-	}
-	TextItem::TextItem(const TextItem& item)
-	{
-		throw 0;
-	}
-	
-	rptr<TextItem> TextItem::Create()
-	{
-		throw 0;
-	}
-	TextItem::TextItem()
-	{
-		throw 0;
-	}
-	
-	bool TextItem::operator==(const TextItem& value)
-	{
-		throw 0;
-	}
-	
-	bool TextItem::operator!=(const TextItem& value)
-	{
-		throw 0;
-	}
-	
-	TextItem& TextItem::operator=(const TextItem& __that)
-	{
-		throw 0;
-	}
-	
-	const GacString& TextItem::GetText()
-	{
-		throw 0;
-	}
-	
-	bool TextItem::GetChecked()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-TreeViewItemRootProvider
-***********************************************************************/
-
-	rptr<TreeViewItemRootProvider> TreeViewItemRootProvider::Create()
-	{
-		throw 0;
-	}
-	
-	rptr<IDescriptable> TreeViewItemRootProvider::RequestView(const GacString& identifier)
-	{
-		throw 0;
-	}
-	
-	void TreeViewItemRootProvider::ReleaseView(rptr<IDescriptable> view)
-	{
-		throw 0;
-	}
-	
-	rptr<TreeViewItemRootProvider> TreeViewItemRootProvider::operator=(rptr<TreeViewItemRootProvider> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-CharMeasurer
-***********************************************************************/
-
-	signed __int32 CharMeasurer::MeasureWidth(wchar_t character)
-	{
-		throw 0;
-	}
-	
-	rptr<CharMeasurer> CharMeasurer::operator=(rptr<CharMeasurer> value)
-	{
-		throw 0;
-	}
-	
-	void CharMeasurer::SetRenderTarget(rptr<IGuiGraphicsRenderTarget> value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 CharMeasurer::GetRowHeight()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiGraphicsEvent_of_GuiKeyEventArgs
-***********************************************************************/
-
-	rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> GuiGraphicsEvent_of_GuiKeyEventArgs::Create(rptr<GuiGraphicsComposition> _sender)
-	{
-		throw 0;
-	}
-	
-	bool GuiGraphicsEvent_of_GuiKeyEventArgs::Attach(sptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> handler)
-	{
-		throw 0;
-	}
-	
-	bool GuiGraphicsEvent_of_GuiKeyEventArgs::Detach(sptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> handler)
-	{
-		throw 0;
-	}
-	
-	void GuiGraphicsEvent_of_GuiKeyEventArgs::Execute(GuiKeyEventArgs& argument)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> GuiGraphicsEvent_of_GuiKeyEventArgs::operator=(rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> GuiGraphicsEvent_of_GuiKeyEventArgs::GetAssociatedComposition()
-	{
-		throw 0;
-	}
-	void GuiGraphicsEvent_of_GuiKeyEventArgs::SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler
-***********************************************************************/
-
-	void GuiGraphicsEvent_of_GuiKeyEventArgs::IHandler::Execute(rptr<GuiGraphicsComposition> sender, GuiKeyEventArgs& argument)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> GuiGraphicsEvent_of_GuiKeyEventArgs::IHandler::operator=(rptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
 GuiGraphicsHost
 ***********************************************************************/
 
@@ -4078,1298 +3862,6 @@ GuiGraphicsHost
 	}
 	
 	rptr<GuiGraphicsAnimationManager> GuiGraphicsHost::GetAnimationManager()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiTextBoxCommonInterface
-***********************************************************************/
-
-	rptr<GuiTextBoxCommonInterface> GuiTextBoxCommonInterface::Create()
-	{
-		throw 0;
-	}
-	
-	bool GuiTextBoxCommonInterface::CanCut()
-	{
-		throw 0;
-	}
-	
-	bool GuiTextBoxCommonInterface::CanCopy()
-	{
-		throw 0;
-	}
-	
-	bool GuiTextBoxCommonInterface::CanPaste()
-	{
-		throw 0;
-	}
-	
-	void GuiTextBoxCommonInterface::SelectAll()
-	{
-		throw 0;
-	}
-	
-	bool GuiTextBoxCommonInterface::Cut()
-	{
-		throw 0;
-	}
-	
-	bool GuiTextBoxCommonInterface::Copy()
-	{
-		throw 0;
-	}
-	
-	bool GuiTextBoxCommonInterface::Paste()
-	{
-		throw 0;
-	}
-	
-	GacString GuiTextBoxCommonInterface::GetRowText(signed __int32 row)
-	{
-		throw 0;
-	}
-	
-	GacString GuiTextBoxCommonInterface::GetFragmentText(TextPos start, TextPos end)
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiTextBoxCommonInterface::GetRowWidth(signed __int32 row)
-	{
-		throw 0;
-	}
-	
-	TextPos GuiTextBoxCommonInterface::GetTextPosFromPoint(Point point)
-	{
-		throw 0;
-	}
-	
-	Point GuiTextBoxCommonInterface::GetPointFromTextPos(TextPos pos)
-	{
-		throw 0;
-	}
-	
-	Rect GuiTextBoxCommonInterface::GetRectFromTextPos(TextPos pos)
-	{
-		throw 0;
-	}
-	
-	TextPos GuiTextBoxCommonInterface::GetNearestTextPos(Point point)
-	{
-		throw 0;
-	}
-	
-	void GuiTextBoxCommonInterface::Select(TextPos begin, TextPos end)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiTextBoxCommonInterface> GuiTextBoxCommonInterface::operator=(rptr<GuiTextBoxCommonInterface> value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> GuiTextBoxCommonInterface::GetTextComposition()
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiTextBoxCommonInterface::GetRowHeight()
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiTextBoxCommonInterface::GetMaxWidth()
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiTextBoxCommonInterface::GetMaxHeight()
-	{
-		throw 0;
-	}
-	
-	TextPos GuiTextBoxCommonInterface::GetCaretBegin()
-	{
-		throw 0;
-	}
-	
-	TextPos GuiTextBoxCommonInterface::GetCaretEnd()
-	{
-		throw 0;
-	}
-	
-	TextPos GuiTextBoxCommonInterface::GetCaretSmall()
-	{
-		throw 0;
-	}
-	
-	TextPos GuiTextBoxCommonInterface::GetCaretLarge()
-	{
-		throw 0;
-	}
-	
-	GacString GuiTextBoxCommonInterface::GetSelectionText()
-	{
-		throw 0;
-	}
-	void GuiTextBoxCommonInterface::SetSelectionText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiEventArgs GuiTextBoxCommonInterface::get_SelectionChanged()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-ICollection_of_ListViewItem
-***********************************************************************/
-
-	signed __int32 ICollection_of_ListViewItem::Add(sptr<ListViewItem> item)
-	{
-		throw 0;
-	}
-	
-	bool ICollection_of_ListViewItem::Remove(rptr<ListViewItem> item)
-	{
-		throw 0;
-	}
-	
-	bool ICollection_of_ListViewItem::RemoveAt(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	bool ICollection_of_ListViewItem::RemoveRange(signed __int32 index, signed __int32 count)
-	{
-		throw 0;
-	}
-	
-	bool ICollection_of_ListViewItem::Clear()
-	{
-		throw 0;
-	}
-	
-	rptr<ICollection_of_ListViewItem> ICollection_of_ListViewItem::operator=(rptr<ICollection_of_ListViewItem> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-IGuiGraphicsRenderer
-***********************************************************************/
-
-	void IGuiGraphicsRenderer::Initialize(rptr<IGuiGraphicsElement> _element)
-	{
-		throw 0;
-	}
-	
-	void IGuiGraphicsRenderer::Finalize()
-	{
-		throw 0;
-	}
-	
-	void IGuiGraphicsRenderer::Render(Rect bounds)
-	{
-		throw 0;
-	}
-	
-	void IGuiGraphicsRenderer::OnElementStateChanged()
-	{
-		throw 0;
-	}
-	
-	rptr<IGuiGraphicsRenderer> IGuiGraphicsRenderer::operator=(rptr<IGuiGraphicsRenderer> value)
-	{
-		throw 0;
-	}
-	
-	void IGuiGraphicsRenderer::SetRenderTarget(rptr<IGuiGraphicsRenderTarget> _renderTarget)
-	{
-		throw 0;
-	}
-	
-	rptr<IGuiGraphicsRendererFactory> IGuiGraphicsRenderer::GetFactory()
-	{
-		throw 0;
-	}
-	
-	Size IGuiGraphicsRenderer::GetMinSize()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-IList_of_ListViewItem
-***********************************************************************/
-
-	signed __int32 IList_of_ListViewItem::Insert(signed __int32 index, sptr<ListViewItem> item)
-	{
-		throw 0;
-	}
-	
-	bool IList_of_ListViewItem::Set(signed __int32 index, sptr<ListViewItem> item)
-	{
-		throw 0;
-	}
-	
-	rptr<IList_of_ListViewItem> IList_of_ListViewItem::operator=(rptr<IList_of_ListViewItem> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-INativeImage
-***********************************************************************/
-
-	rptr<INativeImageFrame> INativeImage::GetFrame(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	rptr<INativeImage> INativeImage::operator=(rptr<INativeImage> value)
-	{
-		throw 0;
-	}
-	
-	rptr<INativeImageService> INativeImage::GetImageService()
-	{
-		throw 0;
-	}
-	
-	INativeImage :: FormatType INativeImage::GetFormat()
-	{
-		throw 0;
-	}
-	
-	signed __int32 INativeImage::GetFrameCount()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-INativeWindow
-***********************************************************************/
-
-	void INativeWindow::Show()
-	{
-		throw 0;
-	}
-	
-	void INativeWindow::ShowDeactivated()
-	{
-		throw 0;
-	}
-	
-	void INativeWindow::ShowRestored()
-	{
-		throw 0;
-	}
-	
-	void INativeWindow::ShowMaximized()
-	{
-		throw 0;
-	}
-	
-	void INativeWindow::ShowMinimized()
-	{
-		throw 0;
-	}
-	
-	void INativeWindow::Hide()
-	{
-		throw 0;
-	}
-	
-	bool INativeWindow::IsVisible()
-	{
-		throw 0;
-	}
-	
-	void INativeWindow::Enable()
-	{
-		throw 0;
-	}
-	
-	void INativeWindow::Disable()
-	{
-		throw 0;
-	}
-	
-	bool INativeWindow::IsEnabled()
-	{
-		throw 0;
-	}
-	
-	void INativeWindow::SetFocus()
-	{
-		throw 0;
-	}
-	
-	bool INativeWindow::IsFocused()
-	{
-		throw 0;
-	}
-	
-	void INativeWindow::SetActivate()
-	{
-		throw 0;
-	}
-	
-	bool INativeWindow::IsActivated()
-	{
-		throw 0;
-	}
-	
-	void INativeWindow::ShowInTaskBar()
-	{
-		throw 0;
-	}
-	
-	void INativeWindow::HideInTaskBar()
-	{
-		throw 0;
-	}
-	
-	bool INativeWindow::IsAppearedInTaskBar()
-	{
-		throw 0;
-	}
-	
-	void INativeWindow::EnableActivate()
-	{
-		throw 0;
-	}
-	
-	void INativeWindow::DisableActivate()
-	{
-		throw 0;
-	}
-	
-	bool INativeWindow::IsEnabledActivate()
-	{
-		throw 0;
-	}
-	
-	bool INativeWindow::RequireCapture()
-	{
-		throw 0;
-	}
-	
-	bool INativeWindow::ReleaseCapture()
-	{
-		throw 0;
-	}
-	
-	bool INativeWindow::InstallListener(rptr<INativeWindowListener> listener)
-	{
-		throw 0;
-	}
-	
-	bool INativeWindow::UninstallListener(rptr<INativeWindowListener> listener)
-	{
-		throw 0;
-	}
-	
-	void INativeWindow::RedrawContent()
-	{
-		throw 0;
-	}
-	
-	rptr<INativeWindow> INativeWindow::operator=(rptr<INativeWindow> value)
-	{
-		throw 0;
-	}
-	
-	Rect INativeWindow::GetBounds()
-	{
-		throw 0;
-	}
-	void INativeWindow::SetBounds(const Rect& bounds)
-	{
-		throw 0;
-	}
-	
-	Size INativeWindow::GetClientSize()
-	{
-		throw 0;
-	}
-	void INativeWindow::SetClientSize(Size size)
-	{
-		throw 0;
-	}
-	
-	Rect INativeWindow::GetClientBoundsInScreen()
-	{
-		throw 0;
-	}
-	
-	GacString INativeWindow::GetTitle()
-	{
-		throw 0;
-	}
-	void INativeWindow::SetTitle(GacString _title)
-	{
-		throw 0;
-	}
-	
-	rptr<INativeCursor> INativeWindow::GetWindowCursor()
-	{
-		throw 0;
-	}
-	void INativeWindow::SetWindowCursor(rptr<INativeCursor> _cursor)
-	{
-		throw 0;
-	}
-	
-	Point INativeWindow::GetCaretPoint()
-	{
-		throw 0;
-	}
-	void INativeWindow::SetCaretPoint(Point point)
-	{
-		throw 0;
-	}
-	
-	rptr<INativeWindow> INativeWindow::GetParent()
-	{
-		throw 0;
-	}
-	void INativeWindow::SetParent(rptr<INativeWindow> parent)
-	{
-		throw 0;
-	}
-	
-	bool INativeWindow::GetAlwaysPassFocusToParent()
-	{
-		throw 0;
-	}
-	void INativeWindow::SetAlwaysPassFocusToParent(bool value)
-	{
-		throw 0;
-	}
-	
-	bool INativeWindow::GetMaximizedBox()
-	{
-		throw 0;
-	}
-	void INativeWindow::SetMaximizedBox(bool visible)
-	{
-		throw 0;
-	}
-	
-	bool INativeWindow::GetMinimizedBox()
-	{
-		throw 0;
-	}
-	void INativeWindow::SetMinimizedBox(bool visible)
-	{
-		throw 0;
-	}
-	
-	bool INativeWindow::GetBorder()
-	{
-		throw 0;
-	}
-	void INativeWindow::SetBorder(bool visible)
-	{
-		throw 0;
-	}
-	
-	bool INativeWindow::GetSizeBox()
-	{
-		throw 0;
-	}
-	void INativeWindow::SetSizeBox(bool visible)
-	{
-		throw 0;
-	}
-	
-	bool INativeWindow::GetIconVisible()
-	{
-		throw 0;
-	}
-	void INativeWindow::SetIconVisible(bool visible)
-	{
-		throw 0;
-	}
-	
-	bool INativeWindow::GetTitleBar()
-	{
-		throw 0;
-	}
-	void INativeWindow::SetTitleBar(bool visible)
-	{
-		throw 0;
-	}
-	
-	bool INativeWindow::GetTopMost()
-	{
-		throw 0;
-	}
-	void INativeWindow::SetTopMost(bool topmost)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-IReadonlyList_of_TextItem
-***********************************************************************/
-
-	bool IReadonlyList_of_TextItem::Contains(const TextItem& item)
-	{
-		throw 0;
-	}
-	
-	signed __int32 IReadonlyList_of_TextItem::Count()
-	{
-		throw 0;
-	}
-	
-	const TextItem& IReadonlyList_of_TextItem::Get(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	const TextItem& IReadonlyList_of_TextItem::operator[](signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	signed __int32 IReadonlyList_of_TextItem::IndexOf(const TextItem& item)
-	{
-		throw 0;
-	}
-	
-	rptr<IReadonlyList_of_TextItem> IReadonlyList_of_TextItem::operator=(rptr<IReadonlyList_of_TextItem> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-TextLines
-***********************************************************************/
-
-	rptr<TextLines> TextLines::Create()
-	{
-		throw 0;
-	}
-	TextLines::TextLines()
-	{
-		throw 0;
-	}
-	
-	TextLine& TextLines::GetLine(signed __int32 row)
-	{
-		throw 0;
-	}
-	
-	GacString TextLines::GetText(TextPos start, TextPos end)
-	{
-		throw 0;
-	}
-	
-	bool TextLines::RemoveLines(signed __int32 start, signed __int32 count)
-	{
-		throw 0;
-	}
-	
-	bool TextLines::IsAvailable(TextPos pos)
-	{
-		throw 0;
-	}
-	
-	TextPos TextLines::Normalize(TextPos pos)
-	{
-		throw 0;
-	}
-	
-	TextPos TextLines::Modify(TextPos start, TextPos end, const GacString& input)
-	{
-		throw 0;
-	}
-	
-	TextPos TextLines::Modify(TextPos start, TextPos end, wchar_t* input)
-	{
-		throw 0;
-	}
-	
-	TextPos TextLines::Modify(TextPos start, TextPos end, wchar_t* input, signed __int32 inputCount)
-	{
-		throw 0;
-	}
-	
-	TextPos TextLines::Modify(TextPos start, TextPos end, wchar_t** inputs, signed __int32* inputCounts, signed __int32 rows)
-	{
-		throw 0;
-	}
-	
-	void TextLines::Clear()
-	{
-		throw 0;
-	}
-	
-	void TextLines::ClearMeasurement()
-	{
-		throw 0;
-	}
-	
-	void TextLines::MeasureRow(signed __int32 row)
-	{
-		throw 0;
-	}
-	
-	signed __int32 TextLines::GetRowWidth(signed __int32 row)
-	{
-		throw 0;
-	}
-	
-	TextPos TextLines::GetTextPosFromPoint(Point point)
-	{
-		throw 0;
-	}
-	
-	Point TextLines::GetPointFromTextPos(TextPos pos)
-	{
-		throw 0;
-	}
-	
-	Rect TextLines::GetRectFromTextPos(TextPos pos)
-	{
-		throw 0;
-	}
-	
-	TextLines& TextLines::operator=(const TextLines& value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 TextLines::GetCount()
-	{
-		throw 0;
-	}
-	
-	rptr<CharMeasurer> TextLines::GetCharMeasurer()
-	{
-		throw 0;
-	}
-	void TextLines::SetCharMeasurer(rptr<CharMeasurer> value)
-	{
-		throw 0;
-	}
-	
-	rptr<IGuiGraphicsRenderTarget> TextLines::GetRenderTarget()
-	{
-		throw 0;
-	}
-	void TextLines::SetRenderTarget(rptr<IGuiGraphicsRenderTarget> value)
-	{
-		throw 0;
-	}
-	
-	GacString TextLines::GetText()
-	{
-		throw 0;
-	}
-	void TextLines::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 TextLines::GetTabSpaceCount()
-	{
-		throw 0;
-	}
-	void TextLines::SetTabSpaceCount(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 TextLines::GetRowHeight()
-	{
-		throw 0;
-	}
-	
-	signed __int32 TextLines::GetMaxWidth()
-	{
-		throw 0;
-	}
-	
-	signed __int32 TextLines::GetMaxHeight()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiColorizedTextElement
-***********************************************************************/
-
-	rptr<IGuiGraphicsElementFactory> GuiColorizedTextElement::GetFactory()
-	{
-		throw 0;
-	}
-	
-	rptr<IGuiGraphicsRenderer> GuiColorizedTextElement::GetRenderer()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiColorizedTextElement> GuiColorizedTextElement::operator=(rptr<GuiColorizedTextElement> value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiColorizedTextElement> GuiColorizedTextElement::Create()
-	{
-		throw 0;
-	}
-	
-	TextLines& GuiColorizedTextElement::GetLines()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiColorizedTextElement :: ICallback> GuiColorizedTextElement::GetCallback()
-	{
-		throw 0;
-	}
-	void GuiColorizedTextElement::SetCallback(rptr<GuiColorizedTextElement :: ICallback> value)
-	{
-		throw 0;
-	}
-	
-	rptr<IReadonlyList_of_ColorEntry> GuiColorizedTextElement::GetColors()
-	{
-		throw 0;
-	}
-	void GuiColorizedTextElement::SetColors(rptr<Array_of_ColorEntry> value)
-	{
-		throw 0;
-	}
-	
-	const FontProperties& GuiColorizedTextElement::GetFont()
-	{
-		throw 0;
-	}
-	void GuiColorizedTextElement::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	Point GuiColorizedTextElement::GetViewPosition()
-	{
-		throw 0;
-	}
-	void GuiColorizedTextElement::SetViewPosition(Point value)
-	{
-		throw 0;
-	}
-	
-	bool GuiColorizedTextElement::GetVisuallyEnabled()
-	{
-		throw 0;
-	}
-	void GuiColorizedTextElement::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	bool GuiColorizedTextElement::GetFocused()
-	{
-		throw 0;
-	}
-	void GuiColorizedTextElement::SetFocused(bool value)
-	{
-		throw 0;
-	}
-	
-	TextPos GuiColorizedTextElement::GetCaretBegin()
-	{
-		throw 0;
-	}
-	void GuiColorizedTextElement::SetCaretBegin(TextPos value)
-	{
-		throw 0;
-	}
-	
-	TextPos GuiColorizedTextElement::GetCaretEnd()
-	{
-		throw 0;
-	}
-	void GuiColorizedTextElement::SetCaretEnd(TextPos value)
-	{
-		throw 0;
-	}
-	
-	bool GuiColorizedTextElement::GetCaretVisible()
-	{
-		throw 0;
-	}
-	void GuiColorizedTextElement::SetCaretVisible(bool value)
-	{
-		throw 0;
-	}
-	
-	Color GuiColorizedTextElement::GetCaretColor()
-	{
-		throw 0;
-	}
-	void GuiColorizedTextElement::SetCaretColor(Color value)
-	{
-		throw 0;
-	}
-	
-	GacString GuiColorizedTextElement::GetElementTypeName()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiColorizedTextElement :: ICallback
-***********************************************************************/
-
-	void GuiColorizedTextElement::ICallback::ColorChanged()
-	{
-		throw 0;
-	}
-	
-	void GuiColorizedTextElement::ICallback::FontChanged()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiColorizedTextElement :: ICallback> GuiColorizedTextElement::ICallback::operator=(rptr<GuiColorizedTextElement :: ICallback> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiGraphicsEventReceiver
-***********************************************************************/
-
-	rptr<GuiGraphicsEventReceiver> GuiGraphicsEventReceiver::Create(rptr<GuiGraphicsComposition> _sender)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsEventReceiver> GuiGraphicsEventReceiver::operator=(rptr<GuiGraphicsEventReceiver> value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> GuiGraphicsEventReceiver::GetAssociatedComposition()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_leftButtonDown()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_leftButtonUp()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_leftButtonDoubleClick()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_middleButtonDown()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_middleButtonUp()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_middleButtonDoubleClick()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_rightButtonDown()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_rightButtonUp()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_rightButtonDoubleClick()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_horizontalWheel()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_verticalWheel()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_mouseMove()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiEventArgs GuiGraphicsEventReceiver::get_mouseEnter()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiEventArgs GuiGraphicsEventReceiver::get_mouseLeave()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiKeyEventArgs GuiGraphicsEventReceiver::get_previewKey()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiKeyEventArgs GuiGraphicsEventReceiver::get_keyDown()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiKeyEventArgs GuiGraphicsEventReceiver::get_keyUp()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiKeyEventArgs GuiGraphicsEventReceiver::get_systemKeyDown()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiKeyEventArgs GuiGraphicsEventReceiver::get_systemKeyUp()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiCharEventArgs GuiGraphicsEventReceiver::get_previewCharInput()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiCharEventArgs GuiGraphicsEventReceiver::get_charInput()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiEventArgs GuiGraphicsEventReceiver::get_gotFocus()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiEventArgs GuiGraphicsEventReceiver::get_lostFocus()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiEventArgs GuiGraphicsEventReceiver::get_caretNotify()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiTextElementOperator
-***********************************************************************/
-
-	rptr<GuiTextElementOperator> GuiTextElementOperator::Create()
-	{
-		throw 0;
-	}
-	
-	void GuiTextElementOperator::Install(rptr<GuiColorizedTextElement> _textElement, rptr<GuiGraphicsComposition> _textComposition, rptr<GuiControl> _textControl)
-	{
-		throw 0;
-	}
-	
-	TextPos GuiTextElementOperator::GetNearestTextPos(Point point)
-	{
-		throw 0;
-	}
-	
-	void GuiTextElementOperator::Select(TextPos begin, TextPos end)
-	{
-		throw 0;
-	}
-	
-	bool GuiTextElementOperator::CanCut()
-	{
-		throw 0;
-	}
-	
-	bool GuiTextElementOperator::CanCopy()
-	{
-		throw 0;
-	}
-	
-	bool GuiTextElementOperator::CanPaste()
-	{
-		throw 0;
-	}
-	
-	void GuiTextElementOperator::SelectAll()
-	{
-		throw 0;
-	}
-	
-	bool GuiTextElementOperator::Cut()
-	{
-		throw 0;
-	}
-	
-	bool GuiTextElementOperator::Copy()
-	{
-		throw 0;
-	}
-	
-	bool GuiTextElementOperator::Paste()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiTextElementOperator> GuiTextElementOperator::operator=(rptr<GuiTextElementOperator> value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiTextElementOperator :: ICallback> GuiTextElementOperator::GetCallback()
-	{
-		throw 0;
-	}
-	void GuiTextElementOperator::SetCallback(rptr<GuiTextElementOperator :: ICallback> value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiTextBoxCommonInterface> GuiTextElementOperator::GetTextBoxCommonInterface()
-	{
-		throw 0;
-	}
-	void GuiTextElementOperator::SetTextBoxCommonInterface(rptr<GuiTextBoxCommonInterface> value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiColorizedTextElement> GuiTextElementOperator::GetTextElement()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> GuiTextElementOperator::GetTextComposition()
-	{
-		throw 0;
-	}
-	
-	GacString GuiTextElementOperator::GetSelectionText()
-	{
-		throw 0;
-	}
-	void GuiTextElementOperator::SetSelectionText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiTextElementOperator :: DefaultCallback
-***********************************************************************/
-
-	rptr<GuiTextElementOperator :: DefaultCallback> GuiTextElementOperator::DefaultCallback::Create(rptr<GuiColorizedTextElement> _textElement, rptr<GuiGraphicsComposition> _textComposition)
-	{
-		throw 0;
-	}
-	
-	TextPos GuiTextElementOperator::DefaultCallback::GetLeftWord(TextPos pos)
-	{
-		throw 0;
-	}
-	
-	TextPos GuiTextElementOperator::DefaultCallback::GetRightWord(TextPos pos)
-	{
-		throw 0;
-	}
-	
-	void GuiTextElementOperator::DefaultCallback::GetWord(TextPos pos, TextPos& begin, TextPos& end)
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiTextElementOperator::DefaultCallback::GetPageRows()
-	{
-		throw 0;
-	}
-	
-	bool GuiTextElementOperator::DefaultCallback::BeforeModify(TextPos& start, TextPos& end, const GacString& originalText, GacString& inputText)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiTextElementOperator :: DefaultCallback> GuiTextElementOperator::DefaultCallback::operator=(rptr<GuiTextElementOperator :: DefaultCallback> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiTextElementOperator :: ICallback
-***********************************************************************/
-
-	TextPos GuiTextElementOperator::ICallback::GetLeftWord(TextPos pos)
-	{
-		throw 0;
-	}
-	
-	TextPos GuiTextElementOperator::ICallback::GetRightWord(TextPos pos)
-	{
-		throw 0;
-	}
-	
-	void GuiTextElementOperator::ICallback::GetWord(TextPos pos, TextPos& begin, TextPos& end)
-	{
-		throw 0;
-	}
-	
-	bool GuiTextElementOperator::ICallback::BeforeModify(TextPos& start, TextPos& end, const GacString& originalText, GacString& inputText)
-	{
-		throw 0;
-	}
-	
-	void GuiTextElementOperator::ICallback::AfterModify(TextPos originalStart, TextPos originalEnd, const GacString& originalText, TextPos inputStart, TextPos inputEnd, const GacString& inputText)
-	{
-		throw 0;
-	}
-	
-	void GuiTextElementOperator::ICallback::ScrollToView(Point point)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiTextElementOperator :: ICallback> GuiTextElementOperator::ICallback::operator=(rptr<GuiTextElementOperator :: ICallback> value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiTextElementOperator::ICallback::GetPageRows()
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiTextElementOperator::ICallback::GetTextMargin()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-ICollection_of_TextItem
-***********************************************************************/
-
-	signed __int32 ICollection_of_TextItem::Add(const TextItem& item)
-	{
-		throw 0;
-	}
-	
-	bool ICollection_of_TextItem::Remove(const TextItem& item)
-	{
-		throw 0;
-	}
-	
-	bool ICollection_of_TextItem::RemoveAt(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	bool ICollection_of_TextItem::RemoveRange(signed __int32 index, signed __int32 count)
-	{
-		throw 0;
-	}
-	
-	bool ICollection_of_TextItem::Clear()
-	{
-		throw 0;
-	}
-	
-	rptr<ICollection_of_TextItem> ICollection_of_TextItem::operator=(rptr<ICollection_of_TextItem> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-IList_of_TextItem
-***********************************************************************/
-
-	signed __int32 IList_of_TextItem::Insert(signed __int32 index, const TextItem& item)
-	{
-		throw 0;
-	}
-	
-	bool IList_of_TextItem::Set(signed __int32 index, const TextItem& item)
-	{
-		throw 0;
-	}
-	
-	rptr<IList_of_TextItem> IList_of_TextItem::operator=(rptr<IList_of_TextItem> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-INativeScreen
-***********************************************************************/
-
-	bool INativeScreen::IsPrimary()
-	{
-		throw 0;
-	}
-	
-	rptr<INativeScreen> INativeScreen::operator=(rptr<INativeScreen> value)
-	{
-		throw 0;
-	}
-	
-	Rect INativeScreen::GetBounds()
-	{
-		throw 0;
-	}
-	
-	Rect INativeScreen::GetClientBounds()
-	{
-		throw 0;
-	}
-	
-	GacString INativeScreen::GetName()
 	{
 		throw 0;
 	}
@@ -5602,267 +4094,6 @@ GuiGraphicsSite
 	}
 	
 	rptr<GuiGraphicsSite> GuiGraphicsSite::operator=(rptr<GuiGraphicsSite> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiPartialViewComposition
-***********************************************************************/
-
-	rptr<GuiPartialViewComposition> GuiPartialViewComposition::Create()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsComposition :: ParentSizeAffection GuiPartialViewComposition::GetAffectionFromParent()
-	{
-		throw 0;
-	}
-	
-	bool GuiPartialViewComposition::IsSizeAffectParent()
-	{
-		throw 0;
-	}
-	
-	Rect GuiPartialViewComposition::GetBounds()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiPartialViewComposition> GuiPartialViewComposition::operator=(rptr<GuiPartialViewComposition> value)
-	{
-		throw 0;
-	}
-	
-	double GuiPartialViewComposition::GetWidthRatio()
-	{
-		throw 0;
-	}
-	void GuiPartialViewComposition::SetWidthRatio(double value)
-	{
-		throw 0;
-	}
-	
-	double GuiPartialViewComposition::GetWidthPageSize()
-	{
-		throw 0;
-	}
-	void GuiPartialViewComposition::SetWidthPageSize(double value)
-	{
-		throw 0;
-	}
-	
-	double GuiPartialViewComposition::GetHeightRatio()
-	{
-		throw 0;
-	}
-	void GuiPartialViewComposition::SetHeightRatio(double value)
-	{
-		throw 0;
-	}
-	
-	double GuiPartialViewComposition::GetHeightPageSize()
-	{
-		throw 0;
-	}
-	void GuiPartialViewComposition::SetHeightPageSize(double value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiSideAlignedComposition
-***********************************************************************/
-
-	rptr<GuiSideAlignedComposition> GuiSideAlignedComposition::Create()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsComposition :: ParentSizeAffection GuiSideAlignedComposition::GetAffectionFromParent()
-	{
-		throw 0;
-	}
-	
-	bool GuiSideAlignedComposition::IsSizeAffectParent()
-	{
-		throw 0;
-	}
-	
-	Rect GuiSideAlignedComposition::GetBounds()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiSideAlignedComposition> GuiSideAlignedComposition::operator=(rptr<GuiSideAlignedComposition> value)
-	{
-		throw 0;
-	}
-	
-	GuiSideAlignedComposition :: Direction GuiSideAlignedComposition::GetDirection()
-	{
-		throw 0;
-	}
-	void GuiSideAlignedComposition::SetDirection(GuiSideAlignedComposition :: Direction value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiSideAlignedComposition::GetMaxLength()
-	{
-		throw 0;
-	}
-	void GuiSideAlignedComposition::SetMaxLength(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	double GuiSideAlignedComposition::GetMaxRatio()
-	{
-		throw 0;
-	}
-	void GuiSideAlignedComposition::SetMaxRatio(double value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiStackItemComposition
-***********************************************************************/
-
-	rptr<GuiStackItemComposition> GuiStackItemComposition::Create()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsComposition :: ParentSizeAffection GuiStackItemComposition::GetAffectionFromParent()
-	{
-		throw 0;
-	}
-	
-	bool GuiStackItemComposition::IsSizeAffectParent()
-	{
-		throw 0;
-	}
-	
-	Rect GuiStackItemComposition::GetBounds()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiStackItemComposition> GuiStackItemComposition::operator=(rptr<GuiStackItemComposition> value)
-	{
-		throw 0;
-	}
-	
-	void GuiStackItemComposition::SetBounds(Rect value)
-	{
-		throw 0;
-	}
-	
-	Margin GuiStackItemComposition::GetExtraMargin()
-	{
-		throw 0;
-	}
-	void GuiStackItemComposition::SetExtraMargin(Margin value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiWindowComposition
-***********************************************************************/
-
-	rptr<GuiWindowComposition> GuiWindowComposition::Create()
-	{
-		throw 0;
-	}
-	
-	Rect GuiWindowComposition::GetBounds()
-	{
-		throw 0;
-	}
-	
-	void GuiWindowComposition::SetMargin(Margin value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiWindowComposition> GuiWindowComposition::operator=(rptr<GuiWindowComposition> value)
-	{
-		throw 0;
-	}
-	
-	rptr<INativeWindow> GuiWindowComposition::GetAttachedWindow()
-	{
-		throw 0;
-	}
-	void GuiWindowComposition::SetAttachedWindow(rptr<INativeWindow> window)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-INativeScreenService
-***********************************************************************/
-
-	rptr<INativeScreen> INativeScreenService::GetScreen(rptr<INativeWindow> window)
-	{
-		throw 0;
-	}
-	
-	rptr<INativeScreen> INativeScreenService::GetScreen(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	rptr<INativeScreenService> INativeScreenService::operator=(rptr<INativeScreenService> value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 INativeScreenService::GetScreenCount()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-IReadonlyList_of_GuiStackItemComposition_raw_pointer
-***********************************************************************/
-
-	bool IReadonlyList_of_GuiStackItemComposition_raw_pointer::Contains(rptr<GuiStackItemComposition> item)
-	{
-		throw 0;
-	}
-	
-	signed __int32 IReadonlyList_of_GuiStackItemComposition_raw_pointer::Count()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiStackItemComposition> IReadonlyList_of_GuiStackItemComposition_raw_pointer::Get(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiStackItemComposition> IReadonlyList_of_GuiStackItemComposition_raw_pointer::operator[](signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	signed __int32 IReadonlyList_of_GuiStackItemComposition_raw_pointer::IndexOf(rptr<GuiStackItemComposition> item)
-	{
-		throw 0;
-	}
-	
-	rptr<IReadonlyList_of_GuiStackItemComposition_raw_pointer> IReadonlyList_of_GuiStackItemComposition_raw_pointer::operator=(rptr<IReadonlyList_of_GuiStackItemComposition_raw_pointer> value)
 	{
 		throw 0;
 	}
@@ -6189,1206 +4420,35 @@ GuiControl :: IStyleProvider
 	
 
 /***********************************************************************
-GuiGraphicsResourceManager
+GuiButton
 ***********************************************************************/
 
-	bool GuiGraphicsResourceManager::RegisterElementFactory(rptr<IGuiGraphicsElementFactory> factory)
+	rptr<GuiButton> GuiButton::Create(rptr<GuiButton :: IStyleController> _styleController)
 	{
 		throw 0;
 	}
 	
-	bool GuiGraphicsResourceManager::RegisterRendererFactory(const GacString& elementTypeName, rptr<IGuiGraphicsRendererFactory> factory)
+	rptr<GuiButton> GuiButton::operator=(rptr<GuiButton> value)
 	{
 		throw 0;
 	}
 	
-	rptr<IGuiGraphicsElementFactory> GuiGraphicsResourceManager::GetElementFactory(const GacString& elementTypeName)
-	{
-		throw 0;
-	}
-	
-	rptr<IGuiGraphicsRendererFactory> GuiGraphicsResourceManager::GetRendererFactory(const GacString& elementTypeName)
-	{
-		throw 0;
-	}
-	
-	rptr<IGuiGraphicsRenderTarget> GuiGraphicsResourceManager::GetRenderTarget(rptr<INativeWindow> window)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsResourceManager> GuiGraphicsResourceManager::operator=(rptr<GuiGraphicsResourceManager> value)
+	GuiGraphicsEvent_of_GuiEventArgs GuiButton::get_Clicked()
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-GuiMenuBar
+GuiButton :: IStyleController
 ***********************************************************************/
 
-	rptr<GuiMenuBar> GuiMenuBar::Create(rptr<GuiControl :: IStyleController> _styleController)
+	void GuiButton::IStyleController::Transfer(GuiButton :: ControlState value)
 	{
 		throw 0;
 	}
 	
-	rptr<IDescriptable> GuiMenuBar::QueryService(const GacString& identifier)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiMenuBar> GuiMenuBar::operator=(rptr<GuiMenuBar> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiScroll
-***********************************************************************/
-
-	rptr<GuiScroll> GuiScroll::Create(rptr<GuiScroll :: IStyleController> _styleController)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiScroll> GuiScroll::operator=(rptr<GuiScroll> value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiScroll::GetTotalSize()
-	{
-		throw 0;
-	}
-	void GuiScroll::SetTotalSize(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiScroll::GetPageSize()
-	{
-		throw 0;
-	}
-	void GuiScroll::SetPageSize(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiScroll::GetPosition()
-	{
-		throw 0;
-	}
-	void GuiScroll::SetPosition(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiScroll::GetSmallMove()
-	{
-		throw 0;
-	}
-	void GuiScroll::SetSmallMove(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiScroll::GetBigMove()
-	{
-		throw 0;
-	}
-	void GuiScroll::SetBigMove(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiScroll::GetMinPosition()
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiScroll::GetMaxPosition()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiEventArgs GuiScroll::get_TotalSizeChanged()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiEventArgs GuiScroll::get_PageSizeChanged()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiEventArgs GuiScroll::get_PositionChanged()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiEventArgs GuiScroll::get_SmallMoveChanged()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiEventArgs GuiScroll::get_BigMoveChanged()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiScroll :: ICommandExecutor
-***********************************************************************/
-
-	void GuiScroll::ICommandExecutor::SmallDecrease()
-	{
-		throw 0;
-	}
-	
-	void GuiScroll::ICommandExecutor::SmallIncrease()
-	{
-		throw 0;
-	}
-	
-	void GuiScroll::ICommandExecutor::BigDecrease()
-	{
-		throw 0;
-	}
-	
-	void GuiScroll::ICommandExecutor::BigIncrease()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiScroll :: ICommandExecutor> GuiScroll::ICommandExecutor::operator=(rptr<GuiScroll :: ICommandExecutor> value)
-	{
-		throw 0;
-	}
-	
-	void GuiScroll::ICommandExecutor::SetTotalSize(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	void GuiScroll::ICommandExecutor::SetPageSize(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	void GuiScroll::ICommandExecutor::SetPosition(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiScroll :: IStyleController
-***********************************************************************/
-
-	rptr<GuiScroll :: IStyleController> GuiScroll::IStyleController::operator=(rptr<GuiScroll :: IStyleController> value)
-	{
-		throw 0;
-	}
-	
-	void GuiScroll::IStyleController::SetCommandExecutor(rptr<GuiScroll :: ICommandExecutor> value)
-	{
-		throw 0;
-	}
-	
-	void GuiScroll::IStyleController::SetTotalSize(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	void GuiScroll::IStyleController::SetPageSize(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	void GuiScroll::IStyleController::SetPosition(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiScrollView
-***********************************************************************/
-
-	void GuiScrollView::CalculateView()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiScrollView> GuiScrollView::operator=(rptr<GuiScrollView> value)
-	{
-		throw 0;
-	}
-	
-	Size GuiScrollView::GetViewSize()
-	{
-		throw 0;
-	}
-	
-	Rect GuiScrollView::GetViewBounds()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiScroll> GuiScrollView::GetHorizontalScroll()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiScroll> GuiScrollView::GetVerticalScroll()
-	{
-		throw 0;
-	}
-	
-	bool GuiScrollView::GetHorizontalAlwaysVisible()
-	{
-		throw 0;
-	}
-	void GuiScrollView::SetHorizontalAlwaysVisible(bool value)
-	{
-		throw 0;
-	}
-	
-	bool GuiScrollView::GetVerticalAlwaysVisible()
-	{
-		throw 0;
-	}
-	void GuiScrollView::SetVerticalAlwaysVisible(bool value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiScrollView :: IStyleProvider
-***********************************************************************/
-
-	rptr<GuiScroll :: IStyleController> GuiScrollView::IStyleProvider::CreateHorizontalScrollStyle()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiScroll :: IStyleController> GuiScrollView::IStyleProvider::CreateVerticalScrollStyle()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> GuiScrollView::IStyleProvider::InstallBackground(rptr<GuiBoundsComposition> boundsComposition)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiScrollView :: IStyleProvider> GuiScrollView::IStyleProvider::operator=(rptr<GuiScrollView :: IStyleProvider> value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiScrollView::IStyleProvider::GetDefaultScrollSize()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiScrollView :: StyleController
-***********************************************************************/
-
-	rptr<GuiScrollView :: StyleController> GuiScrollView::StyleController::Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider)
-	{
-		throw 0;
-	}
-	
-	void GuiScrollView::StyleController::AdjustView(Size fullSize)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiBoundsComposition> GuiScrollView::StyleController::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> GuiScrollView::StyleController::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void GuiScrollView::StyleController::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void GuiScrollView::StyleController::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void GuiScrollView::StyleController::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void GuiScrollView::StyleController::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiScrollView :: StyleController> GuiScrollView::StyleController::operator=(rptr<GuiScrollView :: StyleController> value)
-	{
-		throw 0;
-	}
-	
-	void GuiScrollView::StyleController::SetScrollView(rptr<GuiScrollView> _scrollView)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiScrollView :: IStyleProvider> GuiScrollView::StyleController::GetStyleProvider()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiScroll> GuiScrollView::StyleController::GetHorizontalScroll()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiScroll> GuiScrollView::StyleController::GetVerticalScroll()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiTableComposition> GuiScrollView::StyleController::GetInternalTableComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiBoundsComposition> GuiScrollView::StyleController::GetInternalContainerComposition()
-	{
-		throw 0;
-	}
-	
-	bool GuiScrollView::StyleController::GetHorizontalAlwaysVisible()
-	{
-		throw 0;
-	}
-	void GuiScrollView::StyleController::SetHorizontalAlwaysVisible(bool value)
-	{
-		throw 0;
-	}
-	
-	bool GuiScrollView::StyleController::GetVerticalAlwaysVisible()
-	{
-		throw 0;
-	}
-	void GuiScrollView::StyleController::SetVerticalAlwaysVisible(bool value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiSinglelineTextBox
-***********************************************************************/
-
-	rptr<GuiSinglelineTextBox> GuiSinglelineTextBox::Create(rptr<GuiSinglelineTextBox :: IStyleProvider> styleProvider)
-	{
-		throw 0;
-	}
-	
-	const GacString& GuiSinglelineTextBox::GetText()
-	{
-		throw 0;
-	}
-	
-	void GuiSinglelineTextBox::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void GuiSinglelineTextBox::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiSinglelineTextBox> GuiSinglelineTextBox::operator=(rptr<GuiSinglelineTextBox> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiSinglelineTextBox :: IStyleProvider
-***********************************************************************/
-
-	rptr<GuiGraphicsComposition> GuiSinglelineTextBox::IStyleProvider::InstallBackground(rptr<GuiBoundsComposition> boundsComposition)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiSinglelineTextBox :: IStyleProvider> GuiSinglelineTextBox::IStyleProvider::operator=(rptr<GuiSinglelineTextBox :: IStyleProvider> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiSinglelineTextBox :: StyleController
-***********************************************************************/
-
-	rptr<GuiSinglelineTextBox :: StyleController> GuiSinglelineTextBox::StyleController::Create(rptr<GuiSinglelineTextBox :: IStyleProvider> _styleProvider)
-	{
-		throw 0;
-	}
-	
-	void GuiSinglelineTextBox::StyleController::RearrangeTextElement()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiBoundsComposition> GuiSinglelineTextBox::StyleController::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> GuiSinglelineTextBox::StyleController::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void GuiSinglelineTextBox::StyleController::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void GuiSinglelineTextBox::StyleController::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void GuiSinglelineTextBox::StyleController::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void GuiSinglelineTextBox::StyleController::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiSinglelineTextBox :: StyleController> GuiSinglelineTextBox::StyleController::operator=(rptr<GuiSinglelineTextBox :: StyleController> value)
-	{
-		throw 0;
-	}
-	
-	void GuiSinglelineTextBox::StyleController::SetTextBox(rptr<GuiSinglelineTextBox> value)
-	{
-		throw 0;
-	}
-	
-	void GuiSinglelineTextBox::StyleController::SetViewPosition(Point value)
-	{
-		throw 0;
-	}
-	
-	GacString GuiSinglelineTextBox::StyleController::GetText()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiColorizedTextElement> GuiSinglelineTextBox::StyleController::GetTextElement()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> GuiSinglelineTextBox::StyleController::GetTextComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiTextElementOperator> GuiSinglelineTextBox::StyleController::GetTextElementOperator()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiSinglelineTextBox :: TextElementOperatorCallback
-***********************************************************************/
-
-	rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> GuiSinglelineTextBox::TextElementOperatorCallback::Create(rptr<GuiSinglelineTextBox> _textControl)
-	{
-		throw 0;
-	}
-	
-	bool GuiSinglelineTextBox::TextElementOperatorCallback::BeforeModify(TextPos& start, TextPos& end, const GacString& originalText, GacString& inputText)
-	{
-		throw 0;
-	}
-	
-	void GuiSinglelineTextBox::TextElementOperatorCallback::AfterModify(TextPos originalStart, TextPos originalEnd, const GacString& originalText, TextPos inputStart, TextPos inputEnd, const GacString& inputText)
-	{
-		throw 0;
-	}
-	
-	void GuiSinglelineTextBox::TextElementOperatorCallback::ScrollToView(Point point)
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiSinglelineTextBox::TextElementOperatorCallback::GetTextMargin()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> GuiSinglelineTextBox::TextElementOperatorCallback::operator=(rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiTab
-***********************************************************************/
-
-	rptr<GuiTab> GuiTab::Create(rptr<GuiTab :: IStyleController> _styleController)
-	{
-		throw 0;
-	}
-	
-	bool GuiTab::CreatePage(rptr<GuiTabPage> page, signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiTabPage> GuiTab::CreatePage(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	bool GuiTab::RemovePage(rptr<GuiTabPage> value)
-	{
-		throw 0;
-	}
-	
-	bool GuiTab::MovePage(rptr<GuiTabPage> page, signed __int32 newIndex)
-	{
-		throw 0;
-	}
-	
-	bool GuiTab::SetSelectedPage(rptr<GuiTabPage> value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiTab> GuiTab::operator=(rptr<GuiTab> value)
-	{
-		throw 0;
-	}
-	
-	rptr<IReadonlyList_of_GuiTabPage_raw_pointer> GuiTab::GetPages()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiTabPage> GuiTab::GetSelectedPage()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiEventArgs GuiTab::get_SelectedPageChanged()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiTab :: ICommandExecutor
-***********************************************************************/
-
-	void GuiTab::ICommandExecutor::ShowTab(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiTab :: ICommandExecutor> GuiTab::ICommandExecutor::operator=(rptr<GuiTab :: ICommandExecutor> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiTab :: IStyleController
-***********************************************************************/
-
-	void GuiTab::IStyleController::InsertTab(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	void GuiTab::IStyleController::SetTabText(signed __int32 index, const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void GuiTab::IStyleController::RemoveTab(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	void GuiTab::IStyleController::MoveTab(signed __int32 oldIndex, signed __int32 newIndex)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiControl :: IStyleController> GuiTab::IStyleController::CreateTabPageStyleController()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiTab :: IStyleController> GuiTab::IStyleController::operator=(rptr<GuiTab :: IStyleController> value)
-	{
-		throw 0;
-	}
-	
-	void GuiTab::IStyleController::SetCommandExecutor(rptr<GuiTab :: ICommandExecutor> value)
-	{
-		throw 0;
-	}
-	
-	void GuiTab::IStyleController::SetSelectedTab(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiWindow
-***********************************************************************/
-
-	rptr<GuiWindow> GuiWindow::Create(rptr<GuiControl :: IStyleController> _styleController)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiWindow> GuiWindow::operator=(rptr<GuiWindow> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-INativeController
-***********************************************************************/
-
-	rptr<INativeCallbackService> INativeController::CallbackService()
-	{
-		throw 0;
-	}
-	
-	rptr<INativeResourceService> INativeController::ResourceService()
-	{
-		throw 0;
-	}
-	
-	rptr<INativeAsyncService> INativeController::AsyncService()
-	{
-		throw 0;
-	}
-	
-	rptr<INativeClipboardService> INativeController::ClipboardService()
-	{
-		throw 0;
-	}
-	
-	rptr<INativeImageService> INativeController::ImageService()
-	{
-		throw 0;
-	}
-	
-	rptr<INativeScreenService> INativeController::ScreenService()
-	{
-		throw 0;
-	}
-	
-	rptr<INativeWindowService> INativeController::WindowService()
-	{
-		throw 0;
-	}
-	
-	rptr<INativeInputService> INativeController::InputService()
-	{
-		throw 0;
-	}
-	
-	rptr<INativeController> INativeController::operator=(rptr<INativeController> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-IReadonlyList_of_GuiWindow_raw_pointer
-***********************************************************************/
-
-	bool IReadonlyList_of_GuiWindow_raw_pointer::Contains(rptr<GuiWindow> item)
-	{
-		throw 0;
-	}
-	
-	signed __int32 IReadonlyList_of_GuiWindow_raw_pointer::Count()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiWindow> IReadonlyList_of_GuiWindow_raw_pointer::Get(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiWindow> IReadonlyList_of_GuiWindow_raw_pointer::operator[](signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	signed __int32 IReadonlyList_of_GuiWindow_raw_pointer::IndexOf(rptr<GuiWindow> item)
-	{
-		throw 0;
-	}
-	
-	rptr<IReadonlyList_of_GuiWindow_raw_pointer> IReadonlyList_of_GuiWindow_raw_pointer::operator=(rptr<IReadonlyList_of_GuiWindow_raw_pointer> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-Win7EmptyStyle
-***********************************************************************/
-
-	rptr<Win7EmptyStyle> Win7EmptyStyle::Create(Color color)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiBoundsComposition> Win7EmptyStyle::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7EmptyStyle::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void Win7EmptyStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7EmptyStyle::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7EmptyStyle::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7EmptyStyle::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	rptr<Win7EmptyStyle> Win7EmptyStyle::operator=(rptr<Win7EmptyStyle> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-Win7MenuBarStyle
-***********************************************************************/
-
-	rptr<Win7MenuBarStyle> Win7MenuBarStyle::Create()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiBoundsComposition> Win7MenuBarStyle::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7MenuBarStyle::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void Win7MenuBarStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuBarStyle::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuBarStyle::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuBarStyle::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	rptr<Win7MenuBarStyle> Win7MenuBarStyle::operator=(rptr<Win7MenuBarStyle> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-Win7MenuSplitterStyle
-***********************************************************************/
-
-	rptr<Win7MenuSplitterStyle> Win7MenuSplitterStyle::Create()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiBoundsComposition> Win7MenuSplitterStyle::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7MenuSplitterStyle::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void Win7MenuSplitterStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuSplitterStyle::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuSplitterStyle::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuSplitterStyle::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	rptr<Win7MenuSplitterStyle> Win7MenuSplitterStyle::operator=(rptr<Win7MenuSplitterStyle> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-Win7ScrollViewProvider
-***********************************************************************/
-
-	rptr<Win7ScrollViewProvider> Win7ScrollViewProvider::Create()
-	{
-		throw 0;
-	}
-	
-	void Win7ScrollViewProvider::AssociateStyleController(rptr<GuiControl :: IStyleController> controller)
-	{
-		throw 0;
-	}
-	
-	void Win7ScrollViewProvider::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7ScrollViewProvider::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7ScrollViewProvider::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7ScrollViewProvider::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiScroll :: IStyleController> Win7ScrollViewProvider::CreateHorizontalScrollStyle()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiScroll :: IStyleController> Win7ScrollViewProvider::CreateVerticalScrollStyle()
-	{
-		throw 0;
-	}
-	
-	signed __int32 Win7ScrollViewProvider::GetDefaultScrollSize()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7ScrollViewProvider::InstallBackground(rptr<GuiBoundsComposition> boundsComposition)
-	{
-		throw 0;
-	}
-	
-	rptr<Win7ScrollViewProvider> Win7ScrollViewProvider::operator=(rptr<Win7ScrollViewProvider> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-Win7SinglelineTextBoxProvider
-***********************************************************************/
-
-	rptr<Win7SinglelineTextBoxProvider> Win7SinglelineTextBoxProvider::Create()
-	{
-		throw 0;
-	}
-	
-	void Win7SinglelineTextBoxProvider::AssociateStyleController(rptr<GuiControl :: IStyleController> controller)
-	{
-		throw 0;
-	}
-	
-	void Win7SinglelineTextBoxProvider::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7SinglelineTextBoxProvider::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7SinglelineTextBoxProvider::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7SinglelineTextBoxProvider::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7SinglelineTextBoxProvider::InstallBackground(rptr<GuiBoundsComposition> boundsComposition)
-	{
-		throw 0;
-	}
-	
-	rptr<Win7SinglelineTextBoxProvider> Win7SinglelineTextBoxProvider::operator=(rptr<Win7SinglelineTextBoxProvider> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-Win7TabStyle
-***********************************************************************/
-
-	rptr<Win7TabStyle> Win7TabStyle::Create()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiBoundsComposition> Win7TabStyle::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7TabStyle::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void Win7TabStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7TabStyle::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7TabStyle::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7TabStyle::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7TabStyle::SetCommandExecutor(rptr<GuiTab :: ICommandExecutor> value)
-	{
-		throw 0;
-	}
-	
-	void Win7TabStyle::InsertTab(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	void Win7TabStyle::SetTabText(signed __int32 index, const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7TabStyle::RemoveTab(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	void Win7TabStyle::MoveTab(signed __int32 oldIndex, signed __int32 newIndex)
-	{
-		throw 0;
-	}
-	
-	void Win7TabStyle::SetSelectedTab(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiControl :: IStyleController> Win7TabStyle::CreateTabPageStyleController()
-	{
-		throw 0;
-	}
-	
-	rptr<Win7TabStyle> Win7TabStyle::operator=(rptr<Win7TabStyle> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-Win7WindowStyle
-***********************************************************************/
-
-	rptr<Win7WindowStyle> Win7WindowStyle::Create()
-	{
-		throw 0;
-	}
-	
-	rptr<Win7WindowStyle> Win7WindowStyle::operator=(rptr<Win7WindowStyle> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-CommonScrollStyle
-***********************************************************************/
-
-	rptr<GuiBoundsComposition> CommonScrollStyle::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> CommonScrollStyle::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void CommonScrollStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void CommonScrollStyle::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void CommonScrollStyle::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void CommonScrollStyle::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	void CommonScrollStyle::SetCommandExecutor(rptr<GuiScroll :: ICommandExecutor> value)
-	{
-		throw 0;
-	}
-	
-	void CommonScrollStyle::SetTotalSize(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	void CommonScrollStyle::SetPageSize(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	void CommonScrollStyle::SetPosition(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	rptr<CommonScrollStyle> CommonScrollStyle::operator=(rptr<CommonScrollStyle> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiApplication
-***********************************************************************/
-
-	void GuiApplication::Run(rptr<GuiWindow> _mainWindow)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiWindow> GuiApplication::GetWindow(Point location)
-	{
-		throw 0;
-	}
-	
-	bool GuiApplication::IsInMainThread()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiApplication> GuiApplication::operator=(rptr<GuiApplication> value)
-	{
-		throw 0;
-	}
-	
-	rptr<IReadonlyList_of_GuiWindow_raw_pointer> GuiApplication::GetWindows()
+	rptr<GuiButton :: IStyleController> GuiButton::IStyleController::operator=(rptr<GuiButton :: IStyleController> value)
 	{
 		throw 0;
 	}
@@ -7678,367 +4738,399 @@ GuiControlHost
 	
 
 /***********************************************************************
-GuiMultilineTextBox
+GuiMenuBar
 ***********************************************************************/
 
-	rptr<GuiMultilineTextBox> GuiMultilineTextBox::Create(rptr<GuiScrollView :: IStyleProvider> styleProvider)
+	rptr<GuiMenuBar> GuiMenuBar::Create(rptr<GuiControl :: IStyleController> _styleController)
 	{
 		throw 0;
 	}
 	
-	const GacString& GuiMultilineTextBox::GetText()
+	rptr<IDescriptable> GuiMenuBar::QueryService(const GacString& identifier)
 	{
 		throw 0;
 	}
 	
-	void GuiMultilineTextBox::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void GuiMultilineTextBox::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiMultilineTextBox> GuiMultilineTextBox::operator=(rptr<GuiMultilineTextBox> value)
+	rptr<GuiMenuBar> GuiMenuBar::operator=(rptr<GuiMenuBar> value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-GuiMultilineTextBox :: StyleController
+GuiMenuButton
 ***********************************************************************/
 
-	rptr<GuiMultilineTextBox :: StyleController> GuiMultilineTextBox::StyleController::Create(rptr<GuiScrollView :: IStyleProvider> styleProvider)
+	rptr<GuiMenuButton> GuiMenuButton::Create(rptr<GuiMenuButton :: IStyleController> _styleController)
 	{
 		throw 0;
 	}
 	
-	void GuiMultilineTextBox::StyleController::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
+	bool GuiMenuButton::IsSubMenuExists()
 	{
 		throw 0;
 	}
 	
-	void GuiMultilineTextBox::StyleController::SetText(const GacString& value)
+	void GuiMenuButton::CreateSubMenu(rptr<GuiControl :: IStyleController> subMenuStyleController)
 	{
 		throw 0;
 	}
 	
-	void GuiMultilineTextBox::StyleController::SetFont(const FontProperties& value)
+	void GuiMenuButton::DestroySubMenu()
 	{
 		throw 0;
 	}
 	
-	void GuiMultilineTextBox::StyleController::SetVisuallyEnabled(bool value)
+	rptr<GuiMenuButton> GuiMenuButton::operator=(rptr<GuiMenuButton> value)
 	{
 		throw 0;
 	}
 	
-	rptr<GuiMultilineTextBox :: StyleController> GuiMultilineTextBox::StyleController::operator=(rptr<GuiMultilineTextBox :: StyleController> value)
+	rptr<GuiMenu> GuiMenuButton::GetSubMenu()
 	{
 		throw 0;
 	}
 	
-	void GuiMultilineTextBox::StyleController::SetViewPosition(Point value)
+	bool GuiMenuButton::GetSubMenuOpening()
+	{
+		throw 0;
+	}
+	void GuiMenuButton::SetSubMenuOpening(bool value)
 	{
 		throw 0;
 	}
 	
-	rptr<GuiColorizedTextElement> GuiMultilineTextBox::StyleController::GetTextElement()
+	Size GuiMenuButton::GetPreferredMenuClientSize()
+	{
+		throw 0;
+	}
+	void GuiMenuButton::SetPreferredMenuClientSize(Size value)
 	{
 		throw 0;
 	}
 	
-	rptr<GuiGraphicsComposition> GuiMultilineTextBox::StyleController::GetTextComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiTextElementOperator> GuiMultilineTextBox::StyleController::GetTextElementOperator()
-	{
-		throw 0;
-	}
-	
-	GacString GuiMultilineTextBox::StyleController::GetText()
+	GuiGraphicsEvent_of_GuiEventArgs GuiMenuButton::get_SubMenuOpeningChanged()
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-GuiMultilineTextBox :: TextElementOperatorCallback
+GuiMenuButton :: IStyleController
 ***********************************************************************/
 
-	rptr<GuiMultilineTextBox :: TextElementOperatorCallback> GuiMultilineTextBox::TextElementOperatorCallback::Create(rptr<GuiMultilineTextBox> _textControl)
+	rptr<GuiControl :: IStyleController> GuiMenuButton::IStyleController::CreateSubMenuStyleController()
 	{
 		throw 0;
 	}
 	
-	void GuiMultilineTextBox::TextElementOperatorCallback::AfterModify(TextPos originalStart, TextPos originalEnd, const GacString& originalText, TextPos inputStart, TextPos inputEnd, const GacString& inputText)
+	rptr<GuiMenuButton :: IStyleController> GuiMenuButton::IStyleController::operator=(rptr<GuiMenuButton :: IStyleController> value)
 	{
 		throw 0;
 	}
 	
-	void GuiMultilineTextBox::TextElementOperatorCallback::ScrollToView(Point point)
+	void GuiMenuButton::IStyleController::SetSubMenuExisting(bool value)
 	{
 		throw 0;
 	}
 	
-	signed __int32 GuiMultilineTextBox::TextElementOperatorCallback::GetTextMargin()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiMultilineTextBox :: TextElementOperatorCallback> GuiMultilineTextBox::TextElementOperatorCallback::operator=(rptr<GuiMultilineTextBox :: TextElementOperatorCallback> value)
+	void GuiMenuButton::IStyleController::SetSubMenuOpening(bool value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-GuiScrollContainer
+GuiPartialViewComposition
 ***********************************************************************/
 
-	rptr<GuiScrollContainer> GuiScrollContainer::Create(rptr<GuiScrollView :: IStyleProvider> styleProvider)
+	rptr<GuiPartialViewComposition> GuiPartialViewComposition::Create()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiScrollContainer> GuiScrollContainer::operator=(rptr<GuiScrollContainer> value)
+	GuiGraphicsComposition :: ParentSizeAffection GuiPartialViewComposition::GetAffectionFromParent()
+	{
+		throw 0;
+	}
+	
+	bool GuiPartialViewComposition::IsSizeAffectParent()
+	{
+		throw 0;
+	}
+	
+	Rect GuiPartialViewComposition::GetBounds()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiPartialViewComposition> GuiPartialViewComposition::operator=(rptr<GuiPartialViewComposition> value)
+	{
+		throw 0;
+	}
+	
+	double GuiPartialViewComposition::GetWidthRatio()
+	{
+		throw 0;
+	}
+	void GuiPartialViewComposition::SetWidthRatio(double value)
+	{
+		throw 0;
+	}
+	
+	double GuiPartialViewComposition::GetWidthPageSize()
+	{
+		throw 0;
+	}
+	void GuiPartialViewComposition::SetWidthPageSize(double value)
+	{
+		throw 0;
+	}
+	
+	double GuiPartialViewComposition::GetHeightRatio()
+	{
+		throw 0;
+	}
+	void GuiPartialViewComposition::SetHeightRatio(double value)
+	{
+		throw 0;
+	}
+	
+	double GuiPartialViewComposition::GetHeightPageSize()
+	{
+		throw 0;
+	}
+	void GuiPartialViewComposition::SetHeightPageSize(double value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-GuiScrollContainer :: StyleController
+GuiScroll
 ***********************************************************************/
 
-	rptr<GuiScrollContainer :: StyleController> GuiScrollContainer::StyleController::Create(rptr<GuiScrollView :: IStyleProvider> styleProvider)
+	rptr<GuiScroll> GuiScroll::Create(rptr<GuiScroll :: IStyleController> _styleController)
 	{
 		throw 0;
 	}
 	
-	rptr<GuiGraphicsComposition> GuiScrollContainer::StyleController::GetContainerComposition()
+	rptr<GuiScroll> GuiScroll::operator=(rptr<GuiScroll> value)
 	{
 		throw 0;
 	}
 	
-	void GuiScrollContainer::StyleController::MoveContainer(Point leftTop)
+	signed __int32 GuiScroll::GetTotalSize()
+	{
+		throw 0;
+	}
+	void GuiScroll::SetTotalSize(signed __int32 value)
 	{
 		throw 0;
 	}
 	
-	rptr<GuiScrollContainer :: StyleController> GuiScrollContainer::StyleController::operator=(rptr<GuiScrollContainer :: StyleController> value)
+	signed __int32 GuiScroll::GetPageSize()
+	{
+		throw 0;
+	}
+	void GuiScroll::SetPageSize(signed __int32 value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 GuiScroll::GetPosition()
+	{
+		throw 0;
+	}
+	void GuiScroll::SetPosition(signed __int32 value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 GuiScroll::GetSmallMove()
+	{
+		throw 0;
+	}
+	void GuiScroll::SetSmallMove(signed __int32 value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 GuiScroll::GetBigMove()
+	{
+		throw 0;
+	}
+	void GuiScroll::SetBigMove(signed __int32 value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 GuiScroll::GetMinPosition()
+	{
+		throw 0;
+	}
+	
+	signed __int32 GuiScroll::GetMaxPosition()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiEventArgs GuiScroll::get_TotalSizeChanged()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiEventArgs GuiScroll::get_PageSizeChanged()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiEventArgs GuiScroll::get_PositionChanged()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiEventArgs GuiScroll::get_SmallMoveChanged()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiEventArgs GuiScroll::get_BigMoveChanged()
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-GuiStackComposition
+GuiScroll :: ICommandExecutor
 ***********************************************************************/
 
-	rptr<GuiStackComposition> GuiStackComposition::Create()
+	void GuiScroll::ICommandExecutor::SmallDecrease()
 	{
 		throw 0;
 	}
 	
-	bool GuiStackComposition::InsertStackItem(signed __int32 index, rptr<GuiStackItemComposition> item)
+	void GuiScroll::ICommandExecutor::SmallIncrease()
 	{
 		throw 0;
 	}
 	
-	Size GuiStackComposition::GetMinPreferredClientSize()
+	void GuiScroll::ICommandExecutor::BigDecrease()
 	{
 		throw 0;
 	}
 	
-	Rect GuiStackComposition::GetBounds()
+	void GuiScroll::ICommandExecutor::BigIncrease()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiStackComposition> GuiStackComposition::operator=(rptr<GuiStackComposition> value)
+	rptr<GuiScroll :: ICommandExecutor> GuiScroll::ICommandExecutor::operator=(rptr<GuiScroll :: ICommandExecutor> value)
 	{
 		throw 0;
 	}
 	
-	rptr<IReadonlyList_of_GuiStackItemComposition_raw_pointer> GuiStackComposition::GetStackItems()
+	void GuiScroll::ICommandExecutor::SetTotalSize(signed __int32 value)
 	{
 		throw 0;
 	}
 	
-	GuiStackComposition :: Direction GuiStackComposition::GetDirection()
-	{
-		throw 0;
-	}
-	void GuiStackComposition::SetDirection(GuiStackComposition :: Direction value)
+	void GuiScroll::ICommandExecutor::SetPageSize(signed __int32 value)
 	{
 		throw 0;
 	}
 	
-	signed __int32 GuiStackComposition::GetPadding()
-	{
-		throw 0;
-	}
-	void GuiStackComposition::SetPadding(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	Margin GuiStackComposition::GetExtraMargin()
-	{
-		throw 0;
-	}
-	void GuiStackComposition::SetExtraMargin(Margin value)
+	void GuiScroll::ICommandExecutor::SetPosition(signed __int32 value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-Win7GroupBoxStyle
+GuiScroll :: IStyleController
 ***********************************************************************/
 
-	rptr<Win7GroupBoxStyle> Win7GroupBoxStyle::Create()
+	rptr<GuiScroll :: IStyleController> GuiScroll::IStyleController::operator=(rptr<GuiScroll :: IStyleController> value)
 	{
 		throw 0;
 	}
 	
-	rptr<GuiBoundsComposition> Win7GroupBoxStyle::GetBoundsComposition()
+	void GuiScroll::IStyleController::SetCommandExecutor(rptr<GuiScroll :: ICommandExecutor> value)
 	{
 		throw 0;
 	}
 	
-	rptr<GuiGraphicsComposition> Win7GroupBoxStyle::GetContainerComposition()
+	void GuiScroll::IStyleController::SetTotalSize(signed __int32 value)
 	{
 		throw 0;
 	}
 	
-	void Win7GroupBoxStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
+	void GuiScroll::IStyleController::SetPageSize(signed __int32 value)
 	{
 		throw 0;
 	}
 	
-	void Win7GroupBoxStyle::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7GroupBoxStyle::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7GroupBoxStyle::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	rptr<Win7GroupBoxStyle> Win7GroupBoxStyle::operator=(rptr<Win7GroupBoxStyle> value)
+	void GuiScroll::IStyleController::SetPosition(signed __int32 value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-Win7MenuStyle
+CommonScrollStyle
 ***********************************************************************/
 
-	rptr<Win7MenuStyle> Win7MenuStyle::Create()
+	rptr<GuiBoundsComposition> CommonScrollStyle::GetBoundsComposition()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiBoundsComposition> Win7MenuStyle::GetBoundsComposition()
+	rptr<GuiGraphicsComposition> CommonScrollStyle::GetContainerComposition()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiGraphicsComposition> Win7MenuStyle::GetContainerComposition()
+	void CommonScrollStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
 	{
 		throw 0;
 	}
 	
-	void Win7MenuStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
+	void CommonScrollStyle::SetText(const GacString& value)
 	{
 		throw 0;
 	}
 	
-	void Win7MenuStyle::SetText(const GacString& value)
+	void CommonScrollStyle::SetFont(const FontProperties& value)
 	{
 		throw 0;
 	}
 	
-	void Win7MenuStyle::SetFont(const FontProperties& value)
+	void CommonScrollStyle::SetVisuallyEnabled(bool value)
 	{
 		throw 0;
 	}
 	
-	void Win7MenuStyle::SetVisuallyEnabled(bool value)
+	void CommonScrollStyle::SetCommandExecutor(rptr<GuiScroll :: ICommandExecutor> value)
 	{
 		throw 0;
 	}
 	
-	rptr<Win7MenuStyle> Win7MenuStyle::operator=(rptr<Win7MenuStyle> value)
+	void CommonScrollStyle::SetTotalSize(signed __int32 value)
 	{
 		throw 0;
 	}
 	
-
-/***********************************************************************
-Win7ScrollStyle
-***********************************************************************/
-
-	rptr<Win7ScrollStyle> Win7ScrollStyle::Create(CommonScrollStyle :: Direction _direction)
+	void CommonScrollStyle::SetPageSize(signed __int32 value)
 	{
 		throw 0;
 	}
 	
-	rptr<Win7ScrollStyle> Win7ScrollStyle::operator=(rptr<Win7ScrollStyle> value)
+	void CommonScrollStyle::SetPosition(signed __int32 value)
 	{
 		throw 0;
 	}
 	
-
-/***********************************************************************
-Win7TextBoxBackground
-***********************************************************************/
-
-	rptr<Win7TextBoxBackground> Win7TextBoxBackground::Create()
-	{
-		throw 0;
-	}
-	
-	void Win7TextBoxBackground::AssociateStyleController(rptr<GuiControl :: IStyleController> controller)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7TextBoxBackground::InstallBackground(rptr<GuiBoundsComposition> boundsComposition)
-	{
-		throw 0;
-	}
-	
-	void Win7TextBoxBackground::InitializeTextElement(rptr<GuiColorizedTextElement> _textElement)
-	{
-		throw 0;
-	}
-	
-	rptr<Win7TextBoxBackground> Win7TextBoxBackground::operator=(rptr<Win7TextBoxBackground> value)
-	{
-		throw 0;
-	}
-	
-	void Win7TextBoxBackground::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7TextBoxBackground::SetVisuallyEnabled(bool value)
+	rptr<CommonScrollStyle> CommonScrollStyle::operator=(rptr<CommonScrollStyle> value)
 	{
 		throw 0;
 	}
@@ -8105,35 +5197,181 @@ CommonTrackStyle
 	
 
 /***********************************************************************
-GuiButton
+GuiScrollView
 ***********************************************************************/
 
-	rptr<GuiButton> GuiButton::Create(rptr<GuiButton :: IStyleController> _styleController)
+	void GuiScrollView::CalculateView()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiButton> GuiButton::operator=(rptr<GuiButton> value)
+	rptr<GuiScrollView> GuiScrollView::operator=(rptr<GuiScrollView> value)
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiButton::get_Clicked()
+	Size GuiScrollView::GetViewSize()
+	{
+		throw 0;
+	}
+	
+	Rect GuiScrollView::GetViewBounds()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiScroll> GuiScrollView::GetHorizontalScroll()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiScroll> GuiScrollView::GetVerticalScroll()
+	{
+		throw 0;
+	}
+	
+	bool GuiScrollView::GetHorizontalAlwaysVisible()
+	{
+		throw 0;
+	}
+	void GuiScrollView::SetHorizontalAlwaysVisible(bool value)
+	{
+		throw 0;
+	}
+	
+	bool GuiScrollView::GetVerticalAlwaysVisible()
+	{
+		throw 0;
+	}
+	void GuiScrollView::SetVerticalAlwaysVisible(bool value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-GuiButton :: IStyleController
+GuiScrollView :: IStyleProvider
 ***********************************************************************/
 
-	void GuiButton::IStyleController::Transfer(GuiButton :: ControlState value)
+	rptr<GuiScroll :: IStyleController> GuiScrollView::IStyleProvider::CreateHorizontalScrollStyle()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiButton :: IStyleController> GuiButton::IStyleController::operator=(rptr<GuiButton :: IStyleController> value)
+	rptr<GuiScroll :: IStyleController> GuiScrollView::IStyleProvider::CreateVerticalScrollStyle()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsComposition> GuiScrollView::IStyleProvider::InstallBackground(rptr<GuiBoundsComposition> boundsComposition)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiScrollView :: IStyleProvider> GuiScrollView::IStyleProvider::operator=(rptr<GuiScrollView :: IStyleProvider> value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 GuiScrollView::IStyleProvider::GetDefaultScrollSize()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiScrollView :: StyleController
+***********************************************************************/
+
+	rptr<GuiScrollView :: StyleController> GuiScrollView::StyleController::Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider)
+	{
+		throw 0;
+	}
+	
+	void GuiScrollView::StyleController::AdjustView(Size fullSize)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiBoundsComposition> GuiScrollView::StyleController::GetBoundsComposition()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsComposition> GuiScrollView::StyleController::GetContainerComposition()
+	{
+		throw 0;
+	}
+	
+	void GuiScrollView::StyleController::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
+	{
+		throw 0;
+	}
+	
+	void GuiScrollView::StyleController::SetText(const GacString& value)
+	{
+		throw 0;
+	}
+	
+	void GuiScrollView::StyleController::SetFont(const FontProperties& value)
+	{
+		throw 0;
+	}
+	
+	void GuiScrollView::StyleController::SetVisuallyEnabled(bool value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiScrollView :: StyleController> GuiScrollView::StyleController::operator=(rptr<GuiScrollView :: StyleController> value)
+	{
+		throw 0;
+	}
+	
+	void GuiScrollView::StyleController::SetScrollView(rptr<GuiScrollView> _scrollView)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiScrollView :: IStyleProvider> GuiScrollView::StyleController::GetStyleProvider()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiScroll> GuiScrollView::StyleController::GetHorizontalScroll()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiScroll> GuiScrollView::StyleController::GetVerticalScroll()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiTableComposition> GuiScrollView::StyleController::GetInternalTableComposition()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiBoundsComposition> GuiScrollView::StyleController::GetInternalContainerComposition()
+	{
+		throw 0;
+	}
+	
+	bool GuiScrollView::StyleController::GetHorizontalAlwaysVisible()
+	{
+		throw 0;
+	}
+	void GuiScrollView::StyleController::SetHorizontalAlwaysVisible(bool value)
+	{
+		throw 0;
+	}
+	
+	bool GuiScrollView::StyleController::GetVerticalAlwaysVisible()
+	{
+		throw 0;
+	}
+	void GuiScrollView::StyleController::SetVerticalAlwaysVisible(bool value)
 	{
 		throw 0;
 	}
@@ -8523,459 +5761,6 @@ GuiListControl :: IItemStyleProvider
 	
 
 /***********************************************************************
-GuiPopup
-***********************************************************************/
-
-	rptr<GuiPopup> GuiPopup::Create(rptr<GuiControl :: IStyleController> _styleController)
-	{
-		throw 0;
-	}
-	
-	bool GuiPopup::IsClippedByScreen(Point location)
-	{
-		throw 0;
-	}
-	
-	void GuiPopup::ShowPopup(rptr<GuiControl> control, bool preferredTopBottomSide)
-	{
-		throw 0;
-	}
-	
-	void GuiPopup::ShowPopup(Point location)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiPopup> GuiPopup::operator=(rptr<GuiPopup> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiSelectableListControl
-***********************************************************************/
-
-	rptr<GuiSelectableListControl> GuiSelectableListControl::Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider)
-	{
-		throw 0;
-	}
-	
-	sptr<GuiListControl :: IItemStyleProvider> GuiSelectableListControl::SetStyleProvider(sptr<GuiListControl :: IItemStyleProvider> value)
-	{
-		throw 0;
-	}
-	
-	bool GuiSelectableListControl::GetSelected(signed __int32 itemIndex)
-	{
-		throw 0;
-	}
-	
-	void GuiSelectableListControl::SetSelected(signed __int32 itemIndex, bool value)
-	{
-		throw 0;
-	}
-	
-	void GuiSelectableListControl::ClearSelection()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiSelectableListControl> GuiSelectableListControl::operator=(rptr<GuiSelectableListControl> value)
-	{
-		throw 0;
-	}
-	
-	bool GuiSelectableListControl::GetMultiSelect()
-	{
-		throw 0;
-	}
-	void GuiSelectableListControl::SetMultiSelect(bool value)
-	{
-		throw 0;
-	}
-	
-	rptr<IReadonlyList_of_int> GuiSelectableListControl::GetSelectedItems()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiEventArgs GuiSelectableListControl::get_SelectionChanged()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-GuiSelectableListControl :: IItemStyleProvider
-***********************************************************************/
-
-	void GuiSelectableListControl::IItemStyleProvider::SetStyleSelected(rptr<GuiListControl :: IItemStyleController> style, bool value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiSelectableListControl :: IItemStyleProvider> GuiSelectableListControl::IItemStyleProvider::operator=(rptr<GuiSelectableListControl :: IItemStyleProvider> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-INodeItemStyleController
-***********************************************************************/
-
-	rptr<INodeItemStyleController> INodeItemStyleController::operator=(rptr<INodeItemStyleController> value)
-	{
-		throw 0;
-	}
-	
-	rptr<INodeItemStyleProvider> INodeItemStyleController::GetNodeStyleProvider()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-INodeItemView
-***********************************************************************/
-
-	rptr<INodeProvider> INodeItemView::RequestNode(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	void INodeItemView::ReleaseNode(rptr<INodeProvider> node)
-	{
-		throw 0;
-	}
-	
-	signed __int32 INodeItemView::CalculateNodeVisibilityIndex(rptr<INodeProvider> node)
-	{
-		throw 0;
-	}
-	
-	rptr<INodeItemView> INodeItemView::operator=(rptr<INodeItemView> value)
-	{
-		throw 0;
-	}
-	
-	wchar_t* INodeItemView::get_Identifier()
-	{
-		throw 0;
-	}
-	void INodeItemView::set_Identifier(wchar_t* value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-ItemProviderBase
-***********************************************************************/
-
-	rptr<ItemProviderBase> ItemProviderBase::Create()
-	{
-		throw 0;
-	}
-	
-	bool ItemProviderBase::AttachCallback(rptr<GuiListControl :: IItemProviderCallback> value)
-	{
-		throw 0;
-	}
-	
-	bool ItemProviderBase::DetachCallback(rptr<GuiListControl :: IItemProviderCallback> value)
-	{
-		throw 0;
-	}
-	
-	rptr<ItemProviderBase> ItemProviderBase::operator=(rptr<ItemProviderBase> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-ListWrapperProvider_of_ListViewItem
-***********************************************************************/
-
-	bool ListWrapperProvider_of_ListViewItem::NotifyUpdate(signed __int32 start, signed __int32 count)
-	{
-		throw 0;
-	}
-	
-	bool ListWrapperProvider_of_ListViewItem::Contains(rptr<ListViewItem> item)
-	{
-		throw 0;
-	}
-	
-	signed __int32 ListWrapperProvider_of_ListViewItem::Count()
-	{
-		throw 0;
-	}
-	
-	sptr<ListViewItem> ListWrapperProvider_of_ListViewItem::Get(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	sptr<ListViewItem> ListWrapperProvider_of_ListViewItem::operator[](signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	signed __int32 ListWrapperProvider_of_ListViewItem::IndexOf(rptr<ListViewItem> item)
-	{
-		throw 0;
-	}
-	
-	signed __int32 ListWrapperProvider_of_ListViewItem::Add(sptr<ListViewItem> item)
-	{
-		throw 0;
-	}
-	
-	bool ListWrapperProvider_of_ListViewItem::Remove(rptr<ListViewItem> item)
-	{
-		throw 0;
-	}
-	
-	bool ListWrapperProvider_of_ListViewItem::RemoveAt(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	bool ListWrapperProvider_of_ListViewItem::RemoveRange(signed __int32 index, signed __int32 count)
-	{
-		throw 0;
-	}
-	
-	bool ListWrapperProvider_of_ListViewItem::Clear()
-	{
-		throw 0;
-	}
-	
-	signed __int32 ListWrapperProvider_of_ListViewItem::Insert(signed __int32 index, sptr<ListViewItem> item)
-	{
-		throw 0;
-	}
-	
-	bool ListWrapperProvider_of_ListViewItem::Set(signed __int32 index, sptr<ListViewItem> item)
-	{
-		throw 0;
-	}
-	
-	rptr<ListWrapperProvider_of_ListViewItem> ListWrapperProvider_of_ListViewItem::operator=(rptr<ListWrapperProvider_of_ListViewItem> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-NodeItemProvider
-***********************************************************************/
-
-	rptr<NodeItemProvider> NodeItemProvider::Create(rptr<INodeRootProvider> _root)
-	{
-		throw 0;
-	}
-	
-	signed __int32 NodeItemProvider::Count()
-	{
-		throw 0;
-	}
-	
-	rptr<IDescriptable> NodeItemProvider::RequestView(const GacString& identifier)
-	{
-		throw 0;
-	}
-	
-	void NodeItemProvider::ReleaseView(rptr<IDescriptable> view)
-	{
-		throw 0;
-	}
-	
-	rptr<NodeItemProvider> NodeItemProvider::operator=(rptr<NodeItemProvider> value)
-	{
-		throw 0;
-	}
-	
-	sptr<INodeRootProvider> NodeItemProvider::GetRoot()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-RangedItemArrangerBase
-***********************************************************************/
-
-	void RangedItemArrangerBase::OnAttached(rptr<GuiListControl :: IItemProvider> provider)
-	{
-		throw 0;
-	}
-	
-	void RangedItemArrangerBase::OnItemModified(signed __int32 start, signed __int32 count, signed __int32 newCount)
-	{
-		throw 0;
-	}
-	
-	void RangedItemArrangerBase::AttachListControl(rptr<GuiListControl> value)
-	{
-		throw 0;
-	}
-	
-	void RangedItemArrangerBase::DetachListControl()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemArrangerCallback> RangedItemArrangerBase::GetCallback()
-	{
-		throw 0;
-	}
-	
-	void RangedItemArrangerBase::SetCallback(rptr<GuiListControl :: IItemArrangerCallback> value)
-	{
-		throw 0;
-	}
-	
-	Size RangedItemArrangerBase::GetTotalSize()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemStyleController> RangedItemArrangerBase::GetVisibleStyle(signed __int32 itemIndex)
-	{
-		throw 0;
-	}
-	
-	signed __int32 RangedItemArrangerBase::GetVisibleIndex(rptr<GuiListControl :: IItemStyleController> style)
-	{
-		throw 0;
-	}
-	
-	void RangedItemArrangerBase::OnViewChanged(Rect bounds)
-	{
-		throw 0;
-	}
-	
-	rptr<RangedItemArrangerBase> RangedItemArrangerBase::operator=(rptr<RangedItemArrangerBase> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-TreeViewNodeItemStyleProvider
-***********************************************************************/
-
-	rptr<TreeViewNodeItemStyleProvider> TreeViewNodeItemStyleProvider::Create()
-	{
-		throw 0;
-	}
-	
-	void TreeViewNodeItemStyleProvider::BindItemStyleProvider(rptr<GuiListControl :: IItemStyleProvider> styleProvider)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemStyleProvider> TreeViewNodeItemStyleProvider::GetBindedItemStyleProvider()
-	{
-		throw 0;
-	}
-	
-	void TreeViewNodeItemStyleProvider::AttachListControl(rptr<GuiListControl> value)
-	{
-		throw 0;
-	}
-	
-	void TreeViewNodeItemStyleProvider::DetachListControl()
-	{
-		throw 0;
-	}
-	
-	signed __int32 TreeViewNodeItemStyleProvider::GetItemStyleId(rptr<INodeProvider> node)
-	{
-		throw 0;
-	}
-	
-	rptr<INodeItemStyleController> TreeViewNodeItemStyleProvider::CreateItemStyle(signed __int32 styleId)
-	{
-		throw 0;
-	}
-	
-	void TreeViewNodeItemStyleProvider::DestroyItemStyle(rptr<INodeItemStyleController> style)
-	{
-		throw 0;
-	}
-	
-	void TreeViewNodeItemStyleProvider::Install(rptr<INodeItemStyleController> style, rptr<INodeProvider> node)
-	{
-		throw 0;
-	}
-	
-	void TreeViewNodeItemStyleProvider::SetStyleSelected(rptr<INodeItemStyleController> style, bool value)
-	{
-		throw 0;
-	}
-	
-	rptr<TreeViewNodeItemStyleProvider> TreeViewNodeItemStyleProvider::operator=(rptr<TreeViewNodeItemStyleProvider> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-Win7MultilineTextBoxProvider
-***********************************************************************/
-
-	rptr<Win7MultilineTextBoxProvider> Win7MultilineTextBoxProvider::Create()
-	{
-		throw 0;
-	}
-	
-	void Win7MultilineTextBoxProvider::AssociateStyleController(rptr<GuiControl :: IStyleController> controller)
-	{
-		throw 0;
-	}
-	
-	void Win7MultilineTextBoxProvider::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7MultilineTextBoxProvider::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7MultilineTextBoxProvider::InstallBackground(rptr<GuiBoundsComposition> boundsComposition)
-	{
-		throw 0;
-	}
-	
-	rptr<Win7MultilineTextBoxProvider> Win7MultilineTextBoxProvider::operator=(rptr<Win7MultilineTextBoxProvider> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-Win7TrackStyle
-***********************************************************************/
-
-	rptr<Win7TrackStyle> Win7TrackStyle::Create(CommonTrackStyle :: Direction _direction)
-	{
-		throw 0;
-	}
-	
-	rptr<Win7TrackStyle> Win7TrackStyle::operator=(rptr<Win7TrackStyle> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
 AxisAlignedItemCoordinateTransformer
 ***********************************************************************/
 
@@ -9036,55 +5821,95 @@ AxisAlignedItemCoordinateTransformer
 	
 
 /***********************************************************************
-FixedHeightItemArranger
+DefaultItemCoordinateTransformer
 ***********************************************************************/
 
-	rptr<FixedHeightItemArranger> FixedHeightItemArranger::Create()
+	rptr<DefaultItemCoordinateTransformer> DefaultItemCoordinateTransformer::Create()
 	{
 		throw 0;
 	}
 	
-	rptr<FixedHeightItemArranger> FixedHeightItemArranger::operator=(rptr<FixedHeightItemArranger> value)
+	Size DefaultItemCoordinateTransformer::RealSizeToVirtualSize(Size size)
+	{
+		throw 0;
+	}
+	
+	Size DefaultItemCoordinateTransformer::VirtualSizeToRealSize(Size size)
+	{
+		throw 0;
+	}
+	
+	Point DefaultItemCoordinateTransformer::RealPointToVirtualPoint(Size realFullSize, Point point)
+	{
+		throw 0;
+	}
+	
+	Point DefaultItemCoordinateTransformer::VirtualPointToRealPoint(Size realFullSize, Point point)
+	{
+		throw 0;
+	}
+	
+	Rect DefaultItemCoordinateTransformer::RealRectToVirtualRect(Size realFullSize, Rect rect)
+	{
+		throw 0;
+	}
+	
+	Rect DefaultItemCoordinateTransformer::VirtualRectToRealRect(Size realFullSize, Rect rect)
+	{
+		throw 0;
+	}
+	
+	Margin DefaultItemCoordinateTransformer::RealMarginToVirtualMargin(Margin margin)
+	{
+		throw 0;
+	}
+	
+	Margin DefaultItemCoordinateTransformer::VirtualMarginToRealMargin(Margin margin)
+	{
+		throw 0;
+	}
+	
+	rptr<DefaultItemCoordinateTransformer> DefaultItemCoordinateTransformer::operator=(rptr<DefaultItemCoordinateTransformer> value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-FixedSizeMultiColumnItemArranger
+GuiScrollContainer
 ***********************************************************************/
 
-	rptr<FixedSizeMultiColumnItemArranger> FixedSizeMultiColumnItemArranger::Create()
+	rptr<GuiScrollContainer> GuiScrollContainer::Create(rptr<GuiScrollView :: IStyleProvider> styleProvider)
 	{
 		throw 0;
 	}
 	
-	rptr<FixedSizeMultiColumnItemArranger> FixedSizeMultiColumnItemArranger::operator=(rptr<FixedSizeMultiColumnItemArranger> value)
+	rptr<GuiScrollContainer> GuiScrollContainer::operator=(rptr<GuiScrollContainer> value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-GuiMenu
+GuiScrollContainer :: StyleController
 ***********************************************************************/
 
-	rptr<GuiMenu> GuiMenu::Create(rptr<GuiControl :: IStyleController> _styleController, rptr<GuiControl> _owner)
+	rptr<GuiScrollContainer :: StyleController> GuiScrollContainer::StyleController::Create(rptr<GuiScrollView :: IStyleProvider> styleProvider)
 	{
 		throw 0;
 	}
 	
-	void GuiMenu::UpdateMenuService()
+	rptr<GuiGraphicsComposition> GuiScrollContainer::StyleController::GetContainerComposition()
 	{
 		throw 0;
 	}
 	
-	rptr<IDescriptable> GuiMenu::QueryService(const GacString& identifier)
+	void GuiScrollContainer::StyleController::MoveContainer(Point leftTop)
 	{
 		throw 0;
 	}
 	
-	rptr<GuiMenu> GuiMenu::operator=(rptr<GuiMenu> value)
+	rptr<GuiScrollContainer :: StyleController> GuiScrollContainer::StyleController::operator=(rptr<GuiScrollContainer :: StyleController> value)
 	{
 		throw 0;
 	}
@@ -9208,791 +6033,474 @@ GuiSelectableButton :: MutexGroupController
 	
 
 /***********************************************************************
-GuiVirtualTreeListControl
+GuiSelectableListControl
 ***********************************************************************/
 
-	rptr<GuiVirtualTreeListControl> GuiVirtualTreeListControl::Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<INodeRootProvider> _nodeRootProvider)
+	rptr<GuiSelectableListControl> GuiSelectableListControl::Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider)
 	{
 		throw 0;
 	}
 	
-	sptr<INodeItemStyleProvider> GuiVirtualTreeListControl::SetNodeStyleProvider(sptr<INodeItemStyleProvider> styleProvider)
+	sptr<GuiListControl :: IItemStyleProvider> GuiSelectableListControl::SetStyleProvider(sptr<GuiListControl :: IItemStyleProvider> value)
 	{
 		throw 0;
 	}
 	
-	rptr<GuiVirtualTreeListControl> GuiVirtualTreeListControl::operator=(rptr<GuiVirtualTreeListControl> value)
+	bool GuiSelectableListControl::GetSelected(signed __int32 itemIndex)
 	{
 		throw 0;
 	}
 	
-	rptr<INodeItemView> GuiVirtualTreeListControl::GetNodeItemView()
+	void GuiSelectableListControl::SetSelected(signed __int32 itemIndex, bool value)
 	{
 		throw 0;
 	}
 	
-	rptr<INodeRootProvider> GuiVirtualTreeListControl::GetNodeRootProvider()
+	void GuiSelectableListControl::ClearSelection()
 	{
 		throw 0;
 	}
 	
-	rptr<INodeItemStyleProvider> GuiVirtualTreeListControl::GetNodeStyleProvider()
+	rptr<GuiSelectableListControl> GuiSelectableListControl::operator=(rptr<GuiSelectableListControl> value)
+	{
+		throw 0;
+	}
+	
+	bool GuiSelectableListControl::GetMultiSelect()
+	{
+		throw 0;
+	}
+	void GuiSelectableListControl::SetMultiSelect(bool value)
+	{
+		throw 0;
+	}
+	
+	rptr<IReadonlyList_of_int> GuiSelectableListControl::GetSelectedItems()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiEventArgs GuiSelectableListControl::get_SelectionChanged()
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-INodeItemStyleProvider
+GuiSelectableListControl :: IItemStyleProvider
 ***********************************************************************/
 
-	void INodeItemStyleProvider::BindItemStyleProvider(rptr<GuiListControl :: IItemStyleProvider> styleProvider)
+	void GuiSelectableListControl::IItemStyleProvider::SetStyleSelected(rptr<GuiListControl :: IItemStyleController> style, bool value)
 	{
 		throw 0;
 	}
 	
-	void INodeItemStyleProvider::AttachListControl(rptr<GuiListControl> value)
-	{
-		throw 0;
-	}
-	
-	void INodeItemStyleProvider::DetachListControl()
-	{
-		throw 0;
-	}
-	
-	signed __int32 INodeItemStyleProvider::GetItemStyleId(rptr<INodeProvider> node)
-	{
-		throw 0;
-	}
-	
-	rptr<INodeItemStyleController> INodeItemStyleProvider::CreateItemStyle(signed __int32 styleId)
-	{
-		throw 0;
-	}
-	
-	void INodeItemStyleProvider::DestroyItemStyle(rptr<INodeItemStyleController> style)
-	{
-		throw 0;
-	}
-	
-	void INodeItemStyleProvider::Install(rptr<INodeItemStyleController> style, rptr<INodeProvider> node)
-	{
-		throw 0;
-	}
-	
-	void INodeItemStyleProvider::SetStyleSelected(rptr<INodeItemStyleController> style, bool value)
-	{
-		throw 0;
-	}
-	
-	rptr<INodeItemStyleProvider> INodeItemStyleProvider::operator=(rptr<INodeItemStyleProvider> value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemStyleProvider> INodeItemStyleProvider::GetBindedItemStyleProvider()
+	rptr<GuiSelectableListControl :: IItemStyleProvider> GuiSelectableListControl::IItemStyleProvider::operator=(rptr<GuiSelectableListControl :: IItemStyleProvider> value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-ItemStyleControllerBase
+GuiListViewBase
 ***********************************************************************/
 
-	rptr<GuiListControl :: IItemStyleProvider> ItemStyleControllerBase::GetStyleProvider()
+	rptr<GuiListViewBase> GuiListViewBase::Create(rptr<GuiListViewBase :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider)
 	{
 		throw 0;
 	}
 	
-	signed __int32 ItemStyleControllerBase::GetItemStyleId()
+	sptr<GuiListControl :: IItemStyleProvider> GuiListViewBase::SetStyleProvider(sptr<GuiListControl :: IItemStyleProvider> value)
 	{
 		throw 0;
 	}
 	
-	rptr<GuiBoundsComposition> ItemStyleControllerBase::GetBoundsComposition()
+	rptr<GuiListViewBase> GuiListViewBase::operator=(rptr<GuiListViewBase> value)
 	{
 		throw 0;
 	}
 	
-	bool ItemStyleControllerBase::IsCacheable()
-	{
-		throw 0;
-	}
-	
-	bool ItemStyleControllerBase::IsInstalled()
-	{
-		throw 0;
-	}
-	
-	void ItemStyleControllerBase::OnInstalled()
-	{
-		throw 0;
-	}
-	
-	void ItemStyleControllerBase::OnUninstalled()
-	{
-		throw 0;
-	}
-	
-	rptr<ItemStyleControllerBase> ItemStyleControllerBase::operator=(rptr<ItemStyleControllerBase> value)
+	rptr<GuiListViewBase :: IStyleProvider> GuiListViewBase::GetListViewStyleProvider()
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-ListViewColumnItemArranger
+GuiListViewBase :: IStyleProvider
 ***********************************************************************/
 
-	rptr<ListViewColumnItemArranger> ListViewColumnItemArranger::Create()
+	rptr<GuiSelectableButton :: IStyleController> GuiListViewBase::IStyleProvider::CreateItemBackground()
 	{
 		throw 0;
 	}
 	
-	void ListViewColumnItemArranger::AttachListControl(rptr<GuiListControl> value)
+	rptr<GuiSelectableButton :: IStyleController> GuiListViewBase::IStyleProvider::CreateColumnStyle()
 	{
 		throw 0;
 	}
 	
-	void ListViewColumnItemArranger::DetachListControl()
+	rptr<GuiListViewBase :: IStyleProvider> GuiListViewBase::IStyleProvider::operator=(rptr<GuiListViewBase :: IStyleProvider> value)
 	{
 		throw 0;
 	}
 	
-	rptr<ListViewColumnItemArranger> ListViewColumnItemArranger::operator=(rptr<ListViewColumnItemArranger> value)
+	Color GuiListViewBase::IStyleProvider::GetPrimaryTextColor()
+	{
+		throw 0;
+	}
+	
+	Color GuiListViewBase::IStyleProvider::GetSecondaryTextColor()
+	{
+		throw 0;
+	}
+	
+	Color GuiListViewBase::IStyleProvider::GetItemSeparatorColor()
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-ListViewColumnItemArranger :: IColumnItemView
+GuiSideAlignedComposition
 ***********************************************************************/
 
-	bool ListViewColumnItemArranger::IColumnItemView::AttachCallback(rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> value)
+	rptr<GuiSideAlignedComposition> GuiSideAlignedComposition::Create()
 	{
 		throw 0;
 	}
 	
-	bool ListViewColumnItemArranger::IColumnItemView::DetachCallback(rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> value)
+	GuiGraphicsComposition :: ParentSizeAffection GuiSideAlignedComposition::GetAffectionFromParent()
 	{
 		throw 0;
 	}
 	
-	GacString ListViewColumnItemArranger::IColumnItemView::GetColumnText(signed __int32 index)
+	bool GuiSideAlignedComposition::IsSizeAffectParent()
 	{
 		throw 0;
 	}
 	
-	signed __int32 ListViewColumnItemArranger::IColumnItemView::GetColumnSize(signed __int32 index)
+	Rect GuiSideAlignedComposition::GetBounds()
 	{
 		throw 0;
 	}
 	
-	void ListViewColumnItemArranger::IColumnItemView::SetColumnSize(signed __int32 index, signed __int32 value)
+	rptr<GuiSideAlignedComposition> GuiSideAlignedComposition::operator=(rptr<GuiSideAlignedComposition> value)
 	{
 		throw 0;
 	}
 	
-	rptr<ListViewColumnItemArranger :: IColumnItemView> ListViewColumnItemArranger::IColumnItemView::operator=(rptr<ListViewColumnItemArranger :: IColumnItemView> value)
+	GuiSideAlignedComposition :: Direction GuiSideAlignedComposition::GetDirection()
+	{
+		throw 0;
+	}
+	void GuiSideAlignedComposition::SetDirection(GuiSideAlignedComposition :: Direction value)
 	{
 		throw 0;
 	}
 	
-	signed __int32 ListViewColumnItemArranger::IColumnItemView::GetColumnCount()
+	signed __int32 GuiSideAlignedComposition::GetMaxLength()
+	{
+		throw 0;
+	}
+	void GuiSideAlignedComposition::SetMaxLength(signed __int32 value)
 	{
 		throw 0;
 	}
 	
-	wchar_t* ListViewColumnItemArranger::IColumnItemView::get_Identifier()
+	double GuiSideAlignedComposition::GetMaxRatio()
 	{
 		throw 0;
 	}
-	void ListViewColumnItemArranger::IColumnItemView::set_Identifier(wchar_t* value)
+	void GuiSideAlignedComposition::SetMaxRatio(double value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-ListViewColumnItemArranger :: IColumnItemViewCallback
+GuiStackItemComposition
 ***********************************************************************/
 
-	void ListViewColumnItemArranger::IColumnItemViewCallback::OnColumnChanged()
+	rptr<GuiStackItemComposition> GuiStackItemComposition::Create()
 	{
 		throw 0;
 	}
 	
-	void ListViewColumnItemArranger::IColumnItemViewCallback::OnColumnSizeChanged(signed __int32 index)
+	GuiGraphicsComposition :: ParentSizeAffection GuiStackItemComposition::GetAffectionFromParent()
 	{
 		throw 0;
 	}
 	
-	rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> ListViewColumnItemArranger::IColumnItemViewCallback::operator=(rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> value)
+	bool GuiStackItemComposition::IsSizeAffectParent()
+	{
+		throw 0;
+	}
+	
+	Rect GuiStackItemComposition::GetBounds()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiStackItemComposition> GuiStackItemComposition::operator=(rptr<GuiStackItemComposition> value)
+	{
+		throw 0;
+	}
+	
+	void GuiStackItemComposition::SetBounds(Rect value)
+	{
+		throw 0;
+	}
+	
+	Margin GuiStackItemComposition::GetExtraMargin()
+	{
+		throw 0;
+	}
+	void GuiStackItemComposition::SetExtraMargin(Margin value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-ListViewItemStyleProviderBase
+GuiTab
 ***********************************************************************/
 
-	rptr<ListViewItemStyleProviderBase> ListViewItemStyleProviderBase::Create()
+	rptr<GuiTab> GuiTab::Create(rptr<GuiTab :: IStyleController> _styleController)
 	{
 		throw 0;
 	}
 	
-	void ListViewItemStyleProviderBase::AttachListControl(rptr<GuiListControl> value)
+	bool GuiTab::CreatePage(rptr<GuiTabPage> page, signed __int32 index)
 	{
 		throw 0;
 	}
 	
-	void ListViewItemStyleProviderBase::DetachListControl()
+	rptr<GuiTabPage> GuiTab::CreatePage(signed __int32 index)
 	{
 		throw 0;
 	}
 	
-	signed __int32 ListViewItemStyleProviderBase::GetItemStyleId(signed __int32 itemIndex)
+	bool GuiTab::RemovePage(rptr<GuiTabPage> value)
 	{
 		throw 0;
 	}
 	
-	void ListViewItemStyleProviderBase::SetStyleSelected(rptr<GuiListControl :: IItemStyleController> style, bool value)
+	bool GuiTab::MovePage(rptr<GuiTabPage> page, signed __int32 newIndex)
 	{
 		throw 0;
 	}
 	
-	rptr<ListViewItemStyleProviderBase> ListViewItemStyleProviderBase::operator=(rptr<ListViewItemStyleProviderBase> value)
+	bool GuiTab::SetSelectedPage(rptr<GuiTabPage> value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiTab> GuiTab::operator=(rptr<GuiTab> value)
+	{
+		throw 0;
+	}
+	
+	rptr<IReadonlyList_of_GuiTabPage_raw_pointer> GuiTab::GetPages()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiTabPage> GuiTab::GetSelectedPage()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiEventArgs GuiTab::get_SelectedPageChanged()
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-ListViewItemStyleProviderBase :: ListViewItemStyleController
+GuiTab :: ICommandExecutor
 ***********************************************************************/
 
-	rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> ListViewItemStyleProviderBase::ListViewItemStyleController::Create(rptr<ListViewItemStyleProviderBase> provider)
+	void GuiTab::ICommandExecutor::ShowTab(signed __int32 index)
 	{
 		throw 0;
 	}
 	
-	rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> ListViewItemStyleProviderBase::ListViewItemStyleController::operator=(rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> value)
-	{
-		throw 0;
-	}
-	
-	bool ListViewItemStyleProviderBase::ListViewItemStyleController::GetSelected()
-	{
-		throw 0;
-	}
-	void ListViewItemStyleProviderBase::ListViewItemStyleController::SetSelected(bool value)
+	rptr<GuiTab :: ICommandExecutor> GuiTab::ICommandExecutor::operator=(rptr<GuiTab :: ICommandExecutor> value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-ListWrapperProvider_of_TextItem
+GuiTab :: IStyleController
 ***********************************************************************/
 
-	bool ListWrapperProvider_of_TextItem::NotifyUpdate(signed __int32 start, signed __int32 count)
+	void GuiTab::IStyleController::InsertTab(signed __int32 index)
 	{
 		throw 0;
 	}
 	
-	bool ListWrapperProvider_of_TextItem::Contains(const TextItem& item)
+	void GuiTab::IStyleController::SetTabText(signed __int32 index, const GacString& value)
 	{
 		throw 0;
 	}
 	
-	signed __int32 ListWrapperProvider_of_TextItem::Count()
+	void GuiTab::IStyleController::RemoveTab(signed __int32 index)
 	{
 		throw 0;
 	}
 	
-	const TextItem& ListWrapperProvider_of_TextItem::Get(signed __int32 index)
+	void GuiTab::IStyleController::MoveTab(signed __int32 oldIndex, signed __int32 newIndex)
 	{
 		throw 0;
 	}
 	
-	const TextItem& ListWrapperProvider_of_TextItem::operator[](signed __int32 index)
+	rptr<GuiControl :: IStyleController> GuiTab::IStyleController::CreateTabPageStyleController()
 	{
 		throw 0;
 	}
 	
-	signed __int32 ListWrapperProvider_of_TextItem::IndexOf(const TextItem& item)
+	rptr<GuiTab :: IStyleController> GuiTab::IStyleController::operator=(rptr<GuiTab :: IStyleController> value)
 	{
 		throw 0;
 	}
 	
-	signed __int32 ListWrapperProvider_of_TextItem::Add(const TextItem& item)
+	void GuiTab::IStyleController::SetCommandExecutor(rptr<GuiTab :: ICommandExecutor> value)
 	{
 		throw 0;
 	}
 	
-	bool ListWrapperProvider_of_TextItem::Remove(const TextItem& item)
-	{
-		throw 0;
-	}
-	
-	bool ListWrapperProvider_of_TextItem::RemoveAt(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	bool ListWrapperProvider_of_TextItem::RemoveRange(signed __int32 index, signed __int32 count)
-	{
-		throw 0;
-	}
-	
-	bool ListWrapperProvider_of_TextItem::Clear()
-	{
-		throw 0;
-	}
-	
-	signed __int32 ListWrapperProvider_of_TextItem::Insert(signed __int32 index, const TextItem& item)
-	{
-		throw 0;
-	}
-	
-	bool ListWrapperProvider_of_TextItem::Set(signed __int32 index, const TextItem& item)
-	{
-		throw 0;
-	}
-	
-	rptr<ListWrapperProvider_of_TextItem> ListWrapperProvider_of_TextItem::operator=(rptr<ListWrapperProvider_of_TextItem> value)
+	void GuiTab::IStyleController::SetSelectedTab(signed __int32 index)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-TextItemStyleProvider
+GuiTableComposition
 ***********************************************************************/
 
-	rptr<TextItemStyleProvider> TextItemStyleProvider::Create(rptr<TextItemStyleProvider :: ITextItemStyleProvider> _textItemStyleProvider)
+	rptr<GuiTableComposition> GuiTableComposition::Create()
 	{
 		throw 0;
 	}
 	
-	void TextItemStyleProvider::AttachListControl(rptr<GuiListControl> value)
+	bool GuiTableComposition::SetRowsAndColumns(signed __int32 _rows, signed __int32 _columns)
 	{
 		throw 0;
 	}
 	
-	void TextItemStyleProvider::DetachListControl()
+	rptr<GuiCellComposition> GuiTableComposition::GetSitedCell(signed __int32 _row, signed __int32 _column)
 	{
 		throw 0;
 	}
 	
-	signed __int32 TextItemStyleProvider::GetItemStyleId(signed __int32 itemIndex)
+	GuiCellOption GuiTableComposition::GetRowOption(signed __int32 _row)
 	{
 		throw 0;
 	}
 	
-	rptr<GuiListControl :: IItemStyleController> TextItemStyleProvider::CreateItemStyle(signed __int32 styleId)
+	void GuiTableComposition::SetRowOption(signed __int32 _row, GuiCellOption option)
 	{
 		throw 0;
 	}
 	
-	void TextItemStyleProvider::DestroyItemStyle(rptr<GuiListControl :: IItemStyleController> style)
+	GuiCellOption GuiTableComposition::GetColumnOption(signed __int32 _column)
 	{
 		throw 0;
 	}
 	
-	void TextItemStyleProvider::Install(rptr<GuiListControl :: IItemStyleController> style, signed __int32 itemIndex)
+	void GuiTableComposition::SetColumnOption(signed __int32 _column, GuiCellOption option)
 	{
 		throw 0;
 	}
 	
-	void TextItemStyleProvider::SetStyleSelected(rptr<GuiListControl :: IItemStyleController> style, bool value)
+	void GuiTableComposition::UpdateCellBounds()
 	{
 		throw 0;
 	}
 	
-	rptr<TextItemStyleProvider> TextItemStyleProvider::operator=(rptr<TextItemStyleProvider> value)
+	Size GuiTableComposition::GetMinPreferredClientSize()
+	{
+		throw 0;
+	}
+	
+	Rect GuiTableComposition::GetBounds()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiTableComposition> GuiTableComposition::operator=(rptr<GuiTableComposition> value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 GuiTableComposition::GetRows()
+	{
+		throw 0;
+	}
+	
+	signed __int32 GuiTableComposition::GetColumns()
+	{
+		throw 0;
+	}
+	
+	signed __int32 GuiTableComposition::GetCellPadding()
+	{
+		throw 0;
+	}
+	void GuiTableComposition::SetCellPadding(signed __int32 value)
+	{
+		throw 0;
+	}
+	
+	Rect GuiTableComposition::GetCellArea()
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-TextItemStyleProvider :: ITextItemStyleProvider
+GuiWindow
 ***********************************************************************/
 
-	rptr<GuiSelectableButton :: IStyleController> TextItemStyleProvider::ITextItemStyleProvider::CreateBackgroundStyleController()
+	rptr<GuiWindow> GuiWindow::Create(rptr<GuiControl :: IStyleController> _styleController)
 	{
 		throw 0;
 	}
 	
-	rptr<GuiSelectableButton :: IStyleController> TextItemStyleProvider::ITextItemStyleProvider::CreateBulletStyleController()
-	{
-		throw 0;
-	}
-	
-	rptr<TextItemStyleProvider :: ITextItemStyleProvider> TextItemStyleProvider::ITextItemStyleProvider::operator=(rptr<TextItemStyleProvider :: ITextItemStyleProvider> value)
+	rptr<GuiWindow> GuiWindow::operator=(rptr<GuiWindow> value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-TextItemStyleProvider :: ITextItemView
+GuiPopup
 ***********************************************************************/
 
-	GacString TextItemStyleProvider::ITextItemView::GetText(signed __int32 itemIndex)
+	rptr<GuiPopup> GuiPopup::Create(rptr<GuiControl :: IStyleController> _styleController)
 	{
 		throw 0;
 	}
 	
-	bool TextItemStyleProvider::ITextItemView::GetChecked(signed __int32 itemIndex)
+	bool GuiPopup::IsClippedByScreen(Point location)
 	{
 		throw 0;
 	}
 	
-	void TextItemStyleProvider::ITextItemView::SetCheckedSilently(signed __int32 itemIndex, bool value)
+	void GuiPopup::ShowPopup(rptr<GuiControl> control, bool preferredTopBottomSide)
 	{
 		throw 0;
 	}
 	
-	rptr<TextItemStyleProvider :: ITextItemView> TextItemStyleProvider::ITextItemView::operator=(rptr<TextItemStyleProvider :: ITextItemView> value)
+	void GuiPopup::ShowPopup(Point location)
 	{
 		throw 0;
 	}
 	
-	wchar_t* TextItemStyleProvider::ITextItemView::get_Identifier()
-	{
-		throw 0;
-	}
-	void TextItemStyleProvider::ITextItemView::set_Identifier(wchar_t* value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-TextItemStyleProvider :: TextItemStyleController
-***********************************************************************/
-
-	rptr<TextItemStyleProvider :: TextItemStyleController> TextItemStyleProvider::TextItemStyleController::Create(rptr<TextItemStyleProvider> provider)
-	{
-		throw 0;
-	}
-	
-	rptr<TextItemStyleProvider :: TextItemStyleController> TextItemStyleProvider::TextItemStyleController::operator=(rptr<TextItemStyleProvider :: TextItemStyleController> value)
-	{
-		throw 0;
-	}
-	
-	bool TextItemStyleProvider::TextItemStyleController::GetSelected()
-	{
-		throw 0;
-	}
-	void TextItemStyleProvider::TextItemStyleController::SetSelected(bool value)
-	{
-		throw 0;
-	}
-	
-	bool TextItemStyleProvider::TextItemStyleController::GetChecked()
-	{
-		throw 0;
-	}
-	void TextItemStyleProvider::TextItemStyleController::SetChecked(bool value)
-	{
-		throw 0;
-	}
-	
-	const GacString& TextItemStyleProvider::TextItemStyleController::GetText()
-	{
-		throw 0;
-	}
-	void TextItemStyleProvider::TextItemStyleController::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-Win7ButtonStyleBase
-***********************************************************************/
-
-	rptr<GuiBoundsComposition> Win7ButtonStyleBase::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7ButtonStyleBase::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void Win7ButtonStyleBase::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7ButtonStyleBase::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7ButtonStyleBase::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7ButtonStyleBase::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7ButtonStyleBase::SetSelected(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7ButtonStyleBase::Transfer(GuiButton :: ControlState value)
-	{
-		throw 0;
-	}
-	
-	rptr<Win7ButtonStyleBase> Win7ButtonStyleBase::operator=(rptr<Win7ButtonStyleBase> value)
-	{
-		throw 0;
-	}
-	
-	bool Win7ButtonStyleBase::GetTransparentWhenInactive()
-	{
-		throw 0;
-	}
-	void Win7ButtonStyleBase::SetTransparentWhenInactive(bool value)
-	{
-		throw 0;
-	}
-	
-	bool Win7ButtonStyleBase::GetTransparentWhenDisabled()
-	{
-		throw 0;
-	}
-	void Win7ButtonStyleBase::SetTransparentWhenDisabled(bool value)
-	{
-		throw 0;
-	}
-	
-	bool Win7ButtonStyleBase::GetAutoSizeForText()
-	{
-		throw 0;
-	}
-	void Win7ButtonStyleBase::SetAutoSizeForText(bool value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-Win7ListViewColumnDropDownStyle
-***********************************************************************/
-
-	rptr<Win7ListViewColumnDropDownStyle> Win7ListViewColumnDropDownStyle::Create()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiBoundsComposition> Win7ListViewColumnDropDownStyle::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7ListViewColumnDropDownStyle::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void Win7ListViewColumnDropDownStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7ListViewColumnDropDownStyle::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7ListViewColumnDropDownStyle::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7ListViewColumnDropDownStyle::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7ListViewColumnDropDownStyle::SetSelected(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7ListViewColumnDropDownStyle::Transfer(GuiButton :: ControlState value)
-	{
-		throw 0;
-	}
-	
-	rptr<Win7ListViewColumnDropDownStyle> Win7ListViewColumnDropDownStyle::operator=(rptr<Win7ListViewColumnDropDownStyle> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-Win7SelectableItemStyle
-***********************************************************************/
-
-	rptr<Win7SelectableItemStyle> Win7SelectableItemStyle::Create()
-	{
-		throw 0;
-	}
-	
-	rptr<Win7SelectableItemStyle> Win7SelectableItemStyle::operator=(rptr<Win7SelectableItemStyle> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-Win7TextListProvider
-***********************************************************************/
-
-	rptr<Win7TextListProvider> Win7TextListProvider::Create()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiSelectableButton :: IStyleController> Win7TextListProvider::CreateBackgroundStyleController()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiSelectableButton :: IStyleController> Win7TextListProvider::CreateBulletStyleController()
-	{
-		throw 0;
-	}
-	
-	rptr<Win7TextListProvider> Win7TextListProvider::operator=(rptr<Win7TextListProvider> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-Win7TreeViewExpandingButtonStyle
-***********************************************************************/
-
-	rptr<Win7TreeViewExpandingButtonStyle> Win7TreeViewExpandingButtonStyle::Create()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiBoundsComposition> Win7TreeViewExpandingButtonStyle::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7TreeViewExpandingButtonStyle::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void Win7TreeViewExpandingButtonStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7TreeViewExpandingButtonStyle::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7TreeViewExpandingButtonStyle::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7TreeViewExpandingButtonStyle::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7TreeViewExpandingButtonStyle::SetSelected(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7TreeViewExpandingButtonStyle::Transfer(GuiButton :: ControlState value)
-	{
-		throw 0;
-	}
-	
-	rptr<Win7TreeViewExpandingButtonStyle> Win7TreeViewExpandingButtonStyle::operator=(rptr<Win7TreeViewExpandingButtonStyle> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-DefaultItemCoordinateTransformer
-***********************************************************************/
-
-	rptr<DefaultItemCoordinateTransformer> DefaultItemCoordinateTransformer::Create()
-	{
-		throw 0;
-	}
-	
-	Size DefaultItemCoordinateTransformer::RealSizeToVirtualSize(Size size)
-	{
-		throw 0;
-	}
-	
-	Size DefaultItemCoordinateTransformer::VirtualSizeToRealSize(Size size)
-	{
-		throw 0;
-	}
-	
-	Point DefaultItemCoordinateTransformer::RealPointToVirtualPoint(Size realFullSize, Point point)
-	{
-		throw 0;
-	}
-	
-	Point DefaultItemCoordinateTransformer::VirtualPointToRealPoint(Size realFullSize, Point point)
-	{
-		throw 0;
-	}
-	
-	Rect DefaultItemCoordinateTransformer::RealRectToVirtualRect(Size realFullSize, Rect rect)
-	{
-		throw 0;
-	}
-	
-	Rect DefaultItemCoordinateTransformer::VirtualRectToRealRect(Size realFullSize, Rect rect)
-	{
-		throw 0;
-	}
-	
-	Margin DefaultItemCoordinateTransformer::RealMarginToVirtualMargin(Margin margin)
-	{
-		throw 0;
-	}
-	
-	Margin DefaultItemCoordinateTransformer::VirtualMarginToRealMargin(Margin margin)
-	{
-		throw 0;
-	}
-	
-	rptr<DefaultItemCoordinateTransformer> DefaultItemCoordinateTransformer::operator=(rptr<DefaultItemCoordinateTransformer> value)
+	rptr<GuiPopup> GuiPopup::operator=(rptr<GuiPopup> value)
 	{
 		throw 0;
 	}
@@ -10104,219 +6612,508 @@ GuiComboBoxBase :: IStyleController
 	
 
 /***********************************************************************
-GuiListViewBase
+GuiComboBoxListControl
 ***********************************************************************/
 
-	rptr<GuiListViewBase> GuiListViewBase::Create(rptr<GuiListViewBase :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider)
+	rptr<GuiComboBoxListControl> GuiComboBoxListControl::Create(rptr<GuiComboBoxBase :: IStyleController> _styleController, rptr<GuiSelectableListControl> _containedListControl)
 	{
 		throw 0;
 	}
 	
-	sptr<GuiListControl :: IItemStyleProvider> GuiListViewBase::SetStyleProvider(sptr<GuiListControl :: IItemStyleProvider> value)
+	void GuiComboBoxListControl::SetFont(const FontProperties& value)
 	{
 		throw 0;
 	}
 	
-	rptr<GuiListViewBase> GuiListViewBase::operator=(rptr<GuiListViewBase> value)
+	rptr<GuiComboBoxListControl> GuiComboBoxListControl::operator=(rptr<GuiComboBoxListControl> value)
 	{
 		throw 0;
 	}
 	
-	rptr<GuiListViewBase :: IStyleProvider> GuiListViewBase::GetListViewStyleProvider()
+	rptr<GuiSelectableListControl> GuiComboBoxListControl::GetContainedListControl()
+	{
+		throw 0;
+	}
+	
+	signed __int32 GuiComboBoxListControl::GetSelectedIndex()
+	{
+		throw 0;
+	}
+	void GuiComboBoxListControl::SetSelectedIndex(signed __int32 value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiListControl :: IItemProvider> GuiComboBoxListControl::GetItemProvider()
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiEventArgs GuiComboBoxListControl::get_SelectedIndexChanged()
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-GuiListViewBase :: IStyleProvider
+GuiMenu
 ***********************************************************************/
 
-	rptr<GuiSelectableButton :: IStyleController> GuiListViewBase::IStyleProvider::CreateItemBackground()
+	rptr<GuiMenu> GuiMenu::Create(rptr<GuiControl :: IStyleController> _styleController, rptr<GuiControl> _owner)
 	{
 		throw 0;
 	}
 	
-	rptr<GuiSelectableButton :: IStyleController> GuiListViewBase::IStyleProvider::CreateColumnStyle()
+	void GuiMenu::UpdateMenuService()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiListViewBase :: IStyleProvider> GuiListViewBase::IStyleProvider::operator=(rptr<GuiListViewBase :: IStyleProvider> value)
+	rptr<IDescriptable> GuiMenu::QueryService(const GacString& identifier)
 	{
 		throw 0;
 	}
 	
-	Color GuiListViewBase::IStyleProvider::GetPrimaryTextColor()
-	{
-		throw 0;
-	}
-	
-	Color GuiListViewBase::IStyleProvider::GetSecondaryTextColor()
-	{
-		throw 0;
-	}
-	
-	Color GuiListViewBase::IStyleProvider::GetItemSeparatorColor()
+	rptr<GuiMenu> GuiMenu::operator=(rptr<GuiMenu> value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-GuiTableComposition
+GuiWindowComposition
 ***********************************************************************/
 
-	rptr<GuiTableComposition> GuiTableComposition::Create()
+	rptr<GuiWindowComposition> GuiWindowComposition::Create()
 	{
 		throw 0;
 	}
 	
-	bool GuiTableComposition::SetRowsAndColumns(signed __int32 _rows, signed __int32 _columns)
+	Rect GuiWindowComposition::GetBounds()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiCellComposition> GuiTableComposition::GetSitedCell(signed __int32 _row, signed __int32 _column)
+	void GuiWindowComposition::SetMargin(Margin value)
 	{
 		throw 0;
 	}
 	
-	GuiCellOption GuiTableComposition::GetRowOption(signed __int32 _row)
+	rptr<GuiWindowComposition> GuiWindowComposition::operator=(rptr<GuiWindowComposition> value)
 	{
 		throw 0;
 	}
 	
-	void GuiTableComposition::SetRowOption(signed __int32 _row, GuiCellOption option)
+	rptr<INativeWindow> GuiWindowComposition::GetAttachedWindow()
 	{
 		throw 0;
 	}
-	
-	GuiCellOption GuiTableComposition::GetColumnOption(signed __int32 _column)
-	{
-		throw 0;
-	}
-	
-	void GuiTableComposition::SetColumnOption(signed __int32 _column, GuiCellOption option)
-	{
-		throw 0;
-	}
-	
-	void GuiTableComposition::UpdateCellBounds()
-	{
-		throw 0;
-	}
-	
-	Size GuiTableComposition::GetMinPreferredClientSize()
-	{
-		throw 0;
-	}
-	
-	Rect GuiTableComposition::GetBounds()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiTableComposition> GuiTableComposition::operator=(rptr<GuiTableComposition> value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiTableComposition::GetRows()
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiTableComposition::GetColumns()
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiTableComposition::GetCellPadding()
-	{
-		throw 0;
-	}
-	void GuiTableComposition::SetCellPadding(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	Rect GuiTableComposition::GetCellArea()
+	void GuiWindowComposition::SetAttachedWindow(rptr<INativeWindow> window)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-GuiTreeView
+INativeWindow
 ***********************************************************************/
 
-	rptr<GuiTreeView> GuiTreeView::Create(rptr<GuiTreeView :: IStyleProvider> _styleProvider, rptr<INodeRootProvider> _nodeRootProvider)
+	void INativeWindow::Show()
 	{
 		throw 0;
 	}
 	
-	sptr<TreeViewItemRootProvider> GuiTreeView::Nodes()
+	void INativeWindow::ShowDeactivated()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiTreeView> GuiTreeView::operator=(rptr<GuiTreeView> value)
+	void INativeWindow::ShowRestored()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiTreeView :: IStyleProvider> GuiTreeView::GetTreeViewStyleProvider()
+	void INativeWindow::ShowMaximized()
+	{
+		throw 0;
+	}
+	
+	void INativeWindow::ShowMinimized()
+	{
+		throw 0;
+	}
+	
+	void INativeWindow::Hide()
+	{
+		throw 0;
+	}
+	
+	bool INativeWindow::IsVisible()
+	{
+		throw 0;
+	}
+	
+	void INativeWindow::Enable()
+	{
+		throw 0;
+	}
+	
+	void INativeWindow::Disable()
+	{
+		throw 0;
+	}
+	
+	bool INativeWindow::IsEnabled()
+	{
+		throw 0;
+	}
+	
+	void INativeWindow::SetFocus()
+	{
+		throw 0;
+	}
+	
+	bool INativeWindow::IsFocused()
+	{
+		throw 0;
+	}
+	
+	void INativeWindow::SetActivate()
+	{
+		throw 0;
+	}
+	
+	bool INativeWindow::IsActivated()
+	{
+		throw 0;
+	}
+	
+	void INativeWindow::ShowInTaskBar()
+	{
+		throw 0;
+	}
+	
+	void INativeWindow::HideInTaskBar()
+	{
+		throw 0;
+	}
+	
+	bool INativeWindow::IsAppearedInTaskBar()
+	{
+		throw 0;
+	}
+	
+	void INativeWindow::EnableActivate()
+	{
+		throw 0;
+	}
+	
+	void INativeWindow::DisableActivate()
+	{
+		throw 0;
+	}
+	
+	bool INativeWindow::IsEnabledActivate()
+	{
+		throw 0;
+	}
+	
+	bool INativeWindow::RequireCapture()
+	{
+		throw 0;
+	}
+	
+	bool INativeWindow::ReleaseCapture()
+	{
+		throw 0;
+	}
+	
+	bool INativeWindow::InstallListener(rptr<INativeWindowListener> listener)
+	{
+		throw 0;
+	}
+	
+	bool INativeWindow::UninstallListener(rptr<INativeWindowListener> listener)
+	{
+		throw 0;
+	}
+	
+	void INativeWindow::RedrawContent()
+	{
+		throw 0;
+	}
+	
+	rptr<INativeWindow> INativeWindow::operator=(rptr<INativeWindow> value)
+	{
+		throw 0;
+	}
+	
+	Rect INativeWindow::GetBounds()
+	{
+		throw 0;
+	}
+	void INativeWindow::SetBounds(const Rect& bounds)
+	{
+		throw 0;
+	}
+	
+	Size INativeWindow::GetClientSize()
+	{
+		throw 0;
+	}
+	void INativeWindow::SetClientSize(Size size)
+	{
+		throw 0;
+	}
+	
+	Rect INativeWindow::GetClientBoundsInScreen()
+	{
+		throw 0;
+	}
+	
+	GacString INativeWindow::GetTitle()
+	{
+		throw 0;
+	}
+	void INativeWindow::SetTitle(GacString _title)
+	{
+		throw 0;
+	}
+	
+	rptr<INativeCursor> INativeWindow::GetWindowCursor()
+	{
+		throw 0;
+	}
+	void INativeWindow::SetWindowCursor(rptr<INativeCursor> _cursor)
+	{
+		throw 0;
+	}
+	
+	Point INativeWindow::GetCaretPoint()
+	{
+		throw 0;
+	}
+	void INativeWindow::SetCaretPoint(Point point)
+	{
+		throw 0;
+	}
+	
+	rptr<INativeWindow> INativeWindow::GetParent()
+	{
+		throw 0;
+	}
+	void INativeWindow::SetParent(rptr<INativeWindow> parent)
+	{
+		throw 0;
+	}
+	
+	bool INativeWindow::GetAlwaysPassFocusToParent()
+	{
+		throw 0;
+	}
+	void INativeWindow::SetAlwaysPassFocusToParent(bool value)
+	{
+		throw 0;
+	}
+	
+	bool INativeWindow::GetMaximizedBox()
+	{
+		throw 0;
+	}
+	void INativeWindow::SetMaximizedBox(bool visible)
+	{
+		throw 0;
+	}
+	
+	bool INativeWindow::GetMinimizedBox()
+	{
+		throw 0;
+	}
+	void INativeWindow::SetMinimizedBox(bool visible)
+	{
+		throw 0;
+	}
+	
+	bool INativeWindow::GetBorder()
+	{
+		throw 0;
+	}
+	void INativeWindow::SetBorder(bool visible)
+	{
+		throw 0;
+	}
+	
+	bool INativeWindow::GetSizeBox()
+	{
+		throw 0;
+	}
+	void INativeWindow::SetSizeBox(bool visible)
+	{
+		throw 0;
+	}
+	
+	bool INativeWindow::GetIconVisible()
+	{
+		throw 0;
+	}
+	void INativeWindow::SetIconVisible(bool visible)
+	{
+		throw 0;
+	}
+	
+	bool INativeWindow::GetTitleBar()
+	{
+		throw 0;
+	}
+	void INativeWindow::SetTitleBar(bool visible)
+	{
+		throw 0;
+	}
+	
+	bool INativeWindow::GetTopMost()
+	{
+		throw 0;
+	}
+	void INativeWindow::SetTopMost(bool topmost)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-GuiTreeView :: IStyleProvider
+INodeItemStyleController
 ***********************************************************************/
 
-	rptr<GuiSelectableButton :: IStyleController> GuiTreeView::IStyleProvider::CreateItemBackground()
+	rptr<INodeItemStyleController> INodeItemStyleController::operator=(rptr<INodeItemStyleController> value)
 	{
 		throw 0;
 	}
 	
-	rptr<GuiSelectableButton :: IStyleController> GuiTreeView::IStyleProvider::CreateItemExpandingDecorator()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiTreeView :: IStyleProvider> GuiTreeView::IStyleProvider::operator=(rptr<GuiTreeView :: IStyleProvider> value)
-	{
-		throw 0;
-	}
-	
-	Color GuiTreeView::IStyleProvider::GetTextColor()
+	rptr<INodeItemStyleProvider> INodeItemStyleController::GetNodeStyleProvider()
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-GuiVirtualTextList
+INodeItemStyleProvider
 ***********************************************************************/
 
-	rptr<GuiVirtualTextList> GuiVirtualTextList::Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<TextItemStyleProvider :: ITextItemStyleProvider> _itemStyleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider)
+	void INodeItemStyleProvider::BindItemStyleProvider(rptr<GuiListControl :: IItemStyleProvider> styleProvider)
 	{
 		throw 0;
 	}
 	
-	sptr<GuiListControl :: IItemStyleProvider> GuiVirtualTextList::SetStyleProvider(sptr<GuiListControl :: IItemStyleProvider> value)
+	void INodeItemStyleProvider::AttachListControl(rptr<GuiListControl> value)
 	{
 		throw 0;
 	}
 	
-	sptr<GuiListControl :: IItemStyleProvider> GuiVirtualTextList::ChangeItemStyle(rptr<TextItemStyleProvider :: ITextItemStyleProvider> itemStyleProvider)
+	void INodeItemStyleProvider::DetachListControl()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiVirtualTextList> GuiVirtualTextList::operator=(rptr<GuiVirtualTextList> value)
+	signed __int32 INodeItemStyleProvider::GetItemStyleId(rptr<INodeProvider> node)
+	{
+		throw 0;
+	}
+	
+	rptr<INodeItemStyleController> INodeItemStyleProvider::CreateItemStyle(signed __int32 styleId)
+	{
+		throw 0;
+	}
+	
+	void INodeItemStyleProvider::DestroyItemStyle(rptr<INodeItemStyleController> style)
+	{
+		throw 0;
+	}
+	
+	void INodeItemStyleProvider::Install(rptr<INodeItemStyleController> style, rptr<INodeProvider> node)
+	{
+		throw 0;
+	}
+	
+	void INodeItemStyleProvider::SetStyleSelected(rptr<INodeItemStyleController> style, bool value)
+	{
+		throw 0;
+	}
+	
+	rptr<INodeItemStyleProvider> INodeItemStyleProvider::operator=(rptr<INodeItemStyleProvider> value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiListControl :: IItemStyleProvider> INodeItemStyleProvider::GetBindedItemStyleProvider()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+INodeItemView
+***********************************************************************/
+
+	rptr<INodeProvider> INodeItemView::RequestNode(signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	void INodeItemView::ReleaseNode(rptr<INodeProvider> node)
+	{
+		throw 0;
+	}
+	
+	signed __int32 INodeItemView::CalculateNodeVisibilityIndex(rptr<INodeProvider> node)
+	{
+		throw 0;
+	}
+	
+	rptr<INodeItemView> INodeItemView::operator=(rptr<INodeItemView> value)
+	{
+		throw 0;
+	}
+	
+	wchar_t* INodeItemView::get_Identifier()
+	{
+		throw 0;
+	}
+	void INodeItemView::set_Identifier(wchar_t* value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiVirtualTreeListControl
+***********************************************************************/
+
+	rptr<GuiVirtualTreeListControl> GuiVirtualTreeListControl::Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<INodeRootProvider> _nodeRootProvider)
+	{
+		throw 0;
+	}
+	
+	sptr<INodeItemStyleProvider> GuiVirtualTreeListControl::SetNodeStyleProvider(sptr<INodeItemStyleProvider> styleProvider)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiVirtualTreeListControl> GuiVirtualTreeListControl::operator=(rptr<GuiVirtualTreeListControl> value)
+	{
+		throw 0;
+	}
+	
+	rptr<INodeItemView> GuiVirtualTreeListControl::GetNodeItemView()
+	{
+		throw 0;
+	}
+	
+	rptr<INodeRootProvider> GuiVirtualTreeListControl::GetNodeRootProvider()
+	{
+		throw 0;
+	}
+	
+	rptr<INodeItemStyleProvider> GuiVirtualTreeListControl::GetNodeStyleProvider()
 	{
 		throw 0;
 	}
@@ -10358,15 +7155,291 @@ IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer
 	
 
 /***********************************************************************
-ListProvider_of_TextItem
+IReadonlyList_of_GuiStackItemComposition_raw_pointer
 ***********************************************************************/
 
-	rptr<ListProvider_of_TextItem> ListProvider_of_TextItem::Create()
+	bool IReadonlyList_of_GuiStackItemComposition_raw_pointer::Contains(rptr<GuiStackItemComposition> item)
 	{
 		throw 0;
 	}
 	
-	rptr<ListProvider_of_TextItem> ListProvider_of_TextItem::operator=(rptr<ListProvider_of_TextItem> value)
+	signed __int32 IReadonlyList_of_GuiStackItemComposition_raw_pointer::Count()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiStackItemComposition> IReadonlyList_of_GuiStackItemComposition_raw_pointer::Get(signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiStackItemComposition> IReadonlyList_of_GuiStackItemComposition_raw_pointer::operator[](signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	signed __int32 IReadonlyList_of_GuiStackItemComposition_raw_pointer::IndexOf(rptr<GuiStackItemComposition> item)
+	{
+		throw 0;
+	}
+	
+	rptr<IReadonlyList_of_GuiStackItemComposition_raw_pointer> IReadonlyList_of_GuiStackItemComposition_raw_pointer::operator=(rptr<IReadonlyList_of_GuiStackItemComposition_raw_pointer> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiStackComposition
+***********************************************************************/
+
+	rptr<GuiStackComposition> GuiStackComposition::Create()
+	{
+		throw 0;
+	}
+	
+	bool GuiStackComposition::InsertStackItem(signed __int32 index, rptr<GuiStackItemComposition> item)
+	{
+		throw 0;
+	}
+	
+	Size GuiStackComposition::GetMinPreferredClientSize()
+	{
+		throw 0;
+	}
+	
+	Rect GuiStackComposition::GetBounds()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiStackComposition> GuiStackComposition::operator=(rptr<GuiStackComposition> value)
+	{
+		throw 0;
+	}
+	
+	rptr<IReadonlyList_of_GuiStackItemComposition_raw_pointer> GuiStackComposition::GetStackItems()
+	{
+		throw 0;
+	}
+	
+	GuiStackComposition :: Direction GuiStackComposition::GetDirection()
+	{
+		throw 0;
+	}
+	void GuiStackComposition::SetDirection(GuiStackComposition :: Direction value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 GuiStackComposition::GetPadding()
+	{
+		throw 0;
+	}
+	void GuiStackComposition::SetPadding(signed __int32 value)
+	{
+		throw 0;
+	}
+	
+	Margin GuiStackComposition::GetExtraMargin()
+	{
+		throw 0;
+	}
+	void GuiStackComposition::SetExtraMargin(Margin value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+IReadonlyList_of_GuiWindow_raw_pointer
+***********************************************************************/
+
+	bool IReadonlyList_of_GuiWindow_raw_pointer::Contains(rptr<GuiWindow> item)
+	{
+		throw 0;
+	}
+	
+	signed __int32 IReadonlyList_of_GuiWindow_raw_pointer::Count()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiWindow> IReadonlyList_of_GuiWindow_raw_pointer::Get(signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiWindow> IReadonlyList_of_GuiWindow_raw_pointer::operator[](signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	signed __int32 IReadonlyList_of_GuiWindow_raw_pointer::IndexOf(rptr<GuiWindow> item)
+	{
+		throw 0;
+	}
+	
+	rptr<IReadonlyList_of_GuiWindow_raw_pointer> IReadonlyList_of_GuiWindow_raw_pointer::operator=(rptr<IReadonlyList_of_GuiWindow_raw_pointer> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiApplication
+***********************************************************************/
+
+	void GuiApplication::Run(rptr<GuiWindow> _mainWindow)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiWindow> GuiApplication::GetWindow(Point location)
+	{
+		throw 0;
+	}
+	
+	bool GuiApplication::IsInMainThread()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiApplication> GuiApplication::operator=(rptr<GuiApplication> value)
+	{
+		throw 0;
+	}
+	
+	rptr<IReadonlyList_of_GuiWindow_raw_pointer> GuiApplication::GetWindows()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+ItemProviderBase
+***********************************************************************/
+
+	rptr<ItemProviderBase> ItemProviderBase::Create()
+	{
+		throw 0;
+	}
+	
+	bool ItemProviderBase::AttachCallback(rptr<GuiListControl :: IItemProviderCallback> value)
+	{
+		throw 0;
+	}
+	
+	bool ItemProviderBase::DetachCallback(rptr<GuiListControl :: IItemProviderCallback> value)
+	{
+		throw 0;
+	}
+	
+	rptr<ItemProviderBase> ItemProviderBase::operator=(rptr<ItemProviderBase> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+ItemStyleControllerBase
+***********************************************************************/
+
+	rptr<GuiListControl :: IItemStyleProvider> ItemStyleControllerBase::GetStyleProvider()
+	{
+		throw 0;
+	}
+	
+	signed __int32 ItemStyleControllerBase::GetItemStyleId()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiBoundsComposition> ItemStyleControllerBase::GetBoundsComposition()
+	{
+		throw 0;
+	}
+	
+	bool ItemStyleControllerBase::IsCacheable()
+	{
+		throw 0;
+	}
+	
+	bool ItemStyleControllerBase::IsInstalled()
+	{
+		throw 0;
+	}
+	
+	void ItemStyleControllerBase::OnInstalled()
+	{
+		throw 0;
+	}
+	
+	void ItemStyleControllerBase::OnUninstalled()
+	{
+		throw 0;
+	}
+	
+	rptr<ItemStyleControllerBase> ItemStyleControllerBase::operator=(rptr<ItemStyleControllerBase> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+ListViewItemStyleProviderBase
+***********************************************************************/
+
+	rptr<ListViewItemStyleProviderBase> ListViewItemStyleProviderBase::Create()
+	{
+		throw 0;
+	}
+	
+	void ListViewItemStyleProviderBase::AttachListControl(rptr<GuiListControl> value)
+	{
+		throw 0;
+	}
+	
+	void ListViewItemStyleProviderBase::DetachListControl()
+	{
+		throw 0;
+	}
+	
+	signed __int32 ListViewItemStyleProviderBase::GetItemStyleId(signed __int32 itemIndex)
+	{
+		throw 0;
+	}
+	
+	void ListViewItemStyleProviderBase::SetStyleSelected(rptr<GuiListControl :: IItemStyleController> style, bool value)
+	{
+		throw 0;
+	}
+	
+	rptr<ListViewItemStyleProviderBase> ListViewItemStyleProviderBase::operator=(rptr<ListViewItemStyleProviderBase> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+ListViewItemStyleProviderBase :: ListViewItemStyleController
+***********************************************************************/
+
+	rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> ListViewItemStyleProviderBase::ListViewItemStyleController::Create(rptr<ListViewItemStyleProviderBase> provider)
+	{
+		throw 0;
+	}
+	
+	rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> ListViewItemStyleProviderBase::ListViewItemStyleController::operator=(rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> value)
+	{
+		throw 0;
+	}
+	
+	bool ListViewItemStyleProviderBase::ListViewItemStyleController::GetSelected()
+	{
+		throw 0;
+	}
+	void ListViewItemStyleProviderBase::ListViewItemStyleController::SetSelected(bool value)
 	{
 		throw 0;
 	}
@@ -10567,6 +7640,146 @@ ListViewItemStyleProvider :: ListViewContentItemStyleController
 	
 
 /***********************************************************************
+GuiVirtualListView
+***********************************************************************/
+
+	rptr<GuiVirtualListView> GuiVirtualListView::Create(rptr<GuiListViewBase :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider)
+	{
+		throw 0;
+	}
+	
+	void GuiVirtualListView::ChangeItemStyle(rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> contentProvider)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiVirtualListView> GuiVirtualListView::operator=(rptr<GuiVirtualListView> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+ListViewBigIconContentProvider
+***********************************************************************/
+
+	rptr<ListViewBigIconContentProvider> ListViewBigIconContentProvider::Create(Size _iconSize)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiListControl :: IItemCoordinateTransformer> ListViewBigIconContentProvider::CreatePreferredCoordinateTransformer()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiListControl :: IItemArranger> ListViewBigIconContentProvider::CreatePreferredArranger()
+	{
+		throw 0;
+	}
+	
+	rptr<ListViewItemStyleProvider :: IListViewItemContent> ListViewBigIconContentProvider::CreateItemContent(const FontProperties& font)
+	{
+		throw 0;
+	}
+	
+	void ListViewBigIconContentProvider::AttachListControl(rptr<GuiListControl> value)
+	{
+		throw 0;
+	}
+	
+	void ListViewBigIconContentProvider::DetachListControl()
+	{
+		throw 0;
+	}
+	
+	rptr<ListViewBigIconContentProvider> ListViewBigIconContentProvider::operator=(rptr<ListViewBigIconContentProvider> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+ListViewInformationContentProvider
+***********************************************************************/
+
+	rptr<ListViewInformationContentProvider> ListViewInformationContentProvider::Create(Size _iconSize)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiListControl :: IItemCoordinateTransformer> ListViewInformationContentProvider::CreatePreferredCoordinateTransformer()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiListControl :: IItemArranger> ListViewInformationContentProvider::CreatePreferredArranger()
+	{
+		throw 0;
+	}
+	
+	rptr<ListViewItemStyleProvider :: IListViewItemContent> ListViewInformationContentProvider::CreateItemContent(const FontProperties& font)
+	{
+		throw 0;
+	}
+	
+	void ListViewInformationContentProvider::AttachListControl(rptr<GuiListControl> value)
+	{
+		throw 0;
+	}
+	
+	void ListViewInformationContentProvider::DetachListControl()
+	{
+		throw 0;
+	}
+	
+	rptr<ListViewInformationContentProvider> ListViewInformationContentProvider::operator=(rptr<ListViewInformationContentProvider> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+ListViewListContentProvider
+***********************************************************************/
+
+	rptr<ListViewListContentProvider> ListViewListContentProvider::Create(Size _iconSize)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiListControl :: IItemCoordinateTransformer> ListViewListContentProvider::CreatePreferredCoordinateTransformer()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiListControl :: IItemArranger> ListViewListContentProvider::CreatePreferredArranger()
+	{
+		throw 0;
+	}
+	
+	rptr<ListViewItemStyleProvider :: IListViewItemContent> ListViewListContentProvider::CreateItemContent(const FontProperties& font)
+	{
+		throw 0;
+	}
+	
+	void ListViewListContentProvider::AttachListControl(rptr<GuiListControl> value)
+	{
+		throw 0;
+	}
+	
+	void ListViewListContentProvider::DetachListControl()
+	{
+		throw 0;
+	}
+	
+	rptr<ListViewListContentProvider> ListViewListContentProvider::operator=(rptr<ListViewListContentProvider> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
 ListViewSmallIconContentProvider
 ***********************************************************************/
 
@@ -10601,6 +7814,171 @@ ListViewSmallIconContentProvider
 	}
 	
 	rptr<ListViewSmallIconContentProvider> ListViewSmallIconContentProvider::operator=(rptr<ListViewSmallIconContentProvider> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+ListViewTileContentProvider
+***********************************************************************/
+
+	rptr<ListViewTileContentProvider> ListViewTileContentProvider::Create(Size _iconSize)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiListControl :: IItemCoordinateTransformer> ListViewTileContentProvider::CreatePreferredCoordinateTransformer()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiListControl :: IItemArranger> ListViewTileContentProvider::CreatePreferredArranger()
+	{
+		throw 0;
+	}
+	
+	rptr<ListViewItemStyleProvider :: IListViewItemContent> ListViewTileContentProvider::CreateItemContent(const FontProperties& font)
+	{
+		throw 0;
+	}
+	
+	void ListViewTileContentProvider::AttachListControl(rptr<GuiListControl> value)
+	{
+		throw 0;
+	}
+	
+	void ListViewTileContentProvider::DetachListControl()
+	{
+		throw 0;
+	}
+	
+	rptr<ListViewTileContentProvider> ListViewTileContentProvider::operator=(rptr<ListViewTileContentProvider> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+ListWrapperProvider_of_ListViewItem
+***********************************************************************/
+
+	bool ListWrapperProvider_of_ListViewItem::NotifyUpdate(signed __int32 start, signed __int32 count)
+	{
+		throw 0;
+	}
+	
+	bool ListWrapperProvider_of_ListViewItem::Contains(rptr<ListViewItem> item)
+	{
+		throw 0;
+	}
+	
+	signed __int32 ListWrapperProvider_of_ListViewItem::Count()
+	{
+		throw 0;
+	}
+	
+	sptr<ListViewItem> ListWrapperProvider_of_ListViewItem::Get(signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	sptr<ListViewItem> ListWrapperProvider_of_ListViewItem::operator[](signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	signed __int32 ListWrapperProvider_of_ListViewItem::IndexOf(rptr<ListViewItem> item)
+	{
+		throw 0;
+	}
+	
+	signed __int32 ListWrapperProvider_of_ListViewItem::Add(sptr<ListViewItem> item)
+	{
+		throw 0;
+	}
+	
+	bool ListWrapperProvider_of_ListViewItem::Remove(rptr<ListViewItem> item)
+	{
+		throw 0;
+	}
+	
+	bool ListWrapperProvider_of_ListViewItem::RemoveAt(signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	bool ListWrapperProvider_of_ListViewItem::RemoveRange(signed __int32 index, signed __int32 count)
+	{
+		throw 0;
+	}
+	
+	bool ListWrapperProvider_of_ListViewItem::Clear()
+	{
+		throw 0;
+	}
+	
+	signed __int32 ListWrapperProvider_of_ListViewItem::Insert(signed __int32 index, sptr<ListViewItem> item)
+	{
+		throw 0;
+	}
+	
+	bool ListWrapperProvider_of_ListViewItem::Set(signed __int32 index, sptr<ListViewItem> item)
+	{
+		throw 0;
+	}
+	
+	rptr<ListWrapperProvider_of_ListViewItem> ListWrapperProvider_of_ListViewItem::operator=(rptr<ListWrapperProvider_of_ListViewItem> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+ListProvider_of_ListViewItem
+***********************************************************************/
+
+	rptr<ListProvider_of_ListViewItem> ListProvider_of_ListViewItem::Create()
+	{
+		throw 0;
+	}
+	
+	rptr<ListProvider_of_ListViewItem> ListProvider_of_ListViewItem::operator=(rptr<ListProvider_of_ListViewItem> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+NodeItemProvider
+***********************************************************************/
+
+	rptr<NodeItemProvider> NodeItemProvider::Create(rptr<INodeRootProvider> _root)
+	{
+		throw 0;
+	}
+	
+	signed __int32 NodeItemProvider::Count()
+	{
+		throw 0;
+	}
+	
+	rptr<IDescriptable> NodeItemProvider::RequestView(const GacString& identifier)
+	{
+		throw 0;
+	}
+	
+	void NodeItemProvider::ReleaseView(rptr<IDescriptable> view)
+	{
+		throw 0;
+	}
+	
+	rptr<NodeItemProvider> NodeItemProvider::operator=(rptr<NodeItemProvider> value)
+	{
+		throw 0;
+	}
+	
+	sptr<INodeRootProvider> NodeItemProvider::GetRoot()
 	{
 		throw 0;
 	}
@@ -10657,125 +8035,75 @@ NodeItemStyleProvider
 	
 
 /***********************************************************************
-Win7ButtonStyle
+RangedItemArrangerBase
 ***********************************************************************/
 
-	rptr<Win7ButtonStyle> Win7ButtonStyle::Create(bool verticalGradient)
+	void RangedItemArrangerBase::OnAttached(rptr<GuiListControl :: IItemProvider> provider)
 	{
 		throw 0;
 	}
 	
-	rptr<Win7ButtonStyle> Win7ButtonStyle::operator=(rptr<Win7ButtonStyle> value)
+	void RangedItemArrangerBase::OnItemModified(signed __int32 start, signed __int32 count, signed __int32 newCount)
+	{
+		throw 0;
+	}
+	
+	void RangedItemArrangerBase::AttachListControl(rptr<GuiListControl> value)
+	{
+		throw 0;
+	}
+	
+	void RangedItemArrangerBase::DetachListControl()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiListControl :: IItemArrangerCallback> RangedItemArrangerBase::GetCallback()
+	{
+		throw 0;
+	}
+	
+	void RangedItemArrangerBase::SetCallback(rptr<GuiListControl :: IItemArrangerCallback> value)
+	{
+		throw 0;
+	}
+	
+	Size RangedItemArrangerBase::GetTotalSize()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiListControl :: IItemStyleController> RangedItemArrangerBase::GetVisibleStyle(signed __int32 itemIndex)
+	{
+		throw 0;
+	}
+	
+	signed __int32 RangedItemArrangerBase::GetVisibleIndex(rptr<GuiListControl :: IItemStyleController> style)
+	{
+		throw 0;
+	}
+	
+	void RangedItemArrangerBase::OnViewChanged(Rect bounds)
+	{
+		throw 0;
+	}
+	
+	rptr<RangedItemArrangerBase> RangedItemArrangerBase::operator=(rptr<RangedItemArrangerBase> value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-Win7CheckTextListProvider
+FixedHeightItemArranger
 ***********************************************************************/
 
-	rptr<Win7CheckTextListProvider> Win7CheckTextListProvider::Create()
+	rptr<FixedHeightItemArranger> FixedHeightItemArranger::Create()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiSelectableButton :: IStyleController> Win7CheckTextListProvider::CreateBulletStyleController()
-	{
-		throw 0;
-	}
-	
-	rptr<Win7CheckTextListProvider> Win7CheckTextListProvider::operator=(rptr<Win7CheckTextListProvider> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-Win7ListViewColumnHeaderStyle
-***********************************************************************/
-
-	rptr<Win7ListViewColumnHeaderStyle> Win7ListViewColumnHeaderStyle::Create()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiBoundsComposition> Win7ListViewColumnHeaderStyle::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7ListViewColumnHeaderStyle::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void Win7ListViewColumnHeaderStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7ListViewColumnHeaderStyle::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7ListViewColumnHeaderStyle::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7ListViewColumnHeaderStyle::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7ListViewColumnHeaderStyle::SetSelected(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7ListViewColumnHeaderStyle::Transfer(GuiButton :: ControlState value)
-	{
-		throw 0;
-	}
-	
-	rptr<Win7ListViewColumnHeaderStyle> Win7ListViewColumnHeaderStyle::operator=(rptr<Win7ListViewColumnHeaderStyle> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-Win7RadioTextListProvider
-***********************************************************************/
-
-	rptr<Win7RadioTextListProvider> Win7RadioTextListProvider::Create()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiSelectableButton :: IStyleController> Win7RadioTextListProvider::CreateBulletStyleController()
-	{
-		throw 0;
-	}
-	
-	rptr<Win7RadioTextListProvider> Win7RadioTextListProvider::operator=(rptr<Win7RadioTextListProvider> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-Win7ToolstripButtonStyle
-***********************************************************************/
-
-	rptr<Win7ToolstripButtonStyle> Win7ToolstripButtonStyle::Create(bool transparent)
-	{
-		throw 0;
-	}
-	
-	rptr<Win7ToolstripButtonStyle> Win7ToolstripButtonStyle::operator=(rptr<Win7ToolstripButtonStyle> value)
+	rptr<FixedHeightItemArranger> FixedHeightItemArranger::operator=(rptr<FixedHeightItemArranger> value)
 	{
 		throw 0;
 	}
@@ -10797,118 +8125,109 @@ FixedHeightMultiColumnItemArranger
 	
 
 /***********************************************************************
-GuiMenuButton
+FixedSizeMultiColumnItemArranger
 ***********************************************************************/
 
-	rptr<GuiMenuButton> GuiMenuButton::Create(rptr<GuiMenuButton :: IStyleController> _styleController)
+	rptr<FixedSizeMultiColumnItemArranger> FixedSizeMultiColumnItemArranger::Create()
 	{
 		throw 0;
 	}
 	
-	bool GuiMenuButton::IsSubMenuExists()
-	{
-		throw 0;
-	}
-	
-	void GuiMenuButton::CreateSubMenu(rptr<GuiControl :: IStyleController> subMenuStyleController)
-	{
-		throw 0;
-	}
-	
-	void GuiMenuButton::DestroySubMenu()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiMenuButton> GuiMenuButton::operator=(rptr<GuiMenuButton> value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiMenu> GuiMenuButton::GetSubMenu()
-	{
-		throw 0;
-	}
-	
-	bool GuiMenuButton::GetSubMenuOpening()
-	{
-		throw 0;
-	}
-	void GuiMenuButton::SetSubMenuOpening(bool value)
-	{
-		throw 0;
-	}
-	
-	Size GuiMenuButton::GetPreferredMenuClientSize()
-	{
-		throw 0;
-	}
-	void GuiMenuButton::SetPreferredMenuClientSize(Size value)
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsEvent_of_GuiEventArgs GuiMenuButton::get_SubMenuOpeningChanged()
+	rptr<FixedSizeMultiColumnItemArranger> FixedSizeMultiColumnItemArranger::operator=(rptr<FixedSizeMultiColumnItemArranger> value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-GuiMenuButton :: IStyleController
+ListViewColumnItemArranger
 ***********************************************************************/
 
-	rptr<GuiControl :: IStyleController> GuiMenuButton::IStyleController::CreateSubMenuStyleController()
+	rptr<ListViewColumnItemArranger> ListViewColumnItemArranger::Create()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiMenuButton :: IStyleController> GuiMenuButton::IStyleController::operator=(rptr<GuiMenuButton :: IStyleController> value)
+	void ListViewColumnItemArranger::AttachListControl(rptr<GuiListControl> value)
 	{
 		throw 0;
 	}
 	
-	void GuiMenuButton::IStyleController::SetSubMenuExisting(bool value)
+	void ListViewColumnItemArranger::DetachListControl()
 	{
 		throw 0;
 	}
 	
-	void GuiMenuButton::IStyleController::SetSubMenuOpening(bool value)
+	rptr<ListViewColumnItemArranger> ListViewColumnItemArranger::operator=(rptr<ListViewColumnItemArranger> value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-GuiVirtualListView
+ListViewColumnItemArranger :: IColumnItemView
 ***********************************************************************/
 
-	rptr<GuiVirtualListView> GuiVirtualListView::Create(rptr<GuiListViewBase :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider)
+	bool ListViewColumnItemArranger::IColumnItemView::AttachCallback(rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> value)
 	{
 		throw 0;
 	}
 	
-	void GuiVirtualListView::ChangeItemStyle(rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> contentProvider)
+	bool ListViewColumnItemArranger::IColumnItemView::DetachCallback(rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> value)
 	{
 		throw 0;
 	}
 	
-	rptr<GuiVirtualListView> GuiVirtualListView::operator=(rptr<GuiVirtualListView> value)
+	GacString ListViewColumnItemArranger::IColumnItemView::GetColumnText(signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	signed __int32 ListViewColumnItemArranger::IColumnItemView::GetColumnSize(signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	void ListViewColumnItemArranger::IColumnItemView::SetColumnSize(signed __int32 index, signed __int32 value)
+	{
+		throw 0;
+	}
+	
+	rptr<ListViewColumnItemArranger :: IColumnItemView> ListViewColumnItemArranger::IColumnItemView::operator=(rptr<ListViewColumnItemArranger :: IColumnItemView> value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 ListViewColumnItemArranger::IColumnItemView::GetColumnCount()
+	{
+		throw 0;
+	}
+	
+	wchar_t* ListViewColumnItemArranger::IColumnItemView::get_Identifier()
+	{
+		throw 0;
+	}
+	void ListViewColumnItemArranger::IColumnItemView::set_Identifier(wchar_t* value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-ListProvider_of_ListViewItem
+ListViewColumnItemArranger :: IColumnItemViewCallback
 ***********************************************************************/
 
-	rptr<ListProvider_of_ListViewItem> ListProvider_of_ListViewItem::Create()
+	void ListViewColumnItemArranger::IColumnItemViewCallback::OnColumnChanged()
 	{
 		throw 0;
 	}
 	
-	rptr<ListProvider_of_ListViewItem> ListProvider_of_ListViewItem::operator=(rptr<ListProvider_of_ListViewItem> value)
+	void ListViewColumnItemArranger::IColumnItemViewCallback::OnColumnSizeChanged(signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> ListViewColumnItemArranger::IColumnItemViewCallback::operator=(rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> value)
 	{
 		throw 0;
 	}
@@ -11000,40 +8319,2033 @@ ListViewItemProvider
 	
 
 /***********************************************************************
-ListViewTileContentProvider
+GuiListView
 ***********************************************************************/
 
-	rptr<ListViewTileContentProvider> ListViewTileContentProvider::Create(Size _iconSize)
+	rptr<GuiListView> GuiListView::Create(rptr<GuiListViewBase :: IStyleProvider> _styleProvider)
 	{
 		throw 0;
 	}
 	
-	rptr<GuiListControl :: IItemCoordinateTransformer> ListViewTileContentProvider::CreatePreferredCoordinateTransformer()
+	rptr<GuiListView> GuiListView::operator=(rptr<GuiListView> value)
 	{
 		throw 0;
 	}
 	
-	rptr<GuiListControl :: IItemArranger> ListViewTileContentProvider::CreatePreferredArranger()
+	rptr<ListViewItemProvider> GuiListView::GetItems()
 	{
 		throw 0;
 	}
 	
-	rptr<ListViewItemStyleProvider :: IListViewItemContent> ListViewTileContentProvider::CreateItemContent(const FontProperties& font)
+
+/***********************************************************************
+TextItem
+***********************************************************************/
+
+	rptr<TextItem> TextItem::Create(wchar_t* _text, bool _checked)
+	{
+		throw 0;
+	}
+	TextItem::TextItem(wchar_t* _text, bool _checked)
 	{
 		throw 0;
 	}
 	
-	void ListViewTileContentProvider::AttachListControl(rptr<GuiListControl> value)
+	rptr<TextItem> TextItem::Create(const GacString& _text, bool _checked)
+	{
+		throw 0;
+	}
+	TextItem::TextItem(const GacString& _text, bool _checked)
 	{
 		throw 0;
 	}
 	
-	void ListViewTileContentProvider::DetachListControl()
+	rptr<TextItem> TextItem::Create(const TextItem& item)
+	{
+		throw 0;
+	}
+	TextItem::TextItem(const TextItem& item)
 	{
 		throw 0;
 	}
 	
-	rptr<ListViewTileContentProvider> ListViewTileContentProvider::operator=(rptr<ListViewTileContentProvider> value)
+	rptr<TextItem> TextItem::Create()
+	{
+		throw 0;
+	}
+	TextItem::TextItem()
+	{
+		throw 0;
+	}
+	
+	bool TextItem::operator==(const TextItem& value)
+	{
+		throw 0;
+	}
+	
+	bool TextItem::operator!=(const TextItem& value)
+	{
+		throw 0;
+	}
+	
+	TextItem& TextItem::operator=(const TextItem& __that)
+	{
+		throw 0;
+	}
+	
+	const GacString& TextItem::GetText()
+	{
+		throw 0;
+	}
+	
+	bool TextItem::GetChecked()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+IList_of_TextItem
+***********************************************************************/
+
+	signed __int32 IList_of_TextItem::Insert(signed __int32 index, const TextItem& item)
+	{
+		throw 0;
+	}
+	
+	bool IList_of_TextItem::Set(signed __int32 index, const TextItem& item)
+	{
+		throw 0;
+	}
+	
+	rptr<IList_of_TextItem> IList_of_TextItem::operator=(rptr<IList_of_TextItem> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+ListWrapperProvider_of_TextItem
+***********************************************************************/
+
+	bool ListWrapperProvider_of_TextItem::NotifyUpdate(signed __int32 start, signed __int32 count)
+	{
+		throw 0;
+	}
+	
+	bool ListWrapperProvider_of_TextItem::Contains(const TextItem& item)
+	{
+		throw 0;
+	}
+	
+	signed __int32 ListWrapperProvider_of_TextItem::Count()
+	{
+		throw 0;
+	}
+	
+	const TextItem& ListWrapperProvider_of_TextItem::Get(signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	const TextItem& ListWrapperProvider_of_TextItem::operator[](signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	signed __int32 ListWrapperProvider_of_TextItem::IndexOf(const TextItem& item)
+	{
+		throw 0;
+	}
+	
+	signed __int32 ListWrapperProvider_of_TextItem::Add(const TextItem& item)
+	{
+		throw 0;
+	}
+	
+	bool ListWrapperProvider_of_TextItem::Remove(const TextItem& item)
+	{
+		throw 0;
+	}
+	
+	bool ListWrapperProvider_of_TextItem::RemoveAt(signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	bool ListWrapperProvider_of_TextItem::RemoveRange(signed __int32 index, signed __int32 count)
+	{
+		throw 0;
+	}
+	
+	bool ListWrapperProvider_of_TextItem::Clear()
+	{
+		throw 0;
+	}
+	
+	signed __int32 ListWrapperProvider_of_TextItem::Insert(signed __int32 index, const TextItem& item)
+	{
+		throw 0;
+	}
+	
+	bool ListWrapperProvider_of_TextItem::Set(signed __int32 index, const TextItem& item)
+	{
+		throw 0;
+	}
+	
+	rptr<ListWrapperProvider_of_TextItem> ListWrapperProvider_of_TextItem::operator=(rptr<ListWrapperProvider_of_TextItem> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+ListProvider_of_TextItem
+***********************************************************************/
+
+	rptr<ListProvider_of_TextItem> ListProvider_of_TextItem::Create()
+	{
+		throw 0;
+	}
+	
+	rptr<ListProvider_of_TextItem> ListProvider_of_TextItem::operator=(rptr<ListProvider_of_TextItem> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+TextItemStyleProvider
+***********************************************************************/
+
+	rptr<TextItemStyleProvider> TextItemStyleProvider::Create(rptr<TextItemStyleProvider :: ITextItemStyleProvider> _textItemStyleProvider)
+	{
+		throw 0;
+	}
+	
+	void TextItemStyleProvider::AttachListControl(rptr<GuiListControl> value)
+	{
+		throw 0;
+	}
+	
+	void TextItemStyleProvider::DetachListControl()
+	{
+		throw 0;
+	}
+	
+	signed __int32 TextItemStyleProvider::GetItemStyleId(signed __int32 itemIndex)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiListControl :: IItemStyleController> TextItemStyleProvider::CreateItemStyle(signed __int32 styleId)
+	{
+		throw 0;
+	}
+	
+	void TextItemStyleProvider::DestroyItemStyle(rptr<GuiListControl :: IItemStyleController> style)
+	{
+		throw 0;
+	}
+	
+	void TextItemStyleProvider::Install(rptr<GuiListControl :: IItemStyleController> style, signed __int32 itemIndex)
+	{
+		throw 0;
+	}
+	
+	void TextItemStyleProvider::SetStyleSelected(rptr<GuiListControl :: IItemStyleController> style, bool value)
+	{
+		throw 0;
+	}
+	
+	rptr<TextItemStyleProvider> TextItemStyleProvider::operator=(rptr<TextItemStyleProvider> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+TextItemStyleProvider :: ITextItemStyleProvider
+***********************************************************************/
+
+	rptr<GuiSelectableButton :: IStyleController> TextItemStyleProvider::ITextItemStyleProvider::CreateBackgroundStyleController()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiSelectableButton :: IStyleController> TextItemStyleProvider::ITextItemStyleProvider::CreateBulletStyleController()
+	{
+		throw 0;
+	}
+	
+	rptr<TextItemStyleProvider :: ITextItemStyleProvider> TextItemStyleProvider::ITextItemStyleProvider::operator=(rptr<TextItemStyleProvider :: ITextItemStyleProvider> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+TextItemStyleProvider :: ITextItemView
+***********************************************************************/
+
+	GacString TextItemStyleProvider::ITextItemView::GetText(signed __int32 itemIndex)
+	{
+		throw 0;
+	}
+	
+	bool TextItemStyleProvider::ITextItemView::GetChecked(signed __int32 itemIndex)
+	{
+		throw 0;
+	}
+	
+	void TextItemStyleProvider::ITextItemView::SetCheckedSilently(signed __int32 itemIndex, bool value)
+	{
+		throw 0;
+	}
+	
+	rptr<TextItemStyleProvider :: ITextItemView> TextItemStyleProvider::ITextItemView::operator=(rptr<TextItemStyleProvider :: ITextItemView> value)
+	{
+		throw 0;
+	}
+	
+	wchar_t* TextItemStyleProvider::ITextItemView::get_Identifier()
+	{
+		throw 0;
+	}
+	void TextItemStyleProvider::ITextItemView::set_Identifier(wchar_t* value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+TextItemStyleProvider :: TextItemStyleController
+***********************************************************************/
+
+	rptr<TextItemStyleProvider :: TextItemStyleController> TextItemStyleProvider::TextItemStyleController::Create(rptr<TextItemStyleProvider> provider)
+	{
+		throw 0;
+	}
+	
+	rptr<TextItemStyleProvider :: TextItemStyleController> TextItemStyleProvider::TextItemStyleController::operator=(rptr<TextItemStyleProvider :: TextItemStyleController> value)
+	{
+		throw 0;
+	}
+	
+	bool TextItemStyleProvider::TextItemStyleController::GetSelected()
+	{
+		throw 0;
+	}
+	void TextItemStyleProvider::TextItemStyleController::SetSelected(bool value)
+	{
+		throw 0;
+	}
+	
+	bool TextItemStyleProvider::TextItemStyleController::GetChecked()
+	{
+		throw 0;
+	}
+	void TextItemStyleProvider::TextItemStyleController::SetChecked(bool value)
+	{
+		throw 0;
+	}
+	
+	const GacString& TextItemStyleProvider::TextItemStyleController::GetText()
+	{
+		throw 0;
+	}
+	void TextItemStyleProvider::TextItemStyleController::SetText(const GacString& value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiVirtualTextList
+***********************************************************************/
+
+	rptr<GuiVirtualTextList> GuiVirtualTextList::Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<TextItemStyleProvider :: ITextItemStyleProvider> _itemStyleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider)
+	{
+		throw 0;
+	}
+	
+	sptr<GuiListControl :: IItemStyleProvider> GuiVirtualTextList::SetStyleProvider(sptr<GuiListControl :: IItemStyleProvider> value)
+	{
+		throw 0;
+	}
+	
+	sptr<GuiListControl :: IItemStyleProvider> GuiVirtualTextList::ChangeItemStyle(rptr<TextItemStyleProvider :: ITextItemStyleProvider> itemStyleProvider)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiVirtualTextList> GuiVirtualTextList::operator=(rptr<GuiVirtualTextList> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+TextItemProvider
+***********************************************************************/
+
+	rptr<TextItemProvider> TextItemProvider::Create()
+	{
+		throw 0;
+	}
+	
+	void TextItemProvider::SetText(signed __int32 itemIndex, const GacString& value)
+	{
+		throw 0;
+	}
+	
+	void TextItemProvider::SetChecked(signed __int32 itemIndex, bool value)
+	{
+		throw 0;
+	}
+	
+	rptr<IDescriptable> TextItemProvider::RequestView(const GacString& identifier)
+	{
+		throw 0;
+	}
+	
+	void TextItemProvider::ReleaseView(rptr<IDescriptable> view)
+	{
+		throw 0;
+	}
+	
+	rptr<TextItemProvider> TextItemProvider::operator=(rptr<TextItemProvider> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiTextList
+***********************************************************************/
+
+	rptr<GuiTextList> GuiTextList::Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<TextItemStyleProvider :: ITextItemStyleProvider> _itemStyleProvider)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiTextList> GuiTextList::operator=(rptr<GuiTextList> value)
+	{
+		throw 0;
+	}
+	
+	rptr<TextItemProvider> GuiTextList::GetItems()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+TextLine
+***********************************************************************/
+
+	rptr<TextLine> TextLine::Create()
+	{
+		throw 0;
+	}
+	TextLine::TextLine()
+	{
+		throw 0;
+	}
+	
+	bool TextLine::operator==(const TextLine& value)
+	{
+		throw 0;
+	}
+	
+	bool TextLine::operator!=(const TextLine& value)
+	{
+		throw 0;
+	}
+	
+	void TextLine::Initialize()
+	{
+		throw 0;
+	}
+	
+	void TextLine::Finalize()
+	{
+		throw 0;
+	}
+	
+	bool TextLine::IsReady()
+	{
+		throw 0;
+	}
+	
+	bool TextLine::Modify(signed __int32 start, signed __int32 count, wchar_t* input, signed __int32 inputCount)
+	{
+		throw 0;
+	}
+	
+	TextLine TextLine::Split(signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	void TextLine::AppendAndFinalize(TextLine& line)
+	{
+		throw 0;
+	}
+	
+	signed __int32 TextLine::CalculateBufferLength(signed __int32 dataLength)
+	{
+		throw 0;
+	}
+	
+	wchar_t* TextLine::get_text()
+	{
+		throw 0;
+	}
+	void TextLine::set_text(wchar_t* value)
+	{
+		throw 0;
+	}
+	
+	rptr<CharAtt> TextLine::get_att()
+	{
+		throw 0;
+	}
+	void TextLine::set_att(rptr<CharAtt> value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 TextLine::get_availableOffsetCount()
+	{
+		throw 0;
+	}
+	void TextLine::set_availableOffsetCount(signed __int32 value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 TextLine::get_bufferLength()
+	{
+		throw 0;
+	}
+	void TextLine::set_bufferLength(signed __int32 value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 TextLine::get_dataLength()
+	{
+		throw 0;
+	}
+	void TextLine::set_dataLength(signed __int32 value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+TextPos
+***********************************************************************/
+
+	rptr<TextPos> TextPos::Create(signed __int32 _row, signed __int32 _column)
+	{
+		throw 0;
+	}
+	TextPos::TextPos(signed __int32 _row, signed __int32 _column)
+	{
+		throw 0;
+	}
+	
+	rptr<TextPos> TextPos::Create()
+	{
+		throw 0;
+	}
+	TextPos::TextPos()
+	{
+		throw 0;
+	}
+	
+	signed __int32 TextPos::Compare(const TextPos& value)
+	{
+		throw 0;
+	}
+	
+	bool TextPos::operator==(const TextPos& value)
+	{
+		throw 0;
+	}
+	
+	bool TextPos::operator!=(const TextPos& value)
+	{
+		throw 0;
+	}
+	
+	bool TextPos::operator<(const TextPos& value)
+	{
+		throw 0;
+	}
+	
+	bool TextPos::operator<=(const TextPos& value)
+	{
+		throw 0;
+	}
+	
+	bool TextPos::operator>(const TextPos& value)
+	{
+		throw 0;
+	}
+	
+	bool TextPos::operator>=(const TextPos& value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 TextPos::get_row()
+	{
+		throw 0;
+	}
+	void TextPos::set_row(signed __int32 value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 TextPos::get_column()
+	{
+		throw 0;
+	}
+	void TextPos::set_column(signed __int32 value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiTextBoxCommonInterface
+***********************************************************************/
+
+	rptr<GuiTextBoxCommonInterface> GuiTextBoxCommonInterface::Create()
+	{
+		throw 0;
+	}
+	
+	bool GuiTextBoxCommonInterface::CanCut()
+	{
+		throw 0;
+	}
+	
+	bool GuiTextBoxCommonInterface::CanCopy()
+	{
+		throw 0;
+	}
+	
+	bool GuiTextBoxCommonInterface::CanPaste()
+	{
+		throw 0;
+	}
+	
+	void GuiTextBoxCommonInterface::SelectAll()
+	{
+		throw 0;
+	}
+	
+	bool GuiTextBoxCommonInterface::Cut()
+	{
+		throw 0;
+	}
+	
+	bool GuiTextBoxCommonInterface::Copy()
+	{
+		throw 0;
+	}
+	
+	bool GuiTextBoxCommonInterface::Paste()
+	{
+		throw 0;
+	}
+	
+	GacString GuiTextBoxCommonInterface::GetRowText(signed __int32 row)
+	{
+		throw 0;
+	}
+	
+	GacString GuiTextBoxCommonInterface::GetFragmentText(TextPos start, TextPos end)
+	{
+		throw 0;
+	}
+	
+	signed __int32 GuiTextBoxCommonInterface::GetRowWidth(signed __int32 row)
+	{
+		throw 0;
+	}
+	
+	TextPos GuiTextBoxCommonInterface::GetTextPosFromPoint(Point point)
+	{
+		throw 0;
+	}
+	
+	Point GuiTextBoxCommonInterface::GetPointFromTextPos(TextPos pos)
+	{
+		throw 0;
+	}
+	
+	Rect GuiTextBoxCommonInterface::GetRectFromTextPos(TextPos pos)
+	{
+		throw 0;
+	}
+	
+	TextPos GuiTextBoxCommonInterface::GetNearestTextPos(Point point)
+	{
+		throw 0;
+	}
+	
+	void GuiTextBoxCommonInterface::Select(TextPos begin, TextPos end)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiTextBoxCommonInterface> GuiTextBoxCommonInterface::operator=(rptr<GuiTextBoxCommonInterface> value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsComposition> GuiTextBoxCommonInterface::GetTextComposition()
+	{
+		throw 0;
+	}
+	
+	signed __int32 GuiTextBoxCommonInterface::GetRowHeight()
+	{
+		throw 0;
+	}
+	
+	signed __int32 GuiTextBoxCommonInterface::GetMaxWidth()
+	{
+		throw 0;
+	}
+	
+	signed __int32 GuiTextBoxCommonInterface::GetMaxHeight()
+	{
+		throw 0;
+	}
+	
+	TextPos GuiTextBoxCommonInterface::GetCaretBegin()
+	{
+		throw 0;
+	}
+	
+	TextPos GuiTextBoxCommonInterface::GetCaretEnd()
+	{
+		throw 0;
+	}
+	
+	TextPos GuiTextBoxCommonInterface::GetCaretSmall()
+	{
+		throw 0;
+	}
+	
+	TextPos GuiTextBoxCommonInterface::GetCaretLarge()
+	{
+		throw 0;
+	}
+	
+	GacString GuiTextBoxCommonInterface::GetSelectionText()
+	{
+		throw 0;
+	}
+	void GuiTextBoxCommonInterface::SetSelectionText(const GacString& value)
+	{
+		throw 0;
+	}
+	
+	GuiGraphicsEvent_of_GuiEventArgs GuiTextBoxCommonInterface::get_SelectionChanged()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+TextLines
+***********************************************************************/
+
+	rptr<TextLines> TextLines::Create()
+	{
+		throw 0;
+	}
+	TextLines::TextLines()
+	{
+		throw 0;
+	}
+	
+	TextLine& TextLines::GetLine(signed __int32 row)
+	{
+		throw 0;
+	}
+	
+	GacString TextLines::GetText(TextPos start, TextPos end)
+	{
+		throw 0;
+	}
+	
+	bool TextLines::RemoveLines(signed __int32 start, signed __int32 count)
+	{
+		throw 0;
+	}
+	
+	bool TextLines::IsAvailable(TextPos pos)
+	{
+		throw 0;
+	}
+	
+	TextPos TextLines::Normalize(TextPos pos)
+	{
+		throw 0;
+	}
+	
+	TextPos TextLines::Modify(TextPos start, TextPos end, const GacString& input)
+	{
+		throw 0;
+	}
+	
+	TextPos TextLines::Modify(TextPos start, TextPos end, wchar_t* input)
+	{
+		throw 0;
+	}
+	
+	TextPos TextLines::Modify(TextPos start, TextPos end, wchar_t* input, signed __int32 inputCount)
+	{
+		throw 0;
+	}
+	
+	TextPos TextLines::Modify(TextPos start, TextPos end, wchar_t** inputs, signed __int32* inputCounts, signed __int32 rows)
+	{
+		throw 0;
+	}
+	
+	void TextLines::Clear()
+	{
+		throw 0;
+	}
+	
+	void TextLines::ClearMeasurement()
+	{
+		throw 0;
+	}
+	
+	void TextLines::MeasureRow(signed __int32 row)
+	{
+		throw 0;
+	}
+	
+	signed __int32 TextLines::GetRowWidth(signed __int32 row)
+	{
+		throw 0;
+	}
+	
+	TextPos TextLines::GetTextPosFromPoint(Point point)
+	{
+		throw 0;
+	}
+	
+	Point TextLines::GetPointFromTextPos(TextPos pos)
+	{
+		throw 0;
+	}
+	
+	Rect TextLines::GetRectFromTextPos(TextPos pos)
+	{
+		throw 0;
+	}
+	
+	TextLines& TextLines::operator=(const TextLines& value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 TextLines::GetCount()
+	{
+		throw 0;
+	}
+	
+	rptr<CharMeasurer> TextLines::GetCharMeasurer()
+	{
+		throw 0;
+	}
+	void TextLines::SetCharMeasurer(rptr<CharMeasurer> value)
+	{
+		throw 0;
+	}
+	
+	rptr<IGuiGraphicsRenderTarget> TextLines::GetRenderTarget()
+	{
+		throw 0;
+	}
+	void TextLines::SetRenderTarget(rptr<IGuiGraphicsRenderTarget> value)
+	{
+		throw 0;
+	}
+	
+	GacString TextLines::GetText()
+	{
+		throw 0;
+	}
+	void TextLines::SetText(const GacString& value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 TextLines::GetTabSpaceCount()
+	{
+		throw 0;
+	}
+	void TextLines::SetTabSpaceCount(signed __int32 value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 TextLines::GetRowHeight()
+	{
+		throw 0;
+	}
+	
+	signed __int32 TextLines::GetMaxWidth()
+	{
+		throw 0;
+	}
+	
+	signed __int32 TextLines::GetMaxHeight()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiColorizedTextElement
+***********************************************************************/
+
+	rptr<IGuiGraphicsElementFactory> GuiColorizedTextElement::GetFactory()
+	{
+		throw 0;
+	}
+	
+	rptr<IGuiGraphicsRenderer> GuiColorizedTextElement::GetRenderer()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiColorizedTextElement> GuiColorizedTextElement::operator=(rptr<GuiColorizedTextElement> value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiColorizedTextElement> GuiColorizedTextElement::Create()
+	{
+		throw 0;
+	}
+	
+	TextLines& GuiColorizedTextElement::GetLines()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiColorizedTextElement :: ICallback> GuiColorizedTextElement::GetCallback()
+	{
+		throw 0;
+	}
+	void GuiColorizedTextElement::SetCallback(rptr<GuiColorizedTextElement :: ICallback> value)
+	{
+		throw 0;
+	}
+	
+	rptr<IReadonlyList_of_ColorEntry> GuiColorizedTextElement::GetColors()
+	{
+		throw 0;
+	}
+	void GuiColorizedTextElement::SetColors(rptr<Array_of_ColorEntry> value)
+	{
+		throw 0;
+	}
+	
+	const FontProperties& GuiColorizedTextElement::GetFont()
+	{
+		throw 0;
+	}
+	void GuiColorizedTextElement::SetFont(const FontProperties& value)
+	{
+		throw 0;
+	}
+	
+	Point GuiColorizedTextElement::GetViewPosition()
+	{
+		throw 0;
+	}
+	void GuiColorizedTextElement::SetViewPosition(Point value)
+	{
+		throw 0;
+	}
+	
+	bool GuiColorizedTextElement::GetVisuallyEnabled()
+	{
+		throw 0;
+	}
+	void GuiColorizedTextElement::SetVisuallyEnabled(bool value)
+	{
+		throw 0;
+	}
+	
+	bool GuiColorizedTextElement::GetFocused()
+	{
+		throw 0;
+	}
+	void GuiColorizedTextElement::SetFocused(bool value)
+	{
+		throw 0;
+	}
+	
+	TextPos GuiColorizedTextElement::GetCaretBegin()
+	{
+		throw 0;
+	}
+	void GuiColorizedTextElement::SetCaretBegin(TextPos value)
+	{
+		throw 0;
+	}
+	
+	TextPos GuiColorizedTextElement::GetCaretEnd()
+	{
+		throw 0;
+	}
+	void GuiColorizedTextElement::SetCaretEnd(TextPos value)
+	{
+		throw 0;
+	}
+	
+	bool GuiColorizedTextElement::GetCaretVisible()
+	{
+		throw 0;
+	}
+	void GuiColorizedTextElement::SetCaretVisible(bool value)
+	{
+		throw 0;
+	}
+	
+	Color GuiColorizedTextElement::GetCaretColor()
+	{
+		throw 0;
+	}
+	void GuiColorizedTextElement::SetCaretColor(Color value)
+	{
+		throw 0;
+	}
+	
+	GacString GuiColorizedTextElement::GetElementTypeName()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiColorizedTextElement :: ICallback
+***********************************************************************/
+
+	void GuiColorizedTextElement::ICallback::ColorChanged()
+	{
+		throw 0;
+	}
+	
+	void GuiColorizedTextElement::ICallback::FontChanged()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiColorizedTextElement :: ICallback> GuiColorizedTextElement::ICallback::operator=(rptr<GuiColorizedTextElement :: ICallback> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiTextElementOperator
+***********************************************************************/
+
+	rptr<GuiTextElementOperator> GuiTextElementOperator::Create()
+	{
+		throw 0;
+	}
+	
+	void GuiTextElementOperator::Install(rptr<GuiColorizedTextElement> _textElement, rptr<GuiGraphicsComposition> _textComposition, rptr<GuiControl> _textControl)
+	{
+		throw 0;
+	}
+	
+	TextPos GuiTextElementOperator::GetNearestTextPos(Point point)
+	{
+		throw 0;
+	}
+	
+	void GuiTextElementOperator::Select(TextPos begin, TextPos end)
+	{
+		throw 0;
+	}
+	
+	bool GuiTextElementOperator::CanCut()
+	{
+		throw 0;
+	}
+	
+	bool GuiTextElementOperator::CanCopy()
+	{
+		throw 0;
+	}
+	
+	bool GuiTextElementOperator::CanPaste()
+	{
+		throw 0;
+	}
+	
+	void GuiTextElementOperator::SelectAll()
+	{
+		throw 0;
+	}
+	
+	bool GuiTextElementOperator::Cut()
+	{
+		throw 0;
+	}
+	
+	bool GuiTextElementOperator::Copy()
+	{
+		throw 0;
+	}
+	
+	bool GuiTextElementOperator::Paste()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiTextElementOperator> GuiTextElementOperator::operator=(rptr<GuiTextElementOperator> value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiTextElementOperator :: ICallback> GuiTextElementOperator::GetCallback()
+	{
+		throw 0;
+	}
+	void GuiTextElementOperator::SetCallback(rptr<GuiTextElementOperator :: ICallback> value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiTextBoxCommonInterface> GuiTextElementOperator::GetTextBoxCommonInterface()
+	{
+		throw 0;
+	}
+	void GuiTextElementOperator::SetTextBoxCommonInterface(rptr<GuiTextBoxCommonInterface> value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiColorizedTextElement> GuiTextElementOperator::GetTextElement()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsComposition> GuiTextElementOperator::GetTextComposition()
+	{
+		throw 0;
+	}
+	
+	GacString GuiTextElementOperator::GetSelectionText()
+	{
+		throw 0;
+	}
+	void GuiTextElementOperator::SetSelectionText(const GacString& value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiTextElementOperator :: DefaultCallback
+***********************************************************************/
+
+	rptr<GuiTextElementOperator :: DefaultCallback> GuiTextElementOperator::DefaultCallback::Create(rptr<GuiColorizedTextElement> _textElement, rptr<GuiGraphicsComposition> _textComposition)
+	{
+		throw 0;
+	}
+	
+	TextPos GuiTextElementOperator::DefaultCallback::GetLeftWord(TextPos pos)
+	{
+		throw 0;
+	}
+	
+	TextPos GuiTextElementOperator::DefaultCallback::GetRightWord(TextPos pos)
+	{
+		throw 0;
+	}
+	
+	void GuiTextElementOperator::DefaultCallback::GetWord(TextPos pos, TextPos& begin, TextPos& end)
+	{
+		throw 0;
+	}
+	
+	signed __int32 GuiTextElementOperator::DefaultCallback::GetPageRows()
+	{
+		throw 0;
+	}
+	
+	bool GuiTextElementOperator::DefaultCallback::BeforeModify(TextPos& start, TextPos& end, const GacString& originalText, GacString& inputText)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiTextElementOperator :: DefaultCallback> GuiTextElementOperator::DefaultCallback::operator=(rptr<GuiTextElementOperator :: DefaultCallback> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiTextElementOperator :: ICallback
+***********************************************************************/
+
+	TextPos GuiTextElementOperator::ICallback::GetLeftWord(TextPos pos)
+	{
+		throw 0;
+	}
+	
+	TextPos GuiTextElementOperator::ICallback::GetRightWord(TextPos pos)
+	{
+		throw 0;
+	}
+	
+	void GuiTextElementOperator::ICallback::GetWord(TextPos pos, TextPos& begin, TextPos& end)
+	{
+		throw 0;
+	}
+	
+	bool GuiTextElementOperator::ICallback::BeforeModify(TextPos& start, TextPos& end, const GacString& originalText, GacString& inputText)
+	{
+		throw 0;
+	}
+	
+	void GuiTextElementOperator::ICallback::AfterModify(TextPos originalStart, TextPos originalEnd, const GacString& originalText, TextPos inputStart, TextPos inputEnd, const GacString& inputText)
+	{
+		throw 0;
+	}
+	
+	void GuiTextElementOperator::ICallback::ScrollToView(Point point)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiTextElementOperator :: ICallback> GuiTextElementOperator::ICallback::operator=(rptr<GuiTextElementOperator :: ICallback> value)
+	{
+		throw 0;
+	}
+	
+	signed __int32 GuiTextElementOperator::ICallback::GetPageRows()
+	{
+		throw 0;
+	}
+	
+	signed __int32 GuiTextElementOperator::ICallback::GetTextMargin()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiMultilineTextBox
+***********************************************************************/
+
+	rptr<GuiMultilineTextBox> GuiMultilineTextBox::Create(rptr<GuiScrollView :: IStyleProvider> styleProvider)
+	{
+		throw 0;
+	}
+	
+	const GacString& GuiMultilineTextBox::GetText()
+	{
+		throw 0;
+	}
+	
+	void GuiMultilineTextBox::SetText(const GacString& value)
+	{
+		throw 0;
+	}
+	
+	void GuiMultilineTextBox::SetFont(const FontProperties& value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiMultilineTextBox> GuiMultilineTextBox::operator=(rptr<GuiMultilineTextBox> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiMultilineTextBox :: StyleController
+***********************************************************************/
+
+	rptr<GuiMultilineTextBox :: StyleController> GuiMultilineTextBox::StyleController::Create(rptr<GuiScrollView :: IStyleProvider> styleProvider)
+	{
+		throw 0;
+	}
+	
+	void GuiMultilineTextBox::StyleController::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
+	{
+		throw 0;
+	}
+	
+	void GuiMultilineTextBox::StyleController::SetText(const GacString& value)
+	{
+		throw 0;
+	}
+	
+	void GuiMultilineTextBox::StyleController::SetFont(const FontProperties& value)
+	{
+		throw 0;
+	}
+	
+	void GuiMultilineTextBox::StyleController::SetVisuallyEnabled(bool value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiMultilineTextBox :: StyleController> GuiMultilineTextBox::StyleController::operator=(rptr<GuiMultilineTextBox :: StyleController> value)
+	{
+		throw 0;
+	}
+	
+	void GuiMultilineTextBox::StyleController::SetViewPosition(Point value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiColorizedTextElement> GuiMultilineTextBox::StyleController::GetTextElement()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsComposition> GuiMultilineTextBox::StyleController::GetTextComposition()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiTextElementOperator> GuiMultilineTextBox::StyleController::GetTextElementOperator()
+	{
+		throw 0;
+	}
+	
+	GacString GuiMultilineTextBox::StyleController::GetText()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiMultilineTextBox :: TextElementOperatorCallback
+***********************************************************************/
+
+	rptr<GuiMultilineTextBox :: TextElementOperatorCallback> GuiMultilineTextBox::TextElementOperatorCallback::Create(rptr<GuiMultilineTextBox> _textControl)
+	{
+		throw 0;
+	}
+	
+	void GuiMultilineTextBox::TextElementOperatorCallback::AfterModify(TextPos originalStart, TextPos originalEnd, const GacString& originalText, TextPos inputStart, TextPos inputEnd, const GacString& inputText)
+	{
+		throw 0;
+	}
+	
+	void GuiMultilineTextBox::TextElementOperatorCallback::ScrollToView(Point point)
+	{
+		throw 0;
+	}
+	
+	signed __int32 GuiMultilineTextBox::TextElementOperatorCallback::GetTextMargin()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiMultilineTextBox :: TextElementOperatorCallback> GuiMultilineTextBox::TextElementOperatorCallback::operator=(rptr<GuiMultilineTextBox :: TextElementOperatorCallback> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiSinglelineTextBox
+***********************************************************************/
+
+	rptr<GuiSinglelineTextBox> GuiSinglelineTextBox::Create(rptr<GuiSinglelineTextBox :: IStyleProvider> styleProvider)
+	{
+		throw 0;
+	}
+	
+	const GacString& GuiSinglelineTextBox::GetText()
+	{
+		throw 0;
+	}
+	
+	void GuiSinglelineTextBox::SetText(const GacString& value)
+	{
+		throw 0;
+	}
+	
+	void GuiSinglelineTextBox::SetFont(const FontProperties& value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiSinglelineTextBox> GuiSinglelineTextBox::operator=(rptr<GuiSinglelineTextBox> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiSinglelineTextBox :: IStyleProvider
+***********************************************************************/
+
+	rptr<GuiGraphicsComposition> GuiSinglelineTextBox::IStyleProvider::InstallBackground(rptr<GuiBoundsComposition> boundsComposition)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiSinglelineTextBox :: IStyleProvider> GuiSinglelineTextBox::IStyleProvider::operator=(rptr<GuiSinglelineTextBox :: IStyleProvider> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiSinglelineTextBox :: StyleController
+***********************************************************************/
+
+	rptr<GuiSinglelineTextBox :: StyleController> GuiSinglelineTextBox::StyleController::Create(rptr<GuiSinglelineTextBox :: IStyleProvider> _styleProvider)
+	{
+		throw 0;
+	}
+	
+	void GuiSinglelineTextBox::StyleController::RearrangeTextElement()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiBoundsComposition> GuiSinglelineTextBox::StyleController::GetBoundsComposition()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsComposition> GuiSinglelineTextBox::StyleController::GetContainerComposition()
+	{
+		throw 0;
+	}
+	
+	void GuiSinglelineTextBox::StyleController::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
+	{
+		throw 0;
+	}
+	
+	void GuiSinglelineTextBox::StyleController::SetText(const GacString& value)
+	{
+		throw 0;
+	}
+	
+	void GuiSinglelineTextBox::StyleController::SetFont(const FontProperties& value)
+	{
+		throw 0;
+	}
+	
+	void GuiSinglelineTextBox::StyleController::SetVisuallyEnabled(bool value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiSinglelineTextBox :: StyleController> GuiSinglelineTextBox::StyleController::operator=(rptr<GuiSinglelineTextBox :: StyleController> value)
+	{
+		throw 0;
+	}
+	
+	void GuiSinglelineTextBox::StyleController::SetTextBox(rptr<GuiSinglelineTextBox> value)
+	{
+		throw 0;
+	}
+	
+	void GuiSinglelineTextBox::StyleController::SetViewPosition(Point value)
+	{
+		throw 0;
+	}
+	
+	GacString GuiSinglelineTextBox::StyleController::GetText()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiColorizedTextElement> GuiSinglelineTextBox::StyleController::GetTextElement()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsComposition> GuiSinglelineTextBox::StyleController::GetTextComposition()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiTextElementOperator> GuiSinglelineTextBox::StyleController::GetTextElementOperator()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiSinglelineTextBox :: TextElementOperatorCallback
+***********************************************************************/
+
+	rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> GuiSinglelineTextBox::TextElementOperatorCallback::Create(rptr<GuiSinglelineTextBox> _textControl)
+	{
+		throw 0;
+	}
+	
+	bool GuiSinglelineTextBox::TextElementOperatorCallback::BeforeModify(TextPos& start, TextPos& end, const GacString& originalText, GacString& inputText)
+	{
+		throw 0;
+	}
+	
+	void GuiSinglelineTextBox::TextElementOperatorCallback::AfterModify(TextPos originalStart, TextPos originalEnd, const GacString& originalText, TextPos inputStart, TextPos inputEnd, const GacString& inputText)
+	{
+		throw 0;
+	}
+	
+	void GuiSinglelineTextBox::TextElementOperatorCallback::ScrollToView(Point point)
+	{
+		throw 0;
+	}
+	
+	signed __int32 GuiSinglelineTextBox::TextElementOperatorCallback::GetTextMargin()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> GuiSinglelineTextBox::TextElementOperatorCallback::operator=(rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+TreeViewItem
+***********************************************************************/
+
+	rptr<TreeViewItem> TreeViewItem::Create(sptr<GuiImageData> _image, const GacString& _text)
+	{
+		throw 0;
+	}
+	
+	rptr<TreeViewItem> TreeViewItem::Create()
+	{
+		throw 0;
+	}
+	
+	rptr<TreeViewItem> TreeViewItem::operator=(rptr<TreeViewItem> value)
+	{
+		throw 0;
+	}
+	
+	sptr<GuiImageData> TreeViewItem::get_image()
+	{
+		throw 0;
+	}
+	void TreeViewItem::set_image(sptr<GuiImageData> value)
+	{
+		throw 0;
+	}
+	
+	GacString TreeViewItem::get_text()
+	{
+		throw 0;
+	}
+	void TreeViewItem::set_text(GacString value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+TreeViewItemRootProvider
+***********************************************************************/
+
+	rptr<TreeViewItemRootProvider> TreeViewItemRootProvider::Create()
+	{
+		throw 0;
+	}
+	
+	rptr<IDescriptable> TreeViewItemRootProvider::RequestView(const GacString& identifier)
+	{
+		throw 0;
+	}
+	
+	void TreeViewItemRootProvider::ReleaseView(rptr<IDescriptable> view)
+	{
+		throw 0;
+	}
+	
+	rptr<TreeViewItemRootProvider> TreeViewItemRootProvider::operator=(rptr<TreeViewItemRootProvider> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiTreeView
+***********************************************************************/
+
+	rptr<GuiTreeView> GuiTreeView::Create(rptr<GuiTreeView :: IStyleProvider> _styleProvider, rptr<INodeRootProvider> _nodeRootProvider)
+	{
+		throw 0;
+	}
+	
+	sptr<TreeViewItemRootProvider> GuiTreeView::Nodes()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiTreeView> GuiTreeView::operator=(rptr<GuiTreeView> value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiTreeView :: IStyleProvider> GuiTreeView::GetTreeViewStyleProvider()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiTreeView :: IStyleProvider
+***********************************************************************/
+
+	rptr<GuiSelectableButton :: IStyleController> GuiTreeView::IStyleProvider::CreateItemBackground()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiSelectableButton :: IStyleController> GuiTreeView::IStyleProvider::CreateItemExpandingDecorator()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiTreeView :: IStyleProvider> GuiTreeView::IStyleProvider::operator=(rptr<GuiTreeView :: IStyleProvider> value)
+	{
+		throw 0;
+	}
+	
+	Color GuiTreeView::IStyleProvider::GetTextColor()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+TreeViewNodeItemStyleProvider
+***********************************************************************/
+
+	rptr<TreeViewNodeItemStyleProvider> TreeViewNodeItemStyleProvider::Create()
+	{
+		throw 0;
+	}
+	
+	void TreeViewNodeItemStyleProvider::BindItemStyleProvider(rptr<GuiListControl :: IItemStyleProvider> styleProvider)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiListControl :: IItemStyleProvider> TreeViewNodeItemStyleProvider::GetBindedItemStyleProvider()
+	{
+		throw 0;
+	}
+	
+	void TreeViewNodeItemStyleProvider::AttachListControl(rptr<GuiListControl> value)
+	{
+		throw 0;
+	}
+	
+	void TreeViewNodeItemStyleProvider::DetachListControl()
+	{
+		throw 0;
+	}
+	
+	signed __int32 TreeViewNodeItemStyleProvider::GetItemStyleId(rptr<INodeProvider> node)
+	{
+		throw 0;
+	}
+	
+	rptr<INodeItemStyleController> TreeViewNodeItemStyleProvider::CreateItemStyle(signed __int32 styleId)
+	{
+		throw 0;
+	}
+	
+	void TreeViewNodeItemStyleProvider::DestroyItemStyle(rptr<INodeItemStyleController> style)
+	{
+		throw 0;
+	}
+	
+	void TreeViewNodeItemStyleProvider::Install(rptr<INodeItemStyleController> style, rptr<INodeProvider> node)
+	{
+		throw 0;
+	}
+	
+	void TreeViewNodeItemStyleProvider::SetStyleSelected(rptr<INodeItemStyleController> style, bool value)
+	{
+		throw 0;
+	}
+	
+	rptr<TreeViewNodeItemStyleProvider> TreeViewNodeItemStyleProvider::operator=(rptr<TreeViewNodeItemStyleProvider> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+Win7ButtonColors
+***********************************************************************/
+
+	rptr<Win7ButtonColors> Win7ButtonColors::Create()
+	{
+		throw 0;
+	}
+	Win7ButtonColors::Win7ButtonColors()
+	{
+		throw 0;
+	}
+	
+	bool Win7ButtonColors::operator==(const Win7ButtonColors& colors)
+	{
+		throw 0;
+	}
+	
+	bool Win7ButtonColors::operator!=(const Win7ButtonColors& colors)
+	{
+		throw 0;
+	}
+	
+	void Win7ButtonColors::SetAlphaWithoutText(unsigned __int8 a)
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::Blend(const Win7ButtonColors& c1, const Win7ButtonColors& c2, signed __int32 ratio, signed __int32 total)
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::ButtonNormal()
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::ButtonActive()
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::ButtonPressed()
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::ButtonDisabled()
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::ItemNormal()
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::ItemActive()
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::ItemSelected()
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::ItemDisabled()
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::CheckedNormal(bool selected)
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::CheckedActive(bool selected)
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::CheckedPressed(bool selected)
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::CheckedDisabled(bool selected)
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::ToolstripButtonNormal()
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::ToolstripButtonActive()
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::ToolstripButtonPressed()
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::ToolstripButtonDisabled()
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::MenuBarButtonNormal()
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::MenuBarButtonActive()
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::MenuBarButtonPressed()
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::MenuBarButtonDisabled()
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::MenuItemButtonNormal()
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::MenuItemButtonNormalActive()
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::MenuItemButtonDisabled()
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::MenuItemButtonDisabledActive()
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::TabPageHeaderNormal()
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::TabPageHeaderActive()
+	{
+		throw 0;
+	}
+	
+	Win7ButtonColors Win7ButtonColors::TabPageHeaderSelected()
+	{
+		throw 0;
+	}
+	
+	Color Win7ButtonColors::get_borderColor()
+	{
+		throw 0;
+	}
+	void Win7ButtonColors::set_borderColor(Color value)
+	{
+		throw 0;
+	}
+	
+	Color Win7ButtonColors::get_backgroundColor()
+	{
+		throw 0;
+	}
+	void Win7ButtonColors::set_backgroundColor(Color value)
+	{
+		throw 0;
+	}
+	
+	Color Win7ButtonColors::get_g1()
+	{
+		throw 0;
+	}
+	void Win7ButtonColors::set_g1(Color value)
+	{
+		throw 0;
+	}
+	
+	Color Win7ButtonColors::get_g2()
+	{
+		throw 0;
+	}
+	void Win7ButtonColors::set_g2(Color value)
+	{
+		throw 0;
+	}
+	
+	Color Win7ButtonColors::get_g3()
+	{
+		throw 0;
+	}
+	void Win7ButtonColors::set_g3(Color value)
+	{
+		throw 0;
+	}
+	
+	Color Win7ButtonColors::get_g4()
+	{
+		throw 0;
+	}
+	void Win7ButtonColors::set_g4(Color value)
+	{
+		throw 0;
+	}
+	
+	Color Win7ButtonColors::get_textColor()
+	{
+		throw 0;
+	}
+	void Win7ButtonColors::set_textColor(Color value)
+	{
+		throw 0;
+	}
+	
+	Color Win7ButtonColors::get_bulletLight()
+	{
+		throw 0;
+	}
+	void Win7ButtonColors::set_bulletLight(Color value)
+	{
+		throw 0;
+	}
+	
+	Color Win7ButtonColors::get_bulletDark()
+	{
+		throw 0;
+	}
+	void Win7ButtonColors::set_bulletDark(Color value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+Win7ButtonStyleBase
+***********************************************************************/
+
+	rptr<GuiBoundsComposition> Win7ButtonStyleBase::GetBoundsComposition()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsComposition> Win7ButtonStyleBase::GetContainerComposition()
+	{
+		throw 0;
+	}
+	
+	void Win7ButtonStyleBase::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
+	{
+		throw 0;
+	}
+	
+	void Win7ButtonStyleBase::SetText(const GacString& value)
+	{
+		throw 0;
+	}
+	
+	void Win7ButtonStyleBase::SetFont(const FontProperties& value)
+	{
+		throw 0;
+	}
+	
+	void Win7ButtonStyleBase::SetVisuallyEnabled(bool value)
+	{
+		throw 0;
+	}
+	
+	void Win7ButtonStyleBase::SetSelected(bool value)
+	{
+		throw 0;
+	}
+	
+	void Win7ButtonStyleBase::Transfer(GuiButton :: ControlState value)
+	{
+		throw 0;
+	}
+	
+	rptr<Win7ButtonStyleBase> Win7ButtonStyleBase::operator=(rptr<Win7ButtonStyleBase> value)
+	{
+		throw 0;
+	}
+	
+	bool Win7ButtonStyleBase::GetTransparentWhenInactive()
+	{
+		throw 0;
+	}
+	void Win7ButtonStyleBase::SetTransparentWhenInactive(bool value)
+	{
+		throw 0;
+	}
+	
+	bool Win7ButtonStyleBase::GetTransparentWhenDisabled()
+	{
+		throw 0;
+	}
+	void Win7ButtonStyleBase::SetTransparentWhenDisabled(bool value)
+	{
+		throw 0;
+	}
+	
+	bool Win7ButtonStyleBase::GetAutoSizeForText()
+	{
+		throw 0;
+	}
+	void Win7ButtonStyleBase::SetAutoSizeForText(bool value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+Win7ButtonStyle
+***********************************************************************/
+
+	rptr<Win7ButtonStyle> Win7ButtonStyle::Create(bool verticalGradient)
+	{
+		throw 0;
+	}
+	
+	rptr<Win7ButtonStyle> Win7ButtonStyle::operator=(rptr<Win7ButtonStyle> value)
 	{
 		throw 0;
 	}
@@ -11095,308 +10407,250 @@ Win7CheckBoxStyle
 	
 
 /***********************************************************************
-Win7ListViewProvider
+Win7DropDownComboBoxStyle
 ***********************************************************************/
 
-	rptr<Win7ListViewProvider> Win7ListViewProvider::Create()
+	rptr<Win7DropDownComboBoxStyle> Win7DropDownComboBoxStyle::Create()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiSelectableButton :: IStyleController> Win7ListViewProvider::CreateItemBackground()
+	rptr<GuiGraphicsComposition> Win7DropDownComboBoxStyle::GetContainerComposition()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiSelectableButton :: IStyleController> Win7ListViewProvider::CreateColumnStyle()
+	void Win7DropDownComboBoxStyle::SetCommandExecutor(rptr<GuiComboBoxBase :: ICommandExecutor> value)
 	{
 		throw 0;
 	}
 	
-	Color Win7ListViewProvider::GetPrimaryTextColor()
+	void Win7DropDownComboBoxStyle::OnClicked()
 	{
 		throw 0;
 	}
 	
-	Color Win7ListViewProvider::GetSecondaryTextColor()
+	void Win7DropDownComboBoxStyle::OnPopupOpened()
 	{
 		throw 0;
 	}
 	
-	Color Win7ListViewProvider::GetItemSeparatorColor()
+	void Win7DropDownComboBoxStyle::OnPopupClosed()
 	{
 		throw 0;
 	}
 	
-	rptr<Win7ListViewProvider> Win7ListViewProvider::operator=(rptr<Win7ListViewProvider> value)
+	void Win7DropDownComboBoxStyle::OnItemSelected()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiControl :: IStyleController> Win7DropDownComboBoxStyle::CreatePopupStyle()
+	{
+		throw 0;
+	}
+	
+	rptr<Win7DropDownComboBoxStyle> Win7DropDownComboBoxStyle::operator=(rptr<Win7DropDownComboBoxStyle> value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-Win7MenuItemButtonStyle
+Win7EmptyStyle
 ***********************************************************************/
 
-	rptr<Win7MenuItemButtonStyle> Win7MenuItemButtonStyle::Create()
+	rptr<Win7EmptyStyle> Win7EmptyStyle::Create(Color color)
 	{
 		throw 0;
 	}
 	
-	rptr<GuiBoundsComposition> Win7MenuItemButtonStyle::GetBoundsComposition()
+	rptr<GuiBoundsComposition> Win7EmptyStyle::GetBoundsComposition()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiGraphicsComposition> Win7MenuItemButtonStyle::GetContainerComposition()
+	rptr<GuiGraphicsComposition> Win7EmptyStyle::GetContainerComposition()
 	{
 		throw 0;
 	}
 	
-	void Win7MenuItemButtonStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
+	void Win7EmptyStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
 	{
 		throw 0;
 	}
 	
-	void Win7MenuItemButtonStyle::SetText(const GacString& value)
+	void Win7EmptyStyle::SetText(const GacString& value)
 	{
 		throw 0;
 	}
 	
-	void Win7MenuItemButtonStyle::SetFont(const FontProperties& value)
+	void Win7EmptyStyle::SetFont(const FontProperties& value)
 	{
 		throw 0;
 	}
 	
-	void Win7MenuItemButtonStyle::SetVisuallyEnabled(bool value)
+	void Win7EmptyStyle::SetVisuallyEnabled(bool value)
 	{
 		throw 0;
 	}
 	
-	rptr<GuiControl :: IStyleController> Win7MenuItemButtonStyle::CreateSubMenuStyleController()
-	{
-		throw 0;
-	}
-	
-	void Win7MenuItemButtonStyle::SetSubMenuExisting(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuItemButtonStyle::SetSubMenuOpening(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuItemButtonStyle::Transfer(GuiButton :: ControlState value)
-	{
-		throw 0;
-	}
-	
-	rptr<Win7MenuItemButtonStyle> Win7MenuItemButtonStyle::operator=(rptr<Win7MenuItemButtonStyle> value)
+	rptr<Win7EmptyStyle> Win7EmptyStyle::operator=(rptr<Win7EmptyStyle> value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-Win7TreeViewProvider
+Win7GroupBoxStyle
 ***********************************************************************/
 
-	rptr<Win7TreeViewProvider> Win7TreeViewProvider::Create()
+	rptr<Win7GroupBoxStyle> Win7GroupBoxStyle::Create()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiSelectableButton :: IStyleController> Win7TreeViewProvider::CreateItemBackground()
+	rptr<GuiBoundsComposition> Win7GroupBoxStyle::GetBoundsComposition()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiSelectableButton :: IStyleController> Win7TreeViewProvider::CreateItemExpandingDecorator()
+	rptr<GuiGraphicsComposition> Win7GroupBoxStyle::GetContainerComposition()
 	{
 		throw 0;
 	}
 	
-	Color Win7TreeViewProvider::GetTextColor()
+	void Win7GroupBoxStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
 	{
 		throw 0;
 	}
 	
-	rptr<Win7TreeViewProvider> Win7TreeViewProvider::operator=(rptr<Win7TreeViewProvider> value)
+	void Win7GroupBoxStyle::SetText(const GacString& value)
+	{
+		throw 0;
+	}
+	
+	void Win7GroupBoxStyle::SetFont(const FontProperties& value)
+	{
+		throw 0;
+	}
+	
+	void Win7GroupBoxStyle::SetVisuallyEnabled(bool value)
+	{
+		throw 0;
+	}
+	
+	rptr<Win7GroupBoxStyle> Win7GroupBoxStyle::operator=(rptr<Win7GroupBoxStyle> value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-GuiComboBoxListControl
+Win7ListViewColumnDropDownStyle
 ***********************************************************************/
 
-	rptr<GuiComboBoxListControl> GuiComboBoxListControl::Create(rptr<GuiComboBoxBase :: IStyleController> _styleController, rptr<GuiSelectableListControl> _containedListControl)
+	rptr<Win7ListViewColumnDropDownStyle> Win7ListViewColumnDropDownStyle::Create()
 	{
 		throw 0;
 	}
 	
-	void GuiComboBoxListControl::SetFont(const FontProperties& value)
+	rptr<GuiBoundsComposition> Win7ListViewColumnDropDownStyle::GetBoundsComposition()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiComboBoxListControl> GuiComboBoxListControl::operator=(rptr<GuiComboBoxListControl> value)
+	rptr<GuiGraphicsComposition> Win7ListViewColumnDropDownStyle::GetContainerComposition()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiSelectableListControl> GuiComboBoxListControl::GetContainedListControl()
+	void Win7ListViewColumnDropDownStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
 	{
 		throw 0;
 	}
 	
-	signed __int32 GuiComboBoxListControl::GetSelectedIndex()
-	{
-		throw 0;
-	}
-	void GuiComboBoxListControl::SetSelectedIndex(signed __int32 value)
+	void Win7ListViewColumnDropDownStyle::SetText(const GacString& value)
 	{
 		throw 0;
 	}
 	
-	rptr<GuiListControl :: IItemProvider> GuiComboBoxListControl::GetItemProvider()
+	void Win7ListViewColumnDropDownStyle::SetFont(const FontProperties& value)
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiComboBoxListControl::get_SelectedIndexChanged()
+	void Win7ListViewColumnDropDownStyle::SetVisuallyEnabled(bool value)
+	{
+		throw 0;
+	}
+	
+	void Win7ListViewColumnDropDownStyle::SetSelected(bool value)
+	{
+		throw 0;
+	}
+	
+	void Win7ListViewColumnDropDownStyle::Transfer(GuiButton :: ControlState value)
+	{
+		throw 0;
+	}
+	
+	rptr<Win7ListViewColumnDropDownStyle> Win7ListViewColumnDropDownStyle::operator=(rptr<Win7ListViewColumnDropDownStyle> value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-IGuiMenuService
+Win7ListViewColumnHeaderStyle
 ***********************************************************************/
 
-	bool IGuiMenuService::IsActiveState()
+	rptr<Win7ListViewColumnHeaderStyle> Win7ListViewColumnHeaderStyle::Create()
 	{
 		throw 0;
 	}
 	
-	void IGuiMenuService::MenuItemExecuted()
+	rptr<GuiBoundsComposition> Win7ListViewColumnHeaderStyle::GetBoundsComposition()
 	{
 		throw 0;
 	}
 	
-	void IGuiMenuService::MenuOpened(rptr<GuiMenu> menu)
+	rptr<GuiGraphicsComposition> Win7ListViewColumnHeaderStyle::GetContainerComposition()
 	{
 		throw 0;
 	}
 	
-	void IGuiMenuService::MenuClosed(rptr<GuiMenu> menu)
+	void Win7ListViewColumnHeaderStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
 	{
 		throw 0;
 	}
 	
-	rptr<IGuiMenuService> IGuiMenuService::operator=(rptr<IGuiMenuService> value)
+	void Win7ListViewColumnHeaderStyle::SetText(const GacString& value)
 	{
 		throw 0;
 	}
 	
-	rptr<IGuiMenuService> IGuiMenuService::GetParent()
+	void Win7ListViewColumnHeaderStyle::SetFont(const FontProperties& value)
 	{
 		throw 0;
 	}
 	
-	IGuiMenuService :: Direction IGuiMenuService::GetPreferredDirection()
+	void Win7ListViewColumnHeaderStyle::SetVisuallyEnabled(bool value)
 	{
 		throw 0;
 	}
 	
-	rptr<GuiMenu> IGuiMenuService::GetOpeningMenu()
+	void Win7ListViewColumnHeaderStyle::SetSelected(bool value)
 	{
 		throw 0;
 	}
 	
-	wchar_t* IGuiMenuService::get_Identifier()
-	{
-		throw 0;
-	}
-	void IGuiMenuService::set_Identifier(wchar_t* value)
+	void Win7ListViewColumnHeaderStyle::Transfer(GuiButton :: ControlState value)
 	{
 		throw 0;
 	}
 	
-
-/***********************************************************************
-ListViewInformationContentProvider
-***********************************************************************/
-
-	rptr<ListViewInformationContentProvider> ListViewInformationContentProvider::Create(Size _iconSize)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemCoordinateTransformer> ListViewInformationContentProvider::CreatePreferredCoordinateTransformer()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemArranger> ListViewInformationContentProvider::CreatePreferredArranger()
-	{
-		throw 0;
-	}
-	
-	rptr<ListViewItemStyleProvider :: IListViewItemContent> ListViewInformationContentProvider::CreateItemContent(const FontProperties& font)
-	{
-		throw 0;
-	}
-	
-	void ListViewInformationContentProvider::AttachListControl(rptr<GuiListControl> value)
-	{
-		throw 0;
-	}
-	
-	void ListViewInformationContentProvider::DetachListControl()
-	{
-		throw 0;
-	}
-	
-	rptr<ListViewInformationContentProvider> ListViewInformationContentProvider::operator=(rptr<ListViewInformationContentProvider> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
-TextItemProvider
-***********************************************************************/
-
-	rptr<TextItemProvider> TextItemProvider::Create()
-	{
-		throw 0;
-	}
-	
-	void TextItemProvider::SetText(signed __int32 itemIndex, const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void TextItemProvider::SetChecked(signed __int32 itemIndex, bool value)
-	{
-		throw 0;
-	}
-	
-	rptr<IDescriptable> TextItemProvider::RequestView(const GacString& identifier)
-	{
-		throw 0;
-	}
-	
-	void TextItemProvider::ReleaseView(rptr<IDescriptable> view)
-	{
-		throw 0;
-	}
-	
-	rptr<TextItemProvider> TextItemProvider::operator=(rptr<TextItemProvider> value)
+	rptr<Win7ListViewColumnHeaderStyle> Win7ListViewColumnHeaderStyle::operator=(rptr<Win7ListViewColumnHeaderStyle> value)
 	{
 		throw 0;
 	}
@@ -11468,130 +10722,410 @@ Win7MenuBarButtonStyle
 	
 
 /***********************************************************************
-GuiListView
+Win7MenuBarStyle
 ***********************************************************************/
 
-	rptr<GuiListView> GuiListView::Create(rptr<GuiListViewBase :: IStyleProvider> _styleProvider)
+	rptr<Win7MenuBarStyle> Win7MenuBarStyle::Create()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiListView> GuiListView::operator=(rptr<GuiListView> value)
+	rptr<GuiBoundsComposition> Win7MenuBarStyle::GetBoundsComposition()
 	{
 		throw 0;
 	}
 	
-	rptr<ListViewItemProvider> GuiListView::GetItems()
+	rptr<GuiGraphicsComposition> Win7MenuBarStyle::GetContainerComposition()
+	{
+		throw 0;
+	}
+	
+	void Win7MenuBarStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
+	{
+		throw 0;
+	}
+	
+	void Win7MenuBarStyle::SetText(const GacString& value)
+	{
+		throw 0;
+	}
+	
+	void Win7MenuBarStyle::SetFont(const FontProperties& value)
+	{
+		throw 0;
+	}
+	
+	void Win7MenuBarStyle::SetVisuallyEnabled(bool value)
+	{
+		throw 0;
+	}
+	
+	rptr<Win7MenuBarStyle> Win7MenuBarStyle::operator=(rptr<Win7MenuBarStyle> value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-ListViewBigIconContentProvider
+Win7MenuItemButtonStyle
 ***********************************************************************/
 
-	rptr<ListViewBigIconContentProvider> ListViewBigIconContentProvider::Create(Size _iconSize)
+	rptr<Win7MenuItemButtonStyle> Win7MenuItemButtonStyle::Create()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiListControl :: IItemCoordinateTransformer> ListViewBigIconContentProvider::CreatePreferredCoordinateTransformer()
+	rptr<GuiBoundsComposition> Win7MenuItemButtonStyle::GetBoundsComposition()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiListControl :: IItemArranger> ListViewBigIconContentProvider::CreatePreferredArranger()
+	rptr<GuiGraphicsComposition> Win7MenuItemButtonStyle::GetContainerComposition()
 	{
 		throw 0;
 	}
 	
-	rptr<ListViewItemStyleProvider :: IListViewItemContent> ListViewBigIconContentProvider::CreateItemContent(const FontProperties& font)
+	void Win7MenuItemButtonStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
 	{
 		throw 0;
 	}
 	
-	void ListViewBigIconContentProvider::AttachListControl(rptr<GuiListControl> value)
+	void Win7MenuItemButtonStyle::SetText(const GacString& value)
 	{
 		throw 0;
 	}
 	
-	void ListViewBigIconContentProvider::DetachListControl()
+	void Win7MenuItemButtonStyle::SetFont(const FontProperties& value)
 	{
 		throw 0;
 	}
 	
-	rptr<ListViewBigIconContentProvider> ListViewBigIconContentProvider::operator=(rptr<ListViewBigIconContentProvider> value)
+	void Win7MenuItemButtonStyle::SetVisuallyEnabled(bool value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiControl :: IStyleController> Win7MenuItemButtonStyle::CreateSubMenuStyleController()
+	{
+		throw 0;
+	}
+	
+	void Win7MenuItemButtonStyle::SetSubMenuExisting(bool value)
+	{
+		throw 0;
+	}
+	
+	void Win7MenuItemButtonStyle::SetSubMenuOpening(bool value)
+	{
+		throw 0;
+	}
+	
+	void Win7MenuItemButtonStyle::Transfer(GuiButton :: ControlState value)
+	{
+		throw 0;
+	}
+	
+	rptr<Win7MenuItemButtonStyle> Win7MenuItemButtonStyle::operator=(rptr<Win7MenuItemButtonStyle> value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-Win7DropDownComboBoxStyle
+Win7MenuSplitterStyle
 ***********************************************************************/
 
-	rptr<Win7DropDownComboBoxStyle> Win7DropDownComboBoxStyle::Create()
+	rptr<Win7MenuSplitterStyle> Win7MenuSplitterStyle::Create()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiGraphicsComposition> Win7DropDownComboBoxStyle::GetContainerComposition()
+	rptr<GuiBoundsComposition> Win7MenuSplitterStyle::GetBoundsComposition()
 	{
 		throw 0;
 	}
 	
-	void Win7DropDownComboBoxStyle::SetCommandExecutor(rptr<GuiComboBoxBase :: ICommandExecutor> value)
+	rptr<GuiGraphicsComposition> Win7MenuSplitterStyle::GetContainerComposition()
 	{
 		throw 0;
 	}
 	
-	void Win7DropDownComboBoxStyle::OnClicked()
+	void Win7MenuSplitterStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
 	{
 		throw 0;
 	}
 	
-	void Win7DropDownComboBoxStyle::OnPopupOpened()
+	void Win7MenuSplitterStyle::SetText(const GacString& value)
 	{
 		throw 0;
 	}
 	
-	void Win7DropDownComboBoxStyle::OnPopupClosed()
+	void Win7MenuSplitterStyle::SetFont(const FontProperties& value)
 	{
 		throw 0;
 	}
 	
-	void Win7DropDownComboBoxStyle::OnItemSelected()
+	void Win7MenuSplitterStyle::SetVisuallyEnabled(bool value)
 	{
 		throw 0;
 	}
 	
-	rptr<GuiControl :: IStyleController> Win7DropDownComboBoxStyle::CreatePopupStyle()
-	{
-		throw 0;
-	}
-	
-	rptr<Win7DropDownComboBoxStyle> Win7DropDownComboBoxStyle::operator=(rptr<Win7DropDownComboBoxStyle> value)
+	rptr<Win7MenuSplitterStyle> Win7MenuSplitterStyle::operator=(rptr<Win7MenuSplitterStyle> value)
 	{
 		throw 0;
 	}
 	
 
 /***********************************************************************
-GuiTextList
+Win7MenuStyle
 ***********************************************************************/
 
-	rptr<GuiTextList> GuiTextList::Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<TextItemStyleProvider :: ITextItemStyleProvider> _itemStyleProvider)
+	rptr<Win7MenuStyle> Win7MenuStyle::Create()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiTextList> GuiTextList::operator=(rptr<GuiTextList> value)
+	rptr<GuiBoundsComposition> Win7MenuStyle::GetBoundsComposition()
 	{
 		throw 0;
 	}
 	
-	rptr<TextItemProvider> GuiTextList::GetItems()
+	rptr<GuiGraphicsComposition> Win7MenuStyle::GetContainerComposition()
+	{
+		throw 0;
+	}
+	
+	void Win7MenuStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
+	{
+		throw 0;
+	}
+	
+	void Win7MenuStyle::SetText(const GacString& value)
+	{
+		throw 0;
+	}
+	
+	void Win7MenuStyle::SetFont(const FontProperties& value)
+	{
+		throw 0;
+	}
+	
+	void Win7MenuStyle::SetVisuallyEnabled(bool value)
+	{
+		throw 0;
+	}
+	
+	rptr<Win7MenuStyle> Win7MenuStyle::operator=(rptr<Win7MenuStyle> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+Win7ScrollStyle
+***********************************************************************/
+
+	rptr<Win7ScrollStyle> Win7ScrollStyle::Create(CommonScrollStyle :: Direction _direction)
+	{
+		throw 0;
+	}
+	
+	rptr<Win7ScrollStyle> Win7ScrollStyle::operator=(rptr<Win7ScrollStyle> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+Win7ScrollViewProvider
+***********************************************************************/
+
+	rptr<Win7ScrollViewProvider> Win7ScrollViewProvider::Create()
+	{
+		throw 0;
+	}
+	
+	void Win7ScrollViewProvider::AssociateStyleController(rptr<GuiControl :: IStyleController> controller)
+	{
+		throw 0;
+	}
+	
+	void Win7ScrollViewProvider::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
+	{
+		throw 0;
+	}
+	
+	void Win7ScrollViewProvider::SetText(const GacString& value)
+	{
+		throw 0;
+	}
+	
+	void Win7ScrollViewProvider::SetFont(const FontProperties& value)
+	{
+		throw 0;
+	}
+	
+	void Win7ScrollViewProvider::SetVisuallyEnabled(bool value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiScroll :: IStyleController> Win7ScrollViewProvider::CreateHorizontalScrollStyle()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiScroll :: IStyleController> Win7ScrollViewProvider::CreateVerticalScrollStyle()
+	{
+		throw 0;
+	}
+	
+	signed __int32 Win7ScrollViewProvider::GetDefaultScrollSize()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsComposition> Win7ScrollViewProvider::InstallBackground(rptr<GuiBoundsComposition> boundsComposition)
+	{
+		throw 0;
+	}
+	
+	rptr<Win7ScrollViewProvider> Win7ScrollViewProvider::operator=(rptr<Win7ScrollViewProvider> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+Win7MultilineTextBoxProvider
+***********************************************************************/
+
+	rptr<Win7MultilineTextBoxProvider> Win7MultilineTextBoxProvider::Create()
+	{
+		throw 0;
+	}
+	
+	void Win7MultilineTextBoxProvider::AssociateStyleController(rptr<GuiControl :: IStyleController> controller)
+	{
+		throw 0;
+	}
+	
+	void Win7MultilineTextBoxProvider::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
+	{
+		throw 0;
+	}
+	
+	void Win7MultilineTextBoxProvider::SetVisuallyEnabled(bool value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsComposition> Win7MultilineTextBoxProvider::InstallBackground(rptr<GuiBoundsComposition> boundsComposition)
+	{
+		throw 0;
+	}
+	
+	rptr<Win7MultilineTextBoxProvider> Win7MultilineTextBoxProvider::operator=(rptr<Win7MultilineTextBoxProvider> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+Win7ListViewProvider
+***********************************************************************/
+
+	rptr<Win7ListViewProvider> Win7ListViewProvider::Create()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiSelectableButton :: IStyleController> Win7ListViewProvider::CreateItemBackground()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiSelectableButton :: IStyleController> Win7ListViewProvider::CreateColumnStyle()
+	{
+		throw 0;
+	}
+	
+	Color Win7ListViewProvider::GetPrimaryTextColor()
+	{
+		throw 0;
+	}
+	
+	Color Win7ListViewProvider::GetSecondaryTextColor()
+	{
+		throw 0;
+	}
+	
+	Color Win7ListViewProvider::GetItemSeparatorColor()
+	{
+		throw 0;
+	}
+	
+	rptr<Win7ListViewProvider> Win7ListViewProvider::operator=(rptr<Win7ListViewProvider> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+Win7SelectableItemStyle
+***********************************************************************/
+
+	rptr<Win7SelectableItemStyle> Win7SelectableItemStyle::Create()
+	{
+		throw 0;
+	}
+	
+	rptr<Win7SelectableItemStyle> Win7SelectableItemStyle::operator=(rptr<Win7SelectableItemStyle> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+Win7SinglelineTextBoxProvider
+***********************************************************************/
+
+	rptr<Win7SinglelineTextBoxProvider> Win7SinglelineTextBoxProvider::Create()
+	{
+		throw 0;
+	}
+	
+	void Win7SinglelineTextBoxProvider::AssociateStyleController(rptr<GuiControl :: IStyleController> controller)
+	{
+		throw 0;
+	}
+	
+	void Win7SinglelineTextBoxProvider::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
+	{
+		throw 0;
+	}
+	
+	void Win7SinglelineTextBoxProvider::SetText(const GacString& value)
+	{
+		throw 0;
+	}
+	
+	void Win7SinglelineTextBoxProvider::SetFont(const FontProperties& value)
+	{
+		throw 0;
+	}
+	
+	void Win7SinglelineTextBoxProvider::SetVisuallyEnabled(bool value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsComposition> Win7SinglelineTextBoxProvider::InstallBackground(rptr<GuiBoundsComposition> boundsComposition)
+	{
+		throw 0;
+	}
+	
+	rptr<Win7SinglelineTextBoxProvider> Win7SinglelineTextBoxProvider::operator=(rptr<Win7SinglelineTextBoxProvider> value)
 	{
 		throw 0;
 	}
@@ -11618,40 +11152,315 @@ Win7TabPageHeaderStyle
 	
 
 /***********************************************************************
-ListViewListContentProvider
+Win7TabStyle
 ***********************************************************************/
 
-	rptr<ListViewListContentProvider> ListViewListContentProvider::Create(Size _iconSize)
+	rptr<Win7TabStyle> Win7TabStyle::Create()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiListControl :: IItemCoordinateTransformer> ListViewListContentProvider::CreatePreferredCoordinateTransformer()
+	rptr<GuiBoundsComposition> Win7TabStyle::GetBoundsComposition()
 	{
 		throw 0;
 	}
 	
-	rptr<GuiListControl :: IItemArranger> ListViewListContentProvider::CreatePreferredArranger()
+	rptr<GuiGraphicsComposition> Win7TabStyle::GetContainerComposition()
 	{
 		throw 0;
 	}
 	
-	rptr<ListViewItemStyleProvider :: IListViewItemContent> ListViewListContentProvider::CreateItemContent(const FontProperties& font)
+	void Win7TabStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
 	{
 		throw 0;
 	}
 	
-	void ListViewListContentProvider::AttachListControl(rptr<GuiListControl> value)
+	void Win7TabStyle::SetText(const GacString& value)
 	{
 		throw 0;
 	}
 	
-	void ListViewListContentProvider::DetachListControl()
+	void Win7TabStyle::SetFont(const FontProperties& value)
 	{
 		throw 0;
 	}
 	
-	rptr<ListViewListContentProvider> ListViewListContentProvider::operator=(rptr<ListViewListContentProvider> value)
+	void Win7TabStyle::SetVisuallyEnabled(bool value)
+	{
+		throw 0;
+	}
+	
+	void Win7TabStyle::SetCommandExecutor(rptr<GuiTab :: ICommandExecutor> value)
+	{
+		throw 0;
+	}
+	
+	void Win7TabStyle::InsertTab(signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	void Win7TabStyle::SetTabText(signed __int32 index, const GacString& value)
+	{
+		throw 0;
+	}
+	
+	void Win7TabStyle::RemoveTab(signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	void Win7TabStyle::MoveTab(signed __int32 oldIndex, signed __int32 newIndex)
+	{
+		throw 0;
+	}
+	
+	void Win7TabStyle::SetSelectedTab(signed __int32 index)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiControl :: IStyleController> Win7TabStyle::CreateTabPageStyleController()
+	{
+		throw 0;
+	}
+	
+	rptr<Win7TabStyle> Win7TabStyle::operator=(rptr<Win7TabStyle> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+Win7TextBoxBackground
+***********************************************************************/
+
+	rptr<Win7TextBoxBackground> Win7TextBoxBackground::Create()
+	{
+		throw 0;
+	}
+	
+	void Win7TextBoxBackground::AssociateStyleController(rptr<GuiControl :: IStyleController> controller)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsComposition> Win7TextBoxBackground::InstallBackground(rptr<GuiBoundsComposition> boundsComposition)
+	{
+		throw 0;
+	}
+	
+	void Win7TextBoxBackground::InitializeTextElement(rptr<GuiColorizedTextElement> _textElement)
+	{
+		throw 0;
+	}
+	
+	rptr<Win7TextBoxBackground> Win7TextBoxBackground::operator=(rptr<Win7TextBoxBackground> value)
+	{
+		throw 0;
+	}
+	
+	void Win7TextBoxBackground::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
+	{
+		throw 0;
+	}
+	
+	void Win7TextBoxBackground::SetVisuallyEnabled(bool value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+Win7TextListProvider
+***********************************************************************/
+
+	rptr<Win7TextListProvider> Win7TextListProvider::Create()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiSelectableButton :: IStyleController> Win7TextListProvider::CreateBackgroundStyleController()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiSelectableButton :: IStyleController> Win7TextListProvider::CreateBulletStyleController()
+	{
+		throw 0;
+	}
+	
+	rptr<Win7TextListProvider> Win7TextListProvider::operator=(rptr<Win7TextListProvider> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+Win7CheckTextListProvider
+***********************************************************************/
+
+	rptr<Win7CheckTextListProvider> Win7CheckTextListProvider::Create()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiSelectableButton :: IStyleController> Win7CheckTextListProvider::CreateBulletStyleController()
+	{
+		throw 0;
+	}
+	
+	rptr<Win7CheckTextListProvider> Win7CheckTextListProvider::operator=(rptr<Win7CheckTextListProvider> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+Win7RadioTextListProvider
+***********************************************************************/
+
+	rptr<Win7RadioTextListProvider> Win7RadioTextListProvider::Create()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiSelectableButton :: IStyleController> Win7RadioTextListProvider::CreateBulletStyleController()
+	{
+		throw 0;
+	}
+	
+	rptr<Win7RadioTextListProvider> Win7RadioTextListProvider::operator=(rptr<Win7RadioTextListProvider> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+Win7ToolstripButtonStyle
+***********************************************************************/
+
+	rptr<Win7ToolstripButtonStyle> Win7ToolstripButtonStyle::Create(bool transparent)
+	{
+		throw 0;
+	}
+	
+	rptr<Win7ToolstripButtonStyle> Win7ToolstripButtonStyle::operator=(rptr<Win7ToolstripButtonStyle> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+Win7TrackStyle
+***********************************************************************/
+
+	rptr<Win7TrackStyle> Win7TrackStyle::Create(CommonTrackStyle :: Direction _direction)
+	{
+		throw 0;
+	}
+	
+	rptr<Win7TrackStyle> Win7TrackStyle::operator=(rptr<Win7TrackStyle> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+Win7TreeViewExpandingButtonStyle
+***********************************************************************/
+
+	rptr<Win7TreeViewExpandingButtonStyle> Win7TreeViewExpandingButtonStyle::Create()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiBoundsComposition> Win7TreeViewExpandingButtonStyle::GetBoundsComposition()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiGraphicsComposition> Win7TreeViewExpandingButtonStyle::GetContainerComposition()
+	{
+		throw 0;
+	}
+	
+	void Win7TreeViewExpandingButtonStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
+	{
+		throw 0;
+	}
+	
+	void Win7TreeViewExpandingButtonStyle::SetText(const GacString& value)
+	{
+		throw 0;
+	}
+	
+	void Win7TreeViewExpandingButtonStyle::SetFont(const FontProperties& value)
+	{
+		throw 0;
+	}
+	
+	void Win7TreeViewExpandingButtonStyle::SetVisuallyEnabled(bool value)
+	{
+		throw 0;
+	}
+	
+	void Win7TreeViewExpandingButtonStyle::SetSelected(bool value)
+	{
+		throw 0;
+	}
+	
+	void Win7TreeViewExpandingButtonStyle::Transfer(GuiButton :: ControlState value)
+	{
+		throw 0;
+	}
+	
+	rptr<Win7TreeViewExpandingButtonStyle> Win7TreeViewExpandingButtonStyle::operator=(rptr<Win7TreeViewExpandingButtonStyle> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+Win7TreeViewProvider
+***********************************************************************/
+
+	rptr<Win7TreeViewProvider> Win7TreeViewProvider::Create()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiSelectableButton :: IStyleController> Win7TreeViewProvider::CreateItemBackground()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiSelectableButton :: IStyleController> Win7TreeViewProvider::CreateItemExpandingDecorator()
+	{
+		throw 0;
+	}
+	
+	Color Win7TreeViewProvider::GetTextColor()
+	{
+		throw 0;
+	}
+	
+	rptr<Win7TreeViewProvider> Win7TreeViewProvider::operator=(rptr<Win7TreeViewProvider> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+Win7WindowStyle
+***********************************************************************/
+
+	rptr<Win7WindowStyle> Win7WindowStyle::Create()
+	{
+		throw 0;
+	}
+	
+	rptr<Win7WindowStyle> Win7WindowStyle::operator=(rptr<Win7WindowStyle> value)
 	{
 		throw 0;
 	}
