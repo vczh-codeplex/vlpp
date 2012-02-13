@@ -140,7 +140,7 @@ namespace _TranslateXMLtoCode.Codegen
             "GuiControl",
             "GuiControlHost",
             "GuiComponent",
-            "IGuiMenuService",
+            "GuiMenu",
             "IGuiGraphicsElement",
             "IGuiGraphicsRenderer",
             "GuiTableComposition",
@@ -178,49 +178,63 @@ namespace _TranslateXMLtoCode.Codegen
         protected RgacUDT[] GetRelatedUdts(RgacUDT udt)
         {
             return
-                udt.BaseClasses.Concat(
                 udt.Constructors.SelectMany(GetRelatedUdts).Concat(
                 udt.Methods.SelectMany(GetRelatedUdts).Concat(
                 udt.StaticMethods.SelectMany(GetRelatedUdts).Concat(
                 udt.Properties.SelectMany(GetRelatedUdts).Concat(
                 udt.StaticProperties.SelectMany(GetRelatedUdts)
-                )))))
-                .Distinct()
-                .Where(t => this.options.Udts.Contains(t))
+                ))))
                 .Where(t => !this.PredeclaredClasses.Contains(t.ToString()))
+                .Concat(udt.BaseClasses)
+                .Where(t => this.options.Udts.Contains(t))
+                .Distinct()
                 .ToArray();
         }
 
         protected IEnumerable<RgacUDT> GetSortedUdts()
         {
-            List<Tuple<RgacUDT[], HashSet<RgacUDT>>> udts = this.options.Udts
+            List<Tuple<string, RgacUDT[], HashSet<RgacUDT>>> udts = this.options.Udts
                 .GroupBy(t => t.Name[0])
                 .Select(g => g.OrderBy(t => (t.Kind == RgacUDTKind.Enum ? "0" : "1") + t.ToString()).ToArray())
-                .Select(g => Tuple.Create(g, new HashSet<RgacUDT>(g.SelectMany(GetRelatedUdts).Distinct().Except(g))))
+                .Select(g => Tuple.Create(g[0].Name[0], g, new HashSet<RgacUDT>(g.SelectMany(GetRelatedUdts).Distinct().Except(g))))
                 .ToList();
+
+            HashSet<string> forcedPopClasses = new HashSet<string>();
 
             while (udts.Count > 0)
             {
                 bool found = false;
                 for (int i = 0; i < udts.Count; i++)
                 {
-                    if (udts[i].Item2.Count == 0)
+                    bool allForced = udts[i].Item2.All(t => forcedPopClasses.Contains(t.ToString()));
+                    if (allForced || udts[i].Item3.Count == 0)
                     {
-                        var udtg = udts[i].Item1;
+                        var udtg = udts[i].Item2;
                         udts.RemoveAt(i);
                         foreach (var t in udts)
                         {
                             foreach (var udt in udtg)
                             {
-                                t.Item2.Remove(udt);
+                                t.Item3.Remove(udt);
                             }
                         }
                         foreach (var udt in udtg)
                             yield return udt;
                         found = true;
+                        break;
                     }
                 }
-                if (!found) break;
+                if (!found)
+                {
+                    if (forcedPopClasses.Count == 0)
+                    {
+                        forcedPopClasses.Add("IGuiMenuService");
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
             }
             if (udts.Count > 0)
             {

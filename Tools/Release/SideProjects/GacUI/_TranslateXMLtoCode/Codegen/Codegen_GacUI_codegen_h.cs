@@ -188,7 +188,7 @@ namespace _TranslateXMLtoCode.Codegen
                             WriteLine("class GACUI_API {0} : {1}",
                                 className,
                                 currentBases
-                                    .Select(t => "public " + t.ToString())
+                                .Select(t => (t.Kind == RgacUDTKind.Interface ? "public virtual " : "public ") + t.ToString())
                                     .Aggregate((a, b) => a + ", " + b)
                                 );
                         }
