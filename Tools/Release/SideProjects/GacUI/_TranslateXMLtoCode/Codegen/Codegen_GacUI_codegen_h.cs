@@ -172,7 +172,26 @@ namespace _TranslateXMLtoCode.Codegen
                     }
                     else
                     {
-                        WriteLine("class GACUI_API {0}", className);
+                        string cppClassName = classNames.Aggregate((a, b) => a + " :: " + b);
+                        RgacUDT currentUdt = this.options.Udts.Where(t => t.ToString() == cppClassName).FirstOrDefault();
+                        RgacUDT[] currentBases = new RgacUDT[] { };
+                        if (currentUdt != null)
+                        {
+                            currentBases = currentUdt.BaseClasses.Where(t => this.options.Udts.Contains(t)).ToArray();
+                        }
+                        if (currentBases.Length == 0)
+                        {
+                            WriteLine("class GACUI_API {0}", className);
+                        }
+                        else
+                        {
+                            WriteLine("class GACUI_API {0} : {1}",
+                                className,
+                                currentBases
+                                    .Select(t => "public " + t.ToString())
+                                    .Aggregate((a, b) => a + ", " + b)
+                                );
+                        }
                         WriteLine("{");
                         Begin("public:");
                     }

@@ -170,25 +170,6 @@ ColorItem
 	
 
 /***********************************************************************
-DescriptableObject
-***********************************************************************/
-
-	rptr<DescriptableObject> DescriptableObject::Create()
-	{
-		throw 0;
-	}
-	DescriptableObject::DescriptableObject()
-	{
-		throw 0;
-	}
-	
-	DescriptableObject& DescriptableObject::operator=(const DescriptableObject& value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
 FontProperties
 ***********************************************************************/
 
@@ -2714,7 +2695,7 @@ ListViewItem
 MemoryNodeProvider
 ***********************************************************************/
 
-	rptr<MemoryNodeProvider> MemoryNodeProvider::Create(sptr<DescriptableObject> _data)
+	rptr<MemoryNodeProvider> MemoryNodeProvider::Create(0 /*UNKNOWN_TYPE[ vl::Ptr<vl::presentation::DescriptableObject> ]*/ _data)
 	{
 		throw 0;
 	}
@@ -2774,11 +2755,11 @@ MemoryNodeProvider
 		throw 0;
 	}
 	
-	sptr<DescriptableObject> MemoryNodeProvider::GetData()
+	0 /*UNKNOWN_TYPE[ vl::Ptr<vl::presentation::DescriptableObject> ]*/ MemoryNodeProvider::GetData()
 	{
 		throw 0;
 	}
-	void MemoryNodeProvider::SetData(sptr<DescriptableObject> value)
+	void MemoryNodeProvider::SetData(0 /*UNKNOWN_TYPE[ vl::Ptr<vl::presentation::DescriptableObject> ]*/ value)
 	{
 		throw 0;
 	}
@@ -8733,11 +8714,6 @@ ListWrapperProvider_of_ListViewItem
 		throw 0;
 	}
 	
-	signed __int32 ListWrapperProvider_of_ListViewItem::Count()
-	{
-		throw 0;
-	}
-	
 	sptr<ListViewItem> ListWrapperProvider_of_ListViewItem::Get(signed __int32 index)
 	{
 		throw 0;
@@ -9529,11 +9505,6 @@ ListWrapperProvider_of_TextItem
 	}
 	
 	bool ListWrapperProvider_of_TextItem::Contains(const TextItem& item)
-	{
-		throw 0;
-	}
-	
-	signed __int32 ListWrapperProvider_of_TextItem::Count()
 	{
 		throw 0;
 	}

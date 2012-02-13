@@ -364,7 +364,9 @@ namespace _TranslateXMLtoCode
             }
             var undescriptableUdts = relatedUdts.Except(descriptableUdts).ToArray();
             var importantUdts = undescriptableUdts.Where(IsUDTImportant).ToArray();
-            var exportableUdts = importantUdts.Where(t => t.Name.StartsWith("vl::")).OrderBy(f => f.Name).ToArray();
+            var exportableUdts = importantUdts
+                .Where(t => t.Name.StartsWith("vl::") && t.Name != "vl::presentation::DescriptableObject" && !t.Name.StartsWith("vl::presentation::Description<"))
+                .OrderBy(f => f.Name).ToArray();
 
             var result = new TypeAnalyzerResult();
 

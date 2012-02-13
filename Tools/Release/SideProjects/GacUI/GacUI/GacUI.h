@@ -125,19 +125,17 @@ ColorItem
 	
 
 /***********************************************************************
-DescriptableObject
+ElementShape :: Type
 ***********************************************************************/
 
-	class GACUI_API DescriptableObject
+	class GACUI_API ElementShape
 	{
 	public:
-	
-	public:
-		
-		static rptr<DescriptableObject> Create();
-		DescriptableObject();
-		
-		DescriptableObject& operator=(const DescriptableObject& value);
+		enum Type
+		{
+			Rectangle = 0,
+			Ellipse = 1,
+		};
 		
 	};
 	
@@ -295,7 +293,7 @@ GuiImageData
 GuiRequestEventArgs
 ***********************************************************************/
 
-	class GACUI_API GuiRequestEventArgs
+	class GACUI_API GuiRequestEventArgs : public GuiEventArgs
 	{
 	public:
 	
@@ -480,7 +478,7 @@ INativeInputService
 INodeItemPrimaryTextView
 ***********************************************************************/
 
-	class GACUI_API INodeItemPrimaryTextView
+	class GACUI_API INodeItemPrimaryTextView : public IDescriptable
 	{
 	public:
 	
@@ -499,7 +497,7 @@ INodeItemPrimaryTextView
 INodeProvider
 ***********************************************************************/
 
-	class GACUI_API INodeProvider
+	class GACUI_API INodeProvider : public IDescriptable
 	{
 	public:
 	
@@ -582,7 +580,7 @@ IReadonlyList_of_MemoryNodeProvider
 ITreeViewItemView
 ***********************************************************************/
 
-	class GACUI_API ITreeViewItemView
+	class GACUI_API ITreeViewItemView : public INodeItemPrimaryTextView, public IDescriptable
 	{
 	public:
 	
@@ -921,26 +919,10 @@ ColorEntry
 	
 
 /***********************************************************************
-ElementShape :: Type
-***********************************************************************/
-
-	class GACUI_API ElementShape
-	{
-	public:
-		enum Type
-		{
-			Rectangle = 0,
-			Ellipse = 1,
-		};
-		
-	};
-	
-
-/***********************************************************************
 Gui3DBorderElement
 ***********************************************************************/
 
-	class GACUI_API Gui3DBorderElement
+	class GACUI_API Gui3DBorderElement : public IGuiGraphicsElement, public IDescriptable
 	{
 	public:
 	
@@ -965,7 +947,7 @@ Gui3DBorderElement
 GuiCharEventArgs
 ***********************************************************************/
 
-	class GACUI_API GuiCharEventArgs
+	class GACUI_API GuiCharEventArgs : public GuiEventArgs, public NativeWindowCharInfo
 	{
 	public:
 	
@@ -981,7 +963,7 @@ GuiCharEventArgs
 GuiGradientBackgroundElement :: Direction
 ***********************************************************************/
 
-	class GACUI_API GuiGradientBackgroundElement
+	class GACUI_API GuiGradientBackgroundElement : public IGuiGraphicsElement, public IDescriptable
 	{
 	public:
 		enum Direction
@@ -1045,7 +1027,7 @@ GuiGraphicsEvent_of_GuiCharEventArgs
 GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler
 ***********************************************************************/
 
-		class GACUI_API IHandler
+		class GACUI_API IHandler : public IDescriptable
 		{
 		public:
 		
@@ -1084,7 +1066,7 @@ GuiGraphicsEvent_of_GuiRequestEventArgs
 GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler
 ***********************************************************************/
 
-		class GACUI_API IHandler
+		class GACUI_API IHandler : public IDescriptable
 		{
 		public:
 		
@@ -1101,7 +1083,7 @@ GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler
 GuiImageFrameElement
 ***********************************************************************/
 
-	class GACUI_API GuiImageFrameElement
+	class GACUI_API GuiImageFrameElement : public IGuiGraphicsElement, public IDescriptable
 	{
 	public:
 	
@@ -1131,7 +1113,7 @@ GuiImageFrameElement
 GuiMouseEventArgs
 ***********************************************************************/
 
-	class GACUI_API GuiMouseEventArgs
+	class GACUI_API GuiMouseEventArgs : public GuiEventArgs, public NativeWindowMouseInfo
 	{
 	public:
 	
@@ -1147,7 +1129,7 @@ GuiMouseEventArgs
 GuiPolygonElement
 ***********************************************************************/
 
-	class GACUI_API GuiPolygonElement
+	class GACUI_API GuiPolygonElement : public IGuiGraphicsElement, public IDescriptable
 	{
 	public:
 	
@@ -1178,7 +1160,7 @@ GuiPolygonElement
 GuiRoundBorderElement
 ***********************************************************************/
 
-	class GACUI_API GuiRoundBorderElement
+	class GACUI_API GuiRoundBorderElement : public IGuiGraphicsElement, public IDescriptable
 	{
 	public:
 	
@@ -1204,7 +1186,7 @@ GuiRoundBorderElement
 GuiSolidBackgroundElement
 ***********************************************************************/
 
-	class GACUI_API GuiSolidBackgroundElement
+	class GACUI_API GuiSolidBackgroundElement : public IGuiGraphicsElement, public IDescriptable
 	{
 	public:
 	
@@ -1230,7 +1212,7 @@ GuiSolidBackgroundElement
 GuiSolidLabelElement
 ***********************************************************************/
 
-	class GACUI_API GuiSolidLabelElement
+	class GACUI_API GuiSolidLabelElement : public IGuiGraphicsElement, public IDescriptable
 	{
 	public:
 	
@@ -1267,7 +1249,7 @@ GuiSolidLabelElement
 ICollection_of_MemoryNodeProvider
 ***********************************************************************/
 
-	class GACUI_API ICollection_of_MemoryNodeProvider
+	class GACUI_API ICollection_of_MemoryNodeProvider : public IReadonlyList_of_MemoryNodeProvider
 	{
 	public:
 	
@@ -1287,7 +1269,7 @@ ICollection_of_MemoryNodeProvider
 IGuiGraphicsAnimation
 ***********************************************************************/
 
-	class GACUI_API IGuiGraphicsAnimation
+	class GACUI_API IGuiGraphicsAnimation : public IDescriptable
 	{
 	public:
 	
@@ -1307,7 +1289,7 @@ IGuiGraphicsAnimation
 IList_of_int
 ***********************************************************************/
 
-	class GACUI_API IList_of_int
+	class GACUI_API IList_of_int : public IReadonlyList_of_int
 	{
 	public:
 	
@@ -1324,7 +1306,7 @@ IList_of_int
 IList_of_MemoryNodeProvider
 ***********************************************************************/
 
-	class GACUI_API IList_of_MemoryNodeProvider
+	class GACUI_API IList_of_MemoryNodeProvider : public ICollection_of_MemoryNodeProvider, public IReadonlyList_of_MemoryNodeProvider
 	{
 	public:
 	
@@ -1429,7 +1411,7 @@ INativeWindowService
 INodeProviderCallback
 ***********************************************************************/
 
-	class GACUI_API INodeProviderCallback
+	class GACUI_API INodeProviderCallback : public IDescriptable
 	{
 	public:
 	
@@ -1517,13 +1499,13 @@ ListViewItem
 MemoryNodeProvider
 ***********************************************************************/
 
-	class GACUI_API MemoryNodeProvider
+	class GACUI_API MemoryNodeProvider : public IList_of_MemoryNodeProvider, public INodeProvider, public IDescriptable, public IReadonlyList_of_MemoryNodeProvider, public ICollection_of_MemoryNodeProvider
 	{
 	public:
 	
 	public:
 		
-		static rptr<MemoryNodeProvider> Create(sptr<DescriptableObject> _data);
+		static rptr<MemoryNodeProvider> Create(0 /*UNKNOWN_TYPE[ vl::Ptr<vl::presentation::DescriptableObject> ]*/ _data);
 		static rptr<MemoryNodeProvider> Create();
 		
 		void NotifyDataModified();
@@ -1537,8 +1519,8 @@ MemoryNodeProvider
 		void ReleaseChild(rptr<INodeProvider> node);
 		rptr<MemoryNodeProvider> operator=(rptr<MemoryNodeProvider> value);
 		
-		sptr<DescriptableObject> GetData();
-		void SetData(sptr<DescriptableObject> value);
+		0 /*UNKNOWN_TYPE[ vl::Ptr<vl::presentation::DescriptableObject> ]*/ GetData();
+		void SetData(0 /*UNKNOWN_TYPE[ vl::Ptr<vl::presentation::DescriptableObject> ]*/ value);
 		
 	};
 	
@@ -1571,7 +1553,7 @@ NativeWindowKeyInfo
 NodeRootProviderBase
 ***********************************************************************/
 
-	class GACUI_API NodeRootProviderBase
+	class GACUI_API NodeRootProviderBase : public INodeRootProvider, public INodeProviderCallback, public IDescriptable
 	{
 	public:
 	
@@ -1688,7 +1670,7 @@ Array_of_ColorEntry
 Gui3DSplitterElement :: Direction
 ***********************************************************************/
 
-	class GACUI_API Gui3DSplitterElement
+	class GACUI_API Gui3DSplitterElement : public IGuiGraphicsElement, public IDescriptable
 	{
 	public:
 		enum Direction
@@ -1768,7 +1750,7 @@ GuiGraphicsEvent_of_GuiEventArgs
 GuiGraphicsEvent_of_GuiEventArgs :: IHandler
 ***********************************************************************/
 
-		class GACUI_API IHandler
+		class GACUI_API IHandler : public IDescriptable
 		{
 		public:
 		
@@ -1807,7 +1789,7 @@ GuiGraphicsEvent_of_GuiMouseEventArgs
 GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler
 ***********************************************************************/
 
-		class GACUI_API IHandler
+		class GACUI_API IHandler : public IDescriptable
 		{
 		public:
 		
@@ -1824,7 +1806,7 @@ GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler
 GuiKeyEventArgs
 ***********************************************************************/
 
-	class GACUI_API GuiKeyEventArgs
+	class GACUI_API GuiKeyEventArgs : public GuiEventArgs, public NativeWindowKeyInfo
 	{
 	public:
 	
@@ -1840,7 +1822,7 @@ GuiKeyEventArgs
 GuiSolidBorderElement
 ***********************************************************************/
 
-	class GACUI_API GuiSolidBorderElement
+	class GACUI_API GuiSolidBorderElement : public IGuiGraphicsElement, public IDescriptable
 	{
 	public:
 	
@@ -1888,7 +1870,7 @@ GuiTabPage
 GuiTimeBasedAnimation
 ***********************************************************************/
 
-	class GACUI_API GuiTimeBasedAnimation
+	class GACUI_API GuiTimeBasedAnimation : public IGuiGraphicsAnimation, public IDescriptable
 	{
 	public:
 	
@@ -1908,7 +1890,7 @@ GuiTimeBasedAnimation
 IGuiGraphicsElement
 ***********************************************************************/
 
-	class GACUI_API IGuiGraphicsElement
+	class GACUI_API IGuiGraphicsElement : public IDescriptable
 	{
 	public:
 	
@@ -2048,7 +2030,7 @@ INativeWindowListener
 INodeRootProvider
 ***********************************************************************/
 
-	class GACUI_API INodeRootProvider
+	class GACUI_API INodeRootProvider : public IDescriptable
 	{
 	public:
 	
@@ -2111,7 +2093,7 @@ IReadonlyList_of_ListViewItem
 MemoryNodeRootProvider
 ***********************************************************************/
 
-	class GACUI_API MemoryNodeRootProvider
+	class GACUI_API MemoryNodeRootProvider : public MemoryNodeProvider, public NodeRootProviderBase, public IDescriptable, public INodeProvider, public IReadonlyList_of_MemoryNodeProvider, public ICollection_of_MemoryNodeProvider, public INodeRootProvider, public INodeProviderCallback
 	{
 	public:
 	
@@ -2158,7 +2140,7 @@ TextItem
 TreeViewItemRootProvider
 ***********************************************************************/
 
-	class GACUI_API TreeViewItemRootProvider
+	class GACUI_API TreeViewItemRootProvider : public MemoryNodeRootProvider, public ITreeViewItemView, public IDescriptable, public INodeProvider, public IReadonlyList_of_MemoryNodeProvider, public ICollection_of_MemoryNodeProvider, public INodeRootProvider, public INodeProviderCallback, public INodeItemPrimaryTextView
 	{
 	public:
 	
@@ -2177,7 +2159,7 @@ TreeViewItemRootProvider
 CharMeasurer
 ***********************************************************************/
 
-	class GACUI_API CharMeasurer
+	class GACUI_API CharMeasurer : public IDescriptable
 	{
 	public:
 	
@@ -2218,7 +2200,7 @@ GuiGraphicsEvent_of_GuiKeyEventArgs
 GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler
 ***********************************************************************/
 
-		class GACUI_API IHandler
+		class GACUI_API IHandler : public IDescriptable
 		{
 		public:
 		
@@ -2235,7 +2217,7 @@ GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler
 GuiGraphicsHost
 ***********************************************************************/
 
-	class GACUI_API GuiGraphicsHost
+	class GACUI_API GuiGraphicsHost : public INativeWindowListener, public INativeControllerListener
 	{
 	public:
 	
@@ -2306,7 +2288,7 @@ GuiTextBoxCommonInterface
 ICollection_of_ListViewItem
 ***********************************************************************/
 
-	class GACUI_API ICollection_of_ListViewItem
+	class GACUI_API ICollection_of_ListViewItem : public IReadonlyList_of_ListViewItem
 	{
 	public:
 	
@@ -2349,7 +2331,7 @@ IGuiGraphicsRenderer
 IList_of_ListViewItem
 ***********************************************************************/
 
-	class GACUI_API IList_of_ListViewItem
+	class GACUI_API IList_of_ListViewItem : public ICollection_of_ListViewItem, public IReadonlyList_of_ListViewItem
 	{
 	public:
 	
@@ -2540,7 +2522,7 @@ TextLines
 GuiColorizedTextElement
 ***********************************************************************/
 
-	class GACUI_API GuiColorizedTextElement
+	class GACUI_API GuiColorizedTextElement : public IGuiGraphicsElement, public IDescriptable
 	{
 	public:
 	
@@ -2582,7 +2564,7 @@ GuiColorizedTextElement
 GuiColorizedTextElement :: ICallback
 ***********************************************************************/
 
-		class GACUI_API ICallback
+		class GACUI_API ICallback : public IDescriptable
 		{
 		public:
 		
@@ -2679,7 +2661,7 @@ GuiTextElementOperator
 GuiTextElementOperator :: DefaultCallback
 ***********************************************************************/
 
-		class GACUI_API DefaultCallback
+		class GACUI_API DefaultCallback : public GuiTextElementOperator :: ICallback, public IDescriptable
 		{
 		public:
 		
@@ -2700,7 +2682,7 @@ GuiTextElementOperator :: DefaultCallback
 GuiTextElementOperator :: ICallback
 ***********************************************************************/
 
-		class GACUI_API ICallback
+		class GACUI_API ICallback : public IDescriptable
 		{
 		public:
 		
@@ -2725,7 +2707,7 @@ GuiTextElementOperator :: ICallback
 ICollection_of_TextItem
 ***********************************************************************/
 
-	class GACUI_API ICollection_of_TextItem
+	class GACUI_API ICollection_of_TextItem : public IReadonlyList_of_TextItem
 	{
 	public:
 	
@@ -2745,7 +2727,7 @@ ICollection_of_TextItem
 IList_of_TextItem
 ***********************************************************************/
 
-	class GACUI_API IList_of_TextItem
+	class GACUI_API IList_of_TextItem : public ICollection_of_TextItem, public IReadonlyList_of_TextItem
 	{
 	public:
 	
@@ -2861,7 +2843,7 @@ GuiGraphicsComposition
 GuiGraphicsSite
 ***********************************************************************/
 
-	class GACUI_API GuiGraphicsSite
+	class GACUI_API GuiGraphicsSite : public GuiGraphicsComposition
 	{
 	public:
 	
@@ -2882,7 +2864,7 @@ GuiGraphicsSite
 GuiPartialViewComposition
 ***********************************************************************/
 
-	class GACUI_API GuiPartialViewComposition
+	class GACUI_API GuiPartialViewComposition : public GuiGraphicsSite
 	{
 	public:
 	
@@ -2911,7 +2893,7 @@ GuiPartialViewComposition
 GuiSideAlignedComposition :: Direction
 ***********************************************************************/
 
-	class GACUI_API GuiSideAlignedComposition
+	class GACUI_API GuiSideAlignedComposition : public GuiGraphicsSite
 	{
 	public:
 		enum Direction
@@ -2951,7 +2933,7 @@ GuiSideAlignedComposition
 GuiStackItemComposition
 ***********************************************************************/
 
-	class GACUI_API GuiStackItemComposition
+	class GACUI_API GuiStackItemComposition : public GuiGraphicsSite
 	{
 	public:
 	
@@ -2975,7 +2957,7 @@ GuiStackItemComposition
 GuiWindowComposition
 ***********************************************************************/
 
-	class GACUI_API GuiWindowComposition
+	class GACUI_API GuiWindowComposition : public GuiGraphicsSite
 	{
 	public:
 	
@@ -3036,7 +3018,7 @@ IReadonlyList_of_GuiStackItemComposition_raw_pointer
 GuiBoundsComposition
 ***********************************************************************/
 
-	class GACUI_API GuiBoundsComposition
+	class GACUI_API GuiBoundsComposition : public GuiGraphicsSite
 	{
 	public:
 	
@@ -3063,7 +3045,7 @@ GuiBoundsComposition
 GuiCellComposition
 ***********************************************************************/
 
-	class GACUI_API GuiCellComposition
+	class GACUI_API GuiCellComposition : public GuiGraphicsSite
 	{
 	public:
 	
@@ -3131,7 +3113,7 @@ GuiControl
 GuiControl :: IStyleController
 ***********************************************************************/
 
-		class GACUI_API IStyleController
+		class GACUI_API IStyleController : public IDescriptable
 		{
 		public:
 		
@@ -3152,7 +3134,7 @@ GuiControl :: IStyleController
 GuiControl :: IStyleProvider
 ***********************************************************************/
 
-		class GACUI_API IStyleProvider
+		class GACUI_API IStyleProvider : public IDescriptable
 		{
 		public:
 		
@@ -3193,7 +3175,7 @@ GuiGraphicsResourceManager
 GuiMenuBar
 ***********************************************************************/
 
-	class GACUI_API GuiMenuBar
+	class GACUI_API GuiMenuBar : public GuiControl, public IGuiMenuService, public IDescriptable
 	{
 	public:
 	
@@ -3211,7 +3193,7 @@ GuiMenuBar
 GuiScroll
 ***********************************************************************/
 
-	class GACUI_API GuiScroll
+	class GACUI_API GuiScroll : public GuiControl
 	{
 	public:
 	
@@ -3246,7 +3228,7 @@ GuiScroll
 GuiScroll :: ICommandExecutor
 ***********************************************************************/
 
-		class GACUI_API ICommandExecutor
+		class GACUI_API ICommandExecutor : public IDescriptable
 		{
 		public:
 		
@@ -3267,7 +3249,7 @@ GuiScroll :: ICommandExecutor
 GuiScroll :: IStyleController
 ***********************************************************************/
 
-		class GACUI_API IStyleController
+		class GACUI_API IStyleController : public GuiControl :: IStyleController, public IDescriptable
 		{
 		public:
 		
@@ -3287,7 +3269,7 @@ GuiScroll :: IStyleController
 GuiScrollView
 ***********************************************************************/
 
-	class GACUI_API GuiScrollView
+	class GACUI_API GuiScrollView : public GuiControl
 	{
 	public:
 	
@@ -3312,7 +3294,7 @@ GuiScrollView
 GuiScrollView :: IStyleProvider
 ***********************************************************************/
 
-		class GACUI_API IStyleProvider
+		class GACUI_API IStyleProvider : public GuiControl :: IStyleProvider, public IDescriptable
 		{
 		public:
 		
@@ -3331,7 +3313,7 @@ GuiScrollView :: IStyleProvider
 GuiScrollView :: StyleController
 ***********************************************************************/
 
-		class GACUI_API StyleController
+		class GACUI_API StyleController : public GuiControl :: IStyleController, public IDescriptable
 		{
 		public:
 		
@@ -3367,7 +3349,7 @@ GuiScrollView :: StyleController
 GuiSinglelineTextBox
 ***********************************************************************/
 
-	class GACUI_API GuiSinglelineTextBox
+	class GACUI_API GuiSinglelineTextBox : public GuiControl, public GuiTextBoxCommonInterface
 	{
 	public:
 	
@@ -3388,7 +3370,7 @@ GuiSinglelineTextBox
 GuiSinglelineTextBox :: IStyleProvider
 ***********************************************************************/
 
-		class GACUI_API IStyleProvider
+		class GACUI_API IStyleProvider : public GuiControl :: IStyleProvider, public IDescriptable
 		{
 		public:
 		
@@ -3403,7 +3385,7 @@ GuiSinglelineTextBox :: IStyleProvider
 GuiSinglelineTextBox :: StyleController
 ***********************************************************************/
 
-		class GACUI_API StyleController
+		class GACUI_API StyleController : public GuiControl :: IStyleController, public IDescriptable
 		{
 		public:
 		
@@ -3433,7 +3415,7 @@ GuiSinglelineTextBox :: StyleController
 GuiSinglelineTextBox :: TextElementOperatorCallback
 ***********************************************************************/
 
-		class GACUI_API TextElementOperatorCallback
+		class GACUI_API TextElementOperatorCallback : public GuiTextElementOperator :: DefaultCallback, public IDescriptable
 		{
 		public:
 		
@@ -3455,7 +3437,7 @@ GuiSinglelineTextBox :: TextElementOperatorCallback
 GuiTab
 ***********************************************************************/
 
-	class GACUI_API GuiTab
+	class GACUI_API GuiTab : public GuiControl
 	{
 	public:
 	
@@ -3481,7 +3463,7 @@ GuiTab
 GuiTab :: ICommandExecutor
 ***********************************************************************/
 
-		class GACUI_API ICommandExecutor
+		class GACUI_API ICommandExecutor : public IDescriptable
 		{
 		public:
 		
@@ -3496,7 +3478,7 @@ GuiTab :: ICommandExecutor
 GuiTab :: IStyleController
 ***********************************************************************/
 
-		class GACUI_API IStyleController
+		class GACUI_API IStyleController : public GuiControl :: IStyleController, public IDescriptable
 		{
 		public:
 		
@@ -3519,7 +3501,7 @@ GuiTab :: IStyleController
 GuiWindow
 ***********************************************************************/
 
-	class GACUI_API GuiWindow
+	class GACUI_API GuiWindow : public GuiControlHost
 	{
 	public:
 	
@@ -3579,7 +3561,7 @@ IReadonlyList_of_GuiWindow_raw_pointer
 Win7EmptyStyle
 ***********************************************************************/
 
-	class GACUI_API Win7EmptyStyle
+	class GACUI_API Win7EmptyStyle : public GuiControl :: IStyleController, public IDescriptable
 	{
 	public:
 	
@@ -3602,7 +3584,7 @@ Win7EmptyStyle
 Win7MenuBarStyle
 ***********************************************************************/
 
-	class GACUI_API Win7MenuBarStyle
+	class GACUI_API Win7MenuBarStyle : public GuiControl :: IStyleController, public IDescriptable
 	{
 	public:
 	
@@ -3625,7 +3607,7 @@ Win7MenuBarStyle
 Win7MenuSplitterStyle
 ***********************************************************************/
 
-	class GACUI_API Win7MenuSplitterStyle
+	class GACUI_API Win7MenuSplitterStyle : public GuiControl :: IStyleController, public IDescriptable
 	{
 	public:
 	
@@ -3648,7 +3630,7 @@ Win7MenuSplitterStyle
 Win7ScrollViewProvider
 ***********************************************************************/
 
-	class GACUI_API Win7ScrollViewProvider
+	class GACUI_API Win7ScrollViewProvider : public GuiScrollView :: IStyleProvider, public IDescriptable, public GuiControl :: IStyleProvider
 	{
 	public:
 	
@@ -3674,7 +3656,7 @@ Win7ScrollViewProvider
 Win7SinglelineTextBoxProvider
 ***********************************************************************/
 
-	class GACUI_API Win7SinglelineTextBoxProvider
+	class GACUI_API Win7SinglelineTextBoxProvider : public GuiSinglelineTextBox :: IStyleProvider, public IDescriptable, public GuiControl :: IStyleProvider
 	{
 	public:
 	
@@ -3697,7 +3679,7 @@ Win7SinglelineTextBoxProvider
 Win7TabStyle
 ***********************************************************************/
 
-	class GACUI_API Win7TabStyle
+	class GACUI_API Win7TabStyle : public GuiTab :: IStyleController, public IDescriptable, public GuiControl :: IStyleController
 	{
 	public:
 	
@@ -3727,7 +3709,7 @@ Win7TabStyle
 Win7WindowStyle
 ***********************************************************************/
 
-	class GACUI_API Win7WindowStyle
+	class GACUI_API Win7WindowStyle : public Win7EmptyStyle, public IDescriptable, public GuiControl :: IStyleController
 	{
 	public:
 	
@@ -3744,7 +3726,7 @@ Win7WindowStyle
 CommonScrollStyle :: Direction
 ***********************************************************************/
 
-	class GACUI_API CommonScrollStyle
+	class GACUI_API CommonScrollStyle : public GuiScroll :: IStyleController, public IDescriptable, public GuiControl :: IStyleController
 	{
 	public:
 		enum Direction
@@ -3780,7 +3762,7 @@ CommonScrollStyle
 GuiApplication
 ***********************************************************************/
 
-	class GACUI_API GuiApplication
+	class GACUI_API GuiApplication : public INativeControllerListener
 	{
 	public:
 	
@@ -3800,7 +3782,7 @@ GuiApplication
 GuiControlHost
 ***********************************************************************/
 
-	class GACUI_API GuiControlHost
+	class GACUI_API GuiControlHost : public GuiControl, public INativeWindowListener
 	{
 	public:
 	
@@ -3874,7 +3856,7 @@ GuiControlHost
 GuiMultilineTextBox
 ***********************************************************************/
 
-	class GACUI_API GuiMultilineTextBox
+	class GACUI_API GuiMultilineTextBox : public GuiScrollView, public GuiTextBoxCommonInterface
 	{
 	public:
 	
@@ -3894,7 +3876,7 @@ GuiMultilineTextBox
 GuiMultilineTextBox :: StyleController
 ***********************************************************************/
 
-		class GACUI_API StyleController
+		class GACUI_API StyleController : public GuiScrollView :: StyleController, public IDescriptable
 		{
 		public:
 		
@@ -3920,7 +3902,7 @@ GuiMultilineTextBox :: StyleController
 GuiMultilineTextBox :: TextElementOperatorCallback
 ***********************************************************************/
 
-		class GACUI_API TextElementOperatorCallback
+		class GACUI_API TextElementOperatorCallback : public GuiTextElementOperator :: DefaultCallback, public IDescriptable
 		{
 		public:
 		
@@ -3941,7 +3923,7 @@ GuiMultilineTextBox :: TextElementOperatorCallback
 GuiScrollContainer
 ***********************************************************************/
 
-	class GACUI_API GuiScrollContainer
+	class GACUI_API GuiScrollContainer : public GuiScrollView
 	{
 	public:
 	
@@ -3957,7 +3939,7 @@ GuiScrollContainer
 GuiScrollContainer :: StyleController
 ***********************************************************************/
 
-		class GACUI_API StyleController
+		class GACUI_API StyleController : public GuiScrollView :: StyleController, public IDescriptable
 		{
 		public:
 		
@@ -3977,7 +3959,7 @@ GuiScrollContainer :: StyleController
 GuiStackComposition :: Direction
 ***********************************************************************/
 
-	class GACUI_API GuiStackComposition
+	class GACUI_API GuiStackComposition : public GuiBoundsComposition
 	{
 	public:
 		enum Direction
@@ -4016,7 +3998,7 @@ GuiStackComposition
 Win7GroupBoxStyle
 ***********************************************************************/
 
-	class GACUI_API Win7GroupBoxStyle
+	class GACUI_API Win7GroupBoxStyle : public GuiControl :: IStyleController, public IDescriptable
 	{
 	public:
 	
@@ -4039,7 +4021,7 @@ Win7GroupBoxStyle
 Win7MenuStyle
 ***********************************************************************/
 
-	class GACUI_API Win7MenuStyle
+	class GACUI_API Win7MenuStyle : public GuiControl :: IStyleController, public IDescriptable
 	{
 	public:
 	
@@ -4062,7 +4044,7 @@ Win7MenuStyle
 Win7ScrollStyle
 ***********************************************************************/
 
-	class GACUI_API Win7ScrollStyle
+	class GACUI_API Win7ScrollStyle : public CommonScrollStyle, public IDescriptable, public GuiControl :: IStyleController, public GuiScroll :: IStyleController
 	{
 	public:
 	
@@ -4101,7 +4083,7 @@ Win7TextBoxBackground
 CommonTrackStyle :: Direction
 ***********************************************************************/
 
-	class GACUI_API CommonTrackStyle
+	class GACUI_API CommonTrackStyle : public GuiScroll :: IStyleController, public IDescriptable, public GuiControl :: IStyleController
 	{
 	public:
 		enum Direction
@@ -4137,7 +4119,7 @@ CommonTrackStyle
 GuiButton :: ControlState
 ***********************************************************************/
 
-	class GACUI_API GuiButton
+	class GACUI_API GuiButton : public GuiControl
 	{
 	public:
 		enum ControlState
@@ -4167,7 +4149,7 @@ GuiButton
 GuiButton :: IStyleController
 ***********************************************************************/
 
-		class GACUI_API IStyleController
+		class GACUI_API IStyleController : public GuiControl :: IStyleController, public IDescriptable
 		{
 		public:
 		
@@ -4184,7 +4166,7 @@ GuiButton :: IStyleController
 GuiListControl
 ***********************************************************************/
 
-	class GACUI_API GuiListControl
+	class GACUI_API GuiListControl : public GuiScrollView
 	{
 	public:
 	
@@ -4218,7 +4200,7 @@ GuiListControl
 GuiListControl :: IItemArranger
 ***********************************************************************/
 
-		class GACUI_API IItemArranger
+		class GACUI_API IItemArranger : public GuiListControl :: IItemProviderCallback, public IDescriptable
 		{
 		public:
 		
@@ -4241,7 +4223,7 @@ GuiListControl :: IItemArranger
 GuiListControl :: IItemArrangerCallback
 ***********************************************************************/
 
-		class GACUI_API IItemArrangerCallback
+		class GACUI_API IItemArrangerCallback : public IDescriptable
 		{
 		public:
 		
@@ -4264,7 +4246,7 @@ GuiListControl :: IItemArrangerCallback
 GuiListControl :: IItemCoordinateTransformer
 ***********************************************************************/
 
-		class GACUI_API IItemCoordinateTransformer
+		class GACUI_API IItemCoordinateTransformer : public IDescriptable
 		{
 		public:
 		
@@ -4286,7 +4268,7 @@ GuiListControl :: IItemCoordinateTransformer
 GuiListControl :: IItemPrimaryTextView
 ***********************************************************************/
 
-		class GACUI_API IItemPrimaryTextView
+		class GACUI_API IItemPrimaryTextView : public IDescriptable
 		{
 		public:
 		
@@ -4305,7 +4287,7 @@ GuiListControl :: IItemPrimaryTextView
 GuiListControl :: IItemProvider
 ***********************************************************************/
 
-		class GACUI_API IItemProvider
+		class GACUI_API IItemProvider : public IDescriptable
 		{
 		public:
 		
@@ -4324,7 +4306,7 @@ GuiListControl :: IItemProvider
 GuiListControl :: IItemProviderCallback
 ***********************************************************************/
 
-		class GACUI_API IItemProviderCallback
+		class GACUI_API IItemProviderCallback : public IDescriptable
 		{
 		public:
 		
@@ -4340,7 +4322,7 @@ GuiListControl :: IItemProviderCallback
 GuiListControl :: IItemStyleController
 ***********************************************************************/
 
-		class GACUI_API IItemStyleController
+		class GACUI_API IItemStyleController : public IDescriptable
 		{
 		public:
 		
@@ -4362,7 +4344,7 @@ GuiListControl :: IItemStyleController
 GuiListControl :: IItemStyleProvider
 ***********************************************************************/
 
-		class GACUI_API IItemStyleProvider
+		class GACUI_API IItemStyleProvider : public IDescriptable
 		{
 		public:
 		
@@ -4384,7 +4366,7 @@ GuiListControl :: IItemStyleProvider
 GuiPopup
 ***********************************************************************/
 
-	class GACUI_API GuiPopup
+	class GACUI_API GuiPopup : public GuiWindow
 	{
 	public:
 	
@@ -4404,7 +4386,7 @@ GuiPopup
 GuiSelectableListControl
 ***********************************************************************/
 
-	class GACUI_API GuiSelectableListControl
+	class GACUI_API GuiSelectableListControl : public GuiListControl
 	{
 	public:
 	
@@ -4429,7 +4411,7 @@ GuiSelectableListControl
 GuiSelectableListControl :: IItemStyleProvider
 ***********************************************************************/
 
-		class GACUI_API IItemStyleProvider
+		class GACUI_API IItemStyleProvider : public GuiListControl :: IItemStyleProvider, public IDescriptable
 		{
 		public:
 		
@@ -4446,7 +4428,7 @@ GuiSelectableListControl :: IItemStyleProvider
 INodeItemStyleController
 ***********************************************************************/
 
-	class GACUI_API INodeItemStyleController
+	class GACUI_API INodeItemStyleController : public GuiListControl :: IItemStyleController, public IDescriptable
 	{
 	public:
 	
@@ -4463,7 +4445,7 @@ INodeItemStyleController
 INodeItemView
 ***********************************************************************/
 
-	class GACUI_API INodeItemView
+	class GACUI_API INodeItemView : public GuiListControl :: IItemPrimaryTextView, public IDescriptable
 	{
 	public:
 	
@@ -4484,7 +4466,7 @@ INodeItemView
 ItemProviderBase
 ***********************************************************************/
 
-	class GACUI_API ItemProviderBase
+	class GACUI_API ItemProviderBase : public GuiListControl :: IItemProvider, public IDescriptable
 	{
 	public:
 	
@@ -4503,7 +4485,7 @@ ItemProviderBase
 ListWrapperProvider_of_ListViewItem
 ***********************************************************************/
 
-	class GACUI_API ListWrapperProvider_of_ListViewItem
+	class GACUI_API ListWrapperProvider_of_ListViewItem : public ItemProviderBase, public IList_of_ListViewItem, public IDescriptable, public GuiListControl :: IItemProvider, public IReadonlyList_of_ListViewItem, public ICollection_of_ListViewItem
 	{
 	public:
 	
@@ -4511,7 +4493,6 @@ ListWrapperProvider_of_ListViewItem
 		
 		bool NotifyUpdate(signed __int32 start, signed __int32 count);
 		bool Contains(rptr<ListViewItem> item);
-		signed __int32 Count();
 		signed __int32 Count();
 		sptr<ListViewItem> Get(signed __int32 index);
 		sptr<ListViewItem> operator[](signed __int32 index);
@@ -4532,7 +4513,7 @@ ListWrapperProvider_of_ListViewItem
 NodeItemProvider
 ***********************************************************************/
 
-	class GACUI_API NodeItemProvider
+	class GACUI_API NodeItemProvider : public ItemProviderBase, public INodeProviderCallback, public INodeItemView, public IDescriptable, public GuiListControl :: IItemProvider, public GuiListControl :: IItemPrimaryTextView
 	{
 	public:
 	
@@ -4554,7 +4535,7 @@ NodeItemProvider
 RangedItemArrangerBase
 ***********************************************************************/
 
-	class GACUI_API RangedItemArrangerBase
+	class GACUI_API RangedItemArrangerBase : public GuiListControl :: IItemArranger, public IDescriptable, public GuiListControl :: IItemProviderCallback
 	{
 	public:
 	
@@ -4579,7 +4560,7 @@ RangedItemArrangerBase
 TreeViewNodeItemStyleProvider
 ***********************************************************************/
 
-	class GACUI_API TreeViewNodeItemStyleProvider
+	class GACUI_API TreeViewNodeItemStyleProvider : public INodeItemStyleProvider, public INodeProviderCallback, public IDescriptable
 	{
 	public:
 	
@@ -4605,7 +4586,7 @@ TreeViewNodeItemStyleProvider
 Win7MultilineTextBoxProvider
 ***********************************************************************/
 
-	class GACUI_API Win7MultilineTextBoxProvider
+	class GACUI_API Win7MultilineTextBoxProvider : public Win7ScrollViewProvider, public IDescriptable, public GuiControl :: IStyleProvider, public GuiScrollView :: IStyleProvider
 	{
 	public:
 	
@@ -4626,7 +4607,7 @@ Win7MultilineTextBoxProvider
 Win7TrackStyle
 ***********************************************************************/
 
-	class GACUI_API Win7TrackStyle
+	class GACUI_API Win7TrackStyle : public CommonTrackStyle, public IDescriptable, public GuiControl :: IStyleController, public GuiScroll :: IStyleController
 	{
 	public:
 	
@@ -4643,7 +4624,7 @@ Win7TrackStyle
 AxisAlignedItemCoordinateTransformer :: Alignment
 ***********************************************************************/
 
-	class GACUI_API AxisAlignedItemCoordinateTransformer
+	class GACUI_API AxisAlignedItemCoordinateTransformer : public GuiListControl :: IItemCoordinateTransformer, public IDescriptable
 	{
 	public:
 		enum Alignment
@@ -4687,7 +4668,7 @@ AxisAlignedItemCoordinateTransformer
 FixedHeightItemArranger
 ***********************************************************************/
 
-	class GACUI_API FixedHeightItemArranger
+	class GACUI_API FixedHeightItemArranger : public RangedItemArrangerBase, public IDescriptable, public GuiListControl :: IItemProviderCallback, public GuiListControl :: IItemArranger
 	{
 	public:
 	
@@ -4704,7 +4685,7 @@ FixedHeightItemArranger
 FixedSizeMultiColumnItemArranger
 ***********************************************************************/
 
-	class GACUI_API FixedSizeMultiColumnItemArranger
+	class GACUI_API FixedSizeMultiColumnItemArranger : public RangedItemArrangerBase, public IDescriptable, public GuiListControl :: IItemProviderCallback, public GuiListControl :: IItemArranger
 	{
 	public:
 	
@@ -4721,7 +4702,7 @@ FixedSizeMultiColumnItemArranger
 GuiMenu
 ***********************************************************************/
 
-	class GACUI_API GuiMenu
+	class GACUI_API GuiMenu : public GuiPopup, public IGuiMenuService, public IDescriptable
 	{
 	public:
 	
@@ -4740,7 +4721,7 @@ GuiMenu
 GuiSelectableButton
 ***********************************************************************/
 
-	class GACUI_API GuiSelectableButton
+	class GACUI_API GuiSelectableButton : public GuiButton
 	{
 	public:
 	
@@ -4768,7 +4749,7 @@ GuiSelectableButton
 GuiSelectableButton :: GroupController
 ***********************************************************************/
 
-		class GACUI_API GroupController
+		class GACUI_API GroupController : public GuiComponent
 		{
 		public:
 		
@@ -4785,7 +4766,7 @@ GuiSelectableButton :: GroupController
 GuiSelectableButton :: IStyleController
 ***********************************************************************/
 
-		class GACUI_API IStyleController
+		class GACUI_API IStyleController : public GuiButton :: IStyleController, public IDescriptable, public GuiControl :: IStyleController
 		{
 		public:
 		
@@ -4800,7 +4781,7 @@ GuiSelectableButton :: IStyleController
 GuiSelectableButton :: MutexGroupController
 ***********************************************************************/
 
-		class GACUI_API MutexGroupController
+		class GACUI_API MutexGroupController : public GuiSelectableButton :: GroupController
 		{
 		public:
 		
@@ -4819,7 +4800,7 @@ GuiSelectableButton :: MutexGroupController
 GuiVirtualTreeListControl
 ***********************************************************************/
 
-	class GACUI_API GuiVirtualTreeListControl
+	class GACUI_API GuiVirtualTreeListControl : public GuiSelectableListControl
 	{
 	public:
 	
@@ -4841,7 +4822,7 @@ GuiVirtualTreeListControl
 INodeItemStyleProvider
 ***********************************************************************/
 
-	class GACUI_API INodeItemStyleProvider
+	class GACUI_API INodeItemStyleProvider : public IDescriptable
 	{
 	public:
 	
@@ -4866,7 +4847,7 @@ INodeItemStyleProvider
 ItemStyleControllerBase
 ***********************************************************************/
 
-	class GACUI_API ItemStyleControllerBase
+	class GACUI_API ItemStyleControllerBase : public GuiListControl :: IItemStyleController, public IDescriptable
 	{
 	public:
 	
@@ -4888,7 +4869,7 @@ ItemStyleControllerBase
 ListViewColumnItemArranger
 ***********************************************************************/
 
-	class GACUI_API ListViewColumnItemArranger
+	class GACUI_API ListViewColumnItemArranger : public FixedHeightItemArranger, public IDescriptable, public GuiListControl :: IItemProviderCallback, public GuiListControl :: IItemArranger
 	{
 	public:
 	
@@ -4907,7 +4888,7 @@ ListViewColumnItemArranger
 ListViewColumnItemArranger :: IColumnItemView
 ***********************************************************************/
 
-		class GACUI_API IColumnItemView
+		class GACUI_API IColumnItemView : public IDescriptable
 		{
 		public:
 		
@@ -4931,7 +4912,7 @@ ListViewColumnItemArranger :: IColumnItemView
 ListViewColumnItemArranger :: IColumnItemViewCallback
 ***********************************************************************/
 
-		class GACUI_API IColumnItemViewCallback
+		class GACUI_API IColumnItemViewCallback : public IDescriptable
 		{
 		public:
 		
@@ -4949,7 +4930,7 @@ ListViewColumnItemArranger :: IColumnItemViewCallback
 ListViewItemStyleProviderBase
 ***********************************************************************/
 
-	class GACUI_API ListViewItemStyleProviderBase
+	class GACUI_API ListViewItemStyleProviderBase : public GuiSelectableListControl :: IItemStyleProvider, public IDescriptable, public GuiListControl :: IItemStyleProvider
 	{
 	public:
 	
@@ -4969,7 +4950,7 @@ ListViewItemStyleProviderBase
 ListViewItemStyleProviderBase :: ListViewItemStyleController
 ***********************************************************************/
 
-		class GACUI_API ListViewItemStyleController
+		class GACUI_API ListViewItemStyleController : public ItemStyleControllerBase, public IDescriptable, public GuiListControl :: IItemStyleController
 		{
 		public:
 		
@@ -4990,7 +4971,7 @@ ListViewItemStyleProviderBase :: ListViewItemStyleController
 ListWrapperProvider_of_TextItem
 ***********************************************************************/
 
-	class GACUI_API ListWrapperProvider_of_TextItem
+	class GACUI_API ListWrapperProvider_of_TextItem : public ItemProviderBase, public IList_of_TextItem, public IDescriptable, public GuiListControl :: IItemProvider, public IReadonlyList_of_TextItem, public ICollection_of_TextItem
 	{
 	public:
 	
@@ -4998,7 +4979,6 @@ ListWrapperProvider_of_TextItem
 		
 		bool NotifyUpdate(signed __int32 start, signed __int32 count);
 		bool Contains(const TextItem& item);
-		signed __int32 Count();
 		signed __int32 Count();
 		const TextItem& Get(signed __int32 index);
 		const TextItem& operator[](signed __int32 index);
@@ -5019,7 +4999,7 @@ ListWrapperProvider_of_TextItem
 TextItemStyleProvider
 ***********************************************************************/
 
-	class GACUI_API TextItemStyleProvider
+	class GACUI_API TextItemStyleProvider : public GuiSelectableListControl :: IItemStyleProvider, public IDescriptable, public GuiListControl :: IItemStyleProvider
 	{
 	public:
 	
@@ -5044,7 +5024,7 @@ TextItemStyleProvider
 TextItemStyleProvider :: ITextItemStyleProvider
 ***********************************************************************/
 
-		class GACUI_API ITextItemStyleProvider
+		class GACUI_API ITextItemStyleProvider : public IDescriptable
 		{
 		public:
 		
@@ -5060,7 +5040,7 @@ TextItemStyleProvider :: ITextItemStyleProvider
 TextItemStyleProvider :: ITextItemView
 ***********************************************************************/
 
-		class GACUI_API ITextItemView
+		class GACUI_API ITextItemView : public GuiListControl :: IItemPrimaryTextView, public IDescriptable
 		{
 		public:
 		
@@ -5080,7 +5060,7 @@ TextItemStyleProvider :: ITextItemView
 TextItemStyleProvider :: TextItemStyleController
 ***********************************************************************/
 
-		class GACUI_API TextItemStyleController
+		class GACUI_API TextItemStyleController : public ItemStyleControllerBase, public IDescriptable, public GuiListControl :: IItemStyleController
 		{
 		public:
 		
@@ -5105,7 +5085,7 @@ TextItemStyleProvider :: TextItemStyleController
 Win7ButtonStyleBase
 ***********************************************************************/
 
-	class GACUI_API Win7ButtonStyleBase
+	class GACUI_API Win7ButtonStyleBase : public GuiSelectableButton :: IStyleController, public IDescriptable, public GuiControl :: IStyleController, public GuiButton :: IStyleController
 	{
 	public:
 	
@@ -5135,7 +5115,7 @@ Win7ButtonStyleBase
 Win7ListViewColumnDropDownStyle
 ***********************************************************************/
 
-	class GACUI_API Win7ListViewColumnDropDownStyle
+	class GACUI_API Win7ListViewColumnDropDownStyle : public GuiSelectableButton :: IStyleController, public IDescriptable, public GuiControl :: IStyleController, public GuiButton :: IStyleController
 	{
 	public:
 	
@@ -5160,7 +5140,7 @@ Win7ListViewColumnDropDownStyle
 Win7SelectableItemStyle
 ***********************************************************************/
 
-	class GACUI_API Win7SelectableItemStyle
+	class GACUI_API Win7SelectableItemStyle : public Win7ButtonStyleBase, public IDescriptable, public GuiControl :: IStyleController, public GuiButton :: IStyleController, public GuiSelectableButton :: IStyleController
 	{
 	public:
 	
@@ -5177,7 +5157,7 @@ Win7SelectableItemStyle
 Win7TextListProvider
 ***********************************************************************/
 
-	class GACUI_API Win7TextListProvider
+	class GACUI_API Win7TextListProvider : public TextItemStyleProvider :: ITextItemStyleProvider, public IDescriptable
 	{
 	public:
 	
@@ -5196,7 +5176,7 @@ Win7TextListProvider
 Win7TreeViewExpandingButtonStyle
 ***********************************************************************/
 
-	class GACUI_API Win7TreeViewExpandingButtonStyle
+	class GACUI_API Win7TreeViewExpandingButtonStyle : public GuiSelectableButton :: IStyleController, public IDescriptable, public GuiControl :: IStyleController, public GuiButton :: IStyleController
 	{
 	public:
 	
@@ -5221,7 +5201,7 @@ Win7TreeViewExpandingButtonStyle
 DefaultItemCoordinateTransformer
 ***********************************************************************/
 
-	class GACUI_API DefaultItemCoordinateTransformer
+	class GACUI_API DefaultItemCoordinateTransformer : public GuiListControl :: IItemCoordinateTransformer, public IDescriptable
 	{
 	public:
 	
@@ -5246,7 +5226,7 @@ DefaultItemCoordinateTransformer
 GuiComboBoxBase
 ***********************************************************************/
 
-	class GACUI_API GuiComboBoxBase
+	class GACUI_API GuiComboBoxBase : public GuiButton
 	{
 	public:
 	
@@ -5270,7 +5250,7 @@ GuiComboBoxBase
 GuiComboBoxBase :: ICommandExecutor
 ***********************************************************************/
 
-		class GACUI_API ICommandExecutor
+		class GACUI_API ICommandExecutor : public IDescriptable
 		{
 		public:
 		
@@ -5286,7 +5266,7 @@ GuiComboBoxBase :: ICommandExecutor
 GuiComboBoxBase :: IStyleController
 ***********************************************************************/
 
-		class GACUI_API IStyleController
+		class GACUI_API IStyleController : public GuiButton :: IStyleController, public IDescriptable, public GuiControl :: IStyleController
 		{
 		public:
 		
@@ -5308,7 +5288,7 @@ GuiComboBoxBase :: IStyleController
 GuiListViewBase
 ***********************************************************************/
 
-	class GACUI_API GuiListViewBase
+	class GACUI_API GuiListViewBase : public GuiSelectableListControl
 	{
 	public:
 	
@@ -5327,7 +5307,7 @@ GuiListViewBase
 GuiListViewBase :: IStyleProvider
 ***********************************************************************/
 
-		class GACUI_API IStyleProvider
+		class GACUI_API IStyleProvider : public GuiScrollView :: IStyleProvider, public IDescriptable, public GuiControl :: IStyleProvider
 		{
 		public:
 		
@@ -5349,7 +5329,7 @@ GuiListViewBase :: IStyleProvider
 GuiTableComposition
 ***********************************************************************/
 
-	class GACUI_API GuiTableComposition
+	class GACUI_API GuiTableComposition : public GuiBoundsComposition
 	{
 	public:
 	
@@ -5381,7 +5361,7 @@ GuiTableComposition
 GuiTreeView
 ***********************************************************************/
 
-	class GACUI_API GuiTreeView
+	class GACUI_API GuiTreeView : public GuiVirtualTreeListControl
 	{
 	public:
 	
@@ -5400,7 +5380,7 @@ GuiTreeView
 GuiTreeView :: IStyleProvider
 ***********************************************************************/
 
-		class GACUI_API IStyleProvider
+		class GACUI_API IStyleProvider : public GuiScrollView :: IStyleProvider, public IDescriptable, public GuiControl :: IStyleProvider
 		{
 		public:
 		
@@ -5420,7 +5400,7 @@ GuiTreeView :: IStyleProvider
 GuiVirtualTextList
 ***********************************************************************/
 
-	class GACUI_API GuiVirtualTextList
+	class GACUI_API GuiVirtualTextList : public GuiSelectableListControl
 	{
 	public:
 	
@@ -5459,7 +5439,7 @@ IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer
 ListProvider_of_TextItem
 ***********************************************************************/
 
-	class GACUI_API ListProvider_of_TextItem
+	class GACUI_API ListProvider_of_TextItem : public ListWrapperProvider_of_TextItem, public IDescriptable, public GuiListControl :: IItemProvider, public IReadonlyList_of_TextItem, public ICollection_of_TextItem
 	{
 	public:
 	
@@ -5476,7 +5456,7 @@ ListProvider_of_TextItem
 ListViewItemStyleProvider
 ***********************************************************************/
 
-	class GACUI_API ListViewItemStyleProvider
+	class GACUI_API ListViewItemStyleProvider : public ListViewItemStyleProviderBase, public IDescriptable, public GuiListControl :: IItemStyleProvider
 	{
 	public:
 	
@@ -5503,7 +5483,7 @@ ListViewItemStyleProvider
 ListViewItemStyleProvider :: IListViewItemContent
 ***********************************************************************/
 
-		class GACUI_API IListViewItemContent
+		class GACUI_API IListViewItemContent : public IDescriptable
 		{
 		public:
 		
@@ -5521,7 +5501,7 @@ ListViewItemStyleProvider :: IListViewItemContent
 ListViewItemStyleProvider :: IListViewItemContentProvider
 ***********************************************************************/
 
-		class GACUI_API IListViewItemContentProvider
+		class GACUI_API IListViewItemContentProvider : public IDescriptable
 		{
 		public:
 		
@@ -5540,7 +5520,7 @@ ListViewItemStyleProvider :: IListViewItemContentProvider
 ListViewItemStyleProvider :: IListViewItemView
 ***********************************************************************/
 
-		class GACUI_API IListViewItemView
+		class GACUI_API IListViewItemView : public GuiListControl :: IItemPrimaryTextView, public IDescriptable
 		{
 		public:
 		
@@ -5566,7 +5546,7 @@ ListViewItemStyleProvider :: IListViewItemView
 ListViewItemStyleProvider :: ListViewContentItemStyleController
 ***********************************************************************/
 
-		class GACUI_API ListViewContentItemStyleController
+		class GACUI_API ListViewContentItemStyleController : public ListViewItemStyleProviderBase :: ListViewItemStyleController, public IDescriptable, public GuiListControl :: IItemStyleController
 		{
 		public:
 		
@@ -5587,7 +5567,7 @@ ListViewItemStyleProvider :: ListViewContentItemStyleController
 ListViewSmallIconContentProvider
 ***********************************************************************/
 
-	class GACUI_API ListViewSmallIconContentProvider
+	class GACUI_API ListViewSmallIconContentProvider : public ListViewItemStyleProvider :: IListViewItemContentProvider, public IDescriptable
 	{
 	public:
 	
@@ -5609,7 +5589,7 @@ ListViewSmallIconContentProvider
 NodeItemStyleProvider
 ***********************************************************************/
 
-	class GACUI_API NodeItemStyleProvider
+	class GACUI_API NodeItemStyleProvider : public GuiSelectableListControl :: IItemStyleProvider, public IDescriptable, public GuiListControl :: IItemStyleProvider
 	{
 	public:
 	
@@ -5633,7 +5613,7 @@ NodeItemStyleProvider
 Win7ButtonStyle
 ***********************************************************************/
 
-	class GACUI_API Win7ButtonStyle
+	class GACUI_API Win7ButtonStyle : public Win7ButtonStyleBase, public IDescriptable, public GuiControl :: IStyleController, public GuiButton :: IStyleController, public GuiSelectableButton :: IStyleController
 	{
 	public:
 	
@@ -5650,7 +5630,7 @@ Win7ButtonStyle
 Win7CheckTextListProvider
 ***********************************************************************/
 
-	class GACUI_API Win7CheckTextListProvider
+	class GACUI_API Win7CheckTextListProvider : public Win7TextListProvider, public IDescriptable, public TextItemStyleProvider :: ITextItemStyleProvider
 	{
 	public:
 	
@@ -5668,7 +5648,7 @@ Win7CheckTextListProvider
 Win7ListViewColumnHeaderStyle
 ***********************************************************************/
 
-	class GACUI_API Win7ListViewColumnHeaderStyle
+	class GACUI_API Win7ListViewColumnHeaderStyle : public GuiSelectableButton :: IStyleController, public IDescriptable, public GuiControl :: IStyleController, public GuiButton :: IStyleController
 	{
 	public:
 	
@@ -5693,7 +5673,7 @@ Win7ListViewColumnHeaderStyle
 Win7RadioTextListProvider
 ***********************************************************************/
 
-	class GACUI_API Win7RadioTextListProvider
+	class GACUI_API Win7RadioTextListProvider : public Win7TextListProvider, public IDescriptable, public TextItemStyleProvider :: ITextItemStyleProvider
 	{
 	public:
 	
@@ -5711,7 +5691,7 @@ Win7RadioTextListProvider
 Win7ToolstripButtonStyle
 ***********************************************************************/
 
-	class GACUI_API Win7ToolstripButtonStyle
+	class GACUI_API Win7ToolstripButtonStyle : public Win7ButtonStyleBase, public IDescriptable, public GuiControl :: IStyleController, public GuiButton :: IStyleController, public GuiSelectableButton :: IStyleController
 	{
 	public:
 	
@@ -5728,7 +5708,7 @@ Win7ToolstripButtonStyle
 FixedHeightMultiColumnItemArranger
 ***********************************************************************/
 
-	class GACUI_API FixedHeightMultiColumnItemArranger
+	class GACUI_API FixedHeightMultiColumnItemArranger : public RangedItemArrangerBase, public IDescriptable, public GuiListControl :: IItemProviderCallback, public GuiListControl :: IItemArranger
 	{
 	public:
 	
@@ -5745,7 +5725,7 @@ FixedHeightMultiColumnItemArranger
 GuiMenuButton
 ***********************************************************************/
 
-	class GACUI_API GuiMenuButton
+	class GACUI_API GuiMenuButton : public GuiButton
 	{
 	public:
 	
@@ -5771,7 +5751,7 @@ GuiMenuButton
 GuiMenuButton :: IStyleController
 ***********************************************************************/
 
-		class GACUI_API IStyleController
+		class GACUI_API IStyleController : public GuiButton :: IStyleController, public IDescriptable, public GuiControl :: IStyleController
 		{
 		public:
 		
@@ -5790,7 +5770,7 @@ GuiMenuButton :: IStyleController
 GuiVirtualListView
 ***********************************************************************/
 
-	class GACUI_API GuiVirtualListView
+	class GACUI_API GuiVirtualListView : public GuiListViewBase
 	{
 	public:
 	
@@ -5808,7 +5788,7 @@ GuiVirtualListView
 ListProvider_of_ListViewItem
 ***********************************************************************/
 
-	class GACUI_API ListProvider_of_ListViewItem
+	class GACUI_API ListProvider_of_ListViewItem : public ListWrapperProvider_of_ListViewItem, public IDescriptable, public GuiListControl :: IItemProvider, public IReadonlyList_of_ListViewItem, public ICollection_of_ListViewItem
 	{
 	public:
 	
@@ -5825,7 +5805,7 @@ ListProvider_of_ListViewItem
 ListViewDetailContentProvider
 ***********************************************************************/
 
-	class GACUI_API ListViewDetailContentProvider
+	class GACUI_API ListViewDetailContentProvider : public ListViewItemStyleProvider :: IListViewItemContentProvider, public ListViewColumnItemArranger :: IColumnItemViewCallback, public IDescriptable
 	{
 	public:
 	
@@ -5847,7 +5827,7 @@ ListViewDetailContentProvider
 ListViewItemProvider
 ***********************************************************************/
 
-	class GACUI_API ListViewItemProvider
+	class GACUI_API ListViewItemProvider : public ListProvider_of_ListViewItem, public ListViewItemStyleProvider :: IListViewItemView, public ListViewColumnItemArranger :: IColumnItemView, public IDescriptable, public GuiListControl :: IItemProvider, public IReadonlyList_of_ListViewItem, public ICollection_of_ListViewItem, public GuiListControl :: IItemPrimaryTextView
 	{
 	public:
 	
@@ -5871,7 +5851,7 @@ ListViewItemProvider
 ListViewTileContentProvider
 ***********************************************************************/
 
-	class GACUI_API ListViewTileContentProvider
+	class GACUI_API ListViewTileContentProvider : public ListViewItemStyleProvider :: IListViewItemContentProvider, public IDescriptable
 	{
 	public:
 	
@@ -5893,7 +5873,7 @@ ListViewTileContentProvider
 Win7CheckBoxStyle :: BulletStyle
 ***********************************************************************/
 
-	class GACUI_API Win7CheckBoxStyle
+	class GACUI_API Win7CheckBoxStyle : public GuiSelectableButton :: IStyleController, public IDescriptable, public GuiControl :: IStyleController, public GuiButton :: IStyleController
 	{
 	public:
 		enum BulletStyle
@@ -5929,7 +5909,7 @@ Win7CheckBoxStyle
 Win7ListViewProvider
 ***********************************************************************/
 
-	class GACUI_API Win7ListViewProvider
+	class GACUI_API Win7ListViewProvider : public Win7MultilineTextBoxProvider, public GuiListViewBase :: IStyleProvider, public IDescriptable, public GuiControl :: IStyleProvider, public GuiScrollView :: IStyleProvider
 	{
 	public:
 	
@@ -5951,7 +5931,7 @@ Win7ListViewProvider
 Win7MenuItemButtonStyle
 ***********************************************************************/
 
-	class GACUI_API Win7MenuItemButtonStyle
+	class GACUI_API Win7MenuItemButtonStyle : public GuiMenuButton :: IStyleController, public IDescriptable, public GuiControl :: IStyleController
 	{
 	public:
 	
@@ -5978,7 +5958,7 @@ Win7MenuItemButtonStyle
 Win7TreeViewProvider
 ***********************************************************************/
 
-	class GACUI_API Win7TreeViewProvider
+	class GACUI_API Win7TreeViewProvider : public Win7MultilineTextBoxProvider, public GuiTreeView :: IStyleProvider, public IDescriptable, public GuiControl :: IStyleProvider, public GuiScrollView :: IStyleProvider
 	{
 	public:
 	
@@ -5998,7 +5978,7 @@ Win7TreeViewProvider
 GuiComboBoxListControl
 ***********************************************************************/
 
-	class GACUI_API GuiComboBoxListControl
+	class GACUI_API GuiComboBoxListControl : public GuiComboBoxBase
 	{
 	public:
 	
@@ -6022,7 +6002,7 @@ GuiComboBoxListControl
 IGuiMenuService :: Direction
 ***********************************************************************/
 
-	class GACUI_API IGuiMenuService
+	class GACUI_API IGuiMenuService : public IDescriptable
 	{
 	public:
 		enum Direction
@@ -6059,7 +6039,7 @@ IGuiMenuService
 ListViewInformationContentProvider
 ***********************************************************************/
 
-	class GACUI_API ListViewInformationContentProvider
+	class GACUI_API ListViewInformationContentProvider : public ListViewItemStyleProvider :: IListViewItemContentProvider, public IDescriptable
 	{
 	public:
 	
@@ -6081,7 +6061,7 @@ ListViewInformationContentProvider
 TextItemProvider
 ***********************************************************************/
 
-	class GACUI_API TextItemProvider
+	class GACUI_API TextItemProvider : public ListProvider_of_TextItem, public TextItemStyleProvider :: ITextItemView, public IDescriptable, public GuiListControl :: IItemProvider, public IReadonlyList_of_TextItem, public ICollection_of_TextItem, public GuiListControl :: IItemPrimaryTextView
 	{
 	public:
 	
@@ -6102,7 +6082,7 @@ TextItemProvider
 Win7MenuBarButtonStyle
 ***********************************************************************/
 
-	class GACUI_API Win7MenuBarButtonStyle
+	class GACUI_API Win7MenuBarButtonStyle : public GuiMenuButton :: IStyleController, public IDescriptable, public GuiControl :: IStyleController
 	{
 	public:
 	
@@ -6129,7 +6109,7 @@ Win7MenuBarButtonStyle
 GuiListView
 ***********************************************************************/
 
-	class GACUI_API GuiListView
+	class GACUI_API GuiListView : public GuiVirtualListView
 	{
 	public:
 	
@@ -6148,7 +6128,7 @@ GuiListView
 ListViewBigIconContentProvider
 ***********************************************************************/
 
-	class GACUI_API ListViewBigIconContentProvider
+	class GACUI_API ListViewBigIconContentProvider : public ListViewItemStyleProvider :: IListViewItemContentProvider, public IDescriptable
 	{
 	public:
 	
@@ -6170,7 +6150,7 @@ ListViewBigIconContentProvider
 Win7DropDownComboBoxStyle
 ***********************************************************************/
 
-	class GACUI_API Win7DropDownComboBoxStyle
+	class GACUI_API Win7DropDownComboBoxStyle : public Win7ButtonStyle, public GuiComboBoxBase :: IStyleController, public IDescriptable, public GuiControl :: IStyleController, public GuiButton :: IStyleController, public GuiSelectableButton :: IStyleController
 	{
 	public:
 	
@@ -6194,7 +6174,7 @@ Win7DropDownComboBoxStyle
 GuiTextList
 ***********************************************************************/
 
-	class GACUI_API GuiTextList
+	class GACUI_API GuiTextList : public GuiVirtualTextList
 	{
 	public:
 	
@@ -6213,7 +6193,7 @@ GuiTextList
 Win7TabPageHeaderStyle
 ***********************************************************************/
 
-	class GACUI_API Win7TabPageHeaderStyle
+	class GACUI_API Win7TabPageHeaderStyle : public Win7ButtonStyleBase, public IDescriptable, public GuiControl :: IStyleController, public GuiButton :: IStyleController, public GuiSelectableButton :: IStyleController
 	{
 	public:
 	
@@ -6231,7 +6211,7 @@ Win7TabPageHeaderStyle
 ListViewListContentProvider
 ***********************************************************************/
 
-	class GACUI_API ListViewListContentProvider
+	class GACUI_API ListViewListContentProvider : public ListViewItemStyleProvider :: IListViewItemContentProvider, public IDescriptable
 	{
 	public:
 	

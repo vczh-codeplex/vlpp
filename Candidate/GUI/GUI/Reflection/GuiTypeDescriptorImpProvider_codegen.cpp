@@ -218,7 +218,6 @@ Type Caching
 				Type* cache_ColorItem;
 				Type* cache_CommonScrollStyle_member_Direction;
 				Type* cache_CommonTrackStyle_member_Direction;
-				Type* cache_DescriptableObject;
 				Type* cache_ElementShape_member_Type;
 				Type* cache_FontProperties;
 				Type* cache_Gui3DSplitterElement_member_Direction;
@@ -537,7 +536,6 @@ AxisAlignedItemCoordinateTransformer (vl::presentation::controls::list::AxisAlig
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemCoordinateTransformer));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"AxisAlignedItemCoordinateTransformer", IMemberDescriptor::Normal))
@@ -878,7 +876,6 @@ CharMeasurer (vl::presentation::elements::text::CharMeasurer)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddMethod(
 						(new MethodDescriptor(L"MeasureWidth", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
@@ -1384,7 +1381,6 @@ CommonScrollStyle (vl::presentation::common_styles::CommonScrollStyle)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScroll_member_IStyleController));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 					AddMethod(
@@ -1567,7 +1563,6 @@ CommonTrackStyle (vl::presentation::common_styles::CommonTrackStyle)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScroll_member_IStyleController));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 					AddMethod(
@@ -1750,7 +1745,6 @@ DefaultItemCoordinateTransformer (vl::presentation::controls::list::DefaultItemC
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemCoordinateTransformer));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"DefaultItemCoordinateTransformer", IMemberDescriptor::Normal))
@@ -1873,43 +1867,6 @@ DefaultItemCoordinateTransformer (vl::presentation::controls::list::DefaultItemC
 			};
 
 /***********************************************************************
-DescriptableObject (vl::presentation::DescriptableObject)
-***********************************************************************/
-
-			class gacui_tpimp_DescriptableObject : public TypeDescriptor
-			{
-			protected:
-				void FillTypeContent()
-				{
-					AddConstructor(
-						(new MethodDescriptor(L"DescriptableObject", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_DescriptableObject))
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_DescriptableObject::method_handler_DescriptableObject_0))
-					);
-					AddMethod(
-						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
-						->ReturnType((gacui_tpimp_type_cache_table.cache_DescriptableObject)->GetReferenceType())
-						->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_DescriptableObject)->GetConstReferenceType())
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_DescriptableObject::method_handler_operator_assign_1))
-					);
-				}
-			
-			private:
-				
-				static DescriptableValue method_handler_DescriptableObject_0(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_operator_assign_1(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-			
-			public:
-			};
-
-/***********************************************************************
 ElementShape :: Type (vl::presentation::elements::ElementShape::Type)
 ***********************************************************************/
 
@@ -1967,7 +1924,6 @@ FixedHeightItemArranger (vl::presentation::controls::list::FixedHeightItemArrang
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_RangedItemArrangerBase));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProviderCallback));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemArranger));
@@ -2009,7 +1965,6 @@ FixedHeightMultiColumnItemArranger (vl::presentation::controls::list::FixedHeigh
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_RangedItemArrangerBase));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProviderCallback));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemArranger));
@@ -2051,7 +2006,6 @@ FixedSizeMultiColumnItemArranger (vl::presentation::controls::list::FixedSizeMul
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_RangedItemArrangerBase));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProviderCallback));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemArranger));
@@ -2393,7 +2347,6 @@ Gui3DBorderElement (vl::presentation::elements::Gui3DBorderElement)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
@@ -2507,7 +2460,6 @@ Gui3DSplitterElement (vl::presentation::elements::Gui3DSplitterElement)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
@@ -2571,27 +2523,12 @@ Gui3DSplitterElement (vl::presentation::elements::Gui3DSplitterElement)
 						)
 					);
 					AddProperty(
-						(new PropertyDescriptor(L"Direction", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_Gui3DSplitterElement_member_Direction))
-						->Getter(
-							(new MethodDescriptor(L"GetDirection", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_Gui3DSplitterElement_member_Direction))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_Gui3DSplitterElement::method_handler_GetDirection_9))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetDirection", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_Gui3DSplitterElement_member_Direction))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_Gui3DSplitterElement::method_handler_SetDirection_10))
-						)
-					);
-					AddProperty(
 						(new PropertyDescriptor(L"ElementTypeName", IMemberDescriptor::Static))
 						->PropertyType((gacui_tpimp_type_cache_table.primary_String))
 						->Getter(
 							(new MethodDescriptor(L"GetElementTypeName", IMemberDescriptor::Static))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_String))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_Gui3DSplitterElement::method_handler_GetElementTypeName_11))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_Gui3DSplitterElement::method_handler_GetElementTypeName_9))
 						)
 					);
 				}
@@ -2643,17 +2580,7 @@ Gui3DSplitterElement (vl::presentation::elements::Gui3DSplitterElement)
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetDirection_9(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetDirection_10(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetElementTypeName_11(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_GetElementTypeName_9(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -2789,7 +2716,6 @@ GuiBoundsComposition (vl::presentation::elements::GuiBoundsComposition)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiGraphicsSite));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiBoundsComposition", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiBoundsComposition)->GetPointerType())
@@ -2848,33 +2774,18 @@ GuiBoundsComposition (vl::presentation::elements::GuiBoundsComposition)
 						)
 					);
 					AddProperty(
-						(new PropertyDescriptor(L"AlignmentToParent", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_Margin))
-						->Getter(
-							(new MethodDescriptor(L"GetAlignmentToParent", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_Margin))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiBoundsComposition::method_handler_GetAlignmentToParent_10))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetAlignmentToParent", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_Margin))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiBoundsComposition::method_handler_SetAlignmentToParent_11))
-						)
-					);
-					AddProperty(
 						(new PropertyDescriptor(L"BoundsChanged", IMemberDescriptor::Normal))
 						->PropertyType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
 						->Getter(
 							(new MethodDescriptor(L"get_BoundsChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiBoundsComposition::method_handler_get_BoundsChanged_12))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiBoundsComposition::method_handler_get_BoundsChanged_10))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_BoundsChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiBoundsComposition::method_handler_set_BoundsChanged_13))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiBoundsComposition::method_handler_set_BoundsChanged_11))
 						)
 					);
 				}
@@ -2931,22 +2842,12 @@ GuiBoundsComposition (vl::presentation::elements::GuiBoundsComposition)
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetAlignmentToParent_10(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_BoundsChanged_10(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetAlignmentToParent_11(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_BoundsChanged_12(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_BoundsChanged_13(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_BoundsChanged_11(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -2964,7 +2865,6 @@ GuiButton (vl::presentation::controls::GuiButton)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiButton", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiButton)->GetPointerType())
@@ -3086,7 +2986,6 @@ GuiButton :: IStyleController (vl::presentation::controls::GuiButton::IStyleCont
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddMethod(
 							(new MethodDescriptor(L"Transfer", IMemberDescriptor::Abstract))
@@ -3128,7 +3027,6 @@ GuiCellComposition (vl::presentation::elements::GuiCellComposition)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiGraphicsSite));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiCellComposition", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiCellComposition)->GetPointerType())
@@ -3502,7 +3400,6 @@ GuiColorizedTextElement (vl::presentation::elements::GuiColorizedTextElement)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
@@ -3685,162 +3582,12 @@ GuiColorizedTextElement (vl::presentation::elements::GuiColorizedTextElement)
 						)
 					);
 					AddProperty(
-						(new PropertyDescriptor(L"Callback", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_GuiColorizedTextElement_member_ICallback)->GetPointerType())
-						->Getter(
-							(new MethodDescriptor(L"GetCallback", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiColorizedTextElement_member_ICallback)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiColorizedTextElement::method_handler_GetCallback_25))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetCallback", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiColorizedTextElement_member_ICallback)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiColorizedTextElement::method_handler_SetCallback_26))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Colors", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_ColorEntry)->GetConstReferenceType())
-						->Getter(
-							(new MethodDescriptor(L"GetColors", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_ColorEntry)->GetConstReferenceType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiColorizedTextElement::method_handler_GetColors_27))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetColors", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_Array_of_ColorEntry)->GetConstReferenceType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiColorizedTextElement::method_handler_SetColors_28))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Font", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_FontProperties)->GetConstReferenceType())
-						->Getter(
-							(new MethodDescriptor(L"GetFont", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_FontProperties)->GetConstReferenceType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiColorizedTextElement::method_handler_GetFont_29))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetFont", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_FontProperties)->GetConstReferenceType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiColorizedTextElement::method_handler_SetFont_30))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"ViewPosition", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_Point))
-						->Getter(
-							(new MethodDescriptor(L"GetViewPosition", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_Point))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiColorizedTextElement::method_handler_GetViewPosition_31))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetViewPosition", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_Point))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiColorizedTextElement::method_handler_SetViewPosition_32))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"VisuallyEnabled", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetVisuallyEnabled", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiColorizedTextElement::method_handler_GetVisuallyEnabled_33))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetVisuallyEnabled", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiColorizedTextElement::method_handler_SetVisuallyEnabled_34))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Focused", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetFocused", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiColorizedTextElement::method_handler_GetFocused_35))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetFocused", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiColorizedTextElement::method_handler_SetFocused_36))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"CaretBegin", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_TextPos))
-						->Getter(
-							(new MethodDescriptor(L"GetCaretBegin", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_TextPos))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiColorizedTextElement::method_handler_GetCaretBegin_37))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetCaretBegin", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_TextPos))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiColorizedTextElement::method_handler_SetCaretBegin_38))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"CaretEnd", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_TextPos))
-						->Getter(
-							(new MethodDescriptor(L"GetCaretEnd", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_TextPos))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiColorizedTextElement::method_handler_GetCaretEnd_39))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetCaretEnd", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_TextPos))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiColorizedTextElement::method_handler_SetCaretEnd_40))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"CaretVisible", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetCaretVisible", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiColorizedTextElement::method_handler_GetCaretVisible_41))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetCaretVisible", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiColorizedTextElement::method_handler_SetCaretVisible_42))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"CaretColor", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_Color))
-						->Getter(
-							(new MethodDescriptor(L"GetCaretColor", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_Color))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiColorizedTextElement::method_handler_GetCaretColor_43))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetCaretColor", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_Color))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiColorizedTextElement::method_handler_SetCaretColor_44))
-						)
-					);
-					AddProperty(
 						(new PropertyDescriptor(L"ElementTypeName", IMemberDescriptor::Static))
 						->PropertyType((gacui_tpimp_type_cache_table.primary_String))
 						->Getter(
 							(new MethodDescriptor(L"GetElementTypeName", IMemberDescriptor::Static))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_String))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiColorizedTextElement::method_handler_GetElementTypeName_45))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiColorizedTextElement::method_handler_GetElementTypeName_25))
 						)
 					);
 				}
@@ -3972,107 +3719,7 @@ GuiColorizedTextElement (vl::presentation::elements::GuiColorizedTextElement)
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetCallback_25(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetCallback_26(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetColors_27(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetColors_28(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetFont_29(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetFont_30(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetViewPosition_31(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetViewPosition_32(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetVisuallyEnabled_33(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetVisuallyEnabled_34(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetFocused_35(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetFocused_36(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetCaretBegin_37(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetCaretBegin_38(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetCaretEnd_39(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetCaretEnd_40(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetCaretVisible_41(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetCaretVisible_42(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetCaretColor_43(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetCaretColor_44(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetElementTypeName_45(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_GetElementTypeName_25(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -4089,7 +3736,6 @@ GuiColorizedTextElement :: ICallback (vl::presentation::elements::GuiColorizedTe
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"ColorChanged", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -4139,7 +3785,6 @@ GuiComboBoxBase (vl::presentation::controls::GuiComboBoxBase)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiComboBoxBase", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiComboBoxBase)->GetPointerType())
@@ -4302,7 +3947,6 @@ GuiComboBoxBase :: ICommandExecutor (vl::presentation::controls::GuiComboBoxBase
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"ShowPopup", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -4351,7 +3995,6 @@ GuiComboBoxBase :: IStyleController (vl::presentation::controls::GuiComboBoxBase
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 						AddMethod(
@@ -4444,7 +4087,6 @@ GuiComboBoxListControl (vl::presentation::controls::GuiComboBoxListControl)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiComboBoxBase));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiComboBoxListControl", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiComboBoxListControl)->GetPointerType())
@@ -4498,33 +4140,18 @@ GuiComboBoxListControl (vl::presentation::controls::GuiComboBoxListControl)
 						)
 					);
 					AddProperty(
-						(new PropertyDescriptor(L"SelectedIndex", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_SInt32))
-						->Getter(
-							(new MethodDescriptor(L"GetSelectedIndex", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiComboBoxListControl::method_handler_GetSelectedIndex_7))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetSelectedIndex", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_SInt32))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiComboBoxListControl::method_handler_SetSelectedIndex_8))
-						)
-					);
-					AddProperty(
 						(new PropertyDescriptor(L"SelectedIndexChanged", IMemberDescriptor::Normal))
 						->PropertyType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
 						->Getter(
 							(new MethodDescriptor(L"get_SelectedIndexChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiComboBoxListControl::method_handler_get_SelectedIndexChanged_9))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiComboBoxListControl::method_handler_get_SelectedIndexChanged_7))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_SelectedIndexChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiComboBoxListControl::method_handler_set_SelectedIndexChanged_10))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiComboBoxListControl::method_handler_set_SelectedIndexChanged_8))
 						)
 					);
 				}
@@ -4566,22 +4193,12 @@ GuiComboBoxListControl (vl::presentation::controls::GuiComboBoxListControl)
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetSelectedIndex_7(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_SelectedIndexChanged_7(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetSelectedIndex_8(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_SelectedIndexChanged_9(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_SelectedIndexChanged_10(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_SelectedIndexChanged_8(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -4598,7 +4215,6 @@ GuiComponent (vl::presentation::controls::GuiComponent)
 			protected:
 				void FillTypeContent()
 				{
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiComponent", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiComponent)->GetPointerType())
@@ -4650,7 +4266,6 @@ GuiControl (vl::presentation::controls::GuiControl)
 			protected:
 				void FillTypeContent()
 				{
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiControl", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiControl)->GetPointerType())
@@ -4826,78 +4441,18 @@ GuiControl (vl::presentation::controls::GuiControl)
 						)
 					);
 					AddProperty(
-						(new PropertyDescriptor(L"Enabled", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetEnabled", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_GetEnabled_22))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetEnabled", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_SetEnabled_23))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Visible", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetVisible", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_GetVisible_24))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetVisible", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_SetVisible_25))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Text", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_String)->GetConstReferenceType())
-						->Getter(
-							(new MethodDescriptor(L"GetText", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_String)->GetConstReferenceType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_GetText_26))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetText", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_String)->GetConstReferenceType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_SetText_27))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Font", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_FontProperties)->GetConstReferenceType())
-						->Getter(
-							(new MethodDescriptor(L"GetFont", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_FontProperties)->GetConstReferenceType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_GetFont_28))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetFont", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_FontProperties)->GetConstReferenceType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_SetFont_29))
-						)
-					);
-					AddProperty(
 						(new PropertyDescriptor(L"VisibleChanged", IMemberDescriptor::Normal))
 						->PropertyType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
 						->Getter(
 							(new MethodDescriptor(L"get_VisibleChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_get_VisibleChanged_30))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_get_VisibleChanged_22))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_VisibleChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_set_VisibleChanged_31))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_set_VisibleChanged_23))
 						)
 					);
 					AddProperty(
@@ -4906,13 +4461,13 @@ GuiControl (vl::presentation::controls::GuiControl)
 						->Getter(
 							(new MethodDescriptor(L"get_EnabledChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_get_EnabledChanged_32))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_get_EnabledChanged_24))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_EnabledChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_set_EnabledChanged_33))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_set_EnabledChanged_25))
 						)
 					);
 					AddProperty(
@@ -4921,13 +4476,13 @@ GuiControl (vl::presentation::controls::GuiControl)
 						->Getter(
 							(new MethodDescriptor(L"get_VisuallyEnabledChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_get_VisuallyEnabledChanged_34))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_get_VisuallyEnabledChanged_26))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_VisuallyEnabledChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_set_VisuallyEnabledChanged_35))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_set_VisuallyEnabledChanged_27))
 						)
 					);
 					AddProperty(
@@ -4936,13 +4491,13 @@ GuiControl (vl::presentation::controls::GuiControl)
 						->Getter(
 							(new MethodDescriptor(L"get_TextChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_get_TextChanged_36))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_get_TextChanged_28))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_TextChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_set_TextChanged_37))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_set_TextChanged_29))
 						)
 					);
 					AddProperty(
@@ -4951,13 +4506,13 @@ GuiControl (vl::presentation::controls::GuiControl)
 						->Getter(
 							(new MethodDescriptor(L"get_FontChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_get_FontChanged_38))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_get_FontChanged_30))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_FontChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_set_FontChanged_39))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControl::method_handler_set_FontChanged_31))
 						)
 					);
 				}
@@ -5074,92 +4629,52 @@ GuiControl (vl::presentation::controls::GuiControl)
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetEnabled_22(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_VisibleChanged_22(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetEnabled_23(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_VisibleChanged_23(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetVisible_24(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_EnabledChanged_24(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetVisible_25(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_EnabledChanged_25(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetText_26(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_VisuallyEnabledChanged_26(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetText_27(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_VisuallyEnabledChanged_27(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetFont_28(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_TextChanged_28(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetFont_29(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_TextChanged_29(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_get_VisibleChanged_30(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_FontChanged_30(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_set_VisibleChanged_31(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_EnabledChanged_32(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_EnabledChanged_33(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_VisuallyEnabledChanged_34(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_VisuallyEnabledChanged_35(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_TextChanged_36(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_TextChanged_37(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_FontChanged_38(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_FontChanged_39(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_FontChanged_31(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -5176,7 +4691,6 @@ GuiControl :: IStyleController (vl::presentation::controls::GuiControl::IStyleCo
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController)->GetReferenceType())
@@ -5277,7 +4791,6 @@ GuiControl :: IStyleProvider (vl::presentation::controls::GuiControl::IStyleProv
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"AssociateStyleController", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -5363,7 +4876,6 @@ GuiControlHost (vl::presentation::controls::GuiControlHost)
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_INativeWindowListener));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiControlHost", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiControlHost)->GetPointerType())
@@ -5706,198 +5218,18 @@ GuiControlHost (vl::presentation::controls::GuiControlHost)
 						)
 					);
 					AddProperty(
-						(new PropertyDescriptor(L"NativeWindow", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_INativeWindow)->GetPointerType())
-						->Getter(
-							(new MethodDescriptor(L"GetNativeWindow", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_INativeWindow)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_GetNativeWindow_50))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetNativeWindow", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"window", (gacui_tpimp_type_cache_table.cache_INativeWindow)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_SetNativeWindow_51))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"ShowInTaskBar", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetShowInTaskBar", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_GetShowInTaskBar_52))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetShowInTaskBar", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_SetShowInTaskBar_53))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"EnabledActivate", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetEnabledActivate", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_GetEnabledActivate_54))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetEnabledActivate", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_SetEnabledActivate_55))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"MaximizedBox", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetMaximizedBox", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_GetMaximizedBox_56))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetMaximizedBox", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"visible", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_SetMaximizedBox_57))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"MinimizedBox", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetMinimizedBox", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_GetMinimizedBox_58))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetMinimizedBox", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"visible", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_SetMinimizedBox_59))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Border", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetBorder", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_GetBorder_60))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetBorder", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"visible", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_SetBorder_61))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"SizeBox", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetSizeBox", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_GetSizeBox_62))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetSizeBox", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"visible", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_SetSizeBox_63))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"IconVisible", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetIconVisible", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_GetIconVisible_64))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetIconVisible", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"visible", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_SetIconVisible_65))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"TitleBar", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetTitleBar", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_GetTitleBar_66))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetTitleBar", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"visible", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_SetTitleBar_67))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"TopMost", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetTopMost", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_GetTopMost_68))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetTopMost", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"topmost", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_SetTopMost_69))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"ClientSize", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_Size))
-						->Getter(
-							(new MethodDescriptor(L"GetClientSize", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_Size))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_GetClientSize_70))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetClientSize", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_Size))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_SetClientSize_71))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Bounds", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_Rect))
-						->Getter(
-							(new MethodDescriptor(L"GetBounds", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_Rect))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_GetBounds_72))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetBounds", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_Rect))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_SetBounds_73))
-						)
-					);
-					AddProperty(
 						(new PropertyDescriptor(L"WindowGotFocus", IMemberDescriptor::Normal))
 						->PropertyType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
 						->Getter(
 							(new MethodDescriptor(L"get_WindowGotFocus", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_get_WindowGotFocus_74))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_get_WindowGotFocus_50))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_WindowGotFocus", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_set_WindowGotFocus_75))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_set_WindowGotFocus_51))
 						)
 					);
 					AddProperty(
@@ -5906,13 +5238,13 @@ GuiControlHost (vl::presentation::controls::GuiControlHost)
 						->Getter(
 							(new MethodDescriptor(L"get_WindowLostFocus", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_get_WindowLostFocus_76))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_get_WindowLostFocus_52))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_WindowLostFocus", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_set_WindowLostFocus_77))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_set_WindowLostFocus_53))
 						)
 					);
 					AddProperty(
@@ -5921,13 +5253,13 @@ GuiControlHost (vl::presentation::controls::GuiControlHost)
 						->Getter(
 							(new MethodDescriptor(L"get_WindowActivated", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_get_WindowActivated_78))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_get_WindowActivated_54))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_WindowActivated", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_set_WindowActivated_79))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_set_WindowActivated_55))
 						)
 					);
 					AddProperty(
@@ -5936,13 +5268,13 @@ GuiControlHost (vl::presentation::controls::GuiControlHost)
 						->Getter(
 							(new MethodDescriptor(L"get_WindowDeactivated", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_get_WindowDeactivated_80))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_get_WindowDeactivated_56))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_WindowDeactivated", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_set_WindowDeactivated_81))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_set_WindowDeactivated_57))
 						)
 					);
 					AddProperty(
@@ -5951,13 +5283,13 @@ GuiControlHost (vl::presentation::controls::GuiControlHost)
 						->Getter(
 							(new MethodDescriptor(L"get_WindowOpened", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_get_WindowOpened_82))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_get_WindowOpened_58))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_WindowOpened", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_set_WindowOpened_83))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_set_WindowOpened_59))
 						)
 					);
 					AddProperty(
@@ -5966,13 +5298,13 @@ GuiControlHost (vl::presentation::controls::GuiControlHost)
 						->Getter(
 							(new MethodDescriptor(L"get_WindowClosing", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiRequestEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_get_WindowClosing_84))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_get_WindowClosing_60))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_WindowClosing", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiRequestEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_set_WindowClosing_85))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_set_WindowClosing_61))
 						)
 					);
 					AddProperty(
@@ -5981,13 +5313,13 @@ GuiControlHost (vl::presentation::controls::GuiControlHost)
 						->Getter(
 							(new MethodDescriptor(L"get_WindowClosed", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_get_WindowClosed_86))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_get_WindowClosed_62))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_WindowClosed", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_set_WindowClosed_87))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_set_WindowClosed_63))
 						)
 					);
 					AddProperty(
@@ -5996,13 +5328,13 @@ GuiControlHost (vl::presentation::controls::GuiControlHost)
 						->Getter(
 							(new MethodDescriptor(L"get_WindowDestroying", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_get_WindowDestroying_88))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_get_WindowDestroying_64))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_WindowDestroying", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_set_WindowDestroying_89))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiControlHost::method_handler_set_WindowDestroying_65))
 						)
 					);
 				}
@@ -6259,202 +5591,82 @@ GuiControlHost (vl::presentation::controls::GuiControlHost)
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetNativeWindow_50(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_WindowGotFocus_50(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetNativeWindow_51(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_WindowGotFocus_51(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetShowInTaskBar_52(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_WindowLostFocus_52(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetShowInTaskBar_53(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_WindowLostFocus_53(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetEnabledActivate_54(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_WindowActivated_54(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetEnabledActivate_55(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_WindowActivated_55(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetMaximizedBox_56(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_WindowDeactivated_56(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetMaximizedBox_57(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_WindowDeactivated_57(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetMinimizedBox_58(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_WindowOpened_58(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetMinimizedBox_59(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_WindowOpened_59(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetBorder_60(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_WindowClosing_60(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetBorder_61(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_WindowClosing_61(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetSizeBox_62(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_WindowClosed_62(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetSizeBox_63(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_WindowClosed_63(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetIconVisible_64(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_WindowDestroying_64(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetIconVisible_65(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetTitleBar_66(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetTitleBar_67(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetTopMost_68(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetTopMost_69(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetClientSize_70(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetClientSize_71(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetBounds_72(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetBounds_73(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_WindowGotFocus_74(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_WindowGotFocus_75(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_WindowLostFocus_76(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_WindowLostFocus_77(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_WindowActivated_78(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_WindowActivated_79(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_WindowDeactivated_80(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_WindowDeactivated_81(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_WindowOpened_82(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_WindowOpened_83(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_WindowClosing_84(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_WindowClosing_85(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_WindowClosed_86(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_WindowClosed_87(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_WindowDestroying_88(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_WindowDestroying_89(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_WindowDestroying_65(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -6574,7 +5786,6 @@ GuiGradientBackgroundElement (vl::presentation::elements::GuiGradientBackgroundE
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
@@ -6653,42 +5864,12 @@ GuiGradientBackgroundElement (vl::presentation::elements::GuiGradientBackgroundE
 						)
 					);
 					AddProperty(
-						(new PropertyDescriptor(L"Direction", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_GuiGradientBackgroundElement_member_Direction))
-						->Getter(
-							(new MethodDescriptor(L"GetDirection", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGradientBackgroundElement_member_Direction))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGradientBackgroundElement::method_handler_GetDirection_11))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetDirection", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGradientBackgroundElement_member_Direction))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGradientBackgroundElement::method_handler_SetDirection_12))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Shape", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_ElementShape_member_Type))
-						->Getter(
-							(new MethodDescriptor(L"GetShape", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_ElementShape_member_Type))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGradientBackgroundElement::method_handler_GetShape_13))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetShape", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_ElementShape_member_Type))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGradientBackgroundElement::method_handler_SetShape_14))
-						)
-					);
-					AddProperty(
 						(new PropertyDescriptor(L"ElementTypeName", IMemberDescriptor::Static))
 						->PropertyType((gacui_tpimp_type_cache_table.primary_String))
 						->Getter(
 							(new MethodDescriptor(L"GetElementTypeName", IMemberDescriptor::Static))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_String))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGradientBackgroundElement::method_handler_GetElementTypeName_15))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGradientBackgroundElement::method_handler_GetElementTypeName_11))
 						)
 					);
 				}
@@ -6750,27 +5931,7 @@ GuiGradientBackgroundElement (vl::presentation::elements::GuiGradientBackgroundE
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetDirection_11(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetDirection_12(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetShape_13(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetShape_14(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetElementTypeName_15(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_GetElementTypeName_11(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -6927,7 +6088,6 @@ GuiGraphicsComposition (vl::presentation::elements::GuiGraphicsComposition)
 			protected:
 				void FillTypeContent()
 				{
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddMethod(
 						(new MethodDescriptor(L"Children", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_GuiGraphicsComposition_raw_pointer)->GetConstReferenceType())
@@ -7233,126 +6393,6 @@ GuiGraphicsComposition (vl::presentation::elements::GuiGraphicsComposition)
 							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsComposition::method_handler_GetBounds_39))
 						)
 					);
-					AddProperty(
-						(new PropertyDescriptor(L"OwnedElement", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement)->GetSmartPointerType())
-						->Getter(
-							(new MethodDescriptor(L"GetOwnedElement", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement)->GetSmartPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsComposition::method_handler_GetOwnedElement_40))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetOwnedElement", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"element", (gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement)->GetSmartPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsComposition::method_handler_SetOwnedElement_41))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Visible", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetVisible", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsComposition::method_handler_GetVisible_42))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetVisible", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsComposition::method_handler_SetVisible_43))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"MinSizeLimitation", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_GuiGraphicsComposition_member_MinSizeLimitation))
-						->Getter(
-							(new MethodDescriptor(L"GetMinSizeLimitation", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsComposition_member_MinSizeLimitation))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsComposition::method_handler_GetMinSizeLimitation_44))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetMinSizeLimitation", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsComposition_member_MinSizeLimitation))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsComposition::method_handler_SetMinSizeLimitation_45))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"RenderTarget", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsRenderTarget)->GetPointerType())
-						->Getter(
-							(new MethodDescriptor(L"GetRenderTarget", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsRenderTarget)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsComposition::method_handler_GetRenderTarget_46))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetRenderTarget", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_IGuiGraphicsRenderTarget)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsComposition::method_handler_SetRenderTarget_47))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"AssociatedCursor", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_INativeCursor)->GetPointerType())
-						->Getter(
-							(new MethodDescriptor(L"GetAssociatedCursor", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_INativeCursor)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsComposition::method_handler_GetAssociatedCursor_48))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetAssociatedCursor", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"cursor", (gacui_tpimp_type_cache_table.cache_INativeCursor)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsComposition::method_handler_SetAssociatedCursor_49))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Margin", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_Margin))
-						->Getter(
-							(new MethodDescriptor(L"GetMargin", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_Margin))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsComposition::method_handler_GetMargin_50))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetMargin", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_Margin))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsComposition::method_handler_SetMargin_51))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"InternalMargin", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_Margin))
-						->Getter(
-							(new MethodDescriptor(L"GetInternalMargin", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_Margin))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsComposition::method_handler_GetInternalMargin_52))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetInternalMargin", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_Margin))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsComposition::method_handler_SetInternalMargin_53))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"PreferredMinSize", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_Size))
-						->Getter(
-							(new MethodDescriptor(L"GetPreferredMinSize", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_Size))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsComposition::method_handler_GetPreferredMinSize_54))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetPreferredMinSize", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_Size))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsComposition::method_handler_SetPreferredMinSize_55))
-						)
-					);
 				}
 			
 			private:
@@ -7556,86 +6596,6 @@ GuiGraphicsComposition (vl::presentation::elements::GuiGraphicsComposition)
 				{
 					throw 0;
 				}
-				
-				static DescriptableValue method_handler_GetOwnedElement_40(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetOwnedElement_41(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetVisible_42(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetVisible_43(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetMinSizeLimitation_44(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetMinSizeLimitation_45(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetRenderTarget_46(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetRenderTarget_47(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetAssociatedCursor_48(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetAssociatedCursor_49(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetMargin_50(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetMargin_51(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetInternalMargin_52(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetInternalMargin_53(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetPreferredMinSize_54(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetPreferredMinSize_55(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
 			
 			public:
 
@@ -7765,7 +6725,6 @@ GuiGraphicsEvent_of_GuiCharEventArgs (vl::presentation::elements::GuiGraphicsEve
 			protected:
 				void FillTypeContent()
 				{
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiGraphicsEvent", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiCharEventArgs)->GetPointerType())
@@ -7811,21 +6770,6 @@ GuiGraphicsEvent_of_GuiCharEventArgs (vl::presentation::elements::GuiGraphicsEve
 							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsEvent_of_GuiCharEventArgs::method_handler_SetAssociatedComposition_6))
 						)
 					);
-					AddProperty(
-						(new PropertyDescriptor(L"AssociatedComposition", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_GuiGraphicsComposition)->GetPointerType())
-						->Getter(
-							(new MethodDescriptor(L"GetAssociatedComposition", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsComposition)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsEvent_of_GuiCharEventArgs::method_handler_GetAssociatedComposition_7))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetAssociatedComposition", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"_sender", (gacui_tpimp_type_cache_table.cache_GuiGraphicsComposition)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsEvent_of_GuiCharEventArgs::method_handler_SetAssociatedComposition_8))
-						)
-					);
 				}
 			
 			private:
@@ -7864,16 +6808,6 @@ GuiGraphicsEvent_of_GuiCharEventArgs (vl::presentation::elements::GuiGraphicsEve
 				{
 					throw 0;
 				}
-				
-				static DescriptableValue method_handler_GetAssociatedComposition_7(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetAssociatedComposition_8(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
 			
 			public:
 
@@ -7887,7 +6821,6 @@ GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler (vl::presentation::elements::Gu
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"Execute", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -7928,7 +6861,6 @@ GuiGraphicsEvent_of_GuiEventArgs (vl::presentation::elements::GuiGraphicsEvent<v
 			protected:
 				void FillTypeContent()
 				{
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiGraphicsEvent", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs)->GetPointerType())
@@ -7974,21 +6906,6 @@ GuiGraphicsEvent_of_GuiEventArgs (vl::presentation::elements::GuiGraphicsEvent<v
 							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsEvent_of_GuiEventArgs::method_handler_SetAssociatedComposition_6))
 						)
 					);
-					AddProperty(
-						(new PropertyDescriptor(L"AssociatedComposition", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_GuiGraphicsComposition)->GetPointerType())
-						->Getter(
-							(new MethodDescriptor(L"GetAssociatedComposition", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsComposition)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsEvent_of_GuiEventArgs::method_handler_GetAssociatedComposition_7))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetAssociatedComposition", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"_sender", (gacui_tpimp_type_cache_table.cache_GuiGraphicsComposition)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsEvent_of_GuiEventArgs::method_handler_SetAssociatedComposition_8))
-						)
-					);
 				}
 			
 			private:
@@ -8027,16 +6944,6 @@ GuiGraphicsEvent_of_GuiEventArgs (vl::presentation::elements::GuiGraphicsEvent<v
 				{
 					throw 0;
 				}
-				
-				static DescriptableValue method_handler_GetAssociatedComposition_7(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetAssociatedComposition_8(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
 			
 			public:
 
@@ -8050,7 +6957,6 @@ GuiGraphicsEvent_of_GuiEventArgs :: IHandler (vl::presentation::elements::GuiGra
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"Execute", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -8091,7 +6997,6 @@ GuiGraphicsEvent_of_GuiKeyEventArgs (vl::presentation::elements::GuiGraphicsEven
 			protected:
 				void FillTypeContent()
 				{
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiGraphicsEvent", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiKeyEventArgs)->GetPointerType())
@@ -8137,21 +7042,6 @@ GuiGraphicsEvent_of_GuiKeyEventArgs (vl::presentation::elements::GuiGraphicsEven
 							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsEvent_of_GuiKeyEventArgs::method_handler_SetAssociatedComposition_6))
 						)
 					);
-					AddProperty(
-						(new PropertyDescriptor(L"AssociatedComposition", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_GuiGraphicsComposition)->GetPointerType())
-						->Getter(
-							(new MethodDescriptor(L"GetAssociatedComposition", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsComposition)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsEvent_of_GuiKeyEventArgs::method_handler_GetAssociatedComposition_7))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetAssociatedComposition", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"_sender", (gacui_tpimp_type_cache_table.cache_GuiGraphicsComposition)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsEvent_of_GuiKeyEventArgs::method_handler_SetAssociatedComposition_8))
-						)
-					);
 				}
 			
 			private:
@@ -8190,16 +7080,6 @@ GuiGraphicsEvent_of_GuiKeyEventArgs (vl::presentation::elements::GuiGraphicsEven
 				{
 					throw 0;
 				}
-				
-				static DescriptableValue method_handler_GetAssociatedComposition_7(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetAssociatedComposition_8(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
 			
 			public:
 
@@ -8213,7 +7093,6 @@ GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler (vl::presentation::elements::Gui
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"Execute", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -8254,7 +7133,6 @@ GuiGraphicsEvent_of_GuiMouseEventArgs (vl::presentation::elements::GuiGraphicsEv
 			protected:
 				void FillTypeContent()
 				{
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiGraphicsEvent", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiMouseEventArgs)->GetPointerType())
@@ -8300,21 +7178,6 @@ GuiGraphicsEvent_of_GuiMouseEventArgs (vl::presentation::elements::GuiGraphicsEv
 							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsEvent_of_GuiMouseEventArgs::method_handler_SetAssociatedComposition_6))
 						)
 					);
-					AddProperty(
-						(new PropertyDescriptor(L"AssociatedComposition", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_GuiGraphicsComposition)->GetPointerType())
-						->Getter(
-							(new MethodDescriptor(L"GetAssociatedComposition", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsComposition)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsEvent_of_GuiMouseEventArgs::method_handler_GetAssociatedComposition_7))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetAssociatedComposition", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"_sender", (gacui_tpimp_type_cache_table.cache_GuiGraphicsComposition)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsEvent_of_GuiMouseEventArgs::method_handler_SetAssociatedComposition_8))
-						)
-					);
 				}
 			
 			private:
@@ -8353,16 +7216,6 @@ GuiGraphicsEvent_of_GuiMouseEventArgs (vl::presentation::elements::GuiGraphicsEv
 				{
 					throw 0;
 				}
-				
-				static DescriptableValue method_handler_GetAssociatedComposition_7(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetAssociatedComposition_8(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
 			
 			public:
 
@@ -8376,7 +7229,6 @@ GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler (vl::presentation::elements::G
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"Execute", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -8417,7 +7269,6 @@ GuiGraphicsEvent_of_GuiRequestEventArgs (vl::presentation::elements::GuiGraphics
 			protected:
 				void FillTypeContent()
 				{
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiGraphicsEvent", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiRequestEventArgs)->GetPointerType())
@@ -8463,21 +7314,6 @@ GuiGraphicsEvent_of_GuiRequestEventArgs (vl::presentation::elements::GuiGraphics
 							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsEvent_of_GuiRequestEventArgs::method_handler_SetAssociatedComposition_6))
 						)
 					);
-					AddProperty(
-						(new PropertyDescriptor(L"AssociatedComposition", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_GuiGraphicsComposition)->GetPointerType())
-						->Getter(
-							(new MethodDescriptor(L"GetAssociatedComposition", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsComposition)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsEvent_of_GuiRequestEventArgs::method_handler_GetAssociatedComposition_7))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetAssociatedComposition", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"_sender", (gacui_tpimp_type_cache_table.cache_GuiGraphicsComposition)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsEvent_of_GuiRequestEventArgs::method_handler_SetAssociatedComposition_8))
-						)
-					);
 				}
 			
 			private:
@@ -8516,16 +7352,6 @@ GuiGraphicsEvent_of_GuiRequestEventArgs (vl::presentation::elements::GuiGraphics
 				{
 					throw 0;
 				}
-				
-				static DescriptableValue method_handler_GetAssociatedComposition_7(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetAssociatedComposition_8(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
 			
 			public:
 
@@ -8539,7 +7365,6 @@ GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler (vl::presentation::elements:
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"Execute", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -9234,7 +8059,6 @@ GuiGraphicsHost (vl::presentation::elements::GuiGraphicsHost)
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_INativeWindowListener));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_INativeControllerListener));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiGraphicsHost", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsHost)->GetPointerType())
@@ -9315,21 +8139,6 @@ GuiGraphicsHost (vl::presentation::elements::GuiGraphicsHost)
 							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsHost::method_handler_GetAnimationManager_10))
 						)
 					);
-					AddProperty(
-						(new PropertyDescriptor(L"NativeWindow", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_INativeWindow)->GetPointerType())
-						->Getter(
-							(new MethodDescriptor(L"GetNativeWindow", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_INativeWindow)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsHost::method_handler_GetNativeWindow_11))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetNativeWindow", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"_nativeWindow", (gacui_tpimp_type_cache_table.cache_INativeWindow)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiGraphicsHost::method_handler_SetNativeWindow_12))
-						)
-					);
 				}
 			
 			private:
@@ -9385,16 +8194,6 @@ GuiGraphicsHost (vl::presentation::elements::GuiGraphicsHost)
 				}
 				
 				static DescriptableValue method_handler_GetAnimationManager_10(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetNativeWindow_11(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetNativeWindow_12(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -9495,7 +8294,6 @@ GuiGraphicsSite (vl::presentation::elements::GuiGraphicsSite)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiGraphicsComposition));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiGraphicsSite", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsSite)->GetPointerType())
@@ -9651,7 +8449,6 @@ GuiImageFrameElement (vl::presentation::elements::GuiImageFrameElement)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
@@ -9740,27 +8537,12 @@ GuiImageFrameElement (vl::presentation::elements::GuiImageFrameElement)
 						)
 					);
 					AddProperty(
-						(new PropertyDescriptor(L"Stretch", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetStretch", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiImageFrameElement::method_handler_GetStretch_12))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetStretch", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiImageFrameElement::method_handler_SetStretch_13))
-						)
-					);
-					AddProperty(
 						(new PropertyDescriptor(L"ElementTypeName", IMemberDescriptor::Static))
 						->PropertyType((gacui_tpimp_type_cache_table.primary_String))
 						->Getter(
 							(new MethodDescriptor(L"GetElementTypeName", IMemberDescriptor::Static))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_String))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiImageFrameElement::method_handler_GetElementTypeName_14))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiImageFrameElement::method_handler_GetElementTypeName_12))
 						)
 					);
 				}
@@ -9827,17 +8609,7 @@ GuiImageFrameElement (vl::presentation::elements::GuiImageFrameElement)
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetStretch_12(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetStretch_13(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetElementTypeName_14(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_GetElementTypeName_12(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -9883,7 +8655,6 @@ GuiListControl (vl::presentation::controls::GuiListControl)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScrollView));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiListControl", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiListControl)->GetPointerType())
@@ -10088,7 +8859,6 @@ GuiListControl :: IItemArranger (vl::presentation::controls::GuiListControl::IIt
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProviderCallback));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddMethod(
 							(new MethodDescriptor(L"AttachListControl", IMemberDescriptor::Abstract))
@@ -10149,21 +8919,6 @@ GuiListControl :: IItemArranger (vl::presentation::controls::GuiListControl::IIt
 								->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiListControl :: gacui_tpimp_IItemArranger::method_handler_GetTotalSize_8))
 							)
 						);
-						AddProperty(
-							(new PropertyDescriptor(L"Callback", IMemberDescriptor::Normal))
-							->PropertyType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemArrangerCallback)->GetPointerType())
-							->Getter(
-								(new MethodDescriptor(L"GetCallback", IMemberDescriptor::Abstract))
-								->ReturnType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemArrangerCallback)->GetPointerType())
-								->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiListControl :: gacui_tpimp_IItemArranger::method_handler_GetCallback_9))
-							)
-							->Setter(
-								(new MethodDescriptor(L"SetCallback", IMemberDescriptor::Abstract))
-								->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-								->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemArrangerCallback)->GetPointerType())
-								->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiListControl :: gacui_tpimp_IItemArranger::method_handler_SetCallback_10))
-							)
-						);
 					}
 				
 				private:
@@ -10212,16 +8967,6 @@ GuiListControl :: IItemArranger (vl::presentation::controls::GuiListControl::IIt
 					{
 						throw 0;
 					}
-					
-					static DescriptableValue method_handler_GetCallback_9(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-					{
-						throw 0;
-					}
-					
-					static DescriptableValue method_handler_SetCallback_10(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-					{
-						throw 0;
-					}
 				
 				public:
 				};
@@ -10236,7 +8981,6 @@ GuiListControl :: IItemArrangerCallback (vl::presentation::controls::GuiListCont
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"RequestItem", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemStyleController)->GetPointerType())
@@ -10357,7 +9101,6 @@ GuiListControl :: IItemCoordinateTransformer (vl::presentation::controls::GuiLis
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"RealSizeToVirtualSize", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_Size))
@@ -10478,7 +9221,6 @@ GuiListControl :: IItemPrimaryTextView (vl::presentation::controls::GuiListContr
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"GetPrimaryTextViewText", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_String))
@@ -10554,7 +9296,6 @@ GuiListControl :: IItemProvider (vl::presentation::controls::GuiListControl::IIt
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"AttachCallback", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -10637,7 +9378,6 @@ GuiListControl :: IItemProviderCallback (vl::presentation::controls::GuiListCont
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"OnAttached", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -10690,7 +9430,6 @@ GuiListControl :: IItemStyleController (vl::presentation::controls::GuiListContr
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"IsCacheable", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -10801,7 +9540,6 @@ GuiListControl :: IItemStyleProvider (vl::presentation::controls::GuiListControl
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"AttachListControl", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -10897,7 +9635,6 @@ GuiListView (vl::presentation::controls::GuiListView)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiVirtualListView));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiListView", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiListView)->GetPointerType())
@@ -10951,7 +9688,6 @@ GuiListViewBase (vl::presentation::controls::GuiListViewBase)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableListControl));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiListViewBase", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiListViewBase)->GetPointerType())
@@ -11016,7 +9752,6 @@ GuiListViewBase :: IStyleProvider (vl::presentation::controls::GuiListViewBase::
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScrollView_member_IStyleProvider));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleProvider));
 						AddMethod(
@@ -11111,7 +9846,6 @@ GuiMenu (vl::presentation::controls::GuiMenu)
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiPopup));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiMenuService));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiMenu", IMemberDescriptor::Normal))
@@ -11175,7 +9909,6 @@ GuiMenuBar (vl::presentation::controls::GuiMenuBar)
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiMenuService));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiMenuBar", IMemberDescriptor::Normal))
@@ -11227,7 +9960,6 @@ GuiMenuButton (vl::presentation::controls::GuiMenuButton)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiMenuButton", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiMenuButton)->GetPointerType())
@@ -11296,48 +10028,18 @@ GuiMenuButton (vl::presentation::controls::GuiMenuButton)
 						)
 					);
 					AddProperty(
-						(new PropertyDescriptor(L"SubMenuOpening", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetSubMenuOpening", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiMenuButton::method_handler_GetSubMenuOpening_10))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetSubMenuOpening", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiMenuButton::method_handler_SetSubMenuOpening_11))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"PreferredMenuClientSize", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_Size))
-						->Getter(
-							(new MethodDescriptor(L"GetPreferredMenuClientSize", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_Size))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiMenuButton::method_handler_GetPreferredMenuClientSize_12))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetPreferredMenuClientSize", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_Size))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiMenuButton::method_handler_SetPreferredMenuClientSize_13))
-						)
-					);
-					AddProperty(
 						(new PropertyDescriptor(L"SubMenuOpeningChanged", IMemberDescriptor::Normal))
 						->PropertyType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
 						->Getter(
 							(new MethodDescriptor(L"get_SubMenuOpeningChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiMenuButton::method_handler_get_SubMenuOpeningChanged_14))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiMenuButton::method_handler_get_SubMenuOpeningChanged_10))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_SubMenuOpeningChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiMenuButton::method_handler_set_SubMenuOpeningChanged_15))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiMenuButton::method_handler_set_SubMenuOpeningChanged_11))
 						)
 					);
 				}
@@ -11394,32 +10096,12 @@ GuiMenuButton (vl::presentation::controls::GuiMenuButton)
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetSubMenuOpening_10(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_SubMenuOpeningChanged_10(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetSubMenuOpening_11(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetPreferredMenuClientSize_12(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetPreferredMenuClientSize_13(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_SubMenuOpeningChanged_14(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_SubMenuOpeningChanged_15(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_SubMenuOpeningChanged_11(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -11436,7 +10118,6 @@ GuiMenuButton :: IStyleController (vl::presentation::controls::GuiMenuButton::IS
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 						AddMethod(
@@ -11529,7 +10210,6 @@ GuiMultilineTextBox (vl::presentation::controls::GuiMultilineTextBox)
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScrollView));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiTextBoxCommonInterface));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiMultilineTextBox", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiMultilineTextBox)->GetPointerType())
@@ -11600,7 +10280,6 @@ GuiMultilineTextBox :: StyleController (vl::presentation::controls::GuiMultiline
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScrollView_member_StyleController));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddConstructor(
 							(new MethodDescriptor(L"StyleController", IMemberDescriptor::Normal))
@@ -11752,7 +10431,6 @@ GuiMultilineTextBox :: TextElementOperatorCallback (vl::presentation::controls::
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiTextElementOperator_member_DefaultCallback));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddConstructor(
 							(new MethodDescriptor(L"TextElementOperatorCallback", IMemberDescriptor::Normal))
@@ -11831,7 +10509,6 @@ GuiPartialViewComposition (vl::presentation::elements::GuiPartialViewComposition
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiGraphicsSite));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiPartialViewComposition", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiPartialViewComposition)->GetPointerType())
@@ -11918,66 +10595,6 @@ GuiPartialViewComposition (vl::presentation::elements::GuiPartialViewComposition
 							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPartialViewComposition::method_handler_SetHeightPageSize_12))
 						)
 					);
-					AddProperty(
-						(new PropertyDescriptor(L"WidthRatio", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Double))
-						->Getter(
-							(new MethodDescriptor(L"GetWidthRatio", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Double))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPartialViewComposition::method_handler_GetWidthRatio_13))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetWidthRatio", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Double))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPartialViewComposition::method_handler_SetWidthRatio_14))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"WidthPageSize", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Double))
-						->Getter(
-							(new MethodDescriptor(L"GetWidthPageSize", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Double))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPartialViewComposition::method_handler_GetWidthPageSize_15))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetWidthPageSize", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Double))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPartialViewComposition::method_handler_SetWidthPageSize_16))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"HeightRatio", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Double))
-						->Getter(
-							(new MethodDescriptor(L"GetHeightRatio", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Double))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPartialViewComposition::method_handler_GetHeightRatio_17))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetHeightRatio", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Double))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPartialViewComposition::method_handler_SetHeightRatio_18))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"HeightPageSize", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Double))
-						->Getter(
-							(new MethodDescriptor(L"GetHeightPageSize", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Double))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPartialViewComposition::method_handler_GetHeightPageSize_19))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetHeightPageSize", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Double))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPartialViewComposition::method_handler_SetHeightPageSize_20))
-						)
-					);
 				}
 			
 			private:
@@ -12046,46 +10663,6 @@ GuiPartialViewComposition (vl::presentation::elements::GuiPartialViewComposition
 				{
 					throw 0;
 				}
-				
-				static DescriptableValue method_handler_GetWidthRatio_13(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetWidthRatio_14(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetWidthPageSize_15(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetWidthPageSize_16(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetHeightRatio_17(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetHeightRatio_18(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetHeightPageSize_19(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetHeightPageSize_20(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
 			
 			public:
 			};
@@ -12100,7 +10677,6 @@ GuiPolygonElement (vl::presentation::elements::GuiPolygonElement)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
@@ -12194,57 +10770,12 @@ GuiPolygonElement (vl::presentation::elements::GuiPolygonElement)
 						)
 					);
 					AddProperty(
-						(new PropertyDescriptor(L"Size", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_Size))
-						->Getter(
-							(new MethodDescriptor(L"GetSize", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_Size))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPolygonElement::method_handler_GetSize_13))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetSize", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_Size))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPolygonElement::method_handler_SetSize_14))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"BorderColor", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_Color))
-						->Getter(
-							(new MethodDescriptor(L"GetBorderColor", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_Color))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPolygonElement::method_handler_GetBorderColor_15))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetBorderColor", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_Color))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPolygonElement::method_handler_SetBorderColor_16))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"BackgroundColor", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_Color))
-						->Getter(
-							(new MethodDescriptor(L"GetBackgroundColor", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_Color))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPolygonElement::method_handler_GetBackgroundColor_17))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetBackgroundColor", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_Color))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPolygonElement::method_handler_SetBackgroundColor_18))
-						)
-					);
-					AddProperty(
 						(new PropertyDescriptor(L"ElementTypeName", IMemberDescriptor::Static))
 						->PropertyType((gacui_tpimp_type_cache_table.primary_String))
 						->Getter(
 							(new MethodDescriptor(L"GetElementTypeName", IMemberDescriptor::Static))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_String))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPolygonElement::method_handler_GetElementTypeName_19))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPolygonElement::method_handler_GetElementTypeName_13))
 						)
 					);
 				}
@@ -12316,37 +10847,7 @@ GuiPolygonElement (vl::presentation::elements::GuiPolygonElement)
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetSize_13(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetSize_14(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetBorderColor_15(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetBorderColor_16(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetBackgroundColor_17(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetBackgroundColor_18(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetElementTypeName_19(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_GetElementTypeName_13(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -12364,7 +10865,6 @@ GuiPopup (vl::presentation::controls::GuiPopup)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiWindow));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiPopup", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiPopup)->GetPointerType())
@@ -12490,7 +10990,6 @@ GuiRoundBorderElement (vl::presentation::elements::GuiRoundBorderElement)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
@@ -12544,42 +11043,12 @@ GuiRoundBorderElement (vl::presentation::elements::GuiRoundBorderElement)
 						)
 					);
 					AddProperty(
-						(new PropertyDescriptor(L"Color", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_Color))
-						->Getter(
-							(new MethodDescriptor(L"GetColor", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_Color))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiRoundBorderElement::method_handler_GetColor_8))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetColor", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_Color))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiRoundBorderElement::method_handler_SetColor_9))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Radius", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_SInt32))
-						->Getter(
-							(new MethodDescriptor(L"GetRadius", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiRoundBorderElement::method_handler_GetRadius_10))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetRadius", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_SInt32))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiRoundBorderElement::method_handler_SetRadius_11))
-						)
-					);
-					AddProperty(
 						(new PropertyDescriptor(L"ElementTypeName", IMemberDescriptor::Static))
 						->PropertyType((gacui_tpimp_type_cache_table.primary_String))
 						->Getter(
 							(new MethodDescriptor(L"GetElementTypeName", IMemberDescriptor::Static))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_String))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiRoundBorderElement::method_handler_GetElementTypeName_12))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiRoundBorderElement::method_handler_GetElementTypeName_8))
 						)
 					);
 				}
@@ -12626,27 +11095,7 @@ GuiRoundBorderElement (vl::presentation::elements::GuiRoundBorderElement)
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetColor_8(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetColor_9(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetRadius_10(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetRadius_11(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetElementTypeName_12(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_GetElementTypeName_8(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -12664,7 +11113,6 @@ GuiScroll (vl::presentation::controls::GuiScroll)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiScroll", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiScroll)->GetPointerType())
@@ -12771,93 +11219,18 @@ GuiScroll (vl::presentation::controls::GuiScroll)
 						)
 					);
 					AddProperty(
-						(new PropertyDescriptor(L"TotalSize", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_SInt32))
-						->Getter(
-							(new MethodDescriptor(L"GetTotalSize", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_GetTotalSize_14))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetTotalSize", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_SInt32))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_SetTotalSize_15))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"PageSize", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_SInt32))
-						->Getter(
-							(new MethodDescriptor(L"GetPageSize", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_GetPageSize_16))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetPageSize", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_SInt32))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_SetPageSize_17))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Position", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_SInt32))
-						->Getter(
-							(new MethodDescriptor(L"GetPosition", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_GetPosition_18))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetPosition", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_SInt32))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_SetPosition_19))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"SmallMove", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_SInt32))
-						->Getter(
-							(new MethodDescriptor(L"GetSmallMove", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_GetSmallMove_20))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetSmallMove", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_SInt32))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_SetSmallMove_21))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"BigMove", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_SInt32))
-						->Getter(
-							(new MethodDescriptor(L"GetBigMove", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_GetBigMove_22))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetBigMove", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_SInt32))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_SetBigMove_23))
-						)
-					);
-					AddProperty(
 						(new PropertyDescriptor(L"TotalSizeChanged", IMemberDescriptor::Normal))
 						->PropertyType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
 						->Getter(
 							(new MethodDescriptor(L"get_TotalSizeChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_get_TotalSizeChanged_24))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_get_TotalSizeChanged_14))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_TotalSizeChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_set_TotalSizeChanged_25))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_set_TotalSizeChanged_15))
 						)
 					);
 					AddProperty(
@@ -12866,13 +11239,13 @@ GuiScroll (vl::presentation::controls::GuiScroll)
 						->Getter(
 							(new MethodDescriptor(L"get_PageSizeChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_get_PageSizeChanged_26))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_get_PageSizeChanged_16))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_PageSizeChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_set_PageSizeChanged_27))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_set_PageSizeChanged_17))
 						)
 					);
 					AddProperty(
@@ -12881,13 +11254,13 @@ GuiScroll (vl::presentation::controls::GuiScroll)
 						->Getter(
 							(new MethodDescriptor(L"get_PositionChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_get_PositionChanged_28))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_get_PositionChanged_18))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_PositionChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_set_PositionChanged_29))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_set_PositionChanged_19))
 						)
 					);
 					AddProperty(
@@ -12896,13 +11269,13 @@ GuiScroll (vl::presentation::controls::GuiScroll)
 						->Getter(
 							(new MethodDescriptor(L"get_SmallMoveChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_get_SmallMoveChanged_30))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_get_SmallMoveChanged_20))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_SmallMoveChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_set_SmallMoveChanged_31))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_set_SmallMoveChanged_21))
 						)
 					);
 					AddProperty(
@@ -12911,13 +11284,13 @@ GuiScroll (vl::presentation::controls::GuiScroll)
 						->Getter(
 							(new MethodDescriptor(L"get_BigMoveChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_get_BigMoveChanged_32))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_get_BigMoveChanged_22))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_BigMoveChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_set_BigMoveChanged_33))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScroll::method_handler_set_BigMoveChanged_23))
 						)
 					);
 				}
@@ -12994,102 +11367,52 @@ GuiScroll (vl::presentation::controls::GuiScroll)
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetTotalSize_14(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_TotalSizeChanged_14(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetTotalSize_15(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_TotalSizeChanged_15(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetPageSize_16(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_PageSizeChanged_16(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetPageSize_17(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_PageSizeChanged_17(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetPosition_18(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_PositionChanged_18(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetPosition_19(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_PositionChanged_19(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetSmallMove_20(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_SmallMoveChanged_20(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetSmallMove_21(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_SmallMoveChanged_21(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetBigMove_22(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_BigMoveChanged_22(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetBigMove_23(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_TotalSizeChanged_24(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_TotalSizeChanged_25(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_PageSizeChanged_26(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_PageSizeChanged_27(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_PositionChanged_28(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_PositionChanged_29(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_SmallMoveChanged_30(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_SmallMoveChanged_31(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_BigMoveChanged_32(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_BigMoveChanged_33(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_BigMoveChanged_23(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -13106,7 +11429,6 @@ GuiScroll :: ICommandExecutor (vl::presentation::controls::GuiScroll::ICommandEx
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"SmallDecrease", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -13208,7 +11530,6 @@ GuiScroll :: IStyleController (vl::presentation::controls::GuiScroll::IStyleCont
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddMethod(
 							(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -13283,7 +11604,6 @@ GuiScrollContainer (vl::presentation::controls::GuiScrollContainer)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScrollView));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiScrollContainer", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiScrollContainer)->GetPointerType())
@@ -13322,7 +11642,6 @@ GuiScrollContainer :: StyleController (vl::presentation::controls::GuiScrollCont
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScrollView_member_StyleController));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddConstructor(
 							(new MethodDescriptor(L"StyleController", IMemberDescriptor::Normal))
@@ -13385,7 +11704,6 @@ GuiScrollView (vl::presentation::controls::GuiScrollView)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddMethod(
 						(new MethodDescriptor(L"CalculateView", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -13463,36 +11781,6 @@ GuiScrollView (vl::presentation::controls::GuiScrollView)
 							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScrollView::method_handler_SetVerticalAlwaysVisible_9))
 						)
 					);
-					AddProperty(
-						(new PropertyDescriptor(L"HorizontalAlwaysVisible", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetHorizontalAlwaysVisible", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScrollView::method_handler_GetHorizontalAlwaysVisible_10))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetHorizontalAlwaysVisible", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScrollView::method_handler_SetHorizontalAlwaysVisible_11))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"VerticalAlwaysVisible", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetVerticalAlwaysVisible", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScrollView::method_handler_GetVerticalAlwaysVisible_12))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetVerticalAlwaysVisible", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScrollView::method_handler_SetVerticalAlwaysVisible_13))
-						)
-					);
 				}
 			
 			private:
@@ -13546,26 +11834,6 @@ GuiScrollView (vl::presentation::controls::GuiScrollView)
 				{
 					throw 0;
 				}
-				
-				static DescriptableValue method_handler_GetHorizontalAlwaysVisible_10(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetHorizontalAlwaysVisible_11(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetVerticalAlwaysVisible_12(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetVerticalAlwaysVisible_13(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
 			
 			public:
 
@@ -13579,7 +11847,6 @@ GuiScrollView :: IStyleProvider (vl::presentation::controls::GuiScrollView::ISty
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleProvider));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddMethod(
 							(new MethodDescriptor(L"CreateHorizontalScrollStyle", IMemberDescriptor::Abstract))
@@ -13654,7 +11921,6 @@ GuiScrollView :: StyleController (vl::presentation::controls::GuiScrollView::Sty
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddConstructor(
 							(new MethodDescriptor(L"StyleController", IMemberDescriptor::Normal))
@@ -13789,36 +12055,6 @@ GuiScrollView :: StyleController (vl::presentation::controls::GuiScrollView::Sty
 								->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScrollView :: gacui_tpimp_StyleController::method_handler_SetVerticalAlwaysVisible_18))
 							)
 						);
-						AddProperty(
-							(new PropertyDescriptor(L"HorizontalAlwaysVisible", IMemberDescriptor::Normal))
-							->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Getter(
-								(new MethodDescriptor(L"GetHorizontalAlwaysVisible", IMemberDescriptor::Normal))
-								->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-								->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScrollView :: gacui_tpimp_StyleController::method_handler_GetHorizontalAlwaysVisible_19))
-							)
-							->Setter(
-								(new MethodDescriptor(L"SetHorizontalAlwaysVisible", IMemberDescriptor::Normal))
-								->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-								->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-								->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScrollView :: gacui_tpimp_StyleController::method_handler_SetHorizontalAlwaysVisible_20))
-							)
-						);
-						AddProperty(
-							(new PropertyDescriptor(L"VerticalAlwaysVisible", IMemberDescriptor::Normal))
-							->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Getter(
-								(new MethodDescriptor(L"GetVerticalAlwaysVisible", IMemberDescriptor::Normal))
-								->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-								->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScrollView :: gacui_tpimp_StyleController::method_handler_GetVerticalAlwaysVisible_21))
-							)
-							->Setter(
-								(new MethodDescriptor(L"SetVerticalAlwaysVisible", IMemberDescriptor::Normal))
-								->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-								->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-								->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiScrollView :: gacui_tpimp_StyleController::method_handler_SetVerticalAlwaysVisible_22))
-							)
-						);
 					}
 				
 				private:
@@ -13917,26 +12153,6 @@ GuiScrollView :: StyleController (vl::presentation::controls::GuiScrollView::Sty
 					{
 						throw 0;
 					}
-					
-					static DescriptableValue method_handler_GetHorizontalAlwaysVisible_19(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-					{
-						throw 0;
-					}
-					
-					static DescriptableValue method_handler_SetHorizontalAlwaysVisible_20(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-					{
-						throw 0;
-					}
-					
-					static DescriptableValue method_handler_GetVerticalAlwaysVisible_21(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-					{
-						throw 0;
-					}
-					
-					static DescriptableValue method_handler_SetVerticalAlwaysVisible_22(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-					{
-						throw 0;
-					}
 				
 				public:
 				};
@@ -13952,7 +12168,6 @@ GuiSelectableButton (vl::presentation::controls::GuiSelectableButton)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiSelectableButton", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton)->GetPointerType())
@@ -14011,63 +12226,18 @@ GuiSelectableButton (vl::presentation::controls::GuiSelectableButton)
 						)
 					);
 					AddProperty(
-						(new PropertyDescriptor(L"GroupController", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_GroupController)->GetPointerType())
-						->Getter(
-							(new MethodDescriptor(L"GetGroupController", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_GroupController)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSelectableButton::method_handler_GetGroupController_8))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetGroupController", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_GroupController)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSelectableButton::method_handler_SetGroupController_9))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"AutoSelection", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetAutoSelection", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSelectableButton::method_handler_GetAutoSelection_10))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetAutoSelection", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSelectableButton::method_handler_SetAutoSelection_11))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Selected", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetSelected", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSelectableButton::method_handler_GetSelected_12))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetSelected", IMemberDescriptor::Virtual))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSelectableButton::method_handler_SetSelected_13))
-						)
-					);
-					AddProperty(
 						(new PropertyDescriptor(L"GroupControllerChanged", IMemberDescriptor::Normal))
 						->PropertyType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
 						->Getter(
 							(new MethodDescriptor(L"get_GroupControllerChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSelectableButton::method_handler_get_GroupControllerChanged_14))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSelectableButton::method_handler_get_GroupControllerChanged_8))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_GroupControllerChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSelectableButton::method_handler_set_GroupControllerChanged_15))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSelectableButton::method_handler_set_GroupControllerChanged_9))
 						)
 					);
 					AddProperty(
@@ -14076,13 +12246,13 @@ GuiSelectableButton (vl::presentation::controls::GuiSelectableButton)
 						->Getter(
 							(new MethodDescriptor(L"get_AutoSelectionChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSelectableButton::method_handler_get_AutoSelectionChanged_16))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSelectableButton::method_handler_get_AutoSelectionChanged_10))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_AutoSelectionChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSelectableButton::method_handler_set_AutoSelectionChanged_17))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSelectableButton::method_handler_set_AutoSelectionChanged_11))
 						)
 					);
 					AddProperty(
@@ -14091,13 +12261,13 @@ GuiSelectableButton (vl::presentation::controls::GuiSelectableButton)
 						->Getter(
 							(new MethodDescriptor(L"get_SelectedChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSelectableButton::method_handler_get_SelectedChanged_18))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSelectableButton::method_handler_get_SelectedChanged_12))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_SelectedChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSelectableButton::method_handler_set_SelectedChanged_19))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSelectableButton::method_handler_set_SelectedChanged_13))
 						)
 					);
 				}
@@ -14144,62 +12314,32 @@ GuiSelectableButton (vl::presentation::controls::GuiSelectableButton)
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetGroupController_8(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_GroupControllerChanged_8(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetGroupController_9(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_GroupControllerChanged_9(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetAutoSelection_10(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_AutoSelectionChanged_10(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetAutoSelection_11(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_AutoSelectionChanged_11(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetSelected_12(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_SelectedChanged_12(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetSelected_13(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_GroupControllerChanged_14(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_GroupControllerChanged_15(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_AutoSelectionChanged_16(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_AutoSelectionChanged_17(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_SelectedChanged_18(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_SelectedChanged_19(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_SelectedChanged_13(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -14216,7 +12356,6 @@ GuiSelectableButton :: GroupController (vl::presentation::controls::GuiSelectabl
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiComponent));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"Attach", IMemberDescriptor::Virtual))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -14278,7 +12417,6 @@ GuiSelectableButton :: IStyleController (vl::presentation::controls::GuiSelectab
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 						AddMethod(
@@ -14320,7 +12458,6 @@ GuiSelectableButton :: MutexGroupController (vl::presentation::controls::GuiSele
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_GroupController));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddConstructor(
 							(new MethodDescriptor(L"MutexGroupController", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_MutexGroupController)->GetPointerType())
@@ -14371,7 +12508,6 @@ GuiSelectableListControl (vl::presentation::controls::GuiSelectableListControl)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiSelectableListControl", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiSelectableListControl)->GetPointerType())
@@ -14434,33 +12570,18 @@ GuiSelectableListControl (vl::presentation::controls::GuiSelectableListControl)
 						)
 					);
 					AddProperty(
-						(new PropertyDescriptor(L"MultiSelect", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetMultiSelect", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSelectableListControl::method_handler_GetMultiSelect_9))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetMultiSelect", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSelectableListControl::method_handler_SetMultiSelect_10))
-						)
-					);
-					AddProperty(
 						(new PropertyDescriptor(L"SelectionChanged", IMemberDescriptor::Normal))
 						->PropertyType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
 						->Getter(
 							(new MethodDescriptor(L"get_SelectionChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSelectableListControl::method_handler_get_SelectionChanged_11))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSelectableListControl::method_handler_get_SelectionChanged_9))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_SelectionChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSelectableListControl::method_handler_set_SelectionChanged_12))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSelectableListControl::method_handler_set_SelectionChanged_10))
 						)
 					);
 				}
@@ -14512,22 +12633,12 @@ GuiSelectableListControl (vl::presentation::controls::GuiSelectableListControl)
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetMultiSelect_9(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_SelectionChanged_9(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetMultiSelect_10(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_SelectionChanged_11(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_SelectionChanged_12(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_SelectionChanged_10(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -14544,7 +12655,6 @@ GuiSelectableListControl :: IItemStyleProvider (vl::presentation::controls::GuiS
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemStyleProvider));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddMethod(
 							(new MethodDescriptor(L"SetStyleSelected", IMemberDescriptor::Abstract))
@@ -14587,7 +12697,6 @@ GuiSideAlignedComposition (vl::presentation::elements::GuiSideAlignedComposition
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiGraphicsSite));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiSideAlignedComposition", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiSideAlignedComposition)->GetPointerType())
@@ -14659,51 +12768,6 @@ GuiSideAlignedComposition (vl::presentation::elements::GuiSideAlignedComposition
 							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSideAlignedComposition::method_handler_SetMaxRatio_10))
 						)
 					);
-					AddProperty(
-						(new PropertyDescriptor(L"Direction", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_GuiSideAlignedComposition_member_Direction))
-						->Getter(
-							(new MethodDescriptor(L"GetDirection", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiSideAlignedComposition_member_Direction))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSideAlignedComposition::method_handler_GetDirection_11))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetDirection", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiSideAlignedComposition_member_Direction))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSideAlignedComposition::method_handler_SetDirection_12))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"MaxLength", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_SInt32))
-						->Getter(
-							(new MethodDescriptor(L"GetMaxLength", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSideAlignedComposition::method_handler_GetMaxLength_13))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetMaxLength", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_SInt32))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSideAlignedComposition::method_handler_SetMaxLength_14))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"MaxRatio", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Double))
-						->Getter(
-							(new MethodDescriptor(L"GetMaxRatio", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Double))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSideAlignedComposition::method_handler_GetMaxRatio_15))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetMaxRatio", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Double))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSideAlignedComposition::method_handler_SetMaxRatio_16))
-						)
-					);
 				}
 			
 			private:
@@ -14759,36 +12823,6 @@ GuiSideAlignedComposition (vl::presentation::elements::GuiSideAlignedComposition
 				}
 				
 				static DescriptableValue method_handler_SetMaxRatio_10(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetDirection_11(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetDirection_12(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetMaxLength_13(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetMaxLength_14(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetMaxRatio_15(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetMaxRatio_16(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -14879,7 +12913,6 @@ GuiSinglelineTextBox (vl::presentation::controls::GuiSinglelineTextBox)
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiTextBoxCommonInterface));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiSinglelineTextBox", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiSinglelineTextBox)->GetPointerType())
@@ -14950,7 +12983,6 @@ GuiSinglelineTextBox :: IStyleProvider (vl::presentation::controls::GuiSinglelin
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleProvider));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddMethod(
 							(new MethodDescriptor(L"InstallBackground", IMemberDescriptor::Abstract))
@@ -14991,7 +13023,6 @@ GuiSinglelineTextBox :: StyleController (vl::presentation::controls::GuiSingleli
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddConstructor(
 							(new MethodDescriptor(L"StyleController", IMemberDescriptor::Normal))
@@ -15184,7 +13215,6 @@ GuiSinglelineTextBox :: TextElementOperatorCallback (vl::presentation::controls:
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiTextElementOperator_member_DefaultCallback));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddConstructor(
 							(new MethodDescriptor(L"TextElementOperatorCallback", IMemberDescriptor::Normal))
@@ -15277,7 +13307,6 @@ GuiSolidBackgroundElement (vl::presentation::elements::GuiSolidBackgroundElement
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
@@ -15331,42 +13360,12 @@ GuiSolidBackgroundElement (vl::presentation::elements::GuiSolidBackgroundElement
 						)
 					);
 					AddProperty(
-						(new PropertyDescriptor(L"Color", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_Color))
-						->Getter(
-							(new MethodDescriptor(L"GetColor", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_Color))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidBackgroundElement::method_handler_GetColor_8))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetColor", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_Color))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidBackgroundElement::method_handler_SetColor_9))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Shape", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_ElementShape_member_Type))
-						->Getter(
-							(new MethodDescriptor(L"GetShape", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_ElementShape_member_Type))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidBackgroundElement::method_handler_GetShape_10))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetShape", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_ElementShape_member_Type))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidBackgroundElement::method_handler_SetShape_11))
-						)
-					);
-					AddProperty(
 						(new PropertyDescriptor(L"ElementTypeName", IMemberDescriptor::Static))
 						->PropertyType((gacui_tpimp_type_cache_table.primary_String))
 						->Getter(
 							(new MethodDescriptor(L"GetElementTypeName", IMemberDescriptor::Static))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_String))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidBackgroundElement::method_handler_GetElementTypeName_12))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidBackgroundElement::method_handler_GetElementTypeName_8))
 						)
 					);
 				}
@@ -15413,27 +13412,7 @@ GuiSolidBackgroundElement (vl::presentation::elements::GuiSolidBackgroundElement
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetColor_8(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetColor_9(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetShape_10(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetShape_11(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetElementTypeName_12(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_GetElementTypeName_8(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -15451,7 +13430,6 @@ GuiSolidBorderElement (vl::presentation::elements::GuiSolidBorderElement)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
@@ -15505,42 +13483,12 @@ GuiSolidBorderElement (vl::presentation::elements::GuiSolidBorderElement)
 						)
 					);
 					AddProperty(
-						(new PropertyDescriptor(L"Color", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_Color))
-						->Getter(
-							(new MethodDescriptor(L"GetColor", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_Color))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidBorderElement::method_handler_GetColor_8))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetColor", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_Color))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidBorderElement::method_handler_SetColor_9))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Shape", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_ElementShape_member_Type))
-						->Getter(
-							(new MethodDescriptor(L"GetShape", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_ElementShape_member_Type))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidBorderElement::method_handler_GetShape_10))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetShape", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_ElementShape_member_Type))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidBorderElement::method_handler_SetShape_11))
-						)
-					);
-					AddProperty(
 						(new PropertyDescriptor(L"ElementTypeName", IMemberDescriptor::Static))
 						->PropertyType((gacui_tpimp_type_cache_table.primary_String))
 						->Getter(
 							(new MethodDescriptor(L"GetElementTypeName", IMemberDescriptor::Static))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_String))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidBorderElement::method_handler_GetElementTypeName_12))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidBorderElement::method_handler_GetElementTypeName_8))
 						)
 					);
 				}
@@ -15587,27 +13535,7 @@ GuiSolidBorderElement (vl::presentation::elements::GuiSolidBorderElement)
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetColor_8(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetColor_9(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetShape_10(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetShape_11(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetElementTypeName_12(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_GetElementTypeName_8(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -15625,7 +13553,6 @@ GuiSolidLabelElement (vl::presentation::elements::GuiSolidLabelElement)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"GetFactory", IMemberDescriptor::Virtual))
@@ -15764,102 +13691,12 @@ GuiSolidLabelElement (vl::presentation::elements::GuiSolidLabelElement)
 						)
 					);
 					AddProperty(
-						(new PropertyDescriptor(L"Color", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_Color))
-						->Getter(
-							(new MethodDescriptor(L"GetColor", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_Color))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidLabelElement::method_handler_GetColor_19))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetColor", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_Color))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidLabelElement::method_handler_SetColor_20))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Font", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_FontProperties)->GetConstReferenceType())
-						->Getter(
-							(new MethodDescriptor(L"GetFont", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_FontProperties)->GetConstReferenceType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidLabelElement::method_handler_GetFont_21))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetFont", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_FontProperties)->GetConstReferenceType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidLabelElement::method_handler_SetFont_22))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Text", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_String)->GetConstReferenceType())
-						->Getter(
-							(new MethodDescriptor(L"GetText", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_String)->GetConstReferenceType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidLabelElement::method_handler_GetText_23))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetText", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_String)->GetConstReferenceType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidLabelElement::method_handler_SetText_24))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"WrapLine", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetWrapLine", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidLabelElement::method_handler_GetWrapLine_25))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetWrapLine", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidLabelElement::method_handler_SetWrapLine_26))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Ellipse", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetEllipse", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidLabelElement::method_handler_GetEllipse_27))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetEllipse", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidLabelElement::method_handler_SetEllipse_28))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Multiline", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetMultiline", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidLabelElement::method_handler_GetMultiline_29))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetMultiline", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidLabelElement::method_handler_SetMultiline_30))
-						)
-					);
-					AddProperty(
 						(new PropertyDescriptor(L"ElementTypeName", IMemberDescriptor::Static))
 						->PropertyType((gacui_tpimp_type_cache_table.primary_String))
 						->Getter(
 							(new MethodDescriptor(L"GetElementTypeName", IMemberDescriptor::Static))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_String))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidLabelElement::method_handler_GetElementTypeName_31))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiSolidLabelElement::method_handler_GetElementTypeName_19))
 						)
 					);
 				}
@@ -15961,67 +13798,7 @@ GuiSolidLabelElement (vl::presentation::elements::GuiSolidLabelElement)
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetColor_19(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetColor_20(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetFont_21(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetFont_22(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetText_23(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetText_24(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetWrapLine_25(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetWrapLine_26(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetEllipse_27(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetEllipse_28(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetMultiline_29(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetMultiline_30(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetElementTypeName_31(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_GetElementTypeName_19(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -16039,7 +13816,6 @@ GuiStackComposition (vl::presentation::elements::GuiStackComposition)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiBoundsComposition));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiStackComposition", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiStackComposition)->GetPointerType())
@@ -16122,51 +13898,6 @@ GuiStackComposition (vl::presentation::elements::GuiStackComposition)
 							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiStackComposition::method_handler_SetExtraMargin_11))
 						)
 					);
-					AddProperty(
-						(new PropertyDescriptor(L"Direction", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_GuiStackComposition_member_Direction))
-						->Getter(
-							(new MethodDescriptor(L"GetDirection", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiStackComposition_member_Direction))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiStackComposition::method_handler_GetDirection_12))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetDirection", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiStackComposition_member_Direction))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiStackComposition::method_handler_SetDirection_13))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Padding", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_SInt32))
-						->Getter(
-							(new MethodDescriptor(L"GetPadding", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiStackComposition::method_handler_GetPadding_14))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetPadding", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_SInt32))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiStackComposition::method_handler_SetPadding_15))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"ExtraMargin", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_Margin))
-						->Getter(
-							(new MethodDescriptor(L"GetExtraMargin", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_Margin))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiStackComposition::method_handler_GetExtraMargin_16))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetExtraMargin", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_Margin))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiStackComposition::method_handler_SetExtraMargin_17))
-						)
-					);
 				}
 			
 			private:
@@ -16230,36 +13961,6 @@ GuiStackComposition (vl::presentation::elements::GuiStackComposition)
 				{
 					throw 0;
 				}
-				
-				static DescriptableValue method_handler_GetDirection_12(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetDirection_13(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetPadding_14(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetPadding_15(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetExtraMargin_16(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetExtraMargin_17(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
 			
 			public:
 
@@ -16318,7 +14019,6 @@ GuiStackItemComposition (vl::presentation::elements::GuiStackItemComposition)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiGraphicsSite));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiStackItemComposition", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiStackItemComposition)->GetPointerType())
@@ -16366,21 +14066,6 @@ GuiStackItemComposition (vl::presentation::elements::GuiStackItemComposition)
 							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiStackItemComposition::method_handler_SetExtraMargin_7))
 						)
 					);
-					AddProperty(
-						(new PropertyDescriptor(L"ExtraMargin", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_Margin))
-						->Getter(
-							(new MethodDescriptor(L"GetExtraMargin", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_Margin))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiStackItemComposition::method_handler_GetExtraMargin_8))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetExtraMargin", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_Margin))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiStackItemComposition::method_handler_SetExtraMargin_9))
-						)
-					);
 				}
 			
 			private:
@@ -16424,16 +14109,6 @@ GuiStackItemComposition (vl::presentation::elements::GuiStackItemComposition)
 				{
 					throw 0;
 				}
-				
-				static DescriptableValue method_handler_GetExtraMargin_8(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetExtraMargin_9(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
 			
 			public:
 			};
@@ -16448,7 +14123,6 @@ GuiTab (vl::presentation::controls::GuiTab)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiTab", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiTab)->GetPointerType())
@@ -16597,7 +14271,6 @@ GuiTab :: ICommandExecutor (vl::presentation::controls::GuiTab::ICommandExecutor
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"ShowTab", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -16637,7 +14310,6 @@ GuiTab :: IStyleController (vl::presentation::controls::GuiTab::IStyleController
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddMethod(
 							(new MethodDescriptor(L"InsertTab", IMemberDescriptor::Abstract))
@@ -16746,7 +14418,6 @@ GuiTableComposition (vl::presentation::elements::GuiTableComposition)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiBoundsComposition));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiTableComposition", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiTableComposition)->GetPointerType())
@@ -16855,21 +14526,6 @@ GuiTableComposition (vl::presentation::elements::GuiTableComposition)
 							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiTableComposition::method_handler_GetCellArea_15))
 						)
 					);
-					AddProperty(
-						(new PropertyDescriptor(L"CellPadding", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_SInt32))
-						->Getter(
-							(new MethodDescriptor(L"GetCellPadding", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiTableComposition::method_handler_GetCellPadding_16))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetCellPadding", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_SInt32))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiTableComposition::method_handler_SetCellPadding_17))
-						)
-					);
 				}
 			
 			private:
@@ -16953,16 +14609,6 @@ GuiTableComposition (vl::presentation::elements::GuiTableComposition)
 				{
 					throw 0;
 				}
-				
-				static DescriptableValue method_handler_GetCellPadding_16(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetCellPadding_17(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
 			
 			public:
 			};
@@ -16976,7 +14622,6 @@ GuiTabPage (vl::presentation::controls::GuiTabPage)
 			protected:
 				void FillTypeContent()
 				{
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiTabPage)->GetReferenceType())
@@ -17026,33 +14671,18 @@ GuiTabPage (vl::presentation::controls::GuiTabPage)
 						)
 					);
 					AddProperty(
-						(new PropertyDescriptor(L"Text", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_String)->GetConstReferenceType())
-						->Getter(
-							(new MethodDescriptor(L"GetText", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_String)->GetConstReferenceType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiTabPage::method_handler_GetText_6))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetText", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_String)->GetConstReferenceType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiTabPage::method_handler_SetText_7))
-						)
-					);
-					AddProperty(
 						(new PropertyDescriptor(L"TextChanged", IMemberDescriptor::Normal))
 						->PropertyType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
 						->Getter(
 							(new MethodDescriptor(L"get_TextChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiTabPage::method_handler_get_TextChanged_8))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiTabPage::method_handler_get_TextChanged_6))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_TextChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiTabPage::method_handler_set_TextChanged_9))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiTabPage::method_handler_set_TextChanged_7))
 						)
 					);
 				}
@@ -17089,22 +14719,12 @@ GuiTabPage (vl::presentation::controls::GuiTabPage)
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetText_6(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_TextChanged_6(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetText_7(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_TextChanged_8(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_TextChanged_9(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_TextChanged_7(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -17121,7 +14741,6 @@ GuiTextBoxCommonInterface (vl::presentation::controls::GuiTextBoxCommonInterface
 			protected:
 				void FillTypeContent()
 				{
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiTextBoxCommonInterface", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiTextBoxCommonInterface)->GetPointerType())
@@ -17306,33 +14925,18 @@ GuiTextBoxCommonInterface (vl::presentation::controls::GuiTextBoxCommonInterface
 						)
 					);
 					AddProperty(
-						(new PropertyDescriptor(L"SelectionText", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_String))
-						->Getter(
-							(new MethodDescriptor(L"GetSelectionText", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_String))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiTextBoxCommonInterface::method_handler_GetSelectionText_27))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetSelectionText", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_String)->GetConstReferenceType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiTextBoxCommonInterface::method_handler_SetSelectionText_28))
-						)
-					);
-					AddProperty(
 						(new PropertyDescriptor(L"SelectionChanged", IMemberDescriptor::Normal))
 						->PropertyType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
 						->Getter(
 							(new MethodDescriptor(L"get_SelectionChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiTextBoxCommonInterface::method_handler_get_SelectionChanged_29))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiTextBoxCommonInterface::method_handler_get_SelectionChanged_27))
 						)
 						->Setter(
 							(new MethodDescriptor(L"set_SelectionChanged", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiGraphicsEvent_of_GuiEventArgs))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiTextBoxCommonInterface::method_handler_set_SelectionChanged_30))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiTextBoxCommonInterface::method_handler_set_SelectionChanged_28))
 						)
 					);
 				}
@@ -17474,22 +15078,12 @@ GuiTextBoxCommonInterface (vl::presentation::controls::GuiTextBoxCommonInterface
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetSelectionText_27(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_get_SelectionChanged_27(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetSelectionText_28(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_get_SelectionChanged_29(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_set_SelectionChanged_30(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_set_SelectionChanged_28(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -17506,7 +15100,6 @@ GuiTextElementOperator (vl::presentation::controls::GuiTextElementOperator)
 			protected:
 				void FillTypeContent()
 				{
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiTextElementOperator", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiTextElementOperator)->GetPointerType())
@@ -17637,51 +15230,6 @@ GuiTextElementOperator (vl::presentation::controls::GuiTextElementOperator)
 							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiTextElementOperator::method_handler_SetSelectionText_19))
 						)
 					);
-					AddProperty(
-						(new PropertyDescriptor(L"Callback", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_GuiTextElementOperator_member_ICallback)->GetPointerType())
-						->Getter(
-							(new MethodDescriptor(L"GetCallback", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiTextElementOperator_member_ICallback)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiTextElementOperator::method_handler_GetCallback_20))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetCallback", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiTextElementOperator_member_ICallback)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiTextElementOperator::method_handler_SetCallback_21))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"TextBoxCommonInterface", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_GuiTextBoxCommonInterface)->GetPointerType())
-						->Getter(
-							(new MethodDescriptor(L"GetTextBoxCommonInterface", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiTextBoxCommonInterface)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiTextElementOperator::method_handler_GetTextBoxCommonInterface_22))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetTextBoxCommonInterface", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_GuiTextBoxCommonInterface)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiTextElementOperator::method_handler_SetTextBoxCommonInterface_23))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"SelectionText", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_String))
-						->Getter(
-							(new MethodDescriptor(L"GetSelectionText", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_String))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiTextElementOperator::method_handler_GetSelectionText_24))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetSelectionText", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_String)->GetConstReferenceType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiTextElementOperator::method_handler_SetSelectionText_25))
-						)
-					);
 				}
 			
 			private:
@@ -17785,36 +15333,6 @@ GuiTextElementOperator (vl::presentation::controls::GuiTextElementOperator)
 				{
 					throw 0;
 				}
-				
-				static DescriptableValue method_handler_GetCallback_20(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetCallback_21(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetTextBoxCommonInterface_22(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetTextBoxCommonInterface_23(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetSelectionText_24(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetSelectionText_25(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
 			
 			public:
 
@@ -17828,7 +15346,6 @@ GuiTextElementOperator :: DefaultCallback (vl::presentation::controls::GuiTextEl
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiTextElementOperator_member_ICallback));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddConstructor(
 							(new MethodDescriptor(L"DefaultCallback", IMemberDescriptor::Normal))
@@ -17929,7 +15446,6 @@ GuiTextElementOperator :: ICallback (vl::presentation::controls::GuiTextElementO
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"GetLeftWord", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_TextPos))
@@ -18063,7 +15579,6 @@ GuiTextList (vl::presentation::controls::GuiTextList)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiVirtualTextList));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiTextList", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiTextList)->GetPointerType())
@@ -18118,7 +15633,6 @@ GuiTimeBasedAnimation (vl::presentation::elements::GuiTimeBasedAnimation)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsAnimation));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiTimeBasedAnimation", IMemberDescriptor::Normal))
@@ -18190,7 +15704,6 @@ GuiTreeView (vl::presentation::controls::GuiTreeView)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiVirtualTreeListControl));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiTreeView", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiTreeView)->GetPointerType())
@@ -18254,7 +15767,6 @@ GuiTreeView :: IStyleProvider (vl::presentation::controls::GuiTreeView::IStylePr
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScrollView_member_IStyleProvider));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleProvider));
 						AddMethod(
@@ -18320,7 +15832,6 @@ GuiVirtualListView (vl::presentation::controls::GuiVirtualListView)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListViewBase));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiVirtualListView", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiVirtualListView)->GetPointerType())
@@ -18372,7 +15883,6 @@ GuiVirtualTextList (vl::presentation::controls::GuiVirtualTextList)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableListControl));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiVirtualTextList", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiVirtualTextList)->GetPointerType())
@@ -18436,7 +15946,6 @@ GuiVirtualTreeListControl (vl::presentation::controls::GuiVirtualTreeListControl
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableListControl));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiVirtualTreeListControl", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiVirtualTreeListControl)->GetPointerType())
@@ -18530,7 +16039,6 @@ GuiWindow (vl::presentation::controls::GuiWindow)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControlHost));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiWindow", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiWindow)->GetPointerType())
@@ -18570,7 +16078,6 @@ GuiWindowComposition (vl::presentation::elements::GuiWindowComposition)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiGraphicsSite));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiWindowComposition", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiWindowComposition)->GetPointerType())
@@ -18608,21 +16115,6 @@ GuiWindowComposition (vl::presentation::elements::GuiWindowComposition)
 							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiWindowComposition::method_handler_SetAttachedWindow_5))
 						)
 					);
-					AddProperty(
-						(new PropertyDescriptor(L"AttachedWindow", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_INativeWindow)->GetPointerType())
-						->Getter(
-							(new MethodDescriptor(L"GetAttachedWindow", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_INativeWindow)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiWindowComposition::method_handler_GetAttachedWindow_6))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetAttachedWindow", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"window", (gacui_tpimp_type_cache_table.cache_INativeWindow)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiWindowComposition::method_handler_SetAttachedWindow_7))
-						)
-					);
 				}
 			
 			private:
@@ -18653,16 +16145,6 @@ GuiWindowComposition (vl::presentation::elements::GuiWindowComposition)
 				}
 				
 				static DescriptableValue method_handler_SetAttachedWindow_5(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetAttachedWindow_6(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetAttachedWindow_7(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -18928,7 +16410,6 @@ IDescriptable (vl::presentation::IDescriptable)
 			protected:
 				void FillTypeContent()
 				{
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"IDescriptable", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_IDescriptable)->GetPointerType())
@@ -18967,7 +16448,6 @@ IGuiGraphicsAnimation (vl::presentation::elements::IGuiGraphicsAnimation)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddMethod(
 						(new MethodDescriptor(L"Play", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -19046,7 +16526,6 @@ IGuiGraphicsElement (vl::presentation::elements::IGuiGraphicsElement)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement)->GetReferenceType())
@@ -19391,7 +16870,6 @@ IGuiMenuService (vl::presentation::controls::IGuiMenuService)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddMethod(
 						(new MethodDescriptor(L"IsActiveState", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -21001,21 +18479,6 @@ INativeResourceService (vl::presentation::INativeResourceService)
 							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeResourceService::method_handler_SetDefaultFont_4))
 						)
 					);
-					AddProperty(
-						(new PropertyDescriptor(L"DefaultFont", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_FontProperties))
-						->Getter(
-							(new MethodDescriptor(L"GetDefaultFont", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_FontProperties))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeResourceService::method_handler_GetDefaultFont_5))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetDefaultFont", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_FontProperties)->GetConstReferenceType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeResourceService::method_handler_SetDefaultFont_6))
-						)
-					);
 				}
 			
 			private:
@@ -21041,16 +18504,6 @@ INativeResourceService (vl::presentation::INativeResourceService)
 				}
 				
 				static DescriptableValue method_handler_SetDefaultFont_4(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetDefaultFont_5(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetDefaultFont_6(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -21561,216 +19014,6 @@ INativeWindow (vl::presentation::INativeWindow)
 							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_SetTopMost_54))
 						)
 					);
-					AddProperty(
-						(new PropertyDescriptor(L"Bounds", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_Rect))
-						->Getter(
-							(new MethodDescriptor(L"GetBounds", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_Rect))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_GetBounds_55))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetBounds", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"bounds", (gacui_tpimp_type_cache_table.cache_Rect)->GetConstReferenceType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_SetBounds_56))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"ClientSize", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_Size))
-						->Getter(
-							(new MethodDescriptor(L"GetClientSize", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_Size))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_GetClientSize_57))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetClientSize", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"size", (gacui_tpimp_type_cache_table.cache_Size))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_SetClientSize_58))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Title", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_String))
-						->Getter(
-							(new MethodDescriptor(L"GetTitle", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_String))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_GetTitle_59))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetTitle", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"_title", (gacui_tpimp_type_cache_table.primary_String))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_SetTitle_60))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"WindowCursor", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_INativeCursor)->GetPointerType())
-						->Getter(
-							(new MethodDescriptor(L"GetWindowCursor", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_INativeCursor)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_GetWindowCursor_61))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetWindowCursor", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"_cursor", (gacui_tpimp_type_cache_table.cache_INativeCursor)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_SetWindowCursor_62))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"CaretPoint", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_Point))
-						->Getter(
-							(new MethodDescriptor(L"GetCaretPoint", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_Point))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_GetCaretPoint_63))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetCaretPoint", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"point", (gacui_tpimp_type_cache_table.cache_Point))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_SetCaretPoint_64))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Parent", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_INativeWindow)->GetPointerType())
-						->Getter(
-							(new MethodDescriptor(L"GetParent", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_INativeWindow)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_GetParent_65))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetParent", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"parent", (gacui_tpimp_type_cache_table.cache_INativeWindow)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_SetParent_66))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"AlwaysPassFocusToParent", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetAlwaysPassFocusToParent", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_GetAlwaysPassFocusToParent_67))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetAlwaysPassFocusToParent", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_SetAlwaysPassFocusToParent_68))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"MaximizedBox", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetMaximizedBox", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_GetMaximizedBox_69))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetMaximizedBox", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"visible", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_SetMaximizedBox_70))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"MinimizedBox", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetMinimizedBox", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_GetMinimizedBox_71))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetMinimizedBox", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"visible", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_SetMinimizedBox_72))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Border", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetBorder", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_GetBorder_73))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetBorder", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"visible", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_SetBorder_74))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"SizeBox", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetSizeBox", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_GetSizeBox_75))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetSizeBox", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"visible", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_SetSizeBox_76))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"IconVisible", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetIconVisible", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_GetIconVisible_77))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetIconVisible", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"visible", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_SetIconVisible_78))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"TitleBar", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetTitleBar", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_GetTitleBar_79))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetTitleBar", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"visible", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_SetTitleBar_80))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"TopMost", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetTopMost", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_GetTopMost_81))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetTopMost", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"topmost", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INativeWindow::method_handler_SetTopMost_82))
-						)
-					);
 				}
 			
 			private:
@@ -22046,146 +19289,6 @@ INativeWindow (vl::presentation::INativeWindow)
 				}
 				
 				static DescriptableValue method_handler_SetTopMost_54(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetBounds_55(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetBounds_56(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetClientSize_57(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetClientSize_58(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetTitle_59(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetTitle_60(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetWindowCursor_61(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetWindowCursor_62(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetCaretPoint_63(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetCaretPoint_64(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetParent_65(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetParent_66(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetAlwaysPassFocusToParent_67(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetAlwaysPassFocusToParent_68(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetMaximizedBox_69(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetMaximizedBox_70(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetMinimizedBox_71(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetMinimizedBox_72(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetBorder_73(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetBorder_74(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetSizeBox_75(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetSizeBox_76(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetIconVisible_77(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetIconVisible_78(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetTitleBar_79(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetTitleBar_80(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetTopMost_81(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetTopMost_82(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -22674,7 +19777,6 @@ INodeItemPrimaryTextView (vl::presentation::controls::tree::INodeItemPrimaryText
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddMethod(
 						(new MethodDescriptor(L"GetPrimaryTextViewText", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_String))
@@ -22739,7 +19841,6 @@ INodeItemStyleController (vl::presentation::controls::tree::INodeItemStyleContro
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemStyleController));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
@@ -22783,7 +19884,6 @@ INodeItemStyleProvider (vl::presentation::controls::tree::INodeItemStyleProvider
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddMethod(
 						(new MethodDescriptor(L"BindItemStyleProvider", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -22915,7 +20015,6 @@ INodeItemView (vl::presentation::controls::tree::INodeItemView)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemPrimaryTextView));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"RequestNode", IMemberDescriptor::Abstract))
@@ -23003,7 +20102,6 @@ INodeProvider (vl::presentation::controls::tree::INodeProvider)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddMethod(
 						(new MethodDescriptor(L"CalculateTotalVisibleNodes", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
@@ -23060,21 +20158,6 @@ INodeProvider (vl::presentation::controls::tree::INodeProvider)
 							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INodeProvider::method_handler_GetParent_7))
 						)
 					);
-					AddProperty(
-						(new PropertyDescriptor(L"Expanding", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetExpanding", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INodeProvider::method_handler_GetExpanding_8))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetExpanding", IMemberDescriptor::Abstract))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_INodeProvider::method_handler_SetExpanding_9))
-						)
-					);
 				}
 			
 			private:
@@ -23118,16 +20201,6 @@ INodeProvider (vl::presentation::controls::tree::INodeProvider)
 				{
 					throw 0;
 				}
-				
-				static DescriptableValue method_handler_GetExpanding_8(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetExpanding_9(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
 			
 			public:
 			};
@@ -23142,7 +20215,6 @@ INodeProviderCallback (vl::presentation::controls::tree::INodeProviderCallback)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddMethod(
 						(new MethodDescriptor(L"OnAttached", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -23232,7 +20304,6 @@ INodeRootProvider (vl::presentation::controls::tree::INodeRootProvider)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddMethod(
 						(new MethodDescriptor(L"CanGetNodeByVisibleIndex", IMemberDescriptor::Abstract))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -24150,7 +21221,6 @@ ItemProviderBase (vl::presentation::controls::list::ItemProviderBase)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProvider));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"ItemProviderBase", IMemberDescriptor::Normal))
@@ -24212,7 +21282,6 @@ ItemStyleControllerBase (vl::presentation::controls::list::ItemStyleControllerBa
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemStyleController));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"GetStyleProvider", IMemberDescriptor::Virtual))
@@ -24312,7 +21381,6 @@ ITreeViewItemView (vl::presentation::controls::tree::ITreeViewItemView)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeItemPrimaryTextView));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddMethod(
 						(new MethodDescriptor(L"GetNodeImage", IMemberDescriptor::Abstract))
@@ -24505,7 +21573,6 @@ ListProvider_of_ListViewItem (vl::presentation::controls::list::ListProvider<vl:
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_ListWrapperProvider_of_ListViewItem));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProvider));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_ListViewItem));
@@ -24548,7 +21615,6 @@ ListProvider_of_TextItem (vl::presentation::controls::list::ListProvider<vl::pre
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_ListWrapperProvider_of_TextItem));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProvider));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_TextItem));
@@ -24591,7 +21657,6 @@ ListViewBigIconContentProvider (vl::presentation::controls::list::ListViewBigIco
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProvider_member_IListViewItemContentProvider));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"ListViewBigIconContentProvider", IMemberDescriptor::Normal))
@@ -24773,7 +21838,6 @@ ListViewColumnItemArranger (vl::presentation::controls::list::ListViewColumnItem
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_FixedHeightItemArranger));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProviderCallback));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemArranger));
@@ -24835,7 +21899,6 @@ ListViewColumnItemArranger :: IColumnItemView (vl::presentation::controls::list:
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"AttachCallback", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
@@ -24959,7 +22022,6 @@ ListViewColumnItemArranger :: IColumnItemViewCallback (vl::presentation::control
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"OnColumnChanged", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -25011,7 +22073,6 @@ ListViewDetailContentProvider (vl::presentation::controls::list::ListViewDetailC
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProvider_member_IListViewItemContentProvider));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewColumnItemArranger_member_IColumnItemViewCallback));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"ListViewDetailContentProvider", IMemberDescriptor::Normal))
@@ -25104,7 +22165,6 @@ ListViewInformationContentProvider (vl::presentation::controls::list::ListViewIn
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProvider_member_IListViewItemContentProvider));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"ListViewInformationContentProvider", IMemberDescriptor::Normal))
@@ -25326,7 +22386,6 @@ ListViewItemProvider (vl::presentation::controls::list::ListViewItemProvider)
 					AddBaseType((gacui_tpimp_type_cache_table.cache_ListProvider_of_ListViewItem));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProvider_member_IListViewItemView));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewColumnItemArranger_member_IColumnItemView));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProvider));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_ListViewItem));
@@ -25440,7 +22499,6 @@ ListViewItemStyleProvider (vl::presentation::controls::list::ListViewItemStylePr
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProviderBase));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemStyleProvider));
 					AddConstructor(
@@ -25561,7 +22619,6 @@ ListViewItemStyleProvider :: IListViewItemContent (vl::presentation::controls::l
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"Install", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -25631,7 +22688,6 @@ ListViewItemStyleProvider :: IListViewItemContentProvider (vl::presentation::con
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"CreatePreferredCoordinateTransformer", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemCoordinateTransformer)->GetPointerType())
@@ -25712,7 +22768,6 @@ ListViewItemStyleProvider :: IListViewItemView (vl::presentation::controls::list
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemPrimaryTextView));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddMethod(
 							(new MethodDescriptor(L"GetSmallImage", IMemberDescriptor::Abstract))
@@ -25862,7 +22917,6 @@ ListViewItemStyleProvider :: ListViewContentItemStyleController (vl::presentatio
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProviderBase_member_ListViewItemStyleController));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemStyleController));
 						AddConstructor(
@@ -25931,7 +22985,6 @@ ListViewItemStyleProviderBase (vl::presentation::controls::list::ListViewItemSty
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableListControl_member_IItemStyleProvider));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemStyleProvider));
 					AddConstructor(
@@ -26015,7 +23068,6 @@ ListViewItemStyleProviderBase :: ListViewItemStyleController (vl::presentation::
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_ItemStyleControllerBase));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemStyleController));
 						AddConstructor(
@@ -26045,21 +23097,6 @@ ListViewItemStyleProviderBase :: ListViewItemStyleController (vl::presentation::
 								->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListViewItemStyleProviderBase :: gacui_tpimp_ListViewItemStyleController::method_handler_SetSelected_3))
 							)
 						);
-						AddProperty(
-							(new PropertyDescriptor(L"Selected", IMemberDescriptor::Normal))
-							->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Getter(
-								(new MethodDescriptor(L"GetSelected", IMemberDescriptor::Normal))
-								->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-								->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListViewItemStyleProviderBase :: gacui_tpimp_ListViewItemStyleController::method_handler_GetSelected_4))
-							)
-							->Setter(
-								(new MethodDescriptor(L"SetSelected", IMemberDescriptor::Normal))
-								->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-								->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-								->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListViewItemStyleProviderBase :: gacui_tpimp_ListViewItemStyleController::method_handler_SetSelected_5))
-							)
-						);
 					}
 				
 				private:
@@ -26083,16 +23120,6 @@ ListViewItemStyleProviderBase :: ListViewItemStyleController (vl::presentation::
 					{
 						throw 0;
 					}
-					
-					static DescriptableValue method_handler_GetSelected_4(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-					{
-						throw 0;
-					}
-					
-					static DescriptableValue method_handler_SetSelected_5(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-					{
-						throw 0;
-					}
 				
 				public:
 				};
@@ -26108,7 +23135,6 @@ ListViewListContentProvider (vl::presentation::controls::list::ListViewListConte
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProvider_member_IListViewItemContentProvider));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"ListViewListContentProvider", IMemberDescriptor::Normal))
@@ -26201,7 +23227,6 @@ ListViewSmallIconContentProvider (vl::presentation::controls::list::ListViewSmal
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProvider_member_IListViewItemContentProvider));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"ListViewSmallIconContentProvider", IMemberDescriptor::Normal))
@@ -26294,7 +23319,6 @@ ListViewTileContentProvider (vl::presentation::controls::list::ListViewTileConte
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProvider_member_IListViewItemContentProvider));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"ListViewTileContentProvider", IMemberDescriptor::Normal))
@@ -26388,7 +23412,6 @@ ListWrapperProvider_of_ListViewItem (vl::presentation::controls::list::ListWrapp
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_ItemProviderBase));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IList_of_ListViewItem));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProvider));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_ListViewItem));
@@ -26412,77 +23435,72 @@ ListWrapperProvider_of_ListViewItem (vl::presentation::controls::list::ListWrapp
 						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_ListViewItem::method_handler_Count_2))
 					);
 					AddMethod(
-						(new MethodDescriptor(L"Count", IMemberDescriptor::Virtual))
-						->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_ListViewItem::method_handler_Count_3))
-					);
-					AddMethod(
 						(new MethodDescriptor(L"Get", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_ListViewItem)->GetSmartPointerType())
 						->Parameter(L"index", (gacui_tpimp_type_cache_table.primary_SInt32))
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_ListViewItem::method_handler_Get_4))
+						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_ListViewItem::method_handler_Get_3))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_ListViewItem)->GetSmartPointerType())
 						->Parameter(L"index", (gacui_tpimp_type_cache_table.primary_SInt32))
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_ListViewItem::method_handler_operator_index_5))
+						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_ListViewItem::method_handler_operator_index_4))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
 						->Parameter(L"item", (gacui_tpimp_type_cache_table.cache_ListViewItem)->GetPointerType())
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_ListViewItem::method_handler_IndexOf_6))
+						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_ListViewItem::method_handler_IndexOf_5))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Add", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
 						->Parameter(L"item", (gacui_tpimp_type_cache_table.cache_ListViewItem)->GetSmartPointerType())
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_ListViewItem::method_handler_Add_7))
+						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_ListViewItem::method_handler_Add_6))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Remove", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
 						->Parameter(L"item", (gacui_tpimp_type_cache_table.cache_ListViewItem)->GetPointerType())
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_ListViewItem::method_handler_Remove_8))
+						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_ListViewItem::method_handler_Remove_7))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"RemoveAt", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
 						->Parameter(L"index", (gacui_tpimp_type_cache_table.primary_SInt32))
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_ListViewItem::method_handler_RemoveAt_9))
+						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_ListViewItem::method_handler_RemoveAt_8))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"RemoveRange", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
 						->Parameter(L"index", (gacui_tpimp_type_cache_table.primary_SInt32))
 						->Parameter(L"count", (gacui_tpimp_type_cache_table.primary_SInt32))
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_ListViewItem::method_handler_RemoveRange_10))
+						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_ListViewItem::method_handler_RemoveRange_9))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Clear", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_ListViewItem::method_handler_Clear_11))
+						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_ListViewItem::method_handler_Clear_10))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Insert", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
 						->Parameter(L"index", (gacui_tpimp_type_cache_table.primary_SInt32))
 						->Parameter(L"item", (gacui_tpimp_type_cache_table.cache_ListViewItem)->GetSmartPointerType())
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_ListViewItem::method_handler_Insert_12))
+						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_ListViewItem::method_handler_Insert_11))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Set", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
 						->Parameter(L"index", (gacui_tpimp_type_cache_table.primary_SInt32))
 						->Parameter(L"item", (gacui_tpimp_type_cache_table.cache_ListViewItem)->GetSmartPointerType())
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_ListViewItem::method_handler_Set_13))
+						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_ListViewItem::method_handler_Set_12))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_ListWrapperProvider_of_ListViewItem)->GetReferenceType())
 						->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_ListWrapperProvider_of_ListViewItem)->GetConstReferenceType())
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_ListViewItem::method_handler_operator_assign_14))
+						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_ListViewItem::method_handler_operator_assign_13))
 					);
 				}
 			
@@ -26503,62 +23521,57 @@ ListWrapperProvider_of_ListViewItem (vl::presentation::controls::list::ListWrapp
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_Count_3(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_Get_3(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_Get_4(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_operator_index_4(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_operator_index_5(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_IndexOf_5(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_IndexOf_6(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_Add_6(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_Add_7(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_Remove_7(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_Remove_8(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_RemoveAt_8(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_RemoveAt_9(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_RemoveRange_9(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_RemoveRange_10(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_Clear_10(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_Clear_11(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_Insert_11(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_Insert_12(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_Set_12(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_Set_13(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_operator_assign_14(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_operator_assign_13(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -26577,7 +23590,6 @@ ListWrapperProvider_of_TextItem (vl::presentation::controls::list::ListWrapperPr
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_ItemProviderBase));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IList_of_TextItem));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProvider));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_TextItem));
@@ -26601,77 +23613,72 @@ ListWrapperProvider_of_TextItem (vl::presentation::controls::list::ListWrapperPr
 						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_TextItem::method_handler_Count_2))
 					);
 					AddMethod(
-						(new MethodDescriptor(L"Count", IMemberDescriptor::Virtual))
-						->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_TextItem::method_handler_Count_3))
-					);
-					AddMethod(
 						(new MethodDescriptor(L"Get", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_TextItem)->GetConstReferenceType())
 						->Parameter(L"index", (gacui_tpimp_type_cache_table.primary_SInt32))
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_TextItem::method_handler_Get_4))
+						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_TextItem::method_handler_Get_3))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator[]", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_TextItem)->GetConstReferenceType())
 						->Parameter(L"index", (gacui_tpimp_type_cache_table.primary_SInt32))
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_TextItem::method_handler_operator_index_5))
+						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_TextItem::method_handler_operator_index_4))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"IndexOf", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
 						->Parameter(L"item", (gacui_tpimp_type_cache_table.cache_TextItem)->GetConstReferenceType())
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_TextItem::method_handler_IndexOf_6))
+						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_TextItem::method_handler_IndexOf_5))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Add", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
 						->Parameter(L"item", (gacui_tpimp_type_cache_table.cache_TextItem)->GetConstReferenceType())
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_TextItem::method_handler_Add_7))
+						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_TextItem::method_handler_Add_6))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Remove", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
 						->Parameter(L"item", (gacui_tpimp_type_cache_table.cache_TextItem)->GetConstReferenceType())
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_TextItem::method_handler_Remove_8))
+						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_TextItem::method_handler_Remove_7))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"RemoveAt", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
 						->Parameter(L"index", (gacui_tpimp_type_cache_table.primary_SInt32))
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_TextItem::method_handler_RemoveAt_9))
+						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_TextItem::method_handler_RemoveAt_8))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"RemoveRange", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
 						->Parameter(L"index", (gacui_tpimp_type_cache_table.primary_SInt32))
 						->Parameter(L"count", (gacui_tpimp_type_cache_table.primary_SInt32))
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_TextItem::method_handler_RemoveRange_10))
+						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_TextItem::method_handler_RemoveRange_9))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Clear", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_TextItem::method_handler_Clear_11))
+						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_TextItem::method_handler_Clear_10))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Insert", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
 						->Parameter(L"index", (gacui_tpimp_type_cache_table.primary_SInt32))
 						->Parameter(L"item", (gacui_tpimp_type_cache_table.cache_TextItem)->GetConstReferenceType())
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_TextItem::method_handler_Insert_12))
+						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_TextItem::method_handler_Insert_11))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Set", IMemberDescriptor::Virtual))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
 						->Parameter(L"index", (gacui_tpimp_type_cache_table.primary_SInt32))
 						->Parameter(L"item", (gacui_tpimp_type_cache_table.cache_TextItem)->GetConstReferenceType())
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_TextItem::method_handler_Set_13))
+						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_TextItem::method_handler_Set_12))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"operator=", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_ListWrapperProvider_of_TextItem)->GetReferenceType())
 						->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_ListWrapperProvider_of_TextItem)->GetConstReferenceType())
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_TextItem::method_handler_operator_assign_14))
+						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_ListWrapperProvider_of_TextItem::method_handler_operator_assign_13))
 					);
 				}
 			
@@ -26692,62 +23699,57 @@ ListWrapperProvider_of_TextItem (vl::presentation::controls::list::ListWrapperPr
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_Count_3(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_Get_3(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_Get_4(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_operator_index_4(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_operator_index_5(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_IndexOf_5(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_IndexOf_6(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_Add_6(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_Add_7(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_Remove_7(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_Remove_8(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_RemoveAt_8(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_RemoveAt_9(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_RemoveRange_9(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_RemoveRange_10(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_Clear_10(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_Clear_11(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_Insert_11(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_Insert_12(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_Set_12(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_Set_13(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_operator_assign_14(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_operator_assign_13(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -26928,14 +23930,13 @@ MemoryNodeProvider (vl::presentation::controls::tree::MemoryNodeProvider)
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IList_of_MemoryNodeProvider));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeProvider));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_MemoryNodeProvider));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_ICollection_of_MemoryNodeProvider));
 					AddConstructor(
 						(new MethodDescriptor(L"MemoryNodeProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_MemoryNodeProvider)->GetPointerType())
-						->Parameter(L"_data", (gacui_tpimp_type_cache_table.cache_DescriptableObject)->GetSmartPointerType())
+						->Parameter(L"_data", 0 /*UNKNOWN_TYPE[ vl::Ptr<vl::presentation::DescriptableObject> ]*/)
 						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_MemoryNodeProvider::method_handler_MemoryNodeProvider_0))
 					);
 					AddConstructor(
@@ -26999,32 +24000,17 @@ MemoryNodeProvider (vl::presentation::controls::tree::MemoryNodeProvider)
 					);
 					AddProperty(
 						(new PropertyDescriptor(L"Data", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_DescriptableObject)->GetSmartPointerType())
+						->PropertyType(0 /*UNKNOWN_TYPE[ vl::Ptr<vl::presentation::DescriptableObject> ]*/)
 						->Getter(
 							(new MethodDescriptor(L"GetData", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_DescriptableObject)->GetSmartPointerType())
+							->ReturnType(0 /*UNKNOWN_TYPE[ vl::Ptr<vl::presentation::DescriptableObject> ]*/)
 							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_MemoryNodeProvider::method_handler_GetData_12))
 						)
 						->Setter(
 							(new MethodDescriptor(L"SetData", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_DescriptableObject)->GetSmartPointerType())
+							->Parameter(L"value", 0 /*UNKNOWN_TYPE[ vl::Ptr<vl::presentation::DescriptableObject> ]*/)
 							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_MemoryNodeProvider::method_handler_SetData_13))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Data", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_DescriptableObject)->GetSmartPointerType())
-						->Getter(
-							(new MethodDescriptor(L"GetData", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_DescriptableObject)->GetSmartPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_MemoryNodeProvider::method_handler_GetData_14))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetData", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_DescriptableObject)->GetSmartPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_MemoryNodeProvider::method_handler_SetData_15))
 						)
 					);
 				}
@@ -27100,16 +24086,6 @@ MemoryNodeProvider (vl::presentation::controls::tree::MemoryNodeProvider)
 				{
 					throw 0;
 				}
-				
-				static DescriptableValue method_handler_GetData_14(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetData_15(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
 			
 			public:
 			};
@@ -27125,7 +24101,6 @@ MemoryNodeRootProvider (vl::presentation::controls::tree::MemoryNodeRootProvider
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_MemoryNodeProvider));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_NodeRootProviderBase));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeProvider));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_MemoryNodeProvider));
@@ -27680,7 +24655,6 @@ NodeItemProvider (vl::presentation::controls::tree::NodeItemProvider)
 					AddBaseType((gacui_tpimp_type_cache_table.cache_ItemProviderBase));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeProviderCallback));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeItemView));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProvider));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemPrimaryTextView));
@@ -27769,7 +24743,6 @@ NodeItemStyleProvider (vl::presentation::controls::tree::NodeItemStyleProvider)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableListControl_member_IItemStyleProvider));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemStyleProvider));
 					AddConstructor(
@@ -27890,7 +24863,6 @@ NodeRootProviderBase (vl::presentation::controls::tree::NodeRootProviderBase)
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeRootProvider));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeProviderCallback));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"NodeRootProviderBase", IMemberDescriptor::Normal))
@@ -28105,7 +25077,6 @@ RangedItemArrangerBase (vl::presentation::controls::list::RangedItemArrangerBase
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemArranger));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProviderCallback));
 					AddMethod(
@@ -28803,7 +25774,6 @@ TextItemProvider (vl::presentation::controls::list::TextItemProvider)
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_ListProvider_of_TextItem));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_TextItemStyleProvider_member_ITextItemView));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemProvider));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_TextItem));
@@ -28893,7 +25863,6 @@ TextItemStyleProvider (vl::presentation::controls::list::TextItemStyleProvider)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableListControl_member_IItemStyleProvider));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemStyleProvider));
 					AddConstructor(
@@ -29012,7 +25981,6 @@ TextItemStyleProvider :: ITextItemStyleProvider (vl::presentation::controls::lis
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddMethod(
 							(new MethodDescriptor(L"CreateBackgroundStyleController", IMemberDescriptor::Abstract))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_IStyleController)->GetPointerType())
@@ -29061,7 +26029,6 @@ TextItemStyleProvider :: ITextItemView (vl::presentation::controls::list::TextIt
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemPrimaryTextView));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddMethod(
 							(new MethodDescriptor(L"GetText", IMemberDescriptor::Abstract))
@@ -29150,7 +26117,6 @@ TextItemStyleProvider :: TextItemStyleController (vl::presentation::controls::li
 					void FillTypeContent()
 					{
 						AddBaseType((gacui_tpimp_type_cache_table.cache_ItemStyleControllerBase));
-						AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 						AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListControl_member_IItemStyleController));
 						AddConstructor(
@@ -29210,51 +26176,6 @@ TextItemStyleProvider :: TextItemStyleController (vl::presentation::controls::li
 								->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_TextItemStyleProvider :: gacui_tpimp_TextItemStyleController::method_handler_SetText_7))
 							)
 						);
-						AddProperty(
-							(new PropertyDescriptor(L"Selected", IMemberDescriptor::Normal))
-							->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Getter(
-								(new MethodDescriptor(L"GetSelected", IMemberDescriptor::Normal))
-								->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-								->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_TextItemStyleProvider :: gacui_tpimp_TextItemStyleController::method_handler_GetSelected_8))
-							)
-							->Setter(
-								(new MethodDescriptor(L"SetSelected", IMemberDescriptor::Normal))
-								->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-								->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-								->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_TextItemStyleProvider :: gacui_tpimp_TextItemStyleController::method_handler_SetSelected_9))
-							)
-						);
-						AddProperty(
-							(new PropertyDescriptor(L"Checked", IMemberDescriptor::Normal))
-							->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Getter(
-								(new MethodDescriptor(L"GetChecked", IMemberDescriptor::Normal))
-								->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-								->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_TextItemStyleProvider :: gacui_tpimp_TextItemStyleController::method_handler_GetChecked_10))
-							)
-							->Setter(
-								(new MethodDescriptor(L"SetChecked", IMemberDescriptor::Normal))
-								->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-								->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-								->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_TextItemStyleProvider :: gacui_tpimp_TextItemStyleController::method_handler_SetChecked_11))
-							)
-						);
-						AddProperty(
-							(new PropertyDescriptor(L"Text", IMemberDescriptor::Normal))
-							->PropertyType((gacui_tpimp_type_cache_table.primary_String)->GetConstReferenceType())
-							->Getter(
-								(new MethodDescriptor(L"GetText", IMemberDescriptor::Normal))
-								->ReturnType((gacui_tpimp_type_cache_table.primary_String)->GetConstReferenceType())
-								->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_TextItemStyleProvider :: gacui_tpimp_TextItemStyleController::method_handler_GetText_12))
-							)
-							->Setter(
-								(new MethodDescriptor(L"SetText", IMemberDescriptor::Normal))
-								->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-								->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_String)->GetConstReferenceType())
-								->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_TextItemStyleProvider :: gacui_tpimp_TextItemStyleController::method_handler_SetText_13))
-							)
-						);
 					}
 				
 				private:
@@ -29295,36 +26216,6 @@ TextItemStyleProvider :: TextItemStyleController (vl::presentation::controls::li
 					}
 					
 					static DescriptableValue method_handler_SetText_7(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-					{
-						throw 0;
-					}
-					
-					static DescriptableValue method_handler_GetSelected_8(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-					{
-						throw 0;
-					}
-					
-					static DescriptableValue method_handler_SetSelected_9(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-					{
-						throw 0;
-					}
-					
-					static DescriptableValue method_handler_GetChecked_10(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-					{
-						throw 0;
-					}
-					
-					static DescriptableValue method_handler_SetChecked_11(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-					{
-						throw 0;
-					}
-					
-					static DescriptableValue method_handler_GetText_12(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-					{
-						throw 0;
-					}
-					
-					static DescriptableValue method_handler_SetText_13(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 					{
 						throw 0;
 					}
@@ -29806,66 +26697,6 @@ TextLines (vl::presentation::elements::text::TextLines)
 							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_TextLines::method_handler_GetMaxHeight_29))
 						)
 					);
-					AddProperty(
-						(new PropertyDescriptor(L"CharMeasurer", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_CharMeasurer)->GetPointerType())
-						->Getter(
-							(new MethodDescriptor(L"GetCharMeasurer", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_CharMeasurer)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_TextLines::method_handler_GetCharMeasurer_30))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetCharMeasurer", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_CharMeasurer)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_TextLines::method_handler_SetCharMeasurer_31))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"RenderTarget", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsRenderTarget)->GetPointerType())
-						->Getter(
-							(new MethodDescriptor(L"GetRenderTarget", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsRenderTarget)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_TextLines::method_handler_GetRenderTarget_32))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetRenderTarget", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_IGuiGraphicsRenderTarget)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_TextLines::method_handler_SetRenderTarget_33))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Text", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_String))
-						->Getter(
-							(new MethodDescriptor(L"GetText", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_String))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_TextLines::method_handler_GetText_34))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetText", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_String)->GetConstReferenceType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_TextLines::method_handler_SetText_35))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"TabSpaceCount", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_SInt32))
-						->Getter(
-							(new MethodDescriptor(L"GetTabSpaceCount", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_SInt32))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_TextLines::method_handler_GetTabSpaceCount_36))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetTabSpaceCount", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_SInt32))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_TextLines::method_handler_SetTabSpaceCount_37))
-						)
-					);
 				}
 			
 			private:
@@ -30016,46 +26847,6 @@ TextLines (vl::presentation::elements::text::TextLines)
 				}
 				
 				static DescriptableValue method_handler_GetMaxHeight_29(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetCharMeasurer_30(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetCharMeasurer_31(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetRenderTarget_32(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetRenderTarget_33(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetText_34(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetText_35(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetTabSpaceCount_36(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetTabSpaceCount_37(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
@@ -30237,7 +27028,6 @@ TreeViewItem (vl::presentation::controls::tree::TreeViewItem)
 			protected:
 				void FillTypeContent()
 				{
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"TreeViewItem", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_TreeViewItem)->GetPointerType())
@@ -30339,7 +27129,6 @@ TreeViewItemRootProvider (vl::presentation::controls::tree::TreeViewItemRootProv
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_MemoryNodeRootProvider));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_ITreeViewItemView));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeProvider));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IReadonlyList_of_MemoryNodeProvider));
@@ -30408,7 +27197,6 @@ TreeViewNodeItemStyleProvider (vl::presentation::controls::tree::TreeViewNodeIte
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeItemStyleProvider));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeProviderCallback));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"TreeViewNodeItemStyleProvider", IMemberDescriptor::Normal))
@@ -31119,7 +27907,6 @@ Win7ButtonStyle (vl::presentation::win7::Win7ButtonStyle)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_Win7ButtonStyleBase));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
@@ -31163,7 +27950,6 @@ Win7ButtonStyleBase (vl::presentation::win7::Win7ButtonStyleBase)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_IStyleController));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
@@ -31264,51 +28050,6 @@ Win7ButtonStyleBase (vl::presentation::win7::Win7ButtonStyleBase)
 							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_Win7ButtonStyleBase::method_handler_SetAutoSizeForText_14))
 						)
 					);
-					AddProperty(
-						(new PropertyDescriptor(L"TransparentWhenInactive", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetTransparentWhenInactive", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_Win7ButtonStyleBase::method_handler_GetTransparentWhenInactive_15))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetTransparentWhenInactive", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_Win7ButtonStyleBase::method_handler_SetTransparentWhenInactive_16))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"TransparentWhenDisabled", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetTransparentWhenDisabled", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_Win7ButtonStyleBase::method_handler_GetTransparentWhenDisabled_17))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetTransparentWhenDisabled", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_Win7ButtonStyleBase::method_handler_SetTransparentWhenDisabled_18))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"AutoSizeForText", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.primary_Bool))
-						->Getter(
-							(new MethodDescriptor(L"GetAutoSizeForText", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_Win7ButtonStyleBase::method_handler_GetAutoSizeForText_19))
-						)
-						->Setter(
-							(new MethodDescriptor(L"SetAutoSizeForText", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
-							->Parameter(L"value", (gacui_tpimp_type_cache_table.primary_Bool))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_Win7ButtonStyleBase::method_handler_SetAutoSizeForText_20))
-						)
-					);
 				}
 			
 			private:
@@ -31387,36 +28128,6 @@ Win7ButtonStyleBase (vl::presentation::win7::Win7ButtonStyleBase)
 				{
 					throw 0;
 				}
-				
-				static DescriptableValue method_handler_GetTransparentWhenInactive_15(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetTransparentWhenInactive_16(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetTransparentWhenDisabled_17(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetTransparentWhenDisabled_18(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_GetAutoSizeForText_19(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
-				
-				static DescriptableValue method_handler_SetAutoSizeForText_20(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
-				{
-					throw 0;
-				}
 			
 			public:
 			};
@@ -31431,7 +28142,6 @@ Win7CheckBoxStyle (vl::presentation::win7::Win7CheckBoxStyle)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_IStyleController));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
@@ -31605,7 +28315,6 @@ Win7CheckTextListProvider (vl::presentation::win7::Win7CheckTextListProvider)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_Win7TextListProvider));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_TextItemStyleProvider_member_ITextItemStyleProvider));
 					AddConstructor(
@@ -31657,7 +28366,6 @@ Win7DropDownComboBoxStyle (vl::presentation::win7::Win7DropDownComboBoxStyle)
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_Win7ButtonStyle));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiComboBoxBase_member_IStyleController));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
@@ -31771,7 +28479,6 @@ Win7EmptyStyle (vl::presentation::win7::Win7EmptyStyle)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7EmptyStyle", IMemberDescriptor::Normal))
@@ -31876,7 +28583,6 @@ Win7GroupBoxStyle (vl::presentation::win7::Win7GroupBoxStyle)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7GroupBoxStyle", IMemberDescriptor::Normal))
@@ -31980,7 +28686,6 @@ Win7ListViewColumnDropDownStyle (vl::presentation::win7::Win7ListViewColumnDropD
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_IStyleController));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
@@ -32108,7 +28813,6 @@ Win7ListViewColumnHeaderStyle (vl::presentation::win7::Win7ListViewColumnHeaderS
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_IStyleController));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
@@ -32237,7 +28941,6 @@ Win7ListViewProvider (vl::presentation::win7::Win7ListViewProvider)
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_Win7MultilineTextBoxProvider));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiListViewBase_member_IStyleProvider));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleProvider));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScrollView_member_IStyleProvider));
@@ -32329,7 +29032,6 @@ Win7MenuBarButtonStyle (vl::presentation::win7::Win7MenuBarButtonStyle)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiMenuButton_member_IStyleController));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 					AddConstructor(
@@ -32477,7 +29179,6 @@ Win7MenuBarStyle (vl::presentation::win7::Win7MenuBarStyle)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7MenuBarStyle", IMemberDescriptor::Normal))
@@ -32581,7 +29282,6 @@ Win7MenuItemButtonStyle (vl::presentation::win7::Win7MenuItemButtonStyle)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiMenuButton_member_IStyleController));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 					AddConstructor(
@@ -32729,7 +29429,6 @@ Win7MenuSplitterStyle (vl::presentation::win7::Win7MenuSplitterStyle)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7MenuSplitterStyle", IMemberDescriptor::Normal))
@@ -32833,7 +29532,6 @@ Win7MenuStyle (vl::presentation::win7::Win7MenuStyle)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7MenuStyle", IMemberDescriptor::Normal))
@@ -32937,7 +29635,6 @@ Win7MultilineTextBoxProvider (vl::presentation::win7::Win7MultilineTextBoxProvid
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_Win7ScrollViewProvider));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleProvider));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScrollView_member_IStyleProvider));
@@ -33023,7 +29720,6 @@ Win7RadioTextListProvider (vl::presentation::win7::Win7RadioTextListProvider)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_Win7TextListProvider));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_TextItemStyleProvider_member_ITextItemStyleProvider));
 					AddConstructor(
@@ -33074,7 +29770,6 @@ Win7ScrollStyle (vl::presentation::win7::Win7ScrollStyle)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_CommonScrollStyle));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScroll_member_IStyleController));
@@ -33117,7 +29812,6 @@ Win7ScrollViewProvider (vl::presentation::win7::Win7ScrollViewProvider)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScrollView_member_IStyleProvider));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleProvider));
 					AddConstructor(
@@ -33254,7 +29948,6 @@ Win7SelectableItemStyle (vl::presentation::win7::Win7SelectableItemStyle)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_Win7ButtonStyleBase));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
@@ -33297,7 +29990,6 @@ Win7SinglelineTextBoxProvider (vl::presentation::win7::Win7SinglelineTextBoxProv
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSinglelineTextBox_member_IStyleProvider));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleProvider));
 					AddConstructor(
@@ -33404,7 +30096,6 @@ Win7TabPageHeaderStyle (vl::presentation::win7::Win7TabPageHeaderStyle)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_Win7ButtonStyleBase));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
@@ -33458,7 +30149,6 @@ Win7TabStyle (vl::presentation::win7::Win7TabStyle)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiTab_member_IStyleController));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 					AddConstructor(
@@ -33640,7 +30330,6 @@ Win7TextBoxBackground (vl::presentation::win7::Win7TextBoxBackground)
 			protected:
 				void FillTypeContent()
 				{
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7TextBoxBackground", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_Win7TextBoxBackground)->GetPointerType())
@@ -33734,7 +30423,6 @@ Win7TextListProvider (vl::presentation::win7::Win7TextListProvider)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_TextItemStyleProvider_member_ITextItemStyleProvider));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddConstructor(
 						(new MethodDescriptor(L"Win7TextListProvider", IMemberDescriptor::Normal))
@@ -33794,7 +30482,6 @@ Win7ToolstripButtonStyle (vl::presentation::win7::Win7ToolstripButtonStyle)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_Win7ButtonStyleBase));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
@@ -33838,7 +30525,6 @@ Win7TrackStyle (vl::presentation::win7::Win7TrackStyle)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_CommonTrackStyle));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScroll_member_IStyleController));
@@ -33881,7 +30567,6 @@ Win7TreeViewExpandingButtonStyle (vl::presentation::win7::Win7TreeViewExpandingB
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiSelectableButton_member_IStyleController));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiButton_member_IStyleController));
@@ -34010,7 +30695,6 @@ Win7TreeViewProvider (vl::presentation::win7::Win7TreeViewProvider)
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_Win7MultilineTextBoxProvider));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiTreeView_member_IStyleProvider));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleProvider));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiScrollView_member_IStyleProvider));
@@ -34082,7 +30766,6 @@ Win7WindowStyle (vl::presentation::win7::Win7WindowStyle)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_Win7EmptyStyle));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_DescriptableObject));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IDescriptable));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl_member_IStyleController));
 					AddConstructor(
@@ -34317,7 +31000,6 @@ Helper Functions
 				((gacui_tpimp_type_cache_table.cache_ColorItem) = typeProvider->CreateType(IType::Struct, L"gacui_tpimp_ColorItem", new gacui_tpimp_ColorItem));
 				((gacui_tpimp_type_cache_table.cache_CommonScrollStyle_member_Direction) = typeProvider->CreateType(IType::Enum, L"gacui_tpimp_CommonScrollStyle :: gacui_tpimp_Direction", new gacui_tpimp_CommonScrollStyle :: gacui_tpimp_Direction));
 				((gacui_tpimp_type_cache_table.cache_CommonTrackStyle_member_Direction) = typeProvider->CreateType(IType::Enum, L"gacui_tpimp_CommonTrackStyle :: gacui_tpimp_Direction", new gacui_tpimp_CommonTrackStyle :: gacui_tpimp_Direction));
-				((gacui_tpimp_type_cache_table.cache_DescriptableObject) = typeProvider->CreateType(IType::Struct, L"gacui_tpimp_DescriptableObject", new gacui_tpimp_DescriptableObject));
 				((gacui_tpimp_type_cache_table.cache_ElementShape_member_Type) = typeProvider->CreateType(IType::Enum, L"gacui_tpimp_ElementShape :: gacui_tpimp_Type", new gacui_tpimp_ElementShape :: gacui_tpimp_Type));
 				((gacui_tpimp_type_cache_table.cache_FontProperties) = typeProvider->CreateType(IType::Struct, L"gacui_tpimp_FontProperties", new gacui_tpimp_FontProperties));
 				((gacui_tpimp_type_cache_table.cache_Gui3DSplitterElement_member_Direction) = typeProvider->CreateType(IType::Enum, L"gacui_tpimp_Gui3DSplitterElement :: gacui_tpimp_Direction", new gacui_tpimp_Gui3DSplitterElement :: gacui_tpimp_Direction));
