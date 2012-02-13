@@ -678,7 +678,24 @@ namespace _TranslateXMLtoCode
                         {
                             if (m.Name != "Wrap" && m.Name != "CreateEnumerator")
                             {
-                                methods.Add(m);
+                                if (!methods.Any(m2 =>
+                                    {
+                                        if (m.Name == m2.Name && m.ReturnType.ToString() == m2.ReturnType.ToString() && m.ParameterTypes.Length == m2.ParameterTypes.Length)
+                                        {
+                                            for (int i = 0; i < m.ParameterTypes.Length; i++)
+                                            {
+                                                if (m.ParameterTypes[i].ToString() != m2.ParameterTypes[i].ToString())
+                                                {
+                                                    return false;
+                                                }
+                                            }
+                                            return true;
+                                        }
+                                        return false;
+                                    }))
+                                {
+                                    methods.Add(m);
+                                }
                             }
                         }
                     }

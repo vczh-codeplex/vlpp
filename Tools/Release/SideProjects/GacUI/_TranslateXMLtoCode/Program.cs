@@ -27,6 +27,7 @@ namespace _TranslateXMLtoCode
                 ExportableStructs = analyzerResult.ExportableStructs.ToDictionary(t => t.Name),
                 AvailableUdts = analyzerResult.AvailableUdts.ToDictionary(t => t.Name),
             };
+            Console.WriteLine("building reflected interfaces", xmlPath);
             var exportingResult = ReflectedTypeAnalyzer.Analyze(input);
 
             // expoort analyzing result
