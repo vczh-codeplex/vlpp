@@ -11,7 +11,7 @@ namespace _TranslateXMLtoCode.Codegen
 
         protected void GenerateConstructor(RgacMethod method)
         {
-            WriteLine("rptr<{0}> {1}Create({2});",
+            WriteLine("rptr<{0}> {1}Create({2})",
                 GacUdtTypeName(method.OwnerUDT),
                 method.OwnerUDT.Name.Aggregate("", (a, b) => a + b + "::"),
                 method.ParameterTypes
@@ -25,8 +25,8 @@ namespace _TranslateXMLtoCode.Codegen
 
             if (method.OwnerUDT.Kind == RgacUDTKind.Struct)
             {
-                WriteLine("{0}{1}({2});",
-                    method.Name.Aggregate("", (a, b) => a + b + "::"),
+                WriteLine("{0}{1}({2})",
+                    method.OwnerUDT.Name.Aggregate("", (a, b) => a + b + "::"),
                     method.OwnerUDT.Name.Last(),
                     method.ParameterTypes
                         .Zip(method.ParameterNames, Tuple.Create)
@@ -41,7 +41,7 @@ namespace _TranslateXMLtoCode.Codegen
 
         protected void GenerateMethod(RgacMethod method, bool isStatic)
         {
-            WriteLine("{0} {1}{2}({3});",
+            WriteLine("{0} {1}{2}({3})",
                 GetType(method.ReturnType),
                 method.OwnerUDT.Name.Aggregate("", (a, b) => a + b + "::"),
                 method.Name,
@@ -64,7 +64,7 @@ namespace _TranslateXMLtoCode.Codegen
             if (property.PublicGacFieldAccessor != null)
             {
                 {
-                    WriteLine("{0} {1}get_{2}();",
+                    WriteLine("{0} {1}get_{2}()",
                         GetType(property.PropertyType),
                         property.OwnerUDT.Name.Aggregate("", (a, b) => a + b + "::"),
                         property.Name
@@ -75,7 +75,7 @@ namespace _TranslateXMLtoCode.Codegen
                 }
                 if (!property.IsEventField)
                 {
-                    WriteLine("void {0}set_{1}({2} value);",
+                    WriteLine("void {0}set_{1}({2} value)",
                         property.OwnerUDT.Name.Aggregate("", (a, b) => a + b + "::"),
                         property.Name,
                         GetType(property.PropertyType)
@@ -127,7 +127,7 @@ namespace _TranslateXMLtoCode.Codegen
 
         protected void GenerateCppImpl()
         {
-            foreach (var udt in this.options.Udts)
+            foreach (var udt in GetSortedUdts().ToArray())
             {
                 if (udt.Kind != RgacUDTKind.Enum)
                 {
