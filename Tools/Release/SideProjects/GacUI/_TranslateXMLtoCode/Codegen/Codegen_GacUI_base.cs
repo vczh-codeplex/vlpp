@@ -191,11 +191,51 @@ namespace _TranslateXMLtoCode.Codegen
                 .ToArray();
         }
 
+        protected RgacUDT[] GetSortedSubUdts(RgacUDT[] udts)
+        {
+            RgacUDT[] enums = udts.Where(u => u.Kind == RgacUDTKind.Enum).ToArray();
+            List<Tuple<RgacUDT, HashSet<RgacUDT>>> unsorted = udts
+                .Where(u => u.Kind != RgacUDTKind.Enum)
+                .Select(u => Tuple.Create(u, new HashSet<RgacUDT>(u.BaseClasses.Where(b => udts.Contains(b)))))
+                .ToList();
+            List<RgacUDT> nonEnums = new List<RgacUDT>();
+
+            while (unsorted.Count > 0)
+            {
+                bool found = false;
+                for (int i = 0; i < unsorted.Count; i++)
+                {
+                    if (unsorted[i].Item2.Count == 0)
+                    {
+                        found = true;
+                        var udt = unsorted[i].Item1;
+                        nonEnums.Add(udt);
+                        unsorted.RemoveAt(i);
+                        foreach (var u in unsorted)
+                        {
+                            u.Item2.Remove(udt);
+                        }
+                        break;
+                    }
+                }
+                if (!found)
+                {
+                    break;
+                }
+            }
+            if (unsorted.Count > 0)
+            {
+                throw new ArgumentException();
+            }
+
+            return enums.Concat(nonEnums).ToArray();
+        }
+
         protected IEnumerable<RgacUDT> GetSortedUdts()
         {
             List<Tuple<string, RgacUDT[], HashSet<RgacUDT>>> udts = this.options.Udts
                 .GroupBy(t => t.Name[0])
-                .Select(g => g.OrderBy(t => (t.Kind == RgacUDTKind.Enum ? "0" : "1") + t.ToString()).ToArray())
+                .Select(g => GetSortedSubUdts(g.ToArray()))
                 .Select(g => Tuple.Create(g[0].Name[0], g, new HashSet<RgacUDT>(g.SelectMany(GetRelatedUdts).Distinct().Except(g))))
                 .ToList();
 
