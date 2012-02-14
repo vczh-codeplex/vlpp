@@ -52,13 +52,21 @@ namespace _TranslateXMLtoCode.Codegen
                 GenerateMethod(property.Setter, isStatic);
             if (property.PublicGacFieldAccessor != null)
             {
-                WriteLine("{0}{1} get_{2}();",
-                    (isStatic ? "static " : ""),
-                    GetType(property.PropertyType),
-                    property.Name
-                    );
-                if (!property.IsEventField)
+                if (property.IsEventField)
                 {
+                    WriteLine("{0}{1} on_{2}();",
+                        (isStatic ? "static " : ""),
+                        GetType(property.PropertyType),
+                        property.Name
+                        );
+                }
+                else
+                {
+                    WriteLine("{0}{1} get_{2}();",
+                        (isStatic ? "static " : ""),
+                        GetType(property.PropertyType),
+                        property.Name
+                        );
                     WriteLine("{0}void set_{1}({2} value);",
                         (isStatic ? "static " : ""),
                         property.Name,
