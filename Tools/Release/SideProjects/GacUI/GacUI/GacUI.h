@@ -2951,29 +2951,6 @@ GuiListControl
 		
 
 /***********************************************************************
-GuiListControl :: IItemArranger
-***********************************************************************/
-
-		class GACUI_API IItemArranger : public virtual GuiListControl :: IItemProviderCallback
-		{
-		public:
-		
-		public:
-			void AttachListControl(rptr<GuiListControl> value);
-			void DetachListControl();
-			rptr<GuiListControl :: IItemStyleController> GetVisibleStyle(signed __int32 itemIndex);
-			signed __int32 GetVisibleIndex(rptr<GuiListControl :: IItemStyleController> style);
-			void OnViewChanged(Rect bounds);
-			rptr<GuiListControl :: IItemArranger> operator=(rptr<GuiListControl :: IItemArranger> value);
-			
-			rptr<GuiListControl :: IItemArrangerCallback> GetCallback();
-			void SetCallback(rptr<GuiListControl :: IItemArrangerCallback> value);
-			Size GetTotalSize();
-			
-		};
-		
-
-/***********************************************************************
 GuiListControl :: IItemArrangerCallback
 ***********************************************************************/
 
@@ -3068,6 +3045,29 @@ GuiListControl :: IItemProviderCallback
 			void OnAttached(rptr<GuiListControl :: IItemProvider> provider);
 			void OnItemModified(signed __int32 start, signed __int32 count, signed __int32 newCount);
 			rptr<GuiListControl :: IItemProviderCallback> operator=(rptr<GuiListControl :: IItemProviderCallback> value);
+			
+		};
+		
+
+/***********************************************************************
+GuiListControl :: IItemArranger
+***********************************************************************/
+
+		class GACUI_API IItemArranger : public virtual GuiListControl :: IItemProviderCallback
+		{
+		public:
+		
+		public:
+			void AttachListControl(rptr<GuiListControl> value);
+			void DetachListControl();
+			rptr<GuiListControl :: IItemStyleController> GetVisibleStyle(signed __int32 itemIndex);
+			signed __int32 GetVisibleIndex(rptr<GuiListControl :: IItemStyleController> style);
+			void OnViewChanged(Rect bounds);
+			rptr<GuiListControl :: IItemArranger> operator=(rptr<GuiListControl :: IItemArranger> value);
+			
+			rptr<GuiListControl :: IItemArrangerCallback> GetCallback();
+			void SetCallback(rptr<GuiListControl :: IItemArrangerCallback> value);
+			Size GetTotalSize();
 			
 		};
 		
@@ -5088,27 +5088,6 @@ GuiTextElementOperator
 		
 
 /***********************************************************************
-GuiTextElementOperator :: DefaultCallback
-***********************************************************************/
-
-		class GACUI_API DefaultCallback : public virtual GuiTextElementOperator :: ICallback
-		{
-		public:
-		
-		public:
-			static rptr<GuiTextElementOperator :: DefaultCallback> Create(rptr<GuiColorizedTextElement> _textElement, rptr<GuiGraphicsComposition> _textComposition);
-			
-			TextPos GetLeftWord(TextPos pos);
-			TextPos GetRightWord(TextPos pos);
-			void GetWord(TextPos pos, TextPos& begin, TextPos& end);
-			signed __int32 GetPageRows();
-			bool BeforeModify(TextPos& start, TextPos& end, const GacString& originalText, GacString& inputText);
-			rptr<GuiTextElementOperator :: DefaultCallback> operator=(rptr<GuiTextElementOperator :: DefaultCallback> value);
-			
-		};
-		
-
-/***********************************************************************
 GuiTextElementOperator :: ICallback
 ***********************************************************************/
 
@@ -5127,6 +5106,27 @@ GuiTextElementOperator :: ICallback
 			
 			signed __int32 GetPageRows();
 			signed __int32 GetTextMargin();
+			
+		};
+		
+
+/***********************************************************************
+GuiTextElementOperator :: DefaultCallback
+***********************************************************************/
+
+		class GACUI_API DefaultCallback : public virtual GuiTextElementOperator :: ICallback
+		{
+		public:
+		
+		public:
+			static rptr<GuiTextElementOperator :: DefaultCallback> Create(rptr<GuiColorizedTextElement> _textElement, rptr<GuiGraphicsComposition> _textComposition);
+			
+			TextPos GetLeftWord(TextPos pos);
+			TextPos GetRightWord(TextPos pos);
+			void GetWord(TextPos pos, TextPos& begin, TextPos& end);
+			signed __int32 GetPageRows();
+			bool BeforeModify(TextPos& start, TextPos& end, const GacString& originalText, GacString& inputText);
+			rptr<GuiTextElementOperator :: DefaultCallback> operator=(rptr<GuiTextElementOperator :: DefaultCallback> value);
 			
 		};
 		

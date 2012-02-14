@@ -5483,55 +5483,6 @@ GuiListControl
 	
 
 /***********************************************************************
-GuiListControl :: IItemArranger
-***********************************************************************/
-
-	void GuiListControl::IItemArranger::AttachListControl(rptr<GuiListControl> value)
-	{
-		throw 0;
-	}
-	
-	void GuiListControl::IItemArranger::DetachListControl()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemStyleController> GuiListControl::IItemArranger::GetVisibleStyle(signed __int32 itemIndex)
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiListControl::IItemArranger::GetVisibleIndex(rptr<GuiListControl :: IItemStyleController> style)
-	{
-		throw 0;
-	}
-	
-	void GuiListControl::IItemArranger::OnViewChanged(Rect bounds)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemArranger> GuiListControl::IItemArranger::operator=(rptr<GuiListControl :: IItemArranger> value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemArrangerCallback> GuiListControl::IItemArranger::GetCallback()
-	{
-		throw 0;
-	}
-	void GuiListControl::IItemArranger::SetCallback(rptr<GuiListControl :: IItemArrangerCallback> value)
-	{
-		throw 0;
-	}
-	
-	Size GuiListControl::IItemArranger::GetTotalSize()
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
 GuiListControl :: IItemArrangerCallback
 ***********************************************************************/
 
@@ -5710,6 +5661,55 @@ GuiListControl :: IItemProviderCallback
 	}
 	
 	rptr<GuiListControl :: IItemProviderCallback> GuiListControl::IItemProviderCallback::operator=(rptr<GuiListControl :: IItemProviderCallback> value)
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiListControl :: IItemArranger
+***********************************************************************/
+
+	void GuiListControl::IItemArranger::AttachListControl(rptr<GuiListControl> value)
+	{
+		throw 0;
+	}
+	
+	void GuiListControl::IItemArranger::DetachListControl()
+	{
+		throw 0;
+	}
+	
+	rptr<GuiListControl :: IItemStyleController> GuiListControl::IItemArranger::GetVisibleStyle(signed __int32 itemIndex)
+	{
+		throw 0;
+	}
+	
+	signed __int32 GuiListControl::IItemArranger::GetVisibleIndex(rptr<GuiListControl :: IItemStyleController> style)
+	{
+		throw 0;
+	}
+	
+	void GuiListControl::IItemArranger::OnViewChanged(Rect bounds)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiListControl :: IItemArranger> GuiListControl::IItemArranger::operator=(rptr<GuiListControl :: IItemArranger> value)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiListControl :: IItemArrangerCallback> GuiListControl::IItemArranger::GetCallback()
+	{
+		throw 0;
+	}
+	void GuiListControl::IItemArranger::SetCallback(rptr<GuiListControl :: IItemArrangerCallback> value)
+	{
+		throw 0;
+	}
+	
+	Size GuiListControl::IItemArranger::GetTotalSize()
 	{
 		throw 0;
 	}
@@ -9507,46 +9507,6 @@ GuiTextElementOperator
 	
 
 /***********************************************************************
-GuiTextElementOperator :: DefaultCallback
-***********************************************************************/
-
-	rptr<GuiTextElementOperator :: DefaultCallback> GuiTextElementOperator::DefaultCallback::Create(rptr<GuiColorizedTextElement> _textElement, rptr<GuiGraphicsComposition> _textComposition)
-	{
-		throw 0;
-	}
-	
-	TextPos GuiTextElementOperator::DefaultCallback::GetLeftWord(TextPos pos)
-	{
-		throw 0;
-	}
-	
-	TextPos GuiTextElementOperator::DefaultCallback::GetRightWord(TextPos pos)
-	{
-		throw 0;
-	}
-	
-	void GuiTextElementOperator::DefaultCallback::GetWord(TextPos pos, TextPos& begin, TextPos& end)
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiTextElementOperator::DefaultCallback::GetPageRows()
-	{
-		throw 0;
-	}
-	
-	bool GuiTextElementOperator::DefaultCallback::BeforeModify(TextPos& start, TextPos& end, const GacString& originalText, GacString& inputText)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiTextElementOperator :: DefaultCallback> GuiTextElementOperator::DefaultCallback::operator=(rptr<GuiTextElementOperator :: DefaultCallback> value)
-	{
-		throw 0;
-	}
-	
-
-/***********************************************************************
 GuiTextElementOperator :: ICallback
 ***********************************************************************/
 
@@ -9591,6 +9551,46 @@ GuiTextElementOperator :: ICallback
 	}
 	
 	signed __int32 GuiTextElementOperator::ICallback::GetTextMargin()
+	{
+		throw 0;
+	}
+	
+
+/***********************************************************************
+GuiTextElementOperator :: DefaultCallback
+***********************************************************************/
+
+	rptr<GuiTextElementOperator :: DefaultCallback> GuiTextElementOperator::DefaultCallback::Create(rptr<GuiColorizedTextElement> _textElement, rptr<GuiGraphicsComposition> _textComposition)
+	{
+		throw 0;
+	}
+	
+	TextPos GuiTextElementOperator::DefaultCallback::GetLeftWord(TextPos pos)
+	{
+		throw 0;
+	}
+	
+	TextPos GuiTextElementOperator::DefaultCallback::GetRightWord(TextPos pos)
+	{
+		throw 0;
+	}
+	
+	void GuiTextElementOperator::DefaultCallback::GetWord(TextPos pos, TextPos& begin, TextPos& end)
+	{
+		throw 0;
+	}
+	
+	signed __int32 GuiTextElementOperator::DefaultCallback::GetPageRows()
+	{
+		throw 0;
+	}
+	
+	bool GuiTextElementOperator::DefaultCallback::BeforeModify(TextPos& start, TextPos& end, const GacString& originalText, GacString& inputText)
+	{
+		throw 0;
+	}
+	
+	rptr<GuiTextElementOperator :: DefaultCallback> GuiTextElementOperator::DefaultCallback::operator=(rptr<GuiTextElementOperator :: DefaultCallback> value)
 	{
 		throw 0;
 	}
