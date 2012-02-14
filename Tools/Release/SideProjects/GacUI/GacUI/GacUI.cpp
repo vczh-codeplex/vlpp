@@ -777,7 +777,7 @@ GuiTabPage
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiTabPage::get_TextChanged()
+	GuiGraphicsEvent_of_GuiEventArgs GuiTabPage::on_TextChanged()
 	{
 		throw 0;
 	}
@@ -2760,122 +2760,122 @@ GuiGraphicsEventReceiver
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_leftButtonDown()
+	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::on_leftButtonDown()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_leftButtonUp()
+	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::on_leftButtonUp()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_leftButtonDoubleClick()
+	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::on_leftButtonDoubleClick()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_middleButtonDown()
+	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::on_middleButtonDown()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_middleButtonUp()
+	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::on_middleButtonUp()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_middleButtonDoubleClick()
+	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::on_middleButtonDoubleClick()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_rightButtonDown()
+	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::on_rightButtonDown()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_rightButtonUp()
+	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::on_rightButtonUp()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_rightButtonDoubleClick()
+	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::on_rightButtonDoubleClick()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_horizontalWheel()
+	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::on_horizontalWheel()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_verticalWheel()
+	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::on_verticalWheel()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::get_mouseMove()
+	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::on_mouseMove()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiGraphicsEventReceiver::get_mouseEnter()
+	GuiGraphicsEvent_of_GuiEventArgs GuiGraphicsEventReceiver::on_mouseEnter()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiGraphicsEventReceiver::get_mouseLeave()
+	GuiGraphicsEvent_of_GuiEventArgs GuiGraphicsEventReceiver::on_mouseLeave()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiKeyEventArgs GuiGraphicsEventReceiver::get_previewKey()
+	GuiGraphicsEvent_of_GuiKeyEventArgs GuiGraphicsEventReceiver::on_previewKey()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiKeyEventArgs GuiGraphicsEventReceiver::get_keyDown()
+	GuiGraphicsEvent_of_GuiKeyEventArgs GuiGraphicsEventReceiver::on_keyDown()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiKeyEventArgs GuiGraphicsEventReceiver::get_keyUp()
+	GuiGraphicsEvent_of_GuiKeyEventArgs GuiGraphicsEventReceiver::on_keyUp()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiKeyEventArgs GuiGraphicsEventReceiver::get_systemKeyDown()
+	GuiGraphicsEvent_of_GuiKeyEventArgs GuiGraphicsEventReceiver::on_systemKeyDown()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiKeyEventArgs GuiGraphicsEventReceiver::get_systemKeyUp()
+	GuiGraphicsEvent_of_GuiKeyEventArgs GuiGraphicsEventReceiver::on_systemKeyUp()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiCharEventArgs GuiGraphicsEventReceiver::get_previewCharInput()
+	GuiGraphicsEvent_of_GuiCharEventArgs GuiGraphicsEventReceiver::on_previewCharInput()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiCharEventArgs GuiGraphicsEventReceiver::get_charInput()
+	GuiGraphicsEvent_of_GuiCharEventArgs GuiGraphicsEventReceiver::on_charInput()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiGraphicsEventReceiver::get_gotFocus()
+	GuiGraphicsEvent_of_GuiEventArgs GuiGraphicsEventReceiver::on_gotFocus()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiGraphicsEventReceiver::get_lostFocus()
+	GuiGraphicsEvent_of_GuiEventArgs GuiGraphicsEventReceiver::on_lostFocus()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiGraphicsEventReceiver::get_caretNotify()
+	GuiGraphicsEvent_of_GuiEventArgs GuiGraphicsEventReceiver::on_caretNotify()
 	{
 		throw 0;
 	}
@@ -4192,7 +4192,7 @@ GuiBoundsComposition
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiBoundsComposition::get_BoundsChanged()
+	GuiGraphicsEvent_of_GuiEventArgs GuiBoundsComposition::on_BoundsChanged()
 	{
 		throw 0;
 	}
@@ -4358,27 +4358,27 @@ GuiControl
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiControl::get_VisibleChanged()
+	GuiGraphicsEvent_of_GuiEventArgs GuiControl::on_VisibleChanged()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiControl::get_EnabledChanged()
+	GuiGraphicsEvent_of_GuiEventArgs GuiControl::on_EnabledChanged()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiControl::get_VisuallyEnabledChanged()
+	GuiGraphicsEvent_of_GuiEventArgs GuiControl::on_VisuallyEnabledChanged()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiControl::get_TextChanged()
+	GuiGraphicsEvent_of_GuiEventArgs GuiControl::on_TextChanged()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiControl::get_FontChanged()
+	GuiGraphicsEvent_of_GuiEventArgs GuiControl::on_FontChanged()
 	{
 		throw 0;
 	}
@@ -4473,7 +4473,7 @@ GuiButton
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiButton::get_Clicked()
+	GuiGraphicsEvent_of_GuiEventArgs GuiButton::on_Clicked()
 	{
 		throw 0;
 	}
@@ -4736,42 +4736,42 @@ GuiControlHost
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiControlHost::get_WindowGotFocus()
+	GuiGraphicsEvent_of_GuiEventArgs GuiControlHost::on_WindowGotFocus()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiControlHost::get_WindowLostFocus()
+	GuiGraphicsEvent_of_GuiEventArgs GuiControlHost::on_WindowLostFocus()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiControlHost::get_WindowActivated()
+	GuiGraphicsEvent_of_GuiEventArgs GuiControlHost::on_WindowActivated()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiControlHost::get_WindowDeactivated()
+	GuiGraphicsEvent_of_GuiEventArgs GuiControlHost::on_WindowDeactivated()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiControlHost::get_WindowOpened()
+	GuiGraphicsEvent_of_GuiEventArgs GuiControlHost::on_WindowOpened()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiRequestEventArgs GuiControlHost::get_WindowClosing()
+	GuiGraphicsEvent_of_GuiRequestEventArgs GuiControlHost::on_WindowClosing()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiControlHost::get_WindowClosed()
+	GuiGraphicsEvent_of_GuiEventArgs GuiControlHost::on_WindowClosed()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiControlHost::get_WindowDestroying()
+	GuiGraphicsEvent_of_GuiEventArgs GuiControlHost::on_WindowDestroying()
 	{
 		throw 0;
 	}
@@ -4849,7 +4849,7 @@ GuiMenuButton
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiMenuButton::get_SubMenuOpeningChanged()
+	GuiGraphicsEvent_of_GuiEventArgs GuiMenuButton::on_SubMenuOpeningChanged()
 	{
 		throw 0;
 	}
@@ -5015,27 +5015,27 @@ GuiScroll
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiScroll::get_TotalSizeChanged()
+	GuiGraphicsEvent_of_GuiEventArgs GuiScroll::on_TotalSizeChanged()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiScroll::get_PageSizeChanged()
+	GuiGraphicsEvent_of_GuiEventArgs GuiScroll::on_PageSizeChanged()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiScroll::get_PositionChanged()
+	GuiGraphicsEvent_of_GuiEventArgs GuiScroll::on_PositionChanged()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiScroll::get_SmallMoveChanged()
+	GuiGraphicsEvent_of_GuiEventArgs GuiScroll::on_SmallMoveChanged()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiScroll::get_BigMoveChanged()
+	GuiGraphicsEvent_of_GuiEventArgs GuiScroll::on_BigMoveChanged()
 	{
 		throw 0;
 	}
@@ -5466,17 +5466,17 @@ GuiListControl
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiListControl::get_StyleProviderChanged()
+	GuiGraphicsEvent_of_GuiEventArgs GuiListControl::on_StyleProviderChanged()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiListControl::get_ArrangerChanged()
+	GuiGraphicsEvent_of_GuiEventArgs GuiListControl::on_ArrangerChanged()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiListControl::get_CoordinateTransformerChanged()
+	GuiGraphicsEvent_of_GuiEventArgs GuiListControl::on_CoordinateTransformerChanged()
 	{
 		throw 0;
 	}
@@ -5996,17 +5996,17 @@ GuiSelectableButton
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiSelectableButton::get_GroupControllerChanged()
+	GuiGraphicsEvent_of_GuiEventArgs GuiSelectableButton::on_GroupControllerChanged()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiSelectableButton::get_AutoSelectionChanged()
+	GuiGraphicsEvent_of_GuiEventArgs GuiSelectableButton::on_AutoSelectionChanged()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiSelectableButton::get_SelectedChanged()
+	GuiGraphicsEvent_of_GuiEventArgs GuiSelectableButton::on_SelectedChanged()
 	{
 		throw 0;
 	}
@@ -6120,7 +6120,7 @@ GuiSelectableListControl
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiSelectableListControl::get_SelectionChanged()
+	GuiGraphicsEvent_of_GuiEventArgs GuiSelectableListControl::on_SelectionChanged()
 	{
 		throw 0;
 	}
@@ -6351,7 +6351,7 @@ GuiTab
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiTab::get_SelectedPageChanged()
+	GuiGraphicsEvent_of_GuiEventArgs GuiTab::on_SelectedPageChanged()
 	{
 		throw 0;
 	}
@@ -6570,22 +6570,22 @@ GuiComboBoxBase
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiComboBoxBase::get_PopupOpened()
+	GuiGraphicsEvent_of_GuiEventArgs GuiComboBoxBase::on_PopupOpened()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiComboBoxBase::get_PopupClosed()
+	GuiGraphicsEvent_of_GuiEventArgs GuiComboBoxBase::on_PopupClosed()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiComboBoxBase::get_ItemSelecting()
+	GuiGraphicsEvent_of_GuiEventArgs GuiComboBoxBase::on_ItemSelecting()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiComboBoxBase::get_ItemSelected()
+	GuiGraphicsEvent_of_GuiEventArgs GuiComboBoxBase::on_ItemSelected()
 	{
 		throw 0;
 	}
@@ -6689,7 +6689,7 @@ GuiComboBoxListControl
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiComboBoxListControl::get_SelectedIndexChanged()
+	GuiGraphicsEvent_of_GuiEventArgs GuiComboBoxListControl::on_SelectedIndexChanged()
 	{
 		throw 0;
 	}
@@ -9098,7 +9098,7 @@ GuiTextBoxCommonInterface
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiTextBoxCommonInterface::get_SelectionChanged()
+	GuiGraphicsEvent_of_GuiEventArgs GuiTextBoxCommonInterface::on_SelectionChanged()
 	{
 		throw 0;
 	}

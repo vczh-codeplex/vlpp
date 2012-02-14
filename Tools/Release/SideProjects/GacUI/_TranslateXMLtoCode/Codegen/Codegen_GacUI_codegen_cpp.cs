@@ -63,8 +63,9 @@ namespace _TranslateXMLtoCode.Codegen
                 GenerateMethod(property.Setter, isStatic);
             if (property.PublicGacFieldAccessor != null)
             {
+                if (property.IsEventField)
                 {
-                    WriteLine("{0} {1}get_{2}()",
+                    WriteLine("{0} {1}on_{2}()",
                         GetType(property.PropertyType),
                         property.OwnerUDT.Name.Aggregate("", (a, b) => a + b + "::"),
                         property.Name
@@ -73,16 +74,28 @@ namespace _TranslateXMLtoCode.Codegen
                     WriteLine("throw 0;");
                     End("}");
                 }
-                if (!property.IsEventField)
+                else
                 {
-                    WriteLine("void {0}set_{1}({2} value)",
-                        property.OwnerUDT.Name.Aggregate("", (a, b) => a + b + "::"),
-                        property.Name,
-                        GetType(property.PropertyType)
-                        );
-                    Begin("{");
-                    WriteLine("throw 0;");
-                    End("}");
+                    {
+                        WriteLine("{0} {1}get_{2}()",
+                            GetType(property.PropertyType),
+                            property.OwnerUDT.Name.Aggregate("", (a, b) => a + b + "::"),
+                            property.Name
+                            );
+                        Begin("{");
+                        WriteLine("throw 0;");
+                        End("}");
+                    }
+                    {
+                        WriteLine("void {0}set_{1}({2} value)",
+                            property.OwnerUDT.Name.Aggregate("", (a, b) => a + b + "::"),
+                            property.Name,
+                            GetType(property.PropertyType)
+                            );
+                        Begin("{");
+                        WriteLine("throw 0;");
+                        End("}");
+                    }
                 }
             }
         }

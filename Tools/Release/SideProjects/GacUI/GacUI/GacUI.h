@@ -492,7 +492,7 @@ GuiTabPage
 		const GacString& GetText();
 		void SetText(const GacString& value);
 		bool GetSelected();
-		GuiGraphicsEvent_of_GuiEventArgs get_TextChanged();
+		GuiGraphicsEvent_of_GuiEventArgs on_TextChanged();
 		
 	};
 	
@@ -1732,30 +1732,30 @@ GuiGraphicsEventReceiver
 		rptr<GuiGraphicsEventReceiver> operator=(rptr<GuiGraphicsEventReceiver> value);
 		
 		rptr<GuiGraphicsComposition> GetAssociatedComposition();
-		GuiGraphicsEvent_of_GuiMouseEventArgs get_leftButtonDown();
-		GuiGraphicsEvent_of_GuiMouseEventArgs get_leftButtonUp();
-		GuiGraphicsEvent_of_GuiMouseEventArgs get_leftButtonDoubleClick();
-		GuiGraphicsEvent_of_GuiMouseEventArgs get_middleButtonDown();
-		GuiGraphicsEvent_of_GuiMouseEventArgs get_middleButtonUp();
-		GuiGraphicsEvent_of_GuiMouseEventArgs get_middleButtonDoubleClick();
-		GuiGraphicsEvent_of_GuiMouseEventArgs get_rightButtonDown();
-		GuiGraphicsEvent_of_GuiMouseEventArgs get_rightButtonUp();
-		GuiGraphicsEvent_of_GuiMouseEventArgs get_rightButtonDoubleClick();
-		GuiGraphicsEvent_of_GuiMouseEventArgs get_horizontalWheel();
-		GuiGraphicsEvent_of_GuiMouseEventArgs get_verticalWheel();
-		GuiGraphicsEvent_of_GuiMouseEventArgs get_mouseMove();
-		GuiGraphicsEvent_of_GuiEventArgs get_mouseEnter();
-		GuiGraphicsEvent_of_GuiEventArgs get_mouseLeave();
-		GuiGraphicsEvent_of_GuiKeyEventArgs get_previewKey();
-		GuiGraphicsEvent_of_GuiKeyEventArgs get_keyDown();
-		GuiGraphicsEvent_of_GuiKeyEventArgs get_keyUp();
-		GuiGraphicsEvent_of_GuiKeyEventArgs get_systemKeyDown();
-		GuiGraphicsEvent_of_GuiKeyEventArgs get_systemKeyUp();
-		GuiGraphicsEvent_of_GuiCharEventArgs get_previewCharInput();
-		GuiGraphicsEvent_of_GuiCharEventArgs get_charInput();
-		GuiGraphicsEvent_of_GuiEventArgs get_gotFocus();
-		GuiGraphicsEvent_of_GuiEventArgs get_lostFocus();
-		GuiGraphicsEvent_of_GuiEventArgs get_caretNotify();
+		GuiGraphicsEvent_of_GuiMouseEventArgs on_leftButtonDown();
+		GuiGraphicsEvent_of_GuiMouseEventArgs on_leftButtonUp();
+		GuiGraphicsEvent_of_GuiMouseEventArgs on_leftButtonDoubleClick();
+		GuiGraphicsEvent_of_GuiMouseEventArgs on_middleButtonDown();
+		GuiGraphicsEvent_of_GuiMouseEventArgs on_middleButtonUp();
+		GuiGraphicsEvent_of_GuiMouseEventArgs on_middleButtonDoubleClick();
+		GuiGraphicsEvent_of_GuiMouseEventArgs on_rightButtonDown();
+		GuiGraphicsEvent_of_GuiMouseEventArgs on_rightButtonUp();
+		GuiGraphicsEvent_of_GuiMouseEventArgs on_rightButtonDoubleClick();
+		GuiGraphicsEvent_of_GuiMouseEventArgs on_horizontalWheel();
+		GuiGraphicsEvent_of_GuiMouseEventArgs on_verticalWheel();
+		GuiGraphicsEvent_of_GuiMouseEventArgs on_mouseMove();
+		GuiGraphicsEvent_of_GuiEventArgs on_mouseEnter();
+		GuiGraphicsEvent_of_GuiEventArgs on_mouseLeave();
+		GuiGraphicsEvent_of_GuiKeyEventArgs on_previewKey();
+		GuiGraphicsEvent_of_GuiKeyEventArgs on_keyDown();
+		GuiGraphicsEvent_of_GuiKeyEventArgs on_keyUp();
+		GuiGraphicsEvent_of_GuiKeyEventArgs on_systemKeyDown();
+		GuiGraphicsEvent_of_GuiKeyEventArgs on_systemKeyUp();
+		GuiGraphicsEvent_of_GuiCharEventArgs on_previewCharInput();
+		GuiGraphicsEvent_of_GuiCharEventArgs on_charInput();
+		GuiGraphicsEvent_of_GuiEventArgs on_gotFocus();
+		GuiGraphicsEvent_of_GuiEventArgs on_lostFocus();
+		GuiGraphicsEvent_of_GuiEventArgs on_caretNotify();
 		
 	};
 	
@@ -2360,7 +2360,7 @@ GuiBoundsComposition
 		
 		Margin GetAlignmentToParent();
 		void SetAlignmentToParent(Margin value);
-		GuiGraphicsEvent_of_GuiEventArgs get_BoundsChanged();
+		GuiGraphicsEvent_of_GuiEventArgs on_BoundsChanged();
 		
 	};
 	
@@ -2426,11 +2426,11 @@ GuiControl
 		void SetText(const GacString& value);
 		const FontProperties& GetFont();
 		void SetFont(const FontProperties& value);
-		GuiGraphicsEvent_of_GuiEventArgs get_VisibleChanged();
-		GuiGraphicsEvent_of_GuiEventArgs get_EnabledChanged();
-		GuiGraphicsEvent_of_GuiEventArgs get_VisuallyEnabledChanged();
-		GuiGraphicsEvent_of_GuiEventArgs get_TextChanged();
-		GuiGraphicsEvent_of_GuiEventArgs get_FontChanged();
+		GuiGraphicsEvent_of_GuiEventArgs on_VisibleChanged();
+		GuiGraphicsEvent_of_GuiEventArgs on_EnabledChanged();
+		GuiGraphicsEvent_of_GuiEventArgs on_VisuallyEnabledChanged();
+		GuiGraphicsEvent_of_GuiEventArgs on_TextChanged();
+		GuiGraphicsEvent_of_GuiEventArgs on_FontChanged();
 		
 
 /***********************************************************************
@@ -2502,7 +2502,7 @@ GuiButton
 		
 		rptr<GuiButton> operator=(rptr<GuiButton> value);
 		
-		GuiGraphicsEvent_of_GuiEventArgs get_Clicked();
+		GuiGraphicsEvent_of_GuiEventArgs on_Clicked();
 		
 
 /***********************************************************************
@@ -2584,14 +2584,14 @@ GuiControlHost
 		void SetBounds(Rect value);
 		rptr<INativeScreen> GetRelatedScreen();
 		bool GetOpening();
-		GuiGraphicsEvent_of_GuiEventArgs get_WindowGotFocus();
-		GuiGraphicsEvent_of_GuiEventArgs get_WindowLostFocus();
-		GuiGraphicsEvent_of_GuiEventArgs get_WindowActivated();
-		GuiGraphicsEvent_of_GuiEventArgs get_WindowDeactivated();
-		GuiGraphicsEvent_of_GuiEventArgs get_WindowOpened();
-		GuiGraphicsEvent_of_GuiRequestEventArgs get_WindowClosing();
-		GuiGraphicsEvent_of_GuiEventArgs get_WindowClosed();
-		GuiGraphicsEvent_of_GuiEventArgs get_WindowDestroying();
+		GuiGraphicsEvent_of_GuiEventArgs on_WindowGotFocus();
+		GuiGraphicsEvent_of_GuiEventArgs on_WindowLostFocus();
+		GuiGraphicsEvent_of_GuiEventArgs on_WindowActivated();
+		GuiGraphicsEvent_of_GuiEventArgs on_WindowDeactivated();
+		GuiGraphicsEvent_of_GuiEventArgs on_WindowOpened();
+		GuiGraphicsEvent_of_GuiRequestEventArgs on_WindowClosing();
+		GuiGraphicsEvent_of_GuiEventArgs on_WindowClosed();
+		GuiGraphicsEvent_of_GuiEventArgs on_WindowDestroying();
 		
 	};
 	
@@ -2637,7 +2637,7 @@ GuiMenuButton
 		void SetSubMenuOpening(bool value);
 		Size GetPreferredMenuClientSize();
 		void SetPreferredMenuClientSize(Size value);
-		GuiGraphicsEvent_of_GuiEventArgs get_SubMenuOpeningChanged();
+		GuiGraphicsEvent_of_GuiEventArgs on_SubMenuOpeningChanged();
 		
 
 /***********************************************************************
@@ -2716,11 +2716,11 @@ GuiScroll
 		void SetBigMove(signed __int32 value);
 		signed __int32 GetMinPosition();
 		signed __int32 GetMaxPosition();
-		GuiGraphicsEvent_of_GuiEventArgs get_TotalSizeChanged();
-		GuiGraphicsEvent_of_GuiEventArgs get_PageSizeChanged();
-		GuiGraphicsEvent_of_GuiEventArgs get_PositionChanged();
-		GuiGraphicsEvent_of_GuiEventArgs get_SmallMoveChanged();
-		GuiGraphicsEvent_of_GuiEventArgs get_BigMoveChanged();
+		GuiGraphicsEvent_of_GuiEventArgs on_TotalSizeChanged();
+		GuiGraphicsEvent_of_GuiEventArgs on_PageSizeChanged();
+		GuiGraphicsEvent_of_GuiEventArgs on_PositionChanged();
+		GuiGraphicsEvent_of_GuiEventArgs on_SmallMoveChanged();
+		GuiGraphicsEvent_of_GuiEventArgs on_BigMoveChanged();
 		
 
 /***********************************************************************
@@ -2945,9 +2945,9 @@ GuiListControl
 		rptr<GuiListControl :: IItemStyleProvider> GetStyleProvider();
 		rptr<GuiListControl :: IItemArranger> GetArranger();
 		rptr<GuiListControl :: IItemCoordinateTransformer> GetCoordinateTransformer();
-		GuiGraphicsEvent_of_GuiEventArgs get_StyleProviderChanged();
-		GuiGraphicsEvent_of_GuiEventArgs get_ArrangerChanged();
-		GuiGraphicsEvent_of_GuiEventArgs get_CoordinateTransformerChanged();
+		GuiGraphicsEvent_of_GuiEventArgs on_StyleProviderChanged();
+		GuiGraphicsEvent_of_GuiEventArgs on_ArrangerChanged();
+		GuiGraphicsEvent_of_GuiEventArgs on_CoordinateTransformerChanged();
 		
 
 /***********************************************************************
@@ -3244,9 +3244,9 @@ GuiSelectableButton
 		void SetAutoSelection(bool value);
 		bool GetSelected();
 		void SetSelected(bool value);
-		GuiGraphicsEvent_of_GuiEventArgs get_GroupControllerChanged();
-		GuiGraphicsEvent_of_GuiEventArgs get_AutoSelectionChanged();
-		GuiGraphicsEvent_of_GuiEventArgs get_SelectedChanged();
+		GuiGraphicsEvent_of_GuiEventArgs on_GroupControllerChanged();
+		GuiGraphicsEvent_of_GuiEventArgs on_AutoSelectionChanged();
+		GuiGraphicsEvent_of_GuiEventArgs on_SelectedChanged();
 		
 
 /***********************************************************************
@@ -3322,7 +3322,7 @@ GuiSelectableListControl
 		bool GetMultiSelect();
 		void SetMultiSelect(bool value);
 		rptr<IReadonlyList_of_int> GetSelectedItems();
-		GuiGraphicsEvent_of_GuiEventArgs get_SelectionChanged();
+		GuiGraphicsEvent_of_GuiEventArgs on_SelectionChanged();
 		
 
 /***********************************************************************
@@ -3470,7 +3470,7 @@ GuiTab
 		
 		rptr<IReadonlyList_of_GuiTabPage_raw_pointer> GetPages();
 		rptr<GuiTabPage> GetSelectedPage();
-		GuiGraphicsEvent_of_GuiEventArgs get_SelectedPageChanged();
+		GuiGraphicsEvent_of_GuiEventArgs on_SelectedPageChanged();
 		
 
 /***********************************************************************
@@ -3598,10 +3598,10 @@ GuiComboBoxBase
 		rptr<GuiComboBoxBase> operator=(rptr<GuiComboBoxBase> value);
 		
 		rptr<GuiPopup> GetPopup();
-		GuiGraphicsEvent_of_GuiEventArgs get_PopupOpened();
-		GuiGraphicsEvent_of_GuiEventArgs get_PopupClosed();
-		GuiGraphicsEvent_of_GuiEventArgs get_ItemSelecting();
-		GuiGraphicsEvent_of_GuiEventArgs get_ItemSelected();
+		GuiGraphicsEvent_of_GuiEventArgs on_PopupOpened();
+		GuiGraphicsEvent_of_GuiEventArgs on_PopupClosed();
+		GuiGraphicsEvent_of_GuiEventArgs on_ItemSelecting();
+		GuiGraphicsEvent_of_GuiEventArgs on_ItemSelected();
 		
 
 /***********************************************************************
@@ -3661,7 +3661,7 @@ GuiComboBoxListControl
 		signed __int32 GetSelectedIndex();
 		void SetSelectedIndex(signed __int32 value);
 		rptr<GuiListControl :: IItemProvider> GetItemProvider();
-		GuiGraphicsEvent_of_GuiEventArgs get_SelectedIndexChanged();
+		GuiGraphicsEvent_of_GuiEventArgs on_SelectedIndexChanged();
 		
 	};
 	
@@ -4939,7 +4939,7 @@ GuiTextBoxCommonInterface
 		TextPos GetCaretLarge();
 		GacString GetSelectionText();
 		void SetSelectionText(const GacString& value);
-		GuiGraphicsEvent_of_GuiEventArgs get_SelectionChanged();
+		GuiGraphicsEvent_of_GuiEventArgs on_SelectionChanged();
 		
 	};
 	
