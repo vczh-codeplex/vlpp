@@ -81,10 +81,8 @@ GuiGraphicsHost
 					composition=composition->GetParent();
 				}
 
-				GuiCharEventArgs arguments;
+				GuiCharEventArgs arguments(composition);
 				(NativeWindowCharInfo&)arguments=info;
-				arguments.compositionSource=composition;
-				arguments.eventSource=composition;
 
 				for(int i=compositions.Count()-1;i>=0;i--)
 				{
@@ -117,10 +115,8 @@ GuiGraphicsHost
 					composition=composition->GetParent();
 				}
 
-				GuiKeyEventArgs arguments;
+				GuiKeyEventArgs arguments(composition);
 				(NativeWindowKeyInfo&)arguments=info;
-				arguments.compositionSource=composition;
-				arguments.eventSource=composition;
 
 				for(int i=compositions.Count()-1;i>=0;i--)
 				{

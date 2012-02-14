@@ -751,6 +751,36 @@ namespace _TranslateXMLtoCode
                 }
             }
 
+            var indexOperators = methods.Where(m => m.Name == "operator[]").ToArray();
+            if (indexOperators.Length > 1)
+            {
+                if (indexOperators.Length == 2)
+                {
+                    string ret1 = indexOperators[0].ReturnType.ToString();
+                    string ret2 = indexOperators[1].ReturnType.ToString();
+                    bool reverse = ret1.Length > ret2.Length;
+                    if (reverse)
+                    {
+                        string temp = ret1;
+                        ret1 = ret2;
+                        ret2 = temp;
+                    }
+
+                    if (ret1.Last() == '&' && ret2 == ret1.Substring(0, ret1.Length - 1) + " const&")
+                    {
+                        methods.Remove(reverse ? indexOperators[0] : indexOperators[1]);
+                    }
+                    else
+                    {
+                        throw new ArgumentException();
+                    }
+                }
+                else
+                {
+                    throw new ArgumentException();
+                }
+            }
+
             outputConstructors = constructors.ToArray();
             outputMethods = methods.ToArray();
             outputOverridingMethods = overridingMethods.ToArray();

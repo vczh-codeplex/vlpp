@@ -163,9 +163,16 @@ Predefined Events
 				GuiGraphicsComposition*		eventSource;		// the deepest composition that contains an event receiver
 				bool						handled;
 
-				GuiEventArgs(GuiGraphicsComposition* composition=0)
+				GuiEventArgs(GuiGraphicsComposition* composition)
 					:compositionSource(composition)
 					,eventSource(composition)
+					,handled(false)
+				{
+				}
+
+				GuiEventArgs()
+					:compositionSource(0)
+					,eventSource(0)
 					,handled(false)
 				{
 				}
@@ -174,18 +181,53 @@ Predefined Events
 			struct GuiRequestEventArgs : public GuiEventArgs
 			{
 				bool		cancel;
+
+				GuiRequestEventArgs()
+					:cancel(false)
+				{
+				}
+
+				GuiRequestEventArgs(GuiGraphicsComposition* composition)
+					:GuiEventArgs(composition)
+					,cancel(false)
+				{
+				}
 			};
 
 			struct GuiKeyEventArgs : public GuiEventArgs, public NativeWindowKeyInfo
 			{
+				GuiKeyEventArgs()
+				{
+				}
+
+				GuiKeyEventArgs(GuiGraphicsComposition* composition)
+					:GuiEventArgs(composition)
+				{
+				}
 			};
 
 			struct GuiCharEventArgs : public GuiEventArgs, public NativeWindowCharInfo
 			{
+				GuiCharEventArgs()
+				{
+				}
+
+				GuiCharEventArgs(GuiGraphicsComposition* composition)
+					:GuiEventArgs(composition)
+				{
+				}
 			};
 
 			struct GuiMouseEventArgs : public GuiEventArgs, public NativeWindowMouseInfo
 			{
+				GuiMouseEventArgs()
+				{
+				}
+
+				GuiMouseEventArgs(GuiGraphicsComposition* composition)
+					:GuiEventArgs(composition)
+				{
+				}
 			};
 
 			typedef GuiGraphicsEvent<GuiEventArgs>				GuiNotifyEvent;
