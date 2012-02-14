@@ -166,7 +166,6 @@ Array_of_ColorEntry
 		signed __int32 Count();
 		const ColorEntry& Get(signed __int32 index);
 		ColorEntry& operator[](signed __int32 index);
-		const ColorEntry& operator[](signed __int32 value);
 		signed __int32 IndexOf(const ColorEntry& item);
 		void Set(signed __int32 index, const ColorEntry& item);
 		void Resize(signed __int32 size);
@@ -322,6 +321,8 @@ GuiEventArgs
 	
 	public:
 		
+		static rptr<GuiEventArgs> Create();
+		GuiEventArgs();
 		static rptr<GuiEventArgs> Create(rptr<GuiGraphicsComposition> composition);
 		GuiEventArgs(rptr<GuiGraphicsComposition> composition);
 		
@@ -368,6 +369,8 @@ GuiRequestEventArgs
 	
 	public:
 		
+		static rptr<GuiRequestEventArgs> Create(rptr<GuiGraphicsComposition> composition);
+		GuiRequestEventArgs(rptr<GuiGraphicsComposition> composition);
 		static rptr<GuiRequestEventArgs> Create();
 		GuiRequestEventArgs();
 		
@@ -1499,6 +1502,8 @@ GuiCharEventArgs
 	
 	public:
 		
+		static rptr<GuiCharEventArgs> Create(rptr<GuiGraphicsComposition> composition);
+		GuiCharEventArgs(rptr<GuiGraphicsComposition> composition);
 		static rptr<GuiCharEventArgs> Create();
 		GuiCharEventArgs();
 		
@@ -1578,6 +1583,8 @@ GuiKeyEventArgs
 	
 	public:
 		
+		static rptr<GuiKeyEventArgs> Create(rptr<GuiGraphicsComposition> composition);
+		GuiKeyEventArgs(rptr<GuiGraphicsComposition> composition);
 		static rptr<GuiKeyEventArgs> Create();
 		GuiKeyEventArgs();
 		
@@ -1663,6 +1670,8 @@ GuiMouseEventArgs
 	
 	public:
 		
+		static rptr<GuiMouseEventArgs> Create(rptr<GuiGraphicsComposition> composition);
+		GuiMouseEventArgs(rptr<GuiGraphicsComposition> composition);
 		static rptr<GuiMouseEventArgs> Create();
 		GuiMouseEventArgs();
 		

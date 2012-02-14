@@ -249,11 +249,6 @@ Array_of_ColorEntry
 		throw 0;
 	}
 	
-	const ColorEntry& Array_of_ColorEntry::operator[](signed __int32 value)
-	{
-		throw 0;
-	}
-	
 	signed __int32 Array_of_ColorEntry::IndexOf(const ColorEntry& item)
 	{
 		throw 0;
@@ -510,6 +505,15 @@ GuiComponent
 GuiEventArgs
 ***********************************************************************/
 
+	rptr<GuiEventArgs> GuiEventArgs::Create()
+	{
+		throw 0;
+	}
+	GuiEventArgs::GuiEventArgs()
+	{
+		throw 0;
+	}
+	
 	rptr<GuiEventArgs> GuiEventArgs::Create(rptr<GuiGraphicsComposition> composition)
 	{
 		throw 0;
@@ -589,6 +593,15 @@ GuiImageData
 GuiRequestEventArgs
 ***********************************************************************/
 
+	rptr<GuiRequestEventArgs> GuiRequestEventArgs::Create(rptr<GuiGraphicsComposition> composition)
+	{
+		throw 0;
+	}
+	GuiRequestEventArgs::GuiRequestEventArgs(rptr<GuiGraphicsComposition> composition)
+	{
+		throw 0;
+	}
+	
 	rptr<GuiRequestEventArgs> GuiRequestEventArgs::Create()
 	{
 		throw 0;
@@ -2374,6 +2387,15 @@ NativeWindowCharInfo
 GuiCharEventArgs
 ***********************************************************************/
 
+	rptr<GuiCharEventArgs> GuiCharEventArgs::Create(rptr<GuiGraphicsComposition> composition)
+	{
+		throw 0;
+	}
+	GuiCharEventArgs::GuiCharEventArgs(rptr<GuiGraphicsComposition> composition)
+	{
+		throw 0;
+	}
+	
 	rptr<GuiCharEventArgs> GuiCharEventArgs::Create()
 	{
 		throw 0;
@@ -2492,6 +2514,15 @@ NativeWindowKeyInfo
 GuiKeyEventArgs
 ***********************************************************************/
 
+	rptr<GuiKeyEventArgs> GuiKeyEventArgs::Create(rptr<GuiGraphicsComposition> composition)
+	{
+		throw 0;
+	}
+	GuiKeyEventArgs::GuiKeyEventArgs(rptr<GuiGraphicsComposition> composition)
+	{
+		throw 0;
+	}
+	
 	rptr<GuiKeyEventArgs> GuiKeyEventArgs::Create()
 	{
 		throw 0;
@@ -2637,6 +2668,15 @@ NativeWindowMouseInfo
 GuiMouseEventArgs
 ***********************************************************************/
 
+	rptr<GuiMouseEventArgs> GuiMouseEventArgs::Create(rptr<GuiGraphicsComposition> composition)
+	{
+		throw 0;
+	}
+	GuiMouseEventArgs::GuiMouseEventArgs(rptr<GuiGraphicsComposition> composition)
+	{
+		throw 0;
+	}
+	
 	rptr<GuiMouseEventArgs> GuiMouseEventArgs::Create()
 	{
 		throw 0;

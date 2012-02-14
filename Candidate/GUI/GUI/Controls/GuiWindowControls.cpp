@@ -50,9 +50,7 @@ GuiControlHost
 
 			void GuiControlHost::Closing(bool& cancel)
 			{
-				GuiRequestEventArgs arguments;
-				arguments.compositionSource=GetStyleController()->GetBoundsComposition();
-				arguments.eventSource=GetStyleController()->GetBoundsComposition();
+				GuiRequestEventArgs arguments(GetStyleController()->GetBoundsComposition());
 				arguments.cancel=cancel;
 				WindowClosing.Execute(arguments);
 				if(!arguments.handled)

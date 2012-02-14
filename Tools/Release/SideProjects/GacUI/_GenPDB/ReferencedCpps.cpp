@@ -60,6 +60,18 @@ namespace fillabstractmethods
 {
 	void ClassNewer()
 	{
+		vl::presentation::elements::GuiEventArgs(0);
+		vl::presentation::elements::GuiRequestEventArgs(0);
+		vl::presentation::elements::GuiKeyEventArgs(0);
+		vl::presentation::elements::GuiCharEventArgs(0);
+		vl::presentation::elements::GuiMouseEventArgs(0);
+
+		vl::presentation::elements::GuiEventArgs();
+		vl::presentation::elements::GuiRequestEventArgs();
+		vl::presentation::elements::GuiKeyEventArgs();
+		vl::presentation::elements::GuiCharEventArgs();
+		vl::presentation::elements::GuiMouseEventArgs();
+
 		vl::presentation::elements::GuiNotifyEvent().AttachFunction(&GuiNotifyEventHandler);
 		vl::presentation::elements::GuiRequestEvent().AttachFunction(&GuiRequestEventHandler);
 		vl::presentation::elements::GuiKeyEvent().AttachFunction(&GuiKeyEventEventHandler);
