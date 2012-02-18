@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using System.ComponentModel;
+using Gate.BoardComponents;
 
 namespace Gate
 {
@@ -133,13 +134,13 @@ namespace Gate
                 AddPredefinedTool(new Tools.BoardEditorSelectObjectTool());
                 AddPredefinedTool(new Tools.BoardEditorWireTool());
 
-                AddPredefinedTool(new Tools.BoardEditorGateTool(Tools.PrimitiveGates.And));
-                AddPredefinedTool(new Tools.BoardEditorGateTool(Tools.PrimitiveGates.Or));
-                AddPredefinedTool(new Tools.BoardEditorGateTool(Tools.PrimitiveGates.Not));
-                AddPredefinedTool(new Tools.BoardEditorGateTool(Tools.PrimitiveGates.Xor));
-                AddPredefinedTool(new Tools.BoardEditorGateTool(Tools.PrimitiveGates.Xnor));
-                AddPredefinedTool(new Tools.BoardEditorGateTool(Tools.PrimitiveGates.Nand));
-                AddPredefinedTool(new Tools.BoardEditorGateTool(Tools.PrimitiveGates.Nor));
+                AddPredefinedTool(new Tools.BoardEditorGateTool(PrimitiveGates.And));
+                AddPredefinedTool(new Tools.BoardEditorGateTool(PrimitiveGates.Or));
+                AddPredefinedTool(new Tools.BoardEditorGateTool(PrimitiveGates.Not));
+                AddPredefinedTool(new Tools.BoardEditorGateTool(PrimitiveGates.Xor));
+                AddPredefinedTool(new Tools.BoardEditorGateTool(PrimitiveGates.Xnor));
+                AddPredefinedTool(new Tools.BoardEditorGateTool(PrimitiveGates.Nand));
+                AddPredefinedTool(new Tools.BoardEditorGateTool(PrimitiveGates.Nor));
 
                 this.SelectedIndices.Add(0);
             }

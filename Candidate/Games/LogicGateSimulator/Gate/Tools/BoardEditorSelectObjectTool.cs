@@ -3,11 +3,71 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Windows.Forms;
+using Gate.BoardComponents;
+using System.Drawing.Drawing2D;
 
 namespace Gate.Tools
 {
     class BoardEditorSelectObjectTool : IBoardEditorTool
     {
+        private class Command : IBoardEditorCommand
+        {
+            private BoardEditorPanel panel;
+            private Point location = new Point(-100, -100);
+            private IGateBoardComponent tracingComponent;
+
+            private IGateBoardComponent GetComponent()
+            {
+                Point p = this.location + new Size(this.panel.DisplayOffset);
+                return this.panel.Board.GetComponent(p);
+            }
+
+            public void Attach(BoardEditorPanel panel)
+            {
+                this.panel = panel;
+                this.panel.Cursor = Cursors.Cross;
+            }
+
+            public void Detach(BoardEditorPanel panel)
+            {
+                this.panel.Board.SelectedComponent = null;
+                this.panel.Refresh();
+                this.panel = null;
+            }
+
+            public void OnMouseDown(MouseEventArgs e)
+            {
+                this.panel.Board.SelectedComponent = tracingComponent;
+                this.panel.Refresh();
+            }
+
+            public void OnMouseUp(MouseEventArgs e)
+            {
+            }
+
+            public void OnMouseMove(MouseEventArgs e)
+            {
+                this.location = e.Location;
+                var component = GetComponent();
+                if (this.tracingComponent != component)
+                {
+                    this.tracingComponent = GetComponent();
+                    this.panel.Refresh();
+                }
+            }
+
+            public void OnPaint(PaintEventArgs e)
+            {
+                if (this.tracingComponent != null && this.tracingComponent != this.panel.Board.SelectedComponent)
+                {
+                    Rectangle bounds = this.tracingComponent.Bounds;
+                    bounds.Location -= new Size(this.panel.DisplayOffset);
+                    this.panel.Board.PaintSelectBox(e.Graphics, bounds, Color.SkyBlue);
+                }
+            }
+        }
+
         public Bitmap Icon
         {
             get
@@ -26,7 +86,7 @@ namespace Gate.Tools
 
         public IBoardEditorCommand CreateCommand()
         {
-            throw new NotImplementedException();
+            return new Command();
         }
     }
 }
