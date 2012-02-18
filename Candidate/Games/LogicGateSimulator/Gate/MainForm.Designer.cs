@@ -28,9 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.listViewTools = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.listViewTools = new Gate.BoardEditorToolBox();
             this.panelBoard = new Gate.BoardEditorPanel();
             this.SuspendLayout();
             // 
@@ -38,25 +36,16 @@
             // 
             this.listViewTools.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)));
-            this.listViewTools.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2});
+            this.listViewTools.FullRowSelect = true;
+            this.listViewTools.HideSelection = false;
             this.listViewTools.Location = new System.Drawing.Point(12, 12);
+            this.listViewTools.MultiSelect = false;
             this.listViewTools.Name = "listViewTools";
             this.listViewTools.Size = new System.Drawing.Size(238, 648);
             this.listViewTools.TabIndex = 0;
             this.listViewTools.UseCompatibleStateImageBehavior = false;
             this.listViewTools.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "";
-            this.columnHeader1.Width = 40;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Name";
-            this.columnHeader2.Width = 180;
+            this.listViewTools.SelectedToolChanged += new System.EventHandler(this.listViewTools_SelectedToolChanged);
             // 
             // panelBoard
             // 
@@ -64,16 +53,18 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.panelBoard.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelBoard.Cursor = System.Windows.Forms.Cursors.SizeAll;
+            this.panelBoard.DisplayOffset = new System.Drawing.Point(0, 0);
             this.panelBoard.Location = new System.Drawing.Point(256, 12);
             this.panelBoard.Name = "panelBoard";
-            this.panelBoard.Size = new System.Drawing.Size(561, 648);
+            this.panelBoard.Size = new System.Drawing.Size(560, 648);
             this.panelBoard.TabIndex = 1;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(829, 672);
+            this.ClientSize = new System.Drawing.Size(828, 672);
             this.Controls.Add(this.panelBoard);
             this.Controls.Add(this.listViewTools);
             this.Name = "MainForm";
@@ -85,9 +76,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ListView listViewTools;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private Gate.BoardEditorToolBox listViewTools;
         private Gate.BoardEditorPanel panelBoard;
     }
 }

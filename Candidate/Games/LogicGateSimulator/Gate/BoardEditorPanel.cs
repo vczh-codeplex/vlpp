@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
+using System.ComponentModel;
 
 namespace Gate
 {
@@ -66,6 +67,7 @@ namespace Gate
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IBoardEditorCommand CurrentCommand
         {
             get
