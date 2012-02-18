@@ -15,5 +15,14 @@ namespace Gate
         {
             InitializeComponent();
         }
+
+        private void listViewTools_SelectedToolChanged(object sender, EventArgs e)
+        {
+            var tool = listViewTools.SelectedTool;
+            if (tool != null)
+            {
+                panelBoard.CurrentCommand = tool.CreateCommand();
+            }
+        }
     }
 }
