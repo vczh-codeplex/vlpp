@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="BoardComponents\GateBoard.cs" />
     <Compile Include="BoardComponents\GatePainter.cs" />
+    <Compile Include="BoardComponents\LogicCubeGenerator.cs" />
     <Compile Include="BoardComponents\LogicGate.cs" />
     <Compile Include="BoardComponents\LogicInput.cs" />
     <Compile Include="BoardEditorPanel.cs">
@@ -74,6 +75,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ToolIcons.resx</DependentUpon>
     </Compile>
+    <Compile Include="Tools\BoardEditorAddCubeGeneratorTool.cs" />
     <Compile Include="Tools\BoardEditorAddInputTool.cs" />
     <Compile Include="Tools\BoardEditorComponentCommand.cs" />
     <Compile Include="Tools\BoardEditorDragViewTool.cs" />
@@ -117,6 +119,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\OrganizationChartLayoutStandard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WebGoForward.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

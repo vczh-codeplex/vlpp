@@ -143,6 +143,7 @@ namespace Gate
                 AddPredefinedTool(new Tools.BoardEditorAddGateTool(PrimitiveGates.Nor));
                 AddPredefinedTool(new Tools.BoardEditorAddInputTool(true));
                 AddPredefinedTool(new Tools.BoardEditorAddInputTool(false));
+                AddPredefinedTool(new Tools.BoardEditorAddCubeGeneratorTool());
 
                 this.SelectedIndices.Add(0);
             }
