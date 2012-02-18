@@ -134,13 +134,15 @@ namespace Gate
                 AddPredefinedTool(new Tools.BoardEditorSelectObjectTool());
                 AddPredefinedTool(new Tools.BoardEditorWireTool());
 
-                AddPredefinedTool(new Tools.BoardEditorGateTool(PrimitiveGates.And));
-                AddPredefinedTool(new Tools.BoardEditorGateTool(PrimitiveGates.Or));
-                AddPredefinedTool(new Tools.BoardEditorGateTool(PrimitiveGates.Not));
-                AddPredefinedTool(new Tools.BoardEditorGateTool(PrimitiveGates.Xor));
-                AddPredefinedTool(new Tools.BoardEditorGateTool(PrimitiveGates.Xnor));
-                AddPredefinedTool(new Tools.BoardEditorGateTool(PrimitiveGates.Nand));
-                AddPredefinedTool(new Tools.BoardEditorGateTool(PrimitiveGates.Nor));
+                AddPredefinedTool(new Tools.BoardEditorAddGateTool(PrimitiveGates.And));
+                AddPredefinedTool(new Tools.BoardEditorAddGateTool(PrimitiveGates.Or));
+                AddPredefinedTool(new Tools.BoardEditorAddGateTool(PrimitiveGates.Not));
+                AddPredefinedTool(new Tools.BoardEditorAddGateTool(PrimitiveGates.Xor));
+                AddPredefinedTool(new Tools.BoardEditorAddGateTool(PrimitiveGates.Xnor));
+                AddPredefinedTool(new Tools.BoardEditorAddGateTool(PrimitiveGates.Nand));
+                AddPredefinedTool(new Tools.BoardEditorAddGateTool(PrimitiveGates.Nor));
+                AddPredefinedTool(new Tools.BoardEditorAddInputTool(true));
+                AddPredefinedTool(new Tools.BoardEditorAddInputTool(false));
 
                 this.SelectedIndices.Add(0);
             }
