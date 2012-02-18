@@ -5,12 +5,13 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using System.ComponentModel;
+using System.Drawing.Drawing2D;
 
 namespace Gate
 {
     class BoardEditorPanel : Panel
     {
-        private const int GridSize = 15;
+        public const int GridSize = 15;
 
         private Point displayOffset;
         private IBoardEditorCommand currentCommand;
@@ -22,8 +23,6 @@ namespace Gate
             this.MouseDown += new MouseEventHandler(BoardEditorPanel_MouseDown);
             this.MouseUp += new MouseEventHandler(BoardEditorPanel_MouseUp);
             this.MouseMove += new MouseEventHandler(BoardEditorPanel_MouseMove);
-
-            this.CurrentCommand = new BoardEditorDragViewCommand();
         }
 
         #region Event Handlers
@@ -85,12 +84,16 @@ namespace Gate
                 {
                     this.currentCommand.Attach(this);
                 }
+                Refresh();
             }
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
+            e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+            e.Graphics.CompositingQuality = CompositingQuality.HighQuality;
             base.OnPaint(e);
+
             e.Graphics.FillRectangle(Brushes.White, e.Graphics.ClipBounds);
             int startX = (GridSize - this.displayOffset.X % GridSize) % GridSize;
             int startY = (GridSize - this.displayOffset.Y % GridSize) % GridSize;
@@ -107,6 +110,11 @@ namespace Gate
                 int y = startY + i * GridSize;
                 e.Graphics.DrawLine(Pens.LightGray, 0, y, this.ClientSize.Width, y);
             }
+
+            if (this.currentCommand != null)
+            {
+                this.currentCommand.OnPaint(e);
+            }
         }
     }
 
@@ -117,43 +125,6 @@ namespace Gate
         void OnMouseDown(MouseEventArgs e);
         void OnMouseUp(MouseEventArgs e);
         void OnMouseMove(MouseEventArgs e);
-    }
-
-    class BoardEditorDragViewCommand : IBoardEditorCommand
-    {
-        private bool dragging;
-        private Point draggingLocation;
-        private BoardEditorPanel panel;
-
-        public void Attach(BoardEditorPanel panel)
-        {
-            this.panel = panel;
-            this.panel.Cursor = Cursors.SizeAll;
-        }
-
-        public void Detach(BoardEditorPanel panel)
-        {
-            this.panel = null;
-        }
-
-        public void OnMouseDown(MouseEventArgs e)
-        {
-            this.dragging = true;
-            this.draggingLocation = e.Location;
-        }
-
-        public void OnMouseUp(MouseEventArgs e)
-        {
-            this.dragging = false;
-        }
-
-        public void OnMouseMove(MouseEventArgs e)
-        {
-            if (this.dragging)
-            {
-                this.panel.DisplayOffset += new Size(this.draggingLocation) - new Size(e.Location);
-                this.draggingLocation = e.Location;
-            }
-        }
+        void OnPaint(PaintEventArgs e);
     }
 }

@@ -14,6 +14,7 @@ namespace Gate
         public MainForm()
         {
             InitializeComponent();
+            listViewTools.LoadPredefinedTools();
         }
 
         private void listViewTools_SelectedToolChanged(object sender, EventArgs e)

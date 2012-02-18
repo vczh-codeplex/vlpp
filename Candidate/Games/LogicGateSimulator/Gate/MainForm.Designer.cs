@@ -57,14 +57,14 @@
             this.panelBoard.DisplayOffset = new System.Drawing.Point(0, 0);
             this.panelBoard.Location = new System.Drawing.Point(256, 12);
             this.panelBoard.Name = "panelBoard";
-            this.panelBoard.Size = new System.Drawing.Size(560, 648);
+            this.panelBoard.Size = new System.Drawing.Size(564, 648);
             this.panelBoard.TabIndex = 1;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(828, 672);
+            this.ClientSize = new System.Drawing.Size(832, 672);
             this.Controls.Add(this.panelBoard);
             this.Controls.Add(this.listViewTools);
             this.Name = "MainForm";

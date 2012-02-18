@@ -78,13 +78,7 @@ namespace Gate
             this.toolIcons.ColorDepth = ColorDepth.Depth32Bit;
             this.SmallImageList = this.toolIcons;
 
-            if (!this.DesignMode)
-            {
-                this.SelectedIndexChanged += new EventHandler(BoardEditorToolBox_SelectedIndexChanged);
-                AddPredefinedTool(new BoardEditorDragViewTool());
-                AddPredefinedTool(new BoardEditorSelectObjectTool());
-                this.SelectedIndices.Add(0);
-            }
+            this.SelectedIndexChanged += new EventHandler(BoardEditorToolBox_SelectedIndexChanged);
         }
 
         #region Event Handlers
@@ -128,6 +122,26 @@ namespace Gate
                     SelectTool(this.predefinedTools.Count + index);
                     return;
                 }
+            }
+        }
+
+        public void LoadPredefinedTools()
+        {
+            if (this.predefinedTools.Count == 0)
+            {
+                AddPredefinedTool(new Tools.BoardEditorDragViewTool());
+                AddPredefinedTool(new Tools.BoardEditorSelectObjectTool());
+                AddPredefinedTool(new Tools.BoardEditorWireTool());
+
+                AddPredefinedTool(new Tools.BoardEditorGateTool(Tools.PrimitiveGates.And));
+                AddPredefinedTool(new Tools.BoardEditorGateTool(Tools.PrimitiveGates.Or));
+                AddPredefinedTool(new Tools.BoardEditorGateTool(Tools.PrimitiveGates.Not));
+                AddPredefinedTool(new Tools.BoardEditorGateTool(Tools.PrimitiveGates.Xor));
+                AddPredefinedTool(new Tools.BoardEditorGateTool(Tools.PrimitiveGates.Xnor));
+                AddPredefinedTool(new Tools.BoardEditorGateTool(Tools.PrimitiveGates.Nand));
+                AddPredefinedTool(new Tools.BoardEditorGateTool(Tools.PrimitiveGates.Nor));
+
+                this.SelectedIndices.Add(0);
             }
         }
 

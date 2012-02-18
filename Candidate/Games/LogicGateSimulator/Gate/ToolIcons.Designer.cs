@@ -67,6 +67,13 @@ namespace Gate {
             }
         }
         
+        internal static System.Drawing.Bitmap Gate {
+            get {
+                object obj = ResourceManager.GetObject("Gate", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap SelectObjects {
             get {
                 object obj = ResourceManager.GetObject("SelectObjects", resourceCulture);
