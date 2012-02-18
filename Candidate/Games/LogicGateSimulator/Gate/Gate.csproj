@@ -70,6 +70,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ToolIcons.resx</DependentUpon>
     </Compile>
+    <Compile Include="Tools\BoardEditorDragViewTool.cs" />
+    <Compile Include="Tools\BoardEditorGateTool.cs" />
+    <Compile Include="Tools\BoardEditorSelectObjectTool.cs" />
+    <Compile Include="Tools\BoardEditorWireTool.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -104,6 +108,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\DiagramExpandClassic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OrganizationChartLayoutStandard.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
