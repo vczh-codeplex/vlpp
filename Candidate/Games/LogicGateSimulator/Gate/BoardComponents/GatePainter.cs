@@ -232,7 +232,7 @@ namespace Gate.BoardComponents
 
         public static Size GetInputSize(int gridSize)
         {
-            return new Size(gridSize * 4, gridSize * 3);
+            return new Size(gridSize * 5, gridSize * 3);
         }
 
         public static Rectangle GetInputBounds(int gridSize, Point position)
@@ -251,24 +251,52 @@ namespace Gate.BoardComponents
             using (Pen pen = new Pen(alert ? Color.Red : Color.Black, 3))
             using (Brush brush = new SolidBrush(inputValue ? Color.LimeGreen : Color.Red))
             {
-                position -= new SizeF(gridSize * 3 / 2, gridSize * 3 / 2);
-                Rectangle bounds = new Rectangle(new Point((int)position.X, (int)position.Y), new Size((int)gridSize * 2, (int)gridSize * 3));
+                position -= new SizeF(gridSize * 5 / 2, gridSize * 3 / 2);
+                Rectangle bounds = new Rectangle(new Point((int)position.X, (int)position.Y), new Size((int)gridSize * 3, (int)gridSize * 3));
 
                 if (!alert)
                 {
                     g.FillRectangle(brush, bounds);
                     if (inputValue)
                     {
-                        g.DrawLine(pen, position.X + (int)gridSize, position.Y + (int)gridSize, position.X + (int)gridSize, position.Y + (int)gridSize * 2);
+                        g.DrawLine(pen, position.X + (int)(gridSize * 3 / 2), position.Y + (int)gridSize, position.X + (int)(gridSize * 3 / 2), position.Y + (int)gridSize * 2);
                     }
                     else
                     {
-                        g.DrawEllipse(pen, new Rectangle(new Point((int)(position.X + gridSize / 2), (int)(position.Y + gridSize)), new Size((int)gridSize, (int)gridSize)));
+                        g.DrawEllipse(pen, new Rectangle(new Point((int)(position.X + gridSize), (int)(position.Y + gridSize)), new Size((int)gridSize, (int)gridSize)));
                     }
                 }
 
                 g.DrawRectangle(pen, bounds);
-                g.DrawLine(pen, position.X + (int)gridSize * 2, position.Y + (int)(gridSize * 3 / 2), position.X + (int)(gridSize * 7 / 2), position.Y + (int)(gridSize * 3 / 2));
+                g.DrawLine(pen, position.X + (int)gridSize * 3, position.Y + (int)(gridSize * 3 / 2), position.X + (int)(gridSize * 9 / 2), position.Y + (int)(gridSize * 3 / 2));
+            }
+        }
+
+        public static void PaintCubeGenerator(Graphics g, float gridSize, PointF position, bool alert)
+        {
+            using (Pen pen = new Pen(alert ? Color.Red : Color.Black, 3))
+            using (Brush brush = new SolidBrush(Color.Yellow))
+            {
+                position -= new SizeF(gridSize * 5 / 2, gridSize * 3 / 2);
+                Rectangle bounds = new Rectangle(new Point((int)position.X, (int)position.Y), new Size((int)gridSize * 3, (int)gridSize * 3));
+
+                if (!alert)
+                {
+                    g.FillRectangle(brush, bounds);
+                    float x = position.X + gridSize / 2;
+                    float y = position.Y + gridSize;
+
+                    g.DrawLines(pen, new PointF[]
+                    {
+                        new PointF(x, y + gridSize),
+                        new PointF(x + gridSize, y + gridSize),
+                        new PointF(x + gridSize, y),
+                        new PointF(x + gridSize * 2, y),
+                    });
+                }
+
+                g.DrawRectangle(pen, bounds);
+                g.DrawLine(pen, position.X + (int)gridSize * 3, position.Y + (int)(gridSize * 3 / 2), position.X + (int)(gridSize * 9 / 2), position.Y + (int)(gridSize * 3 / 2));
             }
         }
 

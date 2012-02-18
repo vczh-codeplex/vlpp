@@ -7,10 +7,8 @@ using Gate.BoardComponents;
 
 namespace Gate.Tools
 {
-    class BoardEditorAddInputTool : IBoardEditorTool
+    class BoardEditorAddCubeGeneratorTool : IBoardEditorTool
     {
-        private bool inputValue;
-
         public Bitmap Icon
         {
             get
@@ -23,18 +21,17 @@ namespace Gate.Tools
         {
             get
             {
-                return (this.inputValue ? "1" : "0") + " Input";
+                return "Cube Wave Input";
             }
         }
 
-        public BoardEditorAddInputTool(bool inputValue)
+        public BoardEditorAddCubeGeneratorTool()
         {
-            this.inputValue = inputValue;
         }
 
         public IBoardEditorCommand CreateCommand()
         {
-            return new BoardEditorComponentCommand(() => new LogicInput() { InputValue = this.inputValue });
+            return new BoardEditorComponentCommand(() => new LogicCubeGenerator());
         }
     }
 }

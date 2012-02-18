@@ -124,6 +124,9 @@
   <data name="Gate" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\OrganizationChartLayoutStandard.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Input" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\WebGoForward.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="SelectObjects" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\SelectObjects.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

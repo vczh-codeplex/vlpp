@@ -17,6 +17,9 @@ namespace Gate.Tools
             private Point location = new Point(-100, -100);
             private IGateBoardComponent tracingComponent;
 
+            private bool dragging;
+            private Point draggingOffset;
+
             private IGateBoardComponent GetComponent()
             {
                 Point p = this.location + new Size(this.panel.DisplayOffset);
@@ -38,22 +41,51 @@ namespace Gate.Tools
 
             public void OnMouseDown(MouseEventArgs e)
             {
-                this.panel.Board.SelectedComponent = tracingComponent;
-                this.panel.Refresh();
+                if (e.Button == MouseButtons.Left)
+                {
+                    this.panel.Board.SelectedComponent = this.tracingComponent;
+                    if (this.tracingComponent != null)
+                    {
+                        this.panel.Cursor = Cursors.SizeAll;
+                        this.tracingComponent = null;
+                        this.dragging = true;
+                        this.draggingOffset = this.panel.Board.SelectedComponent.Position - new Size(this.location);
+                    }
+                    this.panel.Refresh();
+                }
             }
 
             public void OnMouseUp(MouseEventArgs e)
             {
+                if (e.Button == MouseButtons.Left)
+                {
+                    this.dragging = false;
+                    this.panel.Cursor = Cursors.Cross;
+                }
             }
 
             public void OnMouseMove(MouseEventArgs e)
             {
                 this.location = e.Location;
-                var component = GetComponent();
-                if (this.tracingComponent != component)
+                if (this.dragging)
                 {
-                    this.tracingComponent = GetComponent();
+                    Point p = this.location + new Size(this.draggingOffset);
+                    Point d = p - new Size(this.panel.Board.SelectedComponent.Position);
+                    d.X = d.X % BoardEditorPanel.GridSize;
+                    d.Y = d.Y % BoardEditorPanel.GridSize;
+                    p -= new Size(d);
+
+                    this.panel.Board.SelectedComponent.Position = p;
                     this.panel.Refresh();
+                }
+                else
+                {
+                    var component = GetComponent();
+                    if (this.tracingComponent != component)
+                    {
+                        this.tracingComponent = GetComponent();
+                        this.panel.Refresh();
+                    }
                 }
             }
 
