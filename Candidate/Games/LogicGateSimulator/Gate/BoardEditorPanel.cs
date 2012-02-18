@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.ComponentModel;
 using System.Drawing.Drawing2D;
+using Gate.BoardComponents;
 
 namespace Gate
 {
@@ -15,6 +16,7 @@ namespace Gate
 
         private Point displayOffset;
         private IBoardEditorCommand currentCommand;
+        private GateBoard board = new GateBoard();
 
         public BoardEditorPanel()
         {
@@ -51,43 +53,6 @@ namespace Gate
             }
         }
 
-        #endregion
-
-        public Point DisplayOffset
-        {
-            get
-            {
-                return this.displayOffset;
-            }
-            set
-            {
-                this.displayOffset = value;
-                Refresh();
-            }
-        }
-
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IBoardEditorCommand CurrentCommand
-        {
-            get
-            {
-                return this.currentCommand;
-            }
-            set
-            {
-                if (this.currentCommand != null)
-                {
-                    this.currentCommand.Detach(this);
-                }
-                this.currentCommand = value;
-                if (this.currentCommand != null)
-                {
-                    this.currentCommand.Attach(this);
-                }
-                Refresh();
-            }
-        }
-
         protected override void OnPaint(PaintEventArgs e)
         {
             e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
@@ -111,9 +76,57 @@ namespace Gate
                 e.Graphics.DrawLine(Pens.LightGray, 0, y, this.ClientSize.Width, y);
             }
 
+            this.board.Paint(e.Graphics, new Point(-this.displayOffset.X, -this.displayOffset.Y));
             if (this.currentCommand != null)
             {
                 this.currentCommand.OnPaint(e);
+            }
+        }
+
+        #endregion
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public Point DisplayOffset
+        {
+            get
+            {
+                return this.displayOffset;
+            }
+            set
+            {
+                this.displayOffset = value;
+                Refresh();
+            }
+        }
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public GateBoard Board
+        {
+            get
+            {
+                return this.board;
+            }
+        }
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public IBoardEditorCommand CurrentCommand
+        {
+            get
+            {
+                return this.currentCommand;
+            }
+            set
+            {
+                if (this.currentCommand != null)
+                {
+                    this.currentCommand.Detach(this);
+                }
+                this.currentCommand = value;
+                if (this.currentCommand != null)
+                {
+                    this.currentCommand.Attach(this);
+                }
+                Refresh();
             }
         }
     }

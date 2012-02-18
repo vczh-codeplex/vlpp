@@ -54,7 +54,6 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.panelBoard.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelBoard.Cursor = System.Windows.Forms.Cursors.SizeAll;
-            this.panelBoard.DisplayOffset = new System.Drawing.Point(0, 0);
             this.panelBoard.Location = new System.Drawing.Point(256, 12);
             this.panelBoard.Name = "panelBoard";
             this.panelBoard.Size = new System.Drawing.Size(564, 648);

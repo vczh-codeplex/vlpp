@@ -50,6 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoardComponents\GateBoard.cs" />
+    <Compile Include="BoardComponents\GatePainter.cs" />
+    <Compile Include="BoardComponents\LogicGate.cs" />
     <Compile Include="BoardEditorPanel.cs">
       <SubType>Component</SubType>
     </Compile>
