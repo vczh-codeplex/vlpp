@@ -53,6 +53,7 @@
     <Compile Include="BoardComponents\GateBoard.cs" />
     <Compile Include="BoardComponents\GatePainter.cs" />
     <Compile Include="BoardComponents\LogicGate.cs" />
+    <Compile Include="BoardComponents\LogicInput.cs" />
     <Compile Include="BoardEditorPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -73,8 +74,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ToolIcons.resx</DependentUpon>
     </Compile>
+    <Compile Include="Tools\BoardEditorAddInputTool.cs" />
+    <Compile Include="Tools\BoardEditorComponentCommand.cs" />
     <Compile Include="Tools\BoardEditorDragViewTool.cs" />
-    <Compile Include="Tools\BoardEditorGateTool.cs" />
+    <Compile Include="Tools\BoardEditorAddGateTool.cs" />
     <Compile Include="Tools\BoardEditorSelectObjectTool.cs" />
     <Compile Include="Tools\BoardEditorWireTool.cs" />
     <EmbeddedResource Include="MainForm.resx">

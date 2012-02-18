@@ -48,10 +48,10 @@ namespace Gate.BoardComponents
             }
         }
 
-        public void Paint(Graphics g, Point offset)
+        public void Paint(Graphics g, Point offset, bool alert)
         {
             Point p = this.Position + new Size(offset);
-            GatePainter.PaintGate(g, BoardEditorPanel.GridSize, p, this.GateType, false);
+            GatePainter.PaintGate(g, BoardEditorPanel.GridSize, p, this.GateType, alert);
         }
     }
 }

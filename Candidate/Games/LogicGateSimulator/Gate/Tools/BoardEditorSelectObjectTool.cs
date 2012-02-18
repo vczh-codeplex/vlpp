@@ -80,7 +80,7 @@ namespace Gate.Tools
         {
             get
             {
-                return "Select Objects";
+                return "Select Object";
             }
         }
 

@@ -77,7 +77,7 @@ namespace Gate.BoardComponents
         {
             foreach (var component in this.components)
             {
-                component.Paint(g, offset);
+                component.Paint(g, offset, false);
             }
             if (this.selectedComponent != null)
             {
@@ -95,6 +95,6 @@ namespace Gate.BoardComponents
         Point[] Outputs { get; }
         Rectangle Bounds { get; }
 
-        void Paint(Graphics g, Point offset);
+        void Paint(Graphics g, Point offset, bool alert);
     }
 }

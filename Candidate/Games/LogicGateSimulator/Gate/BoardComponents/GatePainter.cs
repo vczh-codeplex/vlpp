@@ -19,6 +19,8 @@ namespace Gate.BoardComponents
 
     static class GatePainter
     {
+        #region Gate Internals
+
         private static void PaintOutputInternal(Graphics g, Pen pen, float gridSize, PointF position, float length, bool reverseOutput)
         {
             if (reverseOutput)
@@ -161,6 +163,10 @@ namespace Gate.BoardComponents
             PaintOutput(g, pen, size, gridSize, position, true);
         }
 
+        #endregion
+
+        #region Gate APIs
+
         public static Size GetGateSize(int gridSize)
         {
             return new Size(gridSize * 7, gridSize * 3);
@@ -219,5 +225,53 @@ namespace Gate.BoardComponents
                 }
             }
         }
+
+        #endregion
+
+        #region Input APIs
+
+        public static Size GetInputSize(int gridSize)
+        {
+            return new Size(gridSize * 4, gridSize * 3);
+        }
+
+        public static Rectangle GetInputBounds(int gridSize, Point position)
+        {
+            Size size = GetInputSize(BoardEditorPanel.GridSize);
+            return new Rectangle(new Point(position.X - size.Width / 2, position.Y - size.Height / 2), size);
+        }
+
+        public static void GetInputOutput(int gridSize, Point position, out Point o)
+        {
+            o = new Point(position.X + gridSize * 2, position.Y);
+        }
+
+        public static void PaintInput(Graphics g, float gridSize, PointF position, bool inputValue, bool alert)
+        {
+            using (Pen pen = new Pen(alert ? Color.Red : Color.Black, 3))
+            using (Brush brush = new SolidBrush(inputValue ? Color.LimeGreen : Color.Red))
+            {
+                position -= new SizeF(gridSize * 3 / 2, gridSize * 3 / 2);
+                Rectangle bounds = new Rectangle(new Point((int)position.X, (int)position.Y), new Size((int)gridSize * 2, (int)gridSize * 3));
+
+                if (!alert)
+                {
+                    g.FillRectangle(brush, bounds);
+                    if (inputValue)
+                    {
+                        g.DrawLine(pen, position.X + (int)gridSize, position.Y + (int)gridSize, position.X + (int)gridSize, position.Y + (int)gridSize * 2);
+                    }
+                    else
+                    {
+                        g.DrawEllipse(pen, new Rectangle(new Point((int)(position.X + gridSize / 2), (int)(position.Y + gridSize)), new Size((int)gridSize, (int)gridSize)));
+                    }
+                }
+
+                g.DrawRectangle(pen, bounds);
+                g.DrawLine(pen, position.X + (int)gridSize * 2, position.Y + (int)(gridSize * 3 / 2), position.X + (int)(gridSize * 7 / 2), position.Y + (int)(gridSize * 3 / 2));
+            }
+        }
+
+        #endregion
     }
 }
