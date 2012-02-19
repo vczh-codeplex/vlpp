@@ -301,5 +301,39 @@ namespace Gate.BoardComponents
         }
 
         #endregion
+
+        #region WireNode Apis
+
+        public static Size GetWireNodeSize(int gridSize)
+        {
+            return new Size(gridSize , gridSize );
+        }
+
+        public static Rectangle GetWireNodeBounds(int gridSize, Point position)
+        {
+            Size size = GetWireNodeSize(BoardEditorPanel.GridSize);
+            return new Rectangle(new Point(position.X - size.Width / 2, position.Y - size.Height / 2), size);
+        }
+
+        public static void GetWireNodeInput(int gridSize, Point position, out Point o)
+        {
+            o = position;
+        }
+
+        public static void GetWireNodeOutput(int gridSize, Point position, out Point o)
+        {
+            o = position;
+        }
+
+        public static void PaintWireNode(Graphics g, float gridSize, PointF position, bool alert)
+        {
+            using (Brush brush = new SolidBrush(alert ? Color.Red : Color.Black))
+            {
+                float r = gridSize / 4;
+                g.FillEllipse(brush, new RectangleF(position - new SizeF(r, r), new SizeF(r * 2, r * 2)));
+            }
+        }
+
+        #endregion
     }
 }

@@ -8,8 +8,13 @@ namespace Gate.BoardComponents
 {
     class LogicGate : IGateBoardComponent
     {
-        public PrimitiveGates GateType { get; set; }
+        public PrimitiveGates GateType { get; private set; }
         public Point Position { get; set; }
+
+        public LogicGate(PrimitiveGates gateType)
+        {
+            this.GateType = gateType;
+        }
 
         public Point[] Inputs
         {

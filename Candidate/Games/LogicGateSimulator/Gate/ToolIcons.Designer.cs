@@ -94,5 +94,12 @@ namespace Gate {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        internal static System.Drawing.Bitmap WireNode {
+            get {
+                object obj = ResourceManager.GetObject("WireNode", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
