@@ -12,8 +12,8 @@ namespace Gate.Tools
     {
         private Point location = new Point(-100, -100);
         private BoardEditorPanel panel;
-        private IGateBoardComponent placingComponent;
-        private Func<IGateBoardComponent> componentBuilder;
+        private GateBoardComponent placingComponent;
+        private Func<GateBoardComponent> componentBuilder;
 
         private Point GetGatePosition()
         {
@@ -26,7 +26,7 @@ namespace Gate.Tools
             return new Point((int)fp.X, (int)fp.Y);
         }
 
-        public BoardEditorComponentCommand(Func<IGateBoardComponent> componentBuilder)
+        public BoardEditorComponentCommand(Func<GateBoardComponent> componentBuilder)
         {
             this.componentBuilder = componentBuilder;
         }
