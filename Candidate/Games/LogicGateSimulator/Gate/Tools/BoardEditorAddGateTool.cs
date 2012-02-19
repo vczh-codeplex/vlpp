@@ -35,7 +35,7 @@ namespace Gate.Tools
 
         public IBoardEditorCommand CreateCommand()
         {
-            return new BoardEditorComponentCommand(() => new LogicGate() { GateType = this.gate });
+            return new BoardEditorComponentCommand(() => new LogicGate(this.gate));
         }
     }
 }

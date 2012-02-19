@@ -55,6 +55,7 @@
     <Compile Include="BoardComponents\LogicCubeGenerator.cs" />
     <Compile Include="BoardComponents\LogicGate.cs" />
     <Compile Include="BoardComponents\LogicInput.cs" />
+    <Compile Include="BoardComponents\LogicWireNode.cs" />
     <Compile Include="BoardEditorPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -77,6 +78,7 @@
     </Compile>
     <Compile Include="Tools\BoardEditorAddCubeGeneratorTool.cs" />
     <Compile Include="Tools\BoardEditorAddInputTool.cs" />
+    <Compile Include="Tools\BoardEditorAddWireNodeTool.cs" />
     <Compile Include="Tools\BoardEditorComponentCommand.cs" />
     <Compile Include="Tools\BoardEditorDragViewTool.cs" />
     <Compile Include="Tools\BoardEditorAddGateTool.cs" />
@@ -122,6 +124,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\WebGoForward.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SelectCurrentRegion.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

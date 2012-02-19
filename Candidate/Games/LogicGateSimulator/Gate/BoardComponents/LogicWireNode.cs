@@ -6,21 +6,17 @@ using System.Drawing;
 
 namespace Gate.BoardComponents
 {
-    class LogicInput : IGateBoardComponent
+    class LogicWireNode : IGateBoardComponent
     {
-        public bool InputValue { get; private set; }
         public Point Position { get; set; }
-
-        public LogicInput(bool inputValue)
-        {
-            this.InputValue = inputValue;
-        }
 
         public Point[] Inputs
         {
             get
             {
-                return new Point[0];
+                Point i;
+                GatePainter.GetWireNodeInput(BoardEditorPanel.GridSize, this.Position, out i);
+                return new Point[] { i };
             }
         }
 
@@ -29,7 +25,7 @@ namespace Gate.BoardComponents
             get
             {
                 Point o;
-                GatePainter.GetInputOutput(BoardEditorPanel.GridSize, this.Position, out o);
+                GatePainter.GetWireNodeOutput(BoardEditorPanel.GridSize, this.Position, out o);
                 return new Point[] { o };
             }
         }
@@ -38,14 +34,14 @@ namespace Gate.BoardComponents
         {
             get
             {
-                return GatePainter.GetInputBounds(BoardEditorPanel.GridSize, this.Position);
+                return GatePainter.GetWireNodeBounds(BoardEditorPanel.GridSize, this.Position);
             }
         }
 
         public void Paint(Graphics g, Point offset, bool alert)
         {
             Point p = this.Position + new Size(offset);
-            GatePainter.PaintInput(g, BoardEditorPanel.GridSize, p, this.InputValue, alert);
+            GatePainter.PaintWireNode(g, BoardEditorPanel.GridSize, p, alert);
         }
     }
 }

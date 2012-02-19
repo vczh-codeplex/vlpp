@@ -7,15 +7,13 @@ using Gate.BoardComponents;
 
 namespace Gate.Tools
 {
-    class BoardEditorAddInputTool : IBoardEditorTool
+    class BoardEditorAddWireNodeTool : IBoardEditorTool
     {
-        private bool inputValue;
-
         public Bitmap Icon
         {
             get
             {
-                return ToolIcons.Input;
+                return ToolIcons.WireNode;
             }
         }
 
@@ -23,18 +21,17 @@ namespace Gate.Tools
         {
             get
             {
-                return (this.inputValue ? "1" : "0") + " Input";
+                return "Wire Node";
             }
         }
 
-        public BoardEditorAddInputTool(bool inputValue)
+        public BoardEditorAddWireNodeTool()
         {
-            this.inputValue = inputValue;
         }
 
         public IBoardEditorCommand CreateCommand()
         {
-            return new BoardEditorComponentCommand(() => new LogicInput(this.inputValue));
+            return new BoardEditorComponentCommand(() => new LogicWireNode());
         }
     }
 }

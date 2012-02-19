@@ -132,6 +132,7 @@ namespace Gate
             {
                 AddPredefinedTool(new Tools.BoardEditorDragViewTool());
                 AddPredefinedTool(new Tools.BoardEditorSelectObjectTool());
+                AddPredefinedTool(new Tools.BoardEditorAddWireNodeTool());
                 AddPredefinedTool(new Tools.BoardEditorWireTool());
 
                 AddPredefinedTool(new Tools.BoardEditorAddGateTool(PrimitiveGates.And));
@@ -141,6 +142,7 @@ namespace Gate
                 AddPredefinedTool(new Tools.BoardEditorAddGateTool(PrimitiveGates.Xnor));
                 AddPredefinedTool(new Tools.BoardEditorAddGateTool(PrimitiveGates.Nand));
                 AddPredefinedTool(new Tools.BoardEditorAddGateTool(PrimitiveGates.Nor));
+
                 AddPredefinedTool(new Tools.BoardEditorAddInputTool(true));
                 AddPredefinedTool(new Tools.BoardEditorAddInputTool(false));
                 AddPredefinedTool(new Tools.BoardEditorAddCubeGeneratorTool());
