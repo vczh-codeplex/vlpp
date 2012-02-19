@@ -9,14 +9,14 @@ namespace Gate.BoardComponents
 {
     class GateBoard
     {
-        private List<IGateBoardComponent> components = new List<IGateBoardComponent>();
-        private IGateBoardComponent selectedComponent;
+        private List<GateBoardComponent> components = new List<GateBoardComponent>();
+        private GateBoardComponent selectedComponent;
 
         public GateBoard()
         {
         }
 
-        public IGateBoardComponent SelectedComponent
+        public GateBoardComponent SelectedComponent
         {
             get
             {
@@ -35,13 +35,13 @@ namespace Gate.BoardComponents
             }
         }
 
-        public void AddComponent(IGateBoardComponent component)
+        public void AddComponent(GateBoardComponent component)
         {
             this.components.Add(component);
             this.selectedComponent = null;
         }
 
-        public void RemoveComponent(IGateBoardComponent component)
+        public void RemoveComponent(GateBoardComponent component)
         {
             this.components.Remove(component);
             this.selectedComponent = null;
@@ -58,7 +58,7 @@ namespace Gate.BoardComponents
             return this.components.Any(c => c.Bounds.IntersectsWith(bounds));
         }
 
-        public IGateBoardComponent GetComponent(Point position)
+        public GateBoardComponent GetComponent(Point position)
         {
             return this.components.Where(c => c.Bounds.Contains(position)).FirstOrDefault();
         }
@@ -77,6 +77,20 @@ namespace Gate.BoardComponents
         {
             foreach (var component in this.components)
             {
+                Point[] inputs = component.Inputs;
+                for (int i = 0; i < inputs.Length; i++)
+                {
+                    var input = component.GetInputAccess(i);
+                    if (input != null)
+                    {
+                        Point ip = inputs[i] + new Size(offset);
+                        Point op = input.Component.Outputs[input.PortIndex] + new Size(offset);
+                        g.DrawLine(Pens.Purple, ip, op);
+                    }
+                }
+            }
+            foreach (var component in this.components)
+            {
                 component.Paint(g, offset, false);
             }
             if (this.selectedComponent != null)
@@ -88,13 +102,102 @@ namespace Gate.BoardComponents
         }
     }
 
-    interface IGateBoardComponent
+    class GateBoardAccess
     {
-        Point Position { get; set; }
-        Point[] Inputs { get; }
-        Point[] Outputs { get; }
-        Rectangle Bounds { get; }
+        public GateBoardComponent Component { get; set; }
+        public int PortIndex { get; set; }
+    }
 
-        void Paint(Graphics g, Point offset, bool alert);
+    abstract class GateBoardComponent
+    {
+        private Dictionary<int, GateBoardAccess> inputAccesses = new Dictionary<int, GateBoardAccess>();
+        private Dictionary<int, List<GateBoardAccess>> outputAccesses = new Dictionary<int, List<GateBoardAccess>>();
+
+        public Point Position { get; set; }
+
+        public abstract Point[] Inputs { get; }
+        public abstract Point[] Outputs { get; }
+        public abstract Rectangle Bounds { get; }
+        public abstract void Paint(Graphics g, Point offset, bool alert);
+
+        public GateBoardAccess GetInputAccess(int portIndex)
+        {
+            GateBoardAccess access = null;
+            if (this.inputAccesses.TryGetValue(portIndex, out access))
+            {
+                return access;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public GateBoardAccess[] GetOutputAccess(int portIndex)
+        {
+            List<GateBoardAccess> accesses = null;
+            if (this.outputAccesses.TryGetValue(portIndex, out accesses))
+            {
+                return accesses.ToArray();
+            }
+            else
+            {
+                return new GateBoardAccess[0];
+            }
+        }
+
+        public bool SetInputAccess(int portIndex, GateBoardComponent component, int outputPortIndex)
+        {
+            if (this.inputAccesses.ContainsKey(portIndex))
+            {
+                return false;
+            }
+            else
+            {
+                GateBoardAccess input = new GateBoardAccess
+                {
+                    Component = component,
+                    PortIndex = outputPortIndex,
+                };
+                GateBoardAccess output = new GateBoardAccess
+                {
+                    Component = this,
+                    PortIndex = portIndex,
+                };
+                this.inputAccesses.Add(portIndex, input);
+
+                List<GateBoardAccess> outputs = null;
+                if (!component.outputAccesses.TryGetValue(outputPortIndex, out outputs))
+                {
+                    outputs = new List<GateBoardAccess>();
+                    component.outputAccesses.Add(outputPortIndex, outputs);
+                }
+                outputs.Add(output);
+                return true;
+            }
+        }
+
+        public void ResetInputAccess(int portIndex)
+        {
+            GateBoardAccess input = null;
+            if (this.inputAccesses.TryGetValue(portIndex, out input))
+            {
+                List<GateBoardAccess> outputs = input.Component.outputAccesses[input.PortIndex];
+                this.inputAccesses.Remove(portIndex);
+                outputs.Remove(outputs.Where(o => o.Component == this && o.PortIndex == portIndex).First());
+                if (outputs.Count == 0)
+                {
+                    input.Component.outputAccesses.Remove(input.PortIndex);
+                }
+            }
+        }
+
+        public void ClearInputAccess()
+        {
+            foreach (int i in this.inputAccesses.Keys.ToArray())
+            {
+                ResetInputAccess(i);
+            }
+        }
     }
 }

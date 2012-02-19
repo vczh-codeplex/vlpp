@@ -15,12 +15,12 @@ namespace Gate.Tools
         {
             private BoardEditorPanel panel;
             private Point location = new Point(-100, -100);
-            private IGateBoardComponent tracingComponent;
+            private GateBoardComponent tracingComponent;
 
             private bool dragging;
             private Point draggingOffset;
 
-            private IGateBoardComponent GetComponent()
+            private GateBoardComponent GetComponent()
             {
                 Point p = this.location + new Size(this.panel.DisplayOffset);
                 return this.panel.Board.GetComponent(p);

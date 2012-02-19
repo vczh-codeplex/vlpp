@@ -6,17 +6,16 @@ using System.Drawing;
 
 namespace Gate.BoardComponents
 {
-    class LogicInput : IGateBoardComponent
+    class LogicInput : GateBoardComponent
     {
         public bool InputValue { get; private set; }
-        public Point Position { get; set; }
 
         public LogicInput(bool inputValue)
         {
             this.InputValue = inputValue;
         }
 
-        public Point[] Inputs
+        public override Point[] Inputs
         {
             get
             {
@@ -24,7 +23,7 @@ namespace Gate.BoardComponents
             }
         }
 
-        public Point[] Outputs
+        public override Point[] Outputs
         {
             get
             {
@@ -34,7 +33,7 @@ namespace Gate.BoardComponents
             }
         }
 
-        public Rectangle Bounds
+        public override Rectangle Bounds
         {
             get
             {
@@ -42,7 +41,7 @@ namespace Gate.BoardComponents
             }
         }
 
-        public void Paint(Graphics g, Point offset, bool alert)
+        public override void Paint(Graphics g, Point offset, bool alert)
         {
             Point p = this.Position + new Size(offset);
             GatePainter.PaintInput(g, BoardEditorPanel.GridSize, p, this.InputValue, alert);

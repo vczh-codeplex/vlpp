@@ -6,11 +6,9 @@ using System.Drawing;
 
 namespace Gate.BoardComponents
 {
-    class LogicWireNode : IGateBoardComponent
+    class LogicWireNode : GateBoardComponent
     {
-        public Point Position { get; set; }
-
-        public Point[] Inputs
+        public override Point[] Inputs
         {
             get
             {
@@ -20,7 +18,7 @@ namespace Gate.BoardComponents
             }
         }
 
-        public Point[] Outputs
+        public override Point[] Outputs
         {
             get
             {
@@ -30,7 +28,7 @@ namespace Gate.BoardComponents
             }
         }
 
-        public Rectangle Bounds
+        public override Rectangle Bounds
         {
             get
             {
@@ -38,7 +36,7 @@ namespace Gate.BoardComponents
             }
         }
 
-        public void Paint(Graphics g, Point offset, bool alert)
+        public override void Paint(Graphics g, Point offset, bool alert)
         {
             Point p = this.Position + new Size(offset);
             GatePainter.PaintWireNode(g, BoardEditorPanel.GridSize, p, alert);
