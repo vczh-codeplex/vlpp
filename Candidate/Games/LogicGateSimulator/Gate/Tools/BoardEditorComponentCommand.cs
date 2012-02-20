@@ -70,6 +70,18 @@ namespace Gate.Tools
             this.panel.Refresh();
         }
 
+        public void OnKeyDown(KeyEventArgs e)
+        {
+        }
+
+        public void OnKeyPress(KeyPressEventArgs e)
+        {
+        }
+
+        public void OnKeyUp(KeyEventArgs e)
+        {
+        }
+
         public void OnPaint(PaintEventArgs e)
         {
             if (this.placingComponent != null)

@@ -21,35 +21,61 @@ namespace Gate
         public BoardEditorPanel()
         {
             this.DoubleBuffered = true;
-
-            this.MouseDown += new MouseEventHandler(BoardEditorPanel_MouseDown);
-            this.MouseUp += new MouseEventHandler(BoardEditorPanel_MouseUp);
-            this.MouseMove += new MouseEventHandler(BoardEditorPanel_MouseMove);
         }
 
         #region Event Handlers
 
-        private void BoardEditorPanel_MouseDown(object sender, MouseEventArgs e)
+        protected override void OnMouseDown(MouseEventArgs e)
         {
+            base.OnMouseDown(e);
             if (this.currentCommand != null)
             {
                 this.currentCommand.OnMouseDown(e);
             }
         }
 
-        private void BoardEditorPanel_MouseUp(object sender, MouseEventArgs e)
+        protected override void OnMouseUp(MouseEventArgs e)
         {
+            base.OnMouseUp(e);
             if (this.currentCommand != null)
             {
                 this.currentCommand.OnMouseUp(e);
             }
         }
 
-        private void BoardEditorPanel_MouseMove(object sender, MouseEventArgs e)
+        protected override void OnMouseMove(MouseEventArgs e)
         {
+            base.OnMouseMove(e);
             if (this.currentCommand != null)
             {
                 this.currentCommand.OnMouseMove(e);
+            }
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            if (this.currentCommand != null)
+            {
+                this.currentCommand.OnKeyDown(e);
+            }
+        }
+
+        protected override void OnKeyPress(KeyPressEventArgs e)
+        {
+            base.OnKeyPress(e);
+            if (this.currentCommand != null)
+            {
+                this.currentCommand.OnKeyPress(e);
+            }
+        }
+
+        protected override void OnKeyUp(KeyEventArgs e)
+        {
+            base.OnKeyUp(e);
+            if (this.currentCommand != null)
+            {
+                this.currentCommand.OnKeyUp(e);
             }
         }
 
@@ -138,6 +164,9 @@ namespace Gate
         void OnMouseDown(MouseEventArgs e);
         void OnMouseUp(MouseEventArgs e);
         void OnMouseMove(MouseEventArgs e);
+        void OnKeyDown(KeyEventArgs e);
+        void OnKeyPress(KeyPressEventArgs e);
+        void OnKeyUp(KeyEventArgs e);
         void OnPaint(PaintEventArgs e);
     }
 }

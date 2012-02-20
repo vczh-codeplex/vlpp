@@ -41,6 +41,7 @@ namespace Gate.Tools
 
             public void OnMouseDown(MouseEventArgs e)
             {
+                this.panel.Focus();
                 if (e.Button == MouseButtons.Left)
                 {
                     this.panel.Board.SelectedComponent = this.tracingComponent;
@@ -87,6 +88,25 @@ namespace Gate.Tools
                         this.panel.Refresh();
                     }
                 }
+            }
+
+            public void OnKeyDown(KeyEventArgs e)
+            {
+                var component = this.panel.Board.SelectedComponent;
+                if (component != null)
+                {
+                    component.ClearAccess();
+                    this.panel.Board.RemoveComponent(component);
+                    this.panel.Refresh();
+                }
+            }
+
+            public void OnKeyPress(KeyPressEventArgs e)
+            {
+            }
+
+            public void OnKeyUp(KeyEventArgs e)
+            {
             }
 
             public void OnPaint(PaintEventArgs e)
