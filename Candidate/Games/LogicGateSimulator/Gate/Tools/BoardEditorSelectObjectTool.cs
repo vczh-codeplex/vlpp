@@ -96,6 +96,7 @@ namespace Gate.Tools
                 if (component != null)
                 {
                     component.ClearAccess();
+                    this.tracingComponent = null;
                     this.panel.Board.RemoveComponent(component);
                     this.panel.Refresh();
                 }
