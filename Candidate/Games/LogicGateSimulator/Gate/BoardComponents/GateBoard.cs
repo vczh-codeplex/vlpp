@@ -199,5 +199,22 @@ namespace Gate.BoardComponents
                 ResetInputAccess(i);
             }
         }
+
+        public void ClearOutputAccess()
+        {
+            foreach (int i in this.outputAccesses.Keys.ToArray())
+            {
+                foreach (var access in this.outputAccesses[i].ToArray())
+                {
+                    access.Component.ResetInputAccess(access.PortIndex);
+                }
+            }
+        }
+
+        public void ClearAccess()
+        {
+            ClearInputAccess();
+            ClearOutputAccess();
+        }
     }
 }
