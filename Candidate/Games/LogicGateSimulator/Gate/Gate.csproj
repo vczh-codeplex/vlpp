@@ -52,6 +52,8 @@
   <ItemGroup>
     <Compile Include="BoardComponents\GateBoard.cs" />
     <Compile Include="BoardComponents\GatePainter.cs" />
+    <Compile Include="BoardComponents\LogicChipInput.cs" />
+    <Compile Include="BoardComponents\LogicChipOutput.cs" />
     <Compile Include="BoardComponents\LogicCubeGenerator.cs" />
     <Compile Include="BoardComponents\LogicGate.cs" />
     <Compile Include="BoardComponents\LogicInput.cs" />
@@ -76,6 +78,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ToolIcons.resx</DependentUpon>
     </Compile>
+    <Compile Include="Tools\BoardEditorAddChipInputTool.cs" />
+    <Compile Include="Tools\BoardEditorAddChipOutputTool.cs" />
     <Compile Include="Tools\BoardEditorAddCubeGeneratorTool.cs" />
     <Compile Include="Tools\BoardEditorAddInputTool.cs" />
     <Compile Include="Tools\BoardEditorAddWireNodeTool.cs" />

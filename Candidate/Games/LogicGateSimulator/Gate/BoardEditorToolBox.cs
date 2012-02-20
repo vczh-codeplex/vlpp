@@ -146,6 +146,8 @@ namespace Gate
                 AddPredefinedTool(new Tools.BoardEditorAddInputTool(true));
                 AddPredefinedTool(new Tools.BoardEditorAddInputTool(false));
                 AddPredefinedTool(new Tools.BoardEditorAddCubeGeneratorTool());
+                AddPredefinedTool(new Tools.BoardEditorAddChipInputTool());
+                AddPredefinedTool(new Tools.BoardEditorAddChipOutputTool());
 
                 this.SelectedIndices.Add(0);
             }

@@ -228,7 +228,7 @@ namespace Gate.BoardComponents
 
         #endregion
 
-        #region Input APIs
+        #region Input(Input, ChipInput, CubeGenerator) APIs
 
         public static Size GetInputSize(int gridSize)
         {
@@ -300,13 +300,69 @@ namespace Gate.BoardComponents
             }
         }
 
+        public static void PaintChipInput(Graphics g, float gridSize, PointF position, bool alert)
+        {
+            using (Pen pen = new Pen(alert ? Color.Red : Color.Black, 3))
+            using (Brush brush = new SolidBrush(Color.LightYellow))
+            {
+                position -= new SizeF(gridSize * 5 / 2, gridSize * 3 / 2);
+                Rectangle bounds = new Rectangle(new Point((int)position.X, (int)position.Y), new Size((int)gridSize * 3, (int)gridSize * 3));
+
+                if (!alert)
+                {
+                    g.FillRectangle(brush, bounds);
+                }
+
+                g.DrawRectangle(pen, bounds);
+                g.DrawLine(pen, position.X + (int)gridSize * 3, position.Y + (int)(gridSize * 3 / 2), position.X + (int)(gridSize * 9 / 2), position.Y + (int)(gridSize * 3 / 2));
+            }
+        }
+
+        #endregion
+
+        #region Output(ChipOutput) APIs
+
+        public static Size GetOutputSize(int gridSize)
+        {
+            return new Size(gridSize * 5, gridSize * 3);
+        }
+
+        public static Rectangle GetOutputBounds(int gridSize, Point position)
+        {
+            Size size = GetInputSize(BoardEditorPanel.GridSize);
+            return new Rectangle(new Point(position.X - size.Width / 2, position.Y - size.Height / 2), size);
+        }
+
+        public static void GetOutputInput(int gridSize, Point position, out Point o)
+        {
+            o = new Point(position.X - gridSize * 2, position.Y);
+        }
+
+        public static void PaintChipOutput(Graphics g, float gridSize, PointF position, bool alert)
+        {
+            using (Pen pen = new Pen(alert ? Color.Red : Color.Black, 3))
+            using (Brush brush = new SolidBrush(Color.LightYellow))
+            {
+                position -= new SizeF(gridSize / 2, gridSize * 3 / 2);
+                Rectangle bounds = new Rectangle(new Point((int)position.X, (int)position.Y), new Size((int)gridSize * 3, (int)gridSize * 3));
+
+                if (!alert)
+                {
+                    g.FillRectangle(brush, bounds);
+                }
+
+                g.DrawRectangle(pen, bounds);
+                g.DrawLine(pen, position.X - (int)gridSize * 3 / 2, position.Y + (int)(gridSize * 3 / 2), position.X, position.Y + (int)(gridSize * 3 / 2));
+            }
+        }
+
         #endregion
 
         #region WireNode Apis
 
         public static Size GetWireNodeSize(int gridSize)
         {
-            return new Size(gridSize , gridSize );
+            return new Size(gridSize, gridSize);
         }
 
         public static Rectangle GetWireNodeBounds(int gridSize, Point position)
