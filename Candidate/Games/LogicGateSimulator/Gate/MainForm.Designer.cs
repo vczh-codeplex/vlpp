@@ -66,6 +66,7 @@
             this.ClientSize = new System.Drawing.Size(832, 672);
             this.Controls.Add(this.panelBoard);
             this.Controls.Add(this.listViewTools);
+            this.MinimumSize = new System.Drawing.Size(600, 600);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Vczh Gate Simulator";
