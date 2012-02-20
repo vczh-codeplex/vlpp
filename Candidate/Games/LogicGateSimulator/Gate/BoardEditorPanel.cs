@@ -28,6 +28,7 @@ namespace Gate
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
+            Focus();
             if (this.currentCommand != null)
             {
                 this.currentCommand.OnMouseDown(e);

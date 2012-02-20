@@ -101,6 +101,12 @@ namespace Gate.Tools
 
             public void OnKeyDown(KeyEventArgs e)
             {
+                if (e.KeyCode == Keys.Escape)
+                {
+                    this.selectedOutput = null;
+                    this.selectedInput = null;
+                    this.panel.Refresh();
+                }
             }
 
             public void OnKeyPress(KeyPressEventArgs e)
