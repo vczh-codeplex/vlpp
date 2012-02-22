@@ -56,7 +56,7 @@ LRESULT CALLBACK DirectXProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam,
 				{
 					SIZE size=WindowGetClient(hwnd);
 					dxenv=new DirectXEnvironment(hwnd, size.cx, size.cy);
-					world=CreateSmdWorld(dxenv, size.cx, size.cy);
+					world=CreateCubeAndSphereWorld(dxenv, size.cx, size.cy);
 				}
 			}
 		}
