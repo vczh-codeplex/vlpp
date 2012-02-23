@@ -9,9 +9,23 @@ namespace _TranslateXMLtoCode.Codegen
     {
         #region GenerateMembers
 
+        protected void GenerateConstructorInitializationList(RgacUDT udt, string internalObjectReferenceInput)
+        {
+            WriteLine("    :__internal_object_reference({0})", internalObjectReferenceInput);
+            foreach (var baseUdt in udt.BaseClasses.Where(t => this.options.Udts.Contains(t)))
+            {
+                WriteLine("    ,{0}(static_cast<__GacUIInternal<{1}>::InternalObjectType*>((__GacUIInternal<{2}>::InternalObjectType*){3}))",
+                    baseUdt.ToString(),
+                    baseUdt.ToString(),
+                    udt.ToString(),
+                    internalObjectReferenceInput
+                    );
+            }
+        }
+
         protected void GenerateConstructor(RgacMethod method)
         {
-            WriteLine("rptr<{0}> {1}Create({2})",
+            WriteLine("rptr<{0}> {1}CreateRptr({2})",
                 GacUdtTypeName(method.OwnerUDT),
                 method.OwnerUDT.Name.Aggregate("", (a, b) => a + b + "::"),
                 method.ParameterTypes
@@ -22,12 +36,13 @@ namespace _TranslateXMLtoCode.Codegen
             Begin("{");
             WriteLine("throw 0;");
             End("}");
+            WriteLine("");
 
             if (method.OwnerUDT.Kind == RgacUDTKind.Struct)
             {
-                WriteLine("{0}{1}({2})",
+                WriteLine("{0} {1}Create({2})",
+                    GacUdtTypeName(method.OwnerUDT),
                     method.OwnerUDT.Name.Aggregate("", (a, b) => a + b + "::"),
-                    method.OwnerUDT.Name.Last(),
                     method.ParameterTypes
                         .Zip(method.ParameterNames, Tuple.Create)
                         .Select(t => string.Format("{0} {1}", GetType(t.Item1), t.Item2))
@@ -36,6 +51,7 @@ namespace _TranslateXMLtoCode.Codegen
                 Begin("{");
                 WriteLine("throw 0;");
                 End("}");
+                WriteLine("");
             }
         }
 
@@ -53,6 +69,7 @@ namespace _TranslateXMLtoCode.Codegen
             Begin("{");
             WriteLine("throw 0;");
             End("}");
+            WriteLine("");
         }
 
         protected void GenerateProperty(RgacProperty property, bool isStatic)
@@ -73,6 +90,7 @@ namespace _TranslateXMLtoCode.Codegen
                     Begin("{");
                     WriteLine("throw 0;");
                     End("}");
+                    WriteLine("");
                 }
                 else
                 {
@@ -85,6 +103,7 @@ namespace _TranslateXMLtoCode.Codegen
                         Begin("{");
                         WriteLine("throw 0;");
                         End("}");
+                        WriteLine("");
                     }
                     {
                         WriteLine("void {0}set_{1}({2} value)",
@@ -102,37 +121,69 @@ namespace _TranslateXMLtoCode.Codegen
 
         protected void GenerateMembers(RgacUDT udt)
         {
+            {
+                WriteLine("template<>");
+                WriteLine("class __GacUIInternal<{0}>", udt.ToString());
+                WriteLine("{");
+                Begin("public:");
+                WriteLine("typedef {0} WrappedObjectType;", udt.ToString());
+                WriteLine("typedef {0} InternalObjectType;", udt.AssociatedGacType.Name);
+                WriteLine("");
+                WriteLine("static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)");
+                Begin("{");
+                WriteLine("return (InternalObjectType*)wrappedObject.__internal_object_reference;");
+                End("}");
+                End("};");
+                WriteLine("");
+            }
+            {
+                WriteLine("{0}{1}(void* __internal_object_reference_input)",
+                    udt.Name.Aggregate("", (a, b) => a + b + "::"),
+                    udt.Name.Last()
+                    );
+                GenerateConstructorInitializationList(udt, "__internal_object_reference_input");
+                Begin("{");
+                End("}");
+                WriteLine("");
+
+                WriteLine("{0}~{1}()",
+                    udt.Name.Aggregate("", (a, b) => a + b + "::"),
+                    udt.Name.Last()
+                    );
+                Begin("{");
+                if (udt.Kind == RgacUDTKind.Struct)
+                {
+                    WriteLine("delete __GacUIInternal<{0}>::GetInternalObject(*this);", udt.Name.Last());
+                }
+                End("}");
+                WriteLine("");
+            }
             if (!udt.IsAbstract)
             {
                 foreach (var m in udt.Constructors)
                 {
                     GenerateConstructor(m);
-                    WriteLine("");
                 }
             }
 
             foreach (var m in udt.Methods)
             {
                 GenerateMethod(m, false);
-                WriteLine("");
             }
 
             foreach (var m in udt.StaticMethods)
             {
                 GenerateMethod(m, true);
-                WriteLine("");
             }
 
             foreach (var m in udt.Properties)
             {
                 GenerateProperty(m, false);
-                WriteLine("");
             }
 
             foreach (var m in udt.StaticProperties)
             {
                 GenerateProperty(m, true);
-                WriteLine("");
             }
         }
 
@@ -155,8 +206,11 @@ namespace _TranslateXMLtoCode.Codegen
             WriteLine("#include \"GacUI.h\"");
             WriteLine("#include \"..\\..\\..\\..\\..\\Candidate\\GUI\\GUI\\GacUI.h\"");
             WriteLine("");
-            WriteLine("namespace gacui_cpp");
+            WriteLine("namespace {0}", Codegen_GacUI_base.GacUINamespace);
             Begin("{");
+
+            WriteLine("template<typename T>");
+            WriteLine("class __GacUIInternal{};");
 
             GenerateCppImpl();
 

@@ -10,7 +10,7 @@ Developer: 陈梓瀚(vczh)
 
 #include "GacUICommon.h"
 
-namespace gacui_cpp
+namespace gacui_cpp_1_0
 {
 	class GuiGraphicsComposition;
 	class GuiControl;
@@ -56,6 +56,14 @@ CharAtt
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		CharAtt(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~CharAtt();
+	
 	public:
 		
 		unsigned __int32 get_rightOffset();
@@ -74,12 +82,20 @@ Color
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Color(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Color();
+	
 	public:
 		
-		static rptr<Color> Create(unsigned __int8 _r, unsigned __int8 _g, unsigned __int8 _b, unsigned __int8 _a);
-		Color(unsigned __int8 _r, unsigned __int8 _g, unsigned __int8 _b, unsigned __int8 _a);
-		static rptr<Color> Create();
-		Color();
+		static rptr<Color> CreateRptr(unsigned __int8 _r, unsigned __int8 _g, unsigned __int8 _b, unsigned __int8 _a);
+		static Color Create(unsigned __int8 _r, unsigned __int8 _g, unsigned __int8 _b, unsigned __int8 _a);
+		static rptr<Color> CreateRptr();
+		static Color Create();
 		
 		signed __int32 Compare(Color color);
 		bool operator==(Color color);
@@ -111,10 +127,18 @@ ColorItem
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		ColorItem(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~ColorItem();
+	
 	public:
 		
-		static rptr<ColorItem> Create();
-		ColorItem();
+		static rptr<ColorItem> CreateRptr();
+		static ColorItem Create();
 		
 		Color get_text();
 		void set_text(Color value);
@@ -132,10 +156,18 @@ ColorEntry
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		ColorEntry(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~ColorEntry();
+	
 	public:
 		
-		static rptr<ColorEntry> Create();
-		ColorEntry();
+		static rptr<ColorEntry> CreateRptr();
+		static ColorEntry Create();
 		
 		bool operator==(const ColorEntry& value);
 		bool operator!=(const ColorEntry& value);
@@ -158,9 +190,17 @@ Array_of_ColorEntry
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Array_of_ColorEntry(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Array_of_ColorEntry();
+	
 	public:
 		
-		static rptr<Array_of_ColorEntry> Create(signed __int32 size);
+		static rptr<Array_of_ColorEntry> CreateRptr(signed __int32 size);
 		
 		bool Contains(const ColorEntry& item);
 		signed __int32 Count();
@@ -182,10 +222,18 @@ DescriptableObject
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		DescriptableObject(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~DescriptableObject();
+	
 	public:
 		
-		static rptr<DescriptableObject> Create();
-		DescriptableObject();
+		static rptr<DescriptableObject> CreateRptr();
+		static DescriptableObject Create();
 		
 		DescriptableObject& operator=(const DescriptableObject& value);
 		
@@ -216,12 +264,20 @@ FontProperties
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		FontProperties(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~FontProperties();
+	
 	public:
 		
-		static rptr<FontProperties> Create(const FontProperties& __that);
-		FontProperties(const FontProperties& __that);
-		static rptr<FontProperties> Create();
-		FontProperties();
+		static rptr<FontProperties> CreateRptr(const FontProperties& __that);
+		static FontProperties Create(const FontProperties& __that);
+		static rptr<FontProperties> CreateRptr();
+		static FontProperties Create();
 		
 		signed __int32 Compare(const FontProperties& value);
 		bool operator==(const FontProperties& value);
@@ -270,10 +326,18 @@ GuiCellOption
 ***********************************************************************/
 
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiCellOption(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiCellOption();
+	
 	public:
 		
-		static rptr<GuiCellOption> Create();
-		GuiCellOption();
+		static rptr<GuiCellOption> CreateRptr();
+		static GuiCellOption Create();
 		
 		bool operator==(const GuiCellOption& value);
 		bool operator!=(const GuiCellOption& value);
@@ -300,9 +364,17 @@ GuiComponent
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiComponent(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiComponent();
+	
 	public:
 		
-		static rptr<GuiComponent> Create();
+		static rptr<GuiComponent> CreateRptr();
 		
 		rptr<GuiComponent> operator=(rptr<GuiComponent> value);
 		
@@ -319,12 +391,20 @@ GuiEventArgs
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiEventArgs(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiEventArgs();
+	
 	public:
 		
-		static rptr<GuiEventArgs> Create();
-		GuiEventArgs();
-		static rptr<GuiEventArgs> Create(rptr<GuiGraphicsComposition> composition);
-		GuiEventArgs(rptr<GuiGraphicsComposition> composition);
+		static rptr<GuiEventArgs> CreateRptr();
+		static GuiEventArgs Create();
+		static rptr<GuiEventArgs> CreateRptr(rptr<GuiGraphicsComposition> composition);
+		static GuiEventArgs Create(rptr<GuiGraphicsComposition> composition);
 		
 		rptr<GuiGraphicsComposition> get_compositionSource();
 		void set_compositionSource(rptr<GuiGraphicsComposition> value);
@@ -344,12 +424,20 @@ GuiImageData
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiImageData(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiImageData();
+	
 	public:
 		
-		static rptr<GuiImageData> Create(sptr<INativeImage> _image, signed __int32 _frameIndex);
-		GuiImageData(sptr<INativeImage> _image, signed __int32 _frameIndex);
-		static rptr<GuiImageData> Create();
-		GuiImageData();
+		static rptr<GuiImageData> CreateRptr(sptr<INativeImage> _image, signed __int32 _frameIndex);
+		static GuiImageData Create(sptr<INativeImage> _image, signed __int32 _frameIndex);
+		static rptr<GuiImageData> CreateRptr();
+		static GuiImageData Create();
 		
 		GuiImageData& operator=(const GuiImageData& value);
 		
@@ -367,12 +455,20 @@ GuiRequestEventArgs
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiRequestEventArgs(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiRequestEventArgs();
+	
 	public:
 		
-		static rptr<GuiRequestEventArgs> Create(rptr<GuiGraphicsComposition> composition);
-		GuiRequestEventArgs(rptr<GuiGraphicsComposition> composition);
-		static rptr<GuiRequestEventArgs> Create();
-		GuiRequestEventArgs();
+		static rptr<GuiRequestEventArgs> CreateRptr(rptr<GuiGraphicsComposition> composition);
+		static GuiRequestEventArgs Create(rptr<GuiGraphicsComposition> composition);
+		static rptr<GuiRequestEventArgs> CreateRptr();
+		static GuiRequestEventArgs Create();
 		
 		bool get_cancel();
 		void set_cancel(bool value);
@@ -388,9 +484,17 @@ IDescriptable
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		IDescriptable(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~IDescriptable();
+	
 	public:
 		
-		static rptr<IDescriptable> Create();
+		static rptr<IDescriptable> CreateRptr();
 		
 		rptr<IDescriptable> operator=(rptr<IDescriptable> value);
 		
@@ -405,10 +509,18 @@ GuiGraphicsEvent_of_GuiEventArgs
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiGraphicsEvent_of_GuiEventArgs(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiGraphicsEvent_of_GuiEventArgs();
+	
 	public:
 		class IHandler;
 		
-		static rptr<GuiGraphicsEvent_of_GuiEventArgs> Create(rptr<GuiGraphicsComposition> _sender);
+		static rptr<GuiGraphicsEvent_of_GuiEventArgs> CreateRptr(rptr<GuiGraphicsComposition> _sender);
 		
 		bool Attach(sptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> handler);
 		bool Detach(sptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> handler);
@@ -423,9 +535,17 @@ GuiGraphicsEvent_of_GuiEventArgs
 GuiGraphicsEvent_of_GuiEventArgs :: IHandler
 ***********************************************************************/
 
-		class GACUI_API IHandler : public virtual IDescriptable
+		class GACUI_API IHandler : public IDescriptable
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IHandler(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IHandler();
 		
 		public:
 			void Execute(rptr<GuiGraphicsComposition> sender, GuiEventArgs& argument);
@@ -444,10 +564,18 @@ GuiGraphicsEvent_of_GuiRequestEventArgs
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiGraphicsEvent_of_GuiRequestEventArgs(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiGraphicsEvent_of_GuiRequestEventArgs();
+	
 	public:
 		class IHandler;
 		
-		static rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> Create(rptr<GuiGraphicsComposition> _sender);
+		static rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> CreateRptr(rptr<GuiGraphicsComposition> _sender);
 		
 		bool Attach(sptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> handler);
 		bool Detach(sptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> handler);
@@ -462,9 +590,17 @@ GuiGraphicsEvent_of_GuiRequestEventArgs
 GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler
 ***********************************************************************/
 
-		class GACUI_API IHandler : public virtual IDescriptable
+		class GACUI_API IHandler : public IDescriptable
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IHandler(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IHandler();
 		
 		public:
 			void Execute(rptr<GuiGraphicsComposition> sender, GuiRequestEventArgs& argument);
@@ -482,6 +618,14 @@ GuiTabPage
 	class GACUI_API GuiTabPage
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiTabPage(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiTabPage();
 	
 	public:
 		
@@ -501,9 +645,17 @@ GuiTabPage
 IGuiGraphicsAnimation
 ***********************************************************************/
 
-	class GACUI_API IGuiGraphicsAnimation : public virtual IDescriptable
+	class GACUI_API IGuiGraphicsAnimation : public IDescriptable
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		IGuiGraphicsAnimation(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~IGuiGraphicsAnimation();
 	
 	public:
 		
@@ -525,9 +677,17 @@ GuiGraphicsAnimationManager
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiGraphicsAnimationManager(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiGraphicsAnimationManager();
+	
 	public:
 		
-		static rptr<GuiGraphicsAnimationManager> Create();
+		static rptr<GuiGraphicsAnimationManager> CreateRptr();
 		
 		void AddAnimation(sptr<IGuiGraphicsAnimation> animation);
 		bool HasAnimation();
@@ -541,13 +701,21 @@ GuiGraphicsAnimationManager
 GuiTimeBasedAnimation
 ***********************************************************************/
 
-	class GACUI_API GuiTimeBasedAnimation : public virtual IGuiGraphicsAnimation
+	class GACUI_API GuiTimeBasedAnimation : public IGuiGraphicsAnimation
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiTimeBasedAnimation(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiTimeBasedAnimation();
+	
 	public:
 		
-		static rptr<GuiTimeBasedAnimation> Create(signed __int32 totalMilliseconds);
+		static rptr<GuiTimeBasedAnimation> CreateRptr(signed __int32 totalMilliseconds);
 		
 		void Restart(signed __int32 totalMilliseconds);
 		signed __int32 GetTotalLength();
@@ -565,6 +733,14 @@ IGuiGraphicsElementFactory
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		IGuiGraphicsElementFactory(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~IGuiGraphicsElementFactory();
+	
 	public:
 		
 		rptr<IGuiGraphicsElement> Create();
@@ -579,9 +755,17 @@ IGuiGraphicsElementFactory
 IGuiGraphicsElement
 ***********************************************************************/
 
-	class GACUI_API IGuiGraphicsElement : public virtual IDescriptable
+	class GACUI_API IGuiGraphicsElement : public IDescriptable
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		IGuiGraphicsElement(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~IGuiGraphicsElement();
 	
 	public:
 		
@@ -597,9 +781,17 @@ IGuiGraphicsElement
 Gui3DBorderElement
 ***********************************************************************/
 
-	class GACUI_API Gui3DBorderElement : public virtual IGuiGraphicsElement
+	class GACUI_API Gui3DBorderElement : public IGuiGraphicsElement
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Gui3DBorderElement(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Gui3DBorderElement();
 	
 	public:
 		
@@ -622,7 +814,7 @@ Gui3DBorderElement
 Gui3DSplitterElement :: Direction
 ***********************************************************************/
 
-	class GACUI_API Gui3DSplitterElement : public virtual IGuiGraphicsElement
+	class GACUI_API Gui3DSplitterElement : public IGuiGraphicsElement
 	{
 	public:
 		enum Direction
@@ -636,6 +828,14 @@ Gui3DSplitterElement :: Direction
 Gui3DSplitterElement
 ***********************************************************************/
 
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Gui3DSplitterElement(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Gui3DSplitterElement();
 	
 	public:
 		
@@ -660,7 +860,7 @@ Gui3DSplitterElement
 GuiGradientBackgroundElement :: Direction
 ***********************************************************************/
 
-	class GACUI_API GuiGradientBackgroundElement : public virtual IGuiGraphicsElement
+	class GACUI_API GuiGradientBackgroundElement : public IGuiGraphicsElement
 	{
 	public:
 		enum Direction
@@ -676,6 +876,14 @@ GuiGradientBackgroundElement :: Direction
 GuiGradientBackgroundElement
 ***********************************************************************/
 
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiGradientBackgroundElement(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiGradientBackgroundElement();
 	
 	public:
 		
@@ -702,9 +910,17 @@ GuiGradientBackgroundElement
 GuiImageFrameElement
 ***********************************************************************/
 
-	class GACUI_API GuiImageFrameElement : public virtual IGuiGraphicsElement
+	class GACUI_API GuiImageFrameElement : public IGuiGraphicsElement
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiImageFrameElement(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiImageFrameElement();
 	
 	public:
 		
@@ -732,9 +948,17 @@ GuiImageFrameElement
 GuiRoundBorderElement
 ***********************************************************************/
 
-	class GACUI_API GuiRoundBorderElement : public virtual IGuiGraphicsElement
+	class GACUI_API GuiRoundBorderElement : public IGuiGraphicsElement
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiRoundBorderElement(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiRoundBorderElement();
 	
 	public:
 		
@@ -758,9 +982,17 @@ GuiRoundBorderElement
 GuiSolidBackgroundElement
 ***********************************************************************/
 
-	class GACUI_API GuiSolidBackgroundElement : public virtual IGuiGraphicsElement
+	class GACUI_API GuiSolidBackgroundElement : public IGuiGraphicsElement
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiSolidBackgroundElement(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiSolidBackgroundElement();
 	
 	public:
 		
@@ -784,9 +1016,17 @@ GuiSolidBackgroundElement
 GuiSolidBorderElement
 ***********************************************************************/
 
-	class GACUI_API GuiSolidBorderElement : public virtual IGuiGraphicsElement
+	class GACUI_API GuiSolidBorderElement : public IGuiGraphicsElement
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiSolidBorderElement(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiSolidBorderElement();
 	
 	public:
 		
@@ -810,9 +1050,17 @@ GuiSolidBorderElement
 GuiSolidLabelElement
 ***********************************************************************/
 
-	class GACUI_API GuiSolidLabelElement : public virtual IGuiGraphicsElement
+	class GACUI_API GuiSolidLabelElement : public IGuiGraphicsElement
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiSolidLabelElement(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiSolidLabelElement();
 	
 	public:
 		
@@ -851,6 +1099,14 @@ IGuiGraphicsRendererFactory
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		IGuiGraphicsRendererFactory(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~IGuiGraphicsRendererFactory();
+	
 	public:
 		
 		rptr<IGuiGraphicsRenderer> Create();
@@ -863,7 +1119,7 @@ IGuiGraphicsRendererFactory
 IGuiMenuService :: Direction
 ***********************************************************************/
 
-	class GACUI_API IGuiMenuService : public virtual IDescriptable
+	class GACUI_API IGuiMenuService : public IDescriptable
 	{
 	public:
 		enum Direction
@@ -877,6 +1133,14 @@ IGuiMenuService :: Direction
 IGuiMenuService
 ***********************************************************************/
 
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		IGuiMenuService(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~IGuiMenuService();
 	
 	public:
 		
@@ -904,6 +1168,14 @@ IList_of_int
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		IList_of_int(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~IList_of_int();
+	
 	public:
 		
 		signed __int32 Insert(signed __int32 index, signed __int32 item);
@@ -920,6 +1192,14 @@ IList_of_MemoryNodeProvider
 	class GACUI_API IList_of_MemoryNodeProvider
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		IList_of_MemoryNodeProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~IList_of_MemoryNodeProvider();
 	
 	public:
 		
@@ -938,6 +1218,14 @@ INativeAsyncService
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		INativeAsyncService(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~INativeAsyncService();
+	
 	public:
 		
 		bool IsInMainThread();
@@ -953,6 +1241,14 @@ INativeClipboardService
 	class GACUI_API INativeClipboardService
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		INativeClipboardService(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~INativeClipboardService();
 	
 	public:
 		
@@ -995,6 +1291,14 @@ INativeCursor
 ***********************************************************************/
 
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		INativeCursor(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~INativeCursor();
+	
 	public:
 		
 		bool IsSystemCursor();
@@ -1013,6 +1317,14 @@ INativeImageFrameCache
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		INativeImageFrameCache(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~INativeImageFrameCache();
+	
 	public:
 		
 		void OnAttach(rptr<INativeImageFrame> frame);
@@ -1029,6 +1341,14 @@ INativeImageService
 	class GACUI_API INativeImageService
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		INativeImageService(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~INativeImageService();
 	
 	public:
 		
@@ -1063,6 +1383,14 @@ INativeImage
 ***********************************************************************/
 
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		INativeImage(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~INativeImage();
+	
 	public:
 		
 		rptr<INativeImageFrame> GetFrame(signed __int32 index);
@@ -1082,6 +1410,14 @@ INativeInputService
 	class GACUI_API INativeInputService
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		INativeInputService(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~INativeInputService();
 	
 	public:
 		
@@ -1106,6 +1442,14 @@ INativeResourceService
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		INativeResourceService(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~INativeResourceService();
+	
 	public:
 		
 		rptr<INativeCursor> GetSystemCursor(INativeCursor :: SystemCursorType type);
@@ -1122,9 +1466,17 @@ INativeResourceService
 INodeItemPrimaryTextView
 ***********************************************************************/
 
-	class GACUI_API INodeItemPrimaryTextView : public virtual IDescriptable
+	class GACUI_API INodeItemPrimaryTextView : public IDescriptable
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		INodeItemPrimaryTextView(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~INodeItemPrimaryTextView();
 	
 	public:
 		
@@ -1141,9 +1493,17 @@ INodeItemPrimaryTextView
 INodeProvider
 ***********************************************************************/
 
-	class GACUI_API INodeProvider : public virtual IDescriptable
+	class GACUI_API INodeProvider : public IDescriptable
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		INodeProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~INodeProvider();
 	
 	public:
 		
@@ -1164,9 +1524,17 @@ INodeProvider
 INodeProviderCallback
 ***********************************************************************/
 
-	class GACUI_API INodeProviderCallback : public virtual IDescriptable
+	class GACUI_API INodeProviderCallback : public IDescriptable
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		INodeProviderCallback(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~INodeProviderCallback();
 	
 	public:
 		
@@ -1184,9 +1552,17 @@ INodeProviderCallback
 INodeRootProvider
 ***********************************************************************/
 
-	class GACUI_API INodeRootProvider : public virtual IDescriptable
+	class GACUI_API INodeRootProvider : public IDescriptable
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		INodeRootProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~INodeRootProvider();
 	
 	public:
 		
@@ -1211,6 +1587,14 @@ IReadonlyList_of_ColorEntry
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		IReadonlyList_of_ColorEntry(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~IReadonlyList_of_ColorEntry();
+	
 	public:
 		
 		bool Contains(const ColorEntry& item);
@@ -1230,6 +1614,14 @@ IReadonlyList_of_GuiGraphicsComposition_raw_pointer
 	class GACUI_API IReadonlyList_of_GuiGraphicsComposition_raw_pointer
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		IReadonlyList_of_GuiGraphicsComposition_raw_pointer(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~IReadonlyList_of_GuiGraphicsComposition_raw_pointer();
 	
 	public:
 		
@@ -1251,6 +1643,14 @@ IReadonlyList_of_GuiTabPage_raw_pointer
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		IReadonlyList_of_GuiTabPage_raw_pointer(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~IReadonlyList_of_GuiTabPage_raw_pointer();
+	
 	public:
 		
 		bool Contains(rptr<GuiTabPage> item);
@@ -1271,6 +1671,14 @@ IReadonlyList_of_int
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		IReadonlyList_of_int(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~IReadonlyList_of_int();
+	
 	public:
 		
 		bool Contains(signed __int32 item);
@@ -1287,9 +1695,17 @@ IReadonlyList_of_int
 ITreeViewItemView
 ***********************************************************************/
 
-	class GACUI_API ITreeViewItemView : public virtual INodeItemPrimaryTextView
+	class GACUI_API ITreeViewItemView : public INodeItemPrimaryTextView
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		ITreeViewItemView(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~ITreeViewItemView();
 	
 	public:
 		
@@ -1311,9 +1727,17 @@ List_of_ObjectString_of_wchar_t
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		List_of_ObjectString_of_wchar_t(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~List_of_ObjectString_of_wchar_t();
+	
 	public:
 		
-		static rptr<List_of_ObjectString_of_wchar_t> Create();
+		static rptr<List_of_ObjectString_of_wchar_t> CreateRptr();
 		
 		bool Contains(const GacString& item);
 		signed __int32 IndexOf(const GacString& item);
@@ -1335,10 +1759,18 @@ ListViewColumn
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		ListViewColumn(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~ListViewColumn();
+	
 	public:
 		
-		static rptr<ListViewColumn> Create(const GacString& _text, signed __int32 _size);
-		ListViewColumn(const GacString& _text, signed __int32 _size);
+		static rptr<ListViewColumn> CreateRptr(const GacString& _text, signed __int32 _size);
+		static ListViewColumn Create(const GacString& _text, signed __int32 _size);
 		
 		ListViewColumn& operator=(const ListViewColumn& value);
 		
@@ -1358,6 +1790,14 @@ IList_of_ListViewColumn
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		IList_of_ListViewColumn(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~IList_of_ListViewColumn();
+	
 	public:
 		
 		signed __int32 Insert(signed __int32 index, sptr<ListViewColumn> item);
@@ -1374,6 +1814,14 @@ ListViewItem
 	class GACUI_API ListViewItem
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		ListViewItem(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~ListViewItem();
 	
 	public:
 		
@@ -1399,6 +1847,14 @@ IList_of_ListViewItem
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		IList_of_ListViewItem(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~IList_of_ListViewItem();
+	
 	public:
 		
 		signed __int32 Insert(signed __int32 index, sptr<ListViewItem> item);
@@ -1416,12 +1872,20 @@ Margin
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Margin(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Margin();
+	
 	public:
 		
-		static rptr<Margin> Create(signed __int32 _left, signed __int32 _top, signed __int32 _right, signed __int32 _bottom);
-		Margin(signed __int32 _left, signed __int32 _top, signed __int32 _right, signed __int32 _bottom);
-		static rptr<Margin> Create();
-		Margin();
+		static rptr<Margin> CreateRptr(signed __int32 _left, signed __int32 _top, signed __int32 _right, signed __int32 _bottom);
+		static Margin Create(signed __int32 _left, signed __int32 _top, signed __int32 _right, signed __int32 _bottom);
+		static rptr<Margin> CreateRptr();
+		static Margin Create();
 		
 		bool operator==(Margin margin);
 		bool operator!=(Margin margin);
@@ -1442,14 +1906,22 @@ Margin
 MemoryNodeProvider
 ***********************************************************************/
 
-	class GACUI_API MemoryNodeProvider : public virtual IList_of_MemoryNodeProvider, public virtual INodeProvider
+	class GACUI_API MemoryNodeProvider : public IList_of_MemoryNodeProvider, public INodeProvider
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		MemoryNodeProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~MemoryNodeProvider();
+	
 	public:
 		
-		static rptr<MemoryNodeProvider> Create(sptr<DescriptableObject> _data);
-		static rptr<MemoryNodeProvider> Create();
+		static rptr<MemoryNodeProvider> CreateRptr(sptr<DescriptableObject> _data);
+		static rptr<MemoryNodeProvider> CreateRptr();
 		
 		void NotifyDataModified();
 		rptr<IList_of_MemoryNodeProvider> Children();
@@ -1476,6 +1948,14 @@ NativeWindowCharInfo
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		NativeWindowCharInfo(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~NativeWindowCharInfo();
+	
 	public:
 		
 		wchar_t get_code();
@@ -1500,12 +1980,20 @@ GuiCharEventArgs
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiCharEventArgs(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiCharEventArgs();
+	
 	public:
 		
-		static rptr<GuiCharEventArgs> Create(rptr<GuiGraphicsComposition> composition);
-		GuiCharEventArgs(rptr<GuiGraphicsComposition> composition);
-		static rptr<GuiCharEventArgs> Create();
-		GuiCharEventArgs();
+		static rptr<GuiCharEventArgs> CreateRptr(rptr<GuiGraphicsComposition> composition);
+		static GuiCharEventArgs Create(rptr<GuiGraphicsComposition> composition);
+		static rptr<GuiCharEventArgs> CreateRptr();
+		static GuiCharEventArgs Create();
 		
 	};
 	
@@ -1518,10 +2006,18 @@ GuiGraphicsEvent_of_GuiCharEventArgs
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiGraphicsEvent_of_GuiCharEventArgs(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiGraphicsEvent_of_GuiCharEventArgs();
+	
 	public:
 		class IHandler;
 		
-		static rptr<GuiGraphicsEvent_of_GuiCharEventArgs> Create(rptr<GuiGraphicsComposition> _sender);
+		static rptr<GuiGraphicsEvent_of_GuiCharEventArgs> CreateRptr(rptr<GuiGraphicsComposition> _sender);
 		
 		bool Attach(sptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> handler);
 		bool Detach(sptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> handler);
@@ -1536,9 +2032,17 @@ GuiGraphicsEvent_of_GuiCharEventArgs
 GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler
 ***********************************************************************/
 
-		class GACUI_API IHandler : public virtual IDescriptable
+		class GACUI_API IHandler : public IDescriptable
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IHandler(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IHandler();
 		
 		public:
 			void Execute(rptr<GuiGraphicsComposition> sender, GuiCharEventArgs& argument);
@@ -1556,6 +2060,14 @@ NativeWindowKeyInfo
 	class GACUI_API NativeWindowKeyInfo
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		NativeWindowKeyInfo(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~NativeWindowKeyInfo();
 	
 	public:
 		
@@ -1581,12 +2093,20 @@ GuiKeyEventArgs
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiKeyEventArgs(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiKeyEventArgs();
+	
 	public:
 		
-		static rptr<GuiKeyEventArgs> Create(rptr<GuiGraphicsComposition> composition);
-		GuiKeyEventArgs(rptr<GuiGraphicsComposition> composition);
-		static rptr<GuiKeyEventArgs> Create();
-		GuiKeyEventArgs();
+		static rptr<GuiKeyEventArgs> CreateRptr(rptr<GuiGraphicsComposition> composition);
+		static GuiKeyEventArgs Create(rptr<GuiGraphicsComposition> composition);
+		static rptr<GuiKeyEventArgs> CreateRptr();
+		static GuiKeyEventArgs Create();
 		
 	};
 	
@@ -1599,10 +2119,18 @@ GuiGraphicsEvent_of_GuiKeyEventArgs
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiGraphicsEvent_of_GuiKeyEventArgs(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiGraphicsEvent_of_GuiKeyEventArgs();
+	
 	public:
 		class IHandler;
 		
-		static rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> Create(rptr<GuiGraphicsComposition> _sender);
+		static rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> CreateRptr(rptr<GuiGraphicsComposition> _sender);
 		
 		bool Attach(sptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> handler);
 		bool Detach(sptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> handler);
@@ -1617,9 +2145,17 @@ GuiGraphicsEvent_of_GuiKeyEventArgs
 GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler
 ***********************************************************************/
 
-		class GACUI_API IHandler : public virtual IDescriptable
+		class GACUI_API IHandler : public IDescriptable
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IHandler(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IHandler();
 		
 		public:
 			void Execute(rptr<GuiGraphicsComposition> sender, GuiKeyEventArgs& argument);
@@ -1637,6 +2173,14 @@ NativeWindowMouseInfo
 	class GACUI_API NativeWindowMouseInfo
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		NativeWindowMouseInfo(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~NativeWindowMouseInfo();
 	
 	public:
 		
@@ -1668,12 +2212,20 @@ GuiMouseEventArgs
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiMouseEventArgs(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiMouseEventArgs();
+	
 	public:
 		
-		static rptr<GuiMouseEventArgs> Create(rptr<GuiGraphicsComposition> composition);
-		GuiMouseEventArgs(rptr<GuiGraphicsComposition> composition);
-		static rptr<GuiMouseEventArgs> Create();
-		GuiMouseEventArgs();
+		static rptr<GuiMouseEventArgs> CreateRptr(rptr<GuiGraphicsComposition> composition);
+		static GuiMouseEventArgs Create(rptr<GuiGraphicsComposition> composition);
+		static rptr<GuiMouseEventArgs> CreateRptr();
+		static GuiMouseEventArgs Create();
 		
 	};
 	
@@ -1686,10 +2238,18 @@ GuiGraphicsEvent_of_GuiMouseEventArgs
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiGraphicsEvent_of_GuiMouseEventArgs(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiGraphicsEvent_of_GuiMouseEventArgs();
+	
 	public:
 		class IHandler;
 		
-		static rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> Create(rptr<GuiGraphicsComposition> _sender);
+		static rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> CreateRptr(rptr<GuiGraphicsComposition> _sender);
 		
 		bool Attach(sptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> handler);
 		bool Detach(sptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> handler);
@@ -1704,9 +2264,17 @@ GuiGraphicsEvent_of_GuiMouseEventArgs
 GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler
 ***********************************************************************/
 
-		class GACUI_API IHandler : public virtual IDescriptable
+		class GACUI_API IHandler : public IDescriptable
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IHandler(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IHandler();
 		
 		public:
 			void Execute(rptr<GuiGraphicsComposition> sender, GuiMouseEventArgs& argument);
@@ -1725,9 +2293,17 @@ GuiGraphicsEventReceiver
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiGraphicsEventReceiver(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiGraphicsEventReceiver();
+	
 	public:
 		
-		static rptr<GuiGraphicsEventReceiver> Create(rptr<GuiGraphicsComposition> _sender);
+		static rptr<GuiGraphicsEventReceiver> CreateRptr(rptr<GuiGraphicsComposition> _sender);
 		
 		rptr<GuiGraphicsEventReceiver> operator=(rptr<GuiGraphicsEventReceiver> value);
 		
@@ -1764,13 +2340,21 @@ GuiGraphicsEventReceiver
 NodeRootProviderBase
 ***********************************************************************/
 
-	class GACUI_API NodeRootProviderBase : public virtual INodeRootProvider, public virtual INodeProviderCallback
+	class GACUI_API NodeRootProviderBase : public INodeRootProvider, public INodeProviderCallback
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		NodeRootProviderBase(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~NodeRootProviderBase();
+	
 	public:
 		
-		static rptr<NodeRootProviderBase> Create();
+		static rptr<NodeRootProviderBase> CreateRptr();
 		
 		bool CanGetNodeByVisibleIndex();
 		rptr<INodeProvider> GetNodeByVisibleIndex(signed __int32 index);
@@ -1791,9 +2375,17 @@ MemoryNodeRootProvider
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		MemoryNodeRootProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~MemoryNodeRootProvider();
+	
 	public:
 		
-		static rptr<MemoryNodeRootProvider> Create();
+		static rptr<MemoryNodeRootProvider> CreateRptr();
 		
 		rptr<INodeProvider> GetRootNode();
 		rptr<MemoryNodeRootProvider> operator=(rptr<MemoryNodeRootProvider> value);
@@ -1809,12 +2401,20 @@ Point
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Point(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Point();
+	
 	public:
 		
-		static rptr<Point> Create(signed __int32 _x, signed __int32 _y);
-		Point(signed __int32 _x, signed __int32 _y);
-		static rptr<Point> Create();
-		Point();
+		static rptr<Point> CreateRptr(signed __int32 _x, signed __int32 _y);
+		static Point Create(signed __int32 _x, signed __int32 _y);
+		static rptr<Point> CreateRptr();
+		static Point Create();
 		
 		bool operator==(Point point);
 		bool operator!=(Point point);
@@ -1835,9 +2435,17 @@ INativeControllerListener
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		INativeControllerListener(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~INativeControllerListener();
+	
 	public:
 		
-		static rptr<INativeControllerListener> Create();
+		static rptr<INativeControllerListener> CreateRptr();
 		
 		void LeftButtonDown(Point position);
 		void LeftButtonUp(Point position);
@@ -1861,6 +2469,14 @@ INativeCallbackService
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		INativeCallbackService(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~INativeCallbackService();
+	
 	public:
 		
 		bool InstallListener(rptr<INativeControllerListener> listener);
@@ -1877,6 +2493,14 @@ INativeWindowService
 	class GACUI_API INativeWindowService
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		INativeWindowService(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~INativeWindowService();
 	
 	public:
 		
@@ -1899,12 +2523,20 @@ Size
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Size(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Size();
+	
 	public:
 		
-		static rptr<Size> Create(signed __int32 _x, signed __int32 _y);
-		Size(signed __int32 _x, signed __int32 _y);
-		static rptr<Size> Create();
-		Size();
+		static rptr<Size> CreateRptr(signed __int32 _x, signed __int32 _y);
+		static Size Create(signed __int32 _x, signed __int32 _y);
+		static rptr<Size> CreateRptr();
+		static Size Create();
 		
 		bool operator==(Size size);
 		bool operator!=(Size size);
@@ -1921,9 +2553,17 @@ Size
 GuiPolygonElement
 ***********************************************************************/
 
-	class GACUI_API GuiPolygonElement : public virtual IGuiGraphicsElement
+	class GACUI_API GuiPolygonElement : public IGuiGraphicsElement
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiPolygonElement(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiPolygonElement();
 	
 	public:
 		
@@ -1956,6 +2596,14 @@ INativeImageFrame
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		INativeImageFrame(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~INativeImageFrame();
+	
 	public:
 		
 		bool SetCache(void* key, sptr<INativeImageFrameCache> cache);
@@ -1977,14 +2625,22 @@ Rect
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Rect(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Rect();
+	
 	public:
 		
-		static rptr<Rect> Create(Point p, Size s);
-		Rect(Point p, Size s);
-		static rptr<Rect> Create(signed __int32 _x1, signed __int32 _y1, signed __int32 _x2, signed __int32 _y2);
-		Rect(signed __int32 _x1, signed __int32 _y1, signed __int32 _x2, signed __int32 _y2);
-		static rptr<Rect> Create();
-		Rect();
+		static rptr<Rect> CreateRptr(Point p, Size s);
+		static Rect Create(Point p, Size s);
+		static rptr<Rect> CreateRptr(signed __int32 _x1, signed __int32 _y1, signed __int32 _x2, signed __int32 _y2);
+		static Rect Create(signed __int32 _x1, signed __int32 _y1, signed __int32 _x2, signed __int32 _y2);
+		static rptr<Rect> CreateRptr();
+		static Rect Create();
 		
 		bool operator==(Rect rect);
 		bool operator!=(Rect rect);
@@ -2023,6 +2679,14 @@ IGuiGraphicsRenderTarget
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		IGuiGraphicsRenderTarget(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~IGuiGraphicsRenderTarget();
+	
 	public:
 		
 		void StartRendering();
@@ -2041,9 +2705,17 @@ IGuiGraphicsRenderTarget
 CharMeasurer
 ***********************************************************************/
 
-	class GACUI_API CharMeasurer : public virtual IDescriptable
+	class GACUI_API CharMeasurer : public IDescriptable
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		CharMeasurer(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~CharMeasurer();
 	
 	public:
 		
@@ -2064,6 +2736,14 @@ GuiGraphicsResourceManager
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiGraphicsResourceManager(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiGraphicsResourceManager();
+	
 	public:
 		
 		bool RegisterElementFactory(rptr<IGuiGraphicsElementFactory> factory);
@@ -2083,6 +2763,14 @@ IGuiGraphicsRenderer
 	class GACUI_API IGuiGraphicsRenderer
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		IGuiGraphicsRenderer(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~IGuiGraphicsRenderer();
 	
 	public:
 		
@@ -2107,6 +2795,14 @@ INativeScreen
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		INativeScreen(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~INativeScreen();
+	
 	public:
 		
 		bool IsPrimary();
@@ -2127,6 +2823,14 @@ INativeScreenService
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		INativeScreenService(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~INativeScreenService();
+	
 	public:
 		
 		rptr<INativeScreen> GetScreen(rptr<INativeWindow> window);
@@ -2145,6 +2849,14 @@ INativeController
 	class GACUI_API INativeController
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		INativeController(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~INativeController();
 	
 	public:
 		
@@ -2169,9 +2881,17 @@ INativeWindowListener
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		INativeWindowListener(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~INativeWindowListener();
+	
 	public:
 		
-		static rptr<INativeWindowListener> Create();
+		static rptr<INativeWindowListener> CreateRptr();
 		
 		void Moving(Rect& bounds, bool fixSizeOnly);
 		void Moved();
@@ -2215,13 +2935,21 @@ INativeWindowListener
 GuiGraphicsHost
 ***********************************************************************/
 
-	class GACUI_API GuiGraphicsHost : public virtual INativeWindowListener, public virtual INativeControllerListener
+	class GACUI_API GuiGraphicsHost : public INativeWindowListener, public INativeControllerListener
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiGraphicsHost(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiGraphicsHost();
+	
 	public:
 		
-		static rptr<GuiGraphicsHost> Create();
+		static rptr<GuiGraphicsHost> CreateRptr();
 		
 		void Render();
 		bool SetFocus(rptr<GuiGraphicsComposition> composition);
@@ -2269,6 +2997,14 @@ GuiGraphicsComposition :: ParentSizeAffection
 GuiGraphicsComposition
 ***********************************************************************/
 
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiGraphicsComposition(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiGraphicsComposition();
 	
 	public:
 		
@@ -2325,9 +3061,17 @@ GuiGraphicsSite
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiGraphicsSite(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiGraphicsSite();
+	
 	public:
 		
-		static rptr<GuiGraphicsSite> Create();
+		static rptr<GuiGraphicsSite> CreateRptr();
 		
 		GuiGraphicsComposition :: ParentSizeAffection GetAffectionFromParent();
 		bool IsSizeAffectParent();
@@ -2346,9 +3090,17 @@ GuiBoundsComposition
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiBoundsComposition(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiBoundsComposition();
+	
 	public:
 		
-		static rptr<GuiBoundsComposition> Create();
+		static rptr<GuiBoundsComposition> CreateRptr();
 		
 		GuiGraphicsComposition :: ParentSizeAffection GetAffectionFromParent();
 		Rect GetPreferredBounds();
@@ -2373,9 +3125,17 @@ GuiCellComposition
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiCellComposition(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiCellComposition();
+	
 	public:
 		
-		static rptr<GuiCellComposition> Create();
+		static rptr<GuiCellComposition> CreateRptr();
 		
 		bool SetSite(signed __int32 _row, signed __int32 _column, signed __int32 _rowSpan, signed __int32 _columnSpan);
 		Rect GetBounds();
@@ -2398,11 +3158,19 @@ GuiControl
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiControl(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiControl();
+	
 	public:
 		class IStyleController;
 		class IStyleProvider;
 		
-		static rptr<GuiControl> Create(rptr<GuiControl :: IStyleController> _styleController);
+		static rptr<GuiControl> CreateRptr(rptr<GuiControl :: IStyleController> _styleController);
 		
 		rptr<GuiControl> GetChild(signed __int32 index);
 		rptr<IDescriptable> QueryService(const GacString& identifier);
@@ -2437,9 +3205,17 @@ GuiControl
 GuiControl :: IStyleController
 ***********************************************************************/
 
-		class GACUI_API IStyleController : public virtual IDescriptable
+		class GACUI_API IStyleController : public IDescriptable
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IStyleController(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IStyleController();
 		
 		public:
 			rptr<GuiControl :: IStyleController> operator=(rptr<GuiControl :: IStyleController> value);
@@ -2458,9 +3234,17 @@ GuiControl :: IStyleController
 GuiControl :: IStyleProvider
 ***********************************************************************/
 
-		class GACUI_API IStyleProvider : public virtual IDescriptable
+		class GACUI_API IStyleProvider : public IDescriptable
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IStyleProvider(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IStyleProvider();
 		
 		public:
 			void AssociateStyleController(rptr<GuiControl :: IStyleController> controller);
@@ -2495,10 +3279,18 @@ GuiButton
 ***********************************************************************/
 
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiButton(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiButton();
+	
 	public:
 		class IStyleController;
 		
-		static rptr<GuiButton> Create(rptr<GuiButton :: IStyleController> _styleController);
+		static rptr<GuiButton> CreateRptr(rptr<GuiButton :: IStyleController> _styleController);
 		
 		rptr<GuiButton> operator=(rptr<GuiButton> value);
 		
@@ -2509,9 +3301,17 @@ GuiButton
 GuiButton :: IStyleController
 ***********************************************************************/
 
-		class GACUI_API IStyleController : public virtual GuiControl :: IStyleController
+		class GACUI_API IStyleController : public GuiControl :: IStyleController
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IStyleController(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IStyleController();
 		
 		public:
 			void Transfer(GuiButton :: ControlState value);
@@ -2526,13 +3326,21 @@ GuiButton :: IStyleController
 GuiControlHost
 ***********************************************************************/
 
-	class GACUI_API GuiControlHost : public GuiControl, public virtual INativeWindowListener
+	class GACUI_API GuiControlHost : public GuiControl, public INativeWindowListener
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiControlHost(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiControlHost();
+	
 	public:
 		
-		static rptr<GuiControlHost> Create(rptr<GuiControl :: IStyleController> _styleController);
+		static rptr<GuiControlHost> CreateRptr(rptr<GuiControl :: IStyleController> _styleController);
 		
 		void Render();
 		bool GetEnabled();
@@ -2600,13 +3408,21 @@ GuiControlHost
 GuiMenuBar
 ***********************************************************************/
 
-	class GACUI_API GuiMenuBar : public GuiControl, public virtual IGuiMenuService
+	class GACUI_API GuiMenuBar : public GuiControl, public IGuiMenuService
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiMenuBar(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiMenuBar();
+	
 	public:
 		
-		static rptr<GuiMenuBar> Create(rptr<GuiControl :: IStyleController> _styleController);
+		static rptr<GuiMenuBar> CreateRptr(rptr<GuiControl :: IStyleController> _styleController);
 		
 		rptr<IDescriptable> QueryService(const GacString& identifier);
 		rptr<GuiMenuBar> operator=(rptr<GuiMenuBar> value);
@@ -2622,10 +3438,18 @@ GuiMenuButton
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiMenuButton(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiMenuButton();
+	
 	public:
 		class IStyleController;
 		
-		static rptr<GuiMenuButton> Create(rptr<GuiMenuButton :: IStyleController> _styleController);
+		static rptr<GuiMenuButton> CreateRptr(rptr<GuiMenuButton :: IStyleController> _styleController);
 		
 		bool IsSubMenuExists();
 		void CreateSubMenu(rptr<GuiControl :: IStyleController> subMenuStyleController);
@@ -2644,9 +3468,17 @@ GuiMenuButton
 GuiMenuButton :: IStyleController
 ***********************************************************************/
 
-		class GACUI_API IStyleController : public virtual GuiButton :: IStyleController
+		class GACUI_API IStyleController : public GuiButton :: IStyleController
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IStyleController(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IStyleController();
 		
 		public:
 			rptr<GuiControl :: IStyleController> CreateSubMenuStyleController();
@@ -2667,9 +3499,17 @@ GuiPartialViewComposition
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiPartialViewComposition(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiPartialViewComposition();
+	
 	public:
 		
-		static rptr<GuiPartialViewComposition> Create();
+		static rptr<GuiPartialViewComposition> CreateRptr();
 		
 		GuiGraphicsComposition :: ParentSizeAffection GetAffectionFromParent();
 		bool IsSizeAffectParent();
@@ -2696,11 +3536,19 @@ GuiScroll
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiScroll(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiScroll();
+	
 	public:
 		class ICommandExecutor;
 		class IStyleController;
 		
-		static rptr<GuiScroll> Create(rptr<GuiScroll :: IStyleController> _styleController);
+		static rptr<GuiScroll> CreateRptr(rptr<GuiScroll :: IStyleController> _styleController);
 		
 		rptr<GuiScroll> operator=(rptr<GuiScroll> value);
 		
@@ -2727,9 +3575,17 @@ GuiScroll
 GuiScroll :: ICommandExecutor
 ***********************************************************************/
 
-		class GACUI_API ICommandExecutor : public virtual IDescriptable
+		class GACUI_API ICommandExecutor : public IDescriptable
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			ICommandExecutor(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~ICommandExecutor();
 		
 		public:
 			void SmallDecrease();
@@ -2748,9 +3604,17 @@ GuiScroll :: ICommandExecutor
 GuiScroll :: IStyleController
 ***********************************************************************/
 
-		class GACUI_API IStyleController : public virtual GuiControl :: IStyleController
+		class GACUI_API IStyleController : public GuiControl :: IStyleController
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IStyleController(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IStyleController();
 		
 		public:
 			rptr<GuiScroll :: IStyleController> operator=(rptr<GuiScroll :: IStyleController> value);
@@ -2768,7 +3632,7 @@ GuiScroll :: IStyleController
 CommonScrollStyle :: Direction
 ***********************************************************************/
 
-	class GACUI_API CommonScrollStyle : public virtual GuiScroll :: IStyleController
+	class GACUI_API CommonScrollStyle : public GuiScroll :: IStyleController
 	{
 	public:
 		enum Direction
@@ -2782,6 +3646,14 @@ CommonScrollStyle :: Direction
 CommonScrollStyle
 ***********************************************************************/
 
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		CommonScrollStyle(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~CommonScrollStyle();
 	
 	public:
 		
@@ -2804,7 +3676,7 @@ CommonScrollStyle
 CommonTrackStyle :: Direction
 ***********************************************************************/
 
-	class GACUI_API CommonTrackStyle : public virtual GuiScroll :: IStyleController
+	class GACUI_API CommonTrackStyle : public GuiScroll :: IStyleController
 	{
 	public:
 		enum Direction
@@ -2818,6 +3690,14 @@ CommonTrackStyle :: Direction
 CommonTrackStyle
 ***********************************************************************/
 
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		CommonTrackStyle(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~CommonTrackStyle();
 	
 	public:
 		
@@ -2844,6 +3724,14 @@ GuiScrollView
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiScrollView(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiScrollView();
+	
 	public:
 		class IStyleProvider;
 		class StyleController;
@@ -2865,9 +3753,17 @@ GuiScrollView
 GuiScrollView :: IStyleProvider
 ***********************************************************************/
 
-		class GACUI_API IStyleProvider : public virtual GuiControl :: IStyleProvider
+		class GACUI_API IStyleProvider : public GuiControl :: IStyleProvider
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IStyleProvider(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IStyleProvider();
 		
 		public:
 			rptr<GuiScroll :: IStyleController> CreateHorizontalScrollStyle();
@@ -2884,12 +3780,20 @@ GuiScrollView :: IStyleProvider
 GuiScrollView :: StyleController
 ***********************************************************************/
 
-		class GACUI_API StyleController : public virtual GuiControl :: IStyleController
+		class GACUI_API StyleController : public GuiControl :: IStyleController
 		{
 		public:
 		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			StyleController(void* __internal_object_reference_input);
+		
 		public:
-			static rptr<GuiScrollView :: StyleController> Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider);
+			virtual ~StyleController();
+		
+		public:
+			static rptr<GuiScrollView :: StyleController> CreateRptr(rptr<GuiScrollView :: IStyleProvider> _styleProvider);
 			
 			void AdjustView(Size fullSize);
 			rptr<GuiBoundsComposition> GetBoundsComposition();
@@ -2924,6 +3828,14 @@ GuiListControl
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiListControl(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiListControl();
+	
 	public:
 		class IItemArranger;
 		class IItemArrangerCallback;
@@ -2934,7 +3846,7 @@ GuiListControl
 		class IItemStyleController;
 		class IItemStyleProvider;
 		
-		static rptr<GuiListControl> Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider, bool acceptFocus);
+		static rptr<GuiListControl> CreateRptr(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider, bool acceptFocus);
 		
 		sptr<GuiListControl :: IItemStyleProvider> SetStyleProvider(sptr<GuiListControl :: IItemStyleProvider> value);
 		sptr<GuiListControl :: IItemArranger> SetArranger(sptr<GuiListControl :: IItemArranger> value);
@@ -2954,9 +3866,17 @@ GuiListControl
 GuiListControl :: IItemArrangerCallback
 ***********************************************************************/
 
-		class GACUI_API IItemArrangerCallback : public virtual IDescriptable
+		class GACUI_API IItemArrangerCallback : public IDescriptable
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IItemArrangerCallback(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IItemArrangerCallback();
 		
 		public:
 			rptr<GuiListControl :: IItemStyleController> RequestItem(signed __int32 itemIndex);
@@ -2977,9 +3897,17 @@ GuiListControl :: IItemArrangerCallback
 GuiListControl :: IItemCoordinateTransformer
 ***********************************************************************/
 
-		class GACUI_API IItemCoordinateTransformer : public virtual IDescriptable
+		class GACUI_API IItemCoordinateTransformer : public IDescriptable
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IItemCoordinateTransformer(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IItemCoordinateTransformer();
 		
 		public:
 			Size RealSizeToVirtualSize(Size size);
@@ -2999,9 +3927,17 @@ GuiListControl :: IItemCoordinateTransformer
 GuiListControl :: IItemPrimaryTextView
 ***********************************************************************/
 
-		class GACUI_API IItemPrimaryTextView : public virtual IDescriptable
+		class GACUI_API IItemPrimaryTextView : public IDescriptable
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IItemPrimaryTextView(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IItemPrimaryTextView();
 		
 		public:
 			GacString GetPrimaryTextViewText(signed __int32 itemIndex);
@@ -3018,9 +3954,17 @@ GuiListControl :: IItemPrimaryTextView
 GuiListControl :: IItemProvider
 ***********************************************************************/
 
-		class GACUI_API IItemProvider : public virtual IDescriptable
+		class GACUI_API IItemProvider : public IDescriptable
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IItemProvider(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IItemProvider();
 		
 		public:
 			bool AttachCallback(rptr<GuiListControl :: IItemProviderCallback> value);
@@ -3037,9 +3981,17 @@ GuiListControl :: IItemProvider
 GuiListControl :: IItemProviderCallback
 ***********************************************************************/
 
-		class GACUI_API IItemProviderCallback : public virtual IDescriptable
+		class GACUI_API IItemProviderCallback : public IDescriptable
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IItemProviderCallback(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IItemProviderCallback();
 		
 		public:
 			void OnAttached(rptr<GuiListControl :: IItemProvider> provider);
@@ -3053,9 +4005,17 @@ GuiListControl :: IItemProviderCallback
 GuiListControl :: IItemArranger
 ***********************************************************************/
 
-		class GACUI_API IItemArranger : public virtual GuiListControl :: IItemProviderCallback
+		class GACUI_API IItemArranger : public GuiListControl :: IItemProviderCallback
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IItemArranger(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IItemArranger();
 		
 		public:
 			void AttachListControl(rptr<GuiListControl> value);
@@ -3076,9 +4036,17 @@ GuiListControl :: IItemArranger
 GuiListControl :: IItemStyleController
 ***********************************************************************/
 
-		class GACUI_API IItemStyleController : public virtual IDescriptable
+		class GACUI_API IItemStyleController : public IDescriptable
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IItemStyleController(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IItemStyleController();
 		
 		public:
 			bool IsCacheable();
@@ -3098,9 +4066,17 @@ GuiListControl :: IItemStyleController
 GuiListControl :: IItemStyleProvider
 ***********************************************************************/
 
-		class GACUI_API IItemStyleProvider : public virtual IDescriptable
+		class GACUI_API IItemStyleProvider : public IDescriptable
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IItemStyleProvider(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IItemStyleProvider();
 		
 		public:
 			void AttachListControl(rptr<GuiListControl> value);
@@ -3120,7 +4096,7 @@ GuiListControl :: IItemStyleProvider
 AxisAlignedItemCoordinateTransformer :: Alignment
 ***********************************************************************/
 
-	class GACUI_API AxisAlignedItemCoordinateTransformer : public virtual GuiListControl :: IItemCoordinateTransformer
+	class GACUI_API AxisAlignedItemCoordinateTransformer : public GuiListControl :: IItemCoordinateTransformer
 	{
 	public:
 		enum Alignment
@@ -3141,9 +4117,17 @@ AxisAlignedItemCoordinateTransformer
 ***********************************************************************/
 
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		AxisAlignedItemCoordinateTransformer(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~AxisAlignedItemCoordinateTransformer();
+	
 	public:
 		
-		static rptr<AxisAlignedItemCoordinateTransformer> Create(AxisAlignedItemCoordinateTransformer :: Alignment _alignment);
+		static rptr<AxisAlignedItemCoordinateTransformer> CreateRptr(AxisAlignedItemCoordinateTransformer :: Alignment _alignment);
 		
 		Size RealSizeToVirtualSize(Size size);
 		Size VirtualSizeToRealSize(Size size);
@@ -3164,13 +4148,21 @@ AxisAlignedItemCoordinateTransformer
 DefaultItemCoordinateTransformer
 ***********************************************************************/
 
-	class GACUI_API DefaultItemCoordinateTransformer : public virtual GuiListControl :: IItemCoordinateTransformer
+	class GACUI_API DefaultItemCoordinateTransformer : public GuiListControl :: IItemCoordinateTransformer
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		DefaultItemCoordinateTransformer(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~DefaultItemCoordinateTransformer();
+	
 	public:
 		
-		static rptr<DefaultItemCoordinateTransformer> Create();
+		static rptr<DefaultItemCoordinateTransformer> CreateRptr();
 		
 		Size RealSizeToVirtualSize(Size size);
 		Size VirtualSizeToRealSize(Size size);
@@ -3193,10 +4185,18 @@ GuiScrollContainer
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiScrollContainer(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiScrollContainer();
+	
 	public:
 		class StyleController;
 		
-		static rptr<GuiScrollContainer> Create(rptr<GuiScrollView :: IStyleProvider> styleProvider);
+		static rptr<GuiScrollContainer> CreateRptr(rptr<GuiScrollView :: IStyleProvider> styleProvider);
 		
 		rptr<GuiScrollContainer> operator=(rptr<GuiScrollContainer> value);
 		
@@ -3209,8 +4209,16 @@ GuiScrollContainer :: StyleController
 		{
 		public:
 		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			StyleController(void* __internal_object_reference_input);
+		
 		public:
-			static rptr<GuiScrollContainer :: StyleController> Create(rptr<GuiScrollView :: IStyleProvider> styleProvider);
+			virtual ~StyleController();
+		
+		public:
+			static rptr<GuiScrollContainer :: StyleController> CreateRptr(rptr<GuiScrollView :: IStyleProvider> styleProvider);
 			
 			rptr<GuiGraphicsComposition> GetContainerComposition();
 			void MoveContainer(Point leftTop);
@@ -3229,12 +4237,20 @@ GuiSelectableButton
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiSelectableButton(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiSelectableButton();
+	
 	public:
 		class GroupController;
 		class IStyleController;
 		class MutexGroupController;
 		
-		static rptr<GuiSelectableButton> Create(rptr<GuiSelectableButton :: IStyleController> _styleController);
+		static rptr<GuiSelectableButton> CreateRptr(rptr<GuiSelectableButton :: IStyleController> _styleController);
 		
 		rptr<GuiSelectableButton> operator=(rptr<GuiSelectableButton> value);
 		
@@ -3257,6 +4273,14 @@ GuiSelectableButton :: GroupController
 		{
 		public:
 		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			GroupController(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~GroupController();
+		
 		public:
 			void Attach(rptr<GuiSelectableButton> button);
 			void Detach(rptr<GuiSelectableButton> button);
@@ -3270,9 +4294,17 @@ GuiSelectableButton :: GroupController
 GuiSelectableButton :: IStyleController
 ***********************************************************************/
 
-		class GACUI_API IStyleController : public virtual GuiButton :: IStyleController
+		class GACUI_API IStyleController : public GuiButton :: IStyleController
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IStyleController(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IStyleController();
 		
 		public:
 			rptr<GuiSelectableButton :: IStyleController> operator=(rptr<GuiSelectableButton :: IStyleController> value);
@@ -3289,8 +4321,16 @@ GuiSelectableButton :: MutexGroupController
 		{
 		public:
 		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			MutexGroupController(void* __internal_object_reference_input);
+		
 		public:
-			static rptr<GuiSelectableButton :: MutexGroupController> Create();
+			virtual ~MutexGroupController();
+		
+		public:
+			static rptr<GuiSelectableButton :: MutexGroupController> CreateRptr();
 			
 			void OnSelectedChanged(rptr<GuiSelectableButton> button);
 			rptr<GuiSelectableButton :: MutexGroupController> operator=(rptr<GuiSelectableButton :: MutexGroupController> value);
@@ -3308,10 +4348,18 @@ GuiSelectableListControl
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiSelectableListControl(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiSelectableListControl();
+	
 	public:
 		class IItemStyleProvider;
 		
-		static rptr<GuiSelectableListControl> Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider);
+		static rptr<GuiSelectableListControl> CreateRptr(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider);
 		
 		sptr<GuiListControl :: IItemStyleProvider> SetStyleProvider(sptr<GuiListControl :: IItemStyleProvider> value);
 		bool GetSelected(signed __int32 itemIndex);
@@ -3329,9 +4377,17 @@ GuiSelectableListControl
 GuiSelectableListControl :: IItemStyleProvider
 ***********************************************************************/
 
-		class GACUI_API IItemStyleProvider : public virtual GuiListControl :: IItemStyleProvider
+		class GACUI_API IItemStyleProvider : public GuiListControl :: IItemStyleProvider
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IItemStyleProvider(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IItemStyleProvider();
 		
 		public:
 			void SetStyleSelected(rptr<GuiListControl :: IItemStyleController> style, bool value);
@@ -3350,10 +4406,18 @@ GuiListViewBase
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiListViewBase(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiListViewBase();
+	
 	public:
 		class IStyleProvider;
 		
-		static rptr<GuiListViewBase> Create(rptr<GuiListViewBase :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider);
+		static rptr<GuiListViewBase> CreateRptr(rptr<GuiListViewBase :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider);
 		
 		sptr<GuiListControl :: IItemStyleProvider> SetStyleProvider(sptr<GuiListControl :: IItemStyleProvider> value);
 		rptr<GuiListViewBase> operator=(rptr<GuiListViewBase> value);
@@ -3365,9 +4429,17 @@ GuiListViewBase
 GuiListViewBase :: IStyleProvider
 ***********************************************************************/
 
-		class GACUI_API IStyleProvider : public virtual GuiScrollView :: IStyleProvider
+		class GACUI_API IStyleProvider : public GuiScrollView :: IStyleProvider
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IStyleProvider(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IStyleProvider();
 		
 		public:
 			rptr<GuiSelectableButton :: IStyleController> CreateItemBackground();
@@ -3404,9 +4476,17 @@ GuiSideAlignedComposition
 ***********************************************************************/
 
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiSideAlignedComposition(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiSideAlignedComposition();
+	
 	public:
 		
-		static rptr<GuiSideAlignedComposition> Create();
+		static rptr<GuiSideAlignedComposition> CreateRptr();
 		
 		GuiGraphicsComposition :: ParentSizeAffection GetAffectionFromParent();
 		bool IsSizeAffectParent();
@@ -3431,9 +4511,17 @@ GuiStackItemComposition
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiStackItemComposition(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiStackItemComposition();
+	
 	public:
 		
-		static rptr<GuiStackItemComposition> Create();
+		static rptr<GuiStackItemComposition> CreateRptr();
 		
 		GuiGraphicsComposition :: ParentSizeAffection GetAffectionFromParent();
 		bool IsSizeAffectParent();
@@ -3455,11 +4543,19 @@ GuiTab
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiTab(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiTab();
+	
 	public:
 		class ICommandExecutor;
 		class IStyleController;
 		
-		static rptr<GuiTab> Create(rptr<GuiTab :: IStyleController> _styleController);
+		static rptr<GuiTab> CreateRptr(rptr<GuiTab :: IStyleController> _styleController);
 		
 		bool CreatePage(rptr<GuiTabPage> page, signed __int32 index);
 		rptr<GuiTabPage> CreatePage(signed __int32 index);
@@ -3477,9 +4573,17 @@ GuiTab
 GuiTab :: ICommandExecutor
 ***********************************************************************/
 
-		class GACUI_API ICommandExecutor : public virtual IDescriptable
+		class GACUI_API ICommandExecutor : public IDescriptable
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			ICommandExecutor(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~ICommandExecutor();
 		
 		public:
 			void ShowTab(signed __int32 index);
@@ -3492,9 +4596,17 @@ GuiTab :: ICommandExecutor
 GuiTab :: IStyleController
 ***********************************************************************/
 
-		class GACUI_API IStyleController : public virtual GuiControl :: IStyleController
+		class GACUI_API IStyleController : public GuiControl :: IStyleController
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IStyleController(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IStyleController();
 		
 		public:
 			void InsertTab(signed __int32 index);
@@ -3519,9 +4631,17 @@ GuiTableComposition
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiTableComposition(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiTableComposition();
+	
 	public:
 		
-		static rptr<GuiTableComposition> Create();
+		static rptr<GuiTableComposition> CreateRptr();
 		
 		bool SetRowsAndColumns(signed __int32 _rows, signed __int32 _columns);
 		rptr<GuiCellComposition> GetSitedCell(signed __int32 _row, signed __int32 _column);
@@ -3551,9 +4671,17 @@ GuiWindow
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiWindow(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiWindow();
+	
 	public:
 		
-		static rptr<GuiWindow> Create(rptr<GuiControl :: IStyleController> _styleController);
+		static rptr<GuiWindow> CreateRptr(rptr<GuiControl :: IStyleController> _styleController);
 		
 		rptr<GuiWindow> operator=(rptr<GuiWindow> value);
 		
@@ -3568,9 +4696,17 @@ GuiPopup
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiPopup(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiPopup();
+	
 	public:
 		
-		static rptr<GuiPopup> Create(rptr<GuiControl :: IStyleController> _styleController);
+		static rptr<GuiPopup> CreateRptr(rptr<GuiControl :: IStyleController> _styleController);
 		
 		bool IsClippedByScreen(Point location);
 		void ShowPopup(rptr<GuiControl> control, bool preferredTopBottomSide);
@@ -3588,11 +4724,19 @@ GuiComboBoxBase
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiComboBoxBase(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiComboBoxBase();
+	
 	public:
 		class ICommandExecutor;
 		class IStyleController;
 		
-		static rptr<GuiComboBoxBase> Create(rptr<GuiComboBoxBase :: IStyleController> _styleController);
+		static rptr<GuiComboBoxBase> CreateRptr(rptr<GuiComboBoxBase :: IStyleController> _styleController);
 		
 		void ShowPopup();
 		rptr<GuiComboBoxBase> operator=(rptr<GuiComboBoxBase> value);
@@ -3608,9 +4752,17 @@ GuiComboBoxBase
 GuiComboBoxBase :: ICommandExecutor
 ***********************************************************************/
 
-		class GACUI_API ICommandExecutor : public virtual IDescriptable
+		class GACUI_API ICommandExecutor : public IDescriptable
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			ICommandExecutor(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~ICommandExecutor();
 		
 		public:
 			void ShowPopup();
@@ -3624,9 +4776,17 @@ GuiComboBoxBase :: ICommandExecutor
 GuiComboBoxBase :: IStyleController
 ***********************************************************************/
 
-		class GACUI_API IStyleController : public virtual GuiButton :: IStyleController
+		class GACUI_API IStyleController : public GuiButton :: IStyleController
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IStyleController(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IStyleController();
 		
 		public:
 			void OnClicked();
@@ -3650,9 +4810,17 @@ GuiComboBoxListControl
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiComboBoxListControl(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiComboBoxListControl();
+	
 	public:
 		
-		static rptr<GuiComboBoxListControl> Create(rptr<GuiComboBoxBase :: IStyleController> _styleController, rptr<GuiSelectableListControl> _containedListControl);
+		static rptr<GuiComboBoxListControl> CreateRptr(rptr<GuiComboBoxBase :: IStyleController> _styleController, rptr<GuiSelectableListControl> _containedListControl);
 		
 		void SetFont(const FontProperties& value);
 		rptr<GuiComboBoxListControl> operator=(rptr<GuiComboBoxListControl> value);
@@ -3670,13 +4838,21 @@ GuiComboBoxListControl
 GuiMenu
 ***********************************************************************/
 
-	class GACUI_API GuiMenu : public GuiPopup, public virtual IGuiMenuService
+	class GACUI_API GuiMenu : public GuiPopup, public IGuiMenuService
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiMenu(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiMenu();
+	
 	public:
 		
-		static rptr<GuiMenu> Create(rptr<GuiControl :: IStyleController> _styleController, rptr<GuiControl> _owner);
+		static rptr<GuiMenu> CreateRptr(rptr<GuiControl :: IStyleController> _styleController, rptr<GuiControl> _owner);
 		
 		void UpdateMenuService();
 		rptr<IDescriptable> QueryService(const GacString& identifier);
@@ -3693,9 +4869,17 @@ GuiWindowComposition
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiWindowComposition(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiWindowComposition();
+	
 	public:
 		
-		static rptr<GuiWindowComposition> Create();
+		static rptr<GuiWindowComposition> CreateRptr();
 		
 		Rect GetBounds();
 		void SetMargin(Margin value);
@@ -3714,6 +4898,14 @@ INativeWindow
 	class GACUI_API INativeWindow
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		INativeWindow(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~INativeWindow();
 	
 	public:
 		
@@ -3781,9 +4973,17 @@ INativeWindow
 INodeItemStyleController
 ***********************************************************************/
 
-	class GACUI_API INodeItemStyleController : public virtual GuiListControl :: IItemStyleController
+	class GACUI_API INodeItemStyleController : public GuiListControl :: IItemStyleController
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		INodeItemStyleController(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~INodeItemStyleController();
 	
 	public:
 		
@@ -3798,9 +4998,17 @@ INodeItemStyleController
 INodeItemStyleProvider
 ***********************************************************************/
 
-	class GACUI_API INodeItemStyleProvider : public virtual IDescriptable
+	class GACUI_API INodeItemStyleProvider : public IDescriptable
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		INodeItemStyleProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~INodeItemStyleProvider();
 	
 	public:
 		
@@ -3823,9 +5031,17 @@ INodeItemStyleProvider
 INodeItemView
 ***********************************************************************/
 
-	class GACUI_API INodeItemView : public virtual GuiListControl :: IItemPrimaryTextView
+	class GACUI_API INodeItemView : public GuiListControl :: IItemPrimaryTextView
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		INodeItemView(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~INodeItemView();
 	
 	public:
 		
@@ -3848,9 +5064,17 @@ GuiVirtualTreeListControl
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiVirtualTreeListControl(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiVirtualTreeListControl();
+	
 	public:
 		
-		static rptr<GuiVirtualTreeListControl> Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<INodeRootProvider> _nodeRootProvider);
+		static rptr<GuiVirtualTreeListControl> CreateRptr(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<INodeRootProvider> _nodeRootProvider);
 		
 		sptr<INodeItemStyleProvider> SetNodeStyleProvider(sptr<INodeItemStyleProvider> styleProvider);
 		rptr<GuiVirtualTreeListControl> operator=(rptr<GuiVirtualTreeListControl> value);
@@ -3869,6 +5093,14 @@ IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer
 	class GACUI_API IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer();
 	
 	public:
 		
@@ -3889,6 +5121,14 @@ IReadonlyList_of_GuiStackItemComposition_raw_pointer
 	class GACUI_API IReadonlyList_of_GuiStackItemComposition_raw_pointer
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		IReadonlyList_of_GuiStackItemComposition_raw_pointer(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~IReadonlyList_of_GuiStackItemComposition_raw_pointer();
 	
 	public:
 		
@@ -3921,9 +5161,17 @@ GuiStackComposition
 ***********************************************************************/
 
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiStackComposition(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiStackComposition();
+	
 	public:
 		
-		static rptr<GuiStackComposition> Create();
+		static rptr<GuiStackComposition> CreateRptr();
 		
 		bool InsertStackItem(signed __int32 index, rptr<GuiStackItemComposition> item);
 		Size GetMinPreferredClientSize();
@@ -3949,6 +5197,14 @@ IReadonlyList_of_GuiWindow_raw_pointer
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		IReadonlyList_of_GuiWindow_raw_pointer(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~IReadonlyList_of_GuiWindow_raw_pointer();
+	
 	public:
 		
 		bool Contains(rptr<GuiWindow> item);
@@ -3965,9 +5221,17 @@ IReadonlyList_of_GuiWindow_raw_pointer
 GuiApplication
 ***********************************************************************/
 
-	class GACUI_API GuiApplication : public virtual INativeControllerListener
+	class GACUI_API GuiApplication : public INativeControllerListener
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiApplication(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiApplication();
 	
 	public:
 		
@@ -3985,13 +5249,21 @@ GuiApplication
 ItemProviderBase
 ***********************************************************************/
 
-	class GACUI_API ItemProviderBase : public virtual GuiListControl :: IItemProvider
+	class GACUI_API ItemProviderBase : public GuiListControl :: IItemProvider
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		ItemProviderBase(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~ItemProviderBase();
+	
 	public:
 		
-		static rptr<ItemProviderBase> Create();
+		static rptr<ItemProviderBase> CreateRptr();
 		
 		bool AttachCallback(rptr<GuiListControl :: IItemProviderCallback> value);
 		bool DetachCallback(rptr<GuiListControl :: IItemProviderCallback> value);
@@ -4004,9 +5276,17 @@ ItemProviderBase
 ItemStyleControllerBase
 ***********************************************************************/
 
-	class GACUI_API ItemStyleControllerBase : public virtual GuiListControl :: IItemStyleController
+	class GACUI_API ItemStyleControllerBase : public GuiListControl :: IItemStyleController
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		ItemStyleControllerBase(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~ItemStyleControllerBase();
 	
 	public:
 		
@@ -4026,14 +5306,22 @@ ItemStyleControllerBase
 ListViewItemStyleProviderBase
 ***********************************************************************/
 
-	class GACUI_API ListViewItemStyleProviderBase : public virtual GuiSelectableListControl :: IItemStyleProvider
+	class GACUI_API ListViewItemStyleProviderBase : public GuiSelectableListControl :: IItemStyleProvider
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		ListViewItemStyleProviderBase(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~ListViewItemStyleProviderBase();
 	
 	public:
 		class ListViewItemStyleController;
 		
-		static rptr<ListViewItemStyleProviderBase> Create();
+		static rptr<ListViewItemStyleProviderBase> CreateRptr();
 		
 		void AttachListControl(rptr<GuiListControl> value);
 		void DetachListControl();
@@ -4046,12 +5334,20 @@ ListViewItemStyleProviderBase
 ListViewItemStyleProviderBase :: ListViewItemStyleController
 ***********************************************************************/
 
-		class GACUI_API ListViewItemStyleController : public virtual ItemStyleControllerBase
+		class GACUI_API ListViewItemStyleController : public ItemStyleControllerBase
 		{
 		public:
 		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			ListViewItemStyleController(void* __internal_object_reference_input);
+		
 		public:
-			static rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> Create(rptr<ListViewItemStyleProviderBase> provider);
+			virtual ~ListViewItemStyleController();
+		
+		public:
+			static rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> CreateRptr(rptr<ListViewItemStyleProviderBase> provider);
 			
 			rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> operator=(rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> value);
 			
@@ -4071,13 +5367,21 @@ ListViewItemStyleProvider
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		ListViewItemStyleProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~ListViewItemStyleProvider();
+	
 	public:
 		class IListViewItemContent;
 		class IListViewItemContentProvider;
 		class IListViewItemView;
 		class ListViewContentItemStyleController;
 		
-		static rptr<ListViewItemStyleProvider> Create(rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> itemContentProvider);
+		static rptr<ListViewItemStyleProvider> CreateRptr(rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> itemContentProvider);
 		
 		void AttachListControl(rptr<GuiListControl> value);
 		void DetachListControl();
@@ -4094,9 +5398,17 @@ ListViewItemStyleProvider
 ListViewItemStyleProvider :: IListViewItemContent
 ***********************************************************************/
 
-		class GACUI_API IListViewItemContent : public virtual IDescriptable
+		class GACUI_API IListViewItemContent : public IDescriptable
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IListViewItemContent(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IListViewItemContent();
 		
 		public:
 			void Install(rptr<GuiListViewBase :: IStyleProvider> styleProvider, rptr<ListViewItemStyleProvider :: IListViewItemView> view, signed __int32 itemIndex);
@@ -4112,9 +5424,17 @@ ListViewItemStyleProvider :: IListViewItemContent
 ListViewItemStyleProvider :: IListViewItemContentProvider
 ***********************************************************************/
 
-		class GACUI_API IListViewItemContentProvider : public virtual IDescriptable
+		class GACUI_API IListViewItemContentProvider : public IDescriptable
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IListViewItemContentProvider(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IListViewItemContentProvider();
 		
 		public:
 			rptr<GuiListControl :: IItemCoordinateTransformer> CreatePreferredCoordinateTransformer();
@@ -4131,9 +5451,17 @@ ListViewItemStyleProvider :: IListViewItemContentProvider
 ListViewItemStyleProvider :: IListViewItemView
 ***********************************************************************/
 
-		class GACUI_API IListViewItemView : public virtual GuiListControl :: IItemPrimaryTextView
+		class GACUI_API IListViewItemView : public GuiListControl :: IItemPrimaryTextView
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IListViewItemView(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IListViewItemView();
 		
 		public:
 			sptr<GuiImageData> GetSmallImage(signed __int32 itemIndex);
@@ -4161,8 +5489,16 @@ ListViewItemStyleProvider :: ListViewContentItemStyleController
 		{
 		public:
 		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			ListViewContentItemStyleController(void* __internal_object_reference_input);
+		
 		public:
-			static rptr<ListViewItemStyleProvider :: ListViewContentItemStyleController> Create(rptr<ListViewItemStyleProvider> provider);
+			virtual ~ListViewContentItemStyleController();
+		
+		public:
+			static rptr<ListViewItemStyleProvider :: ListViewContentItemStyleController> CreateRptr(rptr<ListViewItemStyleProvider> provider);
 			
 			void Install(rptr<ListViewItemStyleProvider :: IListViewItemView> view, signed __int32 itemIndex);
 			rptr<ListViewItemStyleProvider :: ListViewContentItemStyleController> operator=(rptr<ListViewItemStyleProvider :: ListViewContentItemStyleController> value);
@@ -4182,9 +5518,17 @@ GuiVirtualListView
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiVirtualListView(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiVirtualListView();
+	
 	public:
 		
-		static rptr<GuiVirtualListView> Create(rptr<GuiListViewBase :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider);
+		static rptr<GuiVirtualListView> CreateRptr(rptr<GuiListViewBase :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider);
 		
 		void ChangeItemStyle(rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> contentProvider);
 		rptr<GuiVirtualListView> operator=(rptr<GuiVirtualListView> value);
@@ -4196,13 +5540,21 @@ GuiVirtualListView
 ListViewBigIconContentProvider
 ***********************************************************************/
 
-	class GACUI_API ListViewBigIconContentProvider : public virtual ListViewItemStyleProvider :: IListViewItemContentProvider
+	class GACUI_API ListViewBigIconContentProvider : public ListViewItemStyleProvider :: IListViewItemContentProvider
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		ListViewBigIconContentProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~ListViewBigIconContentProvider();
+	
 	public:
 		
-		static rptr<ListViewBigIconContentProvider> Create(Size _iconSize);
+		static rptr<ListViewBigIconContentProvider> CreateRptr(Size _iconSize);
 		
 		rptr<GuiListControl :: IItemCoordinateTransformer> CreatePreferredCoordinateTransformer();
 		rptr<GuiListControl :: IItemArranger> CreatePreferredArranger();
@@ -4218,13 +5570,21 @@ ListViewBigIconContentProvider
 ListViewInformationContentProvider
 ***********************************************************************/
 
-	class GACUI_API ListViewInformationContentProvider : public virtual ListViewItemStyleProvider :: IListViewItemContentProvider
+	class GACUI_API ListViewInformationContentProvider : public ListViewItemStyleProvider :: IListViewItemContentProvider
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		ListViewInformationContentProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~ListViewInformationContentProvider();
+	
 	public:
 		
-		static rptr<ListViewInformationContentProvider> Create(Size _iconSize);
+		static rptr<ListViewInformationContentProvider> CreateRptr(Size _iconSize);
 		
 		rptr<GuiListControl :: IItemCoordinateTransformer> CreatePreferredCoordinateTransformer();
 		rptr<GuiListControl :: IItemArranger> CreatePreferredArranger();
@@ -4240,13 +5600,21 @@ ListViewInformationContentProvider
 ListViewListContentProvider
 ***********************************************************************/
 
-	class GACUI_API ListViewListContentProvider : public virtual ListViewItemStyleProvider :: IListViewItemContentProvider
+	class GACUI_API ListViewListContentProvider : public ListViewItemStyleProvider :: IListViewItemContentProvider
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		ListViewListContentProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~ListViewListContentProvider();
+	
 	public:
 		
-		static rptr<ListViewListContentProvider> Create(Size _iconSize);
+		static rptr<ListViewListContentProvider> CreateRptr(Size _iconSize);
 		
 		rptr<GuiListControl :: IItemCoordinateTransformer> CreatePreferredCoordinateTransformer();
 		rptr<GuiListControl :: IItemArranger> CreatePreferredArranger();
@@ -4262,13 +5630,21 @@ ListViewListContentProvider
 ListViewSmallIconContentProvider
 ***********************************************************************/
 
-	class GACUI_API ListViewSmallIconContentProvider : public virtual ListViewItemStyleProvider :: IListViewItemContentProvider
+	class GACUI_API ListViewSmallIconContentProvider : public ListViewItemStyleProvider :: IListViewItemContentProvider
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		ListViewSmallIconContentProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~ListViewSmallIconContentProvider();
+	
 	public:
 		
-		static rptr<ListViewSmallIconContentProvider> Create(Size _iconSize);
+		static rptr<ListViewSmallIconContentProvider> CreateRptr(Size _iconSize);
 		
 		rptr<GuiListControl :: IItemCoordinateTransformer> CreatePreferredCoordinateTransformer();
 		rptr<GuiListControl :: IItemArranger> CreatePreferredArranger();
@@ -4284,13 +5660,21 @@ ListViewSmallIconContentProvider
 ListViewTileContentProvider
 ***********************************************************************/
 
-	class GACUI_API ListViewTileContentProvider : public virtual ListViewItemStyleProvider :: IListViewItemContentProvider
+	class GACUI_API ListViewTileContentProvider : public ListViewItemStyleProvider :: IListViewItemContentProvider
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		ListViewTileContentProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~ListViewTileContentProvider();
+	
 	public:
 		
-		static rptr<ListViewTileContentProvider> Create(Size _iconSize);
+		static rptr<ListViewTileContentProvider> CreateRptr(Size _iconSize);
 		
 		rptr<GuiListControl :: IItemCoordinateTransformer> CreatePreferredCoordinateTransformer();
 		rptr<GuiListControl :: IItemArranger> CreatePreferredArranger();
@@ -4306,9 +5690,17 @@ ListViewTileContentProvider
 ListWrapperProvider_of_ListViewItem
 ***********************************************************************/
 
-	class GACUI_API ListWrapperProvider_of_ListViewItem : public virtual ItemProviderBase, public virtual IList_of_ListViewItem
+	class GACUI_API ListWrapperProvider_of_ListViewItem : public ItemProviderBase, public IList_of_ListViewItem
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		ListWrapperProvider_of_ListViewItem(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~ListWrapperProvider_of_ListViewItem();
 	
 	public:
 		
@@ -4338,9 +5730,17 @@ ListProvider_of_ListViewItem
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		ListProvider_of_ListViewItem(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~ListProvider_of_ListViewItem();
+	
 	public:
 		
-		static rptr<ListProvider_of_ListViewItem> Create();
+		static rptr<ListProvider_of_ListViewItem> CreateRptr();
 		
 		rptr<ListProvider_of_ListViewItem> operator=(rptr<ListProvider_of_ListViewItem> value);
 		
@@ -4351,13 +5751,21 @@ ListProvider_of_ListViewItem
 NodeItemProvider
 ***********************************************************************/
 
-	class GACUI_API NodeItemProvider : public virtual ItemProviderBase, public virtual INodeProviderCallback, public virtual INodeItemView
+	class GACUI_API NodeItemProvider : public ItemProviderBase, public INodeProviderCallback, public INodeItemView
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		NodeItemProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~NodeItemProvider();
+	
 	public:
 		
-		static rptr<NodeItemProvider> Create(rptr<INodeRootProvider> _root);
+		static rptr<NodeItemProvider> CreateRptr(rptr<INodeRootProvider> _root);
 		
 		signed __int32 Count();
 		rptr<IDescriptable> RequestView(const GacString& identifier);
@@ -4373,13 +5781,21 @@ NodeItemProvider
 NodeItemStyleProvider
 ***********************************************************************/
 
-	class GACUI_API NodeItemStyleProvider : public virtual GuiSelectableListControl :: IItemStyleProvider
+	class GACUI_API NodeItemStyleProvider : public GuiSelectableListControl :: IItemStyleProvider
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		NodeItemStyleProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~NodeItemStyleProvider();
+	
 	public:
 		
-		static rptr<NodeItemStyleProvider> Create(sptr<INodeItemStyleProvider> provider);
+		static rptr<NodeItemStyleProvider> CreateRptr(sptr<INodeItemStyleProvider> provider);
 		
 		void AttachListControl(rptr<GuiListControl> value);
 		void DetachListControl();
@@ -4397,9 +5813,17 @@ NodeItemStyleProvider
 RangedItemArrangerBase
 ***********************************************************************/
 
-	class GACUI_API RangedItemArrangerBase : public virtual GuiListControl :: IItemArranger
+	class GACUI_API RangedItemArrangerBase : public GuiListControl :: IItemArranger
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		RangedItemArrangerBase(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~RangedItemArrangerBase();
 	
 	public:
 		
@@ -4426,9 +5850,17 @@ FixedHeightItemArranger
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		FixedHeightItemArranger(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~FixedHeightItemArranger();
+	
 	public:
 		
-		static rptr<FixedHeightItemArranger> Create();
+		static rptr<FixedHeightItemArranger> CreateRptr();
 		
 		rptr<FixedHeightItemArranger> operator=(rptr<FixedHeightItemArranger> value);
 		
@@ -4443,9 +5875,17 @@ FixedHeightMultiColumnItemArranger
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		FixedHeightMultiColumnItemArranger(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~FixedHeightMultiColumnItemArranger();
+	
 	public:
 		
-		static rptr<FixedHeightMultiColumnItemArranger> Create();
+		static rptr<FixedHeightMultiColumnItemArranger> CreateRptr();
 		
 		rptr<FixedHeightMultiColumnItemArranger> operator=(rptr<FixedHeightMultiColumnItemArranger> value);
 		
@@ -4460,9 +5900,17 @@ FixedSizeMultiColumnItemArranger
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		FixedSizeMultiColumnItemArranger(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~FixedSizeMultiColumnItemArranger();
+	
 	public:
 		
-		static rptr<FixedSizeMultiColumnItemArranger> Create();
+		static rptr<FixedSizeMultiColumnItemArranger> CreateRptr();
 		
 		rptr<FixedSizeMultiColumnItemArranger> operator=(rptr<FixedSizeMultiColumnItemArranger> value);
 		
@@ -4477,11 +5925,19 @@ ListViewColumnItemArranger
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		ListViewColumnItemArranger(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~ListViewColumnItemArranger();
+	
 	public:
 		class IColumnItemView;
 		class IColumnItemViewCallback;
 		
-		static rptr<ListViewColumnItemArranger> Create();
+		static rptr<ListViewColumnItemArranger> CreateRptr();
 		
 		void AttachListControl(rptr<GuiListControl> value);
 		void DetachListControl();
@@ -4492,9 +5948,17 @@ ListViewColumnItemArranger
 ListViewColumnItemArranger :: IColumnItemView
 ***********************************************************************/
 
-		class GACUI_API IColumnItemView : public virtual IDescriptable
+		class GACUI_API IColumnItemView : public IDescriptable
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IColumnItemView(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IColumnItemView();
 		
 		public:
 			bool AttachCallback(rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> value);
@@ -4516,9 +5980,17 @@ ListViewColumnItemArranger :: IColumnItemView
 ListViewColumnItemArranger :: IColumnItemViewCallback
 ***********************************************************************/
 
-		class GACUI_API IColumnItemViewCallback : public virtual IDescriptable
+		class GACUI_API IColumnItemViewCallback : public IDescriptable
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IColumnItemViewCallback(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IColumnItemViewCallback();
 		
 		public:
 			void OnColumnChanged();
@@ -4534,13 +6006,21 @@ ListViewColumnItemArranger :: IColumnItemViewCallback
 ListViewDetailContentProvider
 ***********************************************************************/
 
-	class GACUI_API ListViewDetailContentProvider : public virtual ListViewItemStyleProvider :: IListViewItemContentProvider, public virtual ListViewColumnItemArranger :: IColumnItemViewCallback
+	class GACUI_API ListViewDetailContentProvider : public ListViewItemStyleProvider :: IListViewItemContentProvider, public ListViewColumnItemArranger :: IColumnItemViewCallback
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		ListViewDetailContentProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~ListViewDetailContentProvider();
+	
 	public:
 		
-		static rptr<ListViewDetailContentProvider> Create(Size _iconSize);
+		static rptr<ListViewDetailContentProvider> CreateRptr(Size _iconSize);
 		
 		rptr<GuiListControl :: IItemCoordinateTransformer> CreatePreferredCoordinateTransformer();
 		rptr<GuiListControl :: IItemArranger> CreatePreferredArranger();
@@ -4556,13 +6036,21 @@ ListViewDetailContentProvider
 ListViewItemProvider
 ***********************************************************************/
 
-	class GACUI_API ListViewItemProvider : public ListProvider_of_ListViewItem, public virtual ListViewItemStyleProvider :: IListViewItemView, public virtual ListViewColumnItemArranger :: IColumnItemView
+	class GACUI_API ListViewItemProvider : public ListProvider_of_ListViewItem, public ListViewItemStyleProvider :: IListViewItemView, public ListViewColumnItemArranger :: IColumnItemView
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		ListViewItemProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~ListViewItemProvider();
+	
 	public:
 		
-		static rptr<ListViewItemProvider> Create();
+		static rptr<ListViewItemProvider> CreateRptr();
 		
 		rptr<IDescriptable> RequestView(const GacString& identifier);
 		void ReleaseView(rptr<IDescriptable> view);
@@ -4584,9 +6072,17 @@ GuiListView
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiListView(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiListView();
+	
 	public:
 		
-		static rptr<GuiListView> Create(rptr<GuiListViewBase :: IStyleProvider> _styleProvider);
+		static rptr<GuiListView> CreateRptr(rptr<GuiListViewBase :: IStyleProvider> _styleProvider);
 		
 		rptr<GuiListView> operator=(rptr<GuiListView> value);
 		
@@ -4603,16 +6099,24 @@ TextItem
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		TextItem(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~TextItem();
+	
 	public:
 		
-		static rptr<TextItem> Create(wchar_t* _text, bool _checked);
-		TextItem(wchar_t* _text, bool _checked);
-		static rptr<TextItem> Create(const GacString& _text, bool _checked);
-		TextItem(const GacString& _text, bool _checked);
-		static rptr<TextItem> Create(const TextItem& item);
-		TextItem(const TextItem& item);
-		static rptr<TextItem> Create();
-		TextItem();
+		static rptr<TextItem> CreateRptr(wchar_t* _text, bool _checked);
+		static TextItem Create(wchar_t* _text, bool _checked);
+		static rptr<TextItem> CreateRptr(const GacString& _text, bool _checked);
+		static TextItem Create(const GacString& _text, bool _checked);
+		static rptr<TextItem> CreateRptr(const TextItem& item);
+		static TextItem Create(const TextItem& item);
+		static rptr<TextItem> CreateRptr();
+		static TextItem Create();
 		
 		bool operator==(const TextItem& value);
 		bool operator!=(const TextItem& value);
@@ -4632,6 +6136,14 @@ IList_of_TextItem
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		IList_of_TextItem(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~IList_of_TextItem();
+	
 	public:
 		
 		signed __int32 Insert(signed __int32 index, const TextItem& item);
@@ -4645,9 +6157,17 @@ IList_of_TextItem
 ListWrapperProvider_of_TextItem
 ***********************************************************************/
 
-	class GACUI_API ListWrapperProvider_of_TextItem : public virtual ItemProviderBase, public virtual IList_of_TextItem
+	class GACUI_API ListWrapperProvider_of_TextItem : public ItemProviderBase, public IList_of_TextItem
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		ListWrapperProvider_of_TextItem(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~ListWrapperProvider_of_TextItem();
 	
 	public:
 		
@@ -4677,9 +6197,17 @@ ListProvider_of_TextItem
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		ListProvider_of_TextItem(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~ListProvider_of_TextItem();
+	
 	public:
 		
-		static rptr<ListProvider_of_TextItem> Create();
+		static rptr<ListProvider_of_TextItem> CreateRptr();
 		
 		rptr<ListProvider_of_TextItem> operator=(rptr<ListProvider_of_TextItem> value);
 		
@@ -4690,16 +6218,24 @@ ListProvider_of_TextItem
 TextItemStyleProvider
 ***********************************************************************/
 
-	class GACUI_API TextItemStyleProvider : public virtual GuiSelectableListControl :: IItemStyleProvider
+	class GACUI_API TextItemStyleProvider : public GuiSelectableListControl :: IItemStyleProvider
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		TextItemStyleProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~TextItemStyleProvider();
 	
 	public:
 		class ITextItemStyleProvider;
 		class ITextItemView;
 		class TextItemStyleController;
 		
-		static rptr<TextItemStyleProvider> Create(rptr<TextItemStyleProvider :: ITextItemStyleProvider> _textItemStyleProvider);
+		static rptr<TextItemStyleProvider> CreateRptr(rptr<TextItemStyleProvider :: ITextItemStyleProvider> _textItemStyleProvider);
 		
 		void AttachListControl(rptr<GuiListControl> value);
 		void DetachListControl();
@@ -4715,9 +6251,17 @@ TextItemStyleProvider
 TextItemStyleProvider :: ITextItemStyleProvider
 ***********************************************************************/
 
-		class GACUI_API ITextItemStyleProvider : public virtual IDescriptable
+		class GACUI_API ITextItemStyleProvider : public IDescriptable
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			ITextItemStyleProvider(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~ITextItemStyleProvider();
 		
 		public:
 			rptr<GuiSelectableButton :: IStyleController> CreateBackgroundStyleController();
@@ -4731,9 +6275,17 @@ TextItemStyleProvider :: ITextItemStyleProvider
 TextItemStyleProvider :: ITextItemView
 ***********************************************************************/
 
-		class GACUI_API ITextItemView : public virtual GuiListControl :: IItemPrimaryTextView
+		class GACUI_API ITextItemView : public GuiListControl :: IItemPrimaryTextView
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			ITextItemView(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~ITextItemView();
 		
 		public:
 			GacString GetText(signed __int32 itemIndex);
@@ -4751,12 +6303,20 @@ TextItemStyleProvider :: ITextItemView
 TextItemStyleProvider :: TextItemStyleController
 ***********************************************************************/
 
-		class GACUI_API TextItemStyleController : public virtual ItemStyleControllerBase
+		class GACUI_API TextItemStyleController : public ItemStyleControllerBase
 		{
 		public:
 		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			TextItemStyleController(void* __internal_object_reference_input);
+		
 		public:
-			static rptr<TextItemStyleProvider :: TextItemStyleController> Create(rptr<TextItemStyleProvider> provider);
+			virtual ~TextItemStyleController();
+		
+		public:
+			static rptr<TextItemStyleProvider :: TextItemStyleController> CreateRptr(rptr<TextItemStyleProvider> provider);
 			
 			rptr<TextItemStyleProvider :: TextItemStyleController> operator=(rptr<TextItemStyleProvider :: TextItemStyleController> value);
 			
@@ -4780,9 +6340,17 @@ GuiVirtualTextList
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiVirtualTextList(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiVirtualTextList();
+	
 	public:
 		
-		static rptr<GuiVirtualTextList> Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<TextItemStyleProvider :: ITextItemStyleProvider> _itemStyleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider);
+		static rptr<GuiVirtualTextList> CreateRptr(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<TextItemStyleProvider :: ITextItemStyleProvider> _itemStyleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider);
 		
 		sptr<GuiListControl :: IItemStyleProvider> SetStyleProvider(sptr<GuiListControl :: IItemStyleProvider> value);
 		sptr<GuiListControl :: IItemStyleProvider> ChangeItemStyle(rptr<TextItemStyleProvider :: ITextItemStyleProvider> itemStyleProvider);
@@ -4795,13 +6363,21 @@ GuiVirtualTextList
 TextItemProvider
 ***********************************************************************/
 
-	class GACUI_API TextItemProvider : public ListProvider_of_TextItem, public virtual TextItemStyleProvider :: ITextItemView
+	class GACUI_API TextItemProvider : public ListProvider_of_TextItem, public TextItemStyleProvider :: ITextItemView
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		TextItemProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~TextItemProvider();
+	
 	public:
 		
-		static rptr<TextItemProvider> Create();
+		static rptr<TextItemProvider> CreateRptr();
 		
 		void SetText(signed __int32 itemIndex, const GacString& value);
 		void SetChecked(signed __int32 itemIndex, bool value);
@@ -4820,9 +6396,17 @@ GuiTextList
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiTextList(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiTextList();
+	
 	public:
 		
-		static rptr<GuiTextList> Create(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<TextItemStyleProvider :: ITextItemStyleProvider> _itemStyleProvider);
+		static rptr<GuiTextList> CreateRptr(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<TextItemStyleProvider :: ITextItemStyleProvider> _itemStyleProvider);
 		
 		rptr<GuiTextList> operator=(rptr<GuiTextList> value);
 		
@@ -4839,10 +6423,18 @@ TextLine
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		TextLine(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~TextLine();
+	
 	public:
 		
-		static rptr<TextLine> Create();
-		TextLine();
+		static rptr<TextLine> CreateRptr();
+		static TextLine Create();
 		
 		bool operator==(const TextLine& value);
 		bool operator!=(const TextLine& value);
@@ -4877,12 +6469,20 @@ TextPos
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		TextPos(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~TextPos();
+	
 	public:
 		
-		static rptr<TextPos> Create(signed __int32 _row, signed __int32 _column);
-		TextPos(signed __int32 _row, signed __int32 _column);
-		static rptr<TextPos> Create();
-		TextPos();
+		static rptr<TextPos> CreateRptr(signed __int32 _row, signed __int32 _column);
+		static TextPos Create(signed __int32 _row, signed __int32 _column);
+		static rptr<TextPos> CreateRptr();
+		static TextPos Create();
 		
 		signed __int32 Compare(const TextPos& value);
 		bool operator==(const TextPos& value);
@@ -4908,9 +6508,17 @@ GuiTextBoxCommonInterface
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiTextBoxCommonInterface(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiTextBoxCommonInterface();
+	
 	public:
 		
-		static rptr<GuiTextBoxCommonInterface> Create();
+		static rptr<GuiTextBoxCommonInterface> CreateRptr();
 		
 		bool CanCut();
 		bool CanCopy();
@@ -4952,10 +6560,18 @@ TextLines
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		TextLines(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~TextLines();
+	
 	public:
 		
-		static rptr<TextLines> Create();
-		TextLines();
+		static rptr<TextLines> CreateRptr();
+		static TextLines Create();
 		
 		TextLine& GetLine(signed __int32 row);
 		GacString GetText(TextPos start, TextPos end);
@@ -4995,9 +6611,17 @@ TextLines
 GuiColorizedTextElement
 ***********************************************************************/
 
-	class GACUI_API GuiColorizedTextElement : public virtual IGuiGraphicsElement
+	class GACUI_API GuiColorizedTextElement : public IGuiGraphicsElement
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiColorizedTextElement(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiColorizedTextElement();
 	
 	public:
 		class ICallback;
@@ -5037,9 +6661,17 @@ GuiColorizedTextElement
 GuiColorizedTextElement :: ICallback
 ***********************************************************************/
 
-		class GACUI_API ICallback : public virtual IDescriptable
+		class GACUI_API ICallback : public IDescriptable
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			ICallback(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~ICallback();
 		
 		public:
 			void ColorChanged();
@@ -5059,11 +6691,19 @@ GuiTextElementOperator
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiTextElementOperator(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiTextElementOperator();
+	
 	public:
 		class DefaultCallback;
 		class ICallback;
 		
-		static rptr<GuiTextElementOperator> Create();
+		static rptr<GuiTextElementOperator> CreateRptr();
 		
 		void Install(rptr<GuiColorizedTextElement> _textElement, rptr<GuiGraphicsComposition> _textComposition, rptr<GuiControl> _textControl);
 		TextPos GetNearestTextPos(Point point);
@@ -5091,9 +6731,17 @@ GuiTextElementOperator
 GuiTextElementOperator :: ICallback
 ***********************************************************************/
 
-		class GACUI_API ICallback : public virtual IDescriptable
+		class GACUI_API ICallback : public IDescriptable
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			ICallback(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~ICallback();
 		
 		public:
 			TextPos GetLeftWord(TextPos pos);
@@ -5114,12 +6762,20 @@ GuiTextElementOperator :: ICallback
 GuiTextElementOperator :: DefaultCallback
 ***********************************************************************/
 
-		class GACUI_API DefaultCallback : public virtual GuiTextElementOperator :: ICallback
+		class GACUI_API DefaultCallback : public GuiTextElementOperator :: ICallback
 		{
 		public:
 		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			DefaultCallback(void* __internal_object_reference_input);
+		
 		public:
-			static rptr<GuiTextElementOperator :: DefaultCallback> Create(rptr<GuiColorizedTextElement> _textElement, rptr<GuiGraphicsComposition> _textComposition);
+			virtual ~DefaultCallback();
+		
+		public:
+			static rptr<GuiTextElementOperator :: DefaultCallback> CreateRptr(rptr<GuiColorizedTextElement> _textElement, rptr<GuiGraphicsComposition> _textComposition);
 			
 			TextPos GetLeftWord(TextPos pos);
 			TextPos GetRightWord(TextPos pos);
@@ -5141,11 +6797,19 @@ GuiMultilineTextBox
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiMultilineTextBox(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiMultilineTextBox();
+	
 	public:
 		class StyleController;
 		class TextElementOperatorCallback;
 		
-		static rptr<GuiMultilineTextBox> Create(rptr<GuiScrollView :: IStyleProvider> styleProvider);
+		static rptr<GuiMultilineTextBox> CreateRptr(rptr<GuiScrollView :: IStyleProvider> styleProvider);
 		
 		const GacString& GetText();
 		void SetText(const GacString& value);
@@ -5161,8 +6825,16 @@ GuiMultilineTextBox :: StyleController
 		{
 		public:
 		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			StyleController(void* __internal_object_reference_input);
+		
 		public:
-			static rptr<GuiMultilineTextBox :: StyleController> Create(rptr<GuiScrollView :: IStyleProvider> styleProvider);
+			virtual ~StyleController();
+		
+		public:
+			static rptr<GuiMultilineTextBox :: StyleController> CreateRptr(rptr<GuiScrollView :: IStyleProvider> styleProvider);
 			
 			void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
 			void SetText(const GacString& value);
@@ -5187,8 +6859,16 @@ GuiMultilineTextBox :: TextElementOperatorCallback
 		{
 		public:
 		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			TextElementOperatorCallback(void* __internal_object_reference_input);
+		
 		public:
-			static rptr<GuiMultilineTextBox :: TextElementOperatorCallback> Create(rptr<GuiMultilineTextBox> _textControl);
+			virtual ~TextElementOperatorCallback();
+		
+		public:
+			static rptr<GuiMultilineTextBox :: TextElementOperatorCallback> CreateRptr(rptr<GuiMultilineTextBox> _textControl);
 			
 			void AfterModify(TextPos originalStart, TextPos originalEnd, const GacString& originalText, TextPos inputStart, TextPos inputEnd, const GacString& inputText);
 			void ScrollToView(Point point);
@@ -5208,12 +6888,20 @@ GuiSinglelineTextBox
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiSinglelineTextBox(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiSinglelineTextBox();
+	
 	public:
 		class IStyleProvider;
 		class StyleController;
 		class TextElementOperatorCallback;
 		
-		static rptr<GuiSinglelineTextBox> Create(rptr<GuiSinglelineTextBox :: IStyleProvider> styleProvider);
+		static rptr<GuiSinglelineTextBox> CreateRptr(rptr<GuiSinglelineTextBox :: IStyleProvider> styleProvider);
 		
 		const GacString& GetText();
 		void SetText(const GacString& value);
@@ -5225,9 +6913,17 @@ GuiSinglelineTextBox
 GuiSinglelineTextBox :: IStyleProvider
 ***********************************************************************/
 
-		class GACUI_API IStyleProvider : public virtual GuiControl :: IStyleProvider
+		class GACUI_API IStyleProvider : public GuiControl :: IStyleProvider
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IStyleProvider(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IStyleProvider();
 		
 		public:
 			rptr<GuiGraphicsComposition> InstallBackground(rptr<GuiBoundsComposition> boundsComposition);
@@ -5240,12 +6936,20 @@ GuiSinglelineTextBox :: IStyleProvider
 GuiSinglelineTextBox :: StyleController
 ***********************************************************************/
 
-		class GACUI_API StyleController : public virtual GuiControl :: IStyleController
+		class GACUI_API StyleController : public GuiControl :: IStyleController
 		{
 		public:
 		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			StyleController(void* __internal_object_reference_input);
+		
 		public:
-			static rptr<GuiSinglelineTextBox :: StyleController> Create(rptr<GuiSinglelineTextBox :: IStyleProvider> _styleProvider);
+			virtual ~StyleController();
+		
+		public:
+			static rptr<GuiSinglelineTextBox :: StyleController> CreateRptr(rptr<GuiSinglelineTextBox :: IStyleProvider> _styleProvider);
 			
 			void RearrangeTextElement();
 			rptr<GuiBoundsComposition> GetBoundsComposition();
@@ -5274,8 +6978,16 @@ GuiSinglelineTextBox :: TextElementOperatorCallback
 		{
 		public:
 		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			TextElementOperatorCallback(void* __internal_object_reference_input);
+		
 		public:
-			static rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> Create(rptr<GuiSinglelineTextBox> _textControl);
+			virtual ~TextElementOperatorCallback();
+		
+		public:
+			static rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> CreateRptr(rptr<GuiSinglelineTextBox> _textControl);
 			
 			bool BeforeModify(TextPos& start, TextPos& end, const GacString& originalText, GacString& inputText);
 			void AfterModify(TextPos originalStart, TextPos originalEnd, const GacString& originalText, TextPos inputStart, TextPos inputEnd, const GacString& inputText);
@@ -5296,10 +7008,18 @@ TreeViewItem
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		TreeViewItem(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~TreeViewItem();
+	
 	public:
 		
-		static rptr<TreeViewItem> Create(sptr<GuiImageData> _image, const GacString& _text);
-		static rptr<TreeViewItem> Create();
+		static rptr<TreeViewItem> CreateRptr(sptr<GuiImageData> _image, const GacString& _text);
+		static rptr<TreeViewItem> CreateRptr();
 		
 		rptr<TreeViewItem> operator=(rptr<TreeViewItem> value);
 		
@@ -5315,13 +7035,21 @@ TreeViewItem
 TreeViewItemRootProvider
 ***********************************************************************/
 
-	class GACUI_API TreeViewItemRootProvider : public MemoryNodeRootProvider, public virtual ITreeViewItemView
+	class GACUI_API TreeViewItemRootProvider : public MemoryNodeRootProvider, public ITreeViewItemView
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		TreeViewItemRootProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~TreeViewItemRootProvider();
+	
 	public:
 		
-		static rptr<TreeViewItemRootProvider> Create();
+		static rptr<TreeViewItemRootProvider> CreateRptr();
 		
 		rptr<IDescriptable> RequestView(const GacString& identifier);
 		void ReleaseView(rptr<IDescriptable> view);
@@ -5338,10 +7066,18 @@ GuiTreeView
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		GuiTreeView(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~GuiTreeView();
+	
 	public:
 		class IStyleProvider;
 		
-		static rptr<GuiTreeView> Create(rptr<GuiTreeView :: IStyleProvider> _styleProvider, rptr<INodeRootProvider> _nodeRootProvider);
+		static rptr<GuiTreeView> CreateRptr(rptr<GuiTreeView :: IStyleProvider> _styleProvider, rptr<INodeRootProvider> _nodeRootProvider);
 		
 		sptr<TreeViewItemRootProvider> Nodes();
 		rptr<GuiTreeView> operator=(rptr<GuiTreeView> value);
@@ -5353,9 +7089,17 @@ GuiTreeView
 GuiTreeView :: IStyleProvider
 ***********************************************************************/
 
-		class GACUI_API IStyleProvider : public virtual GuiScrollView :: IStyleProvider
+		class GACUI_API IStyleProvider : public GuiScrollView :: IStyleProvider
 		{
 		public:
+		
+		protected:
+			template<typename T> friend class __GacUIInternal;
+			void* __internal_object_reference;
+			IStyleProvider(void* __internal_object_reference_input);
+		
+		public:
+			virtual ~IStyleProvider();
 		
 		public:
 			rptr<GuiSelectableButton :: IStyleController> CreateItemBackground();
@@ -5373,13 +7117,21 @@ GuiTreeView :: IStyleProvider
 TreeViewNodeItemStyleProvider
 ***********************************************************************/
 
-	class GACUI_API TreeViewNodeItemStyleProvider : public virtual INodeItemStyleProvider, public virtual INodeProviderCallback
+	class GACUI_API TreeViewNodeItemStyleProvider : public INodeItemStyleProvider, public INodeProviderCallback
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		TreeViewNodeItemStyleProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~TreeViewNodeItemStyleProvider();
+	
 	public:
 		
-		static rptr<TreeViewNodeItemStyleProvider> Create();
+		static rptr<TreeViewNodeItemStyleProvider> CreateRptr();
 		
 		void BindItemStyleProvider(rptr<GuiListControl :: IItemStyleProvider> styleProvider);
 		rptr<GuiListControl :: IItemStyleProvider> GetBindedItemStyleProvider();
@@ -5403,10 +7155,18 @@ Win7ButtonColors
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7ButtonColors(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7ButtonColors();
+	
 	public:
 		
-		static rptr<Win7ButtonColors> Create();
-		Win7ButtonColors();
+		static rptr<Win7ButtonColors> CreateRptr();
+		static Win7ButtonColors Create();
 		
 		bool operator==(const Win7ButtonColors& colors);
 		bool operator!=(const Win7ButtonColors& colors);
@@ -5467,9 +7227,17 @@ Win7ButtonColors
 Win7ButtonStyleBase
 ***********************************************************************/
 
-	class GACUI_API Win7ButtonStyleBase : public virtual GuiSelectableButton :: IStyleController
+	class GACUI_API Win7ButtonStyleBase : public GuiSelectableButton :: IStyleController
 	{
 	public:
+	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7ButtonStyleBase(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7ButtonStyleBase();
 	
 	public:
 		
@@ -5501,9 +7269,17 @@ Win7ButtonStyle
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7ButtonStyle(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7ButtonStyle();
+	
 	public:
 		
-		static rptr<Win7ButtonStyle> Create(bool verticalGradient);
+		static rptr<Win7ButtonStyle> CreateRptr(bool verticalGradient);
 		
 		rptr<Win7ButtonStyle> operator=(rptr<Win7ButtonStyle> value);
 		
@@ -5514,7 +7290,7 @@ Win7ButtonStyle
 Win7CheckBoxStyle :: BulletStyle
 ***********************************************************************/
 
-	class GACUI_API Win7CheckBoxStyle : public virtual GuiSelectableButton :: IStyleController
+	class GACUI_API Win7CheckBoxStyle : public GuiSelectableButton :: IStyleController
 	{
 	public:
 		enum BulletStyle
@@ -5529,9 +7305,17 @@ Win7CheckBoxStyle
 ***********************************************************************/
 
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7CheckBoxStyle(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7CheckBoxStyle();
+	
 	public:
 		
-		static rptr<Win7CheckBoxStyle> Create(Win7CheckBoxStyle :: BulletStyle bulletStyle, bool backgroundVisible);
+		static rptr<Win7CheckBoxStyle> CreateRptr(Win7CheckBoxStyle :: BulletStyle bulletStyle, bool backgroundVisible);
 		
 		rptr<GuiBoundsComposition> GetBoundsComposition();
 		rptr<GuiGraphicsComposition> GetContainerComposition();
@@ -5550,13 +7334,21 @@ Win7CheckBoxStyle
 Win7DropDownComboBoxStyle
 ***********************************************************************/
 
-	class GACUI_API Win7DropDownComboBoxStyle : public Win7ButtonStyle, public virtual GuiComboBoxBase :: IStyleController
+	class GACUI_API Win7DropDownComboBoxStyle : public Win7ButtonStyle, public GuiComboBoxBase :: IStyleController
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7DropDownComboBoxStyle(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7DropDownComboBoxStyle();
+	
 	public:
 		
-		static rptr<Win7DropDownComboBoxStyle> Create();
+		static rptr<Win7DropDownComboBoxStyle> CreateRptr();
 		
 		rptr<GuiGraphicsComposition> GetContainerComposition();
 		void SetCommandExecutor(rptr<GuiComboBoxBase :: ICommandExecutor> value);
@@ -5574,13 +7366,21 @@ Win7DropDownComboBoxStyle
 Win7EmptyStyle
 ***********************************************************************/
 
-	class GACUI_API Win7EmptyStyle : public virtual GuiControl :: IStyleController
+	class GACUI_API Win7EmptyStyle : public GuiControl :: IStyleController
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7EmptyStyle(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7EmptyStyle();
+	
 	public:
 		
-		static rptr<Win7EmptyStyle> Create(Color color);
+		static rptr<Win7EmptyStyle> CreateRptr(Color color);
 		
 		rptr<GuiBoundsComposition> GetBoundsComposition();
 		rptr<GuiGraphicsComposition> GetContainerComposition();
@@ -5597,13 +7397,21 @@ Win7EmptyStyle
 Win7GroupBoxStyle
 ***********************************************************************/
 
-	class GACUI_API Win7GroupBoxStyle : public virtual GuiControl :: IStyleController
+	class GACUI_API Win7GroupBoxStyle : public GuiControl :: IStyleController
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7GroupBoxStyle(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7GroupBoxStyle();
+	
 	public:
 		
-		static rptr<Win7GroupBoxStyle> Create();
+		static rptr<Win7GroupBoxStyle> CreateRptr();
 		
 		rptr<GuiBoundsComposition> GetBoundsComposition();
 		rptr<GuiGraphicsComposition> GetContainerComposition();
@@ -5620,13 +7428,21 @@ Win7GroupBoxStyle
 Win7ListViewColumnDropDownStyle
 ***********************************************************************/
 
-	class GACUI_API Win7ListViewColumnDropDownStyle : public virtual GuiSelectableButton :: IStyleController
+	class GACUI_API Win7ListViewColumnDropDownStyle : public GuiSelectableButton :: IStyleController
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7ListViewColumnDropDownStyle(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7ListViewColumnDropDownStyle();
+	
 	public:
 		
-		static rptr<Win7ListViewColumnDropDownStyle> Create();
+		static rptr<Win7ListViewColumnDropDownStyle> CreateRptr();
 		
 		rptr<GuiBoundsComposition> GetBoundsComposition();
 		rptr<GuiGraphicsComposition> GetContainerComposition();
@@ -5645,13 +7461,21 @@ Win7ListViewColumnDropDownStyle
 Win7ListViewColumnHeaderStyle
 ***********************************************************************/
 
-	class GACUI_API Win7ListViewColumnHeaderStyle : public virtual GuiSelectableButton :: IStyleController
+	class GACUI_API Win7ListViewColumnHeaderStyle : public GuiSelectableButton :: IStyleController
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7ListViewColumnHeaderStyle(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7ListViewColumnHeaderStyle();
+	
 	public:
 		
-		static rptr<Win7ListViewColumnHeaderStyle> Create();
+		static rptr<Win7ListViewColumnHeaderStyle> CreateRptr();
 		
 		rptr<GuiBoundsComposition> GetBoundsComposition();
 		rptr<GuiGraphicsComposition> GetContainerComposition();
@@ -5670,13 +7494,21 @@ Win7ListViewColumnHeaderStyle
 Win7MenuBarButtonStyle
 ***********************************************************************/
 
-	class GACUI_API Win7MenuBarButtonStyle : public virtual GuiMenuButton :: IStyleController
+	class GACUI_API Win7MenuBarButtonStyle : public GuiMenuButton :: IStyleController
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7MenuBarButtonStyle(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7MenuBarButtonStyle();
+	
 	public:
 		
-		static rptr<Win7MenuBarButtonStyle> Create();
+		static rptr<Win7MenuBarButtonStyle> CreateRptr();
 		
 		rptr<GuiBoundsComposition> GetBoundsComposition();
 		rptr<GuiGraphicsComposition> GetContainerComposition();
@@ -5697,13 +7529,21 @@ Win7MenuBarButtonStyle
 Win7MenuBarStyle
 ***********************************************************************/
 
-	class GACUI_API Win7MenuBarStyle : public virtual GuiControl :: IStyleController
+	class GACUI_API Win7MenuBarStyle : public GuiControl :: IStyleController
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7MenuBarStyle(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7MenuBarStyle();
+	
 	public:
 		
-		static rptr<Win7MenuBarStyle> Create();
+		static rptr<Win7MenuBarStyle> CreateRptr();
 		
 		rptr<GuiBoundsComposition> GetBoundsComposition();
 		rptr<GuiGraphicsComposition> GetContainerComposition();
@@ -5720,13 +7560,21 @@ Win7MenuBarStyle
 Win7MenuItemButtonStyle
 ***********************************************************************/
 
-	class GACUI_API Win7MenuItemButtonStyle : public virtual GuiMenuButton :: IStyleController
+	class GACUI_API Win7MenuItemButtonStyle : public GuiMenuButton :: IStyleController
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7MenuItemButtonStyle(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7MenuItemButtonStyle();
+	
 	public:
 		
-		static rptr<Win7MenuItemButtonStyle> Create();
+		static rptr<Win7MenuItemButtonStyle> CreateRptr();
 		
 		rptr<GuiBoundsComposition> GetBoundsComposition();
 		rptr<GuiGraphicsComposition> GetContainerComposition();
@@ -5747,13 +7595,21 @@ Win7MenuItemButtonStyle
 Win7MenuSplitterStyle
 ***********************************************************************/
 
-	class GACUI_API Win7MenuSplitterStyle : public virtual GuiControl :: IStyleController
+	class GACUI_API Win7MenuSplitterStyle : public GuiControl :: IStyleController
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7MenuSplitterStyle(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7MenuSplitterStyle();
+	
 	public:
 		
-		static rptr<Win7MenuSplitterStyle> Create();
+		static rptr<Win7MenuSplitterStyle> CreateRptr();
 		
 		rptr<GuiBoundsComposition> GetBoundsComposition();
 		rptr<GuiGraphicsComposition> GetContainerComposition();
@@ -5770,13 +7626,21 @@ Win7MenuSplitterStyle
 Win7MenuStyle
 ***********************************************************************/
 
-	class GACUI_API Win7MenuStyle : public virtual GuiControl :: IStyleController
+	class GACUI_API Win7MenuStyle : public GuiControl :: IStyleController
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7MenuStyle(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7MenuStyle();
+	
 	public:
 		
-		static rptr<Win7MenuStyle> Create();
+		static rptr<Win7MenuStyle> CreateRptr();
 		
 		rptr<GuiBoundsComposition> GetBoundsComposition();
 		rptr<GuiGraphicsComposition> GetContainerComposition();
@@ -5797,9 +7661,17 @@ Win7ScrollStyle
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7ScrollStyle(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7ScrollStyle();
+	
 	public:
 		
-		static rptr<Win7ScrollStyle> Create(CommonScrollStyle :: Direction _direction);
+		static rptr<Win7ScrollStyle> CreateRptr(CommonScrollStyle :: Direction _direction);
 		
 		rptr<Win7ScrollStyle> operator=(rptr<Win7ScrollStyle> value);
 		
@@ -5810,13 +7682,21 @@ Win7ScrollStyle
 Win7ScrollViewProvider
 ***********************************************************************/
 
-	class GACUI_API Win7ScrollViewProvider : public virtual GuiScrollView :: IStyleProvider
+	class GACUI_API Win7ScrollViewProvider : public GuiScrollView :: IStyleProvider
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7ScrollViewProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7ScrollViewProvider();
+	
 	public:
 		
-		static rptr<Win7ScrollViewProvider> Create();
+		static rptr<Win7ScrollViewProvider> CreateRptr();
 		
 		void AssociateStyleController(rptr<GuiControl :: IStyleController> controller);
 		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
@@ -5840,9 +7720,17 @@ Win7MultilineTextBoxProvider
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7MultilineTextBoxProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7MultilineTextBoxProvider();
+	
 	public:
 		
-		static rptr<Win7MultilineTextBoxProvider> Create();
+		static rptr<Win7MultilineTextBoxProvider> CreateRptr();
 		
 		void AssociateStyleController(rptr<GuiControl :: IStyleController> controller);
 		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
@@ -5857,13 +7745,21 @@ Win7MultilineTextBoxProvider
 Win7ListViewProvider
 ***********************************************************************/
 
-	class GACUI_API Win7ListViewProvider : public Win7MultilineTextBoxProvider, public virtual GuiListViewBase :: IStyleProvider
+	class GACUI_API Win7ListViewProvider : public Win7MultilineTextBoxProvider, public GuiListViewBase :: IStyleProvider
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7ListViewProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7ListViewProvider();
+	
 	public:
 		
-		static rptr<Win7ListViewProvider> Create();
+		static rptr<Win7ListViewProvider> CreateRptr();
 		
 		rptr<GuiSelectableButton :: IStyleController> CreateItemBackground();
 		rptr<GuiSelectableButton :: IStyleController> CreateColumnStyle();
@@ -5883,9 +7779,17 @@ Win7SelectableItemStyle
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7SelectableItemStyle(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7SelectableItemStyle();
+	
 	public:
 		
-		static rptr<Win7SelectableItemStyle> Create();
+		static rptr<Win7SelectableItemStyle> CreateRptr();
 		
 		rptr<Win7SelectableItemStyle> operator=(rptr<Win7SelectableItemStyle> value);
 		
@@ -5896,13 +7800,21 @@ Win7SelectableItemStyle
 Win7SinglelineTextBoxProvider
 ***********************************************************************/
 
-	class GACUI_API Win7SinglelineTextBoxProvider : public virtual GuiSinglelineTextBox :: IStyleProvider
+	class GACUI_API Win7SinglelineTextBoxProvider : public GuiSinglelineTextBox :: IStyleProvider
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7SinglelineTextBoxProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7SinglelineTextBoxProvider();
+	
 	public:
 		
-		static rptr<Win7SinglelineTextBoxProvider> Create();
+		static rptr<Win7SinglelineTextBoxProvider> CreateRptr();
 		
 		void AssociateStyleController(rptr<GuiControl :: IStyleController> controller);
 		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
@@ -5923,9 +7835,17 @@ Win7TabPageHeaderStyle
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7TabPageHeaderStyle(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7TabPageHeaderStyle();
+	
 	public:
 		
-		static rptr<Win7TabPageHeaderStyle> Create();
+		static rptr<Win7TabPageHeaderStyle> CreateRptr();
 		
 		void SetFont(const FontProperties& value);
 		rptr<Win7TabPageHeaderStyle> operator=(rptr<Win7TabPageHeaderStyle> value);
@@ -5937,13 +7857,21 @@ Win7TabPageHeaderStyle
 Win7TabStyle
 ***********************************************************************/
 
-	class GACUI_API Win7TabStyle : public virtual GuiTab :: IStyleController
+	class GACUI_API Win7TabStyle : public GuiTab :: IStyleController
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7TabStyle(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7TabStyle();
+	
 	public:
 		
-		static rptr<Win7TabStyle> Create();
+		static rptr<Win7TabStyle> CreateRptr();
 		
 		rptr<GuiBoundsComposition> GetBoundsComposition();
 		rptr<GuiGraphicsComposition> GetContainerComposition();
@@ -5971,9 +7899,17 @@ Win7TextBoxBackground
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7TextBoxBackground(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7TextBoxBackground();
+	
 	public:
 		
-		static rptr<Win7TextBoxBackground> Create();
+		static rptr<Win7TextBoxBackground> CreateRptr();
 		
 		void AssociateStyleController(rptr<GuiControl :: IStyleController> controller);
 		rptr<GuiGraphicsComposition> InstallBackground(rptr<GuiBoundsComposition> boundsComposition);
@@ -5989,13 +7925,21 @@ Win7TextBoxBackground
 Win7TextListProvider
 ***********************************************************************/
 
-	class GACUI_API Win7TextListProvider : public virtual TextItemStyleProvider :: ITextItemStyleProvider
+	class GACUI_API Win7TextListProvider : public TextItemStyleProvider :: ITextItemStyleProvider
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7TextListProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7TextListProvider();
+	
 	public:
 		
-		static rptr<Win7TextListProvider> Create();
+		static rptr<Win7TextListProvider> CreateRptr();
 		
 		rptr<GuiSelectableButton :: IStyleController> CreateBackgroundStyleController();
 		rptr<GuiSelectableButton :: IStyleController> CreateBulletStyleController();
@@ -6012,9 +7956,17 @@ Win7CheckTextListProvider
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7CheckTextListProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7CheckTextListProvider();
+	
 	public:
 		
-		static rptr<Win7CheckTextListProvider> Create();
+		static rptr<Win7CheckTextListProvider> CreateRptr();
 		
 		rptr<GuiSelectableButton :: IStyleController> CreateBulletStyleController();
 		rptr<Win7CheckTextListProvider> operator=(rptr<Win7CheckTextListProvider> value);
@@ -6030,9 +7982,17 @@ Win7RadioTextListProvider
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7RadioTextListProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7RadioTextListProvider();
+	
 	public:
 		
-		static rptr<Win7RadioTextListProvider> Create();
+		static rptr<Win7RadioTextListProvider> CreateRptr();
 		
 		rptr<GuiSelectableButton :: IStyleController> CreateBulletStyleController();
 		rptr<Win7RadioTextListProvider> operator=(rptr<Win7RadioTextListProvider> value);
@@ -6048,9 +8008,17 @@ Win7ToolstripButtonStyle
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7ToolstripButtonStyle(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7ToolstripButtonStyle();
+	
 	public:
 		
-		static rptr<Win7ToolstripButtonStyle> Create(bool transparent);
+		static rptr<Win7ToolstripButtonStyle> CreateRptr(bool transparent);
 		
 		rptr<Win7ToolstripButtonStyle> operator=(rptr<Win7ToolstripButtonStyle> value);
 		
@@ -6065,9 +8033,17 @@ Win7TrackStyle
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7TrackStyle(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7TrackStyle();
+	
 	public:
 		
-		static rptr<Win7TrackStyle> Create(CommonTrackStyle :: Direction _direction);
+		static rptr<Win7TrackStyle> CreateRptr(CommonTrackStyle :: Direction _direction);
 		
 		rptr<Win7TrackStyle> operator=(rptr<Win7TrackStyle> value);
 		
@@ -6078,13 +8054,21 @@ Win7TrackStyle
 Win7TreeViewExpandingButtonStyle
 ***********************************************************************/
 
-	class GACUI_API Win7TreeViewExpandingButtonStyle : public virtual GuiSelectableButton :: IStyleController
+	class GACUI_API Win7TreeViewExpandingButtonStyle : public GuiSelectableButton :: IStyleController
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7TreeViewExpandingButtonStyle(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7TreeViewExpandingButtonStyle();
+	
 	public:
 		
-		static rptr<Win7TreeViewExpandingButtonStyle> Create();
+		static rptr<Win7TreeViewExpandingButtonStyle> CreateRptr();
 		
 		rptr<GuiBoundsComposition> GetBoundsComposition();
 		rptr<GuiGraphicsComposition> GetContainerComposition();
@@ -6103,13 +8087,21 @@ Win7TreeViewExpandingButtonStyle
 Win7TreeViewProvider
 ***********************************************************************/
 
-	class GACUI_API Win7TreeViewProvider : public Win7MultilineTextBoxProvider, public virtual GuiTreeView :: IStyleProvider
+	class GACUI_API Win7TreeViewProvider : public Win7MultilineTextBoxProvider, public GuiTreeView :: IStyleProvider
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7TreeViewProvider(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7TreeViewProvider();
+	
 	public:
 		
-		static rptr<Win7TreeViewProvider> Create();
+		static rptr<Win7TreeViewProvider> CreateRptr();
 		
 		rptr<GuiSelectableButton :: IStyleController> CreateItemBackground();
 		rptr<GuiSelectableButton :: IStyleController> CreateItemExpandingDecorator();
@@ -6127,14 +8119,22 @@ Win7WindowStyle
 	{
 	public:
 	
+	protected:
+		template<typename T> friend class __GacUIInternal;
+		void* __internal_object_reference;
+		Win7WindowStyle(void* __internal_object_reference_input);
+	
+	public:
+		virtual ~Win7WindowStyle();
+	
 	public:
 		
-		static rptr<Win7WindowStyle> Create();
+		static rptr<Win7WindowStyle> CreateRptr();
 		
 		rptr<Win7WindowStyle> operator=(rptr<Win7WindowStyle> value);
 		
 	};
 }
 
-namespace g{ using namespace gacui_cpp; }
+namespace g{ using namespace gacui_cpp_1_0; }
 #endif

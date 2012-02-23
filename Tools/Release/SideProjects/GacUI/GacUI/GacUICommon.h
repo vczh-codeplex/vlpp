@@ -4,7 +4,7 @@
 #define GACUI_API __declspec(dllimport)
 #endif
 
-namespace gacui_cpp
+namespace gacui_cpp_1_0
 {
 	class GacString
 	{
