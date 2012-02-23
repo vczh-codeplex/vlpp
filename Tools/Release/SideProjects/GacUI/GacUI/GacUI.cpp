@@ -3628,7 +3628,6 @@ MemoryNodeProvider
 	
 	MemoryNodeProvider::MemoryNodeProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
-	    ,IList_of_MemoryNodeProvider(static_cast<__GacUIInternal<IList_of_MemoryNodeProvider>::InternalObjectType*>((__GacUIInternal<MemoryNodeProvider>::InternalObjectType*)__internal_object_reference_input))
 	    ,INodeProvider(static_cast<__GacUIInternal<INodeProvider>::InternalObjectType*>((__GacUIInternal<MemoryNodeProvider>::InternalObjectType*)__internal_object_reference_input))
 	{
 	}
@@ -4586,7 +4585,6 @@ NodeRootProviderBase
 	NodeRootProviderBase::NodeRootProviderBase(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,INodeRootProvider(static_cast<__GacUIInternal<INodeRootProvider>::InternalObjectType*>((__GacUIInternal<NodeRootProviderBase>::InternalObjectType*)__internal_object_reference_input))
-	    ,INodeProviderCallback(static_cast<__GacUIInternal<INodeProviderCallback>::InternalObjectType*>((__GacUIInternal<NodeRootProviderBase>::InternalObjectType*)__internal_object_reference_input))
 	{
 	}
 	
@@ -5967,8 +5965,6 @@ GuiGraphicsHost
 	
 	GuiGraphicsHost::GuiGraphicsHost(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
-	    ,INativeWindowListener(static_cast<__GacUIInternal<INativeWindowListener>::InternalObjectType*>((__GacUIInternal<GuiGraphicsHost>::InternalObjectType*)__internal_object_reference_input))
-	    ,INativeControllerListener(static_cast<__GacUIInternal<INativeControllerListener>::InternalObjectType*>((__GacUIInternal<GuiGraphicsHost>::InternalObjectType*)__internal_object_reference_input))
 	{
 	}
 	
@@ -6857,7 +6853,6 @@ GuiControlHost
 	GuiControlHost::GuiControlHost(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiControl(static_cast<__GacUIInternal<GuiControl>::InternalObjectType*>((__GacUIInternal<GuiControlHost>::InternalObjectType*)__internal_object_reference_input))
-	    ,INativeWindowListener(static_cast<__GacUIInternal<INativeWindowListener>::InternalObjectType*>((__GacUIInternal<GuiControlHost>::InternalObjectType*)__internal_object_reference_input))
 	{
 	}
 	
@@ -7176,7 +7171,6 @@ GuiMenuBar
 	GuiMenuBar::GuiMenuBar(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiControl(static_cast<__GacUIInternal<GuiControl>::InternalObjectType*>((__GacUIInternal<GuiMenuBar>::InternalObjectType*)__internal_object_reference_input))
-	    ,IGuiMenuService(static_cast<__GacUIInternal<IGuiMenuService>::InternalObjectType*>((__GacUIInternal<GuiMenuBar>::InternalObjectType*)__internal_object_reference_input))
 	{
 	}
 	
@@ -10156,7 +10150,6 @@ GuiMenu
 	GuiMenu::GuiMenu(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiPopup(static_cast<__GacUIInternal<GuiPopup>::InternalObjectType*>((__GacUIInternal<GuiMenu>::InternalObjectType*)__internal_object_reference_input))
-	    ,IGuiMenuService(static_cast<__GacUIInternal<IGuiMenuService>::InternalObjectType*>((__GacUIInternal<GuiMenu>::InternalObjectType*)__internal_object_reference_input))
 	{
 	}
 	
@@ -11054,7 +11047,6 @@ GuiApplication
 	
 	GuiApplication::GuiApplication(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
-	    ,INativeControllerListener(static_cast<__GacUIInternal<INativeControllerListener>::InternalObjectType*>((__GacUIInternal<GuiApplication>::InternalObjectType*)__internal_object_reference_input))
 	{
 	}
 	
@@ -12134,8 +12126,6 @@ NodeItemProvider
 	NodeItemProvider::NodeItemProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,ItemProviderBase(static_cast<__GacUIInternal<ItemProviderBase>::InternalObjectType*>((__GacUIInternal<NodeItemProvider>::InternalObjectType*)__internal_object_reference_input))
-	    ,INodeProviderCallback(static_cast<__GacUIInternal<INodeProviderCallback>::InternalObjectType*>((__GacUIInternal<NodeItemProvider>::InternalObjectType*)__internal_object_reference_input))
-	    ,INodeItemView(static_cast<__GacUIInternal<INodeItemView>::InternalObjectType*>((__GacUIInternal<NodeItemProvider>::InternalObjectType*)__internal_object_reference_input))
 	{
 	}
 	
@@ -12627,7 +12617,6 @@ ListViewDetailContentProvider
 	ListViewDetailContentProvider::ListViewDetailContentProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,ListViewItemStyleProvider :: IListViewItemContentProvider(static_cast<__GacUIInternal<ListViewItemStyleProvider :: IListViewItemContentProvider>::InternalObjectType*>((__GacUIInternal<ListViewDetailContentProvider>::InternalObjectType*)__internal_object_reference_input))
-	    ,ListViewColumnItemArranger :: IColumnItemViewCallback(static_cast<__GacUIInternal<ListViewColumnItemArranger :: IColumnItemViewCallback>::InternalObjectType*>((__GacUIInternal<ListViewDetailContentProvider>::InternalObjectType*)__internal_object_reference_input))
 	{
 	}
 	
@@ -12691,8 +12680,6 @@ ListViewItemProvider
 	ListViewItemProvider::ListViewItemProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,ListProvider_of_ListViewItem(static_cast<__GacUIInternal<ListProvider_of_ListViewItem>::InternalObjectType*>((__GacUIInternal<ListViewItemProvider>::InternalObjectType*)__internal_object_reference_input))
-	    ,ListViewItemStyleProvider :: IListViewItemView(static_cast<__GacUIInternal<ListViewItemStyleProvider :: IListViewItemView>::InternalObjectType*>((__GacUIInternal<ListViewItemProvider>::InternalObjectType*)__internal_object_reference_input))
-	    ,ListViewColumnItemArranger :: IColumnItemView(static_cast<__GacUIInternal<ListViewColumnItemArranger :: IColumnItemView>::InternalObjectType*>((__GacUIInternal<ListViewItemProvider>::InternalObjectType*)__internal_object_reference_input))
 	{
 	}
 	
@@ -13365,7 +13352,6 @@ TextItemProvider
 	TextItemProvider::TextItemProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,ListProvider_of_TextItem(static_cast<__GacUIInternal<ListProvider_of_TextItem>::InternalObjectType*>((__GacUIInternal<TextItemProvider>::InternalObjectType*)__internal_object_reference_input))
-	    ,TextItemStyleProvider :: ITextItemView(static_cast<__GacUIInternal<TextItemStyleProvider :: ITextItemView>::InternalObjectType*>((__GacUIInternal<TextItemProvider>::InternalObjectType*)__internal_object_reference_input))
 	{
 	}
 	
@@ -15013,7 +14999,6 @@ TreeViewItemRootProvider
 	TreeViewItemRootProvider::TreeViewItemRootProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,MemoryNodeRootProvider(static_cast<__GacUIInternal<MemoryNodeRootProvider>::InternalObjectType*>((__GacUIInternal<TreeViewItemRootProvider>::InternalObjectType*)__internal_object_reference_input))
-	    ,ITreeViewItemView(static_cast<__GacUIInternal<ITreeViewItemView>::InternalObjectType*>((__GacUIInternal<TreeViewItemRootProvider>::InternalObjectType*)__internal_object_reference_input))
 	{
 	}
 	
@@ -15158,7 +15143,6 @@ TreeViewNodeItemStyleProvider
 	TreeViewNodeItemStyleProvider::TreeViewNodeItemStyleProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,INodeItemStyleProvider(static_cast<__GacUIInternal<INodeItemStyleProvider>::InternalObjectType*>((__GacUIInternal<TreeViewNodeItemStyleProvider>::InternalObjectType*)__internal_object_reference_input))
-	    ,INodeProviderCallback(static_cast<__GacUIInternal<INodeProviderCallback>::InternalObjectType*>((__GacUIInternal<TreeViewNodeItemStyleProvider>::InternalObjectType*)__internal_object_reference_input))
 	{
 	}
 	

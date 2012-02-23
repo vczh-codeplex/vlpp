@@ -161,6 +161,7 @@ Type Caching
 				Type* cache_ListViewItemStyleProvider_member_IListViewItemView;
 				Type* cache_ListViewItemStyleProvider_member_ListViewContentItemStyleController;
 				Type* cache_ListViewItemStyleProviderBase;
+				Type* cache_ListViewItemStyleProviderBase_member_ListViewItemStyleController;
 				Type* cache_ListViewListContentProvider;
 				Type* cache_ListViewSmallIconContentProvider;
 				Type* cache_ListViewTileContentProvider;
@@ -287,7 +288,6 @@ Type Caching
 				Type* cache_ListProvider_of_TextItem;
 				Type* cache_ListViewColumn;
 				Type* cache_ListViewItem;
-				Type* cache_ListViewItemStyleProviderBase_member_ListViewItemStyleController;
 				Type* cache_ListWrapperProvider_of_ListViewItem;
 				Type* cache_ListWrapperProvider_of_TextItem;
 				Type* cache_Margin;
@@ -2645,7 +2645,6 @@ GuiApplication (vl::presentation::controls::GuiApplication)
 			protected:
 				void FillTypeContent()
 				{
-					AddBaseType((gacui_tpimp_type_cache_table.cache_INativeControllerListener));
 					AddMethod(
 						(new MethodDescriptor(L"Run", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
@@ -4886,7 +4885,6 @@ GuiControlHost (vl::presentation::controls::GuiControlHost)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_INativeWindowListener));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiControlHost", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiControlHost)->GetPointerType())
@@ -8077,8 +8075,6 @@ GuiGraphicsHost (vl::presentation::elements::GuiGraphicsHost)
 			protected:
 				void FillTypeContent()
 				{
-					AddBaseType((gacui_tpimp_type_cache_table.cache_INativeWindowListener));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_INativeControllerListener));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiGraphicsHost", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiGraphicsHost)->GetPointerType())
@@ -9872,7 +9868,6 @@ GuiMenu (vl::presentation::controls::GuiMenu)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiPopup));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiMenuService));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiMenu", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiMenu)->GetPointerType())
@@ -9934,7 +9929,6 @@ GuiMenuBar (vl::presentation::controls::GuiMenuBar)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_GuiControl));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiMenuService));
 					AddConstructor(
 						(new MethodDescriptor(L"GuiMenuBar", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiMenuBar)->GetPointerType())
@@ -21580,7 +21574,6 @@ ListViewDetailContentProvider (vl::presentation::controls::list::ListViewDetailC
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProvider_member_IListViewItemContentProvider));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewColumnItemArranger_member_IColumnItemViewCallback));
 					AddConstructor(
 						(new MethodDescriptor(L"ListViewDetailContentProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_ListViewDetailContentProvider)->GetPointerType())
@@ -21890,8 +21883,6 @@ ListViewItemProvider (vl::presentation::controls::list::ListViewItemProvider)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_ListProvider_of_ListViewItem));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProvider_member_IListViewItemView));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_ListViewColumnItemArranger_member_IColumnItemView));
 					AddConstructor(
 						(new MethodDescriptor(L"ListViewItemProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_ListViewItemProvider)->GetPointerType())
@@ -23409,7 +23400,6 @@ MemoryNodeProvider (vl::presentation::controls::tree::MemoryNodeProvider)
 			protected:
 				void FillTypeContent()
 				{
-					AddBaseType((gacui_tpimp_type_cache_table.cache_IList_of_MemoryNodeProvider));
 					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeProvider));
 					AddConstructor(
 						(new MethodDescriptor(L"MemoryNodeProvider", IMemberDescriptor::Normal))
@@ -24125,8 +24115,6 @@ NodeItemProvider (vl::presentation::controls::tree::NodeItemProvider)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_ItemProviderBase));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeProviderCallback));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeItemView));
 					AddConstructor(
 						(new MethodDescriptor(L"NodeItemProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_NodeItemProvider)->GetPointerType())
@@ -24329,7 +24317,6 @@ NodeRootProviderBase (vl::presentation::controls::tree::NodeRootProviderBase)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeRootProvider));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeProviderCallback));
 					AddConstructor(
 						(new MethodDescriptor(L"NodeRootProviderBase", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_NodeRootProviderBase)->GetPointerType())
@@ -25237,7 +25224,6 @@ TextItemProvider (vl::presentation::controls::list::TextItemProvider)
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_ListProvider_of_TextItem));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_TextItemStyleProvider_member_ITextItemView));
 					AddConstructor(
 						(new MethodDescriptor(L"TextItemProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_TextItemProvider)->GetPointerType())
@@ -26582,7 +26568,6 @@ TreeViewItemRootProvider (vl::presentation::controls::tree::TreeViewItemRootProv
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_MemoryNodeRootProvider));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_ITreeViewItemView));
 					AddConstructor(
 						(new MethodDescriptor(L"TreeViewItemRootProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_TreeViewItemRootProvider)->GetPointerType())
@@ -26643,7 +26628,6 @@ TreeViewNodeItemStyleProvider (vl::presentation::controls::tree::TreeViewNodeIte
 				void FillTypeContent()
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeItemStyleProvider));
-					AddBaseType((gacui_tpimp_type_cache_table.cache_INodeProviderCallback));
 					AddConstructor(
 						(new MethodDescriptor(L"TreeViewNodeItemStyleProvider", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_TreeViewNodeItemStyleProvider)->GetPointerType())
@@ -30317,6 +30301,7 @@ Helper Functions
 				Description<vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemView>::SetTypeDescroptorByTypeProvider(((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProvider_member_IListViewItemView) = typeProvider->CreateType(IType::Interface, L"gacui_tpimp_ListViewItemStyleProvider :: gacui_tpimp_IListViewItemView", new gacui_tpimp_ListViewItemStyleProvider :: gacui_tpimp_IListViewItemView))->GetTypeDescriptor());
 				Description<vl::presentation::controls::list::ListViewItemStyleProvider::ListViewContentItemStyleController>::SetTypeDescroptorByTypeProvider(((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProvider_member_ListViewContentItemStyleController) = typeProvider->CreateType(IType::Class, L"gacui_tpimp_ListViewItemStyleProvider :: gacui_tpimp_ListViewContentItemStyleController", new gacui_tpimp_ListViewItemStyleProvider :: gacui_tpimp_ListViewContentItemStyleController))->GetTypeDescriptor());
 				Description<vl::presentation::controls::list::ListViewItemStyleProviderBase>::SetTypeDescroptorByTypeProvider(((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProviderBase) = typeProvider->CreateType(IType::Class, L"gacui_tpimp_ListViewItemStyleProviderBase", new gacui_tpimp_ListViewItemStyleProviderBase))->GetTypeDescriptor());
+				Description<vl::presentation::controls::list::ListViewItemStyleProviderBase::ListViewItemStyleController>::SetTypeDescroptorByTypeProvider(((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProviderBase_member_ListViewItemStyleController) = typeProvider->CreateType(IType::Class, L"gacui_tpimp_ListViewItemStyleProviderBase :: gacui_tpimp_ListViewItemStyleController", new gacui_tpimp_ListViewItemStyleProviderBase :: gacui_tpimp_ListViewItemStyleController))->GetTypeDescriptor());
 				Description<vl::presentation::controls::list::ListViewListContentProvider>::SetTypeDescroptorByTypeProvider(((gacui_tpimp_type_cache_table.cache_ListViewListContentProvider) = typeProvider->CreateType(IType::Class, L"gacui_tpimp_ListViewListContentProvider", new gacui_tpimp_ListViewListContentProvider))->GetTypeDescriptor());
 				Description<vl::presentation::controls::list::ListViewSmallIconContentProvider>::SetTypeDescroptorByTypeProvider(((gacui_tpimp_type_cache_table.cache_ListViewSmallIconContentProvider) = typeProvider->CreateType(IType::Class, L"gacui_tpimp_ListViewSmallIconContentProvider", new gacui_tpimp_ListViewSmallIconContentProvider))->GetTypeDescriptor());
 				Description<vl::presentation::controls::list::ListViewTileContentProvider>::SetTypeDescroptorByTypeProvider(((gacui_tpimp_type_cache_table.cache_ListViewTileContentProvider) = typeProvider->CreateType(IType::Class, L"gacui_tpimp_ListViewTileContentProvider", new gacui_tpimp_ListViewTileContentProvider))->GetTypeDescriptor());
@@ -30443,7 +30428,6 @@ Helper Functions
 				((gacui_tpimp_type_cache_table.cache_ListProvider_of_TextItem) = typeProvider->CreateType(IType::Class, L"gacui_tpimp_ListProvider_of_TextItem", new gacui_tpimp_ListProvider_of_TextItem));
 				((gacui_tpimp_type_cache_table.cache_ListViewColumn) = typeProvider->CreateType(IType::Struct, L"gacui_tpimp_ListViewColumn", new gacui_tpimp_ListViewColumn));
 				((gacui_tpimp_type_cache_table.cache_ListViewItem) = typeProvider->CreateType(IType::Struct, L"gacui_tpimp_ListViewItem", new gacui_tpimp_ListViewItem));
-				((gacui_tpimp_type_cache_table.cache_ListViewItemStyleProviderBase_member_ListViewItemStyleController) = typeProvider->CreateType(IType::Class, L"gacui_tpimp_ListViewItemStyleProviderBase :: gacui_tpimp_ListViewItemStyleController", new gacui_tpimp_ListViewItemStyleProviderBase :: gacui_tpimp_ListViewItemStyleController));
 				((gacui_tpimp_type_cache_table.cache_ListWrapperProvider_of_ListViewItem) = typeProvider->CreateType(IType::Class, L"gacui_tpimp_ListWrapperProvider_of_ListViewItem", new gacui_tpimp_ListWrapperProvider_of_ListViewItem));
 				((gacui_tpimp_type_cache_table.cache_ListWrapperProvider_of_TextItem) = typeProvider->CreateType(IType::Class, L"gacui_tpimp_ListWrapperProvider_of_TextItem", new gacui_tpimp_ListWrapperProvider_of_TextItem));
 				((gacui_tpimp_type_cache_table.cache_Margin) = typeProvider->CreateType(IType::Struct, L"gacui_tpimp_Margin", new gacui_tpimp_Margin));

@@ -208,10 +208,14 @@ namespace _TranslateXMLtoCode
 
         static void FillUdt(Dictionary<string, GacUDT> udts, GacUDT udt, XElement udtElement)
         {
-            udt.BaseClasses = udtElement.Element("baseClasses") == null ? new GacUDT[0] : udtElement
+            udt.BaseClasses = udtElement.Element("baseClasses") == null ? new GacBaseClass[0] : udtElement
                 .Element("baseClasses")
                 .Elements("baseClass")
-                .Select(e => udts[e.Attribute("name").Value])
+                .Select(e => new GacBaseClass
+                {
+                    Access = TranslateAccess(e.Attribute("access").Value),
+                    UDT = udts[e.Attribute("name").Value],
+                })
                 .ToArray();
             udt.Fields = udtElement.Element("fields") == null ? new GacField[0] : udtElement
                 .Element("fields")
@@ -243,7 +247,7 @@ namespace _TranslateXMLtoCode
 
         static GacUDT[] GetBaseClasses(GacUDT udt)
         {
-            return udt.BaseClasses.Concat(udt.BaseClasses.SelectMany(GetBaseClasses)).ToArray();
+            return udt.BaseClasses.Select(b => b.UDT).Concat(udt.BaseClasses.SelectMany(b => GetBaseClasses(b.UDT))).ToArray();
         }
 
         static Dictionary<string, GacUDT> LoadXML(XDocument document)
@@ -270,11 +274,11 @@ namespace _TranslateXMLtoCode
             }
             foreach (var udt in udts.Values)
             {
-                List<GacUDT> newBaseClasses = new List<GacUDT>();
-                HashSet<GacUDT> baseBaseClasses = new HashSet<GacUDT>(udt.BaseClasses.SelectMany(GetBaseClasses));
+                List<GacBaseClass> newBaseClasses = new List<GacBaseClass>();
+                HashSet<GacUDT> baseBaseClasses = new HashSet<GacUDT>(udt.BaseClasses.SelectMany(b => GetBaseClasses(b.UDT)));
                 foreach (var baseUdt in udt.BaseClasses)
                 {
-                    if (!baseBaseClasses.Contains(baseUdt))
+                    if (!baseBaseClasses.Contains(baseUdt.UDT))
                     {
                         newBaseClasses.Add(baseUdt);
                     }
@@ -291,7 +295,7 @@ namespace _TranslateXMLtoCode
         static GacUDT[] ExtractDescriptableUDT(Dictionary<string, GacUDT> udts)
         {
             return udts.Values
-                .Where(u => u.BaseClasses.Any(b => b.Name == "vl::presentation::Description<" + u.Name + ">"))
+                .Where(u => u.BaseClasses.Any(b => b.UDT.Name == "vl::presentation::Description<" + u.Name + ">"))
                 .ToArray();
         }
 
@@ -327,7 +331,7 @@ namespace _TranslateXMLtoCode
         {
             if (udt.Name.StartsWith("vl::presentation::"))
             {
-                return udt.BaseClasses.Concat(
+                return udt.BaseClasses.Select(b => b.UDT).Concat(
                     udt.Fields.Where(f => f.Access == GacAccess.Public).SelectMany(f => ExtractRelatedUDT(f.Type)).Concat(
                     udt.StaticFields.Where(f => f.Access == GacAccess.Public).SelectMany(f => ExtractRelatedUDT(f.Type)).Concat(
                     udt.Methods.Where(f => f.Access == GacAccess.Public).SelectMany(f => ExtractRelatedUDT(f.Type)).Concat(
@@ -342,7 +346,7 @@ namespace _TranslateXMLtoCode
 
         static bool InheritsFromObjectOrInterface(GacUDT udt)
         {
-            return udt.BaseClasses.Any(t => t.Name == "vl::Object" || t.Name == "vl::Interface" || InheritsFromObjectOrInterface(t));
+            return udt.BaseClasses.Any(t => t.UDT.Name == "vl::Object" || t.UDT.Name == "vl::Interface" || InheritsFromObjectOrInterface(t.UDT));
         }
 
         #endregion

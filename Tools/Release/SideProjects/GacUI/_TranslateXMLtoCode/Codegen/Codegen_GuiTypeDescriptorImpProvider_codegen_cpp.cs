@@ -388,9 +388,9 @@ namespace _TranslateXMLtoCode.Codegen
             {
                 foreach (var t in udt.BaseClasses)
                 {
-                    if (options.Udts.Contains(t))
+                    if (t.Access == GacAccess.Public && options.Udts.Contains(t.UDT))
                     {
-                        WriteLine("AddBaseType(" + GetTypeCacheVariable(t) + ");");
+                        WriteLine("AddBaseType(" + GetTypeCacheVariable(t.UDT) + ");");
                     }
                 }
                 if (udt.Constructors.Length > 0)

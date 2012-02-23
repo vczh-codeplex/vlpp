@@ -12,7 +12,10 @@ namespace _TranslateXMLtoCode.Codegen
         protected void GenerateConstructorInitializationList(RgacUDT udt, string internalObjectReferenceInput)
         {
             WriteLine("    :__internal_object_reference({0})", internalObjectReferenceInput);
-            foreach (var baseUdt in udt.BaseClasses.Where(t => this.options.Udts.Contains(t)))
+            foreach (var baseUdt in udt.BaseClasses
+                .Where(t => t.Access == GacAccess.Public && this.options.Udts.Contains(t.UDT))
+                .Select(t => t.UDT)
+                )
             {
                 WriteLine("    ,{0}(static_cast<__GacUIInternal<{1}>::InternalObjectType*>((__GacUIInternal<{2}>::InternalObjectType*){3}))",
                     baseUdt.ToString(),

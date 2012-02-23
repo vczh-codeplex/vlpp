@@ -28,8 +28,8 @@ ListView Base
 
 				class ListViewItemStyleProviderBase: public Object, public GuiSelectableListControl::IItemStyleProvider, public Description<ListViewItemStyleProviderBase>
 				{
-				protected:
-					class ListViewItemStyleController : public ItemStyleControllerBase
+				public:
+					class ListViewItemStyleController : public ItemStyleControllerBase, public Description<ListViewItemStyleController>
 					{
 					protected:
 						GuiSelectableButton*					backgroundButton;
@@ -43,6 +43,7 @@ ListView Base
 						void									SetSelected(bool value);
 					};
 
+				protected:
 					GuiListViewBase*							listControl;
 
 				public:

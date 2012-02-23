@@ -81,7 +81,7 @@ namespace _TranslateXMLtoCode
         public GacUDT AssociatedGacType { get; set; }
         public bool Descriptable { get; set; }
 
-        public RgacUDT[] BaseClasses { get; set; }
+        public RgacBaseClass[] BaseClasses { get; set; }
         public RgacMethod[] Constructors { get; set; }
         public RgacMethod[] Methods { get; set; }
         public RgacMethod[] OverridingMethods { get; set; }
@@ -93,6 +93,12 @@ namespace _TranslateXMLtoCode
         {
             return this.Name.Aggregate((a, b) => a + " :: " + b);
         }
+    }
+
+    class RgacBaseClass
+    {
+        public GacAccess Access { get; set; }
+        public RgacUDT UDT { get; set; }
     }
 
     class RgacMethod

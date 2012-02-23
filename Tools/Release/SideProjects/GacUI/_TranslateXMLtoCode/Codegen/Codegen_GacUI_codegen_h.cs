@@ -193,7 +193,10 @@ namespace _TranslateXMLtoCode.Codegen
                         RgacUDT[] currentBases = new RgacUDT[] { };
                         if (currentUdt != null)
                         {
-                            currentBases = currentUdt.BaseClasses.Where(t => this.options.Udts.Contains(t)).ToArray();
+                            currentBases = currentUdt.BaseClasses
+                                .Where(t => t.Access == GacAccess.Public && this.options.Udts.Contains(t.UDT))
+                                .Select(t => t.UDT)
+                                .ToArray();
                         }
                         if (currentBases.Length == 0)
                         {
