@@ -44,7 +44,7 @@ namespace _TranslateXMLtoCode
         public string Name { get; set; }
         public bool IsAbstract { get; set; }
         public GacUDTKind Kind { get; set; }
-        public GacUDT[] BaseClasses { get; set; }
+        public GacBaseClass[] BaseClasses { get; set; }
         public GacField[] Fields { get; set; }
         public GacField[] StaticFields { get; set; }
         public GacConst[] Constants { get; set; }
@@ -72,6 +72,12 @@ namespace _TranslateXMLtoCode
         {
             return this.Name;
         }
+    }
+
+    class GacBaseClass
+    {
+        public GacAccess Access { get; set; }
+        public GacUDT UDT { get; set; }
     }
 
     class GacField

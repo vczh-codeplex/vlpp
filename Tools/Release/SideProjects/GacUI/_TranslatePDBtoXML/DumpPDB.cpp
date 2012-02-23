@@ -459,10 +459,13 @@ namespace dumppdb
 			IDiaSymbol* baseClassSymbol=0;
 			while(SUCCEEDED(baseClassEnum->Next(1, &baseClassSymbol, &baseClassCelt)) && baseClassSymbol && baseClassCelt)
 			{
+				CV_access_e access=CV_public;
+				baseClassSymbol->get_access((DWORD*)&access);
+
 				BSTR nameBSTR=0;
 				if(SUCCEEDED(baseClassSymbol->get_name(&nameBSTR)) && nameBSTR)
 				{
-					PrintXMLOpen(file, 3, L"baseClass", nameBSTR);
+					PrintXMLOpen(file, 3, L"baseClass", nameBSTR, L"access", GetAccessName(access));
 					PrintXMLClose(file, 3, L"baseClass");
 				}
 				baseClassSymbol->Release();

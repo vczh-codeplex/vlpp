@@ -421,8 +421,12 @@ namespace _TranslateXMLtoCode
         static void FillUDT(ReflectedTypeAnalyzerInput input, Dictionary<string, RgacUDT> udts, RgacUDT udt)
         {
             udt.BaseClasses = udt.AssociatedGacType.BaseClasses
-                .Select(t => GetRgacUDT(udts, t))
-                .Where(t => t != null)
+                .Select(t => new RgacBaseClass
+                {
+                    Access = t.Access,
+                    UDT = GetRgacUDT(udts, t.UDT),
+                })
+                .Where(t => t.UDT != null)
                 .ToArray();
 
             var instanceMethods = udt.AssociatedGacType.Methods
@@ -445,7 +449,7 @@ namespace _TranslateXMLtoCode
 
         static RgacUDT[] GetBaseClasses(RgacUDT udt)
         {
-            return udt.BaseClasses.Concat(udt.BaseClasses.SelectMany(GetBaseClasses)).Distinct().ToArray();
+            return udt.BaseClasses.Select(b => b.UDT).Concat(udt.BaseClasses.SelectMany(b => GetBaseClasses(b.UDT))).Distinct().ToArray();
         }
 
         static string GetMethodRealName(string name)

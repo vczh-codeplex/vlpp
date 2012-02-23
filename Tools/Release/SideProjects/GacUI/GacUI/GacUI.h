@@ -1906,7 +1906,7 @@ Margin
 MemoryNodeProvider
 ***********************************************************************/
 
-	class GACUI_API MemoryNodeProvider : public IList_of_MemoryNodeProvider, public INodeProvider
+	class GACUI_API MemoryNodeProvider : public INodeProvider
 	{
 	public:
 	
@@ -2340,7 +2340,7 @@ GuiGraphicsEventReceiver
 NodeRootProviderBase
 ***********************************************************************/
 
-	class GACUI_API NodeRootProviderBase : public INodeRootProvider, public INodeProviderCallback
+	class GACUI_API NodeRootProviderBase : public INodeRootProvider
 	{
 	public:
 	
@@ -2935,7 +2935,7 @@ INativeWindowListener
 GuiGraphicsHost
 ***********************************************************************/
 
-	class GACUI_API GuiGraphicsHost : public INativeWindowListener, public INativeControllerListener
+	class GACUI_API GuiGraphicsHost
 	{
 	public:
 	
@@ -3326,7 +3326,7 @@ GuiButton :: IStyleController
 GuiControlHost
 ***********************************************************************/
 
-	class GACUI_API GuiControlHost : public GuiControl, public INativeWindowListener
+	class GACUI_API GuiControlHost : public GuiControl
 	{
 	public:
 	
@@ -3408,7 +3408,7 @@ GuiControlHost
 GuiMenuBar
 ***********************************************************************/
 
-	class GACUI_API GuiMenuBar : public GuiControl, public IGuiMenuService
+	class GACUI_API GuiMenuBar : public GuiControl
 	{
 	public:
 	
@@ -4838,7 +4838,7 @@ GuiComboBoxListControl
 GuiMenu
 ***********************************************************************/
 
-	class GACUI_API GuiMenu : public GuiPopup, public IGuiMenuService
+	class GACUI_API GuiMenu : public GuiPopup
 	{
 	public:
 	
@@ -5221,7 +5221,7 @@ IReadonlyList_of_GuiWindow_raw_pointer
 GuiApplication
 ***********************************************************************/
 
-	class GACUI_API GuiApplication : public INativeControllerListener
+	class GACUI_API GuiApplication
 	{
 	public:
 	
@@ -5751,7 +5751,7 @@ ListProvider_of_ListViewItem
 NodeItemProvider
 ***********************************************************************/
 
-	class GACUI_API NodeItemProvider : public ItemProviderBase, public INodeProviderCallback, public INodeItemView
+	class GACUI_API NodeItemProvider : public ItemProviderBase
 	{
 	public:
 	
@@ -6006,7 +6006,7 @@ ListViewColumnItemArranger :: IColumnItemViewCallback
 ListViewDetailContentProvider
 ***********************************************************************/
 
-	class GACUI_API ListViewDetailContentProvider : public ListViewItemStyleProvider :: IListViewItemContentProvider, public ListViewColumnItemArranger :: IColumnItemViewCallback
+	class GACUI_API ListViewDetailContentProvider : public ListViewItemStyleProvider :: IListViewItemContentProvider
 	{
 	public:
 	
@@ -6036,7 +6036,7 @@ ListViewDetailContentProvider
 ListViewItemProvider
 ***********************************************************************/
 
-	class GACUI_API ListViewItemProvider : public ListProvider_of_ListViewItem, public ListViewItemStyleProvider :: IListViewItemView, public ListViewColumnItemArranger :: IColumnItemView
+	class GACUI_API ListViewItemProvider : public ListProvider_of_ListViewItem
 	{
 	public:
 	
@@ -6363,7 +6363,7 @@ GuiVirtualTextList
 TextItemProvider
 ***********************************************************************/
 
-	class GACUI_API TextItemProvider : public ListProvider_of_TextItem, public TextItemStyleProvider :: ITextItemView
+	class GACUI_API TextItemProvider : public ListProvider_of_TextItem
 	{
 	public:
 	
@@ -7035,7 +7035,7 @@ TreeViewItem
 TreeViewItemRootProvider
 ***********************************************************************/
 
-	class GACUI_API TreeViewItemRootProvider : public MemoryNodeRootProvider, public ITreeViewItemView
+	class GACUI_API TreeViewItemRootProvider : public MemoryNodeRootProvider
 	{
 	public:
 	
@@ -7117,7 +7117,7 @@ GuiTreeView :: IStyleProvider
 TreeViewNodeItemStyleProvider
 ***********************************************************************/
 
-	class GACUI_API TreeViewNodeItemStyleProvider : public INodeItemStyleProvider, public INodeProviderCallback
+	class GACUI_API TreeViewNodeItemStyleProvider : public INodeItemStyleProvider
 	{
 	public:
 	

@@ -187,7 +187,7 @@ namespace _TranslateXMLtoCode.Codegen
                 udt.StaticProperties.SelectMany(GetRelatedUdts)
                 ))))
                 .Where(t => !this.PredeclaredClasses.Contains(t.ToString()))
-                .Concat(udt.BaseClasses)
+                .Concat(udt.BaseClasses.Select(t => t.UDT))
                 .Where(t => this.options.Udts.Contains(t))
                 .Distinct()
                 .ToArray();
@@ -198,7 +198,11 @@ namespace _TranslateXMLtoCode.Codegen
             RgacUDT[] enums = udts.Where(u => u.Kind == RgacUDTKind.Enum).ToArray();
             List<Tuple<RgacUDT, HashSet<RgacUDT>>> unsorted = udts
                 .Where(u => u.Kind != RgacUDTKind.Enum)
-                .Select(u => Tuple.Create(u, new HashSet<RgacUDT>(u.BaseClasses.Where(b => udts.Contains(b)))))
+                .Select(u => Tuple.Create(u, new HashSet<RgacUDT>(
+                    u.BaseClasses
+                        .Where(b => udts.Contains(b.UDT))
+                        .Select(b => b.UDT)
+                    )))
                 .ToList();
             List<RgacUDT> nonEnums = new List<RgacUDT>();
 
