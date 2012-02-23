@@ -2,7 +2,7 @@
 #include "..\..\..\..\..\Candidate\GUI\GUI\GacUI.h"
 #include "..\..\..\..\..\Candidate\GUI\GUI\Reflection\GuiTypeDescriptorImpProvider_codegen.h"
 
-namespace gacui_cpp
+namespace gacui_cpp_1_0
 {
 	using namespace vl;
 

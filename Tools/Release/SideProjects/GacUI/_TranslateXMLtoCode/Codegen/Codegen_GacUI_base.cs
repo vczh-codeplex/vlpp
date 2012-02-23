@@ -7,6 +7,8 @@ namespace _TranslateXMLtoCode.Codegen
 {
     abstract class Codegen_GacUI_base : CodeGenerator
     {
+        public const string GacUINamespace = "gacui_cpp_1_0";
+
         protected CodeGeneratorOptions options;
 
         protected Codegen_GacUI_base(CodeGeneratorOptions options, string path)

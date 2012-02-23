@@ -11,7 +11,7 @@ namespace _TranslateXMLtoCode.Codegen
 
         protected void GenerateConstructor(RgacMethod method)
         {
-            WriteLine("static rptr<{0}> Create({1});",
+            WriteLine("static rptr<{0}> CreateRptr({1});",
                 GacUdtTypeName(method.OwnerUDT),
                 method.ParameterTypes
                     .Zip(method.ParameterNames, Tuple.Create)
@@ -21,7 +21,7 @@ namespace _TranslateXMLtoCode.Codegen
 
             if (method.OwnerUDT.Kind == RgacUDTKind.Struct)
             {
-                WriteLine("{0}({1});",
+                WriteLine("static {0} Create({1});",
                     method.OwnerUDT.Name.Last(),
                     method.ParameterTypes
                         .Zip(method.ParameterNames, Tuple.Create)
@@ -78,6 +78,14 @@ namespace _TranslateXMLtoCode.Codegen
 
         protected void GenerateMembers(RgacUDT udt)
         {
+            End("");
+            Begin("protected:");
+            WriteLine("template<typename T> friend class __GacUIInternal;");
+            WriteLine("void* __internal_object_reference;");
+            WriteLine("{0}(void* __internal_object_reference_input);", udt.Name.Last());
+            End("");
+            Begin("public:");
+            WriteLine("virtual ~{0}();", udt.Name.Last());
             End("");
             Begin("public:");
             if (udt.Name.Length == 1)
@@ -196,7 +204,7 @@ namespace _TranslateXMLtoCode.Codegen
                             WriteLine("class GACUI_API {0} : {1}",
                                 className,
                                 currentBases
-                                .Select(t => (t.Kind == RgacUDTKind.Interface ? "public virtual " : "public ") + t.ToString())
+                                .Select(t => "public " + t.ToString())
                                     .Aggregate((a, b) => a + ", " + b)
                                 );
                         }
@@ -222,14 +230,14 @@ namespace _TranslateXMLtoCode.Codegen
             WriteLine("");
             WriteLine("#include \"GacUICommon.h\"");
             WriteLine("");
-            WriteLine("namespace gacui_cpp");
+            WriteLine("namespace {0}", Codegen_GacUI_base.GacUINamespace);
             Begin("{");
 
             GenerateCppHeader();
 
             End("}");
             WriteLine("");
-            WriteLine("namespace g{ using namespace gacui_cpp; }");
+            WriteLine("namespace g{ using namespace " + Codegen_GacUI_base.GacUINamespace + "; }");
             WriteLine("#endif");
         }
 
