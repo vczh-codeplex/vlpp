@@ -1,4 +1,4 @@
-#include "GacUICommon.h"
+#include "GacUICommonInternal.h"
 #include "..\..\..\..\..\Candidate\GUI\GUI\GacUI.h"
 #include "..\..\..\..\..\Candidate\GUI\GUI\Reflection\GuiTypeDescriptorImpProvider_codegen.h"
 
@@ -57,6 +57,20 @@ GacString
 	{
 		AString a=wtoa(internalData->string);
 		strcpy_s(buffer, a.Length(), a.Buffer());
+	}
+
+/***********************************************************************
+GacPointerHolder
+***********************************************************************/
+
+	GacPointerHolder::GacPointerHolder(void* __internal_pointer_holder_input)
+		:__internal_pointer_holder(__internal_pointer_holder_input)
+	{
+	}
+
+	GacPointerHolder::~GacPointerHolder()
+	{
+		delete (GacPointerHolderData*)__internal_pointer_holder;
 	}
 }
 

@@ -211,6 +211,7 @@ $(SolutionDir)$(Configuration)\_TranslateXMLtoCode.exe $(SolutionDir)</Command>
     <ClInclude Include="..\..\..\..\..\Library\Threading.h" />
     <ClInclude Include="GacUI.h" />
     <ClInclude Include="GacUICommon.h" />
+    <ClInclude Include="GacUICommonInternal.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\_GenPDB\_GenPDB.vcxproj">

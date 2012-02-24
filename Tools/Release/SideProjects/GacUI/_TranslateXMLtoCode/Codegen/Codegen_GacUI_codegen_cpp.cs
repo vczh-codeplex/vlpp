@@ -206,6 +206,7 @@ namespace _TranslateXMLtoCode.Codegen
 
         protected override void GenerateCodeInternal()
         {
+            WriteLine("#include \"GacUICommonInternal.h\"");
             WriteLine("#include \"GacUI.h\"");
             WriteLine("#include \"..\\..\\..\\..\\..\\Candidate\\GUI\\GUI\\GacUI.h\"");
             WriteLine("");
