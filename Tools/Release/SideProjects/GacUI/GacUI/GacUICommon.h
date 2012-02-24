@@ -28,12 +28,14 @@ namespace gacui_cpp_1_0
 		void							FillAsciiStringBuffer(char* buffer);
 	};
 
+	class GacPointerHolderData;
+
 	class GACUI_API GacPointerHolder
 	{
 	protected:
-		void*							__internal_pointer_holder;
+		GacPointerHolderData*			__internal_pointer_holder;
 
-		GacPointerHolder(void* __internal_pointer_holder_input);
+		GacPointerHolder(GacPointerHolderData* __internal_pointer_holder_input);
 		~GacPointerHolder();
 	public:
 	};
@@ -66,7 +68,7 @@ namespace gacui_cpp_1_0
 		template<typename T>
 		friend class _SptrBuilder;
 	private:
-		sptr(void* __internal_object_reference_input, void* __internal_pointer_holder_input)
+		sptr(void* __internal_object_reference_input, GacPointerHolderData* __internal_pointer_holder_input)
 			:T(__internal_object_reference_input)
 			,GacPointerHolder(__internal_pointer_holder_input)
 		{

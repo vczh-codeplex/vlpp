@@ -63,14 +63,14 @@ GacString
 GacPointerHolder
 ***********************************************************************/
 
-	GacPointerHolder::GacPointerHolder(void* __internal_pointer_holder_input)
+	GacPointerHolder::GacPointerHolder(GacPointerHolderData* __internal_pointer_holder_input)
 		:__internal_pointer_holder(__internal_pointer_holder_input)
 	{
 	}
 
 	GacPointerHolder::~GacPointerHolder()
 	{
-		delete (GacPointerHolderData*)__internal_pointer_holder;
+		delete __internal_pointer_holder;
 	}
 }
 
