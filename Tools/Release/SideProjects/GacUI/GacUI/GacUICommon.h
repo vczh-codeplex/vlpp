@@ -51,12 +51,22 @@ namespace gacui_cpp_1_0
 		{
 		}
 	public:
+		rptr()
+			:T(0)
+		{
+		}
+
 		rptr(const rptr<T>& ptr)
 			:T(ptr.__internal_object_reference)
 		{
 		}
 
-		T* operator->()
+		operator bool()const
+		{
+			return __internal_object_reference!=0;
+		}
+
+		T* operator->()const
 		{
 			return this;
 		}
@@ -74,13 +84,24 @@ namespace gacui_cpp_1_0
 		{
 		}
 	public:
+		sptr()
+			:T(0)
+			,GacPointerHolder(0)
+		{
+		}
+
 		sptr(const rptr<T>& ptr)
 			:T(ptr.__internal_object_reference)
 			,GacPointerHolder(__internal_pointer_holder)
 		{
 		}
 
-		T* operator->()
+		operator bool()const
+		{
+			return __internal_object_reference!=0;
+		}
+
+		T* operator->()const
 		{
 			return this;
 		}

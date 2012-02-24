@@ -70,7 +70,10 @@ GacPointerHolder
 
 	GacPointerHolder::~GacPointerHolder()
 	{
-		delete __internal_pointer_holder;
+		if(__internal_pointer_holder)
+		{
+			delete __internal_pointer_holder;
+		}
 	}
 }
 
