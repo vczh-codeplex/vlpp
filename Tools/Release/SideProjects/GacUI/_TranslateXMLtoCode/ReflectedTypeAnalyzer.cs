@@ -660,6 +660,7 @@ namespace _TranslateXMLtoCode
                         }
                         else if (m.OverridingBaseMethods.Count > 0)
                         {
+                            processed = true;
                             overridingMethods.Add(m);
                         }
                         else if (m.Name.StartsWith("Get"))

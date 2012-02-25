@@ -1355,16 +1355,6 @@ GuiTimeBasedAnimation
 		throw 0;
 	}
 	
-	signed __int32 GuiTimeBasedAnimation::GetTotalLength()
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiTimeBasedAnimation::GetCurrentPosition()
-	{
-		throw 0;
-	}
-	
 	rptr<GuiTimeBasedAnimation> GuiTimeBasedAnimation::operator=(rptr<GuiTimeBasedAnimation> value)
 	{
 		throw 0;
@@ -1483,16 +1473,6 @@ Gui3DBorderElement
 	{
 	}
 	
-	rptr<IGuiGraphicsElementFactory> Gui3DBorderElement::GetFactory()
-	{
-		throw 0;
-	}
-	
-	rptr<IGuiGraphicsRenderer> Gui3DBorderElement::GetRenderer()
-	{
-		throw 0;
-	}
-	
 	void Gui3DBorderElement::SetColors(Color value1, Color value2)
 	{
 		throw 0;
@@ -1549,16 +1529,6 @@ Gui3DSplitterElement
 	
 	Gui3DSplitterElement::~Gui3DSplitterElement()
 	{
-	}
-	
-	rptr<IGuiGraphicsElementFactory> Gui3DSplitterElement::GetFactory()
-	{
-		throw 0;
-	}
-	
-	rptr<IGuiGraphicsRenderer> Gui3DSplitterElement::GetRenderer()
-	{
-		throw 0;
 	}
 	
 	void Gui3DSplitterElement::SetColors(Color value1, Color value2)
@@ -1627,16 +1597,6 @@ GuiGradientBackgroundElement
 	
 	GuiGradientBackgroundElement::~GuiGradientBackgroundElement()
 	{
-	}
-	
-	rptr<IGuiGraphicsElementFactory> GuiGradientBackgroundElement::GetFactory()
-	{
-		throw 0;
-	}
-	
-	rptr<IGuiGraphicsRenderer> GuiGradientBackgroundElement::GetRenderer()
-	{
-		throw 0;
 	}
 	
 	void GuiGradientBackgroundElement::SetColors(Color value1, Color value2)
@@ -1715,16 +1675,6 @@ GuiImageFrameElement
 	
 	GuiImageFrameElement::~GuiImageFrameElement()
 	{
-	}
-	
-	rptr<IGuiGraphicsElementFactory> GuiImageFrameElement::GetFactory()
-	{
-		throw 0;
-	}
-	
-	rptr<IGuiGraphicsRenderer> GuiImageFrameElement::GetRenderer()
-	{
-		throw 0;
 	}
 	
 	void GuiImageFrameElement::SetImage(sptr<INativeImage> _image, signed __int32 _frameIndex)
@@ -1810,16 +1760,6 @@ GuiRoundBorderElement
 	{
 	}
 	
-	rptr<IGuiGraphicsElementFactory> GuiRoundBorderElement::GetFactory()
-	{
-		throw 0;
-	}
-	
-	rptr<IGuiGraphicsRenderer> GuiRoundBorderElement::GetRenderer()
-	{
-		throw 0;
-	}
-	
 	rptr<GuiRoundBorderElement> GuiRoundBorderElement::operator=(rptr<GuiRoundBorderElement> value)
 	{
 		throw 0;
@@ -1881,16 +1821,6 @@ GuiSolidBackgroundElement
 	
 	GuiSolidBackgroundElement::~GuiSolidBackgroundElement()
 	{
-	}
-	
-	rptr<IGuiGraphicsElementFactory> GuiSolidBackgroundElement::GetFactory()
-	{
-		throw 0;
-	}
-	
-	rptr<IGuiGraphicsRenderer> GuiSolidBackgroundElement::GetRenderer()
-	{
-		throw 0;
 	}
 	
 	rptr<GuiSolidBackgroundElement> GuiSolidBackgroundElement::operator=(rptr<GuiSolidBackgroundElement> value)
@@ -1956,16 +1886,6 @@ GuiSolidBorderElement
 	{
 	}
 	
-	rptr<IGuiGraphicsElementFactory> GuiSolidBorderElement::GetFactory()
-	{
-		throw 0;
-	}
-	
-	rptr<IGuiGraphicsRenderer> GuiSolidBorderElement::GetRenderer()
-	{
-		throw 0;
-	}
-	
 	rptr<GuiSolidBorderElement> GuiSolidBorderElement::operator=(rptr<GuiSolidBorderElement> value)
 	{
 		throw 0;
@@ -2027,16 +1947,6 @@ GuiSolidLabelElement
 	
 	GuiSolidLabelElement::~GuiSolidLabelElement()
 	{
-	}
-	
-	rptr<IGuiGraphicsElementFactory> GuiSolidLabelElement::GetFactory()
-	{
-		throw 0;
-	}
-	
-	rptr<IGuiGraphicsRenderer> GuiSolidLabelElement::GetRenderer()
-	{
-		throw 0;
 	}
 	
 	void GuiSolidLabelElement::SetAlignments(Alignment :: Type horizontal, Alignment :: Type vertical)
@@ -3657,41 +3567,6 @@ MemoryNodeProvider
 		throw 0;
 	}
 	
-	bool MemoryNodeProvider::GetExpanding()
-	{
-		throw 0;
-	}
-	
-	void MemoryNodeProvider::SetExpanding(bool value)
-	{
-		throw 0;
-	}
-	
-	signed __int32 MemoryNodeProvider::CalculateTotalVisibleNodes()
-	{
-		throw 0;
-	}
-	
-	signed __int32 MemoryNodeProvider::GetChildCount()
-	{
-		throw 0;
-	}
-	
-	rptr<INodeProvider> MemoryNodeProvider::GetParent()
-	{
-		throw 0;
-	}
-	
-	rptr<INodeProvider> MemoryNodeProvider::RequestChild(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	void MemoryNodeProvider::ReleaseChild(rptr<INodeProvider> node)
-	{
-		throw 0;
-	}
-	
 	rptr<MemoryNodeProvider> MemoryNodeProvider::operator=(rptr<MemoryNodeProvider> value)
 	{
 		throw 0;
@@ -4598,36 +4473,6 @@ NodeRootProviderBase
 		throw 0;
 	}
 	
-	bool NodeRootProviderBase::CanGetNodeByVisibleIndex()
-	{
-		throw 0;
-	}
-	
-	rptr<INodeProvider> NodeRootProviderBase::GetNodeByVisibleIndex(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	bool NodeRootProviderBase::AttachCallback(rptr<INodeProviderCallback> value)
-	{
-		throw 0;
-	}
-	
-	bool NodeRootProviderBase::DetachCallback(rptr<INodeProviderCallback> value)
-	{
-		throw 0;
-	}
-	
-	rptr<IDescriptable> NodeRootProviderBase::RequestView(const GacString& identifier)
-	{
-		throw 0;
-	}
-	
-	void NodeRootProviderBase::ReleaseView(rptr<IDescriptable> view)
-	{
-		throw 0;
-	}
-	
 	rptr<NodeRootProviderBase> NodeRootProviderBase::operator=(rptr<NodeRootProviderBase> value)
 	{
 		throw 0;
@@ -4663,11 +4508,6 @@ MemoryNodeRootProvider
 	}
 	
 	rptr<MemoryNodeRootProvider> MemoryNodeRootProvider::CreateRptr()
-	{
-		throw 0;
-	}
-	
-	rptr<INodeProvider> MemoryNodeRootProvider::GetRootNode()
 	{
 		throw 0;
 	}
@@ -5036,16 +4876,6 @@ GuiPolygonElement
 	
 	GuiPolygonElement::~GuiPolygonElement()
 	{
-	}
-	
-	rptr<IGuiGraphicsElementFactory> GuiPolygonElement::GetFactory()
-	{
-		throw 0;
-	}
-	
-	rptr<IGuiGraphicsRenderer> GuiPolygonElement::GetRenderer()
-	{
-		throw 0;
 	}
 	
 	void GuiPolygonElement::SetPoints(Point* p, signed __int32 count)
@@ -6288,26 +6118,6 @@ GuiGraphicsSite
 		throw 0;
 	}
 	
-	GuiGraphicsComposition :: ParentSizeAffection GuiGraphicsSite::GetAffectionFromParent()
-	{
-		throw 0;
-	}
-	
-	bool GuiGraphicsSite::IsSizeAffectParent()
-	{
-		throw 0;
-	}
-	
-	Size GuiGraphicsSite::GetMinPreferredClientSize()
-	{
-		throw 0;
-	}
-	
-	Rect GuiGraphicsSite::GetPreferredBounds()
-	{
-		throw 0;
-	}
-	
 	rptr<GuiGraphicsSite> GuiGraphicsSite::operator=(rptr<GuiGraphicsSite> value)
 	{
 		throw 0;
@@ -6342,21 +6152,6 @@ GuiBoundsComposition
 	}
 	
 	rptr<GuiBoundsComposition> GuiBoundsComposition::CreateRptr()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsComposition :: ParentSizeAffection GuiBoundsComposition::GetAffectionFromParent()
-	{
-		throw 0;
-	}
-	
-	Rect GuiBoundsComposition::GetPreferredBounds()
-	{
-		throw 0;
-	}
-	
-	Rect GuiBoundsComposition::GetBounds()
 	{
 		throw 0;
 	}
@@ -6430,11 +6225,6 @@ GuiCellComposition
 	}
 	
 	bool GuiCellComposition::SetSite(signed __int32 _row, signed __int32 _column, signed __int32 _rowSpan, signed __int32 _columnSpan)
-	{
-		throw 0;
-	}
-	
-	Rect GuiCellComposition::GetBounds()
 	{
 		throw 0;
 	}
@@ -6871,16 +6661,6 @@ GuiControlHost
 		throw 0;
 	}
 	
-	bool GuiControlHost::GetEnabled()
-	{
-		throw 0;
-	}
-	
-	void GuiControlHost::SetEnabled(bool value)
-	{
-		throw 0;
-	}
-	
 	void GuiControlHost::SetFocused()
 	{
 		throw 0;
@@ -6902,21 +6682,6 @@ GuiControlHost
 	}
 	
 	bool GuiControlHost::ContainsComponent(rptr<GuiComponent> component)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiControlHost> GuiControlHost::GetRelatedControlHost()
-	{
-		throw 0;
-	}
-	
-	const GacString& GuiControlHost::GetText()
-	{
-		throw 0;
-	}
-	
-	void GuiControlHost::SetText(const GacString& value)
 	{
 		throw 0;
 	}
@@ -7184,11 +6949,6 @@ GuiMenuBar
 		throw 0;
 	}
 	
-	rptr<IDescriptable> GuiMenuBar::QueryService(const GacString& identifier)
-	{
-		throw 0;
-	}
-	
 	rptr<GuiMenuBar> GuiMenuBar::operator=(rptr<GuiMenuBar> value)
 	{
 		throw 0;
@@ -7354,21 +7114,6 @@ GuiPartialViewComposition
 	}
 	
 	rptr<GuiPartialViewComposition> GuiPartialViewComposition::CreateRptr()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsComposition :: ParentSizeAffection GuiPartialViewComposition::GetAffectionFromParent()
-	{
-		throw 0;
-	}
-	
-	bool GuiPartialViewComposition::IsSizeAffectParent()
-	{
-		throw 0;
-	}
-	
-	Rect GuiPartialViewComposition::GetBounds()
 	{
 		throw 0;
 	}
@@ -7690,56 +7435,6 @@ CommonScrollStyle
 	{
 	}
 	
-	rptr<GuiBoundsComposition> CommonScrollStyle::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> CommonScrollStyle::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void CommonScrollStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void CommonScrollStyle::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void CommonScrollStyle::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void CommonScrollStyle::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	void CommonScrollStyle::SetCommandExecutor(rptr<GuiScroll :: ICommandExecutor> value)
-	{
-		throw 0;
-	}
-	
-	void CommonScrollStyle::SetTotalSize(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	void CommonScrollStyle::SetPageSize(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	void CommonScrollStyle::SetPosition(signed __int32 value)
-	{
-		throw 0;
-	}
-	
 	rptr<CommonScrollStyle> CommonScrollStyle::operator=(rptr<CommonScrollStyle> value)
 	{
 		throw 0;
@@ -7771,56 +7466,6 @@ CommonTrackStyle
 	
 	CommonTrackStyle::~CommonTrackStyle()
 	{
-	}
-	
-	rptr<GuiBoundsComposition> CommonTrackStyle::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> CommonTrackStyle::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void CommonTrackStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void CommonTrackStyle::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void CommonTrackStyle::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void CommonTrackStyle::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	void CommonTrackStyle::SetCommandExecutor(rptr<GuiScroll :: ICommandExecutor> value)
-	{
-		throw 0;
-	}
-	
-	void CommonTrackStyle::SetTotalSize(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	void CommonTrackStyle::SetPageSize(signed __int32 value)
-	{
-		throw 0;
-	}
-	
-	void CommonTrackStyle::SetPosition(signed __int32 value)
-	{
-		throw 0;
 	}
 	
 	rptr<CommonTrackStyle> CommonTrackStyle::operator=(rptr<CommonTrackStyle> value)
@@ -7993,36 +7638,6 @@ GuiScrollView :: StyleController
 	}
 	
 	void GuiScrollView::StyleController::AdjustView(Size fullSize)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiBoundsComposition> GuiScrollView::StyleController::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> GuiScrollView::StyleController::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void GuiScrollView::StyleController::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void GuiScrollView::StyleController::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void GuiScrollView::StyleController::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void GuiScrollView::StyleController::SetVisuallyEnabled(bool value)
 	{
 		throw 0;
 	}
@@ -8706,46 +8321,6 @@ AxisAlignedItemCoordinateTransformer
 		throw 0;
 	}
 	
-	Size AxisAlignedItemCoordinateTransformer::RealSizeToVirtualSize(Size size)
-	{
-		throw 0;
-	}
-	
-	Size AxisAlignedItemCoordinateTransformer::VirtualSizeToRealSize(Size size)
-	{
-		throw 0;
-	}
-	
-	Point AxisAlignedItemCoordinateTransformer::RealPointToVirtualPoint(Size realFullSize, Point point)
-	{
-		throw 0;
-	}
-	
-	Point AxisAlignedItemCoordinateTransformer::VirtualPointToRealPoint(Size realFullSize, Point point)
-	{
-		throw 0;
-	}
-	
-	Rect AxisAlignedItemCoordinateTransformer::RealRectToVirtualRect(Size realFullSize, Rect rect)
-	{
-		throw 0;
-	}
-	
-	Rect AxisAlignedItemCoordinateTransformer::VirtualRectToRealRect(Size realFullSize, Rect rect)
-	{
-		throw 0;
-	}
-	
-	Margin AxisAlignedItemCoordinateTransformer::RealMarginToVirtualMargin(Margin margin)
-	{
-		throw 0;
-	}
-	
-	Margin AxisAlignedItemCoordinateTransformer::VirtualMarginToRealMargin(Margin margin)
-	{
-		throw 0;
-	}
-	
 	rptr<AxisAlignedItemCoordinateTransformer> AxisAlignedItemCoordinateTransformer::operator=(rptr<AxisAlignedItemCoordinateTransformer> value)
 	{
 		throw 0;
@@ -8785,46 +8360,6 @@ DefaultItemCoordinateTransformer
 	}
 	
 	rptr<DefaultItemCoordinateTransformer> DefaultItemCoordinateTransformer::CreateRptr()
-	{
-		throw 0;
-	}
-	
-	Size DefaultItemCoordinateTransformer::RealSizeToVirtualSize(Size size)
-	{
-		throw 0;
-	}
-	
-	Size DefaultItemCoordinateTransformer::VirtualSizeToRealSize(Size size)
-	{
-		throw 0;
-	}
-	
-	Point DefaultItemCoordinateTransformer::RealPointToVirtualPoint(Size realFullSize, Point point)
-	{
-		throw 0;
-	}
-	
-	Point DefaultItemCoordinateTransformer::VirtualPointToRealPoint(Size realFullSize, Point point)
-	{
-		throw 0;
-	}
-	
-	Rect DefaultItemCoordinateTransformer::RealRectToVirtualRect(Size realFullSize, Rect rect)
-	{
-		throw 0;
-	}
-	
-	Rect DefaultItemCoordinateTransformer::VirtualRectToRealRect(Size realFullSize, Rect rect)
-	{
-		throw 0;
-	}
-	
-	Margin DefaultItemCoordinateTransformer::RealMarginToVirtualMargin(Margin margin)
-	{
-		throw 0;
-	}
-	
-	Margin DefaultItemCoordinateTransformer::VirtualMarginToRealMargin(Margin margin)
 	{
 		throw 0;
 	}
@@ -8901,11 +8436,6 @@ GuiScrollContainer :: StyleController
 	}
 	
 	rptr<GuiScrollContainer :: StyleController> GuiScrollContainer::StyleController::CreateRptr(rptr<GuiScrollView :: IStyleProvider> styleProvider)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> GuiScrollContainer::StyleController::GetContainerComposition()
 	{
 		throw 0;
 	}
@@ -9122,11 +8652,6 @@ GuiSelectableButton :: MutexGroupController
 		throw 0;
 	}
 	
-	void GuiSelectableButton::MutexGroupController::OnSelectedChanged(rptr<GuiSelectableButton> button)
-	{
-		throw 0;
-	}
-	
 	rptr<GuiSelectableButton :: MutexGroupController> GuiSelectableButton::MutexGroupController::operator=(rptr<GuiSelectableButton :: MutexGroupController> value)
 	{
 		throw 0;
@@ -9161,11 +8686,6 @@ GuiSelectableListControl
 	}
 	
 	rptr<GuiSelectableListControl> GuiSelectableListControl::CreateRptr(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider)
-	{
-		throw 0;
-	}
-	
-	sptr<GuiListControl :: IItemStyleProvider> GuiSelectableListControl::SetStyleProvider(sptr<GuiListControl :: IItemStyleProvider> value)
 	{
 		throw 0;
 	}
@@ -9281,11 +8801,6 @@ GuiListViewBase
 		throw 0;
 	}
 	
-	sptr<GuiListControl :: IItemStyleProvider> GuiListViewBase::SetStyleProvider(sptr<GuiListControl :: IItemStyleProvider> value)
-	{
-		throw 0;
-	}
-	
 	rptr<GuiListViewBase> GuiListViewBase::operator=(rptr<GuiListViewBase> value)
 	{
 		throw 0;
@@ -9387,21 +8902,6 @@ GuiSideAlignedComposition
 		throw 0;
 	}
 	
-	GuiGraphicsComposition :: ParentSizeAffection GuiSideAlignedComposition::GetAffectionFromParent()
-	{
-		throw 0;
-	}
-	
-	bool GuiSideAlignedComposition::IsSizeAffectParent()
-	{
-		throw 0;
-	}
-	
-	Rect GuiSideAlignedComposition::GetBounds()
-	{
-		throw 0;
-	}
-	
 	rptr<GuiSideAlignedComposition> GuiSideAlignedComposition::operator=(rptr<GuiSideAlignedComposition> value)
 	{
 		throw 0;
@@ -9466,21 +8966,6 @@ GuiStackItemComposition
 	}
 	
 	rptr<GuiStackItemComposition> GuiStackItemComposition::CreateRptr()
-	{
-		throw 0;
-	}
-	
-	GuiGraphicsComposition :: ParentSizeAffection GuiStackItemComposition::GetAffectionFromParent()
-	{
-		throw 0;
-	}
-	
-	bool GuiStackItemComposition::IsSizeAffectParent()
-	{
-		throw 0;
-	}
-	
-	Rect GuiStackItemComposition::GetBounds()
 	{
 		throw 0;
 	}
@@ -9753,16 +9238,6 @@ GuiTableComposition
 	}
 	
 	void GuiTableComposition::UpdateCellBounds()
-	{
-		throw 0;
-	}
-	
-	Size GuiTableComposition::GetMinPreferredClientSize()
-	{
-		throw 0;
-	}
-	
-	Rect GuiTableComposition::GetBounds()
 	{
 		throw 0;
 	}
@@ -10095,11 +9570,6 @@ GuiComboBoxListControl
 		throw 0;
 	}
 	
-	void GuiComboBoxListControl::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
 	rptr<GuiComboBoxListControl> GuiComboBoxListControl::operator=(rptr<GuiComboBoxListControl> value)
 	{
 		throw 0;
@@ -10168,11 +9638,6 @@ GuiMenu
 		throw 0;
 	}
 	
-	rptr<IDescriptable> GuiMenu::QueryService(const GacString& identifier)
-	{
-		throw 0;
-	}
-	
 	rptr<GuiMenu> GuiMenu::operator=(rptr<GuiMenu> value)
 	{
 		throw 0;
@@ -10207,16 +9672,6 @@ GuiWindowComposition
 	}
 	
 	rptr<GuiWindowComposition> GuiWindowComposition::CreateRptr()
-	{
-		throw 0;
-	}
-	
-	Rect GuiWindowComposition::GetBounds()
-	{
-		throw 0;
-	}
-	
-	void GuiWindowComposition::SetMargin(Margin value)
 	{
 		throw 0;
 	}
@@ -10921,16 +10376,6 @@ GuiStackComposition
 		throw 0;
 	}
 	
-	Size GuiStackComposition::GetMinPreferredClientSize()
-	{
-		throw 0;
-	}
-	
-	Rect GuiStackComposition::GetBounds()
-	{
-		throw 0;
-	}
-	
 	rptr<GuiStackComposition> GuiStackComposition::operator=(rptr<GuiStackComposition> value)
 	{
 		throw 0;
@@ -11113,16 +10558,6 @@ ItemProviderBase
 		throw 0;
 	}
 	
-	bool ItemProviderBase::AttachCallback(rptr<GuiListControl :: IItemProviderCallback> value)
-	{
-		throw 0;
-	}
-	
-	bool ItemProviderBase::DetachCallback(rptr<GuiListControl :: IItemProviderCallback> value)
-	{
-		throw 0;
-	}
-	
 	rptr<ItemProviderBase> ItemProviderBase::operator=(rptr<ItemProviderBase> value)
 	{
 		throw 0;
@@ -11154,41 +10589,6 @@ ItemStyleControllerBase
 	
 	ItemStyleControllerBase::~ItemStyleControllerBase()
 	{
-	}
-	
-	rptr<GuiListControl :: IItemStyleProvider> ItemStyleControllerBase::GetStyleProvider()
-	{
-		throw 0;
-	}
-	
-	signed __int32 ItemStyleControllerBase::GetItemStyleId()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiBoundsComposition> ItemStyleControllerBase::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	bool ItemStyleControllerBase::IsCacheable()
-	{
-		throw 0;
-	}
-	
-	bool ItemStyleControllerBase::IsInstalled()
-	{
-		throw 0;
-	}
-	
-	void ItemStyleControllerBase::OnInstalled()
-	{
-		throw 0;
-	}
-	
-	void ItemStyleControllerBase::OnUninstalled()
-	{
-		throw 0;
 	}
 	
 	rptr<ItemStyleControllerBase> ItemStyleControllerBase::operator=(rptr<ItemStyleControllerBase> value)
@@ -11225,26 +10625,6 @@ ListViewItemStyleProviderBase
 	}
 	
 	rptr<ListViewItemStyleProviderBase> ListViewItemStyleProviderBase::CreateRptr()
-	{
-		throw 0;
-	}
-	
-	void ListViewItemStyleProviderBase::AttachListControl(rptr<GuiListControl> value)
-	{
-		throw 0;
-	}
-	
-	void ListViewItemStyleProviderBase::DetachListControl()
-	{
-		throw 0;
-	}
-	
-	signed __int32 ListViewItemStyleProviderBase::GetItemStyleId(signed __int32 itemIndex)
-	{
-		throw 0;
-	}
-	
-	void ListViewItemStyleProviderBase::SetStyleSelected(rptr<GuiListControl :: IItemStyleController> style, bool value)
 	{
 		throw 0;
 	}
@@ -11331,31 +10711,6 @@ ListViewItemStyleProvider
 	}
 	
 	rptr<ListViewItemStyleProvider> ListViewItemStyleProvider::CreateRptr(rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> itemContentProvider)
-	{
-		throw 0;
-	}
-	
-	void ListViewItemStyleProvider::AttachListControl(rptr<GuiListControl> value)
-	{
-		throw 0;
-	}
-	
-	void ListViewItemStyleProvider::DetachListControl()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemStyleController> ListViewItemStyleProvider::CreateItemStyle(signed __int32 styleId)
-	{
-		throw 0;
-	}
-	
-	void ListViewItemStyleProvider::DestroyItemStyle(rptr<GuiListControl :: IItemStyleController> style)
-	{
-		throw 0;
-	}
-	
-	void ListViewItemStyleProvider::Install(rptr<GuiListControl :: IItemStyleController> style, signed __int32 itemIndex)
 	{
 		throw 0;
 	}
@@ -11687,31 +11042,6 @@ ListViewBigIconContentProvider
 		throw 0;
 	}
 	
-	rptr<GuiListControl :: IItemCoordinateTransformer> ListViewBigIconContentProvider::CreatePreferredCoordinateTransformer()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemArranger> ListViewBigIconContentProvider::CreatePreferredArranger()
-	{
-		throw 0;
-	}
-	
-	rptr<ListViewItemStyleProvider :: IListViewItemContent> ListViewBigIconContentProvider::CreateItemContent(const FontProperties& font)
-	{
-		throw 0;
-	}
-	
-	void ListViewBigIconContentProvider::AttachListControl(rptr<GuiListControl> value)
-	{
-		throw 0;
-	}
-	
-	void ListViewBigIconContentProvider::DetachListControl()
-	{
-		throw 0;
-	}
-	
 	rptr<ListViewBigIconContentProvider> ListViewBigIconContentProvider::operator=(rptr<ListViewBigIconContentProvider> value)
 	{
 		throw 0;
@@ -11746,31 +11076,6 @@ ListViewInformationContentProvider
 	}
 	
 	rptr<ListViewInformationContentProvider> ListViewInformationContentProvider::CreateRptr(Size _iconSize)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemCoordinateTransformer> ListViewInformationContentProvider::CreatePreferredCoordinateTransformer()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemArranger> ListViewInformationContentProvider::CreatePreferredArranger()
-	{
-		throw 0;
-	}
-	
-	rptr<ListViewItemStyleProvider :: IListViewItemContent> ListViewInformationContentProvider::CreateItemContent(const FontProperties& font)
-	{
-		throw 0;
-	}
-	
-	void ListViewInformationContentProvider::AttachListControl(rptr<GuiListControl> value)
-	{
-		throw 0;
-	}
-	
-	void ListViewInformationContentProvider::DetachListControl()
 	{
 		throw 0;
 	}
@@ -11813,31 +11118,6 @@ ListViewListContentProvider
 		throw 0;
 	}
 	
-	rptr<GuiListControl :: IItemCoordinateTransformer> ListViewListContentProvider::CreatePreferredCoordinateTransformer()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemArranger> ListViewListContentProvider::CreatePreferredArranger()
-	{
-		throw 0;
-	}
-	
-	rptr<ListViewItemStyleProvider :: IListViewItemContent> ListViewListContentProvider::CreateItemContent(const FontProperties& font)
-	{
-		throw 0;
-	}
-	
-	void ListViewListContentProvider::AttachListControl(rptr<GuiListControl> value)
-	{
-		throw 0;
-	}
-	
-	void ListViewListContentProvider::DetachListControl()
-	{
-		throw 0;
-	}
-	
 	rptr<ListViewListContentProvider> ListViewListContentProvider::operator=(rptr<ListViewListContentProvider> value)
 	{
 		throw 0;
@@ -11872,31 +11152,6 @@ ListViewSmallIconContentProvider
 	}
 	
 	rptr<ListViewSmallIconContentProvider> ListViewSmallIconContentProvider::CreateRptr(Size _iconSize)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemCoordinateTransformer> ListViewSmallIconContentProvider::CreatePreferredCoordinateTransformer()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemArranger> ListViewSmallIconContentProvider::CreatePreferredArranger()
-	{
-		throw 0;
-	}
-	
-	rptr<ListViewItemStyleProvider :: IListViewItemContent> ListViewSmallIconContentProvider::CreateItemContent(const FontProperties& font)
-	{
-		throw 0;
-	}
-	
-	void ListViewSmallIconContentProvider::AttachListControl(rptr<GuiListControl> value)
-	{
-		throw 0;
-	}
-	
-	void ListViewSmallIconContentProvider::DetachListControl()
 	{
 		throw 0;
 	}
@@ -11939,31 +11194,6 @@ ListViewTileContentProvider
 		throw 0;
 	}
 	
-	rptr<GuiListControl :: IItemCoordinateTransformer> ListViewTileContentProvider::CreatePreferredCoordinateTransformer()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemArranger> ListViewTileContentProvider::CreatePreferredArranger()
-	{
-		throw 0;
-	}
-	
-	rptr<ListViewItemStyleProvider :: IListViewItemContent> ListViewTileContentProvider::CreateItemContent(const FontProperties& font)
-	{
-		throw 0;
-	}
-	
-	void ListViewTileContentProvider::AttachListControl(rptr<GuiListControl> value)
-	{
-		throw 0;
-	}
-	
-	void ListViewTileContentProvider::DetachListControl()
-	{
-		throw 0;
-	}
-	
 	rptr<ListViewTileContentProvider> ListViewTileContentProvider::operator=(rptr<ListViewTileContentProvider> value)
 	{
 		throw 0;
@@ -11999,66 +11229,6 @@ ListWrapperProvider_of_ListViewItem
 	}
 	
 	bool ListWrapperProvider_of_ListViewItem::NotifyUpdate(signed __int32 start, signed __int32 count)
-	{
-		throw 0;
-	}
-	
-	bool ListWrapperProvider_of_ListViewItem::Contains(rptr<ListViewItem> item)
-	{
-		throw 0;
-	}
-	
-	signed __int32 ListWrapperProvider_of_ListViewItem::Count()
-	{
-		throw 0;
-	}
-	
-	sptr<ListViewItem> ListWrapperProvider_of_ListViewItem::Get(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	sptr<ListViewItem> ListWrapperProvider_of_ListViewItem::operator[](signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	signed __int32 ListWrapperProvider_of_ListViewItem::IndexOf(rptr<ListViewItem> item)
-	{
-		throw 0;
-	}
-	
-	signed __int32 ListWrapperProvider_of_ListViewItem::Add(sptr<ListViewItem> item)
-	{
-		throw 0;
-	}
-	
-	bool ListWrapperProvider_of_ListViewItem::Remove(rptr<ListViewItem> item)
-	{
-		throw 0;
-	}
-	
-	bool ListWrapperProvider_of_ListViewItem::RemoveAt(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	bool ListWrapperProvider_of_ListViewItem::RemoveRange(signed __int32 index, signed __int32 count)
-	{
-		throw 0;
-	}
-	
-	bool ListWrapperProvider_of_ListViewItem::Clear()
-	{
-		throw 0;
-	}
-	
-	signed __int32 ListWrapperProvider_of_ListViewItem::Insert(signed __int32 index, sptr<ListViewItem> item)
-	{
-		throw 0;
-	}
-	
-	bool ListWrapperProvider_of_ListViewItem::Set(signed __int32 index, sptr<ListViewItem> item)
 	{
 		throw 0;
 	}
@@ -12139,21 +11309,6 @@ NodeItemProvider
 		throw 0;
 	}
 	
-	signed __int32 NodeItemProvider::Count()
-	{
-		throw 0;
-	}
-	
-	rptr<IDescriptable> NodeItemProvider::RequestView(const GacString& identifier)
-	{
-		throw 0;
-	}
-	
-	void NodeItemProvider::ReleaseView(rptr<IDescriptable> view)
-	{
-		throw 0;
-	}
-	
 	rptr<NodeItemProvider> NodeItemProvider::operator=(rptr<NodeItemProvider> value)
 	{
 		throw 0;
@@ -12197,41 +11352,6 @@ NodeItemStyleProvider
 		throw 0;
 	}
 	
-	void NodeItemStyleProvider::AttachListControl(rptr<GuiListControl> value)
-	{
-		throw 0;
-	}
-	
-	void NodeItemStyleProvider::DetachListControl()
-	{
-		throw 0;
-	}
-	
-	signed __int32 NodeItemStyleProvider::GetItemStyleId(signed __int32 itemIndex)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemStyleController> NodeItemStyleProvider::CreateItemStyle(signed __int32 styleId)
-	{
-		throw 0;
-	}
-	
-	void NodeItemStyleProvider::DestroyItemStyle(rptr<GuiListControl :: IItemStyleController> style)
-	{
-		throw 0;
-	}
-	
-	void NodeItemStyleProvider::Install(rptr<GuiListControl :: IItemStyleController> style, signed __int32 itemIndex)
-	{
-		throw 0;
-	}
-	
-	void NodeItemStyleProvider::SetStyleSelected(rptr<GuiListControl :: IItemStyleController> style, bool value)
-	{
-		throw 0;
-	}
-	
 	rptr<NodeItemStyleProvider> NodeItemStyleProvider::operator=(rptr<NodeItemStyleProvider> value)
 	{
 		throw 0;
@@ -12263,56 +11383,6 @@ RangedItemArrangerBase
 	
 	RangedItemArrangerBase::~RangedItemArrangerBase()
 	{
-	}
-	
-	void RangedItemArrangerBase::OnAttached(rptr<GuiListControl :: IItemProvider> provider)
-	{
-		throw 0;
-	}
-	
-	void RangedItemArrangerBase::OnItemModified(signed __int32 start, signed __int32 count, signed __int32 newCount)
-	{
-		throw 0;
-	}
-	
-	void RangedItemArrangerBase::AttachListControl(rptr<GuiListControl> value)
-	{
-		throw 0;
-	}
-	
-	void RangedItemArrangerBase::DetachListControl()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemArrangerCallback> RangedItemArrangerBase::GetCallback()
-	{
-		throw 0;
-	}
-	
-	void RangedItemArrangerBase::SetCallback(rptr<GuiListControl :: IItemArrangerCallback> value)
-	{
-		throw 0;
-	}
-	
-	Size RangedItemArrangerBase::GetTotalSize()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemStyleController> RangedItemArrangerBase::GetVisibleStyle(signed __int32 itemIndex)
-	{
-		throw 0;
-	}
-	
-	signed __int32 RangedItemArrangerBase::GetVisibleIndex(rptr<GuiListControl :: IItemStyleController> style)
-	{
-		throw 0;
-	}
-	
-	void RangedItemArrangerBase::OnViewChanged(Rect bounds)
-	{
-		throw 0;
 	}
 	
 	rptr<RangedItemArrangerBase> RangedItemArrangerBase::operator=(rptr<RangedItemArrangerBase> value)
@@ -12463,16 +11533,6 @@ ListViewColumnItemArranger
 	}
 	
 	rptr<ListViewColumnItemArranger> ListViewColumnItemArranger::CreateRptr()
-	{
-		throw 0;
-	}
-	
-	void ListViewColumnItemArranger::AttachListControl(rptr<GuiListControl> value)
-	{
-		throw 0;
-	}
-	
-	void ListViewColumnItemArranger::DetachListControl()
 	{
 		throw 0;
 	}
@@ -12630,31 +11690,6 @@ ListViewDetailContentProvider
 		throw 0;
 	}
 	
-	rptr<GuiListControl :: IItemCoordinateTransformer> ListViewDetailContentProvider::CreatePreferredCoordinateTransformer()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemArranger> ListViewDetailContentProvider::CreatePreferredArranger()
-	{
-		throw 0;
-	}
-	
-	rptr<ListViewItemStyleProvider :: IListViewItemContent> ListViewDetailContentProvider::CreateItemContent(const FontProperties& font)
-	{
-		throw 0;
-	}
-	
-	void ListViewDetailContentProvider::AttachListControl(rptr<GuiListControl> value)
-	{
-		throw 0;
-	}
-	
-	void ListViewDetailContentProvider::DetachListControl()
-	{
-		throw 0;
-	}
-	
 	rptr<ListViewDetailContentProvider> ListViewDetailContentProvider::operator=(rptr<ListViewDetailContentProvider> value)
 	{
 		throw 0;
@@ -12689,16 +11724,6 @@ ListViewItemProvider
 	}
 	
 	rptr<ListViewItemProvider> ListViewItemProvider::CreateRptr()
-	{
-		throw 0;
-	}
-	
-	rptr<IDescriptable> ListViewItemProvider::RequestView(const GacString& identifier)
-	{
-		throw 0;
-	}
-	
-	void ListViewItemProvider::ReleaseView(rptr<IDescriptable> view)
 	{
 		throw 0;
 	}
@@ -12940,66 +11965,6 @@ ListWrapperProvider_of_TextItem
 		throw 0;
 	}
 	
-	bool ListWrapperProvider_of_TextItem::Contains(const TextItem& item)
-	{
-		throw 0;
-	}
-	
-	signed __int32 ListWrapperProvider_of_TextItem::Count()
-	{
-		throw 0;
-	}
-	
-	const TextItem& ListWrapperProvider_of_TextItem::Get(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	const TextItem& ListWrapperProvider_of_TextItem::operator[](signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	signed __int32 ListWrapperProvider_of_TextItem::IndexOf(const TextItem& item)
-	{
-		throw 0;
-	}
-	
-	signed __int32 ListWrapperProvider_of_TextItem::Add(const TextItem& item)
-	{
-		throw 0;
-	}
-	
-	bool ListWrapperProvider_of_TextItem::Remove(const TextItem& item)
-	{
-		throw 0;
-	}
-	
-	bool ListWrapperProvider_of_TextItem::RemoveAt(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	bool ListWrapperProvider_of_TextItem::RemoveRange(signed __int32 index, signed __int32 count)
-	{
-		throw 0;
-	}
-	
-	bool ListWrapperProvider_of_TextItem::Clear()
-	{
-		throw 0;
-	}
-	
-	signed __int32 ListWrapperProvider_of_TextItem::Insert(signed __int32 index, const TextItem& item)
-	{
-		throw 0;
-	}
-	
-	bool ListWrapperProvider_of_TextItem::Set(signed __int32 index, const TextItem& item)
-	{
-		throw 0;
-	}
-	
 	rptr<ListWrapperProvider_of_TextItem> ListWrapperProvider_of_TextItem::operator=(rptr<ListWrapperProvider_of_TextItem> value)
 	{
 		throw 0;
@@ -13072,41 +12037,6 @@ TextItemStyleProvider
 	}
 	
 	rptr<TextItemStyleProvider> TextItemStyleProvider::CreateRptr(rptr<TextItemStyleProvider :: ITextItemStyleProvider> _textItemStyleProvider)
-	{
-		throw 0;
-	}
-	
-	void TextItemStyleProvider::AttachListControl(rptr<GuiListControl> value)
-	{
-		throw 0;
-	}
-	
-	void TextItemStyleProvider::DetachListControl()
-	{
-		throw 0;
-	}
-	
-	signed __int32 TextItemStyleProvider::GetItemStyleId(signed __int32 itemIndex)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemStyleController> TextItemStyleProvider::CreateItemStyle(signed __int32 styleId)
-	{
-		throw 0;
-	}
-	
-	void TextItemStyleProvider::DestroyItemStyle(rptr<GuiListControl :: IItemStyleController> style)
-	{
-		throw 0;
-	}
-	
-	void TextItemStyleProvider::Install(rptr<GuiListControl :: IItemStyleController> style, signed __int32 itemIndex)
-	{
-		throw 0;
-	}
-	
-	void TextItemStyleProvider::SetStyleSelected(rptr<GuiListControl :: IItemStyleController> style, bool value)
 	{
 		throw 0;
 	}
@@ -13317,11 +12247,6 @@ GuiVirtualTextList
 		throw 0;
 	}
 	
-	sptr<GuiListControl :: IItemStyleProvider> GuiVirtualTextList::SetStyleProvider(sptr<GuiListControl :: IItemStyleProvider> value)
-	{
-		throw 0;
-	}
-	
 	sptr<GuiListControl :: IItemStyleProvider> GuiVirtualTextList::ChangeItemStyle(rptr<TextItemStyleProvider :: ITextItemStyleProvider> itemStyleProvider)
 	{
 		throw 0;
@@ -13371,16 +12296,6 @@ TextItemProvider
 	}
 	
 	void TextItemProvider::SetChecked(signed __int32 itemIndex, bool value)
-	{
-		throw 0;
-	}
-	
-	rptr<IDescriptable> TextItemProvider::RequestView(const GacString& identifier)
-	{
-		throw 0;
-	}
-	
-	void TextItemProvider::ReleaseView(rptr<IDescriptable> view)
 	{
 		throw 0;
 	}
@@ -14040,16 +12955,6 @@ GuiColorizedTextElement
 	{
 	}
 	
-	rptr<IGuiGraphicsElementFactory> GuiColorizedTextElement::GetFactory()
-	{
-		throw 0;
-	}
-	
-	rptr<IGuiGraphicsRenderer> GuiColorizedTextElement::GetRenderer()
-	{
-		throw 0;
-	}
-	
 	rptr<GuiColorizedTextElement> GuiColorizedTextElement::operator=(rptr<GuiColorizedTextElement> value)
 	{
 		throw 0;
@@ -14446,31 +13351,6 @@ GuiTextElementOperator :: DefaultCallback
 		throw 0;
 	}
 	
-	TextPos GuiTextElementOperator::DefaultCallback::GetLeftWord(TextPos pos)
-	{
-		throw 0;
-	}
-	
-	TextPos GuiTextElementOperator::DefaultCallback::GetRightWord(TextPos pos)
-	{
-		throw 0;
-	}
-	
-	void GuiTextElementOperator::DefaultCallback::GetWord(TextPos pos, TextPos& begin, TextPos& end)
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiTextElementOperator::DefaultCallback::GetPageRows()
-	{
-		throw 0;
-	}
-	
-	bool GuiTextElementOperator::DefaultCallback::BeforeModify(TextPos& start, TextPos& end, const GacString& originalText, GacString& inputText)
-	{
-		throw 0;
-	}
-	
 	rptr<GuiTextElementOperator :: DefaultCallback> GuiTextElementOperator::DefaultCallback::operator=(rptr<GuiTextElementOperator :: DefaultCallback> value)
 	{
 		throw 0;
@@ -14510,21 +13390,6 @@ GuiMultilineTextBox
 		throw 0;
 	}
 	
-	const GacString& GuiMultilineTextBox::GetText()
-	{
-		throw 0;
-	}
-	
-	void GuiMultilineTextBox::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void GuiMultilineTextBox::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
 	rptr<GuiMultilineTextBox> GuiMultilineTextBox::operator=(rptr<GuiMultilineTextBox> value)
 	{
 		throw 0;
@@ -14559,26 +13424,6 @@ GuiMultilineTextBox :: StyleController
 	}
 	
 	rptr<GuiMultilineTextBox :: StyleController> GuiMultilineTextBox::StyleController::CreateRptr(rptr<GuiScrollView :: IStyleProvider> styleProvider)
-	{
-		throw 0;
-	}
-	
-	void GuiMultilineTextBox::StyleController::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void GuiMultilineTextBox::StyleController::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void GuiMultilineTextBox::StyleController::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void GuiMultilineTextBox::StyleController::SetVisuallyEnabled(bool value)
 	{
 		throw 0;
 	}
@@ -14646,21 +13491,6 @@ GuiMultilineTextBox :: TextElementOperatorCallback
 		throw 0;
 	}
 	
-	void GuiMultilineTextBox::TextElementOperatorCallback::AfterModify(TextPos originalStart, TextPos originalEnd, const GacString& originalText, TextPos inputStart, TextPos inputEnd, const GacString& inputText)
-	{
-		throw 0;
-	}
-	
-	void GuiMultilineTextBox::TextElementOperatorCallback::ScrollToView(Point point)
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiMultilineTextBox::TextElementOperatorCallback::GetTextMargin()
-	{
-		throw 0;
-	}
-	
 	rptr<GuiMultilineTextBox :: TextElementOperatorCallback> GuiMultilineTextBox::TextElementOperatorCallback::operator=(rptr<GuiMultilineTextBox :: TextElementOperatorCallback> value)
 	{
 		throw 0;
@@ -14696,21 +13526,6 @@ GuiSinglelineTextBox
 	}
 	
 	rptr<GuiSinglelineTextBox> GuiSinglelineTextBox::CreateRptr(rptr<GuiSinglelineTextBox :: IStyleProvider> styleProvider)
-	{
-		throw 0;
-	}
-	
-	const GacString& GuiSinglelineTextBox::GetText()
-	{
-		throw 0;
-	}
-	
-	void GuiSinglelineTextBox::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void GuiSinglelineTextBox::SetFont(const FontProperties& value)
 	{
 		throw 0;
 	}
@@ -14796,36 +13611,6 @@ GuiSinglelineTextBox :: StyleController
 		throw 0;
 	}
 	
-	rptr<GuiBoundsComposition> GuiSinglelineTextBox::StyleController::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> GuiSinglelineTextBox::StyleController::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void GuiSinglelineTextBox::StyleController::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void GuiSinglelineTextBox::StyleController::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void GuiSinglelineTextBox::StyleController::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void GuiSinglelineTextBox::StyleController::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
 	rptr<GuiSinglelineTextBox :: StyleController> GuiSinglelineTextBox::StyleController::operator=(rptr<GuiSinglelineTextBox :: StyleController> value)
 	{
 		throw 0;
@@ -14890,26 +13675,6 @@ GuiSinglelineTextBox :: TextElementOperatorCallback
 	}
 	
 	rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> GuiSinglelineTextBox::TextElementOperatorCallback::CreateRptr(rptr<GuiSinglelineTextBox> _textControl)
-	{
-		throw 0;
-	}
-	
-	bool GuiSinglelineTextBox::TextElementOperatorCallback::BeforeModify(TextPos& start, TextPos& end, const GacString& originalText, GacString& inputText)
-	{
-		throw 0;
-	}
-	
-	void GuiSinglelineTextBox::TextElementOperatorCallback::AfterModify(TextPos originalStart, TextPos originalEnd, const GacString& originalText, TextPos inputStart, TextPos inputEnd, const GacString& inputText)
-	{
-		throw 0;
-	}
-	
-	void GuiSinglelineTextBox::TextElementOperatorCallback::ScrollToView(Point point)
-	{
-		throw 0;
-	}
-	
-	signed __int32 GuiSinglelineTextBox::TextElementOperatorCallback::GetTextMargin()
 	{
 		throw 0;
 	}
@@ -15008,16 +13773,6 @@ TreeViewItemRootProvider
 	}
 	
 	rptr<TreeViewItemRootProvider> TreeViewItemRootProvider::CreateRptr()
-	{
-		throw 0;
-	}
-	
-	rptr<IDescriptable> TreeViewItemRootProvider::RequestView(const GacString& identifier)
-	{
-		throw 0;
-	}
-	
-	void TreeViewItemRootProvider::ReleaseView(rptr<IDescriptable> view)
 	{
 		throw 0;
 	}
@@ -15152,51 +13907,6 @@ TreeViewNodeItemStyleProvider
 	}
 	
 	rptr<TreeViewNodeItemStyleProvider> TreeViewNodeItemStyleProvider::CreateRptr()
-	{
-		throw 0;
-	}
-	
-	void TreeViewNodeItemStyleProvider::BindItemStyleProvider(rptr<GuiListControl :: IItemStyleProvider> styleProvider)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemStyleProvider> TreeViewNodeItemStyleProvider::GetBindedItemStyleProvider()
-	{
-		throw 0;
-	}
-	
-	void TreeViewNodeItemStyleProvider::AttachListControl(rptr<GuiListControl> value)
-	{
-		throw 0;
-	}
-	
-	void TreeViewNodeItemStyleProvider::DetachListControl()
-	{
-		throw 0;
-	}
-	
-	signed __int32 TreeViewNodeItemStyleProvider::GetItemStyleId(rptr<INodeProvider> node)
-	{
-		throw 0;
-	}
-	
-	rptr<INodeItemStyleController> TreeViewNodeItemStyleProvider::CreateItemStyle(signed __int32 styleId)
-	{
-		throw 0;
-	}
-	
-	void TreeViewNodeItemStyleProvider::DestroyItemStyle(rptr<INodeItemStyleController> style)
-	{
-		throw 0;
-	}
-	
-	void TreeViewNodeItemStyleProvider::Install(rptr<INodeItemStyleController> style, rptr<INodeProvider> node)
-	{
-		throw 0;
-	}
-	
-	void TreeViewNodeItemStyleProvider::SetStyleSelected(rptr<INodeItemStyleController> style, bool value)
 	{
 		throw 0;
 	}
@@ -15508,46 +14218,6 @@ Win7ButtonStyleBase
 	{
 	}
 	
-	rptr<GuiBoundsComposition> Win7ButtonStyleBase::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7ButtonStyleBase::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void Win7ButtonStyleBase::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7ButtonStyleBase::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7ButtonStyleBase::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7ButtonStyleBase::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7ButtonStyleBase::SetSelected(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7ButtonStyleBase::Transfer(GuiButton :: ControlState value)
-	{
-		throw 0;
-	}
-	
 	rptr<Win7ButtonStyleBase> Win7ButtonStyleBase::operator=(rptr<Win7ButtonStyleBase> value)
 	{
 		throw 0;
@@ -15654,46 +14324,6 @@ Win7CheckBoxStyle
 		throw 0;
 	}
 	
-	rptr<GuiBoundsComposition> Win7CheckBoxStyle::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7CheckBoxStyle::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void Win7CheckBoxStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7CheckBoxStyle::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7CheckBoxStyle::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7CheckBoxStyle::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7CheckBoxStyle::SetSelected(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7CheckBoxStyle::Transfer(GuiButton :: ControlState value)
-	{
-		throw 0;
-	}
-	
 	rptr<Win7CheckBoxStyle> Win7CheckBoxStyle::operator=(rptr<Win7CheckBoxStyle> value)
 	{
 		throw 0;
@@ -15729,41 +14359,6 @@ Win7DropDownComboBoxStyle
 	}
 	
 	rptr<Win7DropDownComboBoxStyle> Win7DropDownComboBoxStyle::CreateRptr()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7DropDownComboBoxStyle::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void Win7DropDownComboBoxStyle::SetCommandExecutor(rptr<GuiComboBoxBase :: ICommandExecutor> value)
-	{
-		throw 0;
-	}
-	
-	void Win7DropDownComboBoxStyle::OnClicked()
-	{
-		throw 0;
-	}
-	
-	void Win7DropDownComboBoxStyle::OnPopupOpened()
-	{
-		throw 0;
-	}
-	
-	void Win7DropDownComboBoxStyle::OnPopupClosed()
-	{
-		throw 0;
-	}
-	
-	void Win7DropDownComboBoxStyle::OnItemSelected()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiControl :: IStyleController> Win7DropDownComboBoxStyle::CreatePopupStyle()
 	{
 		throw 0;
 	}
@@ -15806,36 +14401,6 @@ Win7EmptyStyle
 		throw 0;
 	}
 	
-	rptr<GuiBoundsComposition> Win7EmptyStyle::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7EmptyStyle::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void Win7EmptyStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7EmptyStyle::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7EmptyStyle::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7EmptyStyle::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
 	rptr<Win7EmptyStyle> Win7EmptyStyle::operator=(rptr<Win7EmptyStyle> value)
 	{
 		throw 0;
@@ -15870,36 +14435,6 @@ Win7GroupBoxStyle
 	}
 	
 	rptr<Win7GroupBoxStyle> Win7GroupBoxStyle::CreateRptr()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiBoundsComposition> Win7GroupBoxStyle::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7GroupBoxStyle::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void Win7GroupBoxStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7GroupBoxStyle::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7GroupBoxStyle::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7GroupBoxStyle::SetVisuallyEnabled(bool value)
 	{
 		throw 0;
 	}
@@ -15942,46 +14477,6 @@ Win7ListViewColumnDropDownStyle
 		throw 0;
 	}
 	
-	rptr<GuiBoundsComposition> Win7ListViewColumnDropDownStyle::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7ListViewColumnDropDownStyle::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void Win7ListViewColumnDropDownStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7ListViewColumnDropDownStyle::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7ListViewColumnDropDownStyle::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7ListViewColumnDropDownStyle::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7ListViewColumnDropDownStyle::SetSelected(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7ListViewColumnDropDownStyle::Transfer(GuiButton :: ControlState value)
-	{
-		throw 0;
-	}
-	
 	rptr<Win7ListViewColumnDropDownStyle> Win7ListViewColumnDropDownStyle::operator=(rptr<Win7ListViewColumnDropDownStyle> value)
 	{
 		throw 0;
@@ -16016,46 +14511,6 @@ Win7ListViewColumnHeaderStyle
 	}
 	
 	rptr<Win7ListViewColumnHeaderStyle> Win7ListViewColumnHeaderStyle::CreateRptr()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiBoundsComposition> Win7ListViewColumnHeaderStyle::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7ListViewColumnHeaderStyle::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void Win7ListViewColumnHeaderStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7ListViewColumnHeaderStyle::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7ListViewColumnHeaderStyle::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7ListViewColumnHeaderStyle::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7ListViewColumnHeaderStyle::SetSelected(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7ListViewColumnHeaderStyle::Transfer(GuiButton :: ControlState value)
 	{
 		throw 0;
 	}
@@ -16098,56 +14553,6 @@ Win7MenuBarButtonStyle
 		throw 0;
 	}
 	
-	rptr<GuiBoundsComposition> Win7MenuBarButtonStyle::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7MenuBarButtonStyle::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void Win7MenuBarButtonStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuBarButtonStyle::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuBarButtonStyle::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuBarButtonStyle::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiControl :: IStyleController> Win7MenuBarButtonStyle::CreateSubMenuStyleController()
-	{
-		throw 0;
-	}
-	
-	void Win7MenuBarButtonStyle::SetSubMenuExisting(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuBarButtonStyle::SetSubMenuOpening(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuBarButtonStyle::Transfer(GuiButton :: ControlState value)
-	{
-		throw 0;
-	}
-	
 	rptr<Win7MenuBarButtonStyle> Win7MenuBarButtonStyle::operator=(rptr<Win7MenuBarButtonStyle> value)
 	{
 		throw 0;
@@ -16182,36 +14587,6 @@ Win7MenuBarStyle
 	}
 	
 	rptr<Win7MenuBarStyle> Win7MenuBarStyle::CreateRptr()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiBoundsComposition> Win7MenuBarStyle::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7MenuBarStyle::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void Win7MenuBarStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuBarStyle::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuBarStyle::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuBarStyle::SetVisuallyEnabled(bool value)
 	{
 		throw 0;
 	}
@@ -16254,56 +14629,6 @@ Win7MenuItemButtonStyle
 		throw 0;
 	}
 	
-	rptr<GuiBoundsComposition> Win7MenuItemButtonStyle::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7MenuItemButtonStyle::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void Win7MenuItemButtonStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuItemButtonStyle::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuItemButtonStyle::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuItemButtonStyle::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiControl :: IStyleController> Win7MenuItemButtonStyle::CreateSubMenuStyleController()
-	{
-		throw 0;
-	}
-	
-	void Win7MenuItemButtonStyle::SetSubMenuExisting(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuItemButtonStyle::SetSubMenuOpening(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuItemButtonStyle::Transfer(GuiButton :: ControlState value)
-	{
-		throw 0;
-	}
-	
 	rptr<Win7MenuItemButtonStyle> Win7MenuItemButtonStyle::operator=(rptr<Win7MenuItemButtonStyle> value)
 	{
 		throw 0;
@@ -16342,36 +14667,6 @@ Win7MenuSplitterStyle
 		throw 0;
 	}
 	
-	rptr<GuiBoundsComposition> Win7MenuSplitterStyle::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7MenuSplitterStyle::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void Win7MenuSplitterStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuSplitterStyle::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuSplitterStyle::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuSplitterStyle::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
 	rptr<Win7MenuSplitterStyle> Win7MenuSplitterStyle::operator=(rptr<Win7MenuSplitterStyle> value)
 	{
 		throw 0;
@@ -16406,36 +14701,6 @@ Win7MenuStyle
 	}
 	
 	rptr<Win7MenuStyle> Win7MenuStyle::CreateRptr()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiBoundsComposition> Win7MenuStyle::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7MenuStyle::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void Win7MenuStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuStyle::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuStyle::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7MenuStyle::SetVisuallyEnabled(bool value)
 	{
 		throw 0;
 	}
@@ -16516,51 +14781,6 @@ Win7ScrollViewProvider
 		throw 0;
 	}
 	
-	void Win7ScrollViewProvider::AssociateStyleController(rptr<GuiControl :: IStyleController> controller)
-	{
-		throw 0;
-	}
-	
-	void Win7ScrollViewProvider::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7ScrollViewProvider::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7ScrollViewProvider::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7ScrollViewProvider::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiScroll :: IStyleController> Win7ScrollViewProvider::CreateHorizontalScrollStyle()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiScroll :: IStyleController> Win7ScrollViewProvider::CreateVerticalScrollStyle()
-	{
-		throw 0;
-	}
-	
-	signed __int32 Win7ScrollViewProvider::GetDefaultScrollSize()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7ScrollViewProvider::InstallBackground(rptr<GuiBoundsComposition> boundsComposition)
-	{
-		throw 0;
-	}
-	
 	rptr<Win7ScrollViewProvider> Win7ScrollViewProvider::operator=(rptr<Win7ScrollViewProvider> value)
 	{
 		throw 0;
@@ -16595,26 +14815,6 @@ Win7MultilineTextBoxProvider
 	}
 	
 	rptr<Win7MultilineTextBoxProvider> Win7MultilineTextBoxProvider::CreateRptr()
-	{
-		throw 0;
-	}
-	
-	void Win7MultilineTextBoxProvider::AssociateStyleController(rptr<GuiControl :: IStyleController> controller)
-	{
-		throw 0;
-	}
-	
-	void Win7MultilineTextBoxProvider::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7MultilineTextBoxProvider::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7MultilineTextBoxProvider::InstallBackground(rptr<GuiBoundsComposition> boundsComposition)
 	{
 		throw 0;
 	}
@@ -16654,31 +14854,6 @@ Win7ListViewProvider
 	}
 	
 	rptr<Win7ListViewProvider> Win7ListViewProvider::CreateRptr()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiSelectableButton :: IStyleController> Win7ListViewProvider::CreateItemBackground()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiSelectableButton :: IStyleController> Win7ListViewProvider::CreateColumnStyle()
-	{
-		throw 0;
-	}
-	
-	Color Win7ListViewProvider::GetPrimaryTextColor()
-	{
-		throw 0;
-	}
-	
-	Color Win7ListViewProvider::GetSecondaryTextColor()
-	{
-		throw 0;
-	}
-	
-	Color Win7ListViewProvider::GetItemSeparatorColor()
 	{
 		throw 0;
 	}
@@ -16759,36 +14934,6 @@ Win7SinglelineTextBoxProvider
 		throw 0;
 	}
 	
-	void Win7SinglelineTextBoxProvider::AssociateStyleController(rptr<GuiControl :: IStyleController> controller)
-	{
-		throw 0;
-	}
-	
-	void Win7SinglelineTextBoxProvider::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7SinglelineTextBoxProvider::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7SinglelineTextBoxProvider::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7SinglelineTextBoxProvider::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7SinglelineTextBoxProvider::InstallBackground(rptr<GuiBoundsComposition> boundsComposition)
-	{
-		throw 0;
-	}
-	
 	rptr<Win7SinglelineTextBoxProvider> Win7SinglelineTextBoxProvider::operator=(rptr<Win7SinglelineTextBoxProvider> value)
 	{
 		throw 0;
@@ -16827,11 +14972,6 @@ Win7TabPageHeaderStyle
 		throw 0;
 	}
 	
-	void Win7TabPageHeaderStyle::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
 	rptr<Win7TabPageHeaderStyle> Win7TabPageHeaderStyle::operator=(rptr<Win7TabPageHeaderStyle> value)
 	{
 		throw 0;
@@ -16866,71 +15006,6 @@ Win7TabStyle
 	}
 	
 	rptr<Win7TabStyle> Win7TabStyle::CreateRptr()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiBoundsComposition> Win7TabStyle::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7TabStyle::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void Win7TabStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7TabStyle::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7TabStyle::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7TabStyle::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7TabStyle::SetCommandExecutor(rptr<GuiTab :: ICommandExecutor> value)
-	{
-		throw 0;
-	}
-	
-	void Win7TabStyle::InsertTab(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	void Win7TabStyle::SetTabText(signed __int32 index, const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7TabStyle::RemoveTab(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	void Win7TabStyle::MoveTab(signed __int32 oldIndex, signed __int32 newIndex)
-	{
-		throw 0;
-	}
-	
-	void Win7TabStyle::SetSelectedTab(signed __int32 index)
-	{
-		throw 0;
-	}
-	
-	rptr<GuiControl :: IStyleController> Win7TabStyle::CreateTabPageStyleController()
 	{
 		throw 0;
 	}
@@ -17035,16 +15110,6 @@ Win7TextListProvider
 		throw 0;
 	}
 	
-	rptr<GuiSelectableButton :: IStyleController> Win7TextListProvider::CreateBackgroundStyleController()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiSelectableButton :: IStyleController> Win7TextListProvider::CreateBulletStyleController()
-	{
-		throw 0;
-	}
-	
 	rptr<Win7TextListProvider> Win7TextListProvider::operator=(rptr<Win7TextListProvider> value)
 	{
 		throw 0;
@@ -17083,11 +15148,6 @@ Win7CheckTextListProvider
 		throw 0;
 	}
 	
-	rptr<GuiSelectableButton :: IStyleController> Win7CheckTextListProvider::CreateBulletStyleController()
-	{
-		throw 0;
-	}
-	
 	rptr<Win7CheckTextListProvider> Win7CheckTextListProvider::operator=(rptr<Win7CheckTextListProvider> value)
 	{
 		throw 0;
@@ -17122,11 +15182,6 @@ Win7RadioTextListProvider
 	}
 	
 	rptr<Win7RadioTextListProvider> Win7RadioTextListProvider::CreateRptr()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiSelectableButton :: IStyleController> Win7RadioTextListProvider::CreateBulletStyleController()
 	{
 		throw 0;
 	}
@@ -17245,46 +15300,6 @@ Win7TreeViewExpandingButtonStyle
 		throw 0;
 	}
 	
-	rptr<GuiBoundsComposition> Win7TreeViewExpandingButtonStyle::GetBoundsComposition()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> Win7TreeViewExpandingButtonStyle::GetContainerComposition()
-	{
-		throw 0;
-	}
-	
-	void Win7TreeViewExpandingButtonStyle::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
-	{
-		throw 0;
-	}
-	
-	void Win7TreeViewExpandingButtonStyle::SetText(const GacString& value)
-	{
-		throw 0;
-	}
-	
-	void Win7TreeViewExpandingButtonStyle::SetFont(const FontProperties& value)
-	{
-		throw 0;
-	}
-	
-	void Win7TreeViewExpandingButtonStyle::SetVisuallyEnabled(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7TreeViewExpandingButtonStyle::SetSelected(bool value)
-	{
-		throw 0;
-	}
-	
-	void Win7TreeViewExpandingButtonStyle::Transfer(GuiButton :: ControlState value)
-	{
-		throw 0;
-	}
-	
 	rptr<Win7TreeViewExpandingButtonStyle> Win7TreeViewExpandingButtonStyle::operator=(rptr<Win7TreeViewExpandingButtonStyle> value)
 	{
 		throw 0;
@@ -17320,21 +15335,6 @@ Win7TreeViewProvider
 	}
 	
 	rptr<Win7TreeViewProvider> Win7TreeViewProvider::CreateRptr()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiSelectableButton :: IStyleController> Win7TreeViewProvider::CreateItemBackground()
-	{
-		throw 0;
-	}
-	
-	rptr<GuiSelectableButton :: IStyleController> Win7TreeViewProvider::CreateItemExpandingDecorator()
-	{
-		throw 0;
-	}
-	
-	Color Win7TreeViewProvider::GetTextColor()
 	{
 		throw 0;
 	}
