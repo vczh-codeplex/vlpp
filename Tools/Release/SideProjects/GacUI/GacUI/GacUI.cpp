@@ -9022,12 +9022,6 @@ Array_of_ColorEntry
 		throw 0;
 	}
 	
-	rptr<Array_of_ColorEntry> Array_of_ColorEntry::operator=(rptr<Array_of_ColorEntry> value)
-	{
-		vl::collections::Array<vl::presentation::elements::text::ColorEntry,vl::presentation::elements::text::ColorEntry> const& _unwrapped_value = *__GacUIInternal<Array_of_ColorEntry>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 DescriptableObject
@@ -9337,12 +9331,6 @@ GuiComponent
 		throw 0;
 	}
 	
-	rptr<GuiComponent> GuiComponent::operator=(rptr<GuiComponent> value)
-	{
-		vl::presentation::controls::GuiComponent const& _unwrapped_value = *__GacUIInternal<GuiComponent>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	rptr<GuiControlHost> GuiComponent::GetControlHost()
 	{
 		throw 0;
@@ -9560,12 +9548,6 @@ IDescriptable
 		throw 0;
 	}
 	
-	rptr<IDescriptable> IDescriptable::operator=(rptr<IDescriptable> value)
-	{
-		vl::presentation::IDescriptable const& _unwrapped_value = *__GacUIInternal<IDescriptable>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 GuiGraphicsEvent_of_GuiEventArgs
@@ -9609,12 +9591,6 @@ GuiGraphicsEvent_of_GuiEventArgs
 		throw 0;
 	}
 	
-	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiGraphicsEvent_of_GuiEventArgs::operator=(rptr<GuiGraphicsEvent_of_GuiEventArgs> value)
-	{
-		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiEventArgs> const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiEventArgs>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	rptr<GuiGraphicsComposition> GuiGraphicsEvent_of_GuiEventArgs::GetAssociatedComposition()
 	{
 		throw 0;
@@ -9651,12 +9627,6 @@ GuiGraphicsEvent_of_GuiEventArgs :: IHandler
 	{
 		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(sender);
 		vl::presentation::elements::GuiEventArgs& _unwrapped_argument = *__GacUIInternal<GuiEventArgs>::GetInternalObject(argument);
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> GuiGraphicsEvent_of_GuiEventArgs::IHandler::operator=(rptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> value)
-	{
-		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiEventArgs>::IHandler const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiEventArgs :: IHandler>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -9703,12 +9673,6 @@ GuiGraphicsEvent_of_GuiRequestEventArgs
 		throw 0;
 	}
 	
-	rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> GuiGraphicsEvent_of_GuiRequestEventArgs::operator=(rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> value)
-	{
-		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiRequestEventArgs> const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiRequestEventArgs>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	rptr<GuiGraphicsComposition> GuiGraphicsEvent_of_GuiRequestEventArgs::GetAssociatedComposition()
 	{
 		throw 0;
@@ -9748,12 +9712,6 @@ GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler
 		throw 0;
 	}
 	
-	rptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> GuiGraphicsEvent_of_GuiRequestEventArgs::IHandler::operator=(rptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> value)
-	{
-		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiRequestEventArgs>::IHandler const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 GuiTabPage
@@ -9771,12 +9729,6 @@ GuiTabPage
 	void GuiTabPage::ClearInternalObjectReference()
 	{
 		__internal_object_reference = 0;
-	}
-	
-	rptr<GuiTabPage> GuiTabPage::operator=(rptr<GuiTabPage> value)
-	{
-		vl::presentation::controls::GuiTabPage const& _unwrapped_value = *__GacUIInternal<GuiTabPage>::GetInternalObject(value);
-		throw 0;
 	}
 	
 	rptr<GuiControl> GuiTabPage::GetContainer()
@@ -9843,12 +9795,6 @@ IGuiGraphicsAnimation
 		throw 0;
 	}
 	
-	rptr<IGuiGraphicsAnimation> IGuiGraphicsAnimation::operator=(rptr<IGuiGraphicsAnimation> value)
-	{
-		vl::presentation::elements::IGuiGraphicsAnimation const& _unwrapped_value = *__GacUIInternal<IGuiGraphicsAnimation>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	signed __int32 IGuiGraphicsAnimation::GetTotalLength()
 	{
 		throw 0;
@@ -9899,12 +9845,6 @@ GuiGraphicsAnimationManager
 		throw 0;
 	}
 	
-	rptr<GuiGraphicsAnimationManager> GuiGraphicsAnimationManager::operator=(rptr<GuiGraphicsAnimationManager> value)
-	{
-		vl::presentation::elements::GuiGraphicsAnimationManager const& _unwrapped_value = *__GacUIInternal<GuiGraphicsAnimationManager>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 GuiTimeBasedAnimation
@@ -9938,12 +9878,6 @@ GuiTimeBasedAnimation
 		throw 0;
 	}
 	
-	rptr<GuiTimeBasedAnimation> GuiTimeBasedAnimation::operator=(rptr<GuiTimeBasedAnimation> value)
-	{
-		vl::presentation::elements::GuiTimeBasedAnimation const& _unwrapped_value = *__GacUIInternal<GuiTimeBasedAnimation>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 IGuiGraphicsElementFactory
@@ -9965,12 +9899,6 @@ IGuiGraphicsElementFactory
 	
 	rptr<IGuiGraphicsElement> IGuiGraphicsElementFactory::Create()
 	{
-		throw 0;
-	}
-	
-	rptr<IGuiGraphicsElementFactory> IGuiGraphicsElementFactory::operator=(rptr<IGuiGraphicsElementFactory> value)
-	{
-		vl::presentation::elements::IGuiGraphicsElementFactory const& _unwrapped_value = *__GacUIInternal<IGuiGraphicsElementFactory>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -9998,12 +9926,6 @@ IGuiGraphicsElement
 	{
 		__internal_object_reference = 0;
 		IDescriptable::ClearInternalObjectReference();
-	}
-	
-	rptr<IGuiGraphicsElement> IGuiGraphicsElement::operator=(rptr<IGuiGraphicsElement> value)
-	{
-		vl::presentation::elements::IGuiGraphicsElement const& _unwrapped_value = *__GacUIInternal<IGuiGraphicsElement>::GetInternalObject(value);
-		throw 0;
 	}
 	
 	rptr<IGuiGraphicsElementFactory> IGuiGraphicsElement::GetFactory()
@@ -10041,12 +9963,6 @@ Gui3DBorderElement
 	{
 		vl::presentation::Color _unwrapped_value1 = *__GacUIInternal<Color>::GetInternalObject(value1);
 		vl::presentation::Color _unwrapped_value2 = *__GacUIInternal<Color>::GetInternalObject(value2);
-		throw 0;
-	}
-	
-	rptr<Gui3DBorderElement> Gui3DBorderElement::operator=(rptr<Gui3DBorderElement> value)
-	{
-		vl::presentation::elements::Gui3DBorderElement const& _unwrapped_value = *__GacUIInternal<Gui3DBorderElement>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10095,12 +10011,6 @@ Gui3DSplitterElement
 	{
 		vl::presentation::Color _unwrapped_value1 = *__GacUIInternal<Color>::GetInternalObject(value1);
 		vl::presentation::Color _unwrapped_value2 = *__GacUIInternal<Color>::GetInternalObject(value2);
-		throw 0;
-	}
-	
-	rptr<Gui3DSplitterElement> Gui3DSplitterElement::operator=(rptr<Gui3DSplitterElement> value)
-	{
-		vl::presentation::elements::Gui3DSplitterElement const& _unwrapped_value = *__GacUIInternal<Gui3DSplitterElement>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10160,12 +10070,6 @@ GuiGradientBackgroundElement
 	{
 		vl::presentation::Color _unwrapped_value1 = *__GacUIInternal<Color>::GetInternalObject(value1);
 		vl::presentation::Color _unwrapped_value2 = *__GacUIInternal<Color>::GetInternalObject(value2);
-		throw 0;
-	}
-	
-	rptr<GuiGradientBackgroundElement> GuiGradientBackgroundElement::operator=(rptr<GuiGradientBackgroundElement> value)
-	{
-		vl::presentation::elements::GuiGradientBackgroundElement const& _unwrapped_value = *__GacUIInternal<GuiGradientBackgroundElement>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10246,12 +10150,6 @@ GuiImageFrameElement
 		throw 0;
 	}
 	
-	rptr<GuiImageFrameElement> GuiImageFrameElement::operator=(rptr<GuiImageFrameElement> value)
-	{
-		vl::presentation::elements::GuiImageFrameElement const& _unwrapped_value = *__GacUIInternal<GuiImageFrameElement>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	rptr<GuiImageFrameElement> GuiImageFrameElement::Create()
 	{
 		throw 0;
@@ -10314,12 +10212,6 @@ GuiRoundBorderElement
 		IGuiGraphicsElement::ClearInternalObjectReference();
 	}
 	
-	rptr<GuiRoundBorderElement> GuiRoundBorderElement::operator=(rptr<GuiRoundBorderElement> value)
-	{
-		vl::presentation::elements::GuiRoundBorderElement const& _unwrapped_value = *__GacUIInternal<GuiRoundBorderElement>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	rptr<GuiRoundBorderElement> GuiRoundBorderElement::Create()
 	{
 		throw 0;
@@ -10373,12 +10265,6 @@ GuiSolidBackgroundElement
 		IGuiGraphicsElement::ClearInternalObjectReference();
 	}
 	
-	rptr<GuiSolidBackgroundElement> GuiSolidBackgroundElement::operator=(rptr<GuiSolidBackgroundElement> value)
-	{
-		vl::presentation::elements::GuiSolidBackgroundElement const& _unwrapped_value = *__GacUIInternal<GuiSolidBackgroundElement>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	rptr<GuiSolidBackgroundElement> GuiSolidBackgroundElement::Create()
 	{
 		throw 0;
@@ -10430,12 +10316,6 @@ GuiSolidBorderElement
 	{
 		__internal_object_reference = 0;
 		IGuiGraphicsElement::ClearInternalObjectReference();
-	}
-	
-	rptr<GuiSolidBorderElement> GuiSolidBorderElement::operator=(rptr<GuiSolidBorderElement> value)
-	{
-		vl::presentation::elements::GuiSolidBorderElement const& _unwrapped_value = *__GacUIInternal<GuiSolidBorderElement>::GetInternalObject(value);
-		throw 0;
 	}
 	
 	rptr<GuiSolidBorderElement> GuiSolidBorderElement::Create()
@@ -10495,12 +10375,6 @@ GuiSolidLabelElement
 	{
 		vl::presentation::Alignment::Type _unwrapped_horizontal = (vl::presentation::Alignment::Type)horizontal;
 		vl::presentation::Alignment::Type _unwrapped_vertical = (vl::presentation::Alignment::Type)vertical;
-		throw 0;
-	}
-	
-	rptr<GuiSolidLabelElement> GuiSolidLabelElement::operator=(rptr<GuiSolidLabelElement> value)
-	{
-		vl::presentation::elements::GuiSolidLabelElement const& _unwrapped_value = *__GacUIInternal<GuiSolidLabelElement>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10614,12 +10488,6 @@ IGuiGraphicsRendererFactory
 		throw 0;
 	}
 	
-	rptr<IGuiGraphicsRendererFactory> IGuiGraphicsRendererFactory::operator=(rptr<IGuiGraphicsRendererFactory> value)
-	{
-		vl::presentation::elements::IGuiGraphicsRendererFactory const& _unwrapped_value = *__GacUIInternal<IGuiGraphicsRendererFactory>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 IGuiMenuService
@@ -10660,12 +10528,6 @@ IGuiMenuService
 	void IGuiMenuService::MenuClosed(rptr<GuiMenu> menu)
 	{
 		vl::presentation::controls::GuiMenu* _unwrapped_menu = __GacUIInternal<GuiMenu>::GetInternalObject(menu);
-		throw 0;
-	}
-	
-	rptr<IGuiMenuService> IGuiMenuService::operator=(rptr<IGuiMenuService> value)
-	{
-		vl::presentation::controls::IGuiMenuService const& _unwrapped_value = *__GacUIInternal<IGuiMenuService>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10722,12 +10584,6 @@ IList_of_int
 		throw 0;
 	}
 	
-	rptr<IList_of_int> IList_of_int::operator=(rptr<IList_of_int> value)
-	{
-		vl::collections::IList<int,int> const& _unwrapped_value = *__GacUIInternal<IList_of_int>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 IList_of_MemoryNodeProvider
@@ -10761,12 +10617,6 @@ IList_of_MemoryNodeProvider
 		throw 0;
 	}
 	
-	rptr<IList_of_MemoryNodeProvider> IList_of_MemoryNodeProvider::operator=(rptr<IList_of_MemoryNodeProvider> value)
-	{
-		vl::collections::IList<vl::Ptr<vl::presentation::controls::tree::MemoryNodeProvider>,vl::presentation::controls::tree::MemoryNodeProvider *> const& _unwrapped_value = *__GacUIInternal<IList_of_MemoryNodeProvider>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 INativeAsyncService
@@ -10788,12 +10638,6 @@ INativeAsyncService
 	
 	bool INativeAsyncService::IsInMainThread()
 	{
-		throw 0;
-	}
-	
-	rptr<INativeAsyncService> INativeAsyncService::operator=(rptr<INativeAsyncService> value)
-	{
-		vl::presentation::INativeAsyncService const& _unwrapped_value = *__GacUIInternal<INativeAsyncService>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10827,12 +10671,6 @@ INativeClipboardService
 		throw 0;
 	}
 	
-	rptr<INativeClipboardService> INativeClipboardService::operator=(rptr<INativeClipboardService> value)
-	{
-		vl::presentation::INativeClipboardService const& _unwrapped_value = *__GacUIInternal<INativeClipboardService>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	GacString INativeClipboardService::GetText()
 	{
 		throw 0;
@@ -10859,12 +10697,6 @@ INativeCursor
 	
 	bool INativeCursor::IsSystemCursor()
 	{
-		throw 0;
-	}
-	
-	rptr<INativeCursor> INativeCursor::operator=(rptr<INativeCursor> value)
-	{
-		vl::presentation::INativeCursor const& _unwrapped_value = *__GacUIInternal<INativeCursor>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10909,12 +10741,6 @@ INativeImageFrameCache
 		throw 0;
 	}
 	
-	rptr<INativeImageFrameCache> INativeImageFrameCache::operator=(rptr<INativeImageFrameCache> value)
-	{
-		vl::presentation::INativeImageFrameCache const& _unwrapped_value = *__GacUIInternal<INativeImageFrameCache>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 INativeImageService
@@ -10940,12 +10766,6 @@ INativeImageService
 		throw 0;
 	}
 	
-	rptr<INativeImageService> INativeImageService::operator=(rptr<INativeImageService> value)
-	{
-		vl::presentation::INativeImageService const& _unwrapped_value = *__GacUIInternal<INativeImageService>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 INativeImage
@@ -10968,12 +10788,6 @@ INativeImage
 	rptr<INativeImageFrame> INativeImage::GetFrame(signed __int32 index)
 	{
 		signed __int32 _unwrapped_index = index;
-		throw 0;
-	}
-	
-	rptr<INativeImage> INativeImage::operator=(rptr<INativeImage> value)
-	{
-		vl::presentation::INativeImage const& _unwrapped_value = *__GacUIInternal<INativeImage>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -11053,12 +10867,6 @@ INativeInputService
 		throw 0;
 	}
 	
-	rptr<INativeInputService> INativeInputService::operator=(rptr<INativeInputService> value)
-	{
-		vl::presentation::INativeInputService const& _unwrapped_value = *__GacUIInternal<INativeInputService>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 INativeResourceService
@@ -11081,12 +10889,6 @@ INativeResourceService
 	rptr<INativeCursor> INativeResourceService::GetSystemCursor(INativeCursor :: SystemCursorType type)
 	{
 		vl::presentation::INativeCursor::SystemCursorType _unwrapped_type = (vl::presentation::INativeCursor::SystemCursorType)type;
-		throw 0;
-	}
-	
-	rptr<INativeResourceService> INativeResourceService::operator=(rptr<INativeResourceService> value)
-	{
-		vl::presentation::INativeResourceService const& _unwrapped_value = *__GacUIInternal<INativeResourceService>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -11133,12 +10935,6 @@ INodeItemPrimaryTextView
 		throw 0;
 	}
 	
-	rptr<INodeItemPrimaryTextView> INodeItemPrimaryTextView::operator=(rptr<INodeItemPrimaryTextView> value)
-	{
-		vl::presentation::controls::tree::INodeItemPrimaryTextView const& _unwrapped_value = *__GacUIInternal<INodeItemPrimaryTextView>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	wchar_t const* INodeItemPrimaryTextView::get_Identifier()
 	{
 		throw 0;
@@ -11179,12 +10975,6 @@ INodeProvider
 	void INodeProvider::ReleaseChild(rptr<INodeProvider> node)
 	{
 		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(node);
-		throw 0;
-	}
-	
-	rptr<INodeProvider> INodeProvider::operator=(rptr<INodeProvider> value)
-	{
-		vl::presentation::controls::tree::INodeProvider const& _unwrapped_value = *__GacUIInternal<INodeProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -11266,12 +11056,6 @@ INodeProviderCallback
 		throw 0;
 	}
 	
-	rptr<INodeProviderCallback> INodeProviderCallback::operator=(rptr<INodeProviderCallback> value)
-	{
-		vl::presentation::controls::tree::INodeProviderCallback const& _unwrapped_value = *__GacUIInternal<INodeProviderCallback>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 INodeRootProvider
@@ -11328,12 +11112,6 @@ INodeRootProvider
 		throw 0;
 	}
 	
-	rptr<INodeRootProvider> INodeRootProvider::operator=(rptr<INodeRootProvider> value)
-	{
-		vl::presentation::controls::tree::INodeRootProvider const& _unwrapped_value = *__GacUIInternal<INodeRootProvider>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	rptr<INodeProvider> INodeRootProvider::GetRootNode()
 	{
 		throw 0;
@@ -11387,12 +11165,6 @@ IReadonlyList_of_ColorEntry
 		throw 0;
 	}
 	
-	rptr<IReadonlyList_of_ColorEntry> IReadonlyList_of_ColorEntry::operator=(rptr<IReadonlyList_of_ColorEntry> value)
-	{
-		vl::collections::IReadonlyList<vl::presentation::elements::text::ColorEntry,vl::presentation::elements::text::ColorEntry> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_ColorEntry>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 IReadonlyList_of_GuiGraphicsComposition_raw_pointer
@@ -11438,12 +11210,6 @@ IReadonlyList_of_GuiGraphicsComposition_raw_pointer
 	signed __int32 IReadonlyList_of_GuiGraphicsComposition_raw_pointer::IndexOf(rptr<GuiGraphicsComposition> item)
 	{
 		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_item = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(item);
-		throw 0;
-	}
-	
-	rptr<IReadonlyList_of_GuiGraphicsComposition_raw_pointer> IReadonlyList_of_GuiGraphicsComposition_raw_pointer::operator=(rptr<IReadonlyList_of_GuiGraphicsComposition_raw_pointer> value)
-	{
-		vl::collections::IReadonlyList<vl::presentation::elements::GuiGraphicsComposition *,vl::presentation::elements::GuiGraphicsComposition *> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_GuiGraphicsComposition_raw_pointer>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -11495,12 +11261,6 @@ IReadonlyList_of_GuiTabPage_raw_pointer
 		throw 0;
 	}
 	
-	rptr<IReadonlyList_of_GuiTabPage_raw_pointer> IReadonlyList_of_GuiTabPage_raw_pointer::operator=(rptr<IReadonlyList_of_GuiTabPage_raw_pointer> value)
-	{
-		vl::collections::IReadonlyList<vl::presentation::controls::GuiTabPage *,vl::presentation::controls::GuiTabPage *> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_GuiTabPage_raw_pointer>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 IReadonlyList_of_int
@@ -11549,12 +11309,6 @@ IReadonlyList_of_int
 		throw 0;
 	}
 	
-	rptr<IReadonlyList_of_int> IReadonlyList_of_int::operator=(rptr<IReadonlyList_of_int> value)
-	{
-		vl::collections::IReadonlyList<int,int> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_int>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 ITreeViewItemView
@@ -11585,12 +11339,6 @@ ITreeViewItemView
 	GacString ITreeViewItemView::GetNodeText(rptr<INodeProvider> node)
 	{
 		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(node);
-		throw 0;
-	}
-	
-	rptr<ITreeViewItemView> ITreeViewItemView::operator=(rptr<ITreeViewItemView> value)
-	{
-		vl::presentation::controls::tree::ITreeViewItemView const& _unwrapped_value = *__GacUIInternal<ITreeViewItemView>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -11664,12 +11412,6 @@ List_of_ObjectString_of_wchar_t
 	GacString& List_of_ObjectString_of_wchar_t::operator[](signed __int32 index)
 	{
 		signed __int32 _unwrapped_index = index;
-		throw 0;
-	}
-	
-	rptr<List_of_ObjectString_of_wchar_t> List_of_ObjectString_of_wchar_t::operator=(rptr<List_of_ObjectString_of_wchar_t> value)
-	{
-		vl::collections::List<vl::ObjectString<wchar_t>,vl::ObjectString<wchar_t> > const& _unwrapped_value = *__GacUIInternal<List_of_ObjectString_of_wchar_t>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -11766,12 +11508,6 @@ IList_of_ListViewColumn
 		throw 0;
 	}
 	
-	rptr<IList_of_ListViewColumn> IList_of_ListViewColumn::operator=(rptr<IList_of_ListViewColumn> value)
-	{
-		vl::collections::IList<vl::Ptr<vl::presentation::controls::list::ListViewColumn>,vl::presentation::controls::list::ListViewColumn *> const& _unwrapped_value = *__GacUIInternal<IList_of_ListViewColumn>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 ListViewItem
@@ -11863,12 +11599,6 @@ IList_of_ListViewItem
 	{
 		signed __int32 _unwrapped_index = index;
 		vl::Ptr<vl::presentation::controls::list::ListViewItem> _unwrapped_item = __GacUIInternal<ListViewItem>::GetInternalObject(item);
-		throw 0;
-	}
-	
-	rptr<IList_of_ListViewItem> IList_of_ListViewItem::operator=(rptr<IList_of_ListViewItem> value)
-	{
-		vl::collections::IList<vl::Ptr<vl::presentation::controls::list::ListViewItem>,vl::presentation::controls::list::ListViewItem *> const& _unwrapped_value = *__GacUIInternal<IList_of_ListViewItem>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12011,12 +11741,6 @@ MemoryNodeProvider
 	
 	rptr<IList_of_MemoryNodeProvider> MemoryNodeProvider::Children()
 	{
-		throw 0;
-	}
-	
-	rptr<MemoryNodeProvider> MemoryNodeProvider::operator=(rptr<MemoryNodeProvider> value)
-	{
-		vl::presentation::controls::tree::MemoryNodeProvider const& _unwrapped_value = *__GacUIInternal<MemoryNodeProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12190,12 +11914,6 @@ GuiGraphicsEvent_of_GuiCharEventArgs
 		throw 0;
 	}
 	
-	rptr<GuiGraphicsEvent_of_GuiCharEventArgs> GuiGraphicsEvent_of_GuiCharEventArgs::operator=(rptr<GuiGraphicsEvent_of_GuiCharEventArgs> value)
-	{
-		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiCharEventArgs> const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiCharEventArgs>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	rptr<GuiGraphicsComposition> GuiGraphicsEvent_of_GuiCharEventArgs::GetAssociatedComposition()
 	{
 		throw 0;
@@ -12232,12 +11950,6 @@ GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler
 	{
 		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(sender);
 		vl::presentation::elements::GuiCharEventArgs& _unwrapped_argument = *__GacUIInternal<GuiCharEventArgs>::GetInternalObject(argument);
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> GuiGraphicsEvent_of_GuiCharEventArgs::IHandler::operator=(rptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> value)
-	{
-		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiCharEventArgs>::IHandler const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12400,12 +12112,6 @@ GuiGraphicsEvent_of_GuiKeyEventArgs
 		throw 0;
 	}
 	
-	rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> GuiGraphicsEvent_of_GuiKeyEventArgs::operator=(rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> value)
-	{
-		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiKeyEventArgs> const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiKeyEventArgs>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	rptr<GuiGraphicsComposition> GuiGraphicsEvent_of_GuiKeyEventArgs::GetAssociatedComposition()
 	{
 		throw 0;
@@ -12442,12 +12148,6 @@ GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler
 	{
 		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(sender);
 		vl::presentation::elements::GuiKeyEventArgs& _unwrapped_argument = *__GacUIInternal<GuiKeyEventArgs>::GetInternalObject(argument);
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> GuiGraphicsEvent_of_GuiKeyEventArgs::IHandler::operator=(rptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> value)
-	{
-		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiKeyEventArgs>::IHandler const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12640,12 +12340,6 @@ GuiGraphicsEvent_of_GuiMouseEventArgs
 		throw 0;
 	}
 	
-	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> GuiGraphicsEvent_of_GuiMouseEventArgs::operator=(rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> value)
-	{
-		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiMouseEventArgs> const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiMouseEventArgs>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	rptr<GuiGraphicsComposition> GuiGraphicsEvent_of_GuiMouseEventArgs::GetAssociatedComposition()
 	{
 		throw 0;
@@ -12685,12 +12379,6 @@ GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler
 		throw 0;
 	}
 	
-	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> GuiGraphicsEvent_of_GuiMouseEventArgs::IHandler::operator=(rptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> value)
-	{
-		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiMouseEventArgs>::IHandler const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 GuiGraphicsEventReceiver
@@ -12713,12 +12401,6 @@ GuiGraphicsEventReceiver
 	rptr<GuiGraphicsEventReceiver> GuiGraphicsEventReceiver::CreateRptr(rptr<GuiGraphicsComposition> _sender)
 	{
 		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(_sender);
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsEventReceiver> GuiGraphicsEventReceiver::operator=(rptr<GuiGraphicsEventReceiver> value)
-	{
-		vl::presentation::elements::GuiGraphicsEventReceiver const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEventReceiver>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12873,12 +12555,6 @@ NodeRootProviderBase
 		throw 0;
 	}
 	
-	rptr<NodeRootProviderBase> NodeRootProviderBase::operator=(rptr<NodeRootProviderBase> value)
-	{
-		vl::presentation::controls::tree::NodeRootProviderBase const& _unwrapped_value = *__GacUIInternal<NodeRootProviderBase>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 MemoryNodeRootProvider
@@ -12904,12 +12580,6 @@ MemoryNodeRootProvider
 	
 	rptr<MemoryNodeRootProvider> MemoryNodeRootProvider::CreateRptr()
 	{
-		throw 0;
-	}
-	
-	rptr<MemoryNodeRootProvider> MemoryNodeRootProvider::operator=(rptr<MemoryNodeRootProvider> value)
-	{
-		vl::presentation::controls::tree::MemoryNodeRootProvider const& _unwrapped_value = *__GacUIInternal<MemoryNodeRootProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13065,12 +12735,6 @@ INativeControllerListener
 		throw 0;
 	}
 	
-	rptr<INativeControllerListener> INativeControllerListener::operator=(rptr<INativeControllerListener> value)
-	{
-		vl::presentation::INativeControllerListener const& _unwrapped_value = *__GacUIInternal<INativeControllerListener>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 INativeCallbackService
@@ -13099,12 +12763,6 @@ INativeCallbackService
 	bool INativeCallbackService::UninstallListener(rptr<INativeControllerListener> listener)
 	{
 		vl::presentation::INativeControllerListener* _unwrapped_listener = __GacUIInternal<INativeControllerListener>::GetInternalObject(listener);
-		throw 0;
-	}
-	
-	rptr<INativeCallbackService> INativeCallbackService::operator=(rptr<INativeCallbackService> value)
-	{
-		vl::presentation::INativeCallbackService const& _unwrapped_value = *__GacUIInternal<INativeCallbackService>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13147,12 +12805,6 @@ INativeWindowService
 	void INativeWindowService::Run(rptr<INativeWindow> window)
 	{
 		vl::presentation::INativeWindow* _unwrapped_window = __GacUIInternal<INativeWindow>::GetInternalObject(window);
-		throw 0;
-	}
-	
-	rptr<INativeWindowService> INativeWindowService::operator=(rptr<INativeWindowService> value)
-	{
-		vl::presentation::INativeWindowService const& _unwrapped_value = *__GacUIInternal<INativeWindowService>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13268,12 +12920,6 @@ GuiPolygonElement
 		throw 0;
 	}
 	
-	rptr<GuiPolygonElement> GuiPolygonElement::operator=(rptr<GuiPolygonElement> value)
-	{
-		vl::presentation::elements::GuiPolygonElement const& _unwrapped_value = *__GacUIInternal<GuiPolygonElement>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	rptr<GuiPolygonElement> GuiPolygonElement::Create()
 	{
 		throw 0;
@@ -13362,12 +13008,6 @@ INativeImageFrame
 	sptr<INativeImageFrameCache> INativeImageFrame::RemoveCache(void* key)
 	{
 		void* _unwrapped_key = key;
-		throw 0;
-	}
-	
-	rptr<INativeImageFrame> INativeImageFrame::operator=(rptr<INativeImageFrame> value)
-	{
-		vl::presentation::INativeImageFrame const& _unwrapped_value = *__GacUIInternal<INativeImageFrame>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13617,12 +13257,6 @@ IGuiGraphicsRenderTarget
 		throw 0;
 	}
 	
-	rptr<IGuiGraphicsRenderTarget> IGuiGraphicsRenderTarget::operator=(rptr<IGuiGraphicsRenderTarget> value)
-	{
-		vl::presentation::elements::IGuiGraphicsRenderTarget const& _unwrapped_value = *__GacUIInternal<IGuiGraphicsRenderTarget>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	Rect IGuiGraphicsRenderTarget::GetClipper()
 	{
 		throw 0;
@@ -13652,12 +13286,6 @@ CharMeasurer
 	signed __int32 CharMeasurer::MeasureWidth(wchar_t character)
 	{
 		wchar_t _unwrapped_character = character;
-		throw 0;
-	}
-	
-	rptr<CharMeasurer> CharMeasurer::operator=(rptr<CharMeasurer> value)
-	{
-		vl::presentation::elements::text::CharMeasurer const& _unwrapped_value = *__GacUIInternal<CharMeasurer>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13722,12 +13350,6 @@ GuiGraphicsResourceManager
 		throw 0;
 	}
 	
-	rptr<GuiGraphicsResourceManager> GuiGraphicsResourceManager::operator=(rptr<GuiGraphicsResourceManager> value)
-	{
-		vl::presentation::elements::GuiGraphicsResourceManager const& _unwrapped_value = *__GacUIInternal<GuiGraphicsResourceManager>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 IGuiGraphicsRenderer
@@ -13769,12 +13391,6 @@ IGuiGraphicsRenderer
 		throw 0;
 	}
 	
-	rptr<IGuiGraphicsRenderer> IGuiGraphicsRenderer::operator=(rptr<IGuiGraphicsRenderer> value)
-	{
-		vl::presentation::elements::IGuiGraphicsRenderer const& _unwrapped_value = *__GacUIInternal<IGuiGraphicsRenderer>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	void IGuiGraphicsRenderer::SetRenderTarget(rptr<IGuiGraphicsRenderTarget> _renderTarget)
 	{
 		vl::presentation::elements::IGuiGraphicsRenderTarget* _unwrapped__renderTarget = __GacUIInternal<IGuiGraphicsRenderTarget>::GetInternalObject(_renderTarget);
@@ -13812,12 +13428,6 @@ INativeScreen
 	
 	bool INativeScreen::IsPrimary()
 	{
-		throw 0;
-	}
-	
-	rptr<INativeScreen> INativeScreen::operator=(rptr<INativeScreen> value)
-	{
-		vl::presentation::INativeScreen const& _unwrapped_value = *__GacUIInternal<INativeScreen>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13864,12 +13474,6 @@ INativeScreenService
 	rptr<INativeScreen> INativeScreenService::GetScreen(signed __int32 index)
 	{
 		signed __int32 _unwrapped_index = index;
-		throw 0;
-	}
-	
-	rptr<INativeScreenService> INativeScreenService::operator=(rptr<INativeScreenService> value)
-	{
-		vl::presentation::INativeScreenService const& _unwrapped_value = *__GacUIInternal<INativeScreenService>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13934,12 +13538,6 @@ INativeController
 	
 	rptr<INativeInputService> INativeController::InputService()
 	{
-		throw 0;
-	}
-	
-	rptr<INativeController> INativeController::operator=(rptr<INativeController> value)
-	{
-		vl::presentation::INativeController const& _unwrapped_value = *__GacUIInternal<INativeController>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -14152,12 +13750,6 @@ INativeWindowListener
 		throw 0;
 	}
 	
-	rptr<INativeWindowListener> INativeWindowListener::operator=(rptr<INativeWindowListener> value)
-	{
-		vl::presentation::INativeWindowListener const& _unwrapped_value = *__GacUIInternal<INativeWindowListener>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 GuiGraphicsHost
@@ -14197,12 +13789,6 @@ GuiGraphicsHost
 	{
 		vl::presentation::Point _unwrapped_value = *__GacUIInternal<Point>::GetInternalObject(value);
 		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_referenceComposition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(referenceComposition);
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsHost> GuiGraphicsHost::operator=(rptr<GuiGraphicsHost> value)
-	{
-		vl::presentation::elements::GuiGraphicsHost const& _unwrapped_value = *__GacUIInternal<GuiGraphicsHost>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -14311,12 +13897,6 @@ GuiGraphicsComposition
 	
 	bool GuiGraphicsComposition::IsSizeAffectParent()
 	{
-		throw 0;
-	}
-	
-	rptr<GuiGraphicsComposition> GuiGraphicsComposition::operator=(rptr<GuiGraphicsComposition> value)
-	{
-		vl::presentation::elements::GuiGraphicsComposition const& _unwrapped_value = *__GacUIInternal<GuiGraphicsComposition>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -14504,12 +14084,6 @@ GuiGraphicsSite
 		throw 0;
 	}
 	
-	rptr<GuiGraphicsSite> GuiGraphicsSite::operator=(rptr<GuiGraphicsSite> value)
-	{
-		vl::presentation::elements::GuiGraphicsSite const& _unwrapped_value = *__GacUIInternal<GuiGraphicsSite>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 GuiBoundsComposition
@@ -14543,12 +14117,6 @@ GuiBoundsComposition
 	
 	bool GuiBoundsComposition::IsAlignedToParent()
 	{
-		throw 0;
-	}
-	
-	rptr<GuiBoundsComposition> GuiBoundsComposition::operator=(rptr<GuiBoundsComposition> value)
-	{
-		vl::presentation::elements::GuiBoundsComposition const& _unwrapped_value = *__GacUIInternal<GuiBoundsComposition>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -14606,12 +14174,6 @@ GuiCellComposition
 		signed __int32 _unwrapped__column = _column;
 		signed __int32 _unwrapped__rowSpan = _rowSpan;
 		signed __int32 _unwrapped__columnSpan = _columnSpan;
-		throw 0;
-	}
-	
-	rptr<GuiCellComposition> GuiCellComposition::operator=(rptr<GuiCellComposition> value)
-	{
-		vl::presentation::elements::GuiCellComposition const& _unwrapped_value = *__GacUIInternal<GuiCellComposition>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -14674,12 +14236,6 @@ GuiControl
 	rptr<IDescriptable> GuiControl::QueryService(const GacString& identifier)
 	{
 		vl::ObjectString<wchar_t> _unwrapped_identifier = identifier.Buffer();
-		throw 0;
-	}
-	
-	rptr<GuiControl> GuiControl::operator=(rptr<GuiControl> value)
-	{
-		vl::presentation::controls::GuiControl const& _unwrapped_value = *__GacUIInternal<GuiControl>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -14823,12 +14379,6 @@ GuiControl :: IStyleController
 		IDescriptable::ClearInternalObjectReference();
 	}
 	
-	rptr<GuiControl :: IStyleController> GuiControl::IStyleController::operator=(rptr<GuiControl :: IStyleController> value)
-	{
-		vl::presentation::controls::GuiControl::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	void GuiControl::IStyleController::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
 	{
 		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_value = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(value);
@@ -14890,12 +14440,6 @@ GuiControl :: IStyleProvider
 		throw 0;
 	}
 	
-	rptr<GuiControl :: IStyleProvider> GuiControl::IStyleProvider::operator=(rptr<GuiControl :: IStyleProvider> value)
-	{
-		vl::presentation::controls::GuiControl::IStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiControl :: IStyleProvider>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	void GuiControl::IStyleProvider::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
 	{
 		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_value = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(value);
@@ -14947,12 +14491,6 @@ GuiButton
 		throw 0;
 	}
 	
-	rptr<GuiButton> GuiButton::operator=(rptr<GuiButton> value)
-	{
-		vl::presentation::controls::GuiButton const& _unwrapped_value = *__GacUIInternal<GuiButton>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiButton::on_Clicked()
 	{
 		throw 0;
@@ -14982,12 +14520,6 @@ GuiButton :: IStyleController
 	void GuiButton::IStyleController::Transfer(GuiButton :: ControlState value)
 	{
 		vl::presentation::controls::GuiButton::ControlState _unwrapped_value = (vl::presentation::controls::GuiButton::ControlState)value;
-		throw 0;
-	}
-	
-	rptr<GuiButton :: IStyleController> GuiButton::IStyleController::operator=(rptr<GuiButton :: IStyleController> value)
-	{
-		vl::presentation::controls::GuiButton::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiButton :: IStyleController>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15083,12 +14615,6 @@ GuiControlHost
 	
 	void GuiControlHost::Close()
 	{
-		throw 0;
-	}
-	
-	rptr<GuiControlHost> GuiControlHost::operator=(rptr<GuiControlHost> value)
-	{
-		vl::presentation::controls::GuiControlHost const& _unwrapped_value = *__GacUIInternal<GuiControlHost>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15321,12 +14847,6 @@ GuiMenuBar
 		throw 0;
 	}
 	
-	rptr<GuiMenuBar> GuiMenuBar::operator=(rptr<GuiMenuBar> value)
-	{
-		vl::presentation::controls::GuiMenuBar const& _unwrapped_value = *__GacUIInternal<GuiMenuBar>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 GuiMenuButton
@@ -15367,12 +14887,6 @@ GuiMenuButton
 	
 	void GuiMenuButton::DestroySubMenu()
 	{
-		throw 0;
-	}
-	
-	rptr<GuiMenuButton> GuiMenuButton::operator=(rptr<GuiMenuButton> value)
-	{
-		vl::presentation::controls::GuiMenuButton const& _unwrapped_value = *__GacUIInternal<GuiMenuButton>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15434,12 +14948,6 @@ GuiMenuButton :: IStyleController
 		throw 0;
 	}
 	
-	rptr<GuiMenuButton :: IStyleController> GuiMenuButton::IStyleController::operator=(rptr<GuiMenuButton :: IStyleController> value)
-	{
-		vl::presentation::controls::GuiMenuButton::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiMenuButton :: IStyleController>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	void GuiMenuButton::IStyleController::SetSubMenuExisting(bool value)
 	{
 		bool _unwrapped_value = value;
@@ -15475,12 +14983,6 @@ GuiPartialViewComposition
 	
 	rptr<GuiPartialViewComposition> GuiPartialViewComposition::CreateRptr()
 	{
-		throw 0;
-	}
-	
-	rptr<GuiPartialViewComposition> GuiPartialViewComposition::operator=(rptr<GuiPartialViewComposition> value)
-	{
-		vl::presentation::elements::GuiPartialViewComposition const& _unwrapped_value = *__GacUIInternal<GuiPartialViewComposition>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15552,12 +15054,6 @@ GuiScroll
 	rptr<GuiScroll> GuiScroll::CreateRptr(rptr<GuiScroll :: IStyleController> _styleController)
 	{
 		vl::presentation::controls::GuiScroll::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiScroll :: IStyleController>::GetInternalObject(_styleController);
-		throw 0;
-	}
-	
-	rptr<GuiScroll> GuiScroll::operator=(rptr<GuiScroll> value)
-	{
-		vl::presentation::controls::GuiScroll const& _unwrapped_value = *__GacUIInternal<GuiScroll>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15692,12 +15188,6 @@ GuiScroll :: ICommandExecutor
 		throw 0;
 	}
 	
-	rptr<GuiScroll :: ICommandExecutor> GuiScroll::ICommandExecutor::operator=(rptr<GuiScroll :: ICommandExecutor> value)
-	{
-		vl::presentation::controls::GuiScroll::ICommandExecutor const& _unwrapped_value = *__GacUIInternal<GuiScroll :: ICommandExecutor>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	void GuiScroll::ICommandExecutor::SetTotalSize(signed __int32 value)
 	{
 		signed __int32 _unwrapped_value = value;
@@ -15735,12 +15225,6 @@ GuiScroll :: IStyleController
 	{
 		__internal_object_reference = 0;
 		GuiControl::IStyleController::ClearInternalObjectReference();
-	}
-	
-	rptr<GuiScroll :: IStyleController> GuiScroll::IStyleController::operator=(rptr<GuiScroll :: IStyleController> value)
-	{
-		vl::presentation::controls::GuiScroll::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiScroll :: IStyleController>::GetInternalObject(value);
-		throw 0;
 	}
 	
 	void GuiScroll::IStyleController::SetCommandExecutor(rptr<GuiScroll :: ICommandExecutor> value)
@@ -15788,12 +15272,6 @@ CommonScrollStyle
 		GuiScroll::IStyleController::ClearInternalObjectReference();
 	}
 	
-	rptr<CommonScrollStyle> CommonScrollStyle::operator=(rptr<CommonScrollStyle> value)
-	{
-		vl::presentation::common_styles::CommonScrollStyle const& _unwrapped_value = *__GacUIInternal<CommonScrollStyle>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 CommonTrackStyle
@@ -15813,12 +15291,6 @@ CommonTrackStyle
 	{
 		__internal_object_reference = 0;
 		GuiScroll::IStyleController::ClearInternalObjectReference();
-	}
-	
-	rptr<CommonTrackStyle> CommonTrackStyle::operator=(rptr<CommonTrackStyle> value)
-	{
-		vl::presentation::common_styles::CommonTrackStyle const& _unwrapped_value = *__GacUIInternal<CommonTrackStyle>::GetInternalObject(value);
-		throw 0;
 	}
 	
 
@@ -15844,12 +15316,6 @@ GuiScrollView
 	
 	void GuiScrollView::CalculateView()
 	{
-		throw 0;
-	}
-	
-	rptr<GuiScrollView> GuiScrollView::operator=(rptr<GuiScrollView> value)
-	{
-		vl::presentation::controls::GuiScrollView const& _unwrapped_value = *__GacUIInternal<GuiScrollView>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15932,12 +15398,6 @@ GuiScrollView :: IStyleProvider
 		throw 0;
 	}
 	
-	rptr<GuiScrollView :: IStyleProvider> GuiScrollView::IStyleProvider::operator=(rptr<GuiScrollView :: IStyleProvider> value)
-	{
-		vl::presentation::controls::GuiScrollView::IStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	signed __int32 GuiScrollView::IStyleProvider::GetDefaultScrollSize()
 	{
 		throw 0;
@@ -15973,12 +15433,6 @@ GuiScrollView :: StyleController
 	void GuiScrollView::StyleController::AdjustView(Size fullSize)
 	{
 		vl::presentation::Size _unwrapped_fullSize = *__GacUIInternal<Size>::GetInternalObject(fullSize);
-		throw 0;
-	}
-	
-	rptr<GuiScrollView :: StyleController> GuiScrollView::StyleController::operator=(rptr<GuiScrollView :: StyleController> value)
-	{
-		vl::presentation::controls::GuiScrollView::StyleController const& _unwrapped_value = *__GacUIInternal<GuiScrollView :: StyleController>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16082,12 +15536,6 @@ GuiListControl
 		throw 0;
 	}
 	
-	rptr<GuiListControl> GuiListControl::operator=(rptr<GuiListControl> value)
-	{
-		vl::presentation::controls::GuiListControl const& _unwrapped_value = *__GacUIInternal<GuiListControl>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	rptr<GuiListControl :: IItemProvider> GuiListControl::GetItemProvider()
 	{
 		throw 0;
@@ -16181,12 +15629,6 @@ GuiListControl :: IItemArrangerCallback
 		throw 0;
 	}
 	
-	rptr<GuiListControl :: IItemArrangerCallback> GuiListControl::IItemArrangerCallback::operator=(rptr<GuiListControl :: IItemArrangerCallback> value)
-	{
-		vl::presentation::controls::GuiListControl::IItemArrangerCallback const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemArrangerCallback>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	void GuiListControl::IItemArrangerCallback::SetViewLocation(Point value)
 	{
 		vl::presentation::Point _unwrapped_value = *__GacUIInternal<Point>::GetInternalObject(value);
@@ -16271,12 +15713,6 @@ GuiListControl :: IItemCoordinateTransformer
 		throw 0;
 	}
 	
-	rptr<GuiListControl :: IItemCoordinateTransformer> GuiListControl::IItemCoordinateTransformer::operator=(rptr<GuiListControl :: IItemCoordinateTransformer> value)
-	{
-		vl::presentation::controls::GuiListControl::IItemCoordinateTransformer const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemCoordinateTransformer>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 GuiListControl :: IItemPrimaryTextView
@@ -16307,12 +15743,6 @@ GuiListControl :: IItemPrimaryTextView
 	bool GuiListControl::IItemPrimaryTextView::ContainsPrimaryText(signed __int32 itemIndex)
 	{
 		signed __int32 _unwrapped_itemIndex = itemIndex;
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemPrimaryTextView> GuiListControl::IItemPrimaryTextView::operator=(rptr<GuiListControl :: IItemPrimaryTextView> value)
-	{
-		vl::presentation::controls::GuiListControl::IItemPrimaryTextView const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemPrimaryTextView>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16371,12 +15801,6 @@ GuiListControl :: IItemProvider
 		throw 0;
 	}
 	
-	rptr<GuiListControl :: IItemProvider> GuiListControl::IItemProvider::operator=(rptr<GuiListControl :: IItemProvider> value)
-	{
-		vl::presentation::controls::GuiListControl::IItemProvider const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemProvider>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 GuiListControl :: IItemProviderCallback
@@ -16409,12 +15833,6 @@ GuiListControl :: IItemProviderCallback
 		signed __int32 _unwrapped_start = start;
 		signed __int32 _unwrapped_count = count;
 		signed __int32 _unwrapped_newCount = newCount;
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemProviderCallback> GuiListControl::IItemProviderCallback::operator=(rptr<GuiListControl :: IItemProviderCallback> value)
-	{
-		vl::presentation::controls::GuiListControl::IItemProviderCallback const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemProviderCallback>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16465,12 +15883,6 @@ GuiListControl :: IItemArranger
 	void GuiListControl::IItemArranger::OnViewChanged(Rect bounds)
 	{
 		vl::presentation::Rect _unwrapped_bounds = *__GacUIInternal<Rect>::GetInternalObject(bounds);
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemArranger> GuiListControl::IItemArranger::operator=(rptr<GuiListControl :: IItemArranger> value)
-	{
-		vl::presentation::controls::GuiListControl::IItemArranger const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemArranger>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16528,12 +15940,6 @@ GuiListControl :: IItemStyleController
 	
 	void GuiListControl::IItemStyleController::OnUninstalled()
 	{
-		throw 0;
-	}
-	
-	rptr<GuiListControl :: IItemStyleController> GuiListControl::IItemStyleController::operator=(rptr<GuiListControl :: IItemStyleController> value)
-	{
-		vl::presentation::controls::GuiListControl::IItemStyleController const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16609,12 +16015,6 @@ GuiListControl :: IItemStyleProvider
 		throw 0;
 	}
 	
-	rptr<GuiListControl :: IItemStyleProvider> GuiListControl::IItemStyleProvider::operator=(rptr<GuiListControl :: IItemStyleProvider> value)
-	{
-		vl::presentation::controls::GuiListControl::IItemStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemStyleProvider>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 AxisAlignedItemCoordinateTransformer
@@ -16639,12 +16039,6 @@ AxisAlignedItemCoordinateTransformer
 	rptr<AxisAlignedItemCoordinateTransformer> AxisAlignedItemCoordinateTransformer::CreateRptr(AxisAlignedItemCoordinateTransformer :: Alignment _alignment)
 	{
 		vl::presentation::controls::list::AxisAlignedItemCoordinateTransformer::Alignment _unwrapped__alignment = (vl::presentation::controls::list::AxisAlignedItemCoordinateTransformer::Alignment)_alignment;
-		throw 0;
-	}
-	
-	rptr<AxisAlignedItemCoordinateTransformer> AxisAlignedItemCoordinateTransformer::operator=(rptr<AxisAlignedItemCoordinateTransformer> value)
-	{
-		vl::presentation::controls::list::AxisAlignedItemCoordinateTransformer const& _unwrapped_value = *__GacUIInternal<AxisAlignedItemCoordinateTransformer>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16679,12 +16073,6 @@ DefaultItemCoordinateTransformer
 		throw 0;
 	}
 	
-	rptr<DefaultItemCoordinateTransformer> DefaultItemCoordinateTransformer::operator=(rptr<DefaultItemCoordinateTransformer> value)
-	{
-		vl::presentation::controls::list::DefaultItemCoordinateTransformer const& _unwrapped_value = *__GacUIInternal<DefaultItemCoordinateTransformer>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 GuiScrollContainer
@@ -16709,12 +16097,6 @@ GuiScrollContainer
 	rptr<GuiScrollContainer> GuiScrollContainer::CreateRptr(rptr<GuiScrollView :: IStyleProvider> styleProvider)
 	{
 		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(styleProvider);
-		throw 0;
-	}
-	
-	rptr<GuiScrollContainer> GuiScrollContainer::operator=(rptr<GuiScrollContainer> value)
-	{
-		vl::presentation::controls::GuiScrollContainer const& _unwrapped_value = *__GacUIInternal<GuiScrollContainer>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16751,12 +16133,6 @@ GuiScrollContainer :: StyleController
 		throw 0;
 	}
 	
-	rptr<GuiScrollContainer :: StyleController> GuiScrollContainer::StyleController::operator=(rptr<GuiScrollContainer :: StyleController> value)
-	{
-		vl::presentation::controls::GuiScrollContainer::StyleController const& _unwrapped_value = *__GacUIInternal<GuiScrollContainer :: StyleController>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 GuiSelectableButton
@@ -16781,12 +16157,6 @@ GuiSelectableButton
 	rptr<GuiSelectableButton> GuiSelectableButton::CreateRptr(rptr<GuiSelectableButton :: IStyleController> _styleController)
 	{
 		vl::presentation::controls::GuiSelectableButton::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiSelectableButton :: IStyleController>::GetInternalObject(_styleController);
-		throw 0;
-	}
-	
-	rptr<GuiSelectableButton> GuiSelectableButton::operator=(rptr<GuiSelectableButton> value)
-	{
-		vl::presentation::controls::GuiSelectableButton const& _unwrapped_value = *__GacUIInternal<GuiSelectableButton>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16877,12 +16247,6 @@ GuiSelectableButton :: GroupController
 		throw 0;
 	}
 	
-	rptr<GuiSelectableButton :: GroupController> GuiSelectableButton::GroupController::operator=(rptr<GuiSelectableButton :: GroupController> value)
-	{
-		vl::presentation::controls::GuiSelectableButton::GroupController const& _unwrapped_value = *__GacUIInternal<GuiSelectableButton :: GroupController>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 GuiSelectableButton :: IStyleController
@@ -16902,12 +16266,6 @@ GuiSelectableButton :: IStyleController
 	{
 		__internal_object_reference = 0;
 		GuiButton::IStyleController::ClearInternalObjectReference();
-	}
-	
-	rptr<GuiSelectableButton :: IStyleController> GuiSelectableButton::IStyleController::operator=(rptr<GuiSelectableButton :: IStyleController> value)
-	{
-		vl::presentation::controls::GuiSelectableButton::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiSelectableButton :: IStyleController>::GetInternalObject(value);
-		throw 0;
 	}
 	
 	void GuiSelectableButton::IStyleController::SetSelected(bool value)
@@ -16939,12 +16297,6 @@ GuiSelectableButton :: MutexGroupController
 	
 	rptr<GuiSelectableButton :: MutexGroupController> GuiSelectableButton::MutexGroupController::CreateRptr()
 	{
-		throw 0;
-	}
-	
-	rptr<GuiSelectableButton :: MutexGroupController> GuiSelectableButton::MutexGroupController::operator=(rptr<GuiSelectableButton :: MutexGroupController> value)
-	{
-		vl::presentation::controls::GuiSelectableButton::MutexGroupController const& _unwrapped_value = *__GacUIInternal<GuiSelectableButton :: MutexGroupController>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16991,12 +16343,6 @@ GuiSelectableListControl
 	
 	void GuiSelectableListControl::ClearSelection()
 	{
-		throw 0;
-	}
-	
-	rptr<GuiSelectableListControl> GuiSelectableListControl::operator=(rptr<GuiSelectableListControl> value)
-	{
-		vl::presentation::controls::GuiSelectableListControl const& _unwrapped_value = *__GacUIInternal<GuiSelectableListControl>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -17049,12 +16395,6 @@ GuiSelectableListControl :: IItemStyleProvider
 		throw 0;
 	}
 	
-	rptr<GuiSelectableListControl :: IItemStyleProvider> GuiSelectableListControl::IItemStyleProvider::operator=(rptr<GuiSelectableListControl :: IItemStyleProvider> value)
-	{
-		vl::presentation::controls::GuiSelectableListControl::IItemStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiSelectableListControl :: IItemStyleProvider>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 GuiListViewBase
@@ -17080,12 +16420,6 @@ GuiListViewBase
 	{
 		vl::presentation::controls::GuiListViewBase::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiListViewBase :: IStyleProvider>::GetInternalObject(_styleProvider);
 		vl::presentation::controls::GuiListControl::IItemProvider* _unwrapped__itemProvider = __GacUIInternal<GuiListControl :: IItemProvider>::GetInternalObject(_itemProvider);
-		throw 0;
-	}
-	
-	rptr<GuiListViewBase> GuiListViewBase::operator=(rptr<GuiListViewBase> value)
-	{
-		vl::presentation::controls::GuiListViewBase const& _unwrapped_value = *__GacUIInternal<GuiListViewBase>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -17122,12 +16456,6 @@ GuiListViewBase :: IStyleProvider
 	
 	rptr<GuiSelectableButton :: IStyleController> GuiListViewBase::IStyleProvider::CreateColumnStyle()
 	{
-		throw 0;
-	}
-	
-	rptr<GuiListViewBase :: IStyleProvider> GuiListViewBase::IStyleProvider::operator=(rptr<GuiListViewBase :: IStyleProvider> value)
-	{
-		vl::presentation::controls::GuiListViewBase::IStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiListViewBase :: IStyleProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -17169,12 +16497,6 @@ GuiSideAlignedComposition
 	
 	rptr<GuiSideAlignedComposition> GuiSideAlignedComposition::CreateRptr()
 	{
-		throw 0;
-	}
-	
-	rptr<GuiSideAlignedComposition> GuiSideAlignedComposition::operator=(rptr<GuiSideAlignedComposition> value)
-	{
-		vl::presentation::elements::GuiSideAlignedComposition const& _unwrapped_value = *__GacUIInternal<GuiSideAlignedComposition>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -17234,12 +16556,6 @@ GuiStackItemComposition
 	
 	rptr<GuiStackItemComposition> GuiStackItemComposition::CreateRptr()
 	{
-		throw 0;
-	}
-	
-	rptr<GuiStackItemComposition> GuiStackItemComposition::operator=(rptr<GuiStackItemComposition> value)
-	{
-		vl::presentation::elements::GuiStackItemComposition const& _unwrapped_value = *__GacUIInternal<GuiStackItemComposition>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -17319,12 +16635,6 @@ GuiTab
 		throw 0;
 	}
 	
-	rptr<GuiTab> GuiTab::operator=(rptr<GuiTab> value)
-	{
-		vl::presentation::controls::GuiTab const& _unwrapped_value = *__GacUIInternal<GuiTab>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	rptr<IReadonlyList_of_GuiTabPage_raw_pointer> GuiTab::GetPages()
 	{
 		throw 0;
@@ -17364,12 +16674,6 @@ GuiTab :: ICommandExecutor
 	void GuiTab::ICommandExecutor::ShowTab(signed __int32 index)
 	{
 		signed __int32 _unwrapped_index = index;
-		throw 0;
-	}
-	
-	rptr<GuiTab :: ICommandExecutor> GuiTab::ICommandExecutor::operator=(rptr<GuiTab :: ICommandExecutor> value)
-	{
-		vl::presentation::controls::GuiTab::ICommandExecutor const& _unwrapped_value = *__GacUIInternal<GuiTab :: ICommandExecutor>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -17422,12 +16726,6 @@ GuiTab :: IStyleController
 	
 	rptr<GuiControl :: IStyleController> GuiTab::IStyleController::CreateTabPageStyleController()
 	{
-		throw 0;
-	}
-	
-	rptr<GuiTab :: IStyleController> GuiTab::IStyleController::operator=(rptr<GuiTab :: IStyleController> value)
-	{
-		vl::presentation::controls::GuiTab::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiTab :: IStyleController>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -17514,12 +16812,6 @@ GuiTableComposition
 		throw 0;
 	}
 	
-	rptr<GuiTableComposition> GuiTableComposition::operator=(rptr<GuiTableComposition> value)
-	{
-		vl::presentation::elements::GuiTableComposition const& _unwrapped_value = *__GacUIInternal<GuiTableComposition>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	signed __int32 GuiTableComposition::GetRows()
 	{
 		throw 0;
@@ -17573,12 +16865,6 @@ GuiWindow
 		throw 0;
 	}
 	
-	rptr<GuiWindow> GuiWindow::operator=(rptr<GuiWindow> value)
-	{
-		vl::presentation::controls::GuiWindow const& _unwrapped_value = *__GacUIInternal<GuiWindow>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 GuiPopup
@@ -17625,12 +16911,6 @@ GuiPopup
 		throw 0;
 	}
 	
-	rptr<GuiPopup> GuiPopup::operator=(rptr<GuiPopup> value)
-	{
-		vl::presentation::controls::GuiPopup const& _unwrapped_value = *__GacUIInternal<GuiPopup>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 GuiComboBoxBase
@@ -17660,12 +16940,6 @@ GuiComboBoxBase
 	
 	void GuiComboBoxBase::ShowPopup()
 	{
-		throw 0;
-	}
-	
-	rptr<GuiComboBoxBase> GuiComboBoxBase::operator=(rptr<GuiComboBoxBase> value)
-	{
-		vl::presentation::controls::GuiComboBoxBase const& _unwrapped_value = *__GacUIInternal<GuiComboBoxBase>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -17725,12 +16999,6 @@ GuiComboBoxBase :: ICommandExecutor
 		throw 0;
 	}
 	
-	rptr<GuiComboBoxBase :: ICommandExecutor> GuiComboBoxBase::ICommandExecutor::operator=(rptr<GuiComboBoxBase :: ICommandExecutor> value)
-	{
-		vl::presentation::controls::GuiComboBoxBase::ICommandExecutor const& _unwrapped_value = *__GacUIInternal<GuiComboBoxBase :: ICommandExecutor>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 GuiComboBoxBase :: IStyleController
@@ -17777,12 +17045,6 @@ GuiComboBoxBase :: IStyleController
 		throw 0;
 	}
 	
-	rptr<GuiComboBoxBase :: IStyleController> GuiComboBoxBase::IStyleController::operator=(rptr<GuiComboBoxBase :: IStyleController> value)
-	{
-		vl::presentation::controls::GuiComboBoxBase::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiComboBoxBase :: IStyleController>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	void GuiComboBoxBase::IStyleController::SetCommandExecutor(rptr<GuiComboBoxBase :: ICommandExecutor> value)
 	{
 		vl::presentation::controls::GuiComboBoxBase::ICommandExecutor* _unwrapped_value = __GacUIInternal<GuiComboBoxBase :: ICommandExecutor>::GetInternalObject(value);
@@ -17814,12 +17076,6 @@ GuiComboBoxListControl
 	{
 		vl::presentation::controls::GuiComboBoxBase::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiComboBoxBase :: IStyleController>::GetInternalObject(_styleController);
 		vl::presentation::controls::GuiSelectableListControl* _unwrapped__containedListControl = __GacUIInternal<GuiSelectableListControl>::GetInternalObject(_containedListControl);
-		throw 0;
-	}
-	
-	rptr<GuiComboBoxListControl> GuiComboBoxListControl::operator=(rptr<GuiComboBoxListControl> value)
-	{
-		vl::presentation::controls::GuiComboBoxListControl const& _unwrapped_value = *__GacUIInternal<GuiComboBoxListControl>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -17882,12 +17138,6 @@ GuiMenu
 		throw 0;
 	}
 	
-	rptr<GuiMenu> GuiMenu::operator=(rptr<GuiMenu> value)
-	{
-		vl::presentation::controls::GuiMenu const& _unwrapped_value = *__GacUIInternal<GuiMenu>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 GuiWindowComposition
@@ -17911,12 +17161,6 @@ GuiWindowComposition
 	
 	rptr<GuiWindowComposition> GuiWindowComposition::CreateRptr()
 	{
-		throw 0;
-	}
-	
-	rptr<GuiWindowComposition> GuiWindowComposition::operator=(rptr<GuiWindowComposition> value)
-	{
-		vl::presentation::elements::GuiWindowComposition const& _unwrapped_value = *__GacUIInternal<GuiWindowComposition>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -18074,12 +17318,6 @@ INativeWindow
 	
 	void INativeWindow::RedrawContent()
 	{
-		throw 0;
-	}
-	
-	rptr<INativeWindow> INativeWindow::operator=(rptr<INativeWindow> value)
-	{
-		vl::presentation::INativeWindow const& _unwrapped_value = *__GacUIInternal<INativeWindow>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -18263,12 +17501,6 @@ INodeItemStyleController
 		GuiListControl::IItemStyleController::ClearInternalObjectReference();
 	}
 	
-	rptr<INodeItemStyleController> INodeItemStyleController::operator=(rptr<INodeItemStyleController> value)
-	{
-		vl::presentation::controls::tree::INodeItemStyleController const& _unwrapped_value = *__GacUIInternal<INodeItemStyleController>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	rptr<INodeItemStyleProvider> INodeItemStyleController::GetNodeStyleProvider()
 	{
 		throw 0;
@@ -18344,12 +17576,6 @@ INodeItemStyleProvider
 		throw 0;
 	}
 	
-	rptr<INodeItemStyleProvider> INodeItemStyleProvider::operator=(rptr<INodeItemStyleProvider> value)
-	{
-		vl::presentation::controls::tree::INodeItemStyleProvider const& _unwrapped_value = *__GacUIInternal<INodeItemStyleProvider>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	rptr<GuiListControl :: IItemStyleProvider> INodeItemStyleProvider::GetBindedItemStyleProvider()
 	{
 		throw 0;
@@ -18394,12 +17620,6 @@ INodeItemView
 		throw 0;
 	}
 	
-	rptr<INodeItemView> INodeItemView::operator=(rptr<INodeItemView> value)
-	{
-		vl::presentation::controls::tree::INodeItemView const& _unwrapped_value = *__GacUIInternal<INodeItemView>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	wchar_t const* INodeItemView::get_Identifier()
 	{
 		throw 0;
@@ -18436,12 +17656,6 @@ GuiVirtualTreeListControl
 	sptr<INodeItemStyleProvider> GuiVirtualTreeListControl::SetNodeStyleProvider(sptr<INodeItemStyleProvider> styleProvider)
 	{
 		vl::Ptr<vl::presentation::controls::tree::INodeItemStyleProvider> _unwrapped_styleProvider = __GacUIInternal<INodeItemStyleProvider>::GetInternalObject(styleProvider);
-		throw 0;
-	}
-	
-	rptr<GuiVirtualTreeListControl> GuiVirtualTreeListControl::operator=(rptr<GuiVirtualTreeListControl> value)
-	{
-		vl::presentation::controls::GuiVirtualTreeListControl const& _unwrapped_value = *__GacUIInternal<GuiVirtualTreeListControl>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -18508,12 +17722,6 @@ IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer
 		throw 0;
 	}
 	
-	rptr<IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer> IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer::operator=(rptr<IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer> value)
-	{
-		vl::collections::IReadonlyList<vl::presentation::controls::GuiListControl::IItemStyleController *,vl::presentation::controls::GuiListControl::IItemStyleController *> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 IReadonlyList_of_GuiStackItemComposition_raw_pointer
@@ -18562,12 +17770,6 @@ IReadonlyList_of_GuiStackItemComposition_raw_pointer
 		throw 0;
 	}
 	
-	rptr<IReadonlyList_of_GuiStackItemComposition_raw_pointer> IReadonlyList_of_GuiStackItemComposition_raw_pointer::operator=(rptr<IReadonlyList_of_GuiStackItemComposition_raw_pointer> value)
-	{
-		vl::collections::IReadonlyList<vl::presentation::elements::GuiStackItemComposition *,vl::presentation::elements::GuiStackItemComposition *> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_GuiStackItemComposition_raw_pointer>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 GuiStackComposition
@@ -18598,12 +17800,6 @@ GuiStackComposition
 	{
 		signed __int32 _unwrapped_index = index;
 		vl::presentation::elements::GuiStackItemComposition* _unwrapped_item = __GacUIInternal<GuiStackItemComposition>::GetInternalObject(item);
-		throw 0;
-	}
-	
-	rptr<GuiStackComposition> GuiStackComposition::operator=(rptr<GuiStackComposition> value)
-	{
-		vl::presentation::elements::GuiStackComposition const& _unwrapped_value = *__GacUIInternal<GuiStackComposition>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -18693,12 +17889,6 @@ IReadonlyList_of_GuiWindow_raw_pointer
 		throw 0;
 	}
 	
-	rptr<IReadonlyList_of_GuiWindow_raw_pointer> IReadonlyList_of_GuiWindow_raw_pointer::operator=(rptr<IReadonlyList_of_GuiWindow_raw_pointer> value)
-	{
-		vl::collections::IReadonlyList<vl::presentation::controls::GuiWindow *,vl::presentation::controls::GuiWindow *> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_GuiWindow_raw_pointer>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 GuiApplication
@@ -18735,12 +17925,6 @@ GuiApplication
 		throw 0;
 	}
 	
-	rptr<GuiApplication> GuiApplication::operator=(rptr<GuiApplication> value)
-	{
-		vl::presentation::controls::GuiApplication const& _unwrapped_value = *__GacUIInternal<GuiApplication>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	rptr<IReadonlyList_of_GuiWindow_raw_pointer> GuiApplication::GetWindows()
 	{
 		throw 0;
@@ -18772,12 +17956,6 @@ ItemProviderBase
 		throw 0;
 	}
 	
-	rptr<ItemProviderBase> ItemProviderBase::operator=(rptr<ItemProviderBase> value)
-	{
-		vl::presentation::controls::list::ItemProviderBase const& _unwrapped_value = *__GacUIInternal<ItemProviderBase>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 ItemStyleControllerBase
@@ -18797,12 +17975,6 @@ ItemStyleControllerBase
 	{
 		__internal_object_reference = 0;
 		GuiListControl::IItemStyleController::ClearInternalObjectReference();
-	}
-	
-	rptr<ItemStyleControllerBase> ItemStyleControllerBase::operator=(rptr<ItemStyleControllerBase> value)
-	{
-		vl::presentation::controls::list::ItemStyleControllerBase const& _unwrapped_value = *__GacUIInternal<ItemStyleControllerBase>::GetInternalObject(value);
-		throw 0;
 	}
 	
 
@@ -18831,12 +18003,6 @@ ListViewItemStyleProviderBase
 		throw 0;
 	}
 	
-	rptr<ListViewItemStyleProviderBase> ListViewItemStyleProviderBase::operator=(rptr<ListViewItemStyleProviderBase> value)
-	{
-		vl::presentation::controls::list::ListViewItemStyleProviderBase const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProviderBase>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 ListViewItemStyleProviderBase :: ListViewItemStyleController
@@ -18861,12 +18027,6 @@ ListViewItemStyleProviderBase :: ListViewItemStyleController
 	rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> ListViewItemStyleProviderBase::ListViewItemStyleController::CreateRptr(rptr<ListViewItemStyleProviderBase> provider)
 	{
 		vl::presentation::controls::list::ListViewItemStyleProviderBase* _unwrapped_provider = __GacUIInternal<ListViewItemStyleProviderBase>::GetInternalObject(provider);
-		throw 0;
-	}
-	
-	rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> ListViewItemStyleProviderBase::ListViewItemStyleController::operator=(rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> value)
-	{
-		vl::presentation::controls::list::ListViewItemStyleProviderBase::ListViewItemStyleController const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProviderBase :: ListViewItemStyleController>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -18914,12 +18074,6 @@ ListViewItemStyleProvider
 		throw 0;
 	}
 	
-	rptr<ListViewItemStyleProvider> ListViewItemStyleProvider::operator=(rptr<ListViewItemStyleProvider> value)
-	{
-		vl::presentation::controls::list::ListViewItemStyleProvider const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProvider>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	rptr<IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer> ListViewItemStyleProvider::GetCreatedItemStyles()
 	{
 		throw 0;
@@ -18951,12 +18105,6 @@ ListViewItemStyleProvider :: IListViewItemContent
 		vl::presentation::controls::GuiListViewBase::IStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiListViewBase :: IStyleProvider>::GetInternalObject(styleProvider);
 		vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemView* _unwrapped_view = __GacUIInternal<ListViewItemStyleProvider :: IListViewItemView>::GetInternalObject(view);
 		signed __int32 _unwrapped_itemIndex = itemIndex;
-		throw 0;
-	}
-	
-	rptr<ListViewItemStyleProvider :: IListViewItemContent> ListViewItemStyleProvider::IListViewItemContent::operator=(rptr<ListViewItemStyleProvider :: IListViewItemContent> value)
-	{
-		vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemContent const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProvider :: IListViewItemContent>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -19018,12 +18166,6 @@ ListViewItemStyleProvider :: IListViewItemContentProvider
 		throw 0;
 	}
 	
-	rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> ListViewItemStyleProvider::IListViewItemContentProvider::operator=(rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> value)
-	{
-		vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProvider :: IListViewItemContentProvider>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 ListViewItemStyleProvider :: IListViewItemView
@@ -19082,12 +18224,6 @@ ListViewItemStyleProvider :: IListViewItemView
 		throw 0;
 	}
 	
-	rptr<ListViewItemStyleProvider :: IListViewItemView> ListViewItemStyleProvider::IListViewItemView::operator=(rptr<ListViewItemStyleProvider :: IListViewItemView> value)
-	{
-		vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemView const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProvider :: IListViewItemView>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	signed __int32 ListViewItemStyleProvider::IListViewItemView::GetDataColumnCount()
 	{
 		throw 0;
@@ -19137,12 +18273,6 @@ ListViewItemStyleProvider :: ListViewContentItemStyleController
 		throw 0;
 	}
 	
-	rptr<ListViewItemStyleProvider :: ListViewContentItemStyleController> ListViewItemStyleProvider::ListViewContentItemStyleController::operator=(rptr<ListViewItemStyleProvider :: ListViewContentItemStyleController> value)
-	{
-		vl::presentation::controls::list::ListViewItemStyleProvider::ListViewContentItemStyleController const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProvider :: ListViewContentItemStyleController>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	rptr<ListViewItemStyleProvider :: IListViewItemContent> ListViewItemStyleProvider::ListViewContentItemStyleController::GetItemContent()
 	{
 		throw 0;
@@ -19182,12 +18312,6 @@ GuiVirtualListView
 		throw 0;
 	}
 	
-	rptr<GuiVirtualListView> GuiVirtualListView::operator=(rptr<GuiVirtualListView> value)
-	{
-		vl::presentation::controls::GuiVirtualListView const& _unwrapped_value = *__GacUIInternal<GuiVirtualListView>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 ListViewBigIconContentProvider
@@ -19212,12 +18336,6 @@ ListViewBigIconContentProvider
 	rptr<ListViewBigIconContentProvider> ListViewBigIconContentProvider::CreateRptr(Size _iconSize)
 	{
 		vl::presentation::Size _unwrapped__iconSize = *__GacUIInternal<Size>::GetInternalObject(_iconSize);
-		throw 0;
-	}
-	
-	rptr<ListViewBigIconContentProvider> ListViewBigIconContentProvider::operator=(rptr<ListViewBigIconContentProvider> value)
-	{
-		vl::presentation::controls::list::ListViewBigIconContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewBigIconContentProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -19248,12 +18366,6 @@ ListViewInformationContentProvider
 		throw 0;
 	}
 	
-	rptr<ListViewInformationContentProvider> ListViewInformationContentProvider::operator=(rptr<ListViewInformationContentProvider> value)
-	{
-		vl::presentation::controls::list::ListViewInformationContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewInformationContentProvider>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 ListViewListContentProvider
@@ -19278,12 +18390,6 @@ ListViewListContentProvider
 	rptr<ListViewListContentProvider> ListViewListContentProvider::CreateRptr(Size _iconSize)
 	{
 		vl::presentation::Size _unwrapped__iconSize = *__GacUIInternal<Size>::GetInternalObject(_iconSize);
-		throw 0;
-	}
-	
-	rptr<ListViewListContentProvider> ListViewListContentProvider::operator=(rptr<ListViewListContentProvider> value)
-	{
-		vl::presentation::controls::list::ListViewListContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewListContentProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -19314,12 +18420,6 @@ ListViewSmallIconContentProvider
 		throw 0;
 	}
 	
-	rptr<ListViewSmallIconContentProvider> ListViewSmallIconContentProvider::operator=(rptr<ListViewSmallIconContentProvider> value)
-	{
-		vl::presentation::controls::list::ListViewSmallIconContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewSmallIconContentProvider>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 ListViewTileContentProvider
@@ -19344,12 +18444,6 @@ ListViewTileContentProvider
 	rptr<ListViewTileContentProvider> ListViewTileContentProvider::CreateRptr(Size _iconSize)
 	{
 		vl::presentation::Size _unwrapped__iconSize = *__GacUIInternal<Size>::GetInternalObject(_iconSize);
-		throw 0;
-	}
-	
-	rptr<ListViewTileContentProvider> ListViewTileContentProvider::operator=(rptr<ListViewTileContentProvider> value)
-	{
-		vl::presentation::controls::list::ListViewTileContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewTileContentProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -19383,12 +18477,6 @@ ListWrapperProvider_of_ListViewItem
 		throw 0;
 	}
 	
-	rptr<ListWrapperProvider_of_ListViewItem> ListWrapperProvider_of_ListViewItem::operator=(rptr<ListWrapperProvider_of_ListViewItem> value)
-	{
-		vl::presentation::controls::list::ListWrapperProvider<vl::Ptr<vl::presentation::controls::list::ListViewItem>,vl::presentation::controls::list::ListViewItem *> const& _unwrapped_value = *__GacUIInternal<ListWrapperProvider_of_ListViewItem>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 ListProvider_of_ListViewItem
@@ -19412,12 +18500,6 @@ ListProvider_of_ListViewItem
 	
 	rptr<ListProvider_of_ListViewItem> ListProvider_of_ListViewItem::CreateRptr()
 	{
-		throw 0;
-	}
-	
-	rptr<ListProvider_of_ListViewItem> ListProvider_of_ListViewItem::operator=(rptr<ListProvider_of_ListViewItem> value)
-	{
-		vl::presentation::controls::list::ListProvider<vl::Ptr<vl::presentation::controls::list::ListViewItem> > const& _unwrapped_value = *__GacUIInternal<ListProvider_of_ListViewItem>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -19445,12 +18527,6 @@ NodeItemProvider
 	rptr<NodeItemProvider> NodeItemProvider::CreateRptr(rptr<INodeRootProvider> _root)
 	{
 		vl::presentation::controls::tree::INodeRootProvider* _unwrapped__root = __GacUIInternal<INodeRootProvider>::GetInternalObject(_root);
-		throw 0;
-	}
-	
-	rptr<NodeItemProvider> NodeItemProvider::operator=(rptr<NodeItemProvider> value)
-	{
-		vl::presentation::controls::tree::NodeItemProvider const& _unwrapped_value = *__GacUIInternal<NodeItemProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -19486,12 +18562,6 @@ NodeItemStyleProvider
 		throw 0;
 	}
 	
-	rptr<NodeItemStyleProvider> NodeItemStyleProvider::operator=(rptr<NodeItemStyleProvider> value)
-	{
-		vl::presentation::controls::tree::NodeItemStyleProvider const& _unwrapped_value = *__GacUIInternal<NodeItemStyleProvider>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 RangedItemArrangerBase
@@ -19511,12 +18581,6 @@ RangedItemArrangerBase
 	{
 		__internal_object_reference = 0;
 		GuiListControl::IItemArranger::ClearInternalObjectReference();
-	}
-	
-	rptr<RangedItemArrangerBase> RangedItemArrangerBase::operator=(rptr<RangedItemArrangerBase> value)
-	{
-		vl::presentation::controls::list::RangedItemArrangerBase const& _unwrapped_value = *__GacUIInternal<RangedItemArrangerBase>::GetInternalObject(value);
-		throw 0;
 	}
 	
 
@@ -19542,12 +18606,6 @@ FixedHeightItemArranger
 	
 	rptr<FixedHeightItemArranger> FixedHeightItemArranger::CreateRptr()
 	{
-		throw 0;
-	}
-	
-	rptr<FixedHeightItemArranger> FixedHeightItemArranger::operator=(rptr<FixedHeightItemArranger> value)
-	{
-		vl::presentation::controls::list::FixedHeightItemArranger const& _unwrapped_value = *__GacUIInternal<FixedHeightItemArranger>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -19577,12 +18635,6 @@ FixedHeightMultiColumnItemArranger
 		throw 0;
 	}
 	
-	rptr<FixedHeightMultiColumnItemArranger> FixedHeightMultiColumnItemArranger::operator=(rptr<FixedHeightMultiColumnItemArranger> value)
-	{
-		vl::presentation::controls::list::FixedHeightMultiColumnItemArranger const& _unwrapped_value = *__GacUIInternal<FixedHeightMultiColumnItemArranger>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 FixedSizeMultiColumnItemArranger
@@ -19609,12 +18661,6 @@ FixedSizeMultiColumnItemArranger
 		throw 0;
 	}
 	
-	rptr<FixedSizeMultiColumnItemArranger> FixedSizeMultiColumnItemArranger::operator=(rptr<FixedSizeMultiColumnItemArranger> value)
-	{
-		vl::presentation::controls::list::FixedSizeMultiColumnItemArranger const& _unwrapped_value = *__GacUIInternal<FixedSizeMultiColumnItemArranger>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 ListViewColumnItemArranger
@@ -19638,12 +18684,6 @@ ListViewColumnItemArranger
 	
 	rptr<ListViewColumnItemArranger> ListViewColumnItemArranger::CreateRptr()
 	{
-		throw 0;
-	}
-	
-	rptr<ListViewColumnItemArranger> ListViewColumnItemArranger::operator=(rptr<ListViewColumnItemArranger> value)
-	{
-		vl::presentation::controls::list::ListViewColumnItemArranger const& _unwrapped_value = *__GacUIInternal<ListViewColumnItemArranger>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -19704,12 +18744,6 @@ ListViewColumnItemArranger :: IColumnItemView
 		throw 0;
 	}
 	
-	rptr<ListViewColumnItemArranger :: IColumnItemView> ListViewColumnItemArranger::IColumnItemView::operator=(rptr<ListViewColumnItemArranger :: IColumnItemView> value)
-	{
-		vl::presentation::controls::list::ListViewColumnItemArranger::IColumnItemView const& _unwrapped_value = *__GacUIInternal<ListViewColumnItemArranger :: IColumnItemView>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	signed __int32 ListViewColumnItemArranger::IColumnItemView::GetColumnCount()
 	{
 		throw 0;
@@ -19752,12 +18786,6 @@ ListViewColumnItemArranger :: IColumnItemViewCallback
 		throw 0;
 	}
 	
-	rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> ListViewColumnItemArranger::IColumnItemViewCallback::operator=(rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> value)
-	{
-		vl::presentation::controls::list::ListViewColumnItemArranger::IColumnItemViewCallback const& _unwrapped_value = *__GacUIInternal<ListViewColumnItemArranger :: IColumnItemViewCallback>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 ListViewDetailContentProvider
@@ -19782,12 +18810,6 @@ ListViewDetailContentProvider
 	rptr<ListViewDetailContentProvider> ListViewDetailContentProvider::CreateRptr(Size _iconSize)
 	{
 		vl::presentation::Size _unwrapped__iconSize = *__GacUIInternal<Size>::GetInternalObject(_iconSize);
-		throw 0;
-	}
-	
-	rptr<ListViewDetailContentProvider> ListViewDetailContentProvider::operator=(rptr<ListViewDetailContentProvider> value)
-	{
-		vl::presentation::controls::list::ListViewDetailContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewDetailContentProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -19827,12 +18849,6 @@ ListViewItemProvider
 		throw 0;
 	}
 	
-	rptr<ListViewItemProvider> ListViewItemProvider::operator=(rptr<ListViewItemProvider> value)
-	{
-		vl::presentation::controls::list::ListViewItemProvider const& _unwrapped_value = *__GacUIInternal<ListViewItemProvider>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	rptr<IList_of_int> ListViewItemProvider::GetDataColumns()
 	{
 		throw 0;
@@ -19867,12 +18883,6 @@ GuiListView
 	rptr<GuiListView> GuiListView::CreateRptr(rptr<GuiListViewBase :: IStyleProvider> _styleProvider)
 	{
 		vl::presentation::controls::GuiListViewBase::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiListViewBase :: IStyleProvider>::GetInternalObject(_styleProvider);
-		throw 0;
-	}
-	
-	rptr<GuiListView> GuiListView::operator=(rptr<GuiListView> value)
-	{
-		vl::presentation::controls::GuiListView const& _unwrapped_value = *__GacUIInternal<GuiListView>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -20012,12 +19022,6 @@ IList_of_TextItem
 		throw 0;
 	}
 	
-	rptr<IList_of_TextItem> IList_of_TextItem::operator=(rptr<IList_of_TextItem> value)
-	{
-		vl::collections::IList<vl::presentation::controls::list::TextItem,vl::presentation::controls::list::TextItem> const& _unwrapped_value = *__GacUIInternal<IList_of_TextItem>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 ListWrapperProvider_of_TextItem
@@ -20048,12 +19052,6 @@ ListWrapperProvider_of_TextItem
 		throw 0;
 	}
 	
-	rptr<ListWrapperProvider_of_TextItem> ListWrapperProvider_of_TextItem::operator=(rptr<ListWrapperProvider_of_TextItem> value)
-	{
-		vl::presentation::controls::list::ListWrapperProvider<vl::presentation::controls::list::TextItem,vl::presentation::controls::list::TextItem> const& _unwrapped_value = *__GacUIInternal<ListWrapperProvider_of_TextItem>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 ListProvider_of_TextItem
@@ -20077,12 +19075,6 @@ ListProvider_of_TextItem
 	
 	rptr<ListProvider_of_TextItem> ListProvider_of_TextItem::CreateRptr()
 	{
-		throw 0;
-	}
-	
-	rptr<ListProvider_of_TextItem> ListProvider_of_TextItem::operator=(rptr<ListProvider_of_TextItem> value)
-	{
-		vl::presentation::controls::list::ListProvider<vl::presentation::controls::list::TextItem> const& _unwrapped_value = *__GacUIInternal<ListProvider_of_TextItem>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -20110,12 +19102,6 @@ TextItemStyleProvider
 	rptr<TextItemStyleProvider> TextItemStyleProvider::CreateRptr(rptr<TextItemStyleProvider :: ITextItemStyleProvider> _textItemStyleProvider)
 	{
 		vl::presentation::controls::list::TextItemStyleProvider::ITextItemStyleProvider* _unwrapped__textItemStyleProvider = __GacUIInternal<TextItemStyleProvider :: ITextItemStyleProvider>::GetInternalObject(_textItemStyleProvider);
-		throw 0;
-	}
-	
-	rptr<TextItemStyleProvider> TextItemStyleProvider::operator=(rptr<TextItemStyleProvider> value)
-	{
-		vl::presentation::controls::list::TextItemStyleProvider const& _unwrapped_value = *__GacUIInternal<TextItemStyleProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -20147,12 +19133,6 @@ TextItemStyleProvider :: ITextItemStyleProvider
 	
 	rptr<GuiSelectableButton :: IStyleController> TextItemStyleProvider::ITextItemStyleProvider::CreateBulletStyleController()
 	{
-		throw 0;
-	}
-	
-	rptr<TextItemStyleProvider :: ITextItemStyleProvider> TextItemStyleProvider::ITextItemStyleProvider::operator=(rptr<TextItemStyleProvider :: ITextItemStyleProvider> value)
-	{
-		vl::presentation::controls::list::TextItemStyleProvider::ITextItemStyleProvider const& _unwrapped_value = *__GacUIInternal<TextItemStyleProvider :: ITextItemStyleProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -20196,12 +19176,6 @@ TextItemStyleProvider :: ITextItemView
 		throw 0;
 	}
 	
-	rptr<TextItemStyleProvider :: ITextItemView> TextItemStyleProvider::ITextItemView::operator=(rptr<TextItemStyleProvider :: ITextItemView> value)
-	{
-		vl::presentation::controls::list::TextItemStyleProvider::ITextItemView const& _unwrapped_value = *__GacUIInternal<TextItemStyleProvider :: ITextItemView>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	wchar_t const* TextItemStyleProvider::ITextItemView::get_Identifier()
 	{
 		throw 0;
@@ -20231,12 +19205,6 @@ TextItemStyleProvider :: TextItemStyleController
 	rptr<TextItemStyleProvider :: TextItemStyleController> TextItemStyleProvider::TextItemStyleController::CreateRptr(rptr<TextItemStyleProvider> provider)
 	{
 		vl::presentation::controls::list::TextItemStyleProvider* _unwrapped_provider = __GacUIInternal<TextItemStyleProvider>::GetInternalObject(provider);
-		throw 0;
-	}
-	
-	rptr<TextItemStyleProvider :: TextItemStyleController> TextItemStyleProvider::TextItemStyleController::operator=(rptr<TextItemStyleProvider :: TextItemStyleController> value)
-	{
-		vl::presentation::controls::list::TextItemStyleProvider::TextItemStyleController const& _unwrapped_value = *__GacUIInternal<TextItemStyleProvider :: TextItemStyleController>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -20308,12 +19276,6 @@ GuiVirtualTextList
 		throw 0;
 	}
 	
-	rptr<GuiVirtualTextList> GuiVirtualTextList::operator=(rptr<GuiVirtualTextList> value)
-	{
-		vl::presentation::controls::GuiVirtualTextList const& _unwrapped_value = *__GacUIInternal<GuiVirtualTextList>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 TextItemProvider
@@ -20354,12 +19316,6 @@ TextItemProvider
 		throw 0;
 	}
 	
-	rptr<TextItemProvider> TextItemProvider::operator=(rptr<TextItemProvider> value)
-	{
-		vl::presentation::controls::list::TextItemProvider const& _unwrapped_value = *__GacUIInternal<TextItemProvider>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 GuiTextList
@@ -20385,12 +19341,6 @@ GuiTextList
 	{
 		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(_styleProvider);
 		vl::presentation::controls::list::TextItemStyleProvider::ITextItemStyleProvider* _unwrapped__itemStyleProvider = __GacUIInternal<TextItemStyleProvider :: ITextItemStyleProvider>::GetInternalObject(_itemStyleProvider);
-		throw 0;
-	}
-	
-	rptr<GuiTextList> GuiTextList::operator=(rptr<GuiTextList> value)
-	{
-		vl::presentation::controls::GuiTextList const& _unwrapped_value = *__GacUIInternal<GuiTextList>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -20758,12 +19708,6 @@ GuiTextBoxCommonInterface
 		throw 0;
 	}
 	
-	rptr<GuiTextBoxCommonInterface> GuiTextBoxCommonInterface::operator=(rptr<GuiTextBoxCommonInterface> value)
-	{
-		vl::presentation::controls::GuiTextBoxCommonInterface const& _unwrapped_value = *__GacUIInternal<GuiTextBoxCommonInterface>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	rptr<GuiGraphicsComposition> GuiTextBoxCommonInterface::GetTextComposition()
 	{
 		throw 0;
@@ -21048,12 +19992,6 @@ GuiColorizedTextElement
 		IGuiGraphicsElement::ClearInternalObjectReference();
 	}
 	
-	rptr<GuiColorizedTextElement> GuiColorizedTextElement::operator=(rptr<GuiColorizedTextElement> value)
-	{
-		vl::presentation::elements::GuiColorizedTextElement const& _unwrapped_value = *__GacUIInternal<GuiColorizedTextElement>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	rptr<GuiColorizedTextElement> GuiColorizedTextElement::Create()
 	{
 		throw 0;
@@ -21210,12 +20148,6 @@ GuiColorizedTextElement :: ICallback
 		throw 0;
 	}
 	
-	rptr<GuiColorizedTextElement :: ICallback> GuiColorizedTextElement::ICallback::operator=(rptr<GuiColorizedTextElement :: ICallback> value)
-	{
-		vl::presentation::elements::GuiColorizedTextElement::ICallback const& _unwrapped_value = *__GacUIInternal<GuiColorizedTextElement :: ICallback>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 GuiTextElementOperator
@@ -21293,12 +20225,6 @@ GuiTextElementOperator
 	
 	bool GuiTextElementOperator::Paste()
 	{
-		throw 0;
-	}
-	
-	rptr<GuiTextElementOperator> GuiTextElementOperator::operator=(rptr<GuiTextElementOperator> value)
-	{
-		vl::presentation::controls::GuiTextElementOperator const& _unwrapped_value = *__GacUIInternal<GuiTextElementOperator>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -21412,12 +20338,6 @@ GuiTextElementOperator :: ICallback
 		throw 0;
 	}
 	
-	rptr<GuiTextElementOperator :: ICallback> GuiTextElementOperator::ICallback::operator=(rptr<GuiTextElementOperator :: ICallback> value)
-	{
-		vl::presentation::controls::GuiTextElementOperator::ICallback const& _unwrapped_value = *__GacUIInternal<GuiTextElementOperator :: ICallback>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	signed __int32 GuiTextElementOperator::ICallback::GetPageRows()
 	{
 		throw 0;
@@ -21456,12 +20376,6 @@ GuiTextElementOperator :: DefaultCallback
 		throw 0;
 	}
 	
-	rptr<GuiTextElementOperator :: DefaultCallback> GuiTextElementOperator::DefaultCallback::operator=(rptr<GuiTextElementOperator :: DefaultCallback> value)
-	{
-		vl::presentation::controls::GuiTextElementOperator::DefaultCallback const& _unwrapped_value = *__GacUIInternal<GuiTextElementOperator :: DefaultCallback>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 GuiMultilineTextBox
@@ -21488,12 +20402,6 @@ GuiMultilineTextBox
 	rptr<GuiMultilineTextBox> GuiMultilineTextBox::CreateRptr(rptr<GuiScrollView :: IStyleProvider> styleProvider)
 	{
 		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(styleProvider);
-		throw 0;
-	}
-	
-	rptr<GuiMultilineTextBox> GuiMultilineTextBox::operator=(rptr<GuiMultilineTextBox> value)
-	{
-		vl::presentation::controls::GuiMultilineTextBox const& _unwrapped_value = *__GacUIInternal<GuiMultilineTextBox>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -21526,12 +20434,6 @@ GuiMultilineTextBox :: StyleController
 	rptr<GuiMultilineTextBox :: StyleController> GuiMultilineTextBox::StyleController::CreateRptr(rptr<GuiScrollView :: IStyleProvider> styleProvider)
 	{
 		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(styleProvider);
-		throw 0;
-	}
-	
-	rptr<GuiMultilineTextBox :: StyleController> GuiMultilineTextBox::StyleController::operator=(rptr<GuiMultilineTextBox :: StyleController> value)
-	{
-		vl::presentation::controls::GuiMultilineTextBox::StyleController const& _unwrapped_value = *__GacUIInternal<GuiMultilineTextBox :: StyleController>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -21588,12 +20490,6 @@ GuiMultilineTextBox :: TextElementOperatorCallback
 		throw 0;
 	}
 	
-	rptr<GuiMultilineTextBox :: TextElementOperatorCallback> GuiMultilineTextBox::TextElementOperatorCallback::operator=(rptr<GuiMultilineTextBox :: TextElementOperatorCallback> value)
-	{
-		vl::presentation::controls::GuiMultilineTextBox::TextElementOperatorCallback const& _unwrapped_value = *__GacUIInternal<GuiMultilineTextBox :: TextElementOperatorCallback>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 GuiSinglelineTextBox
@@ -21620,12 +20516,6 @@ GuiSinglelineTextBox
 	rptr<GuiSinglelineTextBox> GuiSinglelineTextBox::CreateRptr(rptr<GuiSinglelineTextBox :: IStyleProvider> styleProvider)
 	{
 		vl::presentation::controls::GuiSinglelineTextBox::IStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiSinglelineTextBox :: IStyleProvider>::GetInternalObject(styleProvider);
-		throw 0;
-	}
-	
-	rptr<GuiSinglelineTextBox> GuiSinglelineTextBox::operator=(rptr<GuiSinglelineTextBox> value)
-	{
-		vl::presentation::controls::GuiSinglelineTextBox const& _unwrapped_value = *__GacUIInternal<GuiSinglelineTextBox>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -21661,12 +20551,6 @@ GuiSinglelineTextBox :: IStyleProvider
 		throw 0;
 	}
 	
-	rptr<GuiSinglelineTextBox :: IStyleProvider> GuiSinglelineTextBox::IStyleProvider::operator=(rptr<GuiSinglelineTextBox :: IStyleProvider> value)
-	{
-		vl::presentation::controls::GuiSinglelineTextBox::IStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiSinglelineTextBox :: IStyleProvider>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 GuiSinglelineTextBox :: StyleController
@@ -21696,12 +20580,6 @@ GuiSinglelineTextBox :: StyleController
 	
 	void GuiSinglelineTextBox::StyleController::RearrangeTextElement()
 	{
-		throw 0;
-	}
-	
-	rptr<GuiSinglelineTextBox :: StyleController> GuiSinglelineTextBox::StyleController::operator=(rptr<GuiSinglelineTextBox :: StyleController> value)
-	{
-		vl::presentation::controls::GuiSinglelineTextBox::StyleController const& _unwrapped_value = *__GacUIInternal<GuiSinglelineTextBox :: StyleController>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -21764,12 +20642,6 @@ GuiSinglelineTextBox :: TextElementOperatorCallback
 		throw 0;
 	}
 	
-	rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> GuiSinglelineTextBox::TextElementOperatorCallback::operator=(rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> value)
-	{
-		vl::presentation::controls::GuiSinglelineTextBox::TextElementOperatorCallback const& _unwrapped_value = *__GacUIInternal<GuiSinglelineTextBox :: TextElementOperatorCallback>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 TreeViewItem
@@ -21798,12 +20670,6 @@ TreeViewItem
 	
 	rptr<TreeViewItem> TreeViewItem::CreateRptr()
 	{
-		throw 0;
-	}
-	
-	rptr<TreeViewItem> TreeViewItem::operator=(rptr<TreeViewItem> value)
-	{
-		vl::presentation::controls::tree::TreeViewItem const& _unwrapped_value = *__GacUIInternal<TreeViewItem>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -21853,12 +20719,6 @@ TreeViewItemRootProvider
 		throw 0;
 	}
 	
-	rptr<TreeViewItemRootProvider> TreeViewItemRootProvider::operator=(rptr<TreeViewItemRootProvider> value)
-	{
-		vl::presentation::controls::tree::TreeViewItemRootProvider const& _unwrapped_value = *__GacUIInternal<TreeViewItemRootProvider>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 GuiTreeView
@@ -21889,12 +20749,6 @@ GuiTreeView
 	
 	sptr<TreeViewItemRootProvider> GuiTreeView::Nodes()
 	{
-		throw 0;
-	}
-	
-	rptr<GuiTreeView> GuiTreeView::operator=(rptr<GuiTreeView> value)
-	{
-		vl::presentation::controls::GuiTreeView const& _unwrapped_value = *__GacUIInternal<GuiTreeView>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -21934,12 +20788,6 @@ GuiTreeView :: IStyleProvider
 		throw 0;
 	}
 	
-	rptr<GuiTreeView :: IStyleProvider> GuiTreeView::IStyleProvider::operator=(rptr<GuiTreeView :: IStyleProvider> value)
-	{
-		vl::presentation::controls::GuiTreeView::IStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiTreeView :: IStyleProvider>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	Color GuiTreeView::IStyleProvider::GetTextColor()
 	{
 		throw 0;
@@ -21968,12 +20816,6 @@ TreeViewNodeItemStyleProvider
 	
 	rptr<TreeViewNodeItemStyleProvider> TreeViewNodeItemStyleProvider::CreateRptr()
 	{
-		throw 0;
-	}
-	
-	rptr<TreeViewNodeItemStyleProvider> TreeViewNodeItemStyleProvider::operator=(rptr<TreeViewNodeItemStyleProvider> value)
-	{
-		vl::presentation::controls::tree::TreeViewNodeItemStyleProvider const& _unwrapped_value = *__GacUIInternal<TreeViewNodeItemStyleProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -22284,12 +21126,6 @@ Win7ButtonStyleBase
 		GuiSelectableButton::IStyleController::ClearInternalObjectReference();
 	}
 	
-	rptr<Win7ButtonStyleBase> Win7ButtonStyleBase::operator=(rptr<Win7ButtonStyleBase> value)
-	{
-		vl::presentation::win7::Win7ButtonStyleBase const& _unwrapped_value = *__GacUIInternal<Win7ButtonStyleBase>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	bool Win7ButtonStyleBase::GetTransparentWhenInactive()
 	{
 		throw 0;
@@ -22350,12 +21186,6 @@ Win7ButtonStyle
 		throw 0;
 	}
 	
-	rptr<Win7ButtonStyle> Win7ButtonStyle::operator=(rptr<Win7ButtonStyle> value)
-	{
-		vl::presentation::win7::Win7ButtonStyle const& _unwrapped_value = *__GacUIInternal<Win7ButtonStyle>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 Win7CheckBoxStyle
@@ -22381,12 +21211,6 @@ Win7CheckBoxStyle
 	{
 		vl::presentation::win7::Win7CheckBoxStyle::BulletStyle _unwrapped_bulletStyle = (vl::presentation::win7::Win7CheckBoxStyle::BulletStyle)bulletStyle;
 		bool _unwrapped_backgroundVisible = backgroundVisible;
-		throw 0;
-	}
-	
-	rptr<Win7CheckBoxStyle> Win7CheckBoxStyle::operator=(rptr<Win7CheckBoxStyle> value)
-	{
-		vl::presentation::win7::Win7CheckBoxStyle const& _unwrapped_value = *__GacUIInternal<Win7CheckBoxStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -22418,12 +21242,6 @@ Win7DropDownComboBoxStyle
 		throw 0;
 	}
 	
-	rptr<Win7DropDownComboBoxStyle> Win7DropDownComboBoxStyle::operator=(rptr<Win7DropDownComboBoxStyle> value)
-	{
-		vl::presentation::win7::Win7DropDownComboBoxStyle const& _unwrapped_value = *__GacUIInternal<Win7DropDownComboBoxStyle>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 Win7EmptyStyle
@@ -22448,12 +21266,6 @@ Win7EmptyStyle
 	rptr<Win7EmptyStyle> Win7EmptyStyle::CreateRptr(Color color)
 	{
 		vl::presentation::Color _unwrapped_color = *__GacUIInternal<Color>::GetInternalObject(color);
-		throw 0;
-	}
-	
-	rptr<Win7EmptyStyle> Win7EmptyStyle::operator=(rptr<Win7EmptyStyle> value)
-	{
-		vl::presentation::win7::Win7EmptyStyle const& _unwrapped_value = *__GacUIInternal<Win7EmptyStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -22483,12 +21295,6 @@ Win7GroupBoxStyle
 		throw 0;
 	}
 	
-	rptr<Win7GroupBoxStyle> Win7GroupBoxStyle::operator=(rptr<Win7GroupBoxStyle> value)
-	{
-		vl::presentation::win7::Win7GroupBoxStyle const& _unwrapped_value = *__GacUIInternal<Win7GroupBoxStyle>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 Win7ListViewColumnDropDownStyle
@@ -22512,12 +21318,6 @@ Win7ListViewColumnDropDownStyle
 	
 	rptr<Win7ListViewColumnDropDownStyle> Win7ListViewColumnDropDownStyle::CreateRptr()
 	{
-		throw 0;
-	}
-	
-	rptr<Win7ListViewColumnDropDownStyle> Win7ListViewColumnDropDownStyle::operator=(rptr<Win7ListViewColumnDropDownStyle> value)
-	{
-		vl::presentation::win7::Win7ListViewColumnDropDownStyle const& _unwrapped_value = *__GacUIInternal<Win7ListViewColumnDropDownStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -22547,12 +21347,6 @@ Win7ListViewColumnHeaderStyle
 		throw 0;
 	}
 	
-	rptr<Win7ListViewColumnHeaderStyle> Win7ListViewColumnHeaderStyle::operator=(rptr<Win7ListViewColumnHeaderStyle> value)
-	{
-		vl::presentation::win7::Win7ListViewColumnHeaderStyle const& _unwrapped_value = *__GacUIInternal<Win7ListViewColumnHeaderStyle>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 Win7MenuBarButtonStyle
@@ -22576,12 +21370,6 @@ Win7MenuBarButtonStyle
 	
 	rptr<Win7MenuBarButtonStyle> Win7MenuBarButtonStyle::CreateRptr()
 	{
-		throw 0;
-	}
-	
-	rptr<Win7MenuBarButtonStyle> Win7MenuBarButtonStyle::operator=(rptr<Win7MenuBarButtonStyle> value)
-	{
-		vl::presentation::win7::Win7MenuBarButtonStyle const& _unwrapped_value = *__GacUIInternal<Win7MenuBarButtonStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -22611,12 +21399,6 @@ Win7MenuBarStyle
 		throw 0;
 	}
 	
-	rptr<Win7MenuBarStyle> Win7MenuBarStyle::operator=(rptr<Win7MenuBarStyle> value)
-	{
-		vl::presentation::win7::Win7MenuBarStyle const& _unwrapped_value = *__GacUIInternal<Win7MenuBarStyle>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 Win7MenuItemButtonStyle
@@ -22640,12 +21422,6 @@ Win7MenuItemButtonStyle
 	
 	rptr<Win7MenuItemButtonStyle> Win7MenuItemButtonStyle::CreateRptr()
 	{
-		throw 0;
-	}
-	
-	rptr<Win7MenuItemButtonStyle> Win7MenuItemButtonStyle::operator=(rptr<Win7MenuItemButtonStyle> value)
-	{
-		vl::presentation::win7::Win7MenuItemButtonStyle const& _unwrapped_value = *__GacUIInternal<Win7MenuItemButtonStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -22675,12 +21451,6 @@ Win7MenuSplitterStyle
 		throw 0;
 	}
 	
-	rptr<Win7MenuSplitterStyle> Win7MenuSplitterStyle::operator=(rptr<Win7MenuSplitterStyle> value)
-	{
-		vl::presentation::win7::Win7MenuSplitterStyle const& _unwrapped_value = *__GacUIInternal<Win7MenuSplitterStyle>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 Win7MenuStyle
@@ -22704,12 +21474,6 @@ Win7MenuStyle
 	
 	rptr<Win7MenuStyle> Win7MenuStyle::CreateRptr()
 	{
-		throw 0;
-	}
-	
-	rptr<Win7MenuStyle> Win7MenuStyle::operator=(rptr<Win7MenuStyle> value)
-	{
-		vl::presentation::win7::Win7MenuStyle const& _unwrapped_value = *__GacUIInternal<Win7MenuStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -22737,12 +21501,6 @@ Win7ScrollStyle
 	rptr<Win7ScrollStyle> Win7ScrollStyle::CreateRptr(CommonScrollStyle :: Direction _direction)
 	{
 		vl::presentation::common_styles::CommonScrollStyle::Direction _unwrapped__direction = (vl::presentation::common_styles::CommonScrollStyle::Direction)_direction;
-		throw 0;
-	}
-	
-	rptr<Win7ScrollStyle> Win7ScrollStyle::operator=(rptr<Win7ScrollStyle> value)
-	{
-		vl::presentation::win7::Win7ScrollStyle const& _unwrapped_value = *__GacUIInternal<Win7ScrollStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -22782,12 +21540,6 @@ Win7ScrollViewProvider
 		throw 0;
 	}
 	
-	rptr<Win7ScrollViewProvider> Win7ScrollViewProvider::operator=(rptr<Win7ScrollViewProvider> value)
-	{
-		vl::presentation::win7::Win7ScrollViewProvider const& _unwrapped_value = *__GacUIInternal<Win7ScrollViewProvider>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 Win7MultilineTextBoxProvider
@@ -22811,12 +21563,6 @@ Win7MultilineTextBoxProvider
 	
 	rptr<Win7MultilineTextBoxProvider> Win7MultilineTextBoxProvider::CreateRptr()
 	{
-		throw 0;
-	}
-	
-	rptr<Win7MultilineTextBoxProvider> Win7MultilineTextBoxProvider::operator=(rptr<Win7MultilineTextBoxProvider> value)
-	{
-		vl::presentation::win7::Win7MultilineTextBoxProvider const& _unwrapped_value = *__GacUIInternal<Win7MultilineTextBoxProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -22848,12 +21594,6 @@ Win7ListViewProvider
 		throw 0;
 	}
 	
-	rptr<Win7ListViewProvider> Win7ListViewProvider::operator=(rptr<Win7ListViewProvider> value)
-	{
-		vl::presentation::win7::Win7ListViewProvider const& _unwrapped_value = *__GacUIInternal<Win7ListViewProvider>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 Win7SelectableItemStyle
@@ -22877,12 +21617,6 @@ Win7SelectableItemStyle
 	
 	rptr<Win7SelectableItemStyle> Win7SelectableItemStyle::CreateRptr()
 	{
-		throw 0;
-	}
-	
-	rptr<Win7SelectableItemStyle> Win7SelectableItemStyle::operator=(rptr<Win7SelectableItemStyle> value)
-	{
-		vl::presentation::win7::Win7SelectableItemStyle const& _unwrapped_value = *__GacUIInternal<Win7SelectableItemStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -22912,12 +21646,6 @@ Win7SinglelineTextBoxProvider
 		throw 0;
 	}
 	
-	rptr<Win7SinglelineTextBoxProvider> Win7SinglelineTextBoxProvider::operator=(rptr<Win7SinglelineTextBoxProvider> value)
-	{
-		vl::presentation::win7::Win7SinglelineTextBoxProvider const& _unwrapped_value = *__GacUIInternal<Win7SinglelineTextBoxProvider>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 Win7TabPageHeaderStyle
@@ -22944,12 +21672,6 @@ Win7TabPageHeaderStyle
 		throw 0;
 	}
 	
-	rptr<Win7TabPageHeaderStyle> Win7TabPageHeaderStyle::operator=(rptr<Win7TabPageHeaderStyle> value)
-	{
-		vl::presentation::win7::Win7TabPageHeaderStyle const& _unwrapped_value = *__GacUIInternal<Win7TabPageHeaderStyle>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 Win7TabStyle
@@ -22973,12 +21695,6 @@ Win7TabStyle
 	
 	rptr<Win7TabStyle> Win7TabStyle::CreateRptr()
 	{
-		throw 0;
-	}
-	
-	rptr<Win7TabStyle> Win7TabStyle::operator=(rptr<Win7TabStyle> value)
-	{
-		vl::presentation::win7::Win7TabStyle const& _unwrapped_value = *__GacUIInternal<Win7TabStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -23024,12 +21740,6 @@ Win7TextBoxBackground
 		throw 0;
 	}
 	
-	rptr<Win7TextBoxBackground> Win7TextBoxBackground::operator=(rptr<Win7TextBoxBackground> value)
-	{
-		vl::presentation::win7::Win7TextBoxBackground const& _unwrapped_value = *__GacUIInternal<Win7TextBoxBackground>::GetInternalObject(value);
-		throw 0;
-	}
-	
 	void Win7TextBoxBackground::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
 	{
 		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_value = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(value);
@@ -23068,12 +21778,6 @@ Win7TextListProvider
 		throw 0;
 	}
 	
-	rptr<Win7TextListProvider> Win7TextListProvider::operator=(rptr<Win7TextListProvider> value)
-	{
-		vl::presentation::win7::Win7TextListProvider const& _unwrapped_value = *__GacUIInternal<Win7TextListProvider>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 Win7CheckTextListProvider
@@ -23100,12 +21804,6 @@ Win7CheckTextListProvider
 		throw 0;
 	}
 	
-	rptr<Win7CheckTextListProvider> Win7CheckTextListProvider::operator=(rptr<Win7CheckTextListProvider> value)
-	{
-		vl::presentation::win7::Win7CheckTextListProvider const& _unwrapped_value = *__GacUIInternal<Win7CheckTextListProvider>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 Win7RadioTextListProvider
@@ -23129,12 +21827,6 @@ Win7RadioTextListProvider
 	
 	rptr<Win7RadioTextListProvider> Win7RadioTextListProvider::CreateRptr()
 	{
-		throw 0;
-	}
-	
-	rptr<Win7RadioTextListProvider> Win7RadioTextListProvider::operator=(rptr<Win7RadioTextListProvider> value)
-	{
-		vl::presentation::win7::Win7RadioTextListProvider const& _unwrapped_value = *__GacUIInternal<Win7RadioTextListProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -23165,12 +21857,6 @@ Win7ToolstripButtonStyle
 		throw 0;
 	}
 	
-	rptr<Win7ToolstripButtonStyle> Win7ToolstripButtonStyle::operator=(rptr<Win7ToolstripButtonStyle> value)
-	{
-		vl::presentation::win7::Win7ToolstripButtonStyle const& _unwrapped_value = *__GacUIInternal<Win7ToolstripButtonStyle>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 Win7TrackStyle
@@ -23195,12 +21881,6 @@ Win7TrackStyle
 	rptr<Win7TrackStyle> Win7TrackStyle::CreateRptr(CommonTrackStyle :: Direction _direction)
 	{
 		vl::presentation::common_styles::CommonTrackStyle::Direction _unwrapped__direction = (vl::presentation::common_styles::CommonTrackStyle::Direction)_direction;
-		throw 0;
-	}
-	
-	rptr<Win7TrackStyle> Win7TrackStyle::operator=(rptr<Win7TrackStyle> value)
-	{
-		vl::presentation::win7::Win7TrackStyle const& _unwrapped_value = *__GacUIInternal<Win7TrackStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -23250,12 +21930,6 @@ Win7TreeViewExpandingButtonStyle
 		throw 0;
 	}
 	
-	rptr<Win7TreeViewExpandingButtonStyle> Win7TreeViewExpandingButtonStyle::operator=(rptr<Win7TreeViewExpandingButtonStyle> value)
-	{
-		vl::presentation::win7::Win7TreeViewExpandingButtonStyle const& _unwrapped_value = *__GacUIInternal<Win7TreeViewExpandingButtonStyle>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 Win7TreeViewProvider
@@ -23284,12 +21958,6 @@ Win7TreeViewProvider
 		throw 0;
 	}
 	
-	rptr<Win7TreeViewProvider> Win7TreeViewProvider::operator=(rptr<Win7TreeViewProvider> value)
-	{
-		vl::presentation::win7::Win7TreeViewProvider const& _unwrapped_value = *__GacUIInternal<Win7TreeViewProvider>::GetInternalObject(value);
-		throw 0;
-	}
-	
 
 /***********************************************************************
 Win7WindowStyle
@@ -23313,12 +21981,6 @@ Win7WindowStyle
 	
 	rptr<Win7WindowStyle> Win7WindowStyle::CreateRptr()
 	{
-		throw 0;
-	}
-	
-	rptr<Win7WindowStyle> Win7WindowStyle::operator=(rptr<Win7WindowStyle> value)
-	{
-		vl::presentation::win7::Win7WindowStyle const& _unwrapped_value = *__GacUIInternal<Win7WindowStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	

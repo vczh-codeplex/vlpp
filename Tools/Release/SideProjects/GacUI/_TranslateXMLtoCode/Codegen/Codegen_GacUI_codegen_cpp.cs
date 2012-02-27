@@ -155,7 +155,7 @@ namespace _TranslateXMLtoCode.Codegen
                     End("}");
                     WriteLine("");
 
-                    if (property.PublicGacFieldAccessor.Type.Kind != GacTypeKind.Const && property.PropertyType.Kind != RgacTypeKind.Class)
+                    if (property.PublicGacFieldAccessor.Type.Kind != GacTypeKind.Const && !property.IsNotAssignableClassField)
                     {
                         WriteLine("void {0}set_{1}({2} value)",
                             property.OwnerUDT.Name.Aggregate("", (a, b) => a + b + "::"),

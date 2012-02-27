@@ -214,7 +214,6 @@ Array_of_ColorEntry
 		signed __int32 IndexOf(const ColorEntry& item);
 		void Set(signed __int32 index, const ColorEntry& item);
 		void Resize(signed __int32 size);
-		rptr<Array_of_ColorEntry> operator=(rptr<Array_of_ColorEntry> value);
 		
 	};
 	
@@ -385,8 +384,6 @@ GuiComponent
 		
 		static rptr<GuiComponent> CreateRptr();
 		
-		rptr<GuiComponent> operator=(rptr<GuiComponent> value);
-		
 		rptr<GuiControlHost> GetControlHost();
 		
 	};
@@ -509,8 +506,6 @@ IDescriptable
 		
 		static rptr<IDescriptable> CreateRptr();
 		
-		rptr<IDescriptable> operator=(rptr<IDescriptable> value);
-		
 	};
 	
 
@@ -539,7 +534,6 @@ GuiGraphicsEvent_of_GuiEventArgs
 		bool Attach(sptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> handler);
 		bool Detach(sptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> handler);
 		void Execute(GuiEventArgs& argument);
-		rptr<GuiGraphicsEvent_of_GuiEventArgs> operator=(rptr<GuiGraphicsEvent_of_GuiEventArgs> value);
 		
 		rptr<GuiGraphicsComposition> GetAssociatedComposition();
 		void SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender);
@@ -564,7 +558,6 @@ GuiGraphicsEvent_of_GuiEventArgs :: IHandler
 		
 		public:
 			void Execute(rptr<GuiGraphicsComposition> sender, GuiEventArgs& argument);
-			rptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> operator=(rptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> value);
 			
 		};
 		
@@ -596,7 +589,6 @@ GuiGraphicsEvent_of_GuiRequestEventArgs
 		bool Attach(sptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> handler);
 		bool Detach(sptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> handler);
 		void Execute(GuiRequestEventArgs& argument);
-		rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> operator=(rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> value);
 		
 		rptr<GuiGraphicsComposition> GetAssociatedComposition();
 		void SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender);
@@ -621,7 +613,6 @@ GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler
 		
 		public:
 			void Execute(rptr<GuiGraphicsComposition> sender, GuiRequestEventArgs& argument);
-			rptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> operator=(rptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> value);
 			
 		};
 		
@@ -646,8 +637,6 @@ GuiTabPage
 		virtual ~GuiTabPage();
 	
 	public:
-		
-		rptr<GuiTabPage> operator=(rptr<GuiTabPage> value);
 		
 		rptr<GuiControl> GetContainer();
 		rptr<GuiTab> GetOwnerTab();
@@ -680,7 +669,6 @@ IGuiGraphicsAnimation
 		
 		void Play(signed __int32 currentPosition, signed __int32 totalLength);
 		void Stop();
-		rptr<IGuiGraphicsAnimation> operator=(rptr<IGuiGraphicsAnimation> value);
 		
 		signed __int32 GetTotalLength();
 		signed __int32 GetCurrentPosition();
@@ -712,7 +700,6 @@ GuiGraphicsAnimationManager
 		void AddAnimation(sptr<IGuiGraphicsAnimation> animation);
 		bool HasAnimation();
 		void Play();
-		rptr<GuiGraphicsAnimationManager> operator=(rptr<GuiGraphicsAnimationManager> value);
 		
 	};
 	
@@ -739,7 +726,6 @@ GuiTimeBasedAnimation
 		static rptr<GuiTimeBasedAnimation> CreateRptr(signed __int32 totalMilliseconds);
 		
 		void Restart(signed __int32 totalMilliseconds);
-		rptr<GuiTimeBasedAnimation> operator=(rptr<GuiTimeBasedAnimation> value);
 		
 	};
 	
@@ -764,7 +750,6 @@ IGuiGraphicsElementFactory
 	public:
 		
 		rptr<IGuiGraphicsElement> Create();
-		rptr<IGuiGraphicsElementFactory> operator=(rptr<IGuiGraphicsElementFactory> value);
 		
 		GacString GetElementTypeName();
 		
@@ -789,8 +774,6 @@ IGuiGraphicsElement
 		virtual ~IGuiGraphicsElement();
 	
 	public:
-		
-		rptr<IGuiGraphicsElement> operator=(rptr<IGuiGraphicsElement> value);
 		
 		rptr<IGuiGraphicsElementFactory> GetFactory();
 		rptr<IGuiGraphicsRenderer> GetRenderer();
@@ -818,7 +801,6 @@ Gui3DBorderElement
 	public:
 		
 		void SetColors(Color value1, Color value2);
-		rptr<Gui3DBorderElement> operator=(rptr<Gui3DBorderElement> value);
 		
 		static rptr<Gui3DBorderElement> Create();
 		
@@ -861,7 +843,6 @@ Gui3DSplitterElement
 	public:
 		
 		void SetColors(Color value1, Color value2);
-		rptr<Gui3DSplitterElement> operator=(rptr<Gui3DSplitterElement> value);
 		
 		static rptr<Gui3DSplitterElement> Create();
 		
@@ -908,7 +889,6 @@ GuiGradientBackgroundElement
 	public:
 		
 		void SetColors(Color value1, Color value2);
-		rptr<GuiGradientBackgroundElement> operator=(rptr<GuiGradientBackgroundElement> value);
 		
 		static rptr<GuiGradientBackgroundElement> Create();
 		
@@ -945,7 +925,6 @@ GuiImageFrameElement
 		
 		void SetImage(sptr<INativeImage> _image, signed __int32 _frameIndex);
 		void SetAlignments(Alignment :: Type horizontal, Alignment :: Type vertical);
-		rptr<GuiImageFrameElement> operator=(rptr<GuiImageFrameElement> value);
 		
 		static rptr<GuiImageFrameElement> Create();
 		
@@ -980,8 +959,6 @@ GuiRoundBorderElement
 	
 	public:
 		
-		rptr<GuiRoundBorderElement> operator=(rptr<GuiRoundBorderElement> value);
-		
 		static rptr<GuiRoundBorderElement> Create();
 		
 		Color GetColor();
@@ -1013,8 +990,6 @@ GuiSolidBackgroundElement
 	
 	public:
 		
-		rptr<GuiSolidBackgroundElement> operator=(rptr<GuiSolidBackgroundElement> value);
-		
 		static rptr<GuiSolidBackgroundElement> Create();
 		
 		Color GetColor();
@@ -1045,8 +1020,6 @@ GuiSolidBorderElement
 		virtual ~GuiSolidBorderElement();
 	
 	public:
-		
-		rptr<GuiSolidBorderElement> operator=(rptr<GuiSolidBorderElement> value);
 		
 		static rptr<GuiSolidBorderElement> Create();
 		
@@ -1080,7 +1053,6 @@ GuiSolidLabelElement
 	public:
 		
 		void SetAlignments(Alignment :: Type horizontal, Alignment :: Type vertical);
-		rptr<GuiSolidLabelElement> operator=(rptr<GuiSolidLabelElement> value);
 		
 		static rptr<GuiSolidLabelElement> Create();
 		
@@ -1124,7 +1096,6 @@ IGuiGraphicsRendererFactory
 	public:
 		
 		rptr<IGuiGraphicsRenderer> Create();
-		rptr<IGuiGraphicsRendererFactory> operator=(rptr<IGuiGraphicsRendererFactory> value);
 		
 	};
 	
@@ -1163,7 +1134,6 @@ IGuiMenuService
 		void MenuItemExecuted();
 		void MenuOpened(rptr<GuiMenu> menu);
 		void MenuClosed(rptr<GuiMenu> menu);
-		rptr<IGuiMenuService> operator=(rptr<IGuiMenuService> value);
 		
 		rptr<IGuiMenuService> GetParent();
 		IGuiMenuService :: Direction GetPreferredDirection();
@@ -1196,7 +1166,6 @@ IList_of_int
 		
 		signed __int32 Insert(signed __int32 index, signed __int32 item);
 		bool Set(signed __int32 index, signed __int32 item);
-		rptr<IList_of_int> operator=(rptr<IList_of_int> value);
 		
 	};
 	
@@ -1222,7 +1191,6 @@ IList_of_MemoryNodeProvider
 		
 		signed __int32 Insert(signed __int32 index, sptr<MemoryNodeProvider> item);
 		bool Set(signed __int32 index, sptr<MemoryNodeProvider> item);
-		rptr<IList_of_MemoryNodeProvider> operator=(rptr<IList_of_MemoryNodeProvider> value);
 		
 	};
 	
@@ -1247,7 +1215,6 @@ INativeAsyncService
 	public:
 		
 		bool IsInMainThread();
-		rptr<INativeAsyncService> operator=(rptr<INativeAsyncService> value);
 		
 	};
 	
@@ -1273,7 +1240,6 @@ INativeClipboardService
 		
 		bool ContainsText();
 		bool SetText(const GacString& value);
-		rptr<INativeClipboardService> operator=(rptr<INativeClipboardService> value);
 		
 		GacString GetText();
 		
@@ -1322,7 +1288,6 @@ INativeCursor
 	public:
 		
 		bool IsSystemCursor();
-		rptr<INativeCursor> operator=(rptr<INativeCursor> value);
 		
 		INativeCursor :: SystemCursorType GetSystemCursorType();
 		
@@ -1353,7 +1318,6 @@ INativeImageFrameCache
 		
 		void OnAttach(rptr<INativeImageFrame> frame);
 		void OnDetach(rptr<INativeImageFrame> frame);
-		rptr<INativeImageFrameCache> operator=(rptr<INativeImageFrameCache> value);
 		
 	};
 	
@@ -1378,7 +1342,6 @@ INativeImageService
 	public:
 		
 		sptr<INativeImage> CreateImageFromFile(const GacString& path);
-		rptr<INativeImageService> operator=(rptr<INativeImageService> value);
 		
 	};
 	
@@ -1420,7 +1383,6 @@ INativeImage
 	public:
 		
 		rptr<INativeImageFrame> GetFrame(signed __int32 index);
-		rptr<INativeImage> operator=(rptr<INativeImage> value);
 		
 		rptr<INativeImageService> GetImageService();
 		INativeImage :: FormatType GetFormat();
@@ -1456,7 +1418,6 @@ INativeInputService
 		bool IsTimerEnabled();
 		bool IsKeyPressing(signed __int32 code);
 		bool IsKeyToggled(signed __int32 code);
-		rptr<INativeInputService> operator=(rptr<INativeInputService> value);
 		
 	};
 	
@@ -1481,7 +1442,6 @@ INativeResourceService
 	public:
 		
 		rptr<INativeCursor> GetSystemCursor(INativeCursor :: SystemCursorType type);
-		rptr<INativeResourceService> operator=(rptr<INativeResourceService> value);
 		
 		rptr<INativeCursor> GetDefaultSystemCursor();
 		FontProperties GetDefaultFont();
@@ -1510,7 +1470,6 @@ INodeItemPrimaryTextView
 	public:
 		
 		GacString GetPrimaryTextViewText(rptr<INodeProvider> node);
-		rptr<INodeItemPrimaryTextView> operator=(rptr<INodeItemPrimaryTextView> value);
 		
 		static wchar_t const* get_Identifier();
 		static void set_Identifier(wchar_t const* value);
@@ -1540,7 +1499,6 @@ INodeProvider
 		signed __int32 CalculateTotalVisibleNodes();
 		rptr<INodeProvider> RequestChild(signed __int32 index);
 		void ReleaseChild(rptr<INodeProvider> node);
-		rptr<INodeProvider> operator=(rptr<INodeProvider> value);
 		
 		bool GetExpanding();
 		void SetExpanding(bool value);
@@ -1574,7 +1532,6 @@ INodeProviderCallback
 		void OnAfterItemModified(rptr<INodeProvider> parentNode, signed __int32 start, signed __int32 count, signed __int32 newCount);
 		void OnItemExpanded(rptr<INodeProvider> node);
 		void OnItemCollapsed(rptr<INodeProvider> node);
-		rptr<INodeProviderCallback> operator=(rptr<INodeProviderCallback> value);
 		
 	};
 	
@@ -1604,7 +1561,6 @@ INodeRootProvider
 		bool DetachCallback(rptr<INodeProviderCallback> value);
 		rptr<IDescriptable> RequestView(const GacString& identifier);
 		void ReleaseView(rptr<IDescriptable> view);
-		rptr<INodeRootProvider> operator=(rptr<INodeRootProvider> value);
 		
 		rptr<INodeProvider> GetRootNode();
 		
@@ -1635,7 +1591,6 @@ IReadonlyList_of_ColorEntry
 		const ColorEntry& Get(signed __int32 index);
 		const ColorEntry& operator[](signed __int32 index);
 		signed __int32 IndexOf(const ColorEntry& item);
-		rptr<IReadonlyList_of_ColorEntry> operator=(rptr<IReadonlyList_of_ColorEntry> value);
 		
 	};
 	
@@ -1664,7 +1619,6 @@ IReadonlyList_of_GuiGraphicsComposition_raw_pointer
 		rptr<GuiGraphicsComposition> Get(signed __int32 index);
 		rptr<GuiGraphicsComposition> operator[](signed __int32 index);
 		signed __int32 IndexOf(rptr<GuiGraphicsComposition> item);
-		rptr<IReadonlyList_of_GuiGraphicsComposition_raw_pointer> operator=(rptr<IReadonlyList_of_GuiGraphicsComposition_raw_pointer> value);
 		
 	};
 	
@@ -1693,7 +1647,6 @@ IReadonlyList_of_GuiTabPage_raw_pointer
 		rptr<GuiTabPage> Get(signed __int32 index);
 		rptr<GuiTabPage> operator[](signed __int32 index);
 		signed __int32 IndexOf(rptr<GuiTabPage> item);
-		rptr<IReadonlyList_of_GuiTabPage_raw_pointer> operator=(rptr<IReadonlyList_of_GuiTabPage_raw_pointer> value);
 		
 	};
 	
@@ -1722,7 +1675,6 @@ IReadonlyList_of_int
 		signed __int32 Get(signed __int32 index);
 		signed __int32 operator[](signed __int32 index);
 		signed __int32 IndexOf(signed __int32 item);
-		rptr<IReadonlyList_of_int> operator=(rptr<IReadonlyList_of_int> value);
 		
 	};
 	
@@ -1748,7 +1700,6 @@ ITreeViewItemView
 		
 		sptr<GuiImageData> GetNodeImage(rptr<INodeProvider> node);
 		GacString GetNodeText(rptr<INodeProvider> node);
-		rptr<ITreeViewItemView> operator=(rptr<ITreeViewItemView> value);
 		
 		static wchar_t const* get_Identifier();
 		static void set_Identifier(wchar_t const* value);
@@ -1784,7 +1735,6 @@ List_of_ObjectString_of_wchar_t
 		bool Remove(const GacString& item);
 		bool Set(signed __int32 index, const GacString& item);
 		GacString& operator[](signed __int32 index);
-		rptr<List_of_ObjectString_of_wchar_t> operator=(rptr<List_of_ObjectString_of_wchar_t> value);
 		
 	};
 	
@@ -1842,7 +1792,6 @@ IList_of_ListViewColumn
 		
 		signed __int32 Insert(signed __int32 index, sptr<ListViewColumn> item);
 		bool Set(signed __int32 index, sptr<ListViewColumn> item);
-		rptr<IList_of_ListViewColumn> operator=(rptr<IList_of_ListViewColumn> value);
 		
 	};
 	
@@ -1901,7 +1850,6 @@ IList_of_ListViewItem
 		
 		signed __int32 Insert(signed __int32 index, sptr<ListViewItem> item);
 		bool Set(signed __int32 index, sptr<ListViewItem> item);
-		rptr<IList_of_ListViewItem> operator=(rptr<IList_of_ListViewItem> value);
 		
 	};
 	
@@ -1969,7 +1917,6 @@ MemoryNodeProvider
 		
 		void NotifyDataModified();
 		rptr<IList_of_MemoryNodeProvider> Children();
-		rptr<MemoryNodeProvider> operator=(rptr<MemoryNodeProvider> value);
 		
 		sptr<DescriptableObject> GetData();
 		void SetData(sptr<DescriptableObject> value);
@@ -2062,7 +2009,6 @@ GuiGraphicsEvent_of_GuiCharEventArgs
 		bool Attach(sptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> handler);
 		bool Detach(sptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> handler);
 		void Execute(GuiCharEventArgs& argument);
-		rptr<GuiGraphicsEvent_of_GuiCharEventArgs> operator=(rptr<GuiGraphicsEvent_of_GuiCharEventArgs> value);
 		
 		rptr<GuiGraphicsComposition> GetAssociatedComposition();
 		void SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender);
@@ -2087,7 +2033,6 @@ GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler
 		
 		public:
 			void Execute(rptr<GuiGraphicsComposition> sender, GuiCharEventArgs& argument);
-			rptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> operator=(rptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> value);
 			
 		};
 		
@@ -2179,7 +2124,6 @@ GuiGraphicsEvent_of_GuiKeyEventArgs
 		bool Attach(sptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> handler);
 		bool Detach(sptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> handler);
 		void Execute(GuiKeyEventArgs& argument);
-		rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> operator=(rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> value);
 		
 		rptr<GuiGraphicsComposition> GetAssociatedComposition();
 		void SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender);
@@ -2204,7 +2148,6 @@ GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler
 		
 		public:
 			void Execute(rptr<GuiGraphicsComposition> sender, GuiKeyEventArgs& argument);
-			rptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> operator=(rptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> value);
 			
 		};
 		
@@ -2302,7 +2245,6 @@ GuiGraphicsEvent_of_GuiMouseEventArgs
 		bool Attach(sptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> handler);
 		bool Detach(sptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> handler);
 		void Execute(GuiMouseEventArgs& argument);
-		rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> operator=(rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> value);
 		
 		rptr<GuiGraphicsComposition> GetAssociatedComposition();
 		void SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender);
@@ -2327,7 +2269,6 @@ GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler
 		
 		public:
 			void Execute(rptr<GuiGraphicsComposition> sender, GuiMouseEventArgs& argument);
-			rptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> operator=(rptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> value);
 			
 		};
 		
@@ -2354,8 +2295,6 @@ GuiGraphicsEventReceiver
 	public:
 		
 		static rptr<GuiGraphicsEventReceiver> CreateRptr(rptr<GuiGraphicsComposition> _sender);
-		
-		rptr<GuiGraphicsEventReceiver> operator=(rptr<GuiGraphicsEventReceiver> value);
 		
 		rptr<GuiGraphicsComposition> GetAssociatedComposition();
 		rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> on_leftButtonDown();
@@ -2407,8 +2346,6 @@ NodeRootProviderBase
 		
 		static rptr<NodeRootProviderBase> CreateRptr();
 		
-		rptr<NodeRootProviderBase> operator=(rptr<NodeRootProviderBase> value);
-		
 	};
 	
 
@@ -2432,8 +2369,6 @@ MemoryNodeRootProvider
 	public:
 		
 		static rptr<MemoryNodeRootProvider> CreateRptr();
-		
-		rptr<MemoryNodeRootProvider> operator=(rptr<MemoryNodeRootProvider> value);
 		
 	};
 	
@@ -2503,7 +2438,6 @@ INativeControllerListener
 		void ClipboardUpdated();
 		void NativeWindowCreated(rptr<INativeWindow> window);
 		void NativeWindowDestroying(rptr<INativeWindow> window);
-		rptr<INativeControllerListener> operator=(rptr<INativeControllerListener> value);
 		
 	};
 	
@@ -2529,7 +2463,6 @@ INativeCallbackService
 		
 		bool InstallListener(rptr<INativeControllerListener> listener);
 		bool UninstallListener(rptr<INativeControllerListener> listener);
-		rptr<INativeCallbackService> operator=(rptr<INativeCallbackService> value);
 		
 	};
 	
@@ -2557,7 +2490,6 @@ INativeWindowService
 		void DestroyNativeWindow(rptr<INativeWindow> window);
 		rptr<INativeWindow> GetWindow(Point location);
 		void Run(rptr<INativeWindow> window);
-		rptr<INativeWindowService> operator=(rptr<INativeWindowService> value);
 		
 		rptr<INativeWindow> GetMainWindow();
 		
@@ -2619,7 +2551,6 @@ GuiPolygonElement
 	public:
 		
 		void SetPoints(Point const* p, signed __int32 count);
-		rptr<GuiPolygonElement> operator=(rptr<GuiPolygonElement> value);
 		
 		static rptr<GuiPolygonElement> Create();
 		
@@ -2659,7 +2590,6 @@ INativeImageFrame
 		bool SetCache(void* key, sptr<INativeImageFrameCache> cache);
 		sptr<INativeImageFrameCache> GetCache(void* key);
 		sptr<INativeImageFrameCache> RemoveCache(void* key);
-		rptr<INativeImageFrame> operator=(rptr<INativeImageFrame> value);
 		
 		rptr<INativeImage> GetImage();
 		Size GetSize();
@@ -2746,7 +2676,6 @@ IGuiGraphicsRenderTarget
 		void PushClipper(Rect clipper);
 		void PopClipper();
 		bool IsClipperCoverWholeTarget();
-		rptr<IGuiGraphicsRenderTarget> operator=(rptr<IGuiGraphicsRenderTarget> value);
 		
 		Rect GetClipper();
 		
@@ -2773,7 +2702,6 @@ CharMeasurer
 	public:
 		
 		signed __int32 MeasureWidth(wchar_t character);
-		rptr<CharMeasurer> operator=(rptr<CharMeasurer> value);
 		void SetRenderTarget(rptr<IGuiGraphicsRenderTarget> value);
 		
 		signed __int32 GetRowHeight();
@@ -2805,7 +2733,6 @@ GuiGraphicsResourceManager
 		rptr<IGuiGraphicsElementFactory> GetElementFactory(const GacString& elementTypeName);
 		rptr<IGuiGraphicsRendererFactory> GetRendererFactory(const GacString& elementTypeName);
 		rptr<IGuiGraphicsRenderTarget> GetRenderTarget(rptr<INativeWindow> window);
-		rptr<GuiGraphicsResourceManager> operator=(rptr<GuiGraphicsResourceManager> value);
 		
 	};
 	
@@ -2833,7 +2760,6 @@ IGuiGraphicsRenderer
 		void Finalize();
 		void Render(Rect bounds);
 		void OnElementStateChanged();
-		rptr<IGuiGraphicsRenderer> operator=(rptr<IGuiGraphicsRenderer> value);
 		void SetRenderTarget(rptr<IGuiGraphicsRenderTarget> _renderTarget);
 		
 		rptr<IGuiGraphicsRendererFactory> GetFactory();
@@ -2862,7 +2788,6 @@ INativeScreen
 	public:
 		
 		bool IsPrimary();
-		rptr<INativeScreen> operator=(rptr<INativeScreen> value);
 		
 		Rect GetBounds();
 		Rect GetClientBounds();
@@ -2892,7 +2817,6 @@ INativeScreenService
 		
 		rptr<INativeScreen> GetScreen(rptr<INativeWindow> window);
 		rptr<INativeScreen> GetScreen(signed __int32 index);
-		rptr<INativeScreenService> operator=(rptr<INativeScreenService> value);
 		
 		signed __int32 GetScreenCount();
 		
@@ -2926,7 +2850,6 @@ INativeController
 		rptr<INativeScreenService> ScreenService();
 		rptr<INativeWindowService> WindowService();
 		rptr<INativeInputService> InputService();
-		rptr<INativeController> operator=(rptr<INativeController> value);
 		
 	};
 	
@@ -2985,7 +2908,6 @@ INativeWindowListener
 		void SysKeyDown(const NativeWindowKeyInfo& info);
 		void SysKeyUp(const NativeWindowKeyInfo& info);
 		void Char(const NativeWindowCharInfo& info);
-		rptr<INativeWindowListener> operator=(rptr<INativeWindowListener> value);
 		
 	};
 	
@@ -3014,7 +2936,6 @@ GuiGraphicsHost
 		void Render();
 		bool SetFocus(rptr<GuiGraphicsComposition> composition);
 		void SetCaretPoint(Point value, rptr<GuiGraphicsComposition> referenceComposition);
-		rptr<GuiGraphicsHost> operator=(rptr<GuiGraphicsHost> value);
 		
 		rptr<INativeWindow> GetNativeWindow();
 		void SetNativeWindow(rptr<INativeWindow> _nativeWindow);
@@ -3081,7 +3002,6 @@ GuiGraphicsComposition
 		bool HasEventReceiver();
 		rptr<GuiGraphicsComposition> FindComposition(Point location);
 		bool IsSizeAffectParent();
-		rptr<GuiGraphicsComposition> operator=(rptr<GuiGraphicsComposition> value);
 		
 		rptr<GuiGraphicsComposition> GetParent();
 		sptr<IGuiGraphicsElement> GetOwnedElement();
@@ -3138,8 +3058,6 @@ GuiGraphicsSite
 		
 		static rptr<GuiGraphicsSite> CreateRptr();
 		
-		rptr<GuiGraphicsSite> operator=(rptr<GuiGraphicsSite> value);
-		
 	};
 	
 
@@ -3166,7 +3084,6 @@ GuiBoundsComposition
 		
 		void ClearAlignmentToParent();
 		bool IsAlignedToParent();
-		rptr<GuiBoundsComposition> operator=(rptr<GuiBoundsComposition> value);
 		void SetBounds(Rect value);
 		
 		Margin GetAlignmentToParent();
@@ -3198,7 +3115,6 @@ GuiCellComposition
 		static rptr<GuiCellComposition> CreateRptr();
 		
 		bool SetSite(signed __int32 _row, signed __int32 _column, signed __int32 _rowSpan, signed __int32 _columnSpan);
-		rptr<GuiCellComposition> operator=(rptr<GuiCellComposition> value);
 		
 		rptr<GuiTableComposition> GetTableParent();
 		signed __int32 GetRow();
@@ -3234,7 +3150,6 @@ GuiControl
 		
 		rptr<GuiControl> GetChild(signed __int32 index);
 		rptr<IDescriptable> QueryService(const GacString& identifier);
-		rptr<GuiControl> operator=(rptr<GuiControl> value);
 		
 		GuiEventArgs GetNotifyEventArguments();
 		rptr<GuiControl :: IStyleController> GetStyleController();
@@ -3279,7 +3194,6 @@ GuiControl :: IStyleController
 			virtual ~IStyleController();
 		
 		public:
-			rptr<GuiControl :: IStyleController> operator=(rptr<GuiControl :: IStyleController> value);
 			void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
 			void SetText(const GacString& value);
 			void SetFont(const FontProperties& value);
@@ -3310,7 +3224,6 @@ GuiControl :: IStyleProvider
 		
 		public:
 			void AssociateStyleController(rptr<GuiControl :: IStyleController> controller);
-			rptr<GuiControl :: IStyleProvider> operator=(rptr<GuiControl :: IStyleProvider> value);
 			void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
 			void SetText(const GacString& value);
 			void SetFont(const FontProperties& value);
@@ -3355,8 +3268,6 @@ GuiButton
 		
 		static rptr<GuiButton> CreateRptr(rptr<GuiButton :: IStyleController> _styleController);
 		
-		rptr<GuiButton> operator=(rptr<GuiButton> value);
-		
 		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_Clicked();
 		
 
@@ -3379,7 +3290,6 @@ GuiButton :: IStyleController
 		
 		public:
 			void Transfer(GuiButton :: ControlState value);
-			rptr<GuiButton :: IStyleController> operator=(rptr<GuiButton :: IStyleController> value);
 			
 		};
 		
@@ -3420,7 +3330,6 @@ GuiControlHost
 		void ShowMinimized();
 		void Hide();
 		void Close();
-		rptr<GuiControlHost> operator=(rptr<GuiControlHost> value);
 		
 		rptr<GuiGraphicsHost> GetGraphicsHost();
 		rptr<GuiGraphicsComposition> GetMainComposition();
@@ -3485,8 +3394,6 @@ GuiMenuBar
 		
 		static rptr<GuiMenuBar> CreateRptr(rptr<GuiControl :: IStyleController> _styleController);
 		
-		rptr<GuiMenuBar> operator=(rptr<GuiMenuBar> value);
-		
 	};
 	
 
@@ -3515,7 +3422,6 @@ GuiMenuButton
 		bool IsSubMenuExists();
 		void CreateSubMenu(rptr<GuiControl :: IStyleController> subMenuStyleController);
 		void DestroySubMenu();
-		rptr<GuiMenuButton> operator=(rptr<GuiMenuButton> value);
 		
 		rptr<GuiMenu> GetSubMenu();
 		bool GetSubMenuOpening();
@@ -3544,7 +3450,6 @@ GuiMenuButton :: IStyleController
 		
 		public:
 			rptr<GuiControl :: IStyleController> CreateSubMenuStyleController();
-			rptr<GuiMenuButton :: IStyleController> operator=(rptr<GuiMenuButton :: IStyleController> value);
 			void SetSubMenuExisting(bool value);
 			void SetSubMenuOpening(bool value);
 			
@@ -3573,8 +3478,6 @@ GuiPartialViewComposition
 	public:
 		
 		static rptr<GuiPartialViewComposition> CreateRptr();
-		
-		rptr<GuiPartialViewComposition> operator=(rptr<GuiPartialViewComposition> value);
 		
 		double GetWidthRatio();
 		void SetWidthRatio(double value);
@@ -3610,8 +3513,6 @@ GuiScroll
 		class IStyleController;
 		
 		static rptr<GuiScroll> CreateRptr(rptr<GuiScroll :: IStyleController> _styleController);
-		
-		rptr<GuiScroll> operator=(rptr<GuiScroll> value);
 		
 		signed __int32 GetTotalSize();
 		void SetTotalSize(signed __int32 value);
@@ -3654,7 +3555,6 @@ GuiScroll :: ICommandExecutor
 			void SmallIncrease();
 			void BigDecrease();
 			void BigIncrease();
-			rptr<GuiScroll :: ICommandExecutor> operator=(rptr<GuiScroll :: ICommandExecutor> value);
 			void SetTotalSize(signed __int32 value);
 			void SetPageSize(signed __int32 value);
 			void SetPosition(signed __int32 value);
@@ -3680,7 +3580,6 @@ GuiScroll :: IStyleController
 			virtual ~IStyleController();
 		
 		public:
-			rptr<GuiScroll :: IStyleController> operator=(rptr<GuiScroll :: IStyleController> value);
 			void SetCommandExecutor(rptr<GuiScroll :: ICommandExecutor> value);
 			void SetTotalSize(signed __int32 value);
 			void SetPageSize(signed __int32 value);
@@ -3721,8 +3620,6 @@ CommonScrollStyle
 	
 	public:
 		
-		rptr<CommonScrollStyle> operator=(rptr<CommonScrollStyle> value);
-		
 	};
 	
 
@@ -3756,8 +3653,6 @@ CommonTrackStyle
 	
 	public:
 		
-		rptr<CommonTrackStyle> operator=(rptr<CommonTrackStyle> value);
-		
 	};
 	
 
@@ -3783,7 +3678,6 @@ GuiScrollView
 		class StyleController;
 		
 		void CalculateView();
-		rptr<GuiScrollView> operator=(rptr<GuiScrollView> value);
 		
 		Size GetViewSize();
 		Rect GetViewBounds();
@@ -3816,7 +3710,6 @@ GuiScrollView :: IStyleProvider
 			rptr<GuiScroll :: IStyleController> CreateHorizontalScrollStyle();
 			rptr<GuiScroll :: IStyleController> CreateVerticalScrollStyle();
 			rptr<GuiGraphicsComposition> InstallBackground(rptr<GuiBoundsComposition> boundsComposition);
-			rptr<GuiScrollView :: IStyleProvider> operator=(rptr<GuiScrollView :: IStyleProvider> value);
 			
 			signed __int32 GetDefaultScrollSize();
 			
@@ -3844,7 +3737,6 @@ GuiScrollView :: StyleController
 			static rptr<GuiScrollView :: StyleController> CreateRptr(rptr<GuiScrollView :: IStyleProvider> _styleProvider);
 			
 			void AdjustView(Size fullSize);
-			rptr<GuiScrollView :: StyleController> operator=(rptr<GuiScrollView :: StyleController> value);
 			void SetScrollView(rptr<GuiScrollView> _scrollView);
 			
 			rptr<GuiScrollView :: IStyleProvider> GetStyleProvider();
@@ -3894,7 +3786,6 @@ GuiListControl
 		sptr<GuiListControl :: IItemStyleProvider> SetStyleProvider(sptr<GuiListControl :: IItemStyleProvider> value);
 		sptr<GuiListControl :: IItemArranger> SetArranger(sptr<GuiListControl :: IItemArranger> value);
 		sptr<GuiListControl :: IItemCoordinateTransformer> SetCoordinateTransformer(sptr<GuiListControl :: IItemCoordinateTransformer> value);
-		rptr<GuiListControl> operator=(rptr<GuiListControl> value);
 		
 		rptr<GuiListControl :: IItemProvider> GetItemProvider();
 		rptr<GuiListControl :: IItemStyleProvider> GetStyleProvider();
@@ -3929,7 +3820,6 @@ GuiListControl :: IItemArrangerCallback
 			void SetStyleAlignmentToParent(rptr<GuiListControl :: IItemStyleController> style, Margin margin);
 			void SetStyleBounds(rptr<GuiListControl :: IItemStyleController> style, Rect bounds);
 			void OnTotalSizeChanged();
-			rptr<GuiListControl :: IItemArrangerCallback> operator=(rptr<GuiListControl :: IItemArrangerCallback> value);
 			void SetViewLocation(Point value);
 			
 			rptr<GuiGraphicsComposition> GetContainerComposition();
@@ -3963,7 +3853,6 @@ GuiListControl :: IItemCoordinateTransformer
 			Rect VirtualRectToRealRect(Size realFullSize, Rect rect);
 			Margin RealMarginToVirtualMargin(Margin margin);
 			Margin VirtualMarginToRealMargin(Margin margin);
-			rptr<GuiListControl :: IItemCoordinateTransformer> operator=(rptr<GuiListControl :: IItemCoordinateTransformer> value);
 			
 		};
 		
@@ -3988,7 +3877,6 @@ GuiListControl :: IItemPrimaryTextView
 		public:
 			GacString GetPrimaryTextViewText(signed __int32 itemIndex);
 			bool ContainsPrimaryText(signed __int32 itemIndex);
-			rptr<GuiListControl :: IItemPrimaryTextView> operator=(rptr<GuiListControl :: IItemPrimaryTextView> value);
 			
 			static wchar_t const* get_Identifier();
 			static void set_Identifier(wchar_t const* value);
@@ -4019,7 +3907,6 @@ GuiListControl :: IItemProvider
 			signed __int32 Count();
 			rptr<IDescriptable> RequestView(const GacString& identifier);
 			void ReleaseView(rptr<IDescriptable> view);
-			rptr<GuiListControl :: IItemProvider> operator=(rptr<GuiListControl :: IItemProvider> value);
 			
 		};
 		
@@ -4044,7 +3931,6 @@ GuiListControl :: IItemProviderCallback
 		public:
 			void OnAttached(rptr<GuiListControl :: IItemProvider> provider);
 			void OnItemModified(signed __int32 start, signed __int32 count, signed __int32 newCount);
-			rptr<GuiListControl :: IItemProviderCallback> operator=(rptr<GuiListControl :: IItemProviderCallback> value);
 			
 		};
 		
@@ -4072,7 +3958,6 @@ GuiListControl :: IItemArranger
 			rptr<GuiListControl :: IItemStyleController> GetVisibleStyle(signed __int32 itemIndex);
 			signed __int32 GetVisibleIndex(rptr<GuiListControl :: IItemStyleController> style);
 			void OnViewChanged(Rect bounds);
-			rptr<GuiListControl :: IItemArranger> operator=(rptr<GuiListControl :: IItemArranger> value);
 			
 			rptr<GuiListControl :: IItemArrangerCallback> GetCallback();
 			void SetCallback(rptr<GuiListControl :: IItemArrangerCallback> value);
@@ -4103,7 +3988,6 @@ GuiListControl :: IItemStyleController
 			bool IsInstalled();
 			void OnInstalled();
 			void OnUninstalled();
-			rptr<GuiListControl :: IItemStyleController> operator=(rptr<GuiListControl :: IItemStyleController> value);
 			
 			rptr<GuiListControl :: IItemStyleProvider> GetStyleProvider();
 			signed __int32 GetItemStyleId();
@@ -4136,7 +4020,6 @@ GuiListControl :: IItemStyleProvider
 			rptr<GuiListControl :: IItemStyleController> CreateItemStyle(signed __int32 styleId);
 			void DestroyItemStyle(rptr<GuiListControl :: IItemStyleController> style);
 			void Install(rptr<GuiListControl :: IItemStyleController> style, signed __int32 itemIndex);
-			rptr<GuiListControl :: IItemStyleProvider> operator=(rptr<GuiListControl :: IItemStyleProvider> value);
 			
 		};
 		
@@ -4181,8 +4064,6 @@ AxisAlignedItemCoordinateTransformer
 		
 		static rptr<AxisAlignedItemCoordinateTransformer> CreateRptr(AxisAlignedItemCoordinateTransformer :: Alignment _alignment);
 		
-		rptr<AxisAlignedItemCoordinateTransformer> operator=(rptr<AxisAlignedItemCoordinateTransformer> value);
-		
 		AxisAlignedItemCoordinateTransformer :: Alignment GetAlignment();
 		
 	};
@@ -4209,8 +4090,6 @@ DefaultItemCoordinateTransformer
 		
 		static rptr<DefaultItemCoordinateTransformer> CreateRptr();
 		
-		rptr<DefaultItemCoordinateTransformer> operator=(rptr<DefaultItemCoordinateTransformer> value);
-		
 	};
 	
 
@@ -4236,8 +4115,6 @@ GuiScrollContainer
 		
 		static rptr<GuiScrollContainer> CreateRptr(rptr<GuiScrollView :: IStyleProvider> styleProvider);
 		
-		rptr<GuiScrollContainer> operator=(rptr<GuiScrollContainer> value);
-		
 
 /***********************************************************************
 GuiScrollContainer :: StyleController
@@ -4260,7 +4137,6 @@ GuiScrollContainer :: StyleController
 			static rptr<GuiScrollContainer :: StyleController> CreateRptr(rptr<GuiScrollView :: IStyleProvider> styleProvider);
 			
 			void MoveContainer(Point leftTop);
-			rptr<GuiScrollContainer :: StyleController> operator=(rptr<GuiScrollContainer :: StyleController> value);
 			
 		};
 		
@@ -4290,8 +4166,6 @@ GuiSelectableButton
 		class MutexGroupController;
 		
 		static rptr<GuiSelectableButton> CreateRptr(rptr<GuiSelectableButton :: IStyleController> _styleController);
-		
-		rptr<GuiSelectableButton> operator=(rptr<GuiSelectableButton> value);
 		
 		rptr<GuiSelectableButton :: GroupController> GetGroupController();
 		void SetGroupController(rptr<GuiSelectableButton :: GroupController> value);
@@ -4325,7 +4199,6 @@ GuiSelectableButton :: GroupController
 			void Attach(rptr<GuiSelectableButton> button);
 			void Detach(rptr<GuiSelectableButton> button);
 			void OnSelectedChanged(rptr<GuiSelectableButton> button);
-			rptr<GuiSelectableButton :: GroupController> operator=(rptr<GuiSelectableButton :: GroupController> value);
 			
 		};
 		
@@ -4348,7 +4221,6 @@ GuiSelectableButton :: IStyleController
 			virtual ~IStyleController();
 		
 		public:
-			rptr<GuiSelectableButton :: IStyleController> operator=(rptr<GuiSelectableButton :: IStyleController> value);
 			void SetSelected(bool value);
 			
 		};
@@ -4373,8 +4245,6 @@ GuiSelectableButton :: MutexGroupController
 		
 		public:
 			static rptr<GuiSelectableButton :: MutexGroupController> CreateRptr();
-			
-			rptr<GuiSelectableButton :: MutexGroupController> operator=(rptr<GuiSelectableButton :: MutexGroupController> value);
 			
 		};
 		
@@ -4406,7 +4276,6 @@ GuiSelectableListControl
 		bool GetSelected(signed __int32 itemIndex);
 		void SetSelected(signed __int32 itemIndex, bool value);
 		void ClearSelection();
-		rptr<GuiSelectableListControl> operator=(rptr<GuiSelectableListControl> value);
 		
 		bool GetMultiSelect();
 		void SetMultiSelect(bool value);
@@ -4433,7 +4302,6 @@ GuiSelectableListControl :: IItemStyleProvider
 		
 		public:
 			void SetStyleSelected(rptr<GuiListControl :: IItemStyleController> style, bool value);
-			rptr<GuiSelectableListControl :: IItemStyleProvider> operator=(rptr<GuiSelectableListControl :: IItemStyleProvider> value);
 			
 		};
 		
@@ -4462,8 +4330,6 @@ GuiListViewBase
 		
 		static rptr<GuiListViewBase> CreateRptr(rptr<GuiListViewBase :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider);
 		
-		rptr<GuiListViewBase> operator=(rptr<GuiListViewBase> value);
-		
 		rptr<GuiListViewBase :: IStyleProvider> GetListViewStyleProvider();
 		
 
@@ -4487,7 +4353,6 @@ GuiListViewBase :: IStyleProvider
 		public:
 			rptr<GuiSelectableButton :: IStyleController> CreateItemBackground();
 			rptr<GuiSelectableButton :: IStyleController> CreateColumnStyle();
-			rptr<GuiListViewBase :: IStyleProvider> operator=(rptr<GuiListViewBase :: IStyleProvider> value);
 			
 			Color GetPrimaryTextColor();
 			Color GetSecondaryTextColor();
@@ -4532,8 +4397,6 @@ GuiSideAlignedComposition
 		
 		static rptr<GuiSideAlignedComposition> CreateRptr();
 		
-		rptr<GuiSideAlignedComposition> operator=(rptr<GuiSideAlignedComposition> value);
-		
 		GuiSideAlignedComposition :: Direction GetDirection();
 		void SetDirection(GuiSideAlignedComposition :: Direction value);
 		signed __int32 GetMaxLength();
@@ -4565,7 +4428,6 @@ GuiStackItemComposition
 		
 		static rptr<GuiStackItemComposition> CreateRptr();
 		
-		rptr<GuiStackItemComposition> operator=(rptr<GuiStackItemComposition> value);
 		void SetBounds(Rect value);
 		
 		Margin GetExtraMargin();
@@ -4602,7 +4464,6 @@ GuiTab
 		bool RemovePage(rptr<GuiTabPage> value);
 		bool MovePage(rptr<GuiTabPage> page, signed __int32 newIndex);
 		bool SetSelectedPage(rptr<GuiTabPage> value);
-		rptr<GuiTab> operator=(rptr<GuiTab> value);
 		
 		rptr<IReadonlyList_of_GuiTabPage_raw_pointer> GetPages();
 		rptr<GuiTabPage> GetSelectedPage();
@@ -4628,7 +4489,6 @@ GuiTab :: ICommandExecutor
 		
 		public:
 			void ShowTab(signed __int32 index);
-			rptr<GuiTab :: ICommandExecutor> operator=(rptr<GuiTab :: ICommandExecutor> value);
 			
 		};
 		
@@ -4656,7 +4516,6 @@ GuiTab :: IStyleController
 			void RemoveTab(signed __int32 index);
 			void MoveTab(signed __int32 oldIndex, signed __int32 newIndex);
 			rptr<GuiControl :: IStyleController> CreateTabPageStyleController();
-			rptr<GuiTab :: IStyleController> operator=(rptr<GuiTab :: IStyleController> value);
 			void SetCommandExecutor(rptr<GuiTab :: ICommandExecutor> value);
 			void SetSelectedTab(signed __int32 index);
 			
@@ -4693,7 +4552,6 @@ GuiTableComposition
 		GuiCellOption GetColumnOption(signed __int32 _column);
 		void SetColumnOption(signed __int32 _column, GuiCellOption option);
 		void UpdateCellBounds();
-		rptr<GuiTableComposition> operator=(rptr<GuiTableComposition> value);
 		
 		signed __int32 GetRows();
 		signed __int32 GetColumns();
@@ -4725,8 +4583,6 @@ GuiWindow
 		
 		static rptr<GuiWindow> CreateRptr(rptr<GuiControl :: IStyleController> _styleController);
 		
-		rptr<GuiWindow> operator=(rptr<GuiWindow> value);
-		
 	};
 	
 
@@ -4754,7 +4610,6 @@ GuiPopup
 		bool IsClippedByScreen(Point location);
 		void ShowPopup(rptr<GuiControl> control, bool preferredTopBottomSide);
 		void ShowPopup(Point location);
-		rptr<GuiPopup> operator=(rptr<GuiPopup> value);
 		
 	};
 	
@@ -4783,7 +4638,6 @@ GuiComboBoxBase
 		static rptr<GuiComboBoxBase> CreateRptr(rptr<GuiComboBoxBase :: IStyleController> _styleController);
 		
 		void ShowPopup();
-		rptr<GuiComboBoxBase> operator=(rptr<GuiComboBoxBase> value);
 		
 		rptr<GuiPopup> GetPopup();
 		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_PopupOpened();
@@ -4812,7 +4666,6 @@ GuiComboBoxBase :: ICommandExecutor
 		public:
 			void ShowPopup();
 			void SelectItem();
-			rptr<GuiComboBoxBase :: ICommandExecutor> operator=(rptr<GuiComboBoxBase :: ICommandExecutor> value);
 			
 		};
 		
@@ -4840,7 +4693,6 @@ GuiComboBoxBase :: IStyleController
 			void OnPopupClosed();
 			void OnItemSelected();
 			rptr<GuiControl :: IStyleController> CreatePopupStyle();
-			rptr<GuiComboBoxBase :: IStyleController> operator=(rptr<GuiComboBoxBase :: IStyleController> value);
 			void SetCommandExecutor(rptr<GuiComboBoxBase :: ICommandExecutor> value);
 			
 		};
@@ -4868,8 +4720,6 @@ GuiComboBoxListControl
 	public:
 		
 		static rptr<GuiComboBoxListControl> CreateRptr(rptr<GuiComboBoxBase :: IStyleController> _styleController, rptr<GuiSelectableListControl> _containedListControl);
-		
-		rptr<GuiComboBoxListControl> operator=(rptr<GuiComboBoxListControl> value);
 		
 		rptr<GuiSelectableListControl> GetContainedListControl();
 		signed __int32 GetSelectedIndex();
@@ -4902,7 +4752,6 @@ GuiMenu
 		static rptr<GuiMenu> CreateRptr(rptr<GuiControl :: IStyleController> _styleController, rptr<GuiControl> _owner);
 		
 		void UpdateMenuService();
-		rptr<GuiMenu> operator=(rptr<GuiMenu> value);
 		
 	};
 	
@@ -4927,8 +4776,6 @@ GuiWindowComposition
 	public:
 		
 		static rptr<GuiWindowComposition> CreateRptr();
-		
-		rptr<GuiWindowComposition> operator=(rptr<GuiWindowComposition> value);
 		
 		rptr<INativeWindow> GetAttachedWindow();
 		void SetAttachedWindow(rptr<INativeWindow> window);
@@ -4980,7 +4827,6 @@ INativeWindow
 		bool InstallListener(rptr<INativeWindowListener> listener);
 		bool UninstallListener(rptr<INativeWindowListener> listener);
 		void RedrawContent();
-		rptr<INativeWindow> operator=(rptr<INativeWindow> value);
 		
 		Rect GetBounds();
 		void SetBounds(const Rect& bounds);
@@ -5034,8 +4880,6 @@ INodeItemStyleController
 	
 	public:
 		
-		rptr<INodeItemStyleController> operator=(rptr<INodeItemStyleController> value);
-		
 		rptr<INodeItemStyleProvider> GetNodeStyleProvider();
 		
 	};
@@ -5068,7 +4912,6 @@ INodeItemStyleProvider
 		void DestroyItemStyle(rptr<INodeItemStyleController> style);
 		void Install(rptr<INodeItemStyleController> style, rptr<INodeProvider> node);
 		void SetStyleSelected(rptr<INodeItemStyleController> style, bool value);
-		rptr<INodeItemStyleProvider> operator=(rptr<INodeItemStyleProvider> value);
 		
 		rptr<GuiListControl :: IItemStyleProvider> GetBindedItemStyleProvider();
 		
@@ -5097,7 +4940,6 @@ INodeItemView
 		rptr<INodeProvider> RequestNode(signed __int32 index);
 		void ReleaseNode(rptr<INodeProvider> node);
 		signed __int32 CalculateNodeVisibilityIndex(rptr<INodeProvider> node);
-		rptr<INodeItemView> operator=(rptr<INodeItemView> value);
 		
 		static wchar_t const* get_Identifier();
 		static void set_Identifier(wchar_t const* value);
@@ -5127,7 +4969,6 @@ GuiVirtualTreeListControl
 		static rptr<GuiVirtualTreeListControl> CreateRptr(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<INodeRootProvider> _nodeRootProvider);
 		
 		sptr<INodeItemStyleProvider> SetNodeStyleProvider(sptr<INodeItemStyleProvider> styleProvider);
-		rptr<GuiVirtualTreeListControl> operator=(rptr<GuiVirtualTreeListControl> value);
 		
 		rptr<INodeItemView> GetNodeItemView();
 		rptr<INodeRootProvider> GetNodeRootProvider();
@@ -5160,7 +5001,6 @@ IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer
 		rptr<GuiListControl :: IItemStyleController> Get(signed __int32 index);
 		rptr<GuiListControl :: IItemStyleController> operator[](signed __int32 index);
 		signed __int32 IndexOf(rptr<GuiListControl :: IItemStyleController> item);
-		rptr<IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer> operator=(rptr<IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer> value);
 		
 	};
 	
@@ -5189,7 +5029,6 @@ IReadonlyList_of_GuiStackItemComposition_raw_pointer
 		rptr<GuiStackItemComposition> Get(signed __int32 index);
 		rptr<GuiStackItemComposition> operator[](signed __int32 index);
 		signed __int32 IndexOf(rptr<GuiStackItemComposition> item);
-		rptr<IReadonlyList_of_GuiStackItemComposition_raw_pointer> operator=(rptr<IReadonlyList_of_GuiStackItemComposition_raw_pointer> value);
 		
 	};
 	
@@ -5227,7 +5066,6 @@ GuiStackComposition
 		static rptr<GuiStackComposition> CreateRptr();
 		
 		bool InsertStackItem(signed __int32 index, rptr<GuiStackItemComposition> item);
-		rptr<GuiStackComposition> operator=(rptr<GuiStackComposition> value);
 		
 		rptr<IReadonlyList_of_GuiStackItemComposition_raw_pointer> GetStackItems();
 		GuiStackComposition :: Direction GetDirection();
@@ -5264,7 +5102,6 @@ IReadonlyList_of_GuiWindow_raw_pointer
 		rptr<GuiWindow> Get(signed __int32 index);
 		rptr<GuiWindow> operator[](signed __int32 index);
 		signed __int32 IndexOf(rptr<GuiWindow> item);
-		rptr<IReadonlyList_of_GuiWindow_raw_pointer> operator=(rptr<IReadonlyList_of_GuiWindow_raw_pointer> value);
 		
 	};
 	
@@ -5291,7 +5128,6 @@ GuiApplication
 		void Run(rptr<GuiWindow> _mainWindow);
 		rptr<GuiWindow> GetWindow(Point location);
 		bool IsInMainThread();
-		rptr<GuiApplication> operator=(rptr<GuiApplication> value);
 		
 		rptr<IReadonlyList_of_GuiWindow_raw_pointer> GetWindows();
 		
@@ -5319,8 +5155,6 @@ ItemProviderBase
 		
 		static rptr<ItemProviderBase> CreateRptr();
 		
-		rptr<ItemProviderBase> operator=(rptr<ItemProviderBase> value);
-		
 	};
 	
 
@@ -5342,8 +5176,6 @@ ItemStyleControllerBase
 		virtual ~ItemStyleControllerBase();
 	
 	public:
-		
-		rptr<ItemStyleControllerBase> operator=(rptr<ItemStyleControllerBase> value);
 		
 	};
 	
@@ -5370,8 +5202,6 @@ ListViewItemStyleProviderBase
 		
 		static rptr<ListViewItemStyleProviderBase> CreateRptr();
 		
-		rptr<ListViewItemStyleProviderBase> operator=(rptr<ListViewItemStyleProviderBase> value);
-		
 
 /***********************************************************************
 ListViewItemStyleProviderBase :: ListViewItemStyleController
@@ -5392,8 +5222,6 @@ ListViewItemStyleProviderBase :: ListViewItemStyleController
 		
 		public:
 			static rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> CreateRptr(rptr<ListViewItemStyleProviderBase> provider);
-			
-			rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> operator=(rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> value);
 			
 			bool GetSelected();
 			void SetSelected(bool value);
@@ -5429,7 +5257,6 @@ ListViewItemStyleProvider
 		static rptr<ListViewItemStyleProvider> CreateRptr(rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> itemContentProvider);
 		
 		bool IsItemStyleAttachedToListView(rptr<GuiListControl :: IItemStyleController> itemStyle);
-		rptr<ListViewItemStyleProvider> operator=(rptr<ListViewItemStyleProvider> value);
 		
 		rptr<IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer> GetCreatedItemStyles();
 		
@@ -5453,7 +5280,6 @@ ListViewItemStyleProvider :: IListViewItemContent
 		
 		public:
 			void Install(rptr<GuiListViewBase :: IStyleProvider> styleProvider, rptr<ListViewItemStyleProvider :: IListViewItemView> view, signed __int32 itemIndex);
-			rptr<ListViewItemStyleProvider :: IListViewItemContent> operator=(rptr<ListViewItemStyleProvider :: IListViewItemContent> value);
 			
 			rptr<GuiBoundsComposition> GetContentComposition();
 			rptr<GuiBoundsComposition> GetBackgroundDecorator();
@@ -5484,7 +5310,6 @@ ListViewItemStyleProvider :: IListViewItemContentProvider
 			rptr<ListViewItemStyleProvider :: IListViewItemContent> CreateItemContent(const FontProperties& font);
 			void AttachListControl(rptr<GuiListControl> value);
 			void DetachListControl();
-			rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> operator=(rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> value);
 			
 		};
 		
@@ -5513,7 +5338,6 @@ ListViewItemStyleProvider :: IListViewItemView
 			GacString GetSubItem(signed __int32 itemIndex, signed __int32 index);
 			signed __int32 GetDataColumn(signed __int32 index);
 			GacString GetColumnText(signed __int32 index);
-			rptr<ListViewItemStyleProvider :: IListViewItemView> operator=(rptr<ListViewItemStyleProvider :: IListViewItemView> value);
 			
 			signed __int32 GetDataColumnCount();
 			signed __int32 GetColumnCount();
@@ -5545,7 +5369,6 @@ ListViewItemStyleProvider :: ListViewContentItemStyleController
 			static rptr<ListViewItemStyleProvider :: ListViewContentItemStyleController> CreateRptr(rptr<ListViewItemStyleProvider> provider);
 			
 			void Install(rptr<ListViewItemStyleProvider :: IListViewItemView> view, signed __int32 itemIndex);
-			rptr<ListViewItemStyleProvider :: ListViewContentItemStyleController> operator=(rptr<ListViewItemStyleProvider :: ListViewContentItemStyleController> value);
 			
 			rptr<ListViewItemStyleProvider :: IListViewItemContent> GetItemContent();
 			
@@ -5576,7 +5399,6 @@ GuiVirtualListView
 		static rptr<GuiVirtualListView> CreateRptr(rptr<GuiListViewBase :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider);
 		
 		void ChangeItemStyle(rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> contentProvider);
-		rptr<GuiVirtualListView> operator=(rptr<GuiVirtualListView> value);
 		
 	};
 	
@@ -5602,8 +5424,6 @@ ListViewBigIconContentProvider
 		
 		static rptr<ListViewBigIconContentProvider> CreateRptr(Size _iconSize);
 		
-		rptr<ListViewBigIconContentProvider> operator=(rptr<ListViewBigIconContentProvider> value);
-		
 	};
 	
 
@@ -5627,8 +5447,6 @@ ListViewInformationContentProvider
 	public:
 		
 		static rptr<ListViewInformationContentProvider> CreateRptr(Size _iconSize);
-		
-		rptr<ListViewInformationContentProvider> operator=(rptr<ListViewInformationContentProvider> value);
 		
 	};
 	
@@ -5654,8 +5472,6 @@ ListViewListContentProvider
 		
 		static rptr<ListViewListContentProvider> CreateRptr(Size _iconSize);
 		
-		rptr<ListViewListContentProvider> operator=(rptr<ListViewListContentProvider> value);
-		
 	};
 	
 
@@ -5679,8 +5495,6 @@ ListViewSmallIconContentProvider
 	public:
 		
 		static rptr<ListViewSmallIconContentProvider> CreateRptr(Size _iconSize);
-		
-		rptr<ListViewSmallIconContentProvider> operator=(rptr<ListViewSmallIconContentProvider> value);
 		
 	};
 	
@@ -5706,8 +5520,6 @@ ListViewTileContentProvider
 		
 		static rptr<ListViewTileContentProvider> CreateRptr(Size _iconSize);
 		
-		rptr<ListViewTileContentProvider> operator=(rptr<ListViewTileContentProvider> value);
-		
 	};
 	
 
@@ -5731,7 +5543,6 @@ ListWrapperProvider_of_ListViewItem
 	public:
 		
 		bool NotifyUpdate(signed __int32 start, signed __int32 count);
-		rptr<ListWrapperProvider_of_ListViewItem> operator=(rptr<ListWrapperProvider_of_ListViewItem> value);
 		
 	};
 	
@@ -5757,8 +5568,6 @@ ListProvider_of_ListViewItem
 		
 		static rptr<ListProvider_of_ListViewItem> CreateRptr();
 		
-		rptr<ListProvider_of_ListViewItem> operator=(rptr<ListProvider_of_ListViewItem> value);
-		
 	};
 	
 
@@ -5782,8 +5591,6 @@ NodeItemProvider
 	public:
 		
 		static rptr<NodeItemProvider> CreateRptr(rptr<INodeRootProvider> _root);
-		
-		rptr<NodeItemProvider> operator=(rptr<NodeItemProvider> value);
 		
 		sptr<INodeRootProvider> GetRoot();
 		
@@ -5811,8 +5618,6 @@ NodeItemStyleProvider
 		
 		static rptr<NodeItemStyleProvider> CreateRptr(sptr<INodeItemStyleProvider> provider);
 		
-		rptr<NodeItemStyleProvider> operator=(rptr<NodeItemStyleProvider> value);
-		
 	};
 	
 
@@ -5834,8 +5639,6 @@ RangedItemArrangerBase
 		virtual ~RangedItemArrangerBase();
 	
 	public:
-		
-		rptr<RangedItemArrangerBase> operator=(rptr<RangedItemArrangerBase> value);
 		
 	};
 	
@@ -5861,8 +5664,6 @@ FixedHeightItemArranger
 		
 		static rptr<FixedHeightItemArranger> CreateRptr();
 		
-		rptr<FixedHeightItemArranger> operator=(rptr<FixedHeightItemArranger> value);
-		
 	};
 	
 
@@ -5887,8 +5688,6 @@ FixedHeightMultiColumnItemArranger
 		
 		static rptr<FixedHeightMultiColumnItemArranger> CreateRptr();
 		
-		rptr<FixedHeightMultiColumnItemArranger> operator=(rptr<FixedHeightMultiColumnItemArranger> value);
-		
 	};
 	
 
@@ -5912,8 +5711,6 @@ FixedSizeMultiColumnItemArranger
 	public:
 		
 		static rptr<FixedSizeMultiColumnItemArranger> CreateRptr();
-		
-		rptr<FixedSizeMultiColumnItemArranger> operator=(rptr<FixedSizeMultiColumnItemArranger> value);
 		
 	};
 	
@@ -5940,8 +5737,6 @@ ListViewColumnItemArranger
 		class IColumnItemViewCallback;
 		
 		static rptr<ListViewColumnItemArranger> CreateRptr();
-		
-		rptr<ListViewColumnItemArranger> operator=(rptr<ListViewColumnItemArranger> value);
 		
 		static signed __int32 get_SplitterWidth();
 		static void set_SplitterWidth(signed __int32 value);
@@ -5970,7 +5765,6 @@ ListViewColumnItemArranger :: IColumnItemView
 			GacString GetColumnText(signed __int32 index);
 			signed __int32 GetColumnSize(signed __int32 index);
 			void SetColumnSize(signed __int32 index, signed __int32 value);
-			rptr<ListViewColumnItemArranger :: IColumnItemView> operator=(rptr<ListViewColumnItemArranger :: IColumnItemView> value);
 			
 			signed __int32 GetColumnCount();
 			
@@ -6000,7 +5794,6 @@ ListViewColumnItemArranger :: IColumnItemViewCallback
 		public:
 			void OnColumnChanged();
 			void OnColumnSizeChanged(signed __int32 index);
-			rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> operator=(rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> value);
 			
 		};
 		
@@ -6028,8 +5821,6 @@ ListViewDetailContentProvider
 		
 		static rptr<ListViewDetailContentProvider> CreateRptr(Size _iconSize);
 		
-		rptr<ListViewDetailContentProvider> operator=(rptr<ListViewDetailContentProvider> value);
-		
 	};
 	
 
@@ -6056,7 +5847,6 @@ ListViewItemProvider
 		
 		void NotifyDataColumnsUpdated();
 		void NotifyColumnsUpdated();
-		rptr<ListViewItemProvider> operator=(rptr<ListViewItemProvider> value);
 		
 		rptr<IList_of_int> GetDataColumns();
 		rptr<IList_of_ListViewColumn> GetColumns();
@@ -6084,8 +5874,6 @@ GuiListView
 	public:
 		
 		static rptr<GuiListView> CreateRptr(rptr<GuiListViewBase :: IStyleProvider> _styleProvider);
-		
-		rptr<GuiListView> operator=(rptr<GuiListView> value);
 		
 		rptr<ListViewItemProvider> GetItems();
 		
@@ -6151,7 +5939,6 @@ IList_of_TextItem
 		
 		signed __int32 Insert(signed __int32 index, const TextItem& item);
 		bool Set(signed __int32 index, const TextItem& item);
-		rptr<IList_of_TextItem> operator=(rptr<IList_of_TextItem> value);
 		
 	};
 	
@@ -6176,7 +5963,6 @@ ListWrapperProvider_of_TextItem
 	public:
 		
 		bool NotifyUpdate(signed __int32 start, signed __int32 count);
-		rptr<ListWrapperProvider_of_TextItem> operator=(rptr<ListWrapperProvider_of_TextItem> value);
 		
 	};
 	
@@ -6201,8 +5987,6 @@ ListProvider_of_TextItem
 	public:
 		
 		static rptr<ListProvider_of_TextItem> CreateRptr();
-		
-		rptr<ListProvider_of_TextItem> operator=(rptr<ListProvider_of_TextItem> value);
 		
 	};
 	
@@ -6231,8 +6015,6 @@ TextItemStyleProvider
 		
 		static rptr<TextItemStyleProvider> CreateRptr(rptr<TextItemStyleProvider :: ITextItemStyleProvider> _textItemStyleProvider);
 		
-		rptr<TextItemStyleProvider> operator=(rptr<TextItemStyleProvider> value);
-		
 
 /***********************************************************************
 TextItemStyleProvider :: ITextItemStyleProvider
@@ -6254,7 +6036,6 @@ TextItemStyleProvider :: ITextItemStyleProvider
 		public:
 			rptr<GuiSelectableButton :: IStyleController> CreateBackgroundStyleController();
 			rptr<GuiSelectableButton :: IStyleController> CreateBulletStyleController();
-			rptr<TextItemStyleProvider :: ITextItemStyleProvider> operator=(rptr<TextItemStyleProvider :: ITextItemStyleProvider> value);
 			
 		};
 		
@@ -6280,7 +6061,6 @@ TextItemStyleProvider :: ITextItemView
 			GacString GetText(signed __int32 itemIndex);
 			bool GetChecked(signed __int32 itemIndex);
 			void SetCheckedSilently(signed __int32 itemIndex, bool value);
-			rptr<TextItemStyleProvider :: ITextItemView> operator=(rptr<TextItemStyleProvider :: ITextItemView> value);
 			
 			static wchar_t const* get_Identifier();
 			static void set_Identifier(wchar_t const* value);
@@ -6307,8 +6087,6 @@ TextItemStyleProvider :: TextItemStyleController
 		
 		public:
 			static rptr<TextItemStyleProvider :: TextItemStyleController> CreateRptr(rptr<TextItemStyleProvider> provider);
-			
-			rptr<TextItemStyleProvider :: TextItemStyleController> operator=(rptr<TextItemStyleProvider :: TextItemStyleController> value);
 			
 			bool GetSelected();
 			void SetSelected(bool value);
@@ -6344,7 +6122,6 @@ GuiVirtualTextList
 		static rptr<GuiVirtualTextList> CreateRptr(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<TextItemStyleProvider :: ITextItemStyleProvider> _itemStyleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider);
 		
 		sptr<GuiListControl :: IItemStyleProvider> ChangeItemStyle(rptr<TextItemStyleProvider :: ITextItemStyleProvider> itemStyleProvider);
-		rptr<GuiVirtualTextList> operator=(rptr<GuiVirtualTextList> value);
 		
 	};
 	
@@ -6372,7 +6149,6 @@ TextItemProvider
 		
 		void SetText(signed __int32 itemIndex, const GacString& value);
 		void SetChecked(signed __int32 itemIndex, bool value);
-		rptr<TextItemProvider> operator=(rptr<TextItemProvider> value);
 		
 	};
 	
@@ -6397,8 +6173,6 @@ GuiTextList
 	public:
 		
 		static rptr<GuiTextList> CreateRptr(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<TextItemStyleProvider :: ITextItemStyleProvider> _itemStyleProvider);
-		
-		rptr<GuiTextList> operator=(rptr<GuiTextList> value);
 		
 		rptr<TextItemProvider> GetItems();
 		
@@ -6533,7 +6307,6 @@ GuiTextBoxCommonInterface
 		Rect GetRectFromTextPos(TextPos pos);
 		TextPos GetNearestTextPos(Point point);
 		void Select(TextPos begin, TextPos end);
-		rptr<GuiTextBoxCommonInterface> operator=(rptr<GuiTextBoxCommonInterface> value);
 		
 		rptr<GuiGraphicsComposition> GetTextComposition();
 		signed __int32 GetRowHeight();
@@ -6626,8 +6399,6 @@ GuiColorizedTextElement
 	public:
 		class ICallback;
 		
-		rptr<GuiColorizedTextElement> operator=(rptr<GuiColorizedTextElement> value);
-		
 		static rptr<GuiColorizedTextElement> Create();
 		
 		TextLines& GetLines();
@@ -6675,7 +6446,6 @@ GuiColorizedTextElement :: ICallback
 		public:
 			void ColorChanged();
 			void FontChanged();
-			rptr<GuiColorizedTextElement :: ICallback> operator=(rptr<GuiColorizedTextElement :: ICallback> value);
 			
 		};
 		
@@ -6715,7 +6485,6 @@ GuiTextElementOperator
 		bool Cut();
 		bool Copy();
 		bool Paste();
-		rptr<GuiTextElementOperator> operator=(rptr<GuiTextElementOperator> value);
 		
 		rptr<GuiTextElementOperator :: ICallback> GetCallback();
 		void SetCallback(rptr<GuiTextElementOperator :: ICallback> value);
@@ -6751,7 +6520,6 @@ GuiTextElementOperator :: ICallback
 			bool BeforeModify(TextPos& start, TextPos& end, const GacString& originalText, GacString& inputText);
 			void AfterModify(TextPos originalStart, TextPos originalEnd, const GacString& originalText, TextPos inputStart, TextPos inputEnd, const GacString& inputText);
 			void ScrollToView(Point point);
-			rptr<GuiTextElementOperator :: ICallback> operator=(rptr<GuiTextElementOperator :: ICallback> value);
 			
 			signed __int32 GetPageRows();
 			signed __int32 GetTextMargin();
@@ -6778,8 +6546,6 @@ GuiTextElementOperator :: DefaultCallback
 		
 		public:
 			static rptr<GuiTextElementOperator :: DefaultCallback> CreateRptr(rptr<GuiColorizedTextElement> _textElement, rptr<GuiGraphicsComposition> _textComposition);
-			
-			rptr<GuiTextElementOperator :: DefaultCallback> operator=(rptr<GuiTextElementOperator :: DefaultCallback> value);
 			
 		};
 		
@@ -6809,8 +6575,6 @@ GuiMultilineTextBox
 		
 		static rptr<GuiMultilineTextBox> CreateRptr(rptr<GuiScrollView :: IStyleProvider> styleProvider);
 		
-		rptr<GuiMultilineTextBox> operator=(rptr<GuiMultilineTextBox> value);
-		
 		static signed __int32 get_TextMargin();
 		static void set_TextMargin(signed __int32 value);
 		
@@ -6835,7 +6599,6 @@ GuiMultilineTextBox :: StyleController
 		public:
 			static rptr<GuiMultilineTextBox :: StyleController> CreateRptr(rptr<GuiScrollView :: IStyleProvider> styleProvider);
 			
-			rptr<GuiMultilineTextBox :: StyleController> operator=(rptr<GuiMultilineTextBox :: StyleController> value);
 			void SetViewPosition(Point value);
 			
 			rptr<GuiColorizedTextElement> GetTextElement();
@@ -6866,8 +6629,6 @@ GuiMultilineTextBox :: TextElementOperatorCallback
 		public:
 			static rptr<GuiMultilineTextBox :: TextElementOperatorCallback> CreateRptr(rptr<GuiMultilineTextBox> _textControl);
 			
-			rptr<GuiMultilineTextBox :: TextElementOperatorCallback> operator=(rptr<GuiMultilineTextBox :: TextElementOperatorCallback> value);
-			
 		};
 		
 	};
@@ -6897,8 +6658,6 @@ GuiSinglelineTextBox
 		
 		static rptr<GuiSinglelineTextBox> CreateRptr(rptr<GuiSinglelineTextBox :: IStyleProvider> styleProvider);
 		
-		rptr<GuiSinglelineTextBox> operator=(rptr<GuiSinglelineTextBox> value);
-		
 		static signed __int32 get_TextMargin();
 		static void set_TextMargin(signed __int32 value);
 		
@@ -6922,7 +6681,6 @@ GuiSinglelineTextBox :: IStyleProvider
 		
 		public:
 			rptr<GuiGraphicsComposition> InstallBackground(rptr<GuiBoundsComposition> boundsComposition);
-			rptr<GuiSinglelineTextBox :: IStyleProvider> operator=(rptr<GuiSinglelineTextBox :: IStyleProvider> value);
 			
 		};
 		
@@ -6948,7 +6706,6 @@ GuiSinglelineTextBox :: StyleController
 			static rptr<GuiSinglelineTextBox :: StyleController> CreateRptr(rptr<GuiSinglelineTextBox :: IStyleProvider> _styleProvider);
 			
 			void RearrangeTextElement();
-			rptr<GuiSinglelineTextBox :: StyleController> operator=(rptr<GuiSinglelineTextBox :: StyleController> value);
 			void SetTextBox(rptr<GuiSinglelineTextBox> value);
 			void SetViewPosition(Point value);
 			
@@ -6980,8 +6737,6 @@ GuiSinglelineTextBox :: TextElementOperatorCallback
 		public:
 			static rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> CreateRptr(rptr<GuiSinglelineTextBox> _textControl);
 			
-			rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> operator=(rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> value);
-			
 		};
 		
 	};
@@ -7008,8 +6763,6 @@ TreeViewItem
 		
 		static rptr<TreeViewItem> CreateRptr(sptr<GuiImageData> _image, const GacString& _text);
 		static rptr<TreeViewItem> CreateRptr();
-		
-		rptr<TreeViewItem> operator=(rptr<TreeViewItem> value);
 		
 		sptr<GuiImageData> get_image();
 		void set_image(sptr<GuiImageData> value);
@@ -7040,8 +6793,6 @@ TreeViewItemRootProvider
 		
 		static rptr<TreeViewItemRootProvider> CreateRptr();
 		
-		rptr<TreeViewItemRootProvider> operator=(rptr<TreeViewItemRootProvider> value);
-		
 	};
 	
 
@@ -7068,7 +6819,6 @@ GuiTreeView
 		static rptr<GuiTreeView> CreateRptr(rptr<GuiTreeView :: IStyleProvider> _styleProvider, rptr<INodeRootProvider> _nodeRootProvider);
 		
 		sptr<TreeViewItemRootProvider> Nodes();
-		rptr<GuiTreeView> operator=(rptr<GuiTreeView> value);
 		
 		rptr<GuiTreeView :: IStyleProvider> GetTreeViewStyleProvider();
 		
@@ -7093,7 +6843,6 @@ GuiTreeView :: IStyleProvider
 		public:
 			rptr<GuiSelectableButton :: IStyleController> CreateItemBackground();
 			rptr<GuiSelectableButton :: IStyleController> CreateItemExpandingDecorator();
-			rptr<GuiTreeView :: IStyleProvider> operator=(rptr<GuiTreeView :: IStyleProvider> value);
 			
 			Color GetTextColor();
 			
@@ -7122,8 +6871,6 @@ TreeViewNodeItemStyleProvider
 	public:
 		
 		static rptr<TreeViewNodeItemStyleProvider> CreateRptr();
-		
-		rptr<TreeViewNodeItemStyleProvider> operator=(rptr<TreeViewNodeItemStyleProvider> value);
 		
 	};
 	
@@ -7224,8 +6971,6 @@ Win7ButtonStyleBase
 	
 	public:
 		
-		rptr<Win7ButtonStyleBase> operator=(rptr<Win7ButtonStyleBase> value);
-		
 		bool GetTransparentWhenInactive();
 		void SetTransparentWhenInactive(bool value);
 		bool GetTransparentWhenDisabled();
@@ -7256,8 +7001,6 @@ Win7ButtonStyle
 	public:
 		
 		static rptr<Win7ButtonStyle> CreateRptr(bool verticalGradient);
-		
-		rptr<Win7ButtonStyle> operator=(rptr<Win7ButtonStyle> value);
 		
 	};
 	
@@ -7294,8 +7037,6 @@ Win7CheckBoxStyle
 		
 		static rptr<Win7CheckBoxStyle> CreateRptr(Win7CheckBoxStyle :: BulletStyle bulletStyle, bool backgroundVisible);
 		
-		rptr<Win7CheckBoxStyle> operator=(rptr<Win7CheckBoxStyle> value);
-		
 	};
 	
 
@@ -7319,8 +7060,6 @@ Win7DropDownComboBoxStyle
 	public:
 		
 		static rptr<Win7DropDownComboBoxStyle> CreateRptr();
-		
-		rptr<Win7DropDownComboBoxStyle> operator=(rptr<Win7DropDownComboBoxStyle> value);
 		
 	};
 	
@@ -7346,8 +7085,6 @@ Win7EmptyStyle
 		
 		static rptr<Win7EmptyStyle> CreateRptr(Color color);
 		
-		rptr<Win7EmptyStyle> operator=(rptr<Win7EmptyStyle> value);
-		
 	};
 	
 
@@ -7371,8 +7108,6 @@ Win7GroupBoxStyle
 	public:
 		
 		static rptr<Win7GroupBoxStyle> CreateRptr();
-		
-		rptr<Win7GroupBoxStyle> operator=(rptr<Win7GroupBoxStyle> value);
 		
 	};
 	
@@ -7398,8 +7133,6 @@ Win7ListViewColumnDropDownStyle
 		
 		static rptr<Win7ListViewColumnDropDownStyle> CreateRptr();
 		
-		rptr<Win7ListViewColumnDropDownStyle> operator=(rptr<Win7ListViewColumnDropDownStyle> value);
-		
 	};
 	
 
@@ -7423,8 +7156,6 @@ Win7ListViewColumnHeaderStyle
 	public:
 		
 		static rptr<Win7ListViewColumnHeaderStyle> CreateRptr();
-		
-		rptr<Win7ListViewColumnHeaderStyle> operator=(rptr<Win7ListViewColumnHeaderStyle> value);
 		
 	};
 	
@@ -7450,8 +7181,6 @@ Win7MenuBarButtonStyle
 		
 		static rptr<Win7MenuBarButtonStyle> CreateRptr();
 		
-		rptr<Win7MenuBarButtonStyle> operator=(rptr<Win7MenuBarButtonStyle> value);
-		
 	};
 	
 
@@ -7475,8 +7204,6 @@ Win7MenuBarStyle
 	public:
 		
 		static rptr<Win7MenuBarStyle> CreateRptr();
-		
-		rptr<Win7MenuBarStyle> operator=(rptr<Win7MenuBarStyle> value);
 		
 	};
 	
@@ -7502,8 +7229,6 @@ Win7MenuItemButtonStyle
 		
 		static rptr<Win7MenuItemButtonStyle> CreateRptr();
 		
-		rptr<Win7MenuItemButtonStyle> operator=(rptr<Win7MenuItemButtonStyle> value);
-		
 	};
 	
 
@@ -7527,8 +7252,6 @@ Win7MenuSplitterStyle
 	public:
 		
 		static rptr<Win7MenuSplitterStyle> CreateRptr();
-		
-		rptr<Win7MenuSplitterStyle> operator=(rptr<Win7MenuSplitterStyle> value);
 		
 	};
 	
@@ -7554,8 +7277,6 @@ Win7MenuStyle
 		
 		static rptr<Win7MenuStyle> CreateRptr();
 		
-		rptr<Win7MenuStyle> operator=(rptr<Win7MenuStyle> value);
-		
 	};
 	
 
@@ -7579,8 +7300,6 @@ Win7ScrollStyle
 	public:
 		
 		static rptr<Win7ScrollStyle> CreateRptr(CommonScrollStyle :: Direction _direction);
-		
-		rptr<Win7ScrollStyle> operator=(rptr<Win7ScrollStyle> value);
 		
 		static signed __int32 get_DefaultSize();
 		static void set_DefaultSize(signed __int32 value);
@@ -7611,8 +7330,6 @@ Win7ScrollViewProvider
 		
 		static rptr<Win7ScrollViewProvider> CreateRptr();
 		
-		rptr<Win7ScrollViewProvider> operator=(rptr<Win7ScrollViewProvider> value);
-		
 	};
 	
 
@@ -7636,8 +7353,6 @@ Win7MultilineTextBoxProvider
 	public:
 		
 		static rptr<Win7MultilineTextBoxProvider> CreateRptr();
-		
-		rptr<Win7MultilineTextBoxProvider> operator=(rptr<Win7MultilineTextBoxProvider> value);
 		
 	};
 	
@@ -7663,8 +7378,6 @@ Win7ListViewProvider
 		
 		static rptr<Win7ListViewProvider> CreateRptr();
 		
-		rptr<Win7ListViewProvider> operator=(rptr<Win7ListViewProvider> value);
-		
 	};
 	
 
@@ -7688,8 +7401,6 @@ Win7SelectableItemStyle
 	public:
 		
 		static rptr<Win7SelectableItemStyle> CreateRptr();
-		
-		rptr<Win7SelectableItemStyle> operator=(rptr<Win7SelectableItemStyle> value);
 		
 	};
 	
@@ -7715,8 +7426,6 @@ Win7SinglelineTextBoxProvider
 		
 		static rptr<Win7SinglelineTextBoxProvider> CreateRptr();
 		
-		rptr<Win7SinglelineTextBoxProvider> operator=(rptr<Win7SinglelineTextBoxProvider> value);
-		
 	};
 	
 
@@ -7741,8 +7450,6 @@ Win7TabPageHeaderStyle
 		
 		static rptr<Win7TabPageHeaderStyle> CreateRptr();
 		
-		rptr<Win7TabPageHeaderStyle> operator=(rptr<Win7TabPageHeaderStyle> value);
-		
 	};
 	
 
@@ -7766,8 +7473,6 @@ Win7TabStyle
 	public:
 		
 		static rptr<Win7TabStyle> CreateRptr();
-		
-		rptr<Win7TabStyle> operator=(rptr<Win7TabStyle> value);
 		
 	};
 	
@@ -7796,7 +7501,6 @@ Win7TextBoxBackground
 		void AssociateStyleController(rptr<GuiControl :: IStyleController> controller);
 		rptr<GuiGraphicsComposition> InstallBackground(rptr<GuiBoundsComposition> boundsComposition);
 		void InitializeTextElement(rptr<GuiColorizedTextElement> _textElement);
-		rptr<Win7TextBoxBackground> operator=(rptr<Win7TextBoxBackground> value);
 		void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
 		void SetVisuallyEnabled(bool value);
 		
@@ -7824,8 +7528,6 @@ Win7TextListProvider
 		
 		static rptr<Win7TextListProvider> CreateRptr();
 		
-		rptr<Win7TextListProvider> operator=(rptr<Win7TextListProvider> value);
-		
 	};
 	
 
@@ -7849,8 +7551,6 @@ Win7CheckTextListProvider
 	public:
 		
 		static rptr<Win7CheckTextListProvider> CreateRptr();
-		
-		rptr<Win7CheckTextListProvider> operator=(rptr<Win7CheckTextListProvider> value);
 		
 	};
 	
@@ -7876,8 +7576,6 @@ Win7RadioTextListProvider
 		
 		static rptr<Win7RadioTextListProvider> CreateRptr();
 		
-		rptr<Win7RadioTextListProvider> operator=(rptr<Win7RadioTextListProvider> value);
-		
 	};
 	
 
@@ -7902,8 +7600,6 @@ Win7ToolstripButtonStyle
 		
 		static rptr<Win7ToolstripButtonStyle> CreateRptr(bool transparent);
 		
-		rptr<Win7ToolstripButtonStyle> operator=(rptr<Win7ToolstripButtonStyle> value);
-		
 	};
 	
 
@@ -7927,8 +7623,6 @@ Win7TrackStyle
 	public:
 		
 		static rptr<Win7TrackStyle> CreateRptr(CommonTrackStyle :: Direction _direction);
-		
-		rptr<Win7TrackStyle> operator=(rptr<Win7TrackStyle> value);
 		
 		static signed __int32 get_TrackThickness();
 		static void set_TrackThickness(signed __int32 value);
@@ -7963,8 +7657,6 @@ Win7TreeViewExpandingButtonStyle
 		
 		static rptr<Win7TreeViewExpandingButtonStyle> CreateRptr();
 		
-		rptr<Win7TreeViewExpandingButtonStyle> operator=(rptr<Win7TreeViewExpandingButtonStyle> value);
-		
 	};
 	
 
@@ -7989,8 +7681,6 @@ Win7TreeViewProvider
 		
 		static rptr<Win7TreeViewProvider> CreateRptr();
 		
-		rptr<Win7TreeViewProvider> operator=(rptr<Win7TreeViewProvider> value);
-		
 	};
 	
 
@@ -8014,8 +7704,6 @@ Win7WindowStyle
 	public:
 		
 		static rptr<Win7WindowStyle> CreateRptr();
-		
-		rptr<Win7WindowStyle> operator=(rptr<Win7WindowStyle> value);
 		
 	};
 }
