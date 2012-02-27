@@ -114,7 +114,7 @@ TextItemStyleProvider::TextItemStyleController
 TextItemStyleProvider
 ***********************************************************************/
 
-				const wchar_t* TextItemStyleProvider::ITextItemView::Identifier = L"vl::presentation::controls::list::TextItemStyleProvider::ITextItemView";
+				const wchar_t* const TextItemStyleProvider::ITextItemView::Identifier = L"vl::presentation::controls::list::TextItemStyleProvider::ITextItemView";
 
 				void TextItemStyleProvider::OnStyleCheckedChanged(TextItemStyleController* style)
 				{

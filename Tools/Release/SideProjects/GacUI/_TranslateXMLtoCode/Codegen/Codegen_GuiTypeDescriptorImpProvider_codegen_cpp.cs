@@ -347,9 +347,12 @@ namespace _TranslateXMLtoCode.Codegen
                 GenerateFieldAccessGetter(owner, property.PropertyType, property.Name, isStatic, methodInvokers);
                 End(")");
 
-                Begin("->Setter(");
-                GenerateFieldAccessSetter(owner, property.PropertyType, property.Name, isStatic, methodInvokers);
-                End(")");
+                if (property.PublicGacFieldAccessor.Type.Kind != GacTypeKind.Const && property.PropertyType.Kind != RgacTypeKind.Class)
+                {
+                    Begin("->Setter(");
+                    GenerateFieldAccessSetter(owner, property.PropertyType, property.Name, isStatic, methodInvokers);
+                    End(")");
+                }
             }
         }
 

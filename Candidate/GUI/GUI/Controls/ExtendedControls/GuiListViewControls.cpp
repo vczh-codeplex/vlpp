@@ -148,7 +148,7 @@ ListViewItemStyleProvider::ListViewContentItemStyleController
 ListViewItemStyleProvider
 ***********************************************************************/
 
-				const wchar_t* ListViewItemStyleProvider::IListViewItemView::Identifier = L"vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemView";
+				const wchar_t* const ListViewItemStyleProvider::IListViewItemView::Identifier = L"vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemView";
 
 				ListViewItemStyleProvider::ListViewItemStyleProvider(IListViewItemContentProvider* itemContentProvider)
 					:listViewItemView(0)
@@ -887,7 +887,7 @@ ListViewColumnItemArranger::ColumnItemViewCallback
 ListViewColumnItemArranger
 ***********************************************************************/
 
-				const wchar_t* ListViewColumnItemArranger::IColumnItemView::Identifier = L"vl::presentation::controls::list::ListViewColumnItemArranger::IColumnItemView";
+				const wchar_t* const ListViewColumnItemArranger::IColumnItemView::Identifier = L"vl::presentation::controls::list::ListViewColumnItemArranger::IColumnItemView";
 
 				void ListViewColumnItemArranger::ColumnHeaderSplitterLeftButtonDown(elements::GuiGraphicsComposition* sender, elements::GuiMouseEventArgs& arguments)
 				{

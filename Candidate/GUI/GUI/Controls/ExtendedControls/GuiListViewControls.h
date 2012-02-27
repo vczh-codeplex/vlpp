@@ -93,7 +93,7 @@ ListView ItemStyleProvider
 					class IListViewItemView : public virtual GuiListControl::IItemPrimaryTextView, public Description<IListViewItemView>
 					{
 					public:
-						static const wchar_t*					Identifier;
+						static const wchar_t* const				Identifier;
 
 						virtual Ptr<GuiImageData>				GetSmallImage(int itemIndex)=0;
 						virtual Ptr<GuiImageData>				GetLargeImage(int itemIndex)=0;
@@ -356,7 +356,7 @@ ListView ItemContentProvider(Detailed)
 					class IColumnItemView : public virtual IDescriptable, public Description<IColumnItemView>
 					{
 					public:
-						static const wchar_t*					Identifier;
+						static const wchar_t* const				Identifier;
 						
 						virtual bool							AttachCallback(IColumnItemViewCallback* value)=0;
 						virtual bool							DetachCallback(IColumnItemViewCallback* value)=0;

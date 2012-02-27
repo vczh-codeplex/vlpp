@@ -1136,8 +1136,8 @@ IGuiMenuService
 		IGuiMenuService :: Direction GetPreferredDirection();
 		rptr<GuiMenu> GetOpeningMenu();
 		
-		static wchar_t* get_Identifier();
-		static void set_Identifier(wchar_t* value);
+		static wchar_t const* get_Identifier();
+		static void set_Identifier(wchar_t const* value);
 		
 	};
 	
@@ -1287,6 +1287,9 @@ INativeCursor
 		rptr<INativeCursor> operator=(rptr<INativeCursor> value);
 		
 		INativeCursor :: SystemCursorType GetSystemCursorType();
+		
+		static signed __int32 get_SystemCursorCount();
+		static void set_SystemCursorCount(signed __int32 value);
 		
 	};
 	
@@ -1465,8 +1468,8 @@ INodeItemPrimaryTextView
 		GacString GetPrimaryTextViewText(rptr<INodeProvider> node);
 		rptr<INodeItemPrimaryTextView> operator=(rptr<INodeItemPrimaryTextView> value);
 		
-		static wchar_t* get_Identifier();
-		static void set_Identifier(wchar_t* value);
+		static wchar_t const* get_Identifier();
+		static void set_Identifier(wchar_t const* value);
 		
 	};
 	
@@ -1695,8 +1698,8 @@ ITreeViewItemView
 		GacString GetNodeText(rptr<INodeProvider> node);
 		rptr<ITreeViewItemView> operator=(rptr<ITreeViewItemView> value);
 		
-		static wchar_t* get_Identifier();
-		static void set_Identifier(wchar_t* value);
+		static wchar_t const* get_Identifier();
+		static void set_Identifier(wchar_t const* value);
 		
 	};
 	
@@ -2535,14 +2538,14 @@ GuiPolygonElement
 	
 	public:
 		
-		void SetPoints(Point* p, signed __int32 count);
+		void SetPoints(Point const* p, signed __int32 count);
 		rptr<GuiPolygonElement> operator=(rptr<GuiPolygonElement> value);
 		
 		static rptr<GuiPolygonElement> Create();
 		
 		Size GetSize();
 		void SetSize(Size value);
-		Point* GetPoints();
+		Point const* GetPoints();
 		signed __int32 GetPointCount();
 		Color GetBorderColor();
 		void SetBorderColor(Color value);
@@ -2928,6 +2931,9 @@ GuiGraphicsHost
 		rptr<GuiGraphicsComposition> GetFocusedComposition();
 		Point GetCaretPoint();
 		rptr<GuiGraphicsAnimationManager> GetAnimationManager();
+		
+		static unsigned __int64 get_CaretInterval();
+		static void set_CaretInterval(unsigned __int64 value);
 		
 	};
 	
@@ -3867,8 +3873,8 @@ GuiListControl :: IItemPrimaryTextView
 			bool ContainsPrimaryText(signed __int32 itemIndex);
 			rptr<GuiListControl :: IItemPrimaryTextView> operator=(rptr<GuiListControl :: IItemPrimaryTextView> value);
 			
-			static wchar_t* get_Identifier();
-			static void set_Identifier(wchar_t* value);
+			static wchar_t const* get_Identifier();
+			static void set_Identifier(wchar_t const* value);
 			
 		};
 		
@@ -4941,8 +4947,8 @@ INodeItemView
 		signed __int32 CalculateNodeVisibilityIndex(rptr<INodeProvider> node);
 		rptr<INodeItemView> operator=(rptr<INodeItemView> value);
 		
-		static wchar_t* get_Identifier();
-		static void set_Identifier(wchar_t* value);
+		static wchar_t const* get_Identifier();
+		static void set_Identifier(wchar_t const* value);
 		
 	};
 	
@@ -5346,8 +5352,8 @@ ListViewItemStyleProvider :: IListViewItemView
 			signed __int32 GetDataColumnCount();
 			signed __int32 GetColumnCount();
 			
-			static wchar_t* get_Identifier();
-			static void set_Identifier(wchar_t* value);
+			static wchar_t const* get_Identifier();
+			static void set_Identifier(wchar_t const* value);
 			
 		};
 		
@@ -5755,6 +5761,9 @@ ListViewColumnItemArranger
 		
 		rptr<ListViewColumnItemArranger> operator=(rptr<ListViewColumnItemArranger> value);
 		
+		static signed __int32 get_SplitterWidth();
+		static void set_SplitterWidth(signed __int32 value);
+		
 
 /***********************************************************************
 ListViewColumnItemArranger :: IColumnItemView
@@ -5782,8 +5791,8 @@ ListViewColumnItemArranger :: IColumnItemView
 			
 			signed __int32 GetColumnCount();
 			
-			static wchar_t* get_Identifier();
-			static void set_Identifier(wchar_t* value);
+			static wchar_t const* get_Identifier();
+			static void set_Identifier(wchar_t const* value);
 			
 		};
 		
@@ -5914,8 +5923,8 @@ TextItem
 	
 	public:
 		
-		static rptr<TextItem> CreateRptr(wchar_t* _text, bool _checked);
-		static TextItem Create(wchar_t* _text, bool _checked);
+		static rptr<TextItem> CreateRptr(wchar_t const* _text, bool _checked);
+		static TextItem Create(wchar_t const* _text, bool _checked);
 		static rptr<TextItem> CreateRptr(const GacString& _text, bool _checked);
 		static TextItem Create(const GacString& _text, bool _checked);
 		static rptr<TextItem> CreateRptr(const TextItem& item);
@@ -6079,8 +6088,8 @@ TextItemStyleProvider :: ITextItemView
 			void SetCheckedSilently(signed __int32 itemIndex, bool value);
 			rptr<TextItemStyleProvider :: ITextItemView> operator=(rptr<TextItemStyleProvider :: ITextItemView> value);
 			
-			static wchar_t* get_Identifier();
-			static void set_Identifier(wchar_t* value);
+			static wchar_t const* get_Identifier();
+			static void set_Identifier(wchar_t const* value);
 			
 		};
 		
@@ -6224,7 +6233,7 @@ TextLine
 		void Initialize();
 		void Finalize();
 		bool IsReady();
-		bool Modify(signed __int32 start, signed __int32 count, wchar_t* input, signed __int32 inputCount);
+		bool Modify(signed __int32 start, signed __int32 count, wchar_t const* input, signed __int32 inputCount);
 		TextLine Split(signed __int32 index);
 		void AppendAndFinalize(TextLine& line);
 		
@@ -6240,6 +6249,11 @@ TextLine
 		void set_bufferLength(signed __int32 value);
 		signed __int32 get_dataLength();
 		void set_dataLength(signed __int32 value);
+		
+		static signed __int32 get_BlockSize();
+		static void set_BlockSize(signed __int32 value);
+		static signed __int32 get_MaxWidth();
+		static void set_MaxWidth(signed __int32 value);
 		
 	};
 	
@@ -6362,9 +6376,9 @@ TextLines
 		bool IsAvailable(TextPos pos);
 		TextPos Normalize(TextPos pos);
 		TextPos Modify(TextPos start, TextPos end, const GacString& input);
-		TextPos Modify(TextPos start, TextPos end, wchar_t* input);
-		TextPos Modify(TextPos start, TextPos end, wchar_t* input, signed __int32 inputCount);
-		TextPos Modify(TextPos start, TextPos end, wchar_t** inputs, signed __int32* inputCounts, signed __int32 rows);
+		TextPos Modify(TextPos start, TextPos end, wchar_t const* input);
+		TextPos Modify(TextPos start, TextPos end, wchar_t const* input, signed __int32 inputCount);
+		TextPos Modify(TextPos start, TextPos end, wchar_t const** inputs, signed __int32* inputCounts, signed __int32 rows);
 		void Clear();
 		void ClearMeasurement();
 		void MeasureRow(signed __int32 row);
@@ -6589,6 +6603,9 @@ GuiMultilineTextBox
 		
 		rptr<GuiMultilineTextBox> operator=(rptr<GuiMultilineTextBox> value);
 		
+		static signed __int32 get_TextMargin();
+		static void set_TextMargin(signed __int32 value);
+		
 
 /***********************************************************************
 GuiMultilineTextBox :: StyleController
@@ -6670,6 +6687,9 @@ GuiSinglelineTextBox
 		static rptr<GuiSinglelineTextBox> CreateRptr(rptr<GuiSinglelineTextBox :: IStyleProvider> styleProvider);
 		
 		rptr<GuiSinglelineTextBox> operator=(rptr<GuiSinglelineTextBox> value);
+		
+		static signed __int32 get_TextMargin();
+		static void set_TextMargin(signed __int32 value);
 		
 
 /***********************************************************************
@@ -7328,6 +7348,11 @@ Win7ScrollStyle
 		
 		rptr<Win7ScrollStyle> operator=(rptr<Win7ScrollStyle> value);
 		
+		static signed __int32 get_DefaultSize();
+		static void set_DefaultSize(signed __int32 value);
+		static signed __int32 get_ArrowSize();
+		static void set_ArrowSize(signed __int32 value);
+		
 	};
 	
 
@@ -7657,6 +7682,15 @@ Win7TrackStyle
 		static rptr<Win7TrackStyle> CreateRptr(CommonTrackStyle :: Direction _direction);
 		
 		rptr<Win7TrackStyle> operator=(rptr<Win7TrackStyle> value);
+		
+		static signed __int32 get_TrackThickness();
+		static void set_TrackThickness(signed __int32 value);
+		static signed __int32 get_TrackPadding();
+		static void set_TrackPadding(signed __int32 value);
+		static signed __int32 get_HandleLong();
+		static void set_HandleLong(signed __int32 value);
+		static signed __int32 get_HandleShort();
+		static void set_HandleShort(signed __int32 value);
 		
 	};
 	

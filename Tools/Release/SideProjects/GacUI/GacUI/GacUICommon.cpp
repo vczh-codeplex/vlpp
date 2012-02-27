@@ -37,23 +37,23 @@ GacString
 		delete internalData;
 	}
 
-	int GacString::Length()
+	int GacString::Length()const
 	{
 		return internalData->string.Length();
 	}
 
-	const wchar_t* GacString::Buffer()
+	const wchar_t* GacString::Buffer()const
 	{
 		return internalData->string.Buffer();
 	}
 
-	int GacString::CalculateLengthForAsciiString()
+	int GacString::CalculateLengthForAsciiString()const
 	{
 		AString a=wtoa(internalData->string);
 		return a.Length();
 	}
 
-	void GacString::FillAsciiStringBuffer(char* buffer)
+	void GacString::FillAsciiStringBuffer(char* buffer)const
 	{
 		AString a=wtoa(internalData->string);
 		strcpy_s(buffer, a.Length(), a.Buffer());

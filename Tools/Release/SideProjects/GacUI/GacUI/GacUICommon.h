@@ -21,11 +21,11 @@ namespace gacui_cpp_1_0
 		GacString(const GacString& data);
 		~GacString();
 
-		int								Length();
-		const wchar_t*					Buffer();
+		int								Length()const;
+		const wchar_t*					Buffer()const;
 
-		int								CalculateLengthForAsciiString();
-		void							FillAsciiStringBuffer(char* buffer);
+		int								CalculateLengthForAsciiString()const;
+		void							FillAsciiStringBuffer(char* buffer)const;
 	};
 
 	class GacPointerHolderData;
@@ -68,7 +68,7 @@ namespace gacui_cpp_1_0
 
 		T* operator->()const
 		{
-			return this;
+			return const_cast<T*>(static_cast<const T*>(this));
 		}
 	};
 
@@ -103,7 +103,7 @@ namespace gacui_cpp_1_0
 
 		T* operator->()const
 		{
-			return this;
+			return const_cast<T*>(static_cast<const T*>(this));
 		}
 	};
 }
