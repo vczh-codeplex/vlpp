@@ -61,6 +61,11 @@ namespace gacui_cpp_1_0
 		{
 		}
 
+		~rptr()
+		{
+			ClearInternalObjectReference();
+		}
+
 		operator bool()const
 		{
 			return __internal_object_reference!=0;

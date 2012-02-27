@@ -37,12 +37,20 @@ namespace gacui_cpp_1_0
 	{
 	public:
 		template<typename U>
-		static sptr<T> CreateSptr(void* __internal_object_reference_input, const Ptr<U>& pointerHolder)
+		static sptr<T> CreateSptr(const Ptr<U>& pointerHolder)
 		{
 			Ptr<Object> internalPointerHolder=new ObjectBox<Ptr<U>>(pointerHolder);
 			GacPointerHolderData* __internal_pointer_holder_input=new GacPointerHolderData;
 			__internal_pointer_holder_input->internalPointerHolder=internalPointerHolder;
-			return sptr<T>(__internal_object_reference_input, __internal_pointer_holder_input);
+			return sptr<T>(pointerHolder.operator->(), __internal_pointer_holder_input);
+		}
+
+		template<typename U>
+		static Ptr<U> RetrivePtr(const sptr<T>& input)
+		{
+			GacPointerHolderData* __internal_pointer_holder_input=input.__internal_pointer_holder;
+			Ptr<ObjectBox<Ptr<U>>> p=__internal_pointer_holder_input->internalPointerHolder.Cast<ObjectBox<Ptr<U>>>();
+			return p?p->Unbox():0;
 		}
 	};
 }

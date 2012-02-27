@@ -21,6 +21,7 @@ namespace vl
 			{
 				friend void GuiApplicationInitialize();
 				friend class GuiWindow;
+				friend class Ptr<GuiApplication>;
 			private:
 				void											LeftButtonDown(Point position)override;
 				void											LeftButtonUp(Point position)override;
