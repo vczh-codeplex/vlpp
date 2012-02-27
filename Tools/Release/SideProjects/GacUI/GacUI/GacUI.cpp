@@ -29,6 +29,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -42,6 +68,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -55,6 +107,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -68,6 +146,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -81,6 +185,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -94,6 +219,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -107,6 +258,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -120,6 +297,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -133,6 +336,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -146,6 +370,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -159,6 +409,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -172,6 +448,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -185,6 +487,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -198,6 +521,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -211,6 +555,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -224,6 +589,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -237,6 +623,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -250,6 +657,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -263,6 +691,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -276,6 +725,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -289,6 +759,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -302,6 +793,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -315,6 +827,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -328,6 +861,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -341,6 +895,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -354,6 +929,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -367,6 +963,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -380,6 +997,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -393,6 +1031,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -406,6 +1065,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -419,6 +1099,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -432,6 +1133,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -445,6 +1167,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -458,6 +1201,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -471,6 +1235,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -484,6 +1269,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -497,6 +1303,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -510,6 +1337,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -523,6 +1371,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -536,6 +1405,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -549,6 +1439,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -562,6 +1473,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -575,6 +1507,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -588,6 +1541,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -601,6 +1575,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -614,6 +1609,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -627,6 +1643,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -640,6 +1677,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -653,6 +1711,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -666,6 +1745,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -679,6 +1779,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -692,6 +1813,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -705,6 +1847,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -718,6 +1881,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -731,6 +1920,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -744,6 +1954,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -757,6 +1993,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -770,6 +2027,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -783,6 +2066,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -796,6 +2100,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -809,6 +2139,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -822,6 +2178,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -835,6 +2212,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -848,6 +2246,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -861,6 +2285,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -874,6 +2324,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -887,6 +2358,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -900,6 +2392,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -913,6 +2431,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -926,6 +2470,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -939,6 +2504,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -952,6 +2538,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -965,6 +2572,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -978,6 +2606,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -991,6 +2640,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1004,6 +2679,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1017,6 +2713,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1030,6 +2747,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1043,6 +2781,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1056,6 +2820,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1069,6 +2854,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1082,6 +2888,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1095,6 +2927,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1108,6 +2961,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1121,6 +2995,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1134,6 +3029,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1147,6 +3063,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1160,6 +3097,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1173,6 +3131,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1186,6 +3165,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1199,6 +3199,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1212,6 +3233,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1225,6 +3267,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1238,6 +3301,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1251,6 +3335,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1264,6 +3369,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1277,6 +3403,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1290,6 +3437,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1303,6 +3471,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1316,6 +3505,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1329,6 +3539,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1342,6 +3573,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1355,6 +3607,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1368,6 +3641,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1381,6 +3675,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1394,6 +3709,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1407,6 +3743,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1420,6 +3777,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1433,6 +3811,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1446,6 +3845,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1459,6 +3879,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1472,6 +3913,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1485,6 +3947,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1498,6 +3981,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1511,6 +4015,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1524,6 +4049,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1537,6 +4083,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1550,6 +4117,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1563,6 +4151,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1576,6 +4185,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1589,6 +4219,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1602,6 +4253,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1615,6 +4287,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1628,6 +4321,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1641,6 +4355,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1654,6 +4389,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1667,6 +4423,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1680,6 +4457,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1693,6 +4491,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1706,6 +4525,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1719,6 +4559,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1732,6 +4593,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1745,6 +4627,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1758,6 +4661,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1771,6 +4695,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1784,6 +4729,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1797,6 +4763,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1810,6 +4797,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1823,6 +4831,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1836,6 +4865,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1849,6 +4899,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1862,6 +4933,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1875,6 +4967,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1888,6 +5001,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1901,6 +5035,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1914,6 +5069,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1927,6 +5103,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1940,6 +5137,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1953,6 +5171,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1966,6 +5205,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1979,6 +5239,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -1992,6 +5273,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2005,6 +5307,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2018,6 +5341,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2031,6 +5375,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2044,6 +5409,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2057,6 +5443,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2070,6 +5477,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2083,6 +5511,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2096,6 +5545,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2109,6 +5579,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2122,6 +5613,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2135,6 +5647,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2148,6 +5681,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2161,6 +5715,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2174,6 +5749,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2187,6 +5783,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2200,6 +5817,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2213,6 +5851,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2226,6 +5885,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2239,6 +5919,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2252,6 +5953,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2265,6 +5987,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2278,6 +6021,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2291,6 +6055,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2304,6 +6089,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2317,6 +6123,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2330,6 +6157,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2343,6 +6191,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2356,6 +6225,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2369,6 +6259,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2382,6 +6293,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2395,6 +6327,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2408,6 +6361,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2421,6 +6395,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2434,6 +6429,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2447,6 +6463,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2460,6 +6497,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2473,6 +6536,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2486,6 +6570,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2499,6 +6604,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2512,6 +6638,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2525,6 +6672,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2538,6 +6706,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2551,6 +6740,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2564,6 +6774,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2577,6 +6808,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2590,6 +6842,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2603,6 +6876,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2616,6 +6915,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2629,6 +6954,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2642,6 +6988,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2655,6 +7027,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2668,6 +7061,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2681,6 +7095,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2694,6 +7129,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2707,6 +7163,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2720,6 +7197,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2733,6 +7231,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2746,6 +7265,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2759,6 +7299,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2772,6 +7333,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2785,6 +7367,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2798,6 +7401,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2811,6 +7435,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2824,6 +7469,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2837,6 +7503,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2850,6 +7537,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2863,6 +7571,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2876,6 +7605,32 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static WrappedObjectType BuildCopy(const InternalObjectType& input)
+		{
+			return new InternalObjectType(input);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2889,6 +7644,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2902,6 +7678,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2915,6 +7712,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2928,6 +7746,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2941,6 +7780,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2954,6 +7814,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2967,6 +7848,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2980,6 +7882,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -2993,6 +7916,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -3006,6 +7950,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -3019,6 +7984,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -3032,6 +8018,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -3045,6 +8052,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -3058,6 +8086,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -3071,6 +8120,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -3084,6 +8154,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -3097,6 +8188,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -3110,6 +8222,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -3123,6 +8256,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -3136,6 +8290,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -3149,6 +8324,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -3162,6 +8358,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -3175,6 +8392,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -3188,6 +8426,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -3201,6 +8460,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -3214,6 +8494,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -3227,6 +8528,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -3240,6 +8562,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -3253,6 +8596,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 	template<>
@@ -3266,6 +8630,27 @@ __GacUIInternal<T> Implementations
 		{
 			return (InternalObjectType*)wrappedObject.__internal_object_reference;
 		}
+		
+		static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject->__internal_object_reference;
+		}
+		
+		static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)
+		{
+			return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);
+		}
+		
+		static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)
+		{
+			return _RptrBuilder<WrappedObjectType>::CreateRptr(input);
+		}
+		
+		static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)
+		{
+			return _SptrBuilder<WrappedObjectType>::CreateSptr(input);
+		}
+		
 	};
 	
 
@@ -3281,6 +8666,11 @@ CharAtt
 	CharAtt::~CharAtt()
 	{
 		delete __GacUIInternal<CharAtt>::GetInternalObject(*this);
+	}
+	
+	void CharAtt::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
 	}
 	
 	unsigned __int32 CharAtt::get_rightOffset()
@@ -3316,6 +8706,11 @@ Color
 	Color::~Color()
 	{
 		delete __GacUIInternal<Color>::GetInternalObject(*this);
+	}
+	
+	void Color::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
 	}
 	
 	rptr<Color> Color::CreateRptr(unsigned __int8 _r, unsigned __int8 _g, unsigned __int8 _b, unsigned __int8 _a)
@@ -3453,6 +8848,11 @@ ColorItem
 		delete __GacUIInternal<ColorItem>::GetInternalObject(*this);
 	}
 	
+	void ColorItem::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<ColorItem> ColorItem::CreateRptr()
 	{
 		throw 0;
@@ -3496,6 +8896,11 @@ ColorEntry
 	ColorEntry::~ColorEntry()
 	{
 		delete __GacUIInternal<ColorEntry>::GetInternalObject(*this);
+	}
+	
+	void ColorEntry::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
 	}
 	
 	rptr<ColorEntry> ColorEntry::CreateRptr()
@@ -3564,6 +8969,11 @@ Array_of_ColorEntry
 	{
 	}
 	
+	void Array_of_ColorEntry::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<Array_of_ColorEntry> Array_of_ColorEntry::CreateRptr(signed __int32 size)
 	{
 		signed __int32 _unwrapped_size = size;
@@ -3614,7 +9024,7 @@ Array_of_ColorEntry
 	
 	rptr<Array_of_ColorEntry> Array_of_ColorEntry::operator=(rptr<Array_of_ColorEntry> value)
 	{
-		vl::collections::Array<vl::presentation::elements::text::ColorEntry,vl::presentation::elements::text::ColorEntry> const& _unwrapped_value = *__GacUIInternal<Array_of_ColorEntry>::GetInternalObject(*(value.operator->()));
+		vl::collections::Array<vl::presentation::elements::text::ColorEntry,vl::presentation::elements::text::ColorEntry> const& _unwrapped_value = *__GacUIInternal<Array_of_ColorEntry>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -3631,6 +9041,11 @@ DescriptableObject
 	DescriptableObject::~DescriptableObject()
 	{
 		delete __GacUIInternal<DescriptableObject>::GetInternalObject(*this);
+	}
+	
+	void DescriptableObject::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
 	}
 	
 	rptr<DescriptableObject> DescriptableObject::CreateRptr()
@@ -3662,6 +9077,11 @@ FontProperties
 	FontProperties::~FontProperties()
 	{
 		delete __GacUIInternal<FontProperties>::GetInternalObject(*this);
+	}
+	
+	void FontProperties::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
 	}
 	
 	rptr<FontProperties> FontProperties::CreateRptr(const FontProperties& __that)
@@ -3819,6 +9239,11 @@ GuiCellOption
 		delete __GacUIInternal<GuiCellOption>::GetInternalObject(*this);
 	}
 	
+	void GuiCellOption::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<GuiCellOption> GuiCellOption::CreateRptr()
 	{
 		throw 0;
@@ -3902,6 +9327,11 @@ GuiComponent
 	{
 	}
 	
+	void GuiComponent::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<GuiComponent> GuiComponent::CreateRptr()
 	{
 		throw 0;
@@ -3909,7 +9339,7 @@ GuiComponent
 	
 	rptr<GuiComponent> GuiComponent::operator=(rptr<GuiComponent> value)
 	{
-		vl::presentation::controls::GuiComponent const& _unwrapped_value = *__GacUIInternal<GuiComponent>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiComponent const& _unwrapped_value = *__GacUIInternal<GuiComponent>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -3933,6 +9363,11 @@ GuiEventArgs
 		delete __GacUIInternal<GuiEventArgs>::GetInternalObject(*this);
 	}
 	
+	void GuiEventArgs::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<GuiEventArgs> GuiEventArgs::CreateRptr()
 	{
 		throw 0;
@@ -3945,13 +9380,13 @@ GuiEventArgs
 	
 	rptr<GuiEventArgs> GuiEventArgs::CreateRptr(rptr<GuiGraphicsComposition> composition)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(composition.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(composition);
 		throw 0;
 	}
 	
 	GuiEventArgs GuiEventArgs::Create(rptr<GuiGraphicsComposition> composition)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(composition.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(composition);
 		throw 0;
 	}
 	
@@ -3962,7 +9397,7 @@ GuiEventArgs
 	
 	void GuiEventArgs::set_compositionSource(rptr<GuiGraphicsComposition> value)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_value = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_value = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(value);
 		throw 0;
 	}
 	rptr<GuiGraphicsComposition> GuiEventArgs::get_eventSource()
@@ -3972,7 +9407,7 @@ GuiEventArgs
 	
 	void GuiEventArgs::set_eventSource(rptr<GuiGraphicsComposition> value)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_value = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_value = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(value);
 		throw 0;
 	}
 	bool GuiEventArgs::get_handled()
@@ -4000,16 +9435,21 @@ GuiImageData
 		delete __GacUIInternal<GuiImageData>::GetInternalObject(*this);
 	}
 	
+	void GuiImageData::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<GuiImageData> GuiImageData::CreateRptr(sptr<INativeImage> _image, signed __int32 _frameIndex)
 	{
-		vl::Ptr<vl::presentation::INativeImage> _unwrapped__image = __GacUIInternal<INativeImage>::GetInternalObject(*(_image.operator->()));
+		vl::Ptr<vl::presentation::INativeImage> _unwrapped__image = __GacUIInternal<INativeImage>::GetInternalObject(_image);
 		signed __int32 _unwrapped__frameIndex = _frameIndex;
 		throw 0;
 	}
 	
 	GuiImageData GuiImageData::Create(sptr<INativeImage> _image, signed __int32 _frameIndex)
 	{
-		vl::Ptr<vl::presentation::INativeImage> _unwrapped__image = __GacUIInternal<INativeImage>::GetInternalObject(*(_image.operator->()));
+		vl::Ptr<vl::presentation::INativeImage> _unwrapped__image = __GacUIInternal<INativeImage>::GetInternalObject(_image);
 		signed __int32 _unwrapped__frameIndex = _frameIndex;
 		throw 0;
 	}
@@ -4056,15 +9496,21 @@ GuiRequestEventArgs
 		delete __GacUIInternal<GuiRequestEventArgs>::GetInternalObject(*this);
 	}
 	
+	void GuiRequestEventArgs::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiEventArgs::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiRequestEventArgs> GuiRequestEventArgs::CreateRptr(rptr<GuiGraphicsComposition> composition)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(composition.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(composition);
 		throw 0;
 	}
 	
 	GuiRequestEventArgs GuiRequestEventArgs::Create(rptr<GuiGraphicsComposition> composition)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(composition.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(composition);
 		throw 0;
 	}
 	
@@ -4103,6 +9549,12 @@ IDescriptable
 	{
 	}
 	
+	void IDescriptable::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		DescriptableObject::ClearInternalObjectReference();
+	}
+	
 	rptr<IDescriptable> IDescriptable::CreateRptr()
 	{
 		throw 0;
@@ -4110,7 +9562,7 @@ IDescriptable
 	
 	rptr<IDescriptable> IDescriptable::operator=(rptr<IDescriptable> value)
 	{
-		vl::presentation::IDescriptable const& _unwrapped_value = *__GacUIInternal<IDescriptable>::GetInternalObject(*(value.operator->()));
+		vl::presentation::IDescriptable const& _unwrapped_value = *__GacUIInternal<IDescriptable>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -4128,21 +9580,26 @@ GuiGraphicsEvent_of_GuiEventArgs
 	{
 	}
 	
+	void GuiGraphicsEvent_of_GuiEventArgs::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiGraphicsEvent_of_GuiEventArgs::CreateRptr(rptr<GuiGraphicsComposition> _sender)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_sender.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(_sender);
 		throw 0;
 	}
 	
 	bool GuiGraphicsEvent_of_GuiEventArgs::Attach(sptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> handler)
 	{
-		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiEventArgs :: IHandler>::GetInternalObject(*(handler.operator->()));
+		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiEventArgs :: IHandler>::GetInternalObject(handler);
 		throw 0;
 	}
 	
 	bool GuiGraphicsEvent_of_GuiEventArgs::Detach(sptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> handler)
 	{
-		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiEventArgs :: IHandler>::GetInternalObject(*(handler.operator->()));
+		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiEventArgs :: IHandler>::GetInternalObject(handler);
 		throw 0;
 	}
 	
@@ -4154,7 +9611,7 @@ GuiGraphicsEvent_of_GuiEventArgs
 	
 	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiGraphicsEvent_of_GuiEventArgs::operator=(rptr<GuiGraphicsEvent_of_GuiEventArgs> value)
 	{
-		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiEventArgs> const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiEventArgs>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiEventArgs> const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiEventArgs>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -4165,7 +9622,7 @@ GuiGraphicsEvent_of_GuiEventArgs
 	
 	void GuiGraphicsEvent_of_GuiEventArgs::SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_sender.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(_sender);
 		throw 0;
 	}
 	
@@ -4184,16 +9641,22 @@ GuiGraphicsEvent_of_GuiEventArgs :: IHandler
 	{
 	}
 	
+	void GuiGraphicsEvent_of_GuiEventArgs::IHandler::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	void GuiGraphicsEvent_of_GuiEventArgs::IHandler::Execute(rptr<GuiGraphicsComposition> sender, GuiEventArgs& argument)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(sender.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(sender);
 		vl::presentation::elements::GuiEventArgs& _unwrapped_argument = *__GacUIInternal<GuiEventArgs>::GetInternalObject(argument);
 		throw 0;
 	}
 	
 	rptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> GuiGraphicsEvent_of_GuiEventArgs::IHandler::operator=(rptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> value)
 	{
-		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiEventArgs>::IHandler const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiEventArgs :: IHandler>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiEventArgs>::IHandler const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiEventArgs :: IHandler>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -4211,21 +9674,26 @@ GuiGraphicsEvent_of_GuiRequestEventArgs
 	{
 	}
 	
+	void GuiGraphicsEvent_of_GuiRequestEventArgs::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> GuiGraphicsEvent_of_GuiRequestEventArgs::CreateRptr(rptr<GuiGraphicsComposition> _sender)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_sender.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(_sender);
 		throw 0;
 	}
 	
 	bool GuiGraphicsEvent_of_GuiRequestEventArgs::Attach(sptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> handler)
 	{
-		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiRequestEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler>::GetInternalObject(*(handler.operator->()));
+		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiRequestEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler>::GetInternalObject(handler);
 		throw 0;
 	}
 	
 	bool GuiGraphicsEvent_of_GuiRequestEventArgs::Detach(sptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> handler)
 	{
-		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiRequestEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler>::GetInternalObject(*(handler.operator->()));
+		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiRequestEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler>::GetInternalObject(handler);
 		throw 0;
 	}
 	
@@ -4237,7 +9705,7 @@ GuiGraphicsEvent_of_GuiRequestEventArgs
 	
 	rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> GuiGraphicsEvent_of_GuiRequestEventArgs::operator=(rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> value)
 	{
-		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiRequestEventArgs> const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiRequestEventArgs>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiRequestEventArgs> const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiRequestEventArgs>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -4248,7 +9716,7 @@ GuiGraphicsEvent_of_GuiRequestEventArgs
 	
 	void GuiGraphicsEvent_of_GuiRequestEventArgs::SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_sender.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(_sender);
 		throw 0;
 	}
 	
@@ -4267,16 +9735,22 @@ GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler
 	{
 	}
 	
+	void GuiGraphicsEvent_of_GuiRequestEventArgs::IHandler::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	void GuiGraphicsEvent_of_GuiRequestEventArgs::IHandler::Execute(rptr<GuiGraphicsComposition> sender, GuiRequestEventArgs& argument)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(sender.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(sender);
 		vl::presentation::elements::GuiRequestEventArgs& _unwrapped_argument = *__GacUIInternal<GuiRequestEventArgs>::GetInternalObject(argument);
 		throw 0;
 	}
 	
 	rptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> GuiGraphicsEvent_of_GuiRequestEventArgs::IHandler::operator=(rptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> value)
 	{
-		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiRequestEventArgs>::IHandler const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiRequestEventArgs>::IHandler const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -4294,9 +9768,14 @@ GuiTabPage
 	{
 	}
 	
+	void GuiTabPage::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<GuiTabPage> GuiTabPage::operator=(rptr<GuiTabPage> value)
 	{
-		vl::presentation::controls::GuiTabPage const& _unwrapped_value = *__GacUIInternal<GuiTabPage>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiTabPage const& _unwrapped_value = *__GacUIInternal<GuiTabPage>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -4326,7 +9805,7 @@ GuiTabPage
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiTabPage::on_TextChanged()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiTabPage::on_TextChanged()
 	{
 		throw 0;
 	}
@@ -4346,6 +9825,12 @@ IGuiGraphicsAnimation
 	{
 	}
 	
+	void IGuiGraphicsAnimation::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	void IGuiGraphicsAnimation::Play(signed __int32 currentPosition, signed __int32 totalLength)
 	{
 		signed __int32 _unwrapped_currentPosition = currentPosition;
@@ -4360,7 +9845,7 @@ IGuiGraphicsAnimation
 	
 	rptr<IGuiGraphicsAnimation> IGuiGraphicsAnimation::operator=(rptr<IGuiGraphicsAnimation> value)
 	{
-		vl::presentation::elements::IGuiGraphicsAnimation const& _unwrapped_value = *__GacUIInternal<IGuiGraphicsAnimation>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::IGuiGraphicsAnimation const& _unwrapped_value = *__GacUIInternal<IGuiGraphicsAnimation>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -4388,6 +9873,11 @@ GuiGraphicsAnimationManager
 	{
 	}
 	
+	void GuiGraphicsAnimationManager::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<GuiGraphicsAnimationManager> GuiGraphicsAnimationManager::CreateRptr()
 	{
 		throw 0;
@@ -4395,7 +9885,7 @@ GuiGraphicsAnimationManager
 	
 	void GuiGraphicsAnimationManager::AddAnimation(sptr<IGuiGraphicsAnimation> animation)
 	{
-		vl::Ptr<vl::presentation::elements::IGuiGraphicsAnimation> _unwrapped_animation = __GacUIInternal<IGuiGraphicsAnimation>::GetInternalObject(*(animation.operator->()));
+		vl::Ptr<vl::presentation::elements::IGuiGraphicsAnimation> _unwrapped_animation = __GacUIInternal<IGuiGraphicsAnimation>::GetInternalObject(animation);
 		throw 0;
 	}
 	
@@ -4411,7 +9901,7 @@ GuiGraphicsAnimationManager
 	
 	rptr<GuiGraphicsAnimationManager> GuiGraphicsAnimationManager::operator=(rptr<GuiGraphicsAnimationManager> value)
 	{
-		vl::presentation::elements::GuiGraphicsAnimationManager const& _unwrapped_value = *__GacUIInternal<GuiGraphicsAnimationManager>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiGraphicsAnimationManager const& _unwrapped_value = *__GacUIInternal<GuiGraphicsAnimationManager>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -4430,6 +9920,12 @@ GuiTimeBasedAnimation
 	{
 	}
 	
+	void GuiTimeBasedAnimation::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IGuiGraphicsAnimation::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiTimeBasedAnimation> GuiTimeBasedAnimation::CreateRptr(signed __int32 totalMilliseconds)
 	{
 		signed __int32 _unwrapped_totalMilliseconds = totalMilliseconds;
@@ -4444,7 +9940,7 @@ GuiTimeBasedAnimation
 	
 	rptr<GuiTimeBasedAnimation> GuiTimeBasedAnimation::operator=(rptr<GuiTimeBasedAnimation> value)
 	{
-		vl::presentation::elements::GuiTimeBasedAnimation const& _unwrapped_value = *__GacUIInternal<GuiTimeBasedAnimation>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiTimeBasedAnimation const& _unwrapped_value = *__GacUIInternal<GuiTimeBasedAnimation>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -4462,6 +9958,11 @@ IGuiGraphicsElementFactory
 	{
 	}
 	
+	void IGuiGraphicsElementFactory::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<IGuiGraphicsElement> IGuiGraphicsElementFactory::Create()
 	{
 		throw 0;
@@ -4469,7 +9970,7 @@ IGuiGraphicsElementFactory
 	
 	rptr<IGuiGraphicsElementFactory> IGuiGraphicsElementFactory::operator=(rptr<IGuiGraphicsElementFactory> value)
 	{
-		vl::presentation::elements::IGuiGraphicsElementFactory const& _unwrapped_value = *__GacUIInternal<IGuiGraphicsElementFactory>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::IGuiGraphicsElementFactory const& _unwrapped_value = *__GacUIInternal<IGuiGraphicsElementFactory>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -4493,9 +9994,15 @@ IGuiGraphicsElement
 	{
 	}
 	
+	void IGuiGraphicsElement::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	rptr<IGuiGraphicsElement> IGuiGraphicsElement::operator=(rptr<IGuiGraphicsElement> value)
 	{
-		vl::presentation::elements::IGuiGraphicsElement const& _unwrapped_value = *__GacUIInternal<IGuiGraphicsElement>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::IGuiGraphicsElement const& _unwrapped_value = *__GacUIInternal<IGuiGraphicsElement>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -4524,6 +10031,12 @@ Gui3DBorderElement
 	{
 	}
 	
+	void Gui3DBorderElement::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IGuiGraphicsElement::ClearInternalObjectReference();
+	}
+	
 	void Gui3DBorderElement::SetColors(Color value1, Color value2)
 	{
 		vl::presentation::Color _unwrapped_value1 = *__GacUIInternal<Color>::GetInternalObject(value1);
@@ -4533,7 +10046,7 @@ Gui3DBorderElement
 	
 	rptr<Gui3DBorderElement> Gui3DBorderElement::operator=(rptr<Gui3DBorderElement> value)
 	{
-		vl::presentation::elements::Gui3DBorderElement const& _unwrapped_value = *__GacUIInternal<Gui3DBorderElement>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::Gui3DBorderElement const& _unwrapped_value = *__GacUIInternal<Gui3DBorderElement>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -4572,6 +10085,12 @@ Gui3DSplitterElement
 	{
 	}
 	
+	void Gui3DSplitterElement::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IGuiGraphicsElement::ClearInternalObjectReference();
+	}
+	
 	void Gui3DSplitterElement::SetColors(Color value1, Color value2)
 	{
 		vl::presentation::Color _unwrapped_value1 = *__GacUIInternal<Color>::GetInternalObject(value1);
@@ -4581,7 +10100,7 @@ Gui3DSplitterElement
 	
 	rptr<Gui3DSplitterElement> Gui3DSplitterElement::operator=(rptr<Gui3DSplitterElement> value)
 	{
-		vl::presentation::elements::Gui3DSplitterElement const& _unwrapped_value = *__GacUIInternal<Gui3DSplitterElement>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::Gui3DSplitterElement const& _unwrapped_value = *__GacUIInternal<Gui3DSplitterElement>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -4631,6 +10150,12 @@ GuiGradientBackgroundElement
 	{
 	}
 	
+	void GuiGradientBackgroundElement::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IGuiGraphicsElement::ClearInternalObjectReference();
+	}
+	
 	void GuiGradientBackgroundElement::SetColors(Color value1, Color value2)
 	{
 		vl::presentation::Color _unwrapped_value1 = *__GacUIInternal<Color>::GetInternalObject(value1);
@@ -4640,7 +10165,7 @@ GuiGradientBackgroundElement
 	
 	rptr<GuiGradientBackgroundElement> GuiGradientBackgroundElement::operator=(rptr<GuiGradientBackgroundElement> value)
 	{
-		vl::presentation::elements::GuiGradientBackgroundElement const& _unwrapped_value = *__GacUIInternal<GuiGradientBackgroundElement>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiGradientBackgroundElement const& _unwrapped_value = *__GacUIInternal<GuiGradientBackgroundElement>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -4701,9 +10226,15 @@ GuiImageFrameElement
 	{
 	}
 	
+	void GuiImageFrameElement::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IGuiGraphicsElement::ClearInternalObjectReference();
+	}
+	
 	void GuiImageFrameElement::SetImage(sptr<INativeImage> _image, signed __int32 _frameIndex)
 	{
-		vl::Ptr<vl::presentation::INativeImage> _unwrapped__image = __GacUIInternal<INativeImage>::GetInternalObject(*(_image.operator->()));
+		vl::Ptr<vl::presentation::INativeImage> _unwrapped__image = __GacUIInternal<INativeImage>::GetInternalObject(_image);
 		signed __int32 _unwrapped__frameIndex = _frameIndex;
 		throw 0;
 	}
@@ -4717,7 +10248,7 @@ GuiImageFrameElement
 	
 	rptr<GuiImageFrameElement> GuiImageFrameElement::operator=(rptr<GuiImageFrameElement> value)
 	{
-		vl::presentation::elements::GuiImageFrameElement const& _unwrapped_value = *__GacUIInternal<GuiImageFrameElement>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiImageFrameElement const& _unwrapped_value = *__GacUIInternal<GuiImageFrameElement>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -4777,9 +10308,15 @@ GuiRoundBorderElement
 	{
 	}
 	
+	void GuiRoundBorderElement::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IGuiGraphicsElement::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiRoundBorderElement> GuiRoundBorderElement::operator=(rptr<GuiRoundBorderElement> value)
 	{
-		vl::presentation::elements::GuiRoundBorderElement const& _unwrapped_value = *__GacUIInternal<GuiRoundBorderElement>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiRoundBorderElement const& _unwrapped_value = *__GacUIInternal<GuiRoundBorderElement>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -4830,9 +10367,15 @@ GuiSolidBackgroundElement
 	{
 	}
 	
+	void GuiSolidBackgroundElement::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IGuiGraphicsElement::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiSolidBackgroundElement> GuiSolidBackgroundElement::operator=(rptr<GuiSolidBackgroundElement> value)
 	{
-		vl::presentation::elements::GuiSolidBackgroundElement const& _unwrapped_value = *__GacUIInternal<GuiSolidBackgroundElement>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiSolidBackgroundElement const& _unwrapped_value = *__GacUIInternal<GuiSolidBackgroundElement>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -4883,9 +10426,15 @@ GuiSolidBorderElement
 	{
 	}
 	
+	void GuiSolidBorderElement::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IGuiGraphicsElement::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiSolidBorderElement> GuiSolidBorderElement::operator=(rptr<GuiSolidBorderElement> value)
 	{
-		vl::presentation::elements::GuiSolidBorderElement const& _unwrapped_value = *__GacUIInternal<GuiSolidBorderElement>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiSolidBorderElement const& _unwrapped_value = *__GacUIInternal<GuiSolidBorderElement>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -4936,6 +10485,12 @@ GuiSolidLabelElement
 	{
 	}
 	
+	void GuiSolidLabelElement::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IGuiGraphicsElement::ClearInternalObjectReference();
+	}
+	
 	void GuiSolidLabelElement::SetAlignments(Alignment :: Type horizontal, Alignment :: Type vertical)
 	{
 		vl::presentation::Alignment::Type _unwrapped_horizontal = (vl::presentation::Alignment::Type)horizontal;
@@ -4945,7 +10500,7 @@ GuiSolidLabelElement
 	
 	rptr<GuiSolidLabelElement> GuiSolidLabelElement::operator=(rptr<GuiSolidLabelElement> value)
 	{
-		vl::presentation::elements::GuiSolidLabelElement const& _unwrapped_value = *__GacUIInternal<GuiSolidLabelElement>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiSolidLabelElement const& _unwrapped_value = *__GacUIInternal<GuiSolidLabelElement>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -5049,6 +10604,11 @@ IGuiGraphicsRendererFactory
 	{
 	}
 	
+	void IGuiGraphicsRendererFactory::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<IGuiGraphicsRenderer> IGuiGraphicsRendererFactory::Create()
 	{
 		throw 0;
@@ -5056,7 +10616,7 @@ IGuiGraphicsRendererFactory
 	
 	rptr<IGuiGraphicsRendererFactory> IGuiGraphicsRendererFactory::operator=(rptr<IGuiGraphicsRendererFactory> value)
 	{
-		vl::presentation::elements::IGuiGraphicsRendererFactory const& _unwrapped_value = *__GacUIInternal<IGuiGraphicsRendererFactory>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::IGuiGraphicsRendererFactory const& _unwrapped_value = *__GacUIInternal<IGuiGraphicsRendererFactory>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -5075,6 +10635,12 @@ IGuiMenuService
 	{
 	}
 	
+	void IGuiMenuService::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	bool IGuiMenuService::IsActiveState()
 	{
 		throw 0;
@@ -5087,19 +10653,19 @@ IGuiMenuService
 	
 	void IGuiMenuService::MenuOpened(rptr<GuiMenu> menu)
 	{
-		vl::presentation::controls::GuiMenu* _unwrapped_menu = __GacUIInternal<GuiMenu>::GetInternalObject(*(menu.operator->()));
+		vl::presentation::controls::GuiMenu* _unwrapped_menu = __GacUIInternal<GuiMenu>::GetInternalObject(menu);
 		throw 0;
 	}
 	
 	void IGuiMenuService::MenuClosed(rptr<GuiMenu> menu)
 	{
-		vl::presentation::controls::GuiMenu* _unwrapped_menu = __GacUIInternal<GuiMenu>::GetInternalObject(*(menu.operator->()));
+		vl::presentation::controls::GuiMenu* _unwrapped_menu = __GacUIInternal<GuiMenu>::GetInternalObject(menu);
 		throw 0;
 	}
 	
 	rptr<IGuiMenuService> IGuiMenuService::operator=(rptr<IGuiMenuService> value)
 	{
-		vl::presentation::controls::IGuiMenuService const& _unwrapped_value = *__GacUIInternal<IGuiMenuService>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::IGuiMenuService const& _unwrapped_value = *__GacUIInternal<IGuiMenuService>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -5137,6 +10703,11 @@ IList_of_int
 	{
 	}
 	
+	void IList_of_int::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	signed __int32 IList_of_int::Insert(signed __int32 index, signed __int32 item)
 	{
 		signed __int32 _unwrapped_index = index;
@@ -5153,7 +10724,7 @@ IList_of_int
 	
 	rptr<IList_of_int> IList_of_int::operator=(rptr<IList_of_int> value)
 	{
-		vl::collections::IList<int,int> const& _unwrapped_value = *__GacUIInternal<IList_of_int>::GetInternalObject(*(value.operator->()));
+		vl::collections::IList<int,int> const& _unwrapped_value = *__GacUIInternal<IList_of_int>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -5171,23 +10742,28 @@ IList_of_MemoryNodeProvider
 	{
 	}
 	
+	void IList_of_MemoryNodeProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	signed __int32 IList_of_MemoryNodeProvider::Insert(signed __int32 index, sptr<MemoryNodeProvider> item)
 	{
 		signed __int32 _unwrapped_index = index;
-		vl::Ptr<vl::presentation::controls::tree::MemoryNodeProvider> _unwrapped_item = __GacUIInternal<MemoryNodeProvider>::GetInternalObject(*(item.operator->()));
+		vl::Ptr<vl::presentation::controls::tree::MemoryNodeProvider> _unwrapped_item = __GacUIInternal<MemoryNodeProvider>::GetInternalObject(item);
 		throw 0;
 	}
 	
 	bool IList_of_MemoryNodeProvider::Set(signed __int32 index, sptr<MemoryNodeProvider> item)
 	{
 		signed __int32 _unwrapped_index = index;
-		vl::Ptr<vl::presentation::controls::tree::MemoryNodeProvider> _unwrapped_item = __GacUIInternal<MemoryNodeProvider>::GetInternalObject(*(item.operator->()));
+		vl::Ptr<vl::presentation::controls::tree::MemoryNodeProvider> _unwrapped_item = __GacUIInternal<MemoryNodeProvider>::GetInternalObject(item);
 		throw 0;
 	}
 	
 	rptr<IList_of_MemoryNodeProvider> IList_of_MemoryNodeProvider::operator=(rptr<IList_of_MemoryNodeProvider> value)
 	{
-		vl::collections::IList<vl::Ptr<vl::presentation::controls::tree::MemoryNodeProvider>,vl::presentation::controls::tree::MemoryNodeProvider *> const& _unwrapped_value = *__GacUIInternal<IList_of_MemoryNodeProvider>::GetInternalObject(*(value.operator->()));
+		vl::collections::IList<vl::Ptr<vl::presentation::controls::tree::MemoryNodeProvider>,vl::presentation::controls::tree::MemoryNodeProvider *> const& _unwrapped_value = *__GacUIInternal<IList_of_MemoryNodeProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -5205,6 +10781,11 @@ INativeAsyncService
 	{
 	}
 	
+	void INativeAsyncService::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	bool INativeAsyncService::IsInMainThread()
 	{
 		throw 0;
@@ -5212,7 +10793,7 @@ INativeAsyncService
 	
 	rptr<INativeAsyncService> INativeAsyncService::operator=(rptr<INativeAsyncService> value)
 	{
-		vl::presentation::INativeAsyncService const& _unwrapped_value = *__GacUIInternal<INativeAsyncService>::GetInternalObject(*(value.operator->()));
+		vl::presentation::INativeAsyncService const& _unwrapped_value = *__GacUIInternal<INativeAsyncService>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -5230,6 +10811,11 @@ INativeClipboardService
 	{
 	}
 	
+	void INativeClipboardService::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	bool INativeClipboardService::ContainsText()
 	{
 		throw 0;
@@ -5243,7 +10829,7 @@ INativeClipboardService
 	
 	rptr<INativeClipboardService> INativeClipboardService::operator=(rptr<INativeClipboardService> value)
 	{
-		vl::presentation::INativeClipboardService const& _unwrapped_value = *__GacUIInternal<INativeClipboardService>::GetInternalObject(*(value.operator->()));
+		vl::presentation::INativeClipboardService const& _unwrapped_value = *__GacUIInternal<INativeClipboardService>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -5266,6 +10852,11 @@ INativeCursor
 	{
 	}
 	
+	void INativeCursor::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	bool INativeCursor::IsSystemCursor()
 	{
 		throw 0;
@@ -5273,7 +10864,7 @@ INativeCursor
 	
 	rptr<INativeCursor> INativeCursor::operator=(rptr<INativeCursor> value)
 	{
-		vl::presentation::INativeCursor const& _unwrapped_value = *__GacUIInternal<INativeCursor>::GetInternalObject(*(value.operator->()));
+		vl::presentation::INativeCursor const& _unwrapped_value = *__GacUIInternal<INativeCursor>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -5301,21 +10892,26 @@ INativeImageFrameCache
 	{
 	}
 	
+	void INativeImageFrameCache::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	void INativeImageFrameCache::OnAttach(rptr<INativeImageFrame> frame)
 	{
-		vl::presentation::INativeImageFrame* _unwrapped_frame = __GacUIInternal<INativeImageFrame>::GetInternalObject(*(frame.operator->()));
+		vl::presentation::INativeImageFrame* _unwrapped_frame = __GacUIInternal<INativeImageFrame>::GetInternalObject(frame);
 		throw 0;
 	}
 	
 	void INativeImageFrameCache::OnDetach(rptr<INativeImageFrame> frame)
 	{
-		vl::presentation::INativeImageFrame* _unwrapped_frame = __GacUIInternal<INativeImageFrame>::GetInternalObject(*(frame.operator->()));
+		vl::presentation::INativeImageFrame* _unwrapped_frame = __GacUIInternal<INativeImageFrame>::GetInternalObject(frame);
 		throw 0;
 	}
 	
 	rptr<INativeImageFrameCache> INativeImageFrameCache::operator=(rptr<INativeImageFrameCache> value)
 	{
-		vl::presentation::INativeImageFrameCache const& _unwrapped_value = *__GacUIInternal<INativeImageFrameCache>::GetInternalObject(*(value.operator->()));
+		vl::presentation::INativeImageFrameCache const& _unwrapped_value = *__GacUIInternal<INativeImageFrameCache>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -5333,6 +10929,11 @@ INativeImageService
 	{
 	}
 	
+	void INativeImageService::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	sptr<INativeImage> INativeImageService::CreateImageFromFile(const GacString& path)
 	{
 		vl::ObjectString<wchar_t> _unwrapped_path = path.Buffer();
@@ -5341,7 +10942,7 @@ INativeImageService
 	
 	rptr<INativeImageService> INativeImageService::operator=(rptr<INativeImageService> value)
 	{
-		vl::presentation::INativeImageService const& _unwrapped_value = *__GacUIInternal<INativeImageService>::GetInternalObject(*(value.operator->()));
+		vl::presentation::INativeImageService const& _unwrapped_value = *__GacUIInternal<INativeImageService>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -5359,6 +10960,11 @@ INativeImage
 	{
 	}
 	
+	void INativeImage::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<INativeImageFrame> INativeImage::GetFrame(signed __int32 index)
 	{
 		signed __int32 _unwrapped_index = index;
@@ -5367,7 +10973,7 @@ INativeImage
 	
 	rptr<INativeImage> INativeImage::operator=(rptr<INativeImage> value)
 	{
-		vl::presentation::INativeImage const& _unwrapped_value = *__GacUIInternal<INativeImage>::GetInternalObject(*(value.operator->()));
+		vl::presentation::INativeImage const& _unwrapped_value = *__GacUIInternal<INativeImage>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -5398,6 +11004,11 @@ INativeInputService
 	
 	INativeInputService::~INativeInputService()
 	{
+	}
+	
+	void INativeInputService::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
 	}
 	
 	void INativeInputService::StartHookMouse()
@@ -5444,7 +11055,7 @@ INativeInputService
 	
 	rptr<INativeInputService> INativeInputService::operator=(rptr<INativeInputService> value)
 	{
-		vl::presentation::INativeInputService const& _unwrapped_value = *__GacUIInternal<INativeInputService>::GetInternalObject(*(value.operator->()));
+		vl::presentation::INativeInputService const& _unwrapped_value = *__GacUIInternal<INativeInputService>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -5462,6 +11073,11 @@ INativeResourceService
 	{
 	}
 	
+	void INativeResourceService::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<INativeCursor> INativeResourceService::GetSystemCursor(INativeCursor :: SystemCursorType type)
 	{
 		vl::presentation::INativeCursor::SystemCursorType _unwrapped_type = (vl::presentation::INativeCursor::SystemCursorType)type;
@@ -5470,7 +11086,7 @@ INativeResourceService
 	
 	rptr<INativeResourceService> INativeResourceService::operator=(rptr<INativeResourceService> value)
 	{
-		vl::presentation::INativeResourceService const& _unwrapped_value = *__GacUIInternal<INativeResourceService>::GetInternalObject(*(value.operator->()));
+		vl::presentation::INativeResourceService const& _unwrapped_value = *__GacUIInternal<INativeResourceService>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -5505,15 +11121,21 @@ INodeItemPrimaryTextView
 	{
 	}
 	
+	void INodeItemPrimaryTextView::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	GacString INodeItemPrimaryTextView::GetPrimaryTextViewText(rptr<INodeProvider> node)
 	{
-		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(*(node.operator->()));
+		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(node);
 		throw 0;
 	}
 	
 	rptr<INodeItemPrimaryTextView> INodeItemPrimaryTextView::operator=(rptr<INodeItemPrimaryTextView> value)
 	{
-		vl::presentation::controls::tree::INodeItemPrimaryTextView const& _unwrapped_value = *__GacUIInternal<INodeItemPrimaryTextView>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::tree::INodeItemPrimaryTextView const& _unwrapped_value = *__GacUIInternal<INodeItemPrimaryTextView>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -5537,6 +11159,12 @@ INodeProvider
 	{
 	}
 	
+	void INodeProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	signed __int32 INodeProvider::CalculateTotalVisibleNodes()
 	{
 		throw 0;
@@ -5550,13 +11178,13 @@ INodeProvider
 	
 	void INodeProvider::ReleaseChild(rptr<INodeProvider> node)
 	{
-		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(*(node.operator->()));
+		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(node);
 		throw 0;
 	}
 	
 	rptr<INodeProvider> INodeProvider::operator=(rptr<INodeProvider> value)
 	{
-		vl::presentation::controls::tree::INodeProvider const& _unwrapped_value = *__GacUIInternal<INodeProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::tree::INodeProvider const& _unwrapped_value = *__GacUIInternal<INodeProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -5596,15 +11224,21 @@ INodeProviderCallback
 	{
 	}
 	
+	void INodeProviderCallback::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	void INodeProviderCallback::OnAttached(rptr<INodeRootProvider> provider)
 	{
-		vl::presentation::controls::tree::INodeRootProvider* _unwrapped_provider = __GacUIInternal<INodeRootProvider>::GetInternalObject(*(provider.operator->()));
+		vl::presentation::controls::tree::INodeRootProvider* _unwrapped_provider = __GacUIInternal<INodeRootProvider>::GetInternalObject(provider);
 		throw 0;
 	}
 	
 	void INodeProviderCallback::OnBeforeItemModified(rptr<INodeProvider> parentNode, signed __int32 start, signed __int32 count, signed __int32 newCount)
 	{
-		vl::presentation::controls::tree::INodeProvider* _unwrapped_parentNode = __GacUIInternal<INodeProvider>::GetInternalObject(*(parentNode.operator->()));
+		vl::presentation::controls::tree::INodeProvider* _unwrapped_parentNode = __GacUIInternal<INodeProvider>::GetInternalObject(parentNode);
 		signed __int32 _unwrapped_start = start;
 		signed __int32 _unwrapped_count = count;
 		signed __int32 _unwrapped_newCount = newCount;
@@ -5613,7 +11247,7 @@ INodeProviderCallback
 	
 	void INodeProviderCallback::OnAfterItemModified(rptr<INodeProvider> parentNode, signed __int32 start, signed __int32 count, signed __int32 newCount)
 	{
-		vl::presentation::controls::tree::INodeProvider* _unwrapped_parentNode = __GacUIInternal<INodeProvider>::GetInternalObject(*(parentNode.operator->()));
+		vl::presentation::controls::tree::INodeProvider* _unwrapped_parentNode = __GacUIInternal<INodeProvider>::GetInternalObject(parentNode);
 		signed __int32 _unwrapped_start = start;
 		signed __int32 _unwrapped_count = count;
 		signed __int32 _unwrapped_newCount = newCount;
@@ -5622,19 +11256,19 @@ INodeProviderCallback
 	
 	void INodeProviderCallback::OnItemExpanded(rptr<INodeProvider> node)
 	{
-		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(*(node.operator->()));
+		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(node);
 		throw 0;
 	}
 	
 	void INodeProviderCallback::OnItemCollapsed(rptr<INodeProvider> node)
 	{
-		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(*(node.operator->()));
+		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(node);
 		throw 0;
 	}
 	
 	rptr<INodeProviderCallback> INodeProviderCallback::operator=(rptr<INodeProviderCallback> value)
 	{
-		vl::presentation::controls::tree::INodeProviderCallback const& _unwrapped_value = *__GacUIInternal<INodeProviderCallback>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::tree::INodeProviderCallback const& _unwrapped_value = *__GacUIInternal<INodeProviderCallback>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -5653,6 +11287,12 @@ INodeRootProvider
 	{
 	}
 	
+	void INodeRootProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	bool INodeRootProvider::CanGetNodeByVisibleIndex()
 	{
 		throw 0;
@@ -5666,13 +11306,13 @@ INodeRootProvider
 	
 	bool INodeRootProvider::AttachCallback(rptr<INodeProviderCallback> value)
 	{
-		vl::presentation::controls::tree::INodeProviderCallback* _unwrapped_value = __GacUIInternal<INodeProviderCallback>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::tree::INodeProviderCallback* _unwrapped_value = __GacUIInternal<INodeProviderCallback>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	bool INodeRootProvider::DetachCallback(rptr<INodeProviderCallback> value)
 	{
-		vl::presentation::controls::tree::INodeProviderCallback* _unwrapped_value = __GacUIInternal<INodeProviderCallback>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::tree::INodeProviderCallback* _unwrapped_value = __GacUIInternal<INodeProviderCallback>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -5684,13 +11324,13 @@ INodeRootProvider
 	
 	void INodeRootProvider::ReleaseView(rptr<IDescriptable> view)
 	{
-		vl::presentation::IDescriptable* _unwrapped_view = __GacUIInternal<IDescriptable>::GetInternalObject(*(view.operator->()));
+		vl::presentation::IDescriptable* _unwrapped_view = __GacUIInternal<IDescriptable>::GetInternalObject(view);
 		throw 0;
 	}
 	
 	rptr<INodeRootProvider> INodeRootProvider::operator=(rptr<INodeRootProvider> value)
 	{
-		vl::presentation::controls::tree::INodeRootProvider const& _unwrapped_value = *__GacUIInternal<INodeRootProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::tree::INodeRootProvider const& _unwrapped_value = *__GacUIInternal<INodeRootProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -5711,6 +11351,11 @@ IReadonlyList_of_ColorEntry
 	
 	IReadonlyList_of_ColorEntry::~IReadonlyList_of_ColorEntry()
 	{
+	}
+	
+	void IReadonlyList_of_ColorEntry::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
 	}
 	
 	bool IReadonlyList_of_ColorEntry::Contains(const ColorEntry& item)
@@ -5744,7 +11389,7 @@ IReadonlyList_of_ColorEntry
 	
 	rptr<IReadonlyList_of_ColorEntry> IReadonlyList_of_ColorEntry::operator=(rptr<IReadonlyList_of_ColorEntry> value)
 	{
-		vl::collections::IReadonlyList<vl::presentation::elements::text::ColorEntry,vl::presentation::elements::text::ColorEntry> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_ColorEntry>::GetInternalObject(*(value.operator->()));
+		vl::collections::IReadonlyList<vl::presentation::elements::text::ColorEntry,vl::presentation::elements::text::ColorEntry> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_ColorEntry>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -5762,9 +11407,14 @@ IReadonlyList_of_GuiGraphicsComposition_raw_pointer
 	{
 	}
 	
+	void IReadonlyList_of_GuiGraphicsComposition_raw_pointer::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	bool IReadonlyList_of_GuiGraphicsComposition_raw_pointer::Contains(rptr<GuiGraphicsComposition> item)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_item = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(item.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_item = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(item);
 		throw 0;
 	}
 	
@@ -5787,13 +11437,13 @@ IReadonlyList_of_GuiGraphicsComposition_raw_pointer
 	
 	signed __int32 IReadonlyList_of_GuiGraphicsComposition_raw_pointer::IndexOf(rptr<GuiGraphicsComposition> item)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_item = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(item.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_item = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(item);
 		throw 0;
 	}
 	
 	rptr<IReadonlyList_of_GuiGraphicsComposition_raw_pointer> IReadonlyList_of_GuiGraphicsComposition_raw_pointer::operator=(rptr<IReadonlyList_of_GuiGraphicsComposition_raw_pointer> value)
 	{
-		vl::collections::IReadonlyList<vl::presentation::elements::GuiGraphicsComposition *,vl::presentation::elements::GuiGraphicsComposition *> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_GuiGraphicsComposition_raw_pointer>::GetInternalObject(*(value.operator->()));
+		vl::collections::IReadonlyList<vl::presentation::elements::GuiGraphicsComposition *,vl::presentation::elements::GuiGraphicsComposition *> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_GuiGraphicsComposition_raw_pointer>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -5811,9 +11461,14 @@ IReadonlyList_of_GuiTabPage_raw_pointer
 	{
 	}
 	
+	void IReadonlyList_of_GuiTabPage_raw_pointer::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	bool IReadonlyList_of_GuiTabPage_raw_pointer::Contains(rptr<GuiTabPage> item)
 	{
-		vl::presentation::controls::GuiTabPage* _unwrapped_item = __GacUIInternal<GuiTabPage>::GetInternalObject(*(item.operator->()));
+		vl::presentation::controls::GuiTabPage* _unwrapped_item = __GacUIInternal<GuiTabPage>::GetInternalObject(item);
 		throw 0;
 	}
 	
@@ -5836,13 +11491,13 @@ IReadonlyList_of_GuiTabPage_raw_pointer
 	
 	signed __int32 IReadonlyList_of_GuiTabPage_raw_pointer::IndexOf(rptr<GuiTabPage> item)
 	{
-		vl::presentation::controls::GuiTabPage* _unwrapped_item = __GacUIInternal<GuiTabPage>::GetInternalObject(*(item.operator->()));
+		vl::presentation::controls::GuiTabPage* _unwrapped_item = __GacUIInternal<GuiTabPage>::GetInternalObject(item);
 		throw 0;
 	}
 	
 	rptr<IReadonlyList_of_GuiTabPage_raw_pointer> IReadonlyList_of_GuiTabPage_raw_pointer::operator=(rptr<IReadonlyList_of_GuiTabPage_raw_pointer> value)
 	{
-		vl::collections::IReadonlyList<vl::presentation::controls::GuiTabPage *,vl::presentation::controls::GuiTabPage *> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_GuiTabPage_raw_pointer>::GetInternalObject(*(value.operator->()));
+		vl::collections::IReadonlyList<vl::presentation::controls::GuiTabPage *,vl::presentation::controls::GuiTabPage *> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_GuiTabPage_raw_pointer>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -5858,6 +11513,11 @@ IReadonlyList_of_int
 	
 	IReadonlyList_of_int::~IReadonlyList_of_int()
 	{
+	}
+	
+	void IReadonlyList_of_int::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
 	}
 	
 	bool IReadonlyList_of_int::Contains(signed __int32 item)
@@ -5891,7 +11551,7 @@ IReadonlyList_of_int
 	
 	rptr<IReadonlyList_of_int> IReadonlyList_of_int::operator=(rptr<IReadonlyList_of_int> value)
 	{
-		vl::collections::IReadonlyList<int,int> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_int>::GetInternalObject(*(value.operator->()));
+		vl::collections::IReadonlyList<int,int> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_int>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -5910,21 +11570,27 @@ ITreeViewItemView
 	{
 	}
 	
+	void ITreeViewItemView::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		INodeItemPrimaryTextView::ClearInternalObjectReference();
+	}
+	
 	sptr<GuiImageData> ITreeViewItemView::GetNodeImage(rptr<INodeProvider> node)
 	{
-		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(*(node.operator->()));
+		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(node);
 		throw 0;
 	}
 	
 	GacString ITreeViewItemView::GetNodeText(rptr<INodeProvider> node)
 	{
-		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(*(node.operator->()));
+		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(node);
 		throw 0;
 	}
 	
 	rptr<ITreeViewItemView> ITreeViewItemView::operator=(rptr<ITreeViewItemView> value)
 	{
-		vl::presentation::controls::tree::ITreeViewItemView const& _unwrapped_value = *__GacUIInternal<ITreeViewItemView>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::tree::ITreeViewItemView const& _unwrapped_value = *__GacUIInternal<ITreeViewItemView>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -5945,6 +11611,11 @@ List_of_ObjectString_of_wchar_t
 	
 	List_of_ObjectString_of_wchar_t::~List_of_ObjectString_of_wchar_t()
 	{
+	}
+	
+	void List_of_ObjectString_of_wchar_t::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
 	}
 	
 	rptr<List_of_ObjectString_of_wchar_t> List_of_ObjectString_of_wchar_t::CreateRptr()
@@ -5998,7 +11669,7 @@ List_of_ObjectString_of_wchar_t
 	
 	rptr<List_of_ObjectString_of_wchar_t> List_of_ObjectString_of_wchar_t::operator=(rptr<List_of_ObjectString_of_wchar_t> value)
 	{
-		vl::collections::List<vl::ObjectString<wchar_t>,vl::ObjectString<wchar_t> > const& _unwrapped_value = *__GacUIInternal<List_of_ObjectString_of_wchar_t>::GetInternalObject(*(value.operator->()));
+		vl::collections::List<vl::ObjectString<wchar_t>,vl::ObjectString<wchar_t> > const& _unwrapped_value = *__GacUIInternal<List_of_ObjectString_of_wchar_t>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -6015,6 +11686,11 @@ ListViewColumn
 	ListViewColumn::~ListViewColumn()
 	{
 		delete __GacUIInternal<ListViewColumn>::GetInternalObject(*this);
+	}
+	
+	void ListViewColumn::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
 	}
 	
 	rptr<ListViewColumn> ListViewColumn::CreateRptr(const GacString& _text, signed __int32 _size)
@@ -6071,23 +11747,28 @@ IList_of_ListViewColumn
 	{
 	}
 	
+	void IList_of_ListViewColumn::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	signed __int32 IList_of_ListViewColumn::Insert(signed __int32 index, sptr<ListViewColumn> item)
 	{
 		signed __int32 _unwrapped_index = index;
-		vl::Ptr<vl::presentation::controls::list::ListViewColumn> _unwrapped_item = __GacUIInternal<ListViewColumn>::GetInternalObject(*(item.operator->()));
+		vl::Ptr<vl::presentation::controls::list::ListViewColumn> _unwrapped_item = __GacUIInternal<ListViewColumn>::GetInternalObject(item);
 		throw 0;
 	}
 	
 	bool IList_of_ListViewColumn::Set(signed __int32 index, sptr<ListViewColumn> item)
 	{
 		signed __int32 _unwrapped_index = index;
-		vl::Ptr<vl::presentation::controls::list::ListViewColumn> _unwrapped_item = __GacUIInternal<ListViewColumn>::GetInternalObject(*(item.operator->()));
+		vl::Ptr<vl::presentation::controls::list::ListViewColumn> _unwrapped_item = __GacUIInternal<ListViewColumn>::GetInternalObject(item);
 		throw 0;
 	}
 	
 	rptr<IList_of_ListViewColumn> IList_of_ListViewColumn::operator=(rptr<IList_of_ListViewColumn> value)
 	{
-		vl::collections::IList<vl::Ptr<vl::presentation::controls::list::ListViewColumn>,vl::presentation::controls::list::ListViewColumn *> const& _unwrapped_value = *__GacUIInternal<IList_of_ListViewColumn>::GetInternalObject(*(value.operator->()));
+		vl::collections::IList<vl::Ptr<vl::presentation::controls::list::ListViewColumn>,vl::presentation::controls::list::ListViewColumn *> const& _unwrapped_value = *__GacUIInternal<IList_of_ListViewColumn>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -6106,6 +11787,11 @@ ListViewItem
 		delete __GacUIInternal<ListViewItem>::GetInternalObject(*this);
 	}
 	
+	void ListViewItem::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	ListViewItem& ListViewItem::operator=(const ListViewItem& value)
 	{
 		vl::presentation::controls::list::ListViewItem const& _unwrapped_value = *__GacUIInternal<ListViewItem>::GetInternalObject(value);
@@ -6119,7 +11805,7 @@ ListViewItem
 	
 	void ListViewItem::set_smallImage(sptr<GuiImageData> value)
 	{
-		vl::Ptr<vl::presentation::controls::GuiImageData> _unwrapped_value = __GacUIInternal<GuiImageData>::GetInternalObject(*(value.operator->()));
+		vl::Ptr<vl::presentation::controls::GuiImageData> _unwrapped_value = __GacUIInternal<GuiImageData>::GetInternalObject(value);
 		throw 0;
 	}
 	sptr<GuiImageData> ListViewItem::get_largeImage()
@@ -6129,7 +11815,7 @@ ListViewItem
 	
 	void ListViewItem::set_largeImage(sptr<GuiImageData> value)
 	{
-		vl::Ptr<vl::presentation::controls::GuiImageData> _unwrapped_value = __GacUIInternal<GuiImageData>::GetInternalObject(*(value.operator->()));
+		vl::Ptr<vl::presentation::controls::GuiImageData> _unwrapped_value = __GacUIInternal<GuiImageData>::GetInternalObject(value);
 		throw 0;
 	}
 	GacString ListViewItem::get_text()
@@ -6142,7 +11828,7 @@ ListViewItem
 		vl::ObjectString<wchar_t> _unwrapped_value = value.Buffer();
 		throw 0;
 	}
-	List_of_ObjectString_of_wchar_t ListViewItem::get_subItems()
+	rptr<List_of_ObjectString_of_wchar_t> ListViewItem::get_subItems()
 	{
 		throw 0;
 	}
@@ -6161,23 +11847,28 @@ IList_of_ListViewItem
 	{
 	}
 	
+	void IList_of_ListViewItem::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	signed __int32 IList_of_ListViewItem::Insert(signed __int32 index, sptr<ListViewItem> item)
 	{
 		signed __int32 _unwrapped_index = index;
-		vl::Ptr<vl::presentation::controls::list::ListViewItem> _unwrapped_item = __GacUIInternal<ListViewItem>::GetInternalObject(*(item.operator->()));
+		vl::Ptr<vl::presentation::controls::list::ListViewItem> _unwrapped_item = __GacUIInternal<ListViewItem>::GetInternalObject(item);
 		throw 0;
 	}
 	
 	bool IList_of_ListViewItem::Set(signed __int32 index, sptr<ListViewItem> item)
 	{
 		signed __int32 _unwrapped_index = index;
-		vl::Ptr<vl::presentation::controls::list::ListViewItem> _unwrapped_item = __GacUIInternal<ListViewItem>::GetInternalObject(*(item.operator->()));
+		vl::Ptr<vl::presentation::controls::list::ListViewItem> _unwrapped_item = __GacUIInternal<ListViewItem>::GetInternalObject(item);
 		throw 0;
 	}
 	
 	rptr<IList_of_ListViewItem> IList_of_ListViewItem::operator=(rptr<IList_of_ListViewItem> value)
 	{
-		vl::collections::IList<vl::Ptr<vl::presentation::controls::list::ListViewItem>,vl::presentation::controls::list::ListViewItem *> const& _unwrapped_value = *__GacUIInternal<IList_of_ListViewItem>::GetInternalObject(*(value.operator->()));
+		vl::collections::IList<vl::Ptr<vl::presentation::controls::list::ListViewItem>,vl::presentation::controls::list::ListViewItem *> const& _unwrapped_value = *__GacUIInternal<IList_of_ListViewItem>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -6194,6 +11885,11 @@ Margin
 	Margin::~Margin()
 	{
 		delete __GacUIInternal<Margin>::GetInternalObject(*this);
+	}
+	
+	void Margin::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
 	}
 	
 	rptr<Margin> Margin::CreateRptr(signed __int32 _left, signed __int32 _top, signed __int32 _right, signed __int32 _bottom)
@@ -6291,9 +11987,15 @@ MemoryNodeProvider
 	{
 	}
 	
+	void MemoryNodeProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		INodeProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<MemoryNodeProvider> MemoryNodeProvider::CreateRptr(sptr<DescriptableObject> _data)
 	{
-		vl::Ptr<vl::presentation::DescriptableObject> _unwrapped__data = __GacUIInternal<DescriptableObject>::GetInternalObject(*(_data.operator->()));
+		vl::Ptr<vl::presentation::DescriptableObject> _unwrapped__data = __GacUIInternal<DescriptableObject>::GetInternalObject(_data);
 		throw 0;
 	}
 	
@@ -6314,7 +12016,7 @@ MemoryNodeProvider
 	
 	rptr<MemoryNodeProvider> MemoryNodeProvider::operator=(rptr<MemoryNodeProvider> value)
 	{
-		vl::presentation::controls::tree::MemoryNodeProvider const& _unwrapped_value = *__GacUIInternal<MemoryNodeProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::tree::MemoryNodeProvider const& _unwrapped_value = *__GacUIInternal<MemoryNodeProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -6325,7 +12027,7 @@ MemoryNodeProvider
 	
 	void MemoryNodeProvider::SetData(sptr<DescriptableObject> value)
 	{
-		vl::Ptr<vl::presentation::DescriptableObject> _unwrapped_value = __GacUIInternal<DescriptableObject>::GetInternalObject(*(value.operator->()));
+		vl::Ptr<vl::presentation::DescriptableObject> _unwrapped_value = __GacUIInternal<DescriptableObject>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -6342,6 +12044,11 @@ NativeWindowCharInfo
 	NativeWindowCharInfo::~NativeWindowCharInfo()
 	{
 		delete __GacUIInternal<NativeWindowCharInfo>::GetInternalObject(*this);
+	}
+	
+	void NativeWindowCharInfo::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
 	}
 	
 	wchar_t NativeWindowCharInfo::get_code()
@@ -6411,15 +12118,22 @@ GuiCharEventArgs
 		delete __GacUIInternal<GuiCharEventArgs>::GetInternalObject(*this);
 	}
 	
+	void GuiCharEventArgs::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiEventArgs::ClearInternalObjectReference();
+		NativeWindowCharInfo::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiCharEventArgs> GuiCharEventArgs::CreateRptr(rptr<GuiGraphicsComposition> composition)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(composition.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(composition);
 		throw 0;
 	}
 	
 	GuiCharEventArgs GuiCharEventArgs::Create(rptr<GuiGraphicsComposition> composition)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(composition.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(composition);
 		throw 0;
 	}
 	
@@ -6447,21 +12161,26 @@ GuiGraphicsEvent_of_GuiCharEventArgs
 	{
 	}
 	
+	void GuiGraphicsEvent_of_GuiCharEventArgs::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<GuiGraphicsEvent_of_GuiCharEventArgs> GuiGraphicsEvent_of_GuiCharEventArgs::CreateRptr(rptr<GuiGraphicsComposition> _sender)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_sender.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(_sender);
 		throw 0;
 	}
 	
 	bool GuiGraphicsEvent_of_GuiCharEventArgs::Attach(sptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> handler)
 	{
-		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiCharEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler>::GetInternalObject(*(handler.operator->()));
+		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiCharEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler>::GetInternalObject(handler);
 		throw 0;
 	}
 	
 	bool GuiGraphicsEvent_of_GuiCharEventArgs::Detach(sptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> handler)
 	{
-		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiCharEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler>::GetInternalObject(*(handler.operator->()));
+		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiCharEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler>::GetInternalObject(handler);
 		throw 0;
 	}
 	
@@ -6473,7 +12192,7 @@ GuiGraphicsEvent_of_GuiCharEventArgs
 	
 	rptr<GuiGraphicsEvent_of_GuiCharEventArgs> GuiGraphicsEvent_of_GuiCharEventArgs::operator=(rptr<GuiGraphicsEvent_of_GuiCharEventArgs> value)
 	{
-		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiCharEventArgs> const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiCharEventArgs>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiCharEventArgs> const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiCharEventArgs>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -6484,7 +12203,7 @@ GuiGraphicsEvent_of_GuiCharEventArgs
 	
 	void GuiGraphicsEvent_of_GuiCharEventArgs::SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_sender.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(_sender);
 		throw 0;
 	}
 	
@@ -6503,16 +12222,22 @@ GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler
 	{
 	}
 	
+	void GuiGraphicsEvent_of_GuiCharEventArgs::IHandler::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	void GuiGraphicsEvent_of_GuiCharEventArgs::IHandler::Execute(rptr<GuiGraphicsComposition> sender, GuiCharEventArgs& argument)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(sender.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(sender);
 		vl::presentation::elements::GuiCharEventArgs& _unwrapped_argument = *__GacUIInternal<GuiCharEventArgs>::GetInternalObject(argument);
 		throw 0;
 	}
 	
 	rptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> GuiGraphicsEvent_of_GuiCharEventArgs::IHandler::operator=(rptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> value)
 	{
-		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiCharEventArgs>::IHandler const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiCharEventArgs>::IHandler const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -6529,6 +12254,11 @@ NativeWindowKeyInfo
 	NativeWindowKeyInfo::~NativeWindowKeyInfo()
 	{
 		delete __GacUIInternal<NativeWindowKeyInfo>::GetInternalObject(*this);
+	}
+	
+	void NativeWindowKeyInfo::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
 	}
 	
 	signed __int32 NativeWindowKeyInfo::get_code()
@@ -6598,15 +12328,22 @@ GuiKeyEventArgs
 		delete __GacUIInternal<GuiKeyEventArgs>::GetInternalObject(*this);
 	}
 	
+	void GuiKeyEventArgs::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiEventArgs::ClearInternalObjectReference();
+		NativeWindowKeyInfo::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiKeyEventArgs> GuiKeyEventArgs::CreateRptr(rptr<GuiGraphicsComposition> composition)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(composition.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(composition);
 		throw 0;
 	}
 	
 	GuiKeyEventArgs GuiKeyEventArgs::Create(rptr<GuiGraphicsComposition> composition)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(composition.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(composition);
 		throw 0;
 	}
 	
@@ -6634,21 +12371,26 @@ GuiGraphicsEvent_of_GuiKeyEventArgs
 	{
 	}
 	
+	void GuiGraphicsEvent_of_GuiKeyEventArgs::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> GuiGraphicsEvent_of_GuiKeyEventArgs::CreateRptr(rptr<GuiGraphicsComposition> _sender)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_sender.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(_sender);
 		throw 0;
 	}
 	
 	bool GuiGraphicsEvent_of_GuiKeyEventArgs::Attach(sptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> handler)
 	{
-		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiKeyEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler>::GetInternalObject(*(handler.operator->()));
+		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiKeyEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler>::GetInternalObject(handler);
 		throw 0;
 	}
 	
 	bool GuiGraphicsEvent_of_GuiKeyEventArgs::Detach(sptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> handler)
 	{
-		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiKeyEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler>::GetInternalObject(*(handler.operator->()));
+		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiKeyEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler>::GetInternalObject(handler);
 		throw 0;
 	}
 	
@@ -6660,7 +12402,7 @@ GuiGraphicsEvent_of_GuiKeyEventArgs
 	
 	rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> GuiGraphicsEvent_of_GuiKeyEventArgs::operator=(rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> value)
 	{
-		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiKeyEventArgs> const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiKeyEventArgs>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiKeyEventArgs> const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiKeyEventArgs>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -6671,7 +12413,7 @@ GuiGraphicsEvent_of_GuiKeyEventArgs
 	
 	void GuiGraphicsEvent_of_GuiKeyEventArgs::SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_sender.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(_sender);
 		throw 0;
 	}
 	
@@ -6690,16 +12432,22 @@ GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler
 	{
 	}
 	
+	void GuiGraphicsEvent_of_GuiKeyEventArgs::IHandler::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	void GuiGraphicsEvent_of_GuiKeyEventArgs::IHandler::Execute(rptr<GuiGraphicsComposition> sender, GuiKeyEventArgs& argument)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(sender.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(sender);
 		vl::presentation::elements::GuiKeyEventArgs& _unwrapped_argument = *__GacUIInternal<GuiKeyEventArgs>::GetInternalObject(argument);
 		throw 0;
 	}
 	
 	rptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> GuiGraphicsEvent_of_GuiKeyEventArgs::IHandler::operator=(rptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> value)
 	{
-		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiKeyEventArgs>::IHandler const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiKeyEventArgs>::IHandler const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -6716,6 +12464,11 @@ NativeWindowMouseInfo
 	NativeWindowMouseInfo::~NativeWindowMouseInfo()
 	{
 		delete __GacUIInternal<NativeWindowMouseInfo>::GetInternalObject(*this);
+	}
+	
+	void NativeWindowMouseInfo::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
 	}
 	
 	bool NativeWindowMouseInfo::get_ctrl()
@@ -6815,15 +12568,22 @@ GuiMouseEventArgs
 		delete __GacUIInternal<GuiMouseEventArgs>::GetInternalObject(*this);
 	}
 	
+	void GuiMouseEventArgs::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiEventArgs::ClearInternalObjectReference();
+		NativeWindowMouseInfo::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiMouseEventArgs> GuiMouseEventArgs::CreateRptr(rptr<GuiGraphicsComposition> composition)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(composition.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(composition);
 		throw 0;
 	}
 	
 	GuiMouseEventArgs GuiMouseEventArgs::Create(rptr<GuiGraphicsComposition> composition)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(composition.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(composition);
 		throw 0;
 	}
 	
@@ -6851,21 +12611,26 @@ GuiGraphicsEvent_of_GuiMouseEventArgs
 	{
 	}
 	
+	void GuiGraphicsEvent_of_GuiMouseEventArgs::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> GuiGraphicsEvent_of_GuiMouseEventArgs::CreateRptr(rptr<GuiGraphicsComposition> _sender)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_sender.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(_sender);
 		throw 0;
 	}
 	
 	bool GuiGraphicsEvent_of_GuiMouseEventArgs::Attach(sptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> handler)
 	{
-		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiMouseEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler>::GetInternalObject(*(handler.operator->()));
+		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiMouseEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler>::GetInternalObject(handler);
 		throw 0;
 	}
 	
 	bool GuiGraphicsEvent_of_GuiMouseEventArgs::Detach(sptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> handler)
 	{
-		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiMouseEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler>::GetInternalObject(*(handler.operator->()));
+		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiMouseEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler>::GetInternalObject(handler);
 		throw 0;
 	}
 	
@@ -6877,7 +12642,7 @@ GuiGraphicsEvent_of_GuiMouseEventArgs
 	
 	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> GuiGraphicsEvent_of_GuiMouseEventArgs::operator=(rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> value)
 	{
-		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiMouseEventArgs> const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiMouseEventArgs>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiMouseEventArgs> const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiMouseEventArgs>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -6888,7 +12653,7 @@ GuiGraphicsEvent_of_GuiMouseEventArgs
 	
 	void GuiGraphicsEvent_of_GuiMouseEventArgs::SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_sender.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(_sender);
 		throw 0;
 	}
 	
@@ -6907,16 +12672,22 @@ GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler
 	{
 	}
 	
+	void GuiGraphicsEvent_of_GuiMouseEventArgs::IHandler::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	void GuiGraphicsEvent_of_GuiMouseEventArgs::IHandler::Execute(rptr<GuiGraphicsComposition> sender, GuiMouseEventArgs& argument)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(sender.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(sender);
 		vl::presentation::elements::GuiMouseEventArgs& _unwrapped_argument = *__GacUIInternal<GuiMouseEventArgs>::GetInternalObject(argument);
 		throw 0;
 	}
 	
 	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> GuiGraphicsEvent_of_GuiMouseEventArgs::IHandler::operator=(rptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> value)
 	{
-		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiMouseEventArgs>::IHandler const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiMouseEventArgs>::IHandler const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -6934,15 +12705,20 @@ GuiGraphicsEventReceiver
 	{
 	}
 	
+	void GuiGraphicsEventReceiver::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<GuiGraphicsEventReceiver> GuiGraphicsEventReceiver::CreateRptr(rptr<GuiGraphicsComposition> _sender)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_sender.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(_sender);
 		throw 0;
 	}
 	
 	rptr<GuiGraphicsEventReceiver> GuiGraphicsEventReceiver::operator=(rptr<GuiGraphicsEventReceiver> value)
 	{
-		vl::presentation::elements::GuiGraphicsEventReceiver const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEventReceiver>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiGraphicsEventReceiver const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEventReceiver>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -6951,122 +12727,122 @@ GuiGraphicsEventReceiver
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::on_leftButtonDown()
+	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> GuiGraphicsEventReceiver::on_leftButtonDown()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::on_leftButtonUp()
+	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> GuiGraphicsEventReceiver::on_leftButtonUp()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::on_leftButtonDoubleClick()
+	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> GuiGraphicsEventReceiver::on_leftButtonDoubleClick()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::on_middleButtonDown()
+	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> GuiGraphicsEventReceiver::on_middleButtonDown()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::on_middleButtonUp()
+	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> GuiGraphicsEventReceiver::on_middleButtonUp()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::on_middleButtonDoubleClick()
+	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> GuiGraphicsEventReceiver::on_middleButtonDoubleClick()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::on_rightButtonDown()
+	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> GuiGraphicsEventReceiver::on_rightButtonDown()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::on_rightButtonUp()
+	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> GuiGraphicsEventReceiver::on_rightButtonUp()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::on_rightButtonDoubleClick()
+	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> GuiGraphicsEventReceiver::on_rightButtonDoubleClick()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::on_horizontalWheel()
+	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> GuiGraphicsEventReceiver::on_horizontalWheel()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::on_verticalWheel()
+	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> GuiGraphicsEventReceiver::on_verticalWheel()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiMouseEventArgs GuiGraphicsEventReceiver::on_mouseMove()
+	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> GuiGraphicsEventReceiver::on_mouseMove()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiGraphicsEventReceiver::on_mouseEnter()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiGraphicsEventReceiver::on_mouseEnter()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiGraphicsEventReceiver::on_mouseLeave()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiGraphicsEventReceiver::on_mouseLeave()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiKeyEventArgs GuiGraphicsEventReceiver::on_previewKey()
+	rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> GuiGraphicsEventReceiver::on_previewKey()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiKeyEventArgs GuiGraphicsEventReceiver::on_keyDown()
+	rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> GuiGraphicsEventReceiver::on_keyDown()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiKeyEventArgs GuiGraphicsEventReceiver::on_keyUp()
+	rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> GuiGraphicsEventReceiver::on_keyUp()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiKeyEventArgs GuiGraphicsEventReceiver::on_systemKeyDown()
+	rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> GuiGraphicsEventReceiver::on_systemKeyDown()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiKeyEventArgs GuiGraphicsEventReceiver::on_systemKeyUp()
+	rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> GuiGraphicsEventReceiver::on_systemKeyUp()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiCharEventArgs GuiGraphicsEventReceiver::on_previewCharInput()
+	rptr<GuiGraphicsEvent_of_GuiCharEventArgs> GuiGraphicsEventReceiver::on_previewCharInput()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiCharEventArgs GuiGraphicsEventReceiver::on_charInput()
+	rptr<GuiGraphicsEvent_of_GuiCharEventArgs> GuiGraphicsEventReceiver::on_charInput()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiGraphicsEventReceiver::on_gotFocus()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiGraphicsEventReceiver::on_gotFocus()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiGraphicsEventReceiver::on_lostFocus()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiGraphicsEventReceiver::on_lostFocus()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiGraphicsEventReceiver::on_caretNotify()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiGraphicsEventReceiver::on_caretNotify()
 	{
 		throw 0;
 	}
@@ -7086,6 +12862,12 @@ NodeRootProviderBase
 	{
 	}
 	
+	void NodeRootProviderBase::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		INodeRootProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<NodeRootProviderBase> NodeRootProviderBase::CreateRptr()
 	{
 		throw 0;
@@ -7093,7 +12875,7 @@ NodeRootProviderBase
 	
 	rptr<NodeRootProviderBase> NodeRootProviderBase::operator=(rptr<NodeRootProviderBase> value)
 	{
-		vl::presentation::controls::tree::NodeRootProviderBase const& _unwrapped_value = *__GacUIInternal<NodeRootProviderBase>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::tree::NodeRootProviderBase const& _unwrapped_value = *__GacUIInternal<NodeRootProviderBase>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -7113,6 +12895,13 @@ MemoryNodeRootProvider
 	{
 	}
 	
+	void MemoryNodeRootProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		MemoryNodeProvider::ClearInternalObjectReference();
+		NodeRootProviderBase::ClearInternalObjectReference();
+	}
+	
 	rptr<MemoryNodeRootProvider> MemoryNodeRootProvider::CreateRptr()
 	{
 		throw 0;
@@ -7120,7 +12909,7 @@ MemoryNodeRootProvider
 	
 	rptr<MemoryNodeRootProvider> MemoryNodeRootProvider::operator=(rptr<MemoryNodeRootProvider> value)
 	{
-		vl::presentation::controls::tree::MemoryNodeRootProvider const& _unwrapped_value = *__GacUIInternal<MemoryNodeRootProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::tree::MemoryNodeRootProvider const& _unwrapped_value = *__GacUIInternal<MemoryNodeRootProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -7137,6 +12926,11 @@ Point
 	Point::~Point()
 	{
 		delete __GacUIInternal<Point>::GetInternalObject(*this);
+	}
+	
+	void Point::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
 	}
 	
 	rptr<Point> Point::CreateRptr(signed __int32 _x, signed __int32 _y)
@@ -7209,6 +13003,11 @@ INativeControllerListener
 	{
 	}
 	
+	void INativeControllerListener::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<INativeControllerListener> INativeControllerListener::CreateRptr()
 	{
 		throw 0;
@@ -7256,19 +13055,19 @@ INativeControllerListener
 	
 	void INativeControllerListener::NativeWindowCreated(rptr<INativeWindow> window)
 	{
-		vl::presentation::INativeWindow* _unwrapped_window = __GacUIInternal<INativeWindow>::GetInternalObject(*(window.operator->()));
+		vl::presentation::INativeWindow* _unwrapped_window = __GacUIInternal<INativeWindow>::GetInternalObject(window);
 		throw 0;
 	}
 	
 	void INativeControllerListener::NativeWindowDestroying(rptr<INativeWindow> window)
 	{
-		vl::presentation::INativeWindow* _unwrapped_window = __GacUIInternal<INativeWindow>::GetInternalObject(*(window.operator->()));
+		vl::presentation::INativeWindow* _unwrapped_window = __GacUIInternal<INativeWindow>::GetInternalObject(window);
 		throw 0;
 	}
 	
 	rptr<INativeControllerListener> INativeControllerListener::operator=(rptr<INativeControllerListener> value)
 	{
-		vl::presentation::INativeControllerListener const& _unwrapped_value = *__GacUIInternal<INativeControllerListener>::GetInternalObject(*(value.operator->()));
+		vl::presentation::INativeControllerListener const& _unwrapped_value = *__GacUIInternal<INativeControllerListener>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -7286,21 +13085,26 @@ INativeCallbackService
 	{
 	}
 	
+	void INativeCallbackService::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	bool INativeCallbackService::InstallListener(rptr<INativeControllerListener> listener)
 	{
-		vl::presentation::INativeControllerListener* _unwrapped_listener = __GacUIInternal<INativeControllerListener>::GetInternalObject(*(listener.operator->()));
+		vl::presentation::INativeControllerListener* _unwrapped_listener = __GacUIInternal<INativeControllerListener>::GetInternalObject(listener);
 		throw 0;
 	}
 	
 	bool INativeCallbackService::UninstallListener(rptr<INativeControllerListener> listener)
 	{
-		vl::presentation::INativeControllerListener* _unwrapped_listener = __GacUIInternal<INativeControllerListener>::GetInternalObject(*(listener.operator->()));
+		vl::presentation::INativeControllerListener* _unwrapped_listener = __GacUIInternal<INativeControllerListener>::GetInternalObject(listener);
 		throw 0;
 	}
 	
 	rptr<INativeCallbackService> INativeCallbackService::operator=(rptr<INativeCallbackService> value)
 	{
-		vl::presentation::INativeCallbackService const& _unwrapped_value = *__GacUIInternal<INativeCallbackService>::GetInternalObject(*(value.operator->()));
+		vl::presentation::INativeCallbackService const& _unwrapped_value = *__GacUIInternal<INativeCallbackService>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -7318,6 +13122,11 @@ INativeWindowService
 	{
 	}
 	
+	void INativeWindowService::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<INativeWindow> INativeWindowService::CreateNativeWindow()
 	{
 		throw 0;
@@ -7325,7 +13134,7 @@ INativeWindowService
 	
 	void INativeWindowService::DestroyNativeWindow(rptr<INativeWindow> window)
 	{
-		vl::presentation::INativeWindow* _unwrapped_window = __GacUIInternal<INativeWindow>::GetInternalObject(*(window.operator->()));
+		vl::presentation::INativeWindow* _unwrapped_window = __GacUIInternal<INativeWindow>::GetInternalObject(window);
 		throw 0;
 	}
 	
@@ -7337,13 +13146,13 @@ INativeWindowService
 	
 	void INativeWindowService::Run(rptr<INativeWindow> window)
 	{
-		vl::presentation::INativeWindow* _unwrapped_window = __GacUIInternal<INativeWindow>::GetInternalObject(*(window.operator->()));
+		vl::presentation::INativeWindow* _unwrapped_window = __GacUIInternal<INativeWindow>::GetInternalObject(window);
 		throw 0;
 	}
 	
 	rptr<INativeWindowService> INativeWindowService::operator=(rptr<INativeWindowService> value)
 	{
-		vl::presentation::INativeWindowService const& _unwrapped_value = *__GacUIInternal<INativeWindowService>::GetInternalObject(*(value.operator->()));
+		vl::presentation::INativeWindowService const& _unwrapped_value = *__GacUIInternal<INativeWindowService>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -7365,6 +13174,11 @@ Size
 	Size::~Size()
 	{
 		delete __GacUIInternal<Size>::GetInternalObject(*this);
+	}
+	
+	void Size::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
 	}
 	
 	rptr<Size> Size::CreateRptr(signed __int32 _x, signed __int32 _y)
@@ -7438,6 +13252,12 @@ GuiPolygonElement
 	{
 	}
 	
+	void GuiPolygonElement::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IGuiGraphicsElement::ClearInternalObjectReference();
+	}
+	
 	void GuiPolygonElement::SetPoints(Point const* p, signed __int32 count)
 	{
 		vl::collections::Array<vl::presentation::Point> _unwrapped_points(count);
@@ -7450,7 +13270,7 @@ GuiPolygonElement
 	
 	rptr<GuiPolygonElement> GuiPolygonElement::operator=(rptr<GuiPolygonElement> value)
 	{
-		vl::presentation::elements::GuiPolygonElement const& _unwrapped_value = *__GacUIInternal<GuiPolygonElement>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiPolygonElement const& _unwrapped_value = *__GacUIInternal<GuiPolygonElement>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -7521,10 +13341,15 @@ INativeImageFrame
 	{
 	}
 	
+	void INativeImageFrame::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	bool INativeImageFrame::SetCache(void* key, sptr<INativeImageFrameCache> cache)
 	{
 		void* _unwrapped_key = key;
-		vl::Ptr<vl::presentation::INativeImageFrameCache> _unwrapped_cache = __GacUIInternal<INativeImageFrameCache>::GetInternalObject(*(cache.operator->()));
+		vl::Ptr<vl::presentation::INativeImageFrameCache> _unwrapped_cache = __GacUIInternal<INativeImageFrameCache>::GetInternalObject(cache);
 		throw 0;
 	}
 	
@@ -7542,7 +13367,7 @@ INativeImageFrame
 	
 	rptr<INativeImageFrame> INativeImageFrame::operator=(rptr<INativeImageFrame> value)
 	{
-		vl::presentation::INativeImageFrame const& _unwrapped_value = *__GacUIInternal<INativeImageFrame>::GetInternalObject(*(value.operator->()));
+		vl::presentation::INativeImageFrame const& _unwrapped_value = *__GacUIInternal<INativeImageFrame>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -7569,6 +13394,11 @@ Rect
 	Rect::~Rect()
 	{
 		delete __GacUIInternal<Rect>::GetInternalObject(*this);
+	}
+	
+	void Rect::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
 	}
 	
 	rptr<Rect> Rect::CreateRptr(Point p, Size s)
@@ -7756,6 +13586,11 @@ IGuiGraphicsRenderTarget
 	{
 	}
 	
+	void IGuiGraphicsRenderTarget::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	void IGuiGraphicsRenderTarget::StartRendering()
 	{
 		throw 0;
@@ -7784,7 +13619,7 @@ IGuiGraphicsRenderTarget
 	
 	rptr<IGuiGraphicsRenderTarget> IGuiGraphicsRenderTarget::operator=(rptr<IGuiGraphicsRenderTarget> value)
 	{
-		vl::presentation::elements::IGuiGraphicsRenderTarget const& _unwrapped_value = *__GacUIInternal<IGuiGraphicsRenderTarget>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::IGuiGraphicsRenderTarget const& _unwrapped_value = *__GacUIInternal<IGuiGraphicsRenderTarget>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -7808,6 +13643,12 @@ CharMeasurer
 	{
 	}
 	
+	void CharMeasurer::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	signed __int32 CharMeasurer::MeasureWidth(wchar_t character)
 	{
 		wchar_t _unwrapped_character = character;
@@ -7816,13 +13657,13 @@ CharMeasurer
 	
 	rptr<CharMeasurer> CharMeasurer::operator=(rptr<CharMeasurer> value)
 	{
-		vl::presentation::elements::text::CharMeasurer const& _unwrapped_value = *__GacUIInternal<CharMeasurer>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::text::CharMeasurer const& _unwrapped_value = *__GacUIInternal<CharMeasurer>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	void CharMeasurer::SetRenderTarget(rptr<IGuiGraphicsRenderTarget> value)
 	{
-		vl::presentation::elements::IGuiGraphicsRenderTarget* _unwrapped_value = __GacUIInternal<IGuiGraphicsRenderTarget>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::IGuiGraphicsRenderTarget* _unwrapped_value = __GacUIInternal<IGuiGraphicsRenderTarget>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -7845,16 +13686,21 @@ GuiGraphicsResourceManager
 	{
 	}
 	
+	void GuiGraphicsResourceManager::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	bool GuiGraphicsResourceManager::RegisterElementFactory(rptr<IGuiGraphicsElementFactory> factory)
 	{
-		vl::presentation::elements::IGuiGraphicsElementFactory* _unwrapped_factory = __GacUIInternal<IGuiGraphicsElementFactory>::GetInternalObject(*(factory.operator->()));
+		vl::presentation::elements::IGuiGraphicsElementFactory* _unwrapped_factory = __GacUIInternal<IGuiGraphicsElementFactory>::GetInternalObject(factory);
 		throw 0;
 	}
 	
 	bool GuiGraphicsResourceManager::RegisterRendererFactory(const GacString& elementTypeName, rptr<IGuiGraphicsRendererFactory> factory)
 	{
 		vl::ObjectString<wchar_t> _unwrapped_elementTypeName = elementTypeName.Buffer();
-		vl::presentation::elements::IGuiGraphicsRendererFactory* _unwrapped_factory = __GacUIInternal<IGuiGraphicsRendererFactory>::GetInternalObject(*(factory.operator->()));
+		vl::presentation::elements::IGuiGraphicsRendererFactory* _unwrapped_factory = __GacUIInternal<IGuiGraphicsRendererFactory>::GetInternalObject(factory);
 		throw 0;
 	}
 	
@@ -7872,13 +13718,13 @@ GuiGraphicsResourceManager
 	
 	rptr<IGuiGraphicsRenderTarget> GuiGraphicsResourceManager::GetRenderTarget(rptr<INativeWindow> window)
 	{
-		vl::presentation::INativeWindow* _unwrapped_window = __GacUIInternal<INativeWindow>::GetInternalObject(*(window.operator->()));
+		vl::presentation::INativeWindow* _unwrapped_window = __GacUIInternal<INativeWindow>::GetInternalObject(window);
 		throw 0;
 	}
 	
 	rptr<GuiGraphicsResourceManager> GuiGraphicsResourceManager::operator=(rptr<GuiGraphicsResourceManager> value)
 	{
-		vl::presentation::elements::GuiGraphicsResourceManager const& _unwrapped_value = *__GacUIInternal<GuiGraphicsResourceManager>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiGraphicsResourceManager const& _unwrapped_value = *__GacUIInternal<GuiGraphicsResourceManager>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -7896,9 +13742,14 @@ IGuiGraphicsRenderer
 	{
 	}
 	
+	void IGuiGraphicsRenderer::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	void IGuiGraphicsRenderer::Initialize(rptr<IGuiGraphicsElement> _element)
 	{
-		vl::presentation::elements::IGuiGraphicsElement* _unwrapped__element = __GacUIInternal<IGuiGraphicsElement>::GetInternalObject(*(_element.operator->()));
+		vl::presentation::elements::IGuiGraphicsElement* _unwrapped__element = __GacUIInternal<IGuiGraphicsElement>::GetInternalObject(_element);
 		throw 0;
 	}
 	
@@ -7920,13 +13771,13 @@ IGuiGraphicsRenderer
 	
 	rptr<IGuiGraphicsRenderer> IGuiGraphicsRenderer::operator=(rptr<IGuiGraphicsRenderer> value)
 	{
-		vl::presentation::elements::IGuiGraphicsRenderer const& _unwrapped_value = *__GacUIInternal<IGuiGraphicsRenderer>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::IGuiGraphicsRenderer const& _unwrapped_value = *__GacUIInternal<IGuiGraphicsRenderer>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	void IGuiGraphicsRenderer::SetRenderTarget(rptr<IGuiGraphicsRenderTarget> _renderTarget)
 	{
-		vl::presentation::elements::IGuiGraphicsRenderTarget* _unwrapped__renderTarget = __GacUIInternal<IGuiGraphicsRenderTarget>::GetInternalObject(*(_renderTarget.operator->()));
+		vl::presentation::elements::IGuiGraphicsRenderTarget* _unwrapped__renderTarget = __GacUIInternal<IGuiGraphicsRenderTarget>::GetInternalObject(_renderTarget);
 		throw 0;
 	}
 	
@@ -7954,6 +13805,11 @@ INativeScreen
 	{
 	}
 	
+	void INativeScreen::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	bool INativeScreen::IsPrimary()
 	{
 		throw 0;
@@ -7961,7 +13817,7 @@ INativeScreen
 	
 	rptr<INativeScreen> INativeScreen::operator=(rptr<INativeScreen> value)
 	{
-		vl::presentation::INativeScreen const& _unwrapped_value = *__GacUIInternal<INativeScreen>::GetInternalObject(*(value.operator->()));
+		vl::presentation::INativeScreen const& _unwrapped_value = *__GacUIInternal<INativeScreen>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -7994,9 +13850,14 @@ INativeScreenService
 	{
 	}
 	
+	void INativeScreenService::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<INativeScreen> INativeScreenService::GetScreen(rptr<INativeWindow> window)
 	{
-		vl::presentation::INativeWindow* _unwrapped_window = __GacUIInternal<INativeWindow>::GetInternalObject(*(window.operator->()));
+		vl::presentation::INativeWindow* _unwrapped_window = __GacUIInternal<INativeWindow>::GetInternalObject(window);
 		throw 0;
 	}
 	
@@ -8008,7 +13869,7 @@ INativeScreenService
 	
 	rptr<INativeScreenService> INativeScreenService::operator=(rptr<INativeScreenService> value)
 	{
-		vl::presentation::INativeScreenService const& _unwrapped_value = *__GacUIInternal<INativeScreenService>::GetInternalObject(*(value.operator->()));
+		vl::presentation::INativeScreenService const& _unwrapped_value = *__GacUIInternal<INativeScreenService>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -8029,6 +13890,11 @@ INativeController
 	
 	INativeController::~INativeController()
 	{
+	}
+	
+	void INativeController::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
 	}
 	
 	rptr<INativeCallbackService> INativeController::CallbackService()
@@ -8073,7 +13939,7 @@ INativeController
 	
 	rptr<INativeController> INativeController::operator=(rptr<INativeController> value)
 	{
-		vl::presentation::INativeController const& _unwrapped_value = *__GacUIInternal<INativeController>::GetInternalObject(*(value.operator->()));
+		vl::presentation::INativeController const& _unwrapped_value = *__GacUIInternal<INativeController>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -8089,6 +13955,11 @@ INativeWindowListener
 	
 	INativeWindowListener::~INativeWindowListener()
 	{
+	}
+	
+	void INativeWindowListener::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
 	}
 	
 	rptr<INativeWindowListener> INativeWindowListener::CreateRptr()
@@ -8283,7 +14154,7 @@ INativeWindowListener
 	
 	rptr<INativeWindowListener> INativeWindowListener::operator=(rptr<INativeWindowListener> value)
 	{
-		vl::presentation::INativeWindowListener const& _unwrapped_value = *__GacUIInternal<INativeWindowListener>::GetInternalObject(*(value.operator->()));
+		vl::presentation::INativeWindowListener const& _unwrapped_value = *__GacUIInternal<INativeWindowListener>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -8301,6 +14172,11 @@ GuiGraphicsHost
 	{
 	}
 	
+	void GuiGraphicsHost::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<GuiGraphicsHost> GuiGraphicsHost::CreateRptr()
 	{
 		throw 0;
@@ -8313,20 +14189,20 @@ GuiGraphicsHost
 	
 	bool GuiGraphicsHost::SetFocus(rptr<GuiGraphicsComposition> composition)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(composition.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(composition);
 		throw 0;
 	}
 	
 	void GuiGraphicsHost::SetCaretPoint(Point value, rptr<GuiGraphicsComposition> referenceComposition)
 	{
 		vl::presentation::Point _unwrapped_value = *__GacUIInternal<Point>::GetInternalObject(value);
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_referenceComposition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(referenceComposition.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_referenceComposition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(referenceComposition);
 		throw 0;
 	}
 	
 	rptr<GuiGraphicsHost> GuiGraphicsHost::operator=(rptr<GuiGraphicsHost> value)
 	{
-		vl::presentation::elements::GuiGraphicsHost const& _unwrapped_value = *__GacUIInternal<GuiGraphicsHost>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiGraphicsHost const& _unwrapped_value = *__GacUIInternal<GuiGraphicsHost>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -8337,7 +14213,7 @@ GuiGraphicsHost
 	
 	void GuiGraphicsHost::SetNativeWindow(rptr<INativeWindow> _nativeWindow)
 	{
-		vl::presentation::INativeWindow* _unwrapped__nativeWindow = __GacUIInternal<INativeWindow>::GetInternalObject(*(_nativeWindow.operator->()));
+		vl::presentation::INativeWindow* _unwrapped__nativeWindow = __GacUIInternal<INativeWindow>::GetInternalObject(_nativeWindow);
 		throw 0;
 	}
 	
@@ -8380,6 +14256,11 @@ GuiGraphicsComposition
 	{
 	}
 	
+	void GuiGraphicsComposition::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<IReadonlyList_of_GuiGraphicsComposition_raw_pointer> GuiGraphicsComposition::Children()
 	{
 		throw 0;
@@ -8387,26 +14268,26 @@ GuiGraphicsComposition
 	
 	bool GuiGraphicsComposition::AddChild(rptr<GuiGraphicsComposition> child)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_child = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(child.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_child = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(child);
 		throw 0;
 	}
 	
 	bool GuiGraphicsComposition::InsertChild(signed __int32 index, rptr<GuiGraphicsComposition> child)
 	{
 		signed __int32 _unwrapped_index = index;
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_child = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(child.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_child = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(child);
 		throw 0;
 	}
 	
 	bool GuiGraphicsComposition::RemoveChild(rptr<GuiGraphicsComposition> child)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_child = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(child.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_child = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(child);
 		throw 0;
 	}
 	
 	bool GuiGraphicsComposition::MoveChild(rptr<GuiGraphicsComposition> child, signed __int32 newIndex)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_child = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(child.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_child = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(child);
 		signed __int32 _unwrapped_newIndex = newIndex;
 		throw 0;
 	}
@@ -8435,7 +14316,7 @@ GuiGraphicsComposition
 	
 	rptr<GuiGraphicsComposition> GuiGraphicsComposition::operator=(rptr<GuiGraphicsComposition> value)
 	{
-		vl::presentation::elements::GuiGraphicsComposition const& _unwrapped_value = *__GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition const& _unwrapped_value = *__GacUIInternal<GuiGraphicsComposition>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -8451,7 +14332,7 @@ GuiGraphicsComposition
 	
 	void GuiGraphicsComposition::SetOwnedElement(sptr<IGuiGraphicsElement> element)
 	{
-		vl::Ptr<vl::presentation::elements::IGuiGraphicsElement> _unwrapped_element = __GacUIInternal<IGuiGraphicsElement>::GetInternalObject(*(element.operator->()));
+		vl::Ptr<vl::presentation::elements::IGuiGraphicsElement> _unwrapped_element = __GacUIInternal<IGuiGraphicsElement>::GetInternalObject(element);
 		throw 0;
 	}
 	
@@ -8484,7 +14365,7 @@ GuiGraphicsComposition
 	
 	void GuiGraphicsComposition::SetRenderTarget(rptr<IGuiGraphicsRenderTarget> value)
 	{
-		vl::presentation::elements::IGuiGraphicsRenderTarget* _unwrapped_value = __GacUIInternal<IGuiGraphicsRenderTarget>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::IGuiGraphicsRenderTarget* _unwrapped_value = __GacUIInternal<IGuiGraphicsRenderTarget>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -8515,7 +14396,7 @@ GuiGraphicsComposition
 	
 	void GuiGraphicsComposition::SetAssociatedCursor(rptr<INativeCursor> cursor)
 	{
-		vl::presentation::INativeCursor* _unwrapped_cursor = __GacUIInternal<INativeCursor>::GetInternalObject(*(cursor.operator->()));
+		vl::presentation::INativeCursor* _unwrapped_cursor = __GacUIInternal<INativeCursor>::GetInternalObject(cursor);
 		throw 0;
 	}
 	
@@ -8612,6 +14493,12 @@ GuiGraphicsSite
 	{
 	}
 	
+	void GuiGraphicsSite::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiGraphicsComposition::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiGraphicsSite> GuiGraphicsSite::CreateRptr()
 	{
 		throw 0;
@@ -8619,7 +14506,7 @@ GuiGraphicsSite
 	
 	rptr<GuiGraphicsSite> GuiGraphicsSite::operator=(rptr<GuiGraphicsSite> value)
 	{
-		vl::presentation::elements::GuiGraphicsSite const& _unwrapped_value = *__GacUIInternal<GuiGraphicsSite>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiGraphicsSite const& _unwrapped_value = *__GacUIInternal<GuiGraphicsSite>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -8636,6 +14523,12 @@ GuiBoundsComposition
 	
 	GuiBoundsComposition::~GuiBoundsComposition()
 	{
+	}
+	
+	void GuiBoundsComposition::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiGraphicsSite::ClearInternalObjectReference();
 	}
 	
 	rptr<GuiBoundsComposition> GuiBoundsComposition::CreateRptr()
@@ -8655,7 +14548,7 @@ GuiBoundsComposition
 	
 	rptr<GuiBoundsComposition> GuiBoundsComposition::operator=(rptr<GuiBoundsComposition> value)
 	{
-		vl::presentation::elements::GuiBoundsComposition const& _unwrapped_value = *__GacUIInternal<GuiBoundsComposition>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiBoundsComposition const& _unwrapped_value = *__GacUIInternal<GuiBoundsComposition>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -8676,7 +14569,7 @@ GuiBoundsComposition
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiBoundsComposition::on_BoundsChanged()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiBoundsComposition::on_BoundsChanged()
 	{
 		throw 0;
 	}
@@ -8696,6 +14589,12 @@ GuiCellComposition
 	{
 	}
 	
+	void GuiCellComposition::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiGraphicsSite::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiCellComposition> GuiCellComposition::CreateRptr()
 	{
 		throw 0;
@@ -8712,7 +14611,7 @@ GuiCellComposition
 	
 	rptr<GuiCellComposition> GuiCellComposition::operator=(rptr<GuiCellComposition> value)
 	{
-		vl::presentation::elements::GuiCellComposition const& _unwrapped_value = *__GacUIInternal<GuiCellComposition>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiCellComposition const& _unwrapped_value = *__GacUIInternal<GuiCellComposition>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -8755,9 +14654,14 @@ GuiControl
 	{
 	}
 	
+	void GuiControl::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<GuiControl> GuiControl::CreateRptr(rptr<GuiControl :: IStyleController> _styleController)
 	{
-		vl::presentation::controls::GuiControl::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
+		vl::presentation::controls::GuiControl::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(_styleController);
 		throw 0;
 	}
 	
@@ -8775,7 +14679,7 @@ GuiControl
 	
 	rptr<GuiControl> GuiControl::operator=(rptr<GuiControl> value)
 	{
-		vl::presentation::controls::GuiControl const& _unwrapped_value = *__GacUIInternal<GuiControl>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiControl const& _unwrapped_value = *__GacUIInternal<GuiControl>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -8873,27 +14777,27 @@ GuiControl
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiControl::on_VisibleChanged()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiControl::on_VisibleChanged()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiControl::on_EnabledChanged()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiControl::on_EnabledChanged()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiControl::on_VisuallyEnabledChanged()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiControl::on_VisuallyEnabledChanged()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiControl::on_TextChanged()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiControl::on_TextChanged()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiControl::on_FontChanged()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiControl::on_FontChanged()
 	{
 		throw 0;
 	}
@@ -8913,15 +14817,21 @@ GuiControl :: IStyleController
 	{
 	}
 	
+	void GuiControl::IStyleController::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiControl :: IStyleController> GuiControl::IStyleController::operator=(rptr<GuiControl :: IStyleController> value)
 	{
-		vl::presentation::controls::GuiControl::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiControl::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	void GuiControl::IStyleController::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_value = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_value = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -8968,21 +14878,27 @@ GuiControl :: IStyleProvider
 	{
 	}
 	
+	void GuiControl::IStyleProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	void GuiControl::IStyleProvider::AssociateStyleController(rptr<GuiControl :: IStyleController> controller)
 	{
-		vl::presentation::controls::GuiControl::IStyleController* _unwrapped_controller = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(*(controller.operator->()));
+		vl::presentation::controls::GuiControl::IStyleController* _unwrapped_controller = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(controller);
 		throw 0;
 	}
 	
 	rptr<GuiControl :: IStyleProvider> GuiControl::IStyleProvider::operator=(rptr<GuiControl :: IStyleProvider> value)
 	{
-		vl::presentation::controls::GuiControl::IStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiControl :: IStyleProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiControl::IStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiControl :: IStyleProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	void GuiControl::IStyleProvider::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_value = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_value = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -9019,19 +14935,25 @@ GuiButton
 	{
 	}
 	
+	void GuiButton::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiControl::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiButton> GuiButton::CreateRptr(rptr<GuiButton :: IStyleController> _styleController)
 	{
-		vl::presentation::controls::GuiButton::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiButton :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
+		vl::presentation::controls::GuiButton::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiButton :: IStyleController>::GetInternalObject(_styleController);
 		throw 0;
 	}
 	
 	rptr<GuiButton> GuiButton::operator=(rptr<GuiButton> value)
 	{
-		vl::presentation::controls::GuiButton const& _unwrapped_value = *__GacUIInternal<GuiButton>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiButton const& _unwrapped_value = *__GacUIInternal<GuiButton>::GetInternalObject(value);
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiButton::on_Clicked()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiButton::on_Clicked()
 	{
 		throw 0;
 	}
@@ -9051,6 +14973,12 @@ GuiButton :: IStyleController
 	{
 	}
 	
+	void GuiButton::IStyleController::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiControl::IStyleController::ClearInternalObjectReference();
+	}
+	
 	void GuiButton::IStyleController::Transfer(GuiButton :: ControlState value)
 	{
 		vl::presentation::controls::GuiButton::ControlState _unwrapped_value = (vl::presentation::controls::GuiButton::ControlState)value;
@@ -9059,7 +14987,7 @@ GuiButton :: IStyleController
 	
 	rptr<GuiButton :: IStyleController> GuiButton::IStyleController::operator=(rptr<GuiButton :: IStyleController> value)
 	{
-		vl::presentation::controls::GuiButton::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiButton :: IStyleController>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiButton::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiButton :: IStyleController>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -9078,9 +15006,15 @@ GuiControlHost
 	{
 	}
 	
+	void GuiControlHost::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiControl::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiControlHost> GuiControlHost::CreateRptr(rptr<GuiControl :: IStyleController> _styleController)
 	{
-		vl::presentation::controls::GuiControl::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
+		vl::presentation::controls::GuiControl::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(_styleController);
 		throw 0;
 	}
 	
@@ -9101,19 +15035,19 @@ GuiControlHost
 	
 	bool GuiControlHost::AddComponent(rptr<GuiComponent> component)
 	{
-		vl::presentation::controls::GuiComponent* _unwrapped_component = __GacUIInternal<GuiComponent>::GetInternalObject(*(component.operator->()));
+		vl::presentation::controls::GuiComponent* _unwrapped_component = __GacUIInternal<GuiComponent>::GetInternalObject(component);
 		throw 0;
 	}
 	
 	bool GuiControlHost::RemoveComponent(rptr<GuiComponent> component)
 	{
-		vl::presentation::controls::GuiComponent* _unwrapped_component = __GacUIInternal<GuiComponent>::GetInternalObject(*(component.operator->()));
+		vl::presentation::controls::GuiComponent* _unwrapped_component = __GacUIInternal<GuiComponent>::GetInternalObject(component);
 		throw 0;
 	}
 	
 	bool GuiControlHost::ContainsComponent(rptr<GuiComponent> component)
 	{
-		vl::presentation::controls::GuiComponent* _unwrapped_component = __GacUIInternal<GuiComponent>::GetInternalObject(*(component.operator->()));
+		vl::presentation::controls::GuiComponent* _unwrapped_component = __GacUIInternal<GuiComponent>::GetInternalObject(component);
 		throw 0;
 	}
 	
@@ -9154,7 +15088,7 @@ GuiControlHost
 	
 	rptr<GuiControlHost> GuiControlHost::operator=(rptr<GuiControlHost> value)
 	{
-		vl::presentation::controls::GuiControlHost const& _unwrapped_value = *__GacUIInternal<GuiControlHost>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiControlHost const& _unwrapped_value = *__GacUIInternal<GuiControlHost>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -9175,7 +15109,7 @@ GuiControlHost
 	
 	void GuiControlHost::SetNativeWindow(rptr<INativeWindow> window)
 	{
-		vl::presentation::INativeWindow* _unwrapped_window = __GacUIInternal<INativeWindow>::GetInternalObject(*(window.operator->()));
+		vl::presentation::INativeWindow* _unwrapped_window = __GacUIInternal<INativeWindow>::GetInternalObject(window);
 		throw 0;
 	}
 	
@@ -9320,42 +15254,42 @@ GuiControlHost
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiControlHost::on_WindowGotFocus()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiControlHost::on_WindowGotFocus()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiControlHost::on_WindowLostFocus()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiControlHost::on_WindowLostFocus()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiControlHost::on_WindowActivated()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiControlHost::on_WindowActivated()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiControlHost::on_WindowDeactivated()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiControlHost::on_WindowDeactivated()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiControlHost::on_WindowOpened()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiControlHost::on_WindowOpened()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiRequestEventArgs GuiControlHost::on_WindowClosing()
+	rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> GuiControlHost::on_WindowClosing()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiControlHost::on_WindowClosed()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiControlHost::on_WindowClosed()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiControlHost::on_WindowDestroying()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiControlHost::on_WindowDestroying()
 	{
 		throw 0;
 	}
@@ -9375,15 +15309,21 @@ GuiMenuBar
 	{
 	}
 	
+	void GuiMenuBar::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiControl::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiMenuBar> GuiMenuBar::CreateRptr(rptr<GuiControl :: IStyleController> _styleController)
 	{
-		vl::presentation::controls::GuiControl::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
+		vl::presentation::controls::GuiControl::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(_styleController);
 		throw 0;
 	}
 	
 	rptr<GuiMenuBar> GuiMenuBar::operator=(rptr<GuiMenuBar> value)
 	{
-		vl::presentation::controls::GuiMenuBar const& _unwrapped_value = *__GacUIInternal<GuiMenuBar>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiMenuBar const& _unwrapped_value = *__GacUIInternal<GuiMenuBar>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -9402,9 +15342,15 @@ GuiMenuButton
 	{
 	}
 	
+	void GuiMenuButton::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiButton::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiMenuButton> GuiMenuButton::CreateRptr(rptr<GuiMenuButton :: IStyleController> _styleController)
 	{
-		vl::presentation::controls::GuiMenuButton::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiMenuButton :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
+		vl::presentation::controls::GuiMenuButton::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiMenuButton :: IStyleController>::GetInternalObject(_styleController);
 		throw 0;
 	}
 	
@@ -9415,7 +15361,7 @@ GuiMenuButton
 	
 	void GuiMenuButton::CreateSubMenu(rptr<GuiControl :: IStyleController> subMenuStyleController)
 	{
-		vl::presentation::controls::GuiControl::IStyleController* _unwrapped_subMenuStyleController = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(*(subMenuStyleController.operator->()));
+		vl::presentation::controls::GuiControl::IStyleController* _unwrapped_subMenuStyleController = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(subMenuStyleController);
 		throw 0;
 	}
 	
@@ -9426,7 +15372,7 @@ GuiMenuButton
 	
 	rptr<GuiMenuButton> GuiMenuButton::operator=(rptr<GuiMenuButton> value)
 	{
-		vl::presentation::controls::GuiMenuButton const& _unwrapped_value = *__GacUIInternal<GuiMenuButton>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiMenuButton const& _unwrapped_value = *__GacUIInternal<GuiMenuButton>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -9457,7 +15403,7 @@ GuiMenuButton
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiMenuButton::on_SubMenuOpeningChanged()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiMenuButton::on_SubMenuOpeningChanged()
 	{
 		throw 0;
 	}
@@ -9477,6 +15423,12 @@ GuiMenuButton :: IStyleController
 	{
 	}
 	
+	void GuiMenuButton::IStyleController::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiButton::IStyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiControl :: IStyleController> GuiMenuButton::IStyleController::CreateSubMenuStyleController()
 	{
 		throw 0;
@@ -9484,7 +15436,7 @@ GuiMenuButton :: IStyleController
 	
 	rptr<GuiMenuButton :: IStyleController> GuiMenuButton::IStyleController::operator=(rptr<GuiMenuButton :: IStyleController> value)
 	{
-		vl::presentation::controls::GuiMenuButton::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiMenuButton :: IStyleController>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiMenuButton::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiMenuButton :: IStyleController>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -9515,6 +15467,12 @@ GuiPartialViewComposition
 	{
 	}
 	
+	void GuiPartialViewComposition::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiGraphicsSite::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiPartialViewComposition> GuiPartialViewComposition::CreateRptr()
 	{
 		throw 0;
@@ -9522,7 +15480,7 @@ GuiPartialViewComposition
 	
 	rptr<GuiPartialViewComposition> GuiPartialViewComposition::operator=(rptr<GuiPartialViewComposition> value)
 	{
-		vl::presentation::elements::GuiPartialViewComposition const& _unwrapped_value = *__GacUIInternal<GuiPartialViewComposition>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiPartialViewComposition const& _unwrapped_value = *__GacUIInternal<GuiPartialViewComposition>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -9585,15 +15543,21 @@ GuiScroll
 	{
 	}
 	
+	void GuiScroll::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiControl::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiScroll> GuiScroll::CreateRptr(rptr<GuiScroll :: IStyleController> _styleController)
 	{
-		vl::presentation::controls::GuiScroll::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiScroll :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
+		vl::presentation::controls::GuiScroll::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiScroll :: IStyleController>::GetInternalObject(_styleController);
 		throw 0;
 	}
 	
 	rptr<GuiScroll> GuiScroll::operator=(rptr<GuiScroll> value)
 	{
-		vl::presentation::controls::GuiScroll const& _unwrapped_value = *__GacUIInternal<GuiScroll>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiScroll const& _unwrapped_value = *__GacUIInternal<GuiScroll>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -9662,27 +15626,27 @@ GuiScroll
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiScroll::on_TotalSizeChanged()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiScroll::on_TotalSizeChanged()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiScroll::on_PageSizeChanged()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiScroll::on_PageSizeChanged()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiScroll::on_PositionChanged()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiScroll::on_PositionChanged()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiScroll::on_SmallMoveChanged()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiScroll::on_SmallMoveChanged()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiScroll::on_BigMoveChanged()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiScroll::on_BigMoveChanged()
 	{
 		throw 0;
 	}
@@ -9700,6 +15664,12 @@ GuiScroll :: ICommandExecutor
 	
 	GuiScroll::ICommandExecutor::~ICommandExecutor()
 	{
+	}
+	
+	void GuiScroll::ICommandExecutor::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
 	}
 	
 	void GuiScroll::ICommandExecutor::SmallDecrease()
@@ -9724,7 +15694,7 @@ GuiScroll :: ICommandExecutor
 	
 	rptr<GuiScroll :: ICommandExecutor> GuiScroll::ICommandExecutor::operator=(rptr<GuiScroll :: ICommandExecutor> value)
 	{
-		vl::presentation::controls::GuiScroll::ICommandExecutor const& _unwrapped_value = *__GacUIInternal<GuiScroll :: ICommandExecutor>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiScroll::ICommandExecutor const& _unwrapped_value = *__GacUIInternal<GuiScroll :: ICommandExecutor>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -9761,15 +15731,21 @@ GuiScroll :: IStyleController
 	{
 	}
 	
+	void GuiScroll::IStyleController::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiControl::IStyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiScroll :: IStyleController> GuiScroll::IStyleController::operator=(rptr<GuiScroll :: IStyleController> value)
 	{
-		vl::presentation::controls::GuiScroll::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiScroll :: IStyleController>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiScroll::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiScroll :: IStyleController>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	void GuiScroll::IStyleController::SetCommandExecutor(rptr<GuiScroll :: ICommandExecutor> value)
 	{
-		vl::presentation::controls::GuiScroll::ICommandExecutor* _unwrapped_value = __GacUIInternal<GuiScroll :: ICommandExecutor>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiScroll::ICommandExecutor* _unwrapped_value = __GacUIInternal<GuiScroll :: ICommandExecutor>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -9806,9 +15782,15 @@ CommonScrollStyle
 	{
 	}
 	
+	void CommonScrollStyle::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiScroll::IStyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<CommonScrollStyle> CommonScrollStyle::operator=(rptr<CommonScrollStyle> value)
 	{
-		vl::presentation::common_styles::CommonScrollStyle const& _unwrapped_value = *__GacUIInternal<CommonScrollStyle>::GetInternalObject(*(value.operator->()));
+		vl::presentation::common_styles::CommonScrollStyle const& _unwrapped_value = *__GacUIInternal<CommonScrollStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -9827,9 +15809,15 @@ CommonTrackStyle
 	{
 	}
 	
+	void CommonTrackStyle::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiScroll::IStyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<CommonTrackStyle> CommonTrackStyle::operator=(rptr<CommonTrackStyle> value)
 	{
-		vl::presentation::common_styles::CommonTrackStyle const& _unwrapped_value = *__GacUIInternal<CommonTrackStyle>::GetInternalObject(*(value.operator->()));
+		vl::presentation::common_styles::CommonTrackStyle const& _unwrapped_value = *__GacUIInternal<CommonTrackStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -9848,6 +15836,12 @@ GuiScrollView
 	{
 	}
 	
+	void GuiScrollView::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiControl::ClearInternalObjectReference();
+	}
+	
 	void GuiScrollView::CalculateView()
 	{
 		throw 0;
@@ -9855,7 +15849,7 @@ GuiScrollView
 	
 	rptr<GuiScrollView> GuiScrollView::operator=(rptr<GuiScrollView> value)
 	{
-		vl::presentation::controls::GuiScrollView const& _unwrapped_value = *__GacUIInternal<GuiScrollView>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiScrollView const& _unwrapped_value = *__GacUIInternal<GuiScrollView>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -9916,6 +15910,12 @@ GuiScrollView :: IStyleProvider
 	{
 	}
 	
+	void GuiScrollView::IStyleProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiControl::IStyleProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiScroll :: IStyleController> GuiScrollView::IStyleProvider::CreateHorizontalScrollStyle()
 	{
 		throw 0;
@@ -9928,13 +15928,13 @@ GuiScrollView :: IStyleProvider
 	
 	rptr<GuiGraphicsComposition> GuiScrollView::IStyleProvider::InstallBackground(rptr<GuiBoundsComposition> boundsComposition)
 	{
-		vl::presentation::elements::GuiBoundsComposition* _unwrapped_boundsComposition = __GacUIInternal<GuiBoundsComposition>::GetInternalObject(*(boundsComposition.operator->()));
+		vl::presentation::elements::GuiBoundsComposition* _unwrapped_boundsComposition = __GacUIInternal<GuiBoundsComposition>::GetInternalObject(boundsComposition);
 		throw 0;
 	}
 	
 	rptr<GuiScrollView :: IStyleProvider> GuiScrollView::IStyleProvider::operator=(rptr<GuiScrollView :: IStyleProvider> value)
 	{
-		vl::presentation::controls::GuiScrollView::IStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiScrollView::IStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -9958,9 +15958,15 @@ GuiScrollView :: StyleController
 	{
 	}
 	
+	void GuiScrollView::StyleController::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiControl::IStyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiScrollView :: StyleController> GuiScrollView::StyleController::CreateRptr(rptr<GuiScrollView :: IStyleProvider> _styleProvider)
 	{
-		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(*(_styleProvider.operator->()));
+		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(_styleProvider);
 		throw 0;
 	}
 	
@@ -9972,13 +15978,13 @@ GuiScrollView :: StyleController
 	
 	rptr<GuiScrollView :: StyleController> GuiScrollView::StyleController::operator=(rptr<GuiScrollView :: StyleController> value)
 	{
-		vl::presentation::controls::GuiScrollView::StyleController const& _unwrapped_value = *__GacUIInternal<GuiScrollView :: StyleController>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiScrollView::StyleController const& _unwrapped_value = *__GacUIInternal<GuiScrollView :: StyleController>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	void GuiScrollView::StyleController::SetScrollView(rptr<GuiScrollView> _scrollView)
 	{
-		vl::presentation::controls::GuiScrollView* _unwrapped__scrollView = __GacUIInternal<GuiScrollView>::GetInternalObject(*(_scrollView.operator->()));
+		vl::presentation::controls::GuiScrollView* _unwrapped__scrollView = __GacUIInternal<GuiScrollView>::GetInternalObject(_scrollView);
 		throw 0;
 	}
 	
@@ -10044,35 +16050,41 @@ GuiListControl
 	{
 	}
 	
+	void GuiListControl::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiScrollView::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiListControl> GuiListControl::CreateRptr(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider, bool acceptFocus)
 	{
-		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(*(_styleProvider.operator->()));
-		vl::presentation::controls::GuiListControl::IItemProvider* _unwrapped__itemProvider = __GacUIInternal<GuiListControl :: IItemProvider>::GetInternalObject(*(_itemProvider.operator->()));
+		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(_styleProvider);
+		vl::presentation::controls::GuiListControl::IItemProvider* _unwrapped__itemProvider = __GacUIInternal<GuiListControl :: IItemProvider>::GetInternalObject(_itemProvider);
 		bool _unwrapped_acceptFocus = acceptFocus;
 		throw 0;
 	}
 	
 	sptr<GuiListControl :: IItemStyleProvider> GuiListControl::SetStyleProvider(sptr<GuiListControl :: IItemStyleProvider> value)
 	{
-		vl::Ptr<vl::presentation::controls::GuiListControl::IItemStyleProvider> _unwrapped_value = __GacUIInternal<GuiListControl :: IItemStyleProvider>::GetInternalObject(*(value.operator->()));
+		vl::Ptr<vl::presentation::controls::GuiListControl::IItemStyleProvider> _unwrapped_value = __GacUIInternal<GuiListControl :: IItemStyleProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	sptr<GuiListControl :: IItemArranger> GuiListControl::SetArranger(sptr<GuiListControl :: IItemArranger> value)
 	{
-		vl::Ptr<vl::presentation::controls::GuiListControl::IItemArranger> _unwrapped_value = __GacUIInternal<GuiListControl :: IItemArranger>::GetInternalObject(*(value.operator->()));
+		vl::Ptr<vl::presentation::controls::GuiListControl::IItemArranger> _unwrapped_value = __GacUIInternal<GuiListControl :: IItemArranger>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	sptr<GuiListControl :: IItemCoordinateTransformer> GuiListControl::SetCoordinateTransformer(sptr<GuiListControl :: IItemCoordinateTransformer> value)
 	{
-		vl::Ptr<vl::presentation::controls::GuiListControl::IItemCoordinateTransformer> _unwrapped_value = __GacUIInternal<GuiListControl :: IItemCoordinateTransformer>::GetInternalObject(*(value.operator->()));
+		vl::Ptr<vl::presentation::controls::GuiListControl::IItemCoordinateTransformer> _unwrapped_value = __GacUIInternal<GuiListControl :: IItemCoordinateTransformer>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	rptr<GuiListControl> GuiListControl::operator=(rptr<GuiListControl> value)
 	{
-		vl::presentation::controls::GuiListControl const& _unwrapped_value = *__GacUIInternal<GuiListControl>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiListControl const& _unwrapped_value = *__GacUIInternal<GuiListControl>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10096,17 +16108,17 @@ GuiListControl
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiListControl::on_StyleProviderChanged()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiListControl::on_StyleProviderChanged()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiListControl::on_ArrangerChanged()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiListControl::on_ArrangerChanged()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiListControl::on_CoordinateTransformerChanged()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiListControl::on_CoordinateTransformerChanged()
 	{
 		throw 0;
 	}
@@ -10126,6 +16138,12 @@ GuiListControl :: IItemArrangerCallback
 	{
 	}
 	
+	void GuiListControl::IItemArrangerCallback::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiListControl :: IItemStyleController> GuiListControl::IItemArrangerCallback::RequestItem(signed __int32 itemIndex)
 	{
 		signed __int32 _unwrapped_itemIndex = itemIndex;
@@ -10134,26 +16152,26 @@ GuiListControl :: IItemArrangerCallback
 	
 	void GuiListControl::IItemArrangerCallback::ReleaseItem(rptr<GuiListControl :: IItemStyleController> style)
 	{
-		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_style = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(*(style.operator->()));
+		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_style = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(style);
 		throw 0;
 	}
 	
 	Size GuiListControl::IItemArrangerCallback::GetStylePreferredSize(rptr<GuiListControl :: IItemStyleController> style)
 	{
-		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_style = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(*(style.operator->()));
+		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_style = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(style);
 		throw 0;
 	}
 	
 	void GuiListControl::IItemArrangerCallback::SetStyleAlignmentToParent(rptr<GuiListControl :: IItemStyleController> style, Margin margin)
 	{
-		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_style = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(*(style.operator->()));
+		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_style = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(style);
 		vl::presentation::Margin _unwrapped_margin = *__GacUIInternal<Margin>::GetInternalObject(margin);
 		throw 0;
 	}
 	
 	void GuiListControl::IItemArrangerCallback::SetStyleBounds(rptr<GuiListControl :: IItemStyleController> style, Rect bounds)
 	{
-		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_style = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(*(style.operator->()));
+		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_style = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(style);
 		vl::presentation::Rect _unwrapped_bounds = *__GacUIInternal<Rect>::GetInternalObject(bounds);
 		throw 0;
 	}
@@ -10165,7 +16183,7 @@ GuiListControl :: IItemArrangerCallback
 	
 	rptr<GuiListControl :: IItemArrangerCallback> GuiListControl::IItemArrangerCallback::operator=(rptr<GuiListControl :: IItemArrangerCallback> value)
 	{
-		vl::presentation::controls::GuiListControl::IItemArrangerCallback const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemArrangerCallback>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiListControl::IItemArrangerCallback const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemArrangerCallback>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10193,6 +16211,12 @@ GuiListControl :: IItemCoordinateTransformer
 	
 	GuiListControl::IItemCoordinateTransformer::~IItemCoordinateTransformer()
 	{
+	}
+	
+	void GuiListControl::IItemCoordinateTransformer::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
 	}
 	
 	Size GuiListControl::IItemCoordinateTransformer::RealSizeToVirtualSize(Size size)
@@ -10249,7 +16273,7 @@ GuiListControl :: IItemCoordinateTransformer
 	
 	rptr<GuiListControl :: IItemCoordinateTransformer> GuiListControl::IItemCoordinateTransformer::operator=(rptr<GuiListControl :: IItemCoordinateTransformer> value)
 	{
-		vl::presentation::controls::GuiListControl::IItemCoordinateTransformer const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemCoordinateTransformer>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiListControl::IItemCoordinateTransformer const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemCoordinateTransformer>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10268,6 +16292,12 @@ GuiListControl :: IItemPrimaryTextView
 	{
 	}
 	
+	void GuiListControl::IItemPrimaryTextView::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	GacString GuiListControl::IItemPrimaryTextView::GetPrimaryTextViewText(signed __int32 itemIndex)
 	{
 		signed __int32 _unwrapped_itemIndex = itemIndex;
@@ -10282,7 +16312,7 @@ GuiListControl :: IItemPrimaryTextView
 	
 	rptr<GuiListControl :: IItemPrimaryTextView> GuiListControl::IItemPrimaryTextView::operator=(rptr<GuiListControl :: IItemPrimaryTextView> value)
 	{
-		vl::presentation::controls::GuiListControl::IItemPrimaryTextView const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemPrimaryTextView>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiListControl::IItemPrimaryTextView const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemPrimaryTextView>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10306,15 +16336,21 @@ GuiListControl :: IItemProvider
 	{
 	}
 	
+	void GuiListControl::IItemProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	bool GuiListControl::IItemProvider::AttachCallback(rptr<GuiListControl :: IItemProviderCallback> value)
 	{
-		vl::presentation::controls::GuiListControl::IItemProviderCallback* _unwrapped_value = __GacUIInternal<GuiListControl :: IItemProviderCallback>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiListControl::IItemProviderCallback* _unwrapped_value = __GacUIInternal<GuiListControl :: IItemProviderCallback>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	bool GuiListControl::IItemProvider::DetachCallback(rptr<GuiListControl :: IItemProviderCallback> value)
 	{
-		vl::presentation::controls::GuiListControl::IItemProviderCallback* _unwrapped_value = __GacUIInternal<GuiListControl :: IItemProviderCallback>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiListControl::IItemProviderCallback* _unwrapped_value = __GacUIInternal<GuiListControl :: IItemProviderCallback>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10331,13 +16367,13 @@ GuiListControl :: IItemProvider
 	
 	void GuiListControl::IItemProvider::ReleaseView(rptr<IDescriptable> view)
 	{
-		vl::presentation::IDescriptable* _unwrapped_view = __GacUIInternal<IDescriptable>::GetInternalObject(*(view.operator->()));
+		vl::presentation::IDescriptable* _unwrapped_view = __GacUIInternal<IDescriptable>::GetInternalObject(view);
 		throw 0;
 	}
 	
 	rptr<GuiListControl :: IItemProvider> GuiListControl::IItemProvider::operator=(rptr<GuiListControl :: IItemProvider> value)
 	{
-		vl::presentation::controls::GuiListControl::IItemProvider const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiListControl::IItemProvider const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10356,9 +16392,15 @@ GuiListControl :: IItemProviderCallback
 	{
 	}
 	
+	void GuiListControl::IItemProviderCallback::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	void GuiListControl::IItemProviderCallback::OnAttached(rptr<GuiListControl :: IItemProvider> provider)
 	{
-		vl::presentation::controls::GuiListControl::IItemProvider* _unwrapped_provider = __GacUIInternal<GuiListControl :: IItemProvider>::GetInternalObject(*(provider.operator->()));
+		vl::presentation::controls::GuiListControl::IItemProvider* _unwrapped_provider = __GacUIInternal<GuiListControl :: IItemProvider>::GetInternalObject(provider);
 		throw 0;
 	}
 	
@@ -10372,7 +16414,7 @@ GuiListControl :: IItemProviderCallback
 	
 	rptr<GuiListControl :: IItemProviderCallback> GuiListControl::IItemProviderCallback::operator=(rptr<GuiListControl :: IItemProviderCallback> value)
 	{
-		vl::presentation::controls::GuiListControl::IItemProviderCallback const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemProviderCallback>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiListControl::IItemProviderCallback const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemProviderCallback>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10391,9 +16433,15 @@ GuiListControl :: IItemArranger
 	{
 	}
 	
+	void GuiListControl::IItemArranger::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiListControl::IItemProviderCallback::ClearInternalObjectReference();
+	}
+	
 	void GuiListControl::IItemArranger::AttachListControl(rptr<GuiListControl> value)
 	{
-		vl::presentation::controls::GuiListControl* _unwrapped_value = __GacUIInternal<GuiListControl>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiListControl* _unwrapped_value = __GacUIInternal<GuiListControl>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10410,7 +16458,7 @@ GuiListControl :: IItemArranger
 	
 	signed __int32 GuiListControl::IItemArranger::GetVisibleIndex(rptr<GuiListControl :: IItemStyleController> style)
 	{
-		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_style = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(*(style.operator->()));
+		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_style = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(style);
 		throw 0;
 	}
 	
@@ -10422,7 +16470,7 @@ GuiListControl :: IItemArranger
 	
 	rptr<GuiListControl :: IItemArranger> GuiListControl::IItemArranger::operator=(rptr<GuiListControl :: IItemArranger> value)
 	{
-		vl::presentation::controls::GuiListControl::IItemArranger const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemArranger>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiListControl::IItemArranger const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemArranger>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10433,7 +16481,7 @@ GuiListControl :: IItemArranger
 	
 	void GuiListControl::IItemArranger::SetCallback(rptr<GuiListControl :: IItemArrangerCallback> value)
 	{
-		vl::presentation::controls::GuiListControl::IItemArrangerCallback* _unwrapped_value = __GacUIInternal<GuiListControl :: IItemArrangerCallback>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiListControl::IItemArrangerCallback* _unwrapped_value = __GacUIInternal<GuiListControl :: IItemArrangerCallback>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10455,6 +16503,12 @@ GuiListControl :: IItemStyleController
 	
 	GuiListControl::IItemStyleController::~IItemStyleController()
 	{
+	}
+	
+	void GuiListControl::IItemStyleController::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
 	}
 	
 	bool GuiListControl::IItemStyleController::IsCacheable()
@@ -10479,7 +16533,7 @@ GuiListControl :: IItemStyleController
 	
 	rptr<GuiListControl :: IItemStyleController> GuiListControl::IItemStyleController::operator=(rptr<GuiListControl :: IItemStyleController> value)
 	{
-		vl::presentation::controls::GuiListControl::IItemStyleController const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiListControl::IItemStyleController const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10513,9 +16567,15 @@ GuiListControl :: IItemStyleProvider
 	{
 	}
 	
+	void GuiListControl::IItemStyleProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	void GuiListControl::IItemStyleProvider::AttachListControl(rptr<GuiListControl> value)
 	{
-		vl::presentation::controls::GuiListControl* _unwrapped_value = __GacUIInternal<GuiListControl>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiListControl* _unwrapped_value = __GacUIInternal<GuiListControl>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10538,20 +16598,20 @@ GuiListControl :: IItemStyleProvider
 	
 	void GuiListControl::IItemStyleProvider::DestroyItemStyle(rptr<GuiListControl :: IItemStyleController> style)
 	{
-		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_style = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(*(style.operator->()));
+		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_style = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(style);
 		throw 0;
 	}
 	
 	void GuiListControl::IItemStyleProvider::Install(rptr<GuiListControl :: IItemStyleController> style, signed __int32 itemIndex)
 	{
-		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_style = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(*(style.operator->()));
+		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_style = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(style);
 		signed __int32 _unwrapped_itemIndex = itemIndex;
 		throw 0;
 	}
 	
 	rptr<GuiListControl :: IItemStyleProvider> GuiListControl::IItemStyleProvider::operator=(rptr<GuiListControl :: IItemStyleProvider> value)
 	{
-		vl::presentation::controls::GuiListControl::IItemStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemStyleProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiListControl::IItemStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemStyleProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10570,6 +16630,12 @@ AxisAlignedItemCoordinateTransformer
 	{
 	}
 	
+	void AxisAlignedItemCoordinateTransformer::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiListControl::IItemCoordinateTransformer::ClearInternalObjectReference();
+	}
+	
 	rptr<AxisAlignedItemCoordinateTransformer> AxisAlignedItemCoordinateTransformer::CreateRptr(AxisAlignedItemCoordinateTransformer :: Alignment _alignment)
 	{
 		vl::presentation::controls::list::AxisAlignedItemCoordinateTransformer::Alignment _unwrapped__alignment = (vl::presentation::controls::list::AxisAlignedItemCoordinateTransformer::Alignment)_alignment;
@@ -10578,7 +16644,7 @@ AxisAlignedItemCoordinateTransformer
 	
 	rptr<AxisAlignedItemCoordinateTransformer> AxisAlignedItemCoordinateTransformer::operator=(rptr<AxisAlignedItemCoordinateTransformer> value)
 	{
-		vl::presentation::controls::list::AxisAlignedItemCoordinateTransformer const& _unwrapped_value = *__GacUIInternal<AxisAlignedItemCoordinateTransformer>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::AxisAlignedItemCoordinateTransformer const& _unwrapped_value = *__GacUIInternal<AxisAlignedItemCoordinateTransformer>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10602,6 +16668,12 @@ DefaultItemCoordinateTransformer
 	{
 	}
 	
+	void DefaultItemCoordinateTransformer::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiListControl::IItemCoordinateTransformer::ClearInternalObjectReference();
+	}
+	
 	rptr<DefaultItemCoordinateTransformer> DefaultItemCoordinateTransformer::CreateRptr()
 	{
 		throw 0;
@@ -10609,7 +16681,7 @@ DefaultItemCoordinateTransformer
 	
 	rptr<DefaultItemCoordinateTransformer> DefaultItemCoordinateTransformer::operator=(rptr<DefaultItemCoordinateTransformer> value)
 	{
-		vl::presentation::controls::list::DefaultItemCoordinateTransformer const& _unwrapped_value = *__GacUIInternal<DefaultItemCoordinateTransformer>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::DefaultItemCoordinateTransformer const& _unwrapped_value = *__GacUIInternal<DefaultItemCoordinateTransformer>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10628,15 +16700,21 @@ GuiScrollContainer
 	{
 	}
 	
+	void GuiScrollContainer::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiScrollView::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiScrollContainer> GuiScrollContainer::CreateRptr(rptr<GuiScrollView :: IStyleProvider> styleProvider)
 	{
-		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(*(styleProvider.operator->()));
+		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(styleProvider);
 		throw 0;
 	}
 	
 	rptr<GuiScrollContainer> GuiScrollContainer::operator=(rptr<GuiScrollContainer> value)
 	{
-		vl::presentation::controls::GuiScrollContainer const& _unwrapped_value = *__GacUIInternal<GuiScrollContainer>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiScrollContainer const& _unwrapped_value = *__GacUIInternal<GuiScrollContainer>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10655,9 +16733,15 @@ GuiScrollContainer :: StyleController
 	{
 	}
 	
+	void GuiScrollContainer::StyleController::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiScrollView::StyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiScrollContainer :: StyleController> GuiScrollContainer::StyleController::CreateRptr(rptr<GuiScrollView :: IStyleProvider> styleProvider)
 	{
-		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(*(styleProvider.operator->()));
+		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(styleProvider);
 		throw 0;
 	}
 	
@@ -10669,7 +16753,7 @@ GuiScrollContainer :: StyleController
 	
 	rptr<GuiScrollContainer :: StyleController> GuiScrollContainer::StyleController::operator=(rptr<GuiScrollContainer :: StyleController> value)
 	{
-		vl::presentation::controls::GuiScrollContainer::StyleController const& _unwrapped_value = *__GacUIInternal<GuiScrollContainer :: StyleController>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiScrollContainer::StyleController const& _unwrapped_value = *__GacUIInternal<GuiScrollContainer :: StyleController>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10688,15 +16772,21 @@ GuiSelectableButton
 	{
 	}
 	
+	void GuiSelectableButton::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiButton::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiSelectableButton> GuiSelectableButton::CreateRptr(rptr<GuiSelectableButton :: IStyleController> _styleController)
 	{
-		vl::presentation::controls::GuiSelectableButton::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiSelectableButton :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
+		vl::presentation::controls::GuiSelectableButton::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiSelectableButton :: IStyleController>::GetInternalObject(_styleController);
 		throw 0;
 	}
 	
 	rptr<GuiSelectableButton> GuiSelectableButton::operator=(rptr<GuiSelectableButton> value)
 	{
-		vl::presentation::controls::GuiSelectableButton const& _unwrapped_value = *__GacUIInternal<GuiSelectableButton>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiSelectableButton const& _unwrapped_value = *__GacUIInternal<GuiSelectableButton>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10707,7 +16797,7 @@ GuiSelectableButton
 	
 	void GuiSelectableButton::SetGroupController(rptr<GuiSelectableButton :: GroupController> value)
 	{
-		vl::presentation::controls::GuiSelectableButton::GroupController* _unwrapped_value = __GacUIInternal<GuiSelectableButton :: GroupController>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiSelectableButton::GroupController* _unwrapped_value = __GacUIInternal<GuiSelectableButton :: GroupController>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10733,17 +16823,17 @@ GuiSelectableButton
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiSelectableButton::on_GroupControllerChanged()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiSelectableButton::on_GroupControllerChanged()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiSelectableButton::on_AutoSelectionChanged()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiSelectableButton::on_AutoSelectionChanged()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiSelectableButton::on_SelectedChanged()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiSelectableButton::on_SelectedChanged()
 	{
 		throw 0;
 	}
@@ -10763,27 +16853,33 @@ GuiSelectableButton :: GroupController
 	{
 	}
 	
+	void GuiSelectableButton::GroupController::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiComponent::ClearInternalObjectReference();
+	}
+	
 	void GuiSelectableButton::GroupController::Attach(rptr<GuiSelectableButton> button)
 	{
-		vl::presentation::controls::GuiSelectableButton* _unwrapped_button = __GacUIInternal<GuiSelectableButton>::GetInternalObject(*(button.operator->()));
+		vl::presentation::controls::GuiSelectableButton* _unwrapped_button = __GacUIInternal<GuiSelectableButton>::GetInternalObject(button);
 		throw 0;
 	}
 	
 	void GuiSelectableButton::GroupController::Detach(rptr<GuiSelectableButton> button)
 	{
-		vl::presentation::controls::GuiSelectableButton* _unwrapped_button = __GacUIInternal<GuiSelectableButton>::GetInternalObject(*(button.operator->()));
+		vl::presentation::controls::GuiSelectableButton* _unwrapped_button = __GacUIInternal<GuiSelectableButton>::GetInternalObject(button);
 		throw 0;
 	}
 	
 	void GuiSelectableButton::GroupController::OnSelectedChanged(rptr<GuiSelectableButton> button)
 	{
-		vl::presentation::controls::GuiSelectableButton* _unwrapped_button = __GacUIInternal<GuiSelectableButton>::GetInternalObject(*(button.operator->()));
+		vl::presentation::controls::GuiSelectableButton* _unwrapped_button = __GacUIInternal<GuiSelectableButton>::GetInternalObject(button);
 		throw 0;
 	}
 	
 	rptr<GuiSelectableButton :: GroupController> GuiSelectableButton::GroupController::operator=(rptr<GuiSelectableButton :: GroupController> value)
 	{
-		vl::presentation::controls::GuiSelectableButton::GroupController const& _unwrapped_value = *__GacUIInternal<GuiSelectableButton :: GroupController>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiSelectableButton::GroupController const& _unwrapped_value = *__GacUIInternal<GuiSelectableButton :: GroupController>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10802,9 +16898,15 @@ GuiSelectableButton :: IStyleController
 	{
 	}
 	
+	void GuiSelectableButton::IStyleController::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiButton::IStyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiSelectableButton :: IStyleController> GuiSelectableButton::IStyleController::operator=(rptr<GuiSelectableButton :: IStyleController> value)
 	{
-		vl::presentation::controls::GuiSelectableButton::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiSelectableButton :: IStyleController>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiSelectableButton::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiSelectableButton :: IStyleController>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10829,6 +16931,12 @@ GuiSelectableButton :: MutexGroupController
 	{
 	}
 	
+	void GuiSelectableButton::MutexGroupController::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiSelectableButton::GroupController::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiSelectableButton :: MutexGroupController> GuiSelectableButton::MutexGroupController::CreateRptr()
 	{
 		throw 0;
@@ -10836,7 +16944,7 @@ GuiSelectableButton :: MutexGroupController
 	
 	rptr<GuiSelectableButton :: MutexGroupController> GuiSelectableButton::MutexGroupController::operator=(rptr<GuiSelectableButton :: MutexGroupController> value)
 	{
-		vl::presentation::controls::GuiSelectableButton::MutexGroupController const& _unwrapped_value = *__GacUIInternal<GuiSelectableButton :: MutexGroupController>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiSelectableButton::MutexGroupController const& _unwrapped_value = *__GacUIInternal<GuiSelectableButton :: MutexGroupController>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10855,10 +16963,16 @@ GuiSelectableListControl
 	{
 	}
 	
+	void GuiSelectableListControl::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiListControl::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiSelectableListControl> GuiSelectableListControl::CreateRptr(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider)
 	{
-		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(*(_styleProvider.operator->()));
-		vl::presentation::controls::GuiListControl::IItemProvider* _unwrapped__itemProvider = __GacUIInternal<GuiListControl :: IItemProvider>::GetInternalObject(*(_itemProvider.operator->()));
+		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(_styleProvider);
+		vl::presentation::controls::GuiListControl::IItemProvider* _unwrapped__itemProvider = __GacUIInternal<GuiListControl :: IItemProvider>::GetInternalObject(_itemProvider);
 		throw 0;
 	}
 	
@@ -10882,7 +16996,7 @@ GuiSelectableListControl
 	
 	rptr<GuiSelectableListControl> GuiSelectableListControl::operator=(rptr<GuiSelectableListControl> value)
 	{
-		vl::presentation::controls::GuiSelectableListControl const& _unwrapped_value = *__GacUIInternal<GuiSelectableListControl>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiSelectableListControl const& _unwrapped_value = *__GacUIInternal<GuiSelectableListControl>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10902,7 +17016,7 @@ GuiSelectableListControl
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiSelectableListControl::on_SelectionChanged()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiSelectableListControl::on_SelectionChanged()
 	{
 		throw 0;
 	}
@@ -10922,16 +17036,22 @@ GuiSelectableListControl :: IItemStyleProvider
 	{
 	}
 	
+	void GuiSelectableListControl::IItemStyleProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiListControl::IItemStyleProvider::ClearInternalObjectReference();
+	}
+	
 	void GuiSelectableListControl::IItemStyleProvider::SetStyleSelected(rptr<GuiListControl :: IItemStyleController> style, bool value)
 	{
-		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_style = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(*(style.operator->()));
+		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_style = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(style);
 		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
 	rptr<GuiSelectableListControl :: IItemStyleProvider> GuiSelectableListControl::IItemStyleProvider::operator=(rptr<GuiSelectableListControl :: IItemStyleProvider> value)
 	{
-		vl::presentation::controls::GuiSelectableListControl::IItemStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiSelectableListControl :: IItemStyleProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiSelectableListControl::IItemStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiSelectableListControl :: IItemStyleProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10950,16 +17070,22 @@ GuiListViewBase
 	{
 	}
 	
+	void GuiListViewBase::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiSelectableListControl::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiListViewBase> GuiListViewBase::CreateRptr(rptr<GuiListViewBase :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider)
 	{
-		vl::presentation::controls::GuiListViewBase::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiListViewBase :: IStyleProvider>::GetInternalObject(*(_styleProvider.operator->()));
-		vl::presentation::controls::GuiListControl::IItemProvider* _unwrapped__itemProvider = __GacUIInternal<GuiListControl :: IItemProvider>::GetInternalObject(*(_itemProvider.operator->()));
+		vl::presentation::controls::GuiListViewBase::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiListViewBase :: IStyleProvider>::GetInternalObject(_styleProvider);
+		vl::presentation::controls::GuiListControl::IItemProvider* _unwrapped__itemProvider = __GacUIInternal<GuiListControl :: IItemProvider>::GetInternalObject(_itemProvider);
 		throw 0;
 	}
 	
 	rptr<GuiListViewBase> GuiListViewBase::operator=(rptr<GuiListViewBase> value)
 	{
-		vl::presentation::controls::GuiListViewBase const& _unwrapped_value = *__GacUIInternal<GuiListViewBase>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiListViewBase const& _unwrapped_value = *__GacUIInternal<GuiListViewBase>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10983,6 +17109,12 @@ GuiListViewBase :: IStyleProvider
 	{
 	}
 	
+	void GuiListViewBase::IStyleProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiScrollView::IStyleProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiSelectableButton :: IStyleController> GuiListViewBase::IStyleProvider::CreateItemBackground()
 	{
 		throw 0;
@@ -10995,7 +17127,7 @@ GuiListViewBase :: IStyleProvider
 	
 	rptr<GuiListViewBase :: IStyleProvider> GuiListViewBase::IStyleProvider::operator=(rptr<GuiListViewBase :: IStyleProvider> value)
 	{
-		vl::presentation::controls::GuiListViewBase::IStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiListViewBase :: IStyleProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiListViewBase::IStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiListViewBase :: IStyleProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -11029,6 +17161,12 @@ GuiSideAlignedComposition
 	{
 	}
 	
+	void GuiSideAlignedComposition::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiGraphicsSite::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiSideAlignedComposition> GuiSideAlignedComposition::CreateRptr()
 	{
 		throw 0;
@@ -11036,7 +17174,7 @@ GuiSideAlignedComposition
 	
 	rptr<GuiSideAlignedComposition> GuiSideAlignedComposition::operator=(rptr<GuiSideAlignedComposition> value)
 	{
-		vl::presentation::elements::GuiSideAlignedComposition const& _unwrapped_value = *__GacUIInternal<GuiSideAlignedComposition>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiSideAlignedComposition const& _unwrapped_value = *__GacUIInternal<GuiSideAlignedComposition>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -11088,6 +17226,12 @@ GuiStackItemComposition
 	{
 	}
 	
+	void GuiStackItemComposition::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiGraphicsSite::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiStackItemComposition> GuiStackItemComposition::CreateRptr()
 	{
 		throw 0;
@@ -11095,7 +17239,7 @@ GuiStackItemComposition
 	
 	rptr<GuiStackItemComposition> GuiStackItemComposition::operator=(rptr<GuiStackItemComposition> value)
 	{
-		vl::presentation::elements::GuiStackItemComposition const& _unwrapped_value = *__GacUIInternal<GuiStackItemComposition>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiStackItemComposition const& _unwrapped_value = *__GacUIInternal<GuiStackItemComposition>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -11131,15 +17275,21 @@ GuiTab
 	{
 	}
 	
+	void GuiTab::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiControl::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiTab> GuiTab::CreateRptr(rptr<GuiTab :: IStyleController> _styleController)
 	{
-		vl::presentation::controls::GuiTab::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiTab :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
+		vl::presentation::controls::GuiTab::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiTab :: IStyleController>::GetInternalObject(_styleController);
 		throw 0;
 	}
 	
 	bool GuiTab::CreatePage(rptr<GuiTabPage> page, signed __int32 index)
 	{
-		vl::presentation::controls::GuiTabPage* _unwrapped_page = __GacUIInternal<GuiTabPage>::GetInternalObject(*(page.operator->()));
+		vl::presentation::controls::GuiTabPage* _unwrapped_page = __GacUIInternal<GuiTabPage>::GetInternalObject(page);
 		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
@@ -11152,26 +17302,26 @@ GuiTab
 	
 	bool GuiTab::RemovePage(rptr<GuiTabPage> value)
 	{
-		vl::presentation::controls::GuiTabPage* _unwrapped_value = __GacUIInternal<GuiTabPage>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiTabPage* _unwrapped_value = __GacUIInternal<GuiTabPage>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	bool GuiTab::MovePage(rptr<GuiTabPage> page, signed __int32 newIndex)
 	{
-		vl::presentation::controls::GuiTabPage* _unwrapped_page = __GacUIInternal<GuiTabPage>::GetInternalObject(*(page.operator->()));
+		vl::presentation::controls::GuiTabPage* _unwrapped_page = __GacUIInternal<GuiTabPage>::GetInternalObject(page);
 		signed __int32 _unwrapped_newIndex = newIndex;
 		throw 0;
 	}
 	
 	bool GuiTab::SetSelectedPage(rptr<GuiTabPage> value)
 	{
-		vl::presentation::controls::GuiTabPage* _unwrapped_value = __GacUIInternal<GuiTabPage>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiTabPage* _unwrapped_value = __GacUIInternal<GuiTabPage>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	rptr<GuiTab> GuiTab::operator=(rptr<GuiTab> value)
 	{
-		vl::presentation::controls::GuiTab const& _unwrapped_value = *__GacUIInternal<GuiTab>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiTab const& _unwrapped_value = *__GacUIInternal<GuiTab>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -11185,7 +17335,7 @@ GuiTab
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiTab::on_SelectedPageChanged()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiTab::on_SelectedPageChanged()
 	{
 		throw 0;
 	}
@@ -11205,6 +17355,12 @@ GuiTab :: ICommandExecutor
 	{
 	}
 	
+	void GuiTab::ICommandExecutor::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	void GuiTab::ICommandExecutor::ShowTab(signed __int32 index)
 	{
 		signed __int32 _unwrapped_index = index;
@@ -11213,7 +17369,7 @@ GuiTab :: ICommandExecutor
 	
 	rptr<GuiTab :: ICommandExecutor> GuiTab::ICommandExecutor::operator=(rptr<GuiTab :: ICommandExecutor> value)
 	{
-		vl::presentation::controls::GuiTab::ICommandExecutor const& _unwrapped_value = *__GacUIInternal<GuiTab :: ICommandExecutor>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiTab::ICommandExecutor const& _unwrapped_value = *__GacUIInternal<GuiTab :: ICommandExecutor>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -11230,6 +17386,12 @@ GuiTab :: IStyleController
 	
 	GuiTab::IStyleController::~IStyleController()
 	{
+	}
+	
+	void GuiTab::IStyleController::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiControl::IStyleController::ClearInternalObjectReference();
 	}
 	
 	void GuiTab::IStyleController::InsertTab(signed __int32 index)
@@ -11265,13 +17427,13 @@ GuiTab :: IStyleController
 	
 	rptr<GuiTab :: IStyleController> GuiTab::IStyleController::operator=(rptr<GuiTab :: IStyleController> value)
 	{
-		vl::presentation::controls::GuiTab::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiTab :: IStyleController>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiTab::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiTab :: IStyleController>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	void GuiTab::IStyleController::SetCommandExecutor(rptr<GuiTab :: ICommandExecutor> value)
 	{
-		vl::presentation::controls::GuiTab::ICommandExecutor* _unwrapped_value = __GacUIInternal<GuiTab :: ICommandExecutor>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiTab::ICommandExecutor* _unwrapped_value = __GacUIInternal<GuiTab :: ICommandExecutor>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -11294,6 +17456,12 @@ GuiTableComposition
 	
 	GuiTableComposition::~GuiTableComposition()
 	{
+	}
+	
+	void GuiTableComposition::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiBoundsComposition::ClearInternalObjectReference();
 	}
 	
 	rptr<GuiTableComposition> GuiTableComposition::CreateRptr()
@@ -11348,7 +17516,7 @@ GuiTableComposition
 	
 	rptr<GuiTableComposition> GuiTableComposition::operator=(rptr<GuiTableComposition> value)
 	{
-		vl::presentation::elements::GuiTableComposition const& _unwrapped_value = *__GacUIInternal<GuiTableComposition>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiTableComposition const& _unwrapped_value = *__GacUIInternal<GuiTableComposition>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -11393,15 +17561,21 @@ GuiWindow
 	{
 	}
 	
+	void GuiWindow::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiControlHost::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiWindow> GuiWindow::CreateRptr(rptr<GuiControl :: IStyleController> _styleController)
 	{
-		vl::presentation::controls::GuiControl::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
+		vl::presentation::controls::GuiControl::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(_styleController);
 		throw 0;
 	}
 	
 	rptr<GuiWindow> GuiWindow::operator=(rptr<GuiWindow> value)
 	{
-		vl::presentation::controls::GuiWindow const& _unwrapped_value = *__GacUIInternal<GuiWindow>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiWindow const& _unwrapped_value = *__GacUIInternal<GuiWindow>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -11420,9 +17594,15 @@ GuiPopup
 	{
 	}
 	
+	void GuiPopup::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiWindow::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiPopup> GuiPopup::CreateRptr(rptr<GuiControl :: IStyleController> _styleController)
 	{
-		vl::presentation::controls::GuiControl::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
+		vl::presentation::controls::GuiControl::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(_styleController);
 		throw 0;
 	}
 	
@@ -11434,7 +17614,7 @@ GuiPopup
 	
 	void GuiPopup::ShowPopup(rptr<GuiControl> control, bool preferredTopBottomSide)
 	{
-		vl::presentation::controls::GuiControl* _unwrapped_control = __GacUIInternal<GuiControl>::GetInternalObject(*(control.operator->()));
+		vl::presentation::controls::GuiControl* _unwrapped_control = __GacUIInternal<GuiControl>::GetInternalObject(control);
 		bool _unwrapped_preferredTopBottomSide = preferredTopBottomSide;
 		throw 0;
 	}
@@ -11447,7 +17627,7 @@ GuiPopup
 	
 	rptr<GuiPopup> GuiPopup::operator=(rptr<GuiPopup> value)
 	{
-		vl::presentation::controls::GuiPopup const& _unwrapped_value = *__GacUIInternal<GuiPopup>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiPopup const& _unwrapped_value = *__GacUIInternal<GuiPopup>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -11466,9 +17646,15 @@ GuiComboBoxBase
 	{
 	}
 	
+	void GuiComboBoxBase::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiButton::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiComboBoxBase> GuiComboBoxBase::CreateRptr(rptr<GuiComboBoxBase :: IStyleController> _styleController)
 	{
-		vl::presentation::controls::GuiComboBoxBase::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiComboBoxBase :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
+		vl::presentation::controls::GuiComboBoxBase::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiComboBoxBase :: IStyleController>::GetInternalObject(_styleController);
 		throw 0;
 	}
 	
@@ -11479,7 +17665,7 @@ GuiComboBoxBase
 	
 	rptr<GuiComboBoxBase> GuiComboBoxBase::operator=(rptr<GuiComboBoxBase> value)
 	{
-		vl::presentation::controls::GuiComboBoxBase const& _unwrapped_value = *__GacUIInternal<GuiComboBoxBase>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiComboBoxBase const& _unwrapped_value = *__GacUIInternal<GuiComboBoxBase>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -11488,22 +17674,22 @@ GuiComboBoxBase
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiComboBoxBase::on_PopupOpened()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiComboBoxBase::on_PopupOpened()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiComboBoxBase::on_PopupClosed()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiComboBoxBase::on_PopupClosed()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiComboBoxBase::on_ItemSelecting()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiComboBoxBase::on_ItemSelecting()
 	{
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiComboBoxBase::on_ItemSelected()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiComboBoxBase::on_ItemSelected()
 	{
 		throw 0;
 	}
@@ -11523,6 +17709,12 @@ GuiComboBoxBase :: ICommandExecutor
 	{
 	}
 	
+	void GuiComboBoxBase::ICommandExecutor::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	void GuiComboBoxBase::ICommandExecutor::ShowPopup()
 	{
 		throw 0;
@@ -11535,7 +17727,7 @@ GuiComboBoxBase :: ICommandExecutor
 	
 	rptr<GuiComboBoxBase :: ICommandExecutor> GuiComboBoxBase::ICommandExecutor::operator=(rptr<GuiComboBoxBase :: ICommandExecutor> value)
 	{
-		vl::presentation::controls::GuiComboBoxBase::ICommandExecutor const& _unwrapped_value = *__GacUIInternal<GuiComboBoxBase :: ICommandExecutor>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiComboBoxBase::ICommandExecutor const& _unwrapped_value = *__GacUIInternal<GuiComboBoxBase :: ICommandExecutor>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -11552,6 +17744,12 @@ GuiComboBoxBase :: IStyleController
 	
 	GuiComboBoxBase::IStyleController::~IStyleController()
 	{
+	}
+	
+	void GuiComboBoxBase::IStyleController::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiButton::IStyleController::ClearInternalObjectReference();
 	}
 	
 	void GuiComboBoxBase::IStyleController::OnClicked()
@@ -11581,13 +17779,13 @@ GuiComboBoxBase :: IStyleController
 	
 	rptr<GuiComboBoxBase :: IStyleController> GuiComboBoxBase::IStyleController::operator=(rptr<GuiComboBoxBase :: IStyleController> value)
 	{
-		vl::presentation::controls::GuiComboBoxBase::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiComboBoxBase :: IStyleController>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiComboBoxBase::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiComboBoxBase :: IStyleController>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	void GuiComboBoxBase::IStyleController::SetCommandExecutor(rptr<GuiComboBoxBase :: ICommandExecutor> value)
 	{
-		vl::presentation::controls::GuiComboBoxBase::ICommandExecutor* _unwrapped_value = __GacUIInternal<GuiComboBoxBase :: ICommandExecutor>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiComboBoxBase::ICommandExecutor* _unwrapped_value = __GacUIInternal<GuiComboBoxBase :: ICommandExecutor>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -11606,16 +17804,22 @@ GuiComboBoxListControl
 	{
 	}
 	
+	void GuiComboBoxListControl::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiComboBoxBase::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiComboBoxListControl> GuiComboBoxListControl::CreateRptr(rptr<GuiComboBoxBase :: IStyleController> _styleController, rptr<GuiSelectableListControl> _containedListControl)
 	{
-		vl::presentation::controls::GuiComboBoxBase::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiComboBoxBase :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
-		vl::presentation::controls::GuiSelectableListControl* _unwrapped__containedListControl = __GacUIInternal<GuiSelectableListControl>::GetInternalObject(*(_containedListControl.operator->()));
+		vl::presentation::controls::GuiComboBoxBase::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiComboBoxBase :: IStyleController>::GetInternalObject(_styleController);
+		vl::presentation::controls::GuiSelectableListControl* _unwrapped__containedListControl = __GacUIInternal<GuiSelectableListControl>::GetInternalObject(_containedListControl);
 		throw 0;
 	}
 	
 	rptr<GuiComboBoxListControl> GuiComboBoxListControl::operator=(rptr<GuiComboBoxListControl> value)
 	{
-		vl::presentation::controls::GuiComboBoxListControl const& _unwrapped_value = *__GacUIInternal<GuiComboBoxListControl>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiComboBoxListControl const& _unwrapped_value = *__GacUIInternal<GuiComboBoxListControl>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -11640,7 +17844,7 @@ GuiComboBoxListControl
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiComboBoxListControl::on_SelectedIndexChanged()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiComboBoxListControl::on_SelectedIndexChanged()
 	{
 		throw 0;
 	}
@@ -11660,10 +17864,16 @@ GuiMenu
 	{
 	}
 	
+	void GuiMenu::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiPopup::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiMenu> GuiMenu::CreateRptr(rptr<GuiControl :: IStyleController> _styleController, rptr<GuiControl> _owner)
 	{
-		vl::presentation::controls::GuiControl::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
-		vl::presentation::controls::GuiControl* _unwrapped__owner = __GacUIInternal<GuiControl>::GetInternalObject(*(_owner.operator->()));
+		vl::presentation::controls::GuiControl::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(_styleController);
+		vl::presentation::controls::GuiControl* _unwrapped__owner = __GacUIInternal<GuiControl>::GetInternalObject(_owner);
 		throw 0;
 	}
 	
@@ -11674,7 +17884,7 @@ GuiMenu
 	
 	rptr<GuiMenu> GuiMenu::operator=(rptr<GuiMenu> value)
 	{
-		vl::presentation::controls::GuiMenu const& _unwrapped_value = *__GacUIInternal<GuiMenu>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiMenu const& _unwrapped_value = *__GacUIInternal<GuiMenu>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -11693,6 +17903,12 @@ GuiWindowComposition
 	{
 	}
 	
+	void GuiWindowComposition::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiGraphicsSite::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiWindowComposition> GuiWindowComposition::CreateRptr()
 	{
 		throw 0;
@@ -11700,7 +17916,7 @@ GuiWindowComposition
 	
 	rptr<GuiWindowComposition> GuiWindowComposition::operator=(rptr<GuiWindowComposition> value)
 	{
-		vl::presentation::elements::GuiWindowComposition const& _unwrapped_value = *__GacUIInternal<GuiWindowComposition>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiWindowComposition const& _unwrapped_value = *__GacUIInternal<GuiWindowComposition>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -11711,7 +17927,7 @@ GuiWindowComposition
 	
 	void GuiWindowComposition::SetAttachedWindow(rptr<INativeWindow> window)
 	{
-		vl::presentation::INativeWindow* _unwrapped_window = __GacUIInternal<INativeWindow>::GetInternalObject(*(window.operator->()));
+		vl::presentation::INativeWindow* _unwrapped_window = __GacUIInternal<INativeWindow>::GetInternalObject(window);
 		throw 0;
 	}
 	
@@ -11727,6 +17943,11 @@ INativeWindow
 	
 	INativeWindow::~INativeWindow()
 	{
+	}
+	
+	void INativeWindow::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
 	}
 	
 	void INativeWindow::Show()
@@ -11841,13 +18062,13 @@ INativeWindow
 	
 	bool INativeWindow::InstallListener(rptr<INativeWindowListener> listener)
 	{
-		vl::presentation::INativeWindowListener* _unwrapped_listener = __GacUIInternal<INativeWindowListener>::GetInternalObject(*(listener.operator->()));
+		vl::presentation::INativeWindowListener* _unwrapped_listener = __GacUIInternal<INativeWindowListener>::GetInternalObject(listener);
 		throw 0;
 	}
 	
 	bool INativeWindow::UninstallListener(rptr<INativeWindowListener> listener)
 	{
-		vl::presentation::INativeWindowListener* _unwrapped_listener = __GacUIInternal<INativeWindowListener>::GetInternalObject(*(listener.operator->()));
+		vl::presentation::INativeWindowListener* _unwrapped_listener = __GacUIInternal<INativeWindowListener>::GetInternalObject(listener);
 		throw 0;
 	}
 	
@@ -11858,7 +18079,7 @@ INativeWindow
 	
 	rptr<INativeWindow> INativeWindow::operator=(rptr<INativeWindow> value)
 	{
-		vl::presentation::INativeWindow const& _unwrapped_value = *__GacUIInternal<INativeWindow>::GetInternalObject(*(value.operator->()));
+		vl::presentation::INativeWindow const& _unwrapped_value = *__GacUIInternal<INativeWindow>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -11907,7 +18128,7 @@ INativeWindow
 	
 	void INativeWindow::SetWindowCursor(rptr<INativeCursor> _cursor)
 	{
-		vl::presentation::INativeCursor* _unwrapped__cursor = __GacUIInternal<INativeCursor>::GetInternalObject(*(_cursor.operator->()));
+		vl::presentation::INativeCursor* _unwrapped__cursor = __GacUIInternal<INativeCursor>::GetInternalObject(_cursor);
 		throw 0;
 	}
 	
@@ -11929,7 +18150,7 @@ INativeWindow
 	
 	void INativeWindow::SetParent(rptr<INativeWindow> parent)
 	{
-		vl::presentation::INativeWindow* _unwrapped_parent = __GacUIInternal<INativeWindow>::GetInternalObject(*(parent.operator->()));
+		vl::presentation::INativeWindow* _unwrapped_parent = __GacUIInternal<INativeWindow>::GetInternalObject(parent);
 		throw 0;
 	}
 	
@@ -12036,9 +18257,15 @@ INodeItemStyleController
 	{
 	}
 	
+	void INodeItemStyleController::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiListControl::IItemStyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<INodeItemStyleController> INodeItemStyleController::operator=(rptr<INodeItemStyleController> value)
 	{
-		vl::presentation::controls::tree::INodeItemStyleController const& _unwrapped_value = *__GacUIInternal<INodeItemStyleController>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::tree::INodeItemStyleController const& _unwrapped_value = *__GacUIInternal<INodeItemStyleController>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12062,15 +18289,21 @@ INodeItemStyleProvider
 	{
 	}
 	
+	void INodeItemStyleProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	void INodeItemStyleProvider::BindItemStyleProvider(rptr<GuiListControl :: IItemStyleProvider> styleProvider)
 	{
-		vl::presentation::controls::GuiListControl::IItemStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiListControl :: IItemStyleProvider>::GetInternalObject(*(styleProvider.operator->()));
+		vl::presentation::controls::GuiListControl::IItemStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiListControl :: IItemStyleProvider>::GetInternalObject(styleProvider);
 		throw 0;
 	}
 	
 	void INodeItemStyleProvider::AttachListControl(rptr<GuiListControl> value)
 	{
-		vl::presentation::controls::GuiListControl* _unwrapped_value = __GacUIInternal<GuiListControl>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiListControl* _unwrapped_value = __GacUIInternal<GuiListControl>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12081,7 +18314,7 @@ INodeItemStyleProvider
 	
 	signed __int32 INodeItemStyleProvider::GetItemStyleId(rptr<INodeProvider> node)
 	{
-		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(*(node.operator->()));
+		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(node);
 		throw 0;
 	}
 	
@@ -12093,27 +18326,27 @@ INodeItemStyleProvider
 	
 	void INodeItemStyleProvider::DestroyItemStyle(rptr<INodeItemStyleController> style)
 	{
-		vl::presentation::controls::tree::INodeItemStyleController* _unwrapped_style = __GacUIInternal<INodeItemStyleController>::GetInternalObject(*(style.operator->()));
+		vl::presentation::controls::tree::INodeItemStyleController* _unwrapped_style = __GacUIInternal<INodeItemStyleController>::GetInternalObject(style);
 		throw 0;
 	}
 	
 	void INodeItemStyleProvider::Install(rptr<INodeItemStyleController> style, rptr<INodeProvider> node)
 	{
-		vl::presentation::controls::tree::INodeItemStyleController* _unwrapped_style = __GacUIInternal<INodeItemStyleController>::GetInternalObject(*(style.operator->()));
-		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(*(node.operator->()));
+		vl::presentation::controls::tree::INodeItemStyleController* _unwrapped_style = __GacUIInternal<INodeItemStyleController>::GetInternalObject(style);
+		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(node);
 		throw 0;
 	}
 	
 	void INodeItemStyleProvider::SetStyleSelected(rptr<INodeItemStyleController> style, bool value)
 	{
-		vl::presentation::controls::tree::INodeItemStyleController* _unwrapped_style = __GacUIInternal<INodeItemStyleController>::GetInternalObject(*(style.operator->()));
+		vl::presentation::controls::tree::INodeItemStyleController* _unwrapped_style = __GacUIInternal<INodeItemStyleController>::GetInternalObject(style);
 		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
 	rptr<INodeItemStyleProvider> INodeItemStyleProvider::operator=(rptr<INodeItemStyleProvider> value)
 	{
-		vl::presentation::controls::tree::INodeItemStyleProvider const& _unwrapped_value = *__GacUIInternal<INodeItemStyleProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::tree::INodeItemStyleProvider const& _unwrapped_value = *__GacUIInternal<INodeItemStyleProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12137,6 +18370,12 @@ INodeItemView
 	{
 	}
 	
+	void INodeItemView::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiListControl::IItemPrimaryTextView::ClearInternalObjectReference();
+	}
+	
 	rptr<INodeProvider> INodeItemView::RequestNode(signed __int32 index)
 	{
 		signed __int32 _unwrapped_index = index;
@@ -12145,19 +18384,19 @@ INodeItemView
 	
 	void INodeItemView::ReleaseNode(rptr<INodeProvider> node)
 	{
-		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(*(node.operator->()));
+		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(node);
 		throw 0;
 	}
 	
 	signed __int32 INodeItemView::CalculateNodeVisibilityIndex(rptr<INodeProvider> node)
 	{
-		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(*(node.operator->()));
+		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(node);
 		throw 0;
 	}
 	
 	rptr<INodeItemView> INodeItemView::operator=(rptr<INodeItemView> value)
 	{
-		vl::presentation::controls::tree::INodeItemView const& _unwrapped_value = *__GacUIInternal<INodeItemView>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::tree::INodeItemView const& _unwrapped_value = *__GacUIInternal<INodeItemView>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12181,22 +18420,28 @@ GuiVirtualTreeListControl
 	{
 	}
 	
+	void GuiVirtualTreeListControl::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiSelectableListControl::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiVirtualTreeListControl> GuiVirtualTreeListControl::CreateRptr(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<INodeRootProvider> _nodeRootProvider)
 	{
-		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(*(_styleProvider.operator->()));
-		vl::presentation::controls::tree::INodeRootProvider* _unwrapped__nodeRootProvider = __GacUIInternal<INodeRootProvider>::GetInternalObject(*(_nodeRootProvider.operator->()));
+		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(_styleProvider);
+		vl::presentation::controls::tree::INodeRootProvider* _unwrapped__nodeRootProvider = __GacUIInternal<INodeRootProvider>::GetInternalObject(_nodeRootProvider);
 		throw 0;
 	}
 	
 	sptr<INodeItemStyleProvider> GuiVirtualTreeListControl::SetNodeStyleProvider(sptr<INodeItemStyleProvider> styleProvider)
 	{
-		vl::Ptr<vl::presentation::controls::tree::INodeItemStyleProvider> _unwrapped_styleProvider = __GacUIInternal<INodeItemStyleProvider>::GetInternalObject(*(styleProvider.operator->()));
+		vl::Ptr<vl::presentation::controls::tree::INodeItemStyleProvider> _unwrapped_styleProvider = __GacUIInternal<INodeItemStyleProvider>::GetInternalObject(styleProvider);
 		throw 0;
 	}
 	
 	rptr<GuiVirtualTreeListControl> GuiVirtualTreeListControl::operator=(rptr<GuiVirtualTreeListControl> value)
 	{
-		vl::presentation::controls::GuiVirtualTreeListControl const& _unwrapped_value = *__GacUIInternal<GuiVirtualTreeListControl>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiVirtualTreeListControl const& _unwrapped_value = *__GacUIInternal<GuiVirtualTreeListControl>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12229,9 +18474,14 @@ IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer
 	{
 	}
 	
+	void IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	bool IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer::Contains(rptr<GuiListControl :: IItemStyleController> item)
 	{
-		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_item = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(*(item.operator->()));
+		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_item = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(item);
 		throw 0;
 	}
 	
@@ -12254,13 +18504,13 @@ IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer
 	
 	signed __int32 IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer::IndexOf(rptr<GuiListControl :: IItemStyleController> item)
 	{
-		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_item = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(*(item.operator->()));
+		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_item = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(item);
 		throw 0;
 	}
 	
 	rptr<IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer> IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer::operator=(rptr<IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer> value)
 	{
-		vl::collections::IReadonlyList<vl::presentation::controls::GuiListControl::IItemStyleController *,vl::presentation::controls::GuiListControl::IItemStyleController *> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer>::GetInternalObject(*(value.operator->()));
+		vl::collections::IReadonlyList<vl::presentation::controls::GuiListControl::IItemStyleController *,vl::presentation::controls::GuiListControl::IItemStyleController *> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12278,9 +18528,14 @@ IReadonlyList_of_GuiStackItemComposition_raw_pointer
 	{
 	}
 	
+	void IReadonlyList_of_GuiStackItemComposition_raw_pointer::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	bool IReadonlyList_of_GuiStackItemComposition_raw_pointer::Contains(rptr<GuiStackItemComposition> item)
 	{
-		vl::presentation::elements::GuiStackItemComposition* _unwrapped_item = __GacUIInternal<GuiStackItemComposition>::GetInternalObject(*(item.operator->()));
+		vl::presentation::elements::GuiStackItemComposition* _unwrapped_item = __GacUIInternal<GuiStackItemComposition>::GetInternalObject(item);
 		throw 0;
 	}
 	
@@ -12303,13 +18558,13 @@ IReadonlyList_of_GuiStackItemComposition_raw_pointer
 	
 	signed __int32 IReadonlyList_of_GuiStackItemComposition_raw_pointer::IndexOf(rptr<GuiStackItemComposition> item)
 	{
-		vl::presentation::elements::GuiStackItemComposition* _unwrapped_item = __GacUIInternal<GuiStackItemComposition>::GetInternalObject(*(item.operator->()));
+		vl::presentation::elements::GuiStackItemComposition* _unwrapped_item = __GacUIInternal<GuiStackItemComposition>::GetInternalObject(item);
 		throw 0;
 	}
 	
 	rptr<IReadonlyList_of_GuiStackItemComposition_raw_pointer> IReadonlyList_of_GuiStackItemComposition_raw_pointer::operator=(rptr<IReadonlyList_of_GuiStackItemComposition_raw_pointer> value)
 	{
-		vl::collections::IReadonlyList<vl::presentation::elements::GuiStackItemComposition *,vl::presentation::elements::GuiStackItemComposition *> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_GuiStackItemComposition_raw_pointer>::GetInternalObject(*(value.operator->()));
+		vl::collections::IReadonlyList<vl::presentation::elements::GuiStackItemComposition *,vl::presentation::elements::GuiStackItemComposition *> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_GuiStackItemComposition_raw_pointer>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12328,6 +18583,12 @@ GuiStackComposition
 	{
 	}
 	
+	void GuiStackComposition::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiBoundsComposition::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiStackComposition> GuiStackComposition::CreateRptr()
 	{
 		throw 0;
@@ -12336,13 +18597,13 @@ GuiStackComposition
 	bool GuiStackComposition::InsertStackItem(signed __int32 index, rptr<GuiStackItemComposition> item)
 	{
 		signed __int32 _unwrapped_index = index;
-		vl::presentation::elements::GuiStackItemComposition* _unwrapped_item = __GacUIInternal<GuiStackItemComposition>::GetInternalObject(*(item.operator->()));
+		vl::presentation::elements::GuiStackItemComposition* _unwrapped_item = __GacUIInternal<GuiStackItemComposition>::GetInternalObject(item);
 		throw 0;
 	}
 	
 	rptr<GuiStackComposition> GuiStackComposition::operator=(rptr<GuiStackComposition> value)
 	{
-		vl::presentation::elements::GuiStackComposition const& _unwrapped_value = *__GacUIInternal<GuiStackComposition>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiStackComposition const& _unwrapped_value = *__GacUIInternal<GuiStackComposition>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12398,9 +18659,14 @@ IReadonlyList_of_GuiWindow_raw_pointer
 	{
 	}
 	
+	void IReadonlyList_of_GuiWindow_raw_pointer::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	bool IReadonlyList_of_GuiWindow_raw_pointer::Contains(rptr<GuiWindow> item)
 	{
-		vl::presentation::controls::GuiWindow* _unwrapped_item = __GacUIInternal<GuiWindow>::GetInternalObject(*(item.operator->()));
+		vl::presentation::controls::GuiWindow* _unwrapped_item = __GacUIInternal<GuiWindow>::GetInternalObject(item);
 		throw 0;
 	}
 	
@@ -12423,13 +18689,13 @@ IReadonlyList_of_GuiWindow_raw_pointer
 	
 	signed __int32 IReadonlyList_of_GuiWindow_raw_pointer::IndexOf(rptr<GuiWindow> item)
 	{
-		vl::presentation::controls::GuiWindow* _unwrapped_item = __GacUIInternal<GuiWindow>::GetInternalObject(*(item.operator->()));
+		vl::presentation::controls::GuiWindow* _unwrapped_item = __GacUIInternal<GuiWindow>::GetInternalObject(item);
 		throw 0;
 	}
 	
 	rptr<IReadonlyList_of_GuiWindow_raw_pointer> IReadonlyList_of_GuiWindow_raw_pointer::operator=(rptr<IReadonlyList_of_GuiWindow_raw_pointer> value)
 	{
-		vl::collections::IReadonlyList<vl::presentation::controls::GuiWindow *,vl::presentation::controls::GuiWindow *> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_GuiWindow_raw_pointer>::GetInternalObject(*(value.operator->()));
+		vl::collections::IReadonlyList<vl::presentation::controls::GuiWindow *,vl::presentation::controls::GuiWindow *> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_GuiWindow_raw_pointer>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12447,9 +18713,14 @@ GuiApplication
 	{
 	}
 	
+	void GuiApplication::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	void GuiApplication::Run(rptr<GuiWindow> _mainWindow)
 	{
-		vl::presentation::controls::GuiWindow* _unwrapped__mainWindow = __GacUIInternal<GuiWindow>::GetInternalObject(*(_mainWindow.operator->()));
+		vl::presentation::controls::GuiWindow* _unwrapped__mainWindow = __GacUIInternal<GuiWindow>::GetInternalObject(_mainWindow);
 		throw 0;
 	}
 	
@@ -12466,7 +18737,7 @@ GuiApplication
 	
 	rptr<GuiApplication> GuiApplication::operator=(rptr<GuiApplication> value)
 	{
-		vl::presentation::controls::GuiApplication const& _unwrapped_value = *__GacUIInternal<GuiApplication>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiApplication const& _unwrapped_value = *__GacUIInternal<GuiApplication>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12490,6 +18761,12 @@ ItemProviderBase
 	{
 	}
 	
+	void ItemProviderBase::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiListControl::IItemProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<ItemProviderBase> ItemProviderBase::CreateRptr()
 	{
 		throw 0;
@@ -12497,7 +18774,7 @@ ItemProviderBase
 	
 	rptr<ItemProviderBase> ItemProviderBase::operator=(rptr<ItemProviderBase> value)
 	{
-		vl::presentation::controls::list::ItemProviderBase const& _unwrapped_value = *__GacUIInternal<ItemProviderBase>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::ItemProviderBase const& _unwrapped_value = *__GacUIInternal<ItemProviderBase>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12516,9 +18793,15 @@ ItemStyleControllerBase
 	{
 	}
 	
+	void ItemStyleControllerBase::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiListControl::IItemStyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<ItemStyleControllerBase> ItemStyleControllerBase::operator=(rptr<ItemStyleControllerBase> value)
 	{
-		vl::presentation::controls::list::ItemStyleControllerBase const& _unwrapped_value = *__GacUIInternal<ItemStyleControllerBase>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::ItemStyleControllerBase const& _unwrapped_value = *__GacUIInternal<ItemStyleControllerBase>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12537,6 +18820,12 @@ ListViewItemStyleProviderBase
 	{
 	}
 	
+	void ListViewItemStyleProviderBase::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiSelectableListControl::IItemStyleProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<ListViewItemStyleProviderBase> ListViewItemStyleProviderBase::CreateRptr()
 	{
 		throw 0;
@@ -12544,7 +18833,7 @@ ListViewItemStyleProviderBase
 	
 	rptr<ListViewItemStyleProviderBase> ListViewItemStyleProviderBase::operator=(rptr<ListViewItemStyleProviderBase> value)
 	{
-		vl::presentation::controls::list::ListViewItemStyleProviderBase const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProviderBase>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::ListViewItemStyleProviderBase const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProviderBase>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12563,15 +18852,21 @@ ListViewItemStyleProviderBase :: ListViewItemStyleController
 	{
 	}
 	
+	void ListViewItemStyleProviderBase::ListViewItemStyleController::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		ItemStyleControllerBase::ClearInternalObjectReference();
+	}
+	
 	rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> ListViewItemStyleProviderBase::ListViewItemStyleController::CreateRptr(rptr<ListViewItemStyleProviderBase> provider)
 	{
-		vl::presentation::controls::list::ListViewItemStyleProviderBase* _unwrapped_provider = __GacUIInternal<ListViewItemStyleProviderBase>::GetInternalObject(*(provider.operator->()));
+		vl::presentation::controls::list::ListViewItemStyleProviderBase* _unwrapped_provider = __GacUIInternal<ListViewItemStyleProviderBase>::GetInternalObject(provider);
 		throw 0;
 	}
 	
 	rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> ListViewItemStyleProviderBase::ListViewItemStyleController::operator=(rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> value)
 	{
-		vl::presentation::controls::list::ListViewItemStyleProviderBase::ListViewItemStyleController const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProviderBase :: ListViewItemStyleController>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::ListViewItemStyleProviderBase::ListViewItemStyleController const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProviderBase :: ListViewItemStyleController>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12601,21 +18896,27 @@ ListViewItemStyleProvider
 	{
 	}
 	
+	void ListViewItemStyleProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		ListViewItemStyleProviderBase::ClearInternalObjectReference();
+	}
+	
 	rptr<ListViewItemStyleProvider> ListViewItemStyleProvider::CreateRptr(rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> itemContentProvider)
 	{
-		vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemContentProvider* _unwrapped_itemContentProvider = __GacUIInternal<ListViewItemStyleProvider :: IListViewItemContentProvider>::GetInternalObject(*(itemContentProvider.operator->()));
+		vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemContentProvider* _unwrapped_itemContentProvider = __GacUIInternal<ListViewItemStyleProvider :: IListViewItemContentProvider>::GetInternalObject(itemContentProvider);
 		throw 0;
 	}
 	
 	bool ListViewItemStyleProvider::IsItemStyleAttachedToListView(rptr<GuiListControl :: IItemStyleController> itemStyle)
 	{
-		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_itemStyle = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(*(itemStyle.operator->()));
+		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_itemStyle = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(itemStyle);
 		throw 0;
 	}
 	
 	rptr<ListViewItemStyleProvider> ListViewItemStyleProvider::operator=(rptr<ListViewItemStyleProvider> value)
 	{
-		vl::presentation::controls::list::ListViewItemStyleProvider const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::ListViewItemStyleProvider const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12639,17 +18940,23 @@ ListViewItemStyleProvider :: IListViewItemContent
 	{
 	}
 	
+	void ListViewItemStyleProvider::IListViewItemContent::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	void ListViewItemStyleProvider::IListViewItemContent::Install(rptr<GuiListViewBase :: IStyleProvider> styleProvider, rptr<ListViewItemStyleProvider :: IListViewItemView> view, signed __int32 itemIndex)
 	{
-		vl::presentation::controls::GuiListViewBase::IStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiListViewBase :: IStyleProvider>::GetInternalObject(*(styleProvider.operator->()));
-		vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemView* _unwrapped_view = __GacUIInternal<ListViewItemStyleProvider :: IListViewItemView>::GetInternalObject(*(view.operator->()));
+		vl::presentation::controls::GuiListViewBase::IStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiListViewBase :: IStyleProvider>::GetInternalObject(styleProvider);
+		vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemView* _unwrapped_view = __GacUIInternal<ListViewItemStyleProvider :: IListViewItemView>::GetInternalObject(view);
 		signed __int32 _unwrapped_itemIndex = itemIndex;
 		throw 0;
 	}
 	
 	rptr<ListViewItemStyleProvider :: IListViewItemContent> ListViewItemStyleProvider::IListViewItemContent::operator=(rptr<ListViewItemStyleProvider :: IListViewItemContent> value)
 	{
-		vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemContent const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProvider :: IListViewItemContent>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemContent const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProvider :: IListViewItemContent>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12678,6 +18985,12 @@ ListViewItemStyleProvider :: IListViewItemContentProvider
 	{
 	}
 	
+	void ListViewItemStyleProvider::IListViewItemContentProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiListControl :: IItemCoordinateTransformer> ListViewItemStyleProvider::IListViewItemContentProvider::CreatePreferredCoordinateTransformer()
 	{
 		throw 0;
@@ -12696,7 +19009,7 @@ ListViewItemStyleProvider :: IListViewItemContentProvider
 	
 	void ListViewItemStyleProvider::IListViewItemContentProvider::AttachListControl(rptr<GuiListControl> value)
 	{
-		vl::presentation::controls::GuiListControl* _unwrapped_value = __GacUIInternal<GuiListControl>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiListControl* _unwrapped_value = __GacUIInternal<GuiListControl>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12707,7 +19020,7 @@ ListViewItemStyleProvider :: IListViewItemContentProvider
 	
 	rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> ListViewItemStyleProvider::IListViewItemContentProvider::operator=(rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> value)
 	{
-		vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProvider :: IListViewItemContentProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProvider :: IListViewItemContentProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12724,6 +19037,12 @@ ListViewItemStyleProvider :: IListViewItemView
 	
 	ListViewItemStyleProvider::IListViewItemView::~IListViewItemView()
 	{
+	}
+	
+	void ListViewItemStyleProvider::IListViewItemView::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiListControl::IItemPrimaryTextView::ClearInternalObjectReference();
 	}
 	
 	sptr<GuiImageData> ListViewItemStyleProvider::IListViewItemView::GetSmallImage(signed __int32 itemIndex)
@@ -12765,7 +19084,7 @@ ListViewItemStyleProvider :: IListViewItemView
 	
 	rptr<ListViewItemStyleProvider :: IListViewItemView> ListViewItemStyleProvider::IListViewItemView::operator=(rptr<ListViewItemStyleProvider :: IListViewItemView> value)
 	{
-		vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemView const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProvider :: IListViewItemView>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemView const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProvider :: IListViewItemView>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12799,22 +19118,28 @@ ListViewItemStyleProvider :: ListViewContentItemStyleController
 	{
 	}
 	
+	void ListViewItemStyleProvider::ListViewContentItemStyleController::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		ListViewItemStyleProviderBase::ListViewItemStyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<ListViewItemStyleProvider :: ListViewContentItemStyleController> ListViewItemStyleProvider::ListViewContentItemStyleController::CreateRptr(rptr<ListViewItemStyleProvider> provider)
 	{
-		vl::presentation::controls::list::ListViewItemStyleProvider* _unwrapped_provider = __GacUIInternal<ListViewItemStyleProvider>::GetInternalObject(*(provider.operator->()));
+		vl::presentation::controls::list::ListViewItemStyleProvider* _unwrapped_provider = __GacUIInternal<ListViewItemStyleProvider>::GetInternalObject(provider);
 		throw 0;
 	}
 	
 	void ListViewItemStyleProvider::ListViewContentItemStyleController::Install(rptr<ListViewItemStyleProvider :: IListViewItemView> view, signed __int32 itemIndex)
 	{
-		vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemView* _unwrapped_view = __GacUIInternal<ListViewItemStyleProvider :: IListViewItemView>::GetInternalObject(*(view.operator->()));
+		vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemView* _unwrapped_view = __GacUIInternal<ListViewItemStyleProvider :: IListViewItemView>::GetInternalObject(view);
 		signed __int32 _unwrapped_itemIndex = itemIndex;
 		throw 0;
 	}
 	
 	rptr<ListViewItemStyleProvider :: ListViewContentItemStyleController> ListViewItemStyleProvider::ListViewContentItemStyleController::operator=(rptr<ListViewItemStyleProvider :: ListViewContentItemStyleController> value)
 	{
-		vl::presentation::controls::list::ListViewItemStyleProvider::ListViewContentItemStyleController const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProvider :: ListViewContentItemStyleController>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::ListViewItemStyleProvider::ListViewContentItemStyleController const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProvider :: ListViewContentItemStyleController>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12838,22 +19163,28 @@ GuiVirtualListView
 	{
 	}
 	
+	void GuiVirtualListView::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiListViewBase::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiVirtualListView> GuiVirtualListView::CreateRptr(rptr<GuiListViewBase :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider)
 	{
-		vl::presentation::controls::GuiListViewBase::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiListViewBase :: IStyleProvider>::GetInternalObject(*(_styleProvider.operator->()));
-		vl::presentation::controls::GuiListControl::IItemProvider* _unwrapped__itemProvider = __GacUIInternal<GuiListControl :: IItemProvider>::GetInternalObject(*(_itemProvider.operator->()));
+		vl::presentation::controls::GuiListViewBase::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiListViewBase :: IStyleProvider>::GetInternalObject(_styleProvider);
+		vl::presentation::controls::GuiListControl::IItemProvider* _unwrapped__itemProvider = __GacUIInternal<GuiListControl :: IItemProvider>::GetInternalObject(_itemProvider);
 		throw 0;
 	}
 	
 	void GuiVirtualListView::ChangeItemStyle(rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> contentProvider)
 	{
-		vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemContentProvider* _unwrapped_contentProvider = __GacUIInternal<ListViewItemStyleProvider :: IListViewItemContentProvider>::GetInternalObject(*(contentProvider.operator->()));
+		vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemContentProvider* _unwrapped_contentProvider = __GacUIInternal<ListViewItemStyleProvider :: IListViewItemContentProvider>::GetInternalObject(contentProvider);
 		throw 0;
 	}
 	
 	rptr<GuiVirtualListView> GuiVirtualListView::operator=(rptr<GuiVirtualListView> value)
 	{
-		vl::presentation::controls::GuiVirtualListView const& _unwrapped_value = *__GacUIInternal<GuiVirtualListView>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiVirtualListView const& _unwrapped_value = *__GacUIInternal<GuiVirtualListView>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12872,6 +19203,12 @@ ListViewBigIconContentProvider
 	{
 	}
 	
+	void ListViewBigIconContentProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		ListViewItemStyleProvider::IListViewItemContentProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<ListViewBigIconContentProvider> ListViewBigIconContentProvider::CreateRptr(Size _iconSize)
 	{
 		vl::presentation::Size _unwrapped__iconSize = *__GacUIInternal<Size>::GetInternalObject(_iconSize);
@@ -12880,7 +19217,7 @@ ListViewBigIconContentProvider
 	
 	rptr<ListViewBigIconContentProvider> ListViewBigIconContentProvider::operator=(rptr<ListViewBigIconContentProvider> value)
 	{
-		vl::presentation::controls::list::ListViewBigIconContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewBigIconContentProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::ListViewBigIconContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewBigIconContentProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12899,6 +19236,12 @@ ListViewInformationContentProvider
 	{
 	}
 	
+	void ListViewInformationContentProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		ListViewItemStyleProvider::IListViewItemContentProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<ListViewInformationContentProvider> ListViewInformationContentProvider::CreateRptr(Size _iconSize)
 	{
 		vl::presentation::Size _unwrapped__iconSize = *__GacUIInternal<Size>::GetInternalObject(_iconSize);
@@ -12907,7 +19250,7 @@ ListViewInformationContentProvider
 	
 	rptr<ListViewInformationContentProvider> ListViewInformationContentProvider::operator=(rptr<ListViewInformationContentProvider> value)
 	{
-		vl::presentation::controls::list::ListViewInformationContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewInformationContentProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::ListViewInformationContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewInformationContentProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12926,6 +19269,12 @@ ListViewListContentProvider
 	{
 	}
 	
+	void ListViewListContentProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		ListViewItemStyleProvider::IListViewItemContentProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<ListViewListContentProvider> ListViewListContentProvider::CreateRptr(Size _iconSize)
 	{
 		vl::presentation::Size _unwrapped__iconSize = *__GacUIInternal<Size>::GetInternalObject(_iconSize);
@@ -12934,7 +19283,7 @@ ListViewListContentProvider
 	
 	rptr<ListViewListContentProvider> ListViewListContentProvider::operator=(rptr<ListViewListContentProvider> value)
 	{
-		vl::presentation::controls::list::ListViewListContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewListContentProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::ListViewListContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewListContentProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12953,6 +19302,12 @@ ListViewSmallIconContentProvider
 	{
 	}
 	
+	void ListViewSmallIconContentProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		ListViewItemStyleProvider::IListViewItemContentProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<ListViewSmallIconContentProvider> ListViewSmallIconContentProvider::CreateRptr(Size _iconSize)
 	{
 		vl::presentation::Size _unwrapped__iconSize = *__GacUIInternal<Size>::GetInternalObject(_iconSize);
@@ -12961,7 +19316,7 @@ ListViewSmallIconContentProvider
 	
 	rptr<ListViewSmallIconContentProvider> ListViewSmallIconContentProvider::operator=(rptr<ListViewSmallIconContentProvider> value)
 	{
-		vl::presentation::controls::list::ListViewSmallIconContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewSmallIconContentProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::ListViewSmallIconContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewSmallIconContentProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12980,6 +19335,12 @@ ListViewTileContentProvider
 	{
 	}
 	
+	void ListViewTileContentProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		ListViewItemStyleProvider::IListViewItemContentProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<ListViewTileContentProvider> ListViewTileContentProvider::CreateRptr(Size _iconSize)
 	{
 		vl::presentation::Size _unwrapped__iconSize = *__GacUIInternal<Size>::GetInternalObject(_iconSize);
@@ -12988,7 +19349,7 @@ ListViewTileContentProvider
 	
 	rptr<ListViewTileContentProvider> ListViewTileContentProvider::operator=(rptr<ListViewTileContentProvider> value)
 	{
-		vl::presentation::controls::list::ListViewTileContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewTileContentProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::ListViewTileContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewTileContentProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13008,6 +19369,13 @@ ListWrapperProvider_of_ListViewItem
 	{
 	}
 	
+	void ListWrapperProvider_of_ListViewItem::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		ItemProviderBase::ClearInternalObjectReference();
+		IList_of_ListViewItem::ClearInternalObjectReference();
+	}
+	
 	bool ListWrapperProvider_of_ListViewItem::NotifyUpdate(signed __int32 start, signed __int32 count)
 	{
 		signed __int32 _unwrapped_start = start;
@@ -13017,7 +19385,7 @@ ListWrapperProvider_of_ListViewItem
 	
 	rptr<ListWrapperProvider_of_ListViewItem> ListWrapperProvider_of_ListViewItem::operator=(rptr<ListWrapperProvider_of_ListViewItem> value)
 	{
-		vl::presentation::controls::list::ListWrapperProvider<vl::Ptr<vl::presentation::controls::list::ListViewItem>,vl::presentation::controls::list::ListViewItem *> const& _unwrapped_value = *__GacUIInternal<ListWrapperProvider_of_ListViewItem>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::ListWrapperProvider<vl::Ptr<vl::presentation::controls::list::ListViewItem>,vl::presentation::controls::list::ListViewItem *> const& _unwrapped_value = *__GacUIInternal<ListWrapperProvider_of_ListViewItem>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13036,6 +19404,12 @@ ListProvider_of_ListViewItem
 	{
 	}
 	
+	void ListProvider_of_ListViewItem::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		ListWrapperProvider_of_ListViewItem::ClearInternalObjectReference();
+	}
+	
 	rptr<ListProvider_of_ListViewItem> ListProvider_of_ListViewItem::CreateRptr()
 	{
 		throw 0;
@@ -13043,7 +19417,7 @@ ListProvider_of_ListViewItem
 	
 	rptr<ListProvider_of_ListViewItem> ListProvider_of_ListViewItem::operator=(rptr<ListProvider_of_ListViewItem> value)
 	{
-		vl::presentation::controls::list::ListProvider<vl::Ptr<vl::presentation::controls::list::ListViewItem> > const& _unwrapped_value = *__GacUIInternal<ListProvider_of_ListViewItem>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::ListProvider<vl::Ptr<vl::presentation::controls::list::ListViewItem> > const& _unwrapped_value = *__GacUIInternal<ListProvider_of_ListViewItem>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13062,15 +19436,21 @@ NodeItemProvider
 	{
 	}
 	
+	void NodeItemProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		ItemProviderBase::ClearInternalObjectReference();
+	}
+	
 	rptr<NodeItemProvider> NodeItemProvider::CreateRptr(rptr<INodeRootProvider> _root)
 	{
-		vl::presentation::controls::tree::INodeRootProvider* _unwrapped__root = __GacUIInternal<INodeRootProvider>::GetInternalObject(*(_root.operator->()));
+		vl::presentation::controls::tree::INodeRootProvider* _unwrapped__root = __GacUIInternal<INodeRootProvider>::GetInternalObject(_root);
 		throw 0;
 	}
 	
 	rptr<NodeItemProvider> NodeItemProvider::operator=(rptr<NodeItemProvider> value)
 	{
-		vl::presentation::controls::tree::NodeItemProvider const& _unwrapped_value = *__GacUIInternal<NodeItemProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::tree::NodeItemProvider const& _unwrapped_value = *__GacUIInternal<NodeItemProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13094,15 +19474,21 @@ NodeItemStyleProvider
 	{
 	}
 	
+	void NodeItemStyleProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiSelectableListControl::IItemStyleProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<NodeItemStyleProvider> NodeItemStyleProvider::CreateRptr(sptr<INodeItemStyleProvider> provider)
 	{
-		vl::Ptr<vl::presentation::controls::tree::INodeItemStyleProvider> _unwrapped_provider = __GacUIInternal<INodeItemStyleProvider>::GetInternalObject(*(provider.operator->()));
+		vl::Ptr<vl::presentation::controls::tree::INodeItemStyleProvider> _unwrapped_provider = __GacUIInternal<INodeItemStyleProvider>::GetInternalObject(provider);
 		throw 0;
 	}
 	
 	rptr<NodeItemStyleProvider> NodeItemStyleProvider::operator=(rptr<NodeItemStyleProvider> value)
 	{
-		vl::presentation::controls::tree::NodeItemStyleProvider const& _unwrapped_value = *__GacUIInternal<NodeItemStyleProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::tree::NodeItemStyleProvider const& _unwrapped_value = *__GacUIInternal<NodeItemStyleProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13121,9 +19507,15 @@ RangedItemArrangerBase
 	{
 	}
 	
+	void RangedItemArrangerBase::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiListControl::IItemArranger::ClearInternalObjectReference();
+	}
+	
 	rptr<RangedItemArrangerBase> RangedItemArrangerBase::operator=(rptr<RangedItemArrangerBase> value)
 	{
-		vl::presentation::controls::list::RangedItemArrangerBase const& _unwrapped_value = *__GacUIInternal<RangedItemArrangerBase>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::RangedItemArrangerBase const& _unwrapped_value = *__GacUIInternal<RangedItemArrangerBase>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13142,6 +19534,12 @@ FixedHeightItemArranger
 	{
 	}
 	
+	void FixedHeightItemArranger::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		RangedItemArrangerBase::ClearInternalObjectReference();
+	}
+	
 	rptr<FixedHeightItemArranger> FixedHeightItemArranger::CreateRptr()
 	{
 		throw 0;
@@ -13149,7 +19547,7 @@ FixedHeightItemArranger
 	
 	rptr<FixedHeightItemArranger> FixedHeightItemArranger::operator=(rptr<FixedHeightItemArranger> value)
 	{
-		vl::presentation::controls::list::FixedHeightItemArranger const& _unwrapped_value = *__GacUIInternal<FixedHeightItemArranger>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::FixedHeightItemArranger const& _unwrapped_value = *__GacUIInternal<FixedHeightItemArranger>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13168,6 +19566,12 @@ FixedHeightMultiColumnItemArranger
 	{
 	}
 	
+	void FixedHeightMultiColumnItemArranger::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		RangedItemArrangerBase::ClearInternalObjectReference();
+	}
+	
 	rptr<FixedHeightMultiColumnItemArranger> FixedHeightMultiColumnItemArranger::CreateRptr()
 	{
 		throw 0;
@@ -13175,7 +19579,7 @@ FixedHeightMultiColumnItemArranger
 	
 	rptr<FixedHeightMultiColumnItemArranger> FixedHeightMultiColumnItemArranger::operator=(rptr<FixedHeightMultiColumnItemArranger> value)
 	{
-		vl::presentation::controls::list::FixedHeightMultiColumnItemArranger const& _unwrapped_value = *__GacUIInternal<FixedHeightMultiColumnItemArranger>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::FixedHeightMultiColumnItemArranger const& _unwrapped_value = *__GacUIInternal<FixedHeightMultiColumnItemArranger>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13194,6 +19598,12 @@ FixedSizeMultiColumnItemArranger
 	{
 	}
 	
+	void FixedSizeMultiColumnItemArranger::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		RangedItemArrangerBase::ClearInternalObjectReference();
+	}
+	
 	rptr<FixedSizeMultiColumnItemArranger> FixedSizeMultiColumnItemArranger::CreateRptr()
 	{
 		throw 0;
@@ -13201,7 +19611,7 @@ FixedSizeMultiColumnItemArranger
 	
 	rptr<FixedSizeMultiColumnItemArranger> FixedSizeMultiColumnItemArranger::operator=(rptr<FixedSizeMultiColumnItemArranger> value)
 	{
-		vl::presentation::controls::list::FixedSizeMultiColumnItemArranger const& _unwrapped_value = *__GacUIInternal<FixedSizeMultiColumnItemArranger>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::FixedSizeMultiColumnItemArranger const& _unwrapped_value = *__GacUIInternal<FixedSizeMultiColumnItemArranger>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13220,6 +19630,12 @@ ListViewColumnItemArranger
 	{
 	}
 	
+	void ListViewColumnItemArranger::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		FixedHeightItemArranger::ClearInternalObjectReference();
+	}
+	
 	rptr<ListViewColumnItemArranger> ListViewColumnItemArranger::CreateRptr()
 	{
 		throw 0;
@@ -13227,7 +19643,7 @@ ListViewColumnItemArranger
 	
 	rptr<ListViewColumnItemArranger> ListViewColumnItemArranger::operator=(rptr<ListViewColumnItemArranger> value)
 	{
-		vl::presentation::controls::list::ListViewColumnItemArranger const& _unwrapped_value = *__GacUIInternal<ListViewColumnItemArranger>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::ListViewColumnItemArranger const& _unwrapped_value = *__GacUIInternal<ListViewColumnItemArranger>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13251,15 +19667,21 @@ ListViewColumnItemArranger :: IColumnItemView
 	{
 	}
 	
+	void ListViewColumnItemArranger::IColumnItemView::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	bool ListViewColumnItemArranger::IColumnItemView::AttachCallback(rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> value)
 	{
-		vl::presentation::controls::list::ListViewColumnItemArranger::IColumnItemViewCallback* _unwrapped_value = __GacUIInternal<ListViewColumnItemArranger :: IColumnItemViewCallback>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::ListViewColumnItemArranger::IColumnItemViewCallback* _unwrapped_value = __GacUIInternal<ListViewColumnItemArranger :: IColumnItemViewCallback>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	bool ListViewColumnItemArranger::IColumnItemView::DetachCallback(rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> value)
 	{
-		vl::presentation::controls::list::ListViewColumnItemArranger::IColumnItemViewCallback* _unwrapped_value = __GacUIInternal<ListViewColumnItemArranger :: IColumnItemViewCallback>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::ListViewColumnItemArranger::IColumnItemViewCallback* _unwrapped_value = __GacUIInternal<ListViewColumnItemArranger :: IColumnItemViewCallback>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13284,7 +19706,7 @@ ListViewColumnItemArranger :: IColumnItemView
 	
 	rptr<ListViewColumnItemArranger :: IColumnItemView> ListViewColumnItemArranger::IColumnItemView::operator=(rptr<ListViewColumnItemArranger :: IColumnItemView> value)
 	{
-		vl::presentation::controls::list::ListViewColumnItemArranger::IColumnItemView const& _unwrapped_value = *__GacUIInternal<ListViewColumnItemArranger :: IColumnItemView>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::ListViewColumnItemArranger::IColumnItemView const& _unwrapped_value = *__GacUIInternal<ListViewColumnItemArranger :: IColumnItemView>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13313,6 +19735,12 @@ ListViewColumnItemArranger :: IColumnItemViewCallback
 	{
 	}
 	
+	void ListViewColumnItemArranger::IColumnItemViewCallback::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	void ListViewColumnItemArranger::IColumnItemViewCallback::OnColumnChanged()
 	{
 		throw 0;
@@ -13326,7 +19754,7 @@ ListViewColumnItemArranger :: IColumnItemViewCallback
 	
 	rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> ListViewColumnItemArranger::IColumnItemViewCallback::operator=(rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> value)
 	{
-		vl::presentation::controls::list::ListViewColumnItemArranger::IColumnItemViewCallback const& _unwrapped_value = *__GacUIInternal<ListViewColumnItemArranger :: IColumnItemViewCallback>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::ListViewColumnItemArranger::IColumnItemViewCallback const& _unwrapped_value = *__GacUIInternal<ListViewColumnItemArranger :: IColumnItemViewCallback>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13345,6 +19773,12 @@ ListViewDetailContentProvider
 	{
 	}
 	
+	void ListViewDetailContentProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		ListViewItemStyleProvider::IListViewItemContentProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<ListViewDetailContentProvider> ListViewDetailContentProvider::CreateRptr(Size _iconSize)
 	{
 		vl::presentation::Size _unwrapped__iconSize = *__GacUIInternal<Size>::GetInternalObject(_iconSize);
@@ -13353,7 +19787,7 @@ ListViewDetailContentProvider
 	
 	rptr<ListViewDetailContentProvider> ListViewDetailContentProvider::operator=(rptr<ListViewDetailContentProvider> value)
 	{
-		vl::presentation::controls::list::ListViewDetailContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewDetailContentProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::ListViewDetailContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewDetailContentProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13370,6 +19804,12 @@ ListViewItemProvider
 	
 	ListViewItemProvider::~ListViewItemProvider()
 	{
+	}
+	
+	void ListViewItemProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		ListProvider_of_ListViewItem::ClearInternalObjectReference();
 	}
 	
 	rptr<ListViewItemProvider> ListViewItemProvider::CreateRptr()
@@ -13389,7 +19829,7 @@ ListViewItemProvider
 	
 	rptr<ListViewItemProvider> ListViewItemProvider::operator=(rptr<ListViewItemProvider> value)
 	{
-		vl::presentation::controls::list::ListViewItemProvider const& _unwrapped_value = *__GacUIInternal<ListViewItemProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::ListViewItemProvider const& _unwrapped_value = *__GacUIInternal<ListViewItemProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13418,15 +19858,21 @@ GuiListView
 	{
 	}
 	
+	void GuiListView::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiVirtualListView::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiListView> GuiListView::CreateRptr(rptr<GuiListViewBase :: IStyleProvider> _styleProvider)
 	{
-		vl::presentation::controls::GuiListViewBase::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiListViewBase :: IStyleProvider>::GetInternalObject(*(_styleProvider.operator->()));
+		vl::presentation::controls::GuiListViewBase::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiListViewBase :: IStyleProvider>::GetInternalObject(_styleProvider);
 		throw 0;
 	}
 	
 	rptr<GuiListView> GuiListView::operator=(rptr<GuiListView> value)
 	{
-		vl::presentation::controls::GuiListView const& _unwrapped_value = *__GacUIInternal<GuiListView>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiListView const& _unwrapped_value = *__GacUIInternal<GuiListView>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13448,6 +19894,11 @@ TextItem
 	TextItem::~TextItem()
 	{
 		delete __GacUIInternal<TextItem>::GetInternalObject(*this);
+	}
+	
+	void TextItem::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
 	}
 	
 	rptr<TextItem> TextItem::CreateRptr(wchar_t const* _text, bool _checked)
@@ -13542,6 +19993,11 @@ IList_of_TextItem
 	{
 	}
 	
+	void IList_of_TextItem::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	signed __int32 IList_of_TextItem::Insert(signed __int32 index, const TextItem& item)
 	{
 		signed __int32 _unwrapped_index = index;
@@ -13558,7 +20014,7 @@ IList_of_TextItem
 	
 	rptr<IList_of_TextItem> IList_of_TextItem::operator=(rptr<IList_of_TextItem> value)
 	{
-		vl::collections::IList<vl::presentation::controls::list::TextItem,vl::presentation::controls::list::TextItem> const& _unwrapped_value = *__GacUIInternal<IList_of_TextItem>::GetInternalObject(*(value.operator->()));
+		vl::collections::IList<vl::presentation::controls::list::TextItem,vl::presentation::controls::list::TextItem> const& _unwrapped_value = *__GacUIInternal<IList_of_TextItem>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13578,6 +20034,13 @@ ListWrapperProvider_of_TextItem
 	{
 	}
 	
+	void ListWrapperProvider_of_TextItem::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		ItemProviderBase::ClearInternalObjectReference();
+		IList_of_TextItem::ClearInternalObjectReference();
+	}
+	
 	bool ListWrapperProvider_of_TextItem::NotifyUpdate(signed __int32 start, signed __int32 count)
 	{
 		signed __int32 _unwrapped_start = start;
@@ -13587,7 +20050,7 @@ ListWrapperProvider_of_TextItem
 	
 	rptr<ListWrapperProvider_of_TextItem> ListWrapperProvider_of_TextItem::operator=(rptr<ListWrapperProvider_of_TextItem> value)
 	{
-		vl::presentation::controls::list::ListWrapperProvider<vl::presentation::controls::list::TextItem,vl::presentation::controls::list::TextItem> const& _unwrapped_value = *__GacUIInternal<ListWrapperProvider_of_TextItem>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::ListWrapperProvider<vl::presentation::controls::list::TextItem,vl::presentation::controls::list::TextItem> const& _unwrapped_value = *__GacUIInternal<ListWrapperProvider_of_TextItem>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13606,6 +20069,12 @@ ListProvider_of_TextItem
 	{
 	}
 	
+	void ListProvider_of_TextItem::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		ListWrapperProvider_of_TextItem::ClearInternalObjectReference();
+	}
+	
 	rptr<ListProvider_of_TextItem> ListProvider_of_TextItem::CreateRptr()
 	{
 		throw 0;
@@ -13613,7 +20082,7 @@ ListProvider_of_TextItem
 	
 	rptr<ListProvider_of_TextItem> ListProvider_of_TextItem::operator=(rptr<ListProvider_of_TextItem> value)
 	{
-		vl::presentation::controls::list::ListProvider<vl::presentation::controls::list::TextItem> const& _unwrapped_value = *__GacUIInternal<ListProvider_of_TextItem>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::ListProvider<vl::presentation::controls::list::TextItem> const& _unwrapped_value = *__GacUIInternal<ListProvider_of_TextItem>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13632,15 +20101,21 @@ TextItemStyleProvider
 	{
 	}
 	
+	void TextItemStyleProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiSelectableListControl::IItemStyleProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<TextItemStyleProvider> TextItemStyleProvider::CreateRptr(rptr<TextItemStyleProvider :: ITextItemStyleProvider> _textItemStyleProvider)
 	{
-		vl::presentation::controls::list::TextItemStyleProvider::ITextItemStyleProvider* _unwrapped__textItemStyleProvider = __GacUIInternal<TextItemStyleProvider :: ITextItemStyleProvider>::GetInternalObject(*(_textItemStyleProvider.operator->()));
+		vl::presentation::controls::list::TextItemStyleProvider::ITextItemStyleProvider* _unwrapped__textItemStyleProvider = __GacUIInternal<TextItemStyleProvider :: ITextItemStyleProvider>::GetInternalObject(_textItemStyleProvider);
 		throw 0;
 	}
 	
 	rptr<TextItemStyleProvider> TextItemStyleProvider::operator=(rptr<TextItemStyleProvider> value)
 	{
-		vl::presentation::controls::list::TextItemStyleProvider const& _unwrapped_value = *__GacUIInternal<TextItemStyleProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::TextItemStyleProvider const& _unwrapped_value = *__GacUIInternal<TextItemStyleProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13659,6 +20134,12 @@ TextItemStyleProvider :: ITextItemStyleProvider
 	{
 	}
 	
+	void TextItemStyleProvider::ITextItemStyleProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiSelectableButton :: IStyleController> TextItemStyleProvider::ITextItemStyleProvider::CreateBackgroundStyleController()
 	{
 		throw 0;
@@ -13671,7 +20152,7 @@ TextItemStyleProvider :: ITextItemStyleProvider
 	
 	rptr<TextItemStyleProvider :: ITextItemStyleProvider> TextItemStyleProvider::ITextItemStyleProvider::operator=(rptr<TextItemStyleProvider :: ITextItemStyleProvider> value)
 	{
-		vl::presentation::controls::list::TextItemStyleProvider::ITextItemStyleProvider const& _unwrapped_value = *__GacUIInternal<TextItemStyleProvider :: ITextItemStyleProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::TextItemStyleProvider::ITextItemStyleProvider const& _unwrapped_value = *__GacUIInternal<TextItemStyleProvider :: ITextItemStyleProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13688,6 +20169,12 @@ TextItemStyleProvider :: ITextItemView
 	
 	TextItemStyleProvider::ITextItemView::~ITextItemView()
 	{
+	}
+	
+	void TextItemStyleProvider::ITextItemView::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiListControl::IItemPrimaryTextView::ClearInternalObjectReference();
 	}
 	
 	GacString TextItemStyleProvider::ITextItemView::GetText(signed __int32 itemIndex)
@@ -13711,7 +20198,7 @@ TextItemStyleProvider :: ITextItemView
 	
 	rptr<TextItemStyleProvider :: ITextItemView> TextItemStyleProvider::ITextItemView::operator=(rptr<TextItemStyleProvider :: ITextItemView> value)
 	{
-		vl::presentation::controls::list::TextItemStyleProvider::ITextItemView const& _unwrapped_value = *__GacUIInternal<TextItemStyleProvider :: ITextItemView>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::TextItemStyleProvider::ITextItemView const& _unwrapped_value = *__GacUIInternal<TextItemStyleProvider :: ITextItemView>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13735,15 +20222,21 @@ TextItemStyleProvider :: TextItemStyleController
 	{
 	}
 	
+	void TextItemStyleProvider::TextItemStyleController::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		ItemStyleControllerBase::ClearInternalObjectReference();
+	}
+	
 	rptr<TextItemStyleProvider :: TextItemStyleController> TextItemStyleProvider::TextItemStyleController::CreateRptr(rptr<TextItemStyleProvider> provider)
 	{
-		vl::presentation::controls::list::TextItemStyleProvider* _unwrapped_provider = __GacUIInternal<TextItemStyleProvider>::GetInternalObject(*(provider.operator->()));
+		vl::presentation::controls::list::TextItemStyleProvider* _unwrapped_provider = __GacUIInternal<TextItemStyleProvider>::GetInternalObject(provider);
 		throw 0;
 	}
 	
 	rptr<TextItemStyleProvider :: TextItemStyleController> TextItemStyleProvider::TextItemStyleController::operator=(rptr<TextItemStyleProvider :: TextItemStyleController> value)
 	{
-		vl::presentation::controls::list::TextItemStyleProvider::TextItemStyleController const& _unwrapped_value = *__GacUIInternal<TextItemStyleProvider :: TextItemStyleController>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::TextItemStyleProvider::TextItemStyleController const& _unwrapped_value = *__GacUIInternal<TextItemStyleProvider :: TextItemStyleController>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13795,23 +20288,29 @@ GuiVirtualTextList
 	{
 	}
 	
+	void GuiVirtualTextList::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiSelectableListControl::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiVirtualTextList> GuiVirtualTextList::CreateRptr(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<TextItemStyleProvider :: ITextItemStyleProvider> _itemStyleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider)
 	{
-		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(*(_styleProvider.operator->()));
-		vl::presentation::controls::list::TextItemStyleProvider::ITextItemStyleProvider* _unwrapped__itemStyleProvider = __GacUIInternal<TextItemStyleProvider :: ITextItemStyleProvider>::GetInternalObject(*(_itemStyleProvider.operator->()));
-		vl::presentation::controls::GuiListControl::IItemProvider* _unwrapped__itemProvider = __GacUIInternal<GuiListControl :: IItemProvider>::GetInternalObject(*(_itemProvider.operator->()));
+		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(_styleProvider);
+		vl::presentation::controls::list::TextItemStyleProvider::ITextItemStyleProvider* _unwrapped__itemStyleProvider = __GacUIInternal<TextItemStyleProvider :: ITextItemStyleProvider>::GetInternalObject(_itemStyleProvider);
+		vl::presentation::controls::GuiListControl::IItemProvider* _unwrapped__itemProvider = __GacUIInternal<GuiListControl :: IItemProvider>::GetInternalObject(_itemProvider);
 		throw 0;
 	}
 	
 	sptr<GuiListControl :: IItemStyleProvider> GuiVirtualTextList::ChangeItemStyle(rptr<TextItemStyleProvider :: ITextItemStyleProvider> itemStyleProvider)
 	{
-		vl::presentation::controls::list::TextItemStyleProvider::ITextItemStyleProvider* _unwrapped_itemStyleProvider = __GacUIInternal<TextItemStyleProvider :: ITextItemStyleProvider>::GetInternalObject(*(itemStyleProvider.operator->()));
+		vl::presentation::controls::list::TextItemStyleProvider::ITextItemStyleProvider* _unwrapped_itemStyleProvider = __GacUIInternal<TextItemStyleProvider :: ITextItemStyleProvider>::GetInternalObject(itemStyleProvider);
 		throw 0;
 	}
 	
 	rptr<GuiVirtualTextList> GuiVirtualTextList::operator=(rptr<GuiVirtualTextList> value)
 	{
-		vl::presentation::controls::GuiVirtualTextList const& _unwrapped_value = *__GacUIInternal<GuiVirtualTextList>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiVirtualTextList const& _unwrapped_value = *__GacUIInternal<GuiVirtualTextList>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13828,6 +20327,12 @@ TextItemProvider
 	
 	TextItemProvider::~TextItemProvider()
 	{
+	}
+	
+	void TextItemProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		ListProvider_of_TextItem::ClearInternalObjectReference();
 	}
 	
 	rptr<TextItemProvider> TextItemProvider::CreateRptr()
@@ -13851,7 +20356,7 @@ TextItemProvider
 	
 	rptr<TextItemProvider> TextItemProvider::operator=(rptr<TextItemProvider> value)
 	{
-		vl::presentation::controls::list::TextItemProvider const& _unwrapped_value = *__GacUIInternal<TextItemProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::list::TextItemProvider const& _unwrapped_value = *__GacUIInternal<TextItemProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13870,16 +20375,22 @@ GuiTextList
 	{
 	}
 	
+	void GuiTextList::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiVirtualTextList::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiTextList> GuiTextList::CreateRptr(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<TextItemStyleProvider :: ITextItemStyleProvider> _itemStyleProvider)
 	{
-		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(*(_styleProvider.operator->()));
-		vl::presentation::controls::list::TextItemStyleProvider::ITextItemStyleProvider* _unwrapped__itemStyleProvider = __GacUIInternal<TextItemStyleProvider :: ITextItemStyleProvider>::GetInternalObject(*(_itemStyleProvider.operator->()));
+		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(_styleProvider);
+		vl::presentation::controls::list::TextItemStyleProvider::ITextItemStyleProvider* _unwrapped__itemStyleProvider = __GacUIInternal<TextItemStyleProvider :: ITextItemStyleProvider>::GetInternalObject(_itemStyleProvider);
 		throw 0;
 	}
 	
 	rptr<GuiTextList> GuiTextList::operator=(rptr<GuiTextList> value)
 	{
-		vl::presentation::controls::GuiTextList const& _unwrapped_value = *__GacUIInternal<GuiTextList>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiTextList const& _unwrapped_value = *__GacUIInternal<GuiTextList>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13901,6 +20412,11 @@ TextLine
 	TextLine::~TextLine()
 	{
 		delete __GacUIInternal<TextLine>::GetInternalObject(*this);
+	}
+	
+	void TextLine::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
 	}
 	
 	rptr<TextLine> TextLine::CreateRptr()
@@ -13984,7 +20500,7 @@ TextLine
 	
 	void TextLine::set_att(rptr<CharAtt> value)
 	{
-		vl::presentation::elements::text::CharAtt* _unwrapped_value = __GacUIInternal<CharAtt>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::text::CharAtt* _unwrapped_value = __GacUIInternal<CharAtt>::GetInternalObject(value);
 		throw 0;
 	}
 	signed __int32 TextLine::get_availableOffsetCount()
@@ -14040,6 +20556,11 @@ TextPos
 	TextPos::~TextPos()
 	{
 		delete __GacUIInternal<TextPos>::GetInternalObject(*this);
+	}
+	
+	void TextPos::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
 	}
 	
 	rptr<TextPos> TextPos::CreateRptr(signed __int32 _row, signed __int32 _column)
@@ -14142,6 +20663,11 @@ GuiTextBoxCommonInterface
 	{
 	}
 	
+	void GuiTextBoxCommonInterface::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<GuiTextBoxCommonInterface> GuiTextBoxCommonInterface::CreateRptr()
 	{
 		throw 0;
@@ -14234,7 +20760,7 @@ GuiTextBoxCommonInterface
 	
 	rptr<GuiTextBoxCommonInterface> GuiTextBoxCommonInterface::operator=(rptr<GuiTextBoxCommonInterface> value)
 	{
-		vl::presentation::controls::GuiTextBoxCommonInterface const& _unwrapped_value = *__GacUIInternal<GuiTextBoxCommonInterface>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiTextBoxCommonInterface const& _unwrapped_value = *__GacUIInternal<GuiTextBoxCommonInterface>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -14289,7 +20815,7 @@ GuiTextBoxCommonInterface
 		throw 0;
 	}
 	
-	GuiGraphicsEvent_of_GuiEventArgs GuiTextBoxCommonInterface::on_SelectionChanged()
+	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiTextBoxCommonInterface::on_SelectionChanged()
 	{
 		throw 0;
 	}
@@ -14307,6 +20833,11 @@ TextLines
 	TextLines::~TextLines()
 	{
 		delete __GacUIInternal<TextLines>::GetInternalObject(*this);
+	}
+	
+	void TextLines::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
 	}
 	
 	rptr<TextLines> TextLines::CreateRptr()
@@ -14444,7 +20975,7 @@ TextLines
 	
 	void TextLines::SetCharMeasurer(rptr<CharMeasurer> value)
 	{
-		vl::presentation::elements::text::CharMeasurer* _unwrapped_value = __GacUIInternal<CharMeasurer>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::text::CharMeasurer* _unwrapped_value = __GacUIInternal<CharMeasurer>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -14455,7 +20986,7 @@ TextLines
 	
 	void TextLines::SetRenderTarget(rptr<IGuiGraphicsRenderTarget> value)
 	{
-		vl::presentation::elements::IGuiGraphicsRenderTarget* _unwrapped_value = __GacUIInternal<IGuiGraphicsRenderTarget>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::IGuiGraphicsRenderTarget* _unwrapped_value = __GacUIInternal<IGuiGraphicsRenderTarget>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -14511,9 +21042,15 @@ GuiColorizedTextElement
 	{
 	}
 	
+	void GuiColorizedTextElement::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IGuiGraphicsElement::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiColorizedTextElement> GuiColorizedTextElement::operator=(rptr<GuiColorizedTextElement> value)
 	{
-		vl::presentation::elements::GuiColorizedTextElement const& _unwrapped_value = *__GacUIInternal<GuiColorizedTextElement>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiColorizedTextElement const& _unwrapped_value = *__GacUIInternal<GuiColorizedTextElement>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -14534,7 +21071,7 @@ GuiColorizedTextElement
 	
 	void GuiColorizedTextElement::SetCallback(rptr<GuiColorizedTextElement :: ICallback> value)
 	{
-		vl::presentation::elements::GuiColorizedTextElement::ICallback* _unwrapped_value = __GacUIInternal<GuiColorizedTextElement :: ICallback>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiColorizedTextElement::ICallback* _unwrapped_value = __GacUIInternal<GuiColorizedTextElement :: ICallback>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -14545,7 +21082,7 @@ GuiColorizedTextElement
 	
 	void GuiColorizedTextElement::SetColors(rptr<Array_of_ColorEntry> value)
 	{
-		vl::collections::Array<vl::presentation::elements::text::ColorEntry,vl::presentation::elements::text::ColorEntry> const& _unwrapped_value = *__GacUIInternal<Array_of_ColorEntry>::GetInternalObject(*(value.operator->()));
+		vl::collections::Array<vl::presentation::elements::text::ColorEntry,vl::presentation::elements::text::ColorEntry> const& _unwrapped_value = *__GacUIInternal<Array_of_ColorEntry>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -14657,6 +21194,12 @@ GuiColorizedTextElement :: ICallback
 	{
 	}
 	
+	void GuiColorizedTextElement::ICallback::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
+	}
+	
 	void GuiColorizedTextElement::ICallback::ColorChanged()
 	{
 		throw 0;
@@ -14669,7 +21212,7 @@ GuiColorizedTextElement :: ICallback
 	
 	rptr<GuiColorizedTextElement :: ICallback> GuiColorizedTextElement::ICallback::operator=(rptr<GuiColorizedTextElement :: ICallback> value)
 	{
-		vl::presentation::elements::GuiColorizedTextElement::ICallback const& _unwrapped_value = *__GacUIInternal<GuiColorizedTextElement :: ICallback>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiColorizedTextElement::ICallback const& _unwrapped_value = *__GacUIInternal<GuiColorizedTextElement :: ICallback>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -14687,6 +21230,11 @@ GuiTextElementOperator
 	{
 	}
 	
+	void GuiTextElementOperator::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<GuiTextElementOperator> GuiTextElementOperator::CreateRptr()
 	{
 		throw 0;
@@ -14694,9 +21242,9 @@ GuiTextElementOperator
 	
 	void GuiTextElementOperator::Install(rptr<GuiColorizedTextElement> _textElement, rptr<GuiGraphicsComposition> _textComposition, rptr<GuiControl> _textControl)
 	{
-		vl::presentation::elements::GuiColorizedTextElement* _unwrapped__textElement = __GacUIInternal<GuiColorizedTextElement>::GetInternalObject(*(_textElement.operator->()));
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__textComposition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_textComposition.operator->()));
-		vl::presentation::controls::GuiControl* _unwrapped__textControl = __GacUIInternal<GuiControl>::GetInternalObject(*(_textControl.operator->()));
+		vl::presentation::elements::GuiColorizedTextElement* _unwrapped__textElement = __GacUIInternal<GuiColorizedTextElement>::GetInternalObject(_textElement);
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__textComposition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(_textComposition);
+		vl::presentation::controls::GuiControl* _unwrapped__textControl = __GacUIInternal<GuiControl>::GetInternalObject(_textControl);
 		throw 0;
 	}
 	
@@ -14750,7 +21298,7 @@ GuiTextElementOperator
 	
 	rptr<GuiTextElementOperator> GuiTextElementOperator::operator=(rptr<GuiTextElementOperator> value)
 	{
-		vl::presentation::controls::GuiTextElementOperator const& _unwrapped_value = *__GacUIInternal<GuiTextElementOperator>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiTextElementOperator const& _unwrapped_value = *__GacUIInternal<GuiTextElementOperator>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -14761,7 +21309,7 @@ GuiTextElementOperator
 	
 	void GuiTextElementOperator::SetCallback(rptr<GuiTextElementOperator :: ICallback> value)
 	{
-		vl::presentation::controls::GuiTextElementOperator::ICallback* _unwrapped_value = __GacUIInternal<GuiTextElementOperator :: ICallback>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiTextElementOperator::ICallback* _unwrapped_value = __GacUIInternal<GuiTextElementOperator :: ICallback>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -14772,7 +21320,7 @@ GuiTextElementOperator
 	
 	void GuiTextElementOperator::SetTextBoxCommonInterface(rptr<GuiTextBoxCommonInterface> value)
 	{
-		vl::presentation::controls::GuiTextBoxCommonInterface* _unwrapped_value = __GacUIInternal<GuiTextBoxCommonInterface>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiTextBoxCommonInterface* _unwrapped_value = __GacUIInternal<GuiTextBoxCommonInterface>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -14810,6 +21358,12 @@ GuiTextElementOperator :: ICallback
 	
 	GuiTextElementOperator::ICallback::~ICallback()
 	{
+	}
+	
+	void GuiTextElementOperator::ICallback::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		IDescriptable::ClearInternalObjectReference();
 	}
 	
 	TextPos GuiTextElementOperator::ICallback::GetLeftWord(TextPos pos)
@@ -14860,7 +21414,7 @@ GuiTextElementOperator :: ICallback
 	
 	rptr<GuiTextElementOperator :: ICallback> GuiTextElementOperator::ICallback::operator=(rptr<GuiTextElementOperator :: ICallback> value)
 	{
-		vl::presentation::controls::GuiTextElementOperator::ICallback const& _unwrapped_value = *__GacUIInternal<GuiTextElementOperator :: ICallback>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiTextElementOperator::ICallback const& _unwrapped_value = *__GacUIInternal<GuiTextElementOperator :: ICallback>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -14889,16 +21443,22 @@ GuiTextElementOperator :: DefaultCallback
 	{
 	}
 	
+	void GuiTextElementOperator::DefaultCallback::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiTextElementOperator::ICallback::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiTextElementOperator :: DefaultCallback> GuiTextElementOperator::DefaultCallback::CreateRptr(rptr<GuiColorizedTextElement> _textElement, rptr<GuiGraphicsComposition> _textComposition)
 	{
-		vl::presentation::elements::GuiColorizedTextElement* _unwrapped__textElement = __GacUIInternal<GuiColorizedTextElement>::GetInternalObject(*(_textElement.operator->()));
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__textComposition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_textComposition.operator->()));
+		vl::presentation::elements::GuiColorizedTextElement* _unwrapped__textElement = __GacUIInternal<GuiColorizedTextElement>::GetInternalObject(_textElement);
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__textComposition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(_textComposition);
 		throw 0;
 	}
 	
 	rptr<GuiTextElementOperator :: DefaultCallback> GuiTextElementOperator::DefaultCallback::operator=(rptr<GuiTextElementOperator :: DefaultCallback> value)
 	{
-		vl::presentation::controls::GuiTextElementOperator::DefaultCallback const& _unwrapped_value = *__GacUIInternal<GuiTextElementOperator :: DefaultCallback>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiTextElementOperator::DefaultCallback const& _unwrapped_value = *__GacUIInternal<GuiTextElementOperator :: DefaultCallback>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -14918,15 +21478,22 @@ GuiMultilineTextBox
 	{
 	}
 	
+	void GuiMultilineTextBox::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiScrollView::ClearInternalObjectReference();
+		GuiTextBoxCommonInterface::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiMultilineTextBox> GuiMultilineTextBox::CreateRptr(rptr<GuiScrollView :: IStyleProvider> styleProvider)
 	{
-		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(*(styleProvider.operator->()));
+		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(styleProvider);
 		throw 0;
 	}
 	
 	rptr<GuiMultilineTextBox> GuiMultilineTextBox::operator=(rptr<GuiMultilineTextBox> value)
 	{
-		vl::presentation::controls::GuiMultilineTextBox const& _unwrapped_value = *__GacUIInternal<GuiMultilineTextBox>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiMultilineTextBox const& _unwrapped_value = *__GacUIInternal<GuiMultilineTextBox>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -14950,15 +21517,21 @@ GuiMultilineTextBox :: StyleController
 	{
 	}
 	
+	void GuiMultilineTextBox::StyleController::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiScrollView::StyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiMultilineTextBox :: StyleController> GuiMultilineTextBox::StyleController::CreateRptr(rptr<GuiScrollView :: IStyleProvider> styleProvider)
 	{
-		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(*(styleProvider.operator->()));
+		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(styleProvider);
 		throw 0;
 	}
 	
 	rptr<GuiMultilineTextBox :: StyleController> GuiMultilineTextBox::StyleController::operator=(rptr<GuiMultilineTextBox :: StyleController> value)
 	{
-		vl::presentation::controls::GuiMultilineTextBox::StyleController const& _unwrapped_value = *__GacUIInternal<GuiMultilineTextBox :: StyleController>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiMultilineTextBox::StyleController const& _unwrapped_value = *__GacUIInternal<GuiMultilineTextBox :: StyleController>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15003,15 +21576,21 @@ GuiMultilineTextBox :: TextElementOperatorCallback
 	{
 	}
 	
+	void GuiMultilineTextBox::TextElementOperatorCallback::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiTextElementOperator::DefaultCallback::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiMultilineTextBox :: TextElementOperatorCallback> GuiMultilineTextBox::TextElementOperatorCallback::CreateRptr(rptr<GuiMultilineTextBox> _textControl)
 	{
-		vl::presentation::controls::GuiMultilineTextBox* _unwrapped__textControl = __GacUIInternal<GuiMultilineTextBox>::GetInternalObject(*(_textControl.operator->()));
+		vl::presentation::controls::GuiMultilineTextBox* _unwrapped__textControl = __GacUIInternal<GuiMultilineTextBox>::GetInternalObject(_textControl);
 		throw 0;
 	}
 	
 	rptr<GuiMultilineTextBox :: TextElementOperatorCallback> GuiMultilineTextBox::TextElementOperatorCallback::operator=(rptr<GuiMultilineTextBox :: TextElementOperatorCallback> value)
 	{
-		vl::presentation::controls::GuiMultilineTextBox::TextElementOperatorCallback const& _unwrapped_value = *__GacUIInternal<GuiMultilineTextBox :: TextElementOperatorCallback>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiMultilineTextBox::TextElementOperatorCallback const& _unwrapped_value = *__GacUIInternal<GuiMultilineTextBox :: TextElementOperatorCallback>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15031,15 +21610,22 @@ GuiSinglelineTextBox
 	{
 	}
 	
+	void GuiSinglelineTextBox::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiControl::ClearInternalObjectReference();
+		GuiTextBoxCommonInterface::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiSinglelineTextBox> GuiSinglelineTextBox::CreateRptr(rptr<GuiSinglelineTextBox :: IStyleProvider> styleProvider)
 	{
-		vl::presentation::controls::GuiSinglelineTextBox::IStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiSinglelineTextBox :: IStyleProvider>::GetInternalObject(*(styleProvider.operator->()));
+		vl::presentation::controls::GuiSinglelineTextBox::IStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiSinglelineTextBox :: IStyleProvider>::GetInternalObject(styleProvider);
 		throw 0;
 	}
 	
 	rptr<GuiSinglelineTextBox> GuiSinglelineTextBox::operator=(rptr<GuiSinglelineTextBox> value)
 	{
-		vl::presentation::controls::GuiSinglelineTextBox const& _unwrapped_value = *__GacUIInternal<GuiSinglelineTextBox>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiSinglelineTextBox const& _unwrapped_value = *__GacUIInternal<GuiSinglelineTextBox>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15063,15 +21649,21 @@ GuiSinglelineTextBox :: IStyleProvider
 	{
 	}
 	
+	void GuiSinglelineTextBox::IStyleProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiControl::IStyleProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiGraphicsComposition> GuiSinglelineTextBox::IStyleProvider::InstallBackground(rptr<GuiBoundsComposition> boundsComposition)
 	{
-		vl::presentation::elements::GuiBoundsComposition* _unwrapped_boundsComposition = __GacUIInternal<GuiBoundsComposition>::GetInternalObject(*(boundsComposition.operator->()));
+		vl::presentation::elements::GuiBoundsComposition* _unwrapped_boundsComposition = __GacUIInternal<GuiBoundsComposition>::GetInternalObject(boundsComposition);
 		throw 0;
 	}
 	
 	rptr<GuiSinglelineTextBox :: IStyleProvider> GuiSinglelineTextBox::IStyleProvider::operator=(rptr<GuiSinglelineTextBox :: IStyleProvider> value)
 	{
-		vl::presentation::controls::GuiSinglelineTextBox::IStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiSinglelineTextBox :: IStyleProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiSinglelineTextBox::IStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiSinglelineTextBox :: IStyleProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15090,9 +21682,15 @@ GuiSinglelineTextBox :: StyleController
 	{
 	}
 	
+	void GuiSinglelineTextBox::StyleController::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiControl::IStyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiSinglelineTextBox :: StyleController> GuiSinglelineTextBox::StyleController::CreateRptr(rptr<GuiSinglelineTextBox :: IStyleProvider> _styleProvider)
 	{
-		vl::presentation::controls::GuiSinglelineTextBox::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiSinglelineTextBox :: IStyleProvider>::GetInternalObject(*(_styleProvider.operator->()));
+		vl::presentation::controls::GuiSinglelineTextBox::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiSinglelineTextBox :: IStyleProvider>::GetInternalObject(_styleProvider);
 		throw 0;
 	}
 	
@@ -15103,13 +21701,13 @@ GuiSinglelineTextBox :: StyleController
 	
 	rptr<GuiSinglelineTextBox :: StyleController> GuiSinglelineTextBox::StyleController::operator=(rptr<GuiSinglelineTextBox :: StyleController> value)
 	{
-		vl::presentation::controls::GuiSinglelineTextBox::StyleController const& _unwrapped_value = *__GacUIInternal<GuiSinglelineTextBox :: StyleController>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiSinglelineTextBox::StyleController const& _unwrapped_value = *__GacUIInternal<GuiSinglelineTextBox :: StyleController>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	void GuiSinglelineTextBox::StyleController::SetTextBox(rptr<GuiSinglelineTextBox> value)
 	{
-		vl::presentation::controls::GuiSinglelineTextBox* _unwrapped_value = __GacUIInternal<GuiSinglelineTextBox>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiSinglelineTextBox* _unwrapped_value = __GacUIInternal<GuiSinglelineTextBox>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15154,15 +21752,21 @@ GuiSinglelineTextBox :: TextElementOperatorCallback
 	{
 	}
 	
+	void GuiSinglelineTextBox::TextElementOperatorCallback::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiTextElementOperator::DefaultCallback::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> GuiSinglelineTextBox::TextElementOperatorCallback::CreateRptr(rptr<GuiSinglelineTextBox> _textControl)
 	{
-		vl::presentation::controls::GuiSinglelineTextBox* _unwrapped__textControl = __GacUIInternal<GuiSinglelineTextBox>::GetInternalObject(*(_textControl.operator->()));
+		vl::presentation::controls::GuiSinglelineTextBox* _unwrapped__textControl = __GacUIInternal<GuiSinglelineTextBox>::GetInternalObject(_textControl);
 		throw 0;
 	}
 	
 	rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> GuiSinglelineTextBox::TextElementOperatorCallback::operator=(rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> value)
 	{
-		vl::presentation::controls::GuiSinglelineTextBox::TextElementOperatorCallback const& _unwrapped_value = *__GacUIInternal<GuiSinglelineTextBox :: TextElementOperatorCallback>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiSinglelineTextBox::TextElementOperatorCallback const& _unwrapped_value = *__GacUIInternal<GuiSinglelineTextBox :: TextElementOperatorCallback>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15180,9 +21784,14 @@ TreeViewItem
 	{
 	}
 	
+	void TreeViewItem::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<TreeViewItem> TreeViewItem::CreateRptr(sptr<GuiImageData> _image, const GacString& _text)
 	{
-		vl::Ptr<vl::presentation::controls::GuiImageData> _unwrapped__image = __GacUIInternal<GuiImageData>::GetInternalObject(*(_image.operator->()));
+		vl::Ptr<vl::presentation::controls::GuiImageData> _unwrapped__image = __GacUIInternal<GuiImageData>::GetInternalObject(_image);
 		vl::ObjectString<wchar_t> _unwrapped__text = _text.Buffer();
 		throw 0;
 	}
@@ -15194,7 +21803,7 @@ TreeViewItem
 	
 	rptr<TreeViewItem> TreeViewItem::operator=(rptr<TreeViewItem> value)
 	{
-		vl::presentation::controls::tree::TreeViewItem const& _unwrapped_value = *__GacUIInternal<TreeViewItem>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::tree::TreeViewItem const& _unwrapped_value = *__GacUIInternal<TreeViewItem>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15205,7 +21814,7 @@ TreeViewItem
 	
 	void TreeViewItem::set_image(sptr<GuiImageData> value)
 	{
-		vl::Ptr<vl::presentation::controls::GuiImageData> _unwrapped_value = __GacUIInternal<GuiImageData>::GetInternalObject(*(value.operator->()));
+		vl::Ptr<vl::presentation::controls::GuiImageData> _unwrapped_value = __GacUIInternal<GuiImageData>::GetInternalObject(value);
 		throw 0;
 	}
 	GacString TreeViewItem::get_text()
@@ -15233,6 +21842,12 @@ TreeViewItemRootProvider
 	{
 	}
 	
+	void TreeViewItemRootProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		MemoryNodeRootProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<TreeViewItemRootProvider> TreeViewItemRootProvider::CreateRptr()
 	{
 		throw 0;
@@ -15240,7 +21855,7 @@ TreeViewItemRootProvider
 	
 	rptr<TreeViewItemRootProvider> TreeViewItemRootProvider::operator=(rptr<TreeViewItemRootProvider> value)
 	{
-		vl::presentation::controls::tree::TreeViewItemRootProvider const& _unwrapped_value = *__GacUIInternal<TreeViewItemRootProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::tree::TreeViewItemRootProvider const& _unwrapped_value = *__GacUIInternal<TreeViewItemRootProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15259,10 +21874,16 @@ GuiTreeView
 	{
 	}
 	
+	void GuiTreeView::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiVirtualTreeListControl::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiTreeView> GuiTreeView::CreateRptr(rptr<GuiTreeView :: IStyleProvider> _styleProvider, rptr<INodeRootProvider> _nodeRootProvider)
 	{
-		vl::presentation::controls::GuiTreeView::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiTreeView :: IStyleProvider>::GetInternalObject(*(_styleProvider.operator->()));
-		vl::presentation::controls::tree::INodeRootProvider* _unwrapped__nodeRootProvider = __GacUIInternal<INodeRootProvider>::GetInternalObject(*(_nodeRootProvider.operator->()));
+		vl::presentation::controls::GuiTreeView::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiTreeView :: IStyleProvider>::GetInternalObject(_styleProvider);
+		vl::presentation::controls::tree::INodeRootProvider* _unwrapped__nodeRootProvider = __GacUIInternal<INodeRootProvider>::GetInternalObject(_nodeRootProvider);
 		throw 0;
 	}
 	
@@ -15273,7 +21894,7 @@ GuiTreeView
 	
 	rptr<GuiTreeView> GuiTreeView::operator=(rptr<GuiTreeView> value)
 	{
-		vl::presentation::controls::GuiTreeView const& _unwrapped_value = *__GacUIInternal<GuiTreeView>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiTreeView const& _unwrapped_value = *__GacUIInternal<GuiTreeView>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15297,6 +21918,12 @@ GuiTreeView :: IStyleProvider
 	{
 	}
 	
+	void GuiTreeView::IStyleProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiScrollView::IStyleProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<GuiSelectableButton :: IStyleController> GuiTreeView::IStyleProvider::CreateItemBackground()
 	{
 		throw 0;
@@ -15309,7 +21936,7 @@ GuiTreeView :: IStyleProvider
 	
 	rptr<GuiTreeView :: IStyleProvider> GuiTreeView::IStyleProvider::operator=(rptr<GuiTreeView :: IStyleProvider> value)
 	{
-		vl::presentation::controls::GuiTreeView::IStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiTreeView :: IStyleProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::GuiTreeView::IStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiTreeView :: IStyleProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15333,6 +21960,12 @@ TreeViewNodeItemStyleProvider
 	{
 	}
 	
+	void TreeViewNodeItemStyleProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		INodeItemStyleProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<TreeViewNodeItemStyleProvider> TreeViewNodeItemStyleProvider::CreateRptr()
 	{
 		throw 0;
@@ -15340,7 +21973,7 @@ TreeViewNodeItemStyleProvider
 	
 	rptr<TreeViewNodeItemStyleProvider> TreeViewNodeItemStyleProvider::operator=(rptr<TreeViewNodeItemStyleProvider> value)
 	{
-		vl::presentation::controls::tree::TreeViewNodeItemStyleProvider const& _unwrapped_value = *__GacUIInternal<TreeViewNodeItemStyleProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::controls::tree::TreeViewNodeItemStyleProvider const& _unwrapped_value = *__GacUIInternal<TreeViewNodeItemStyleProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15357,6 +21990,11 @@ Win7ButtonColors
 	Win7ButtonColors::~Win7ButtonColors()
 	{
 		delete __GacUIInternal<Win7ButtonColors>::GetInternalObject(*this);
+	}
+	
+	void Win7ButtonColors::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
 	}
 	
 	rptr<Win7ButtonColors> Win7ButtonColors::CreateRptr()
@@ -15640,9 +22278,15 @@ Win7ButtonStyleBase
 	{
 	}
 	
+	void Win7ButtonStyleBase::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiSelectableButton::IStyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7ButtonStyleBase> Win7ButtonStyleBase::operator=(rptr<Win7ButtonStyleBase> value)
 	{
-		vl::presentation::win7::Win7ButtonStyleBase const& _unwrapped_value = *__GacUIInternal<Win7ButtonStyleBase>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7ButtonStyleBase const& _unwrapped_value = *__GacUIInternal<Win7ButtonStyleBase>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15694,6 +22338,12 @@ Win7ButtonStyle
 	{
 	}
 	
+	void Win7ButtonStyle::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		Win7ButtonStyleBase::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7ButtonStyle> Win7ButtonStyle::CreateRptr(bool verticalGradient)
 	{
 		bool _unwrapped_verticalGradient = verticalGradient;
@@ -15702,7 +22352,7 @@ Win7ButtonStyle
 	
 	rptr<Win7ButtonStyle> Win7ButtonStyle::operator=(rptr<Win7ButtonStyle> value)
 	{
-		vl::presentation::win7::Win7ButtonStyle const& _unwrapped_value = *__GacUIInternal<Win7ButtonStyle>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7ButtonStyle const& _unwrapped_value = *__GacUIInternal<Win7ButtonStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15721,6 +22371,12 @@ Win7CheckBoxStyle
 	{
 	}
 	
+	void Win7CheckBoxStyle::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiSelectableButton::IStyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7CheckBoxStyle> Win7CheckBoxStyle::CreateRptr(Win7CheckBoxStyle :: BulletStyle bulletStyle, bool backgroundVisible)
 	{
 		vl::presentation::win7::Win7CheckBoxStyle::BulletStyle _unwrapped_bulletStyle = (vl::presentation::win7::Win7CheckBoxStyle::BulletStyle)bulletStyle;
@@ -15730,7 +22386,7 @@ Win7CheckBoxStyle
 	
 	rptr<Win7CheckBoxStyle> Win7CheckBoxStyle::operator=(rptr<Win7CheckBoxStyle> value)
 	{
-		vl::presentation::win7::Win7CheckBoxStyle const& _unwrapped_value = *__GacUIInternal<Win7CheckBoxStyle>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7CheckBoxStyle const& _unwrapped_value = *__GacUIInternal<Win7CheckBoxStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15750,6 +22406,13 @@ Win7DropDownComboBoxStyle
 	{
 	}
 	
+	void Win7DropDownComboBoxStyle::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		Win7ButtonStyle::ClearInternalObjectReference();
+		GuiComboBoxBase::IStyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7DropDownComboBoxStyle> Win7DropDownComboBoxStyle::CreateRptr()
 	{
 		throw 0;
@@ -15757,7 +22420,7 @@ Win7DropDownComboBoxStyle
 	
 	rptr<Win7DropDownComboBoxStyle> Win7DropDownComboBoxStyle::operator=(rptr<Win7DropDownComboBoxStyle> value)
 	{
-		vl::presentation::win7::Win7DropDownComboBoxStyle const& _unwrapped_value = *__GacUIInternal<Win7DropDownComboBoxStyle>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7DropDownComboBoxStyle const& _unwrapped_value = *__GacUIInternal<Win7DropDownComboBoxStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15776,6 +22439,12 @@ Win7EmptyStyle
 	{
 	}
 	
+	void Win7EmptyStyle::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiControl::IStyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7EmptyStyle> Win7EmptyStyle::CreateRptr(Color color)
 	{
 		vl::presentation::Color _unwrapped_color = *__GacUIInternal<Color>::GetInternalObject(color);
@@ -15784,7 +22453,7 @@ Win7EmptyStyle
 	
 	rptr<Win7EmptyStyle> Win7EmptyStyle::operator=(rptr<Win7EmptyStyle> value)
 	{
-		vl::presentation::win7::Win7EmptyStyle const& _unwrapped_value = *__GacUIInternal<Win7EmptyStyle>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7EmptyStyle const& _unwrapped_value = *__GacUIInternal<Win7EmptyStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15803,6 +22472,12 @@ Win7GroupBoxStyle
 	{
 	}
 	
+	void Win7GroupBoxStyle::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiControl::IStyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7GroupBoxStyle> Win7GroupBoxStyle::CreateRptr()
 	{
 		throw 0;
@@ -15810,7 +22485,7 @@ Win7GroupBoxStyle
 	
 	rptr<Win7GroupBoxStyle> Win7GroupBoxStyle::operator=(rptr<Win7GroupBoxStyle> value)
 	{
-		vl::presentation::win7::Win7GroupBoxStyle const& _unwrapped_value = *__GacUIInternal<Win7GroupBoxStyle>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7GroupBoxStyle const& _unwrapped_value = *__GacUIInternal<Win7GroupBoxStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15829,6 +22504,12 @@ Win7ListViewColumnDropDownStyle
 	{
 	}
 	
+	void Win7ListViewColumnDropDownStyle::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiSelectableButton::IStyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7ListViewColumnDropDownStyle> Win7ListViewColumnDropDownStyle::CreateRptr()
 	{
 		throw 0;
@@ -15836,7 +22517,7 @@ Win7ListViewColumnDropDownStyle
 	
 	rptr<Win7ListViewColumnDropDownStyle> Win7ListViewColumnDropDownStyle::operator=(rptr<Win7ListViewColumnDropDownStyle> value)
 	{
-		vl::presentation::win7::Win7ListViewColumnDropDownStyle const& _unwrapped_value = *__GacUIInternal<Win7ListViewColumnDropDownStyle>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7ListViewColumnDropDownStyle const& _unwrapped_value = *__GacUIInternal<Win7ListViewColumnDropDownStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15855,6 +22536,12 @@ Win7ListViewColumnHeaderStyle
 	{
 	}
 	
+	void Win7ListViewColumnHeaderStyle::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiSelectableButton::IStyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7ListViewColumnHeaderStyle> Win7ListViewColumnHeaderStyle::CreateRptr()
 	{
 		throw 0;
@@ -15862,7 +22549,7 @@ Win7ListViewColumnHeaderStyle
 	
 	rptr<Win7ListViewColumnHeaderStyle> Win7ListViewColumnHeaderStyle::operator=(rptr<Win7ListViewColumnHeaderStyle> value)
 	{
-		vl::presentation::win7::Win7ListViewColumnHeaderStyle const& _unwrapped_value = *__GacUIInternal<Win7ListViewColumnHeaderStyle>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7ListViewColumnHeaderStyle const& _unwrapped_value = *__GacUIInternal<Win7ListViewColumnHeaderStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15881,6 +22568,12 @@ Win7MenuBarButtonStyle
 	{
 	}
 	
+	void Win7MenuBarButtonStyle::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiMenuButton::IStyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7MenuBarButtonStyle> Win7MenuBarButtonStyle::CreateRptr()
 	{
 		throw 0;
@@ -15888,7 +22581,7 @@ Win7MenuBarButtonStyle
 	
 	rptr<Win7MenuBarButtonStyle> Win7MenuBarButtonStyle::operator=(rptr<Win7MenuBarButtonStyle> value)
 	{
-		vl::presentation::win7::Win7MenuBarButtonStyle const& _unwrapped_value = *__GacUIInternal<Win7MenuBarButtonStyle>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7MenuBarButtonStyle const& _unwrapped_value = *__GacUIInternal<Win7MenuBarButtonStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15907,6 +22600,12 @@ Win7MenuBarStyle
 	{
 	}
 	
+	void Win7MenuBarStyle::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiControl::IStyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7MenuBarStyle> Win7MenuBarStyle::CreateRptr()
 	{
 		throw 0;
@@ -15914,7 +22613,7 @@ Win7MenuBarStyle
 	
 	rptr<Win7MenuBarStyle> Win7MenuBarStyle::operator=(rptr<Win7MenuBarStyle> value)
 	{
-		vl::presentation::win7::Win7MenuBarStyle const& _unwrapped_value = *__GacUIInternal<Win7MenuBarStyle>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7MenuBarStyle const& _unwrapped_value = *__GacUIInternal<Win7MenuBarStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15933,6 +22632,12 @@ Win7MenuItemButtonStyle
 	{
 	}
 	
+	void Win7MenuItemButtonStyle::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiMenuButton::IStyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7MenuItemButtonStyle> Win7MenuItemButtonStyle::CreateRptr()
 	{
 		throw 0;
@@ -15940,7 +22645,7 @@ Win7MenuItemButtonStyle
 	
 	rptr<Win7MenuItemButtonStyle> Win7MenuItemButtonStyle::operator=(rptr<Win7MenuItemButtonStyle> value)
 	{
-		vl::presentation::win7::Win7MenuItemButtonStyle const& _unwrapped_value = *__GacUIInternal<Win7MenuItemButtonStyle>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7MenuItemButtonStyle const& _unwrapped_value = *__GacUIInternal<Win7MenuItemButtonStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15959,6 +22664,12 @@ Win7MenuSplitterStyle
 	{
 	}
 	
+	void Win7MenuSplitterStyle::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiControl::IStyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7MenuSplitterStyle> Win7MenuSplitterStyle::CreateRptr()
 	{
 		throw 0;
@@ -15966,7 +22677,7 @@ Win7MenuSplitterStyle
 	
 	rptr<Win7MenuSplitterStyle> Win7MenuSplitterStyle::operator=(rptr<Win7MenuSplitterStyle> value)
 	{
-		vl::presentation::win7::Win7MenuSplitterStyle const& _unwrapped_value = *__GacUIInternal<Win7MenuSplitterStyle>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7MenuSplitterStyle const& _unwrapped_value = *__GacUIInternal<Win7MenuSplitterStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -15985,6 +22696,12 @@ Win7MenuStyle
 	{
 	}
 	
+	void Win7MenuStyle::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiControl::IStyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7MenuStyle> Win7MenuStyle::CreateRptr()
 	{
 		throw 0;
@@ -15992,7 +22709,7 @@ Win7MenuStyle
 	
 	rptr<Win7MenuStyle> Win7MenuStyle::operator=(rptr<Win7MenuStyle> value)
 	{
-		vl::presentation::win7::Win7MenuStyle const& _unwrapped_value = *__GacUIInternal<Win7MenuStyle>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7MenuStyle const& _unwrapped_value = *__GacUIInternal<Win7MenuStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16011,6 +22728,12 @@ Win7ScrollStyle
 	{
 	}
 	
+	void Win7ScrollStyle::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		CommonScrollStyle::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7ScrollStyle> Win7ScrollStyle::CreateRptr(CommonScrollStyle :: Direction _direction)
 	{
 		vl::presentation::common_styles::CommonScrollStyle::Direction _unwrapped__direction = (vl::presentation::common_styles::CommonScrollStyle::Direction)_direction;
@@ -16019,7 +22742,7 @@ Win7ScrollStyle
 	
 	rptr<Win7ScrollStyle> Win7ScrollStyle::operator=(rptr<Win7ScrollStyle> value)
 	{
-		vl::presentation::win7::Win7ScrollStyle const& _unwrapped_value = *__GacUIInternal<Win7ScrollStyle>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7ScrollStyle const& _unwrapped_value = *__GacUIInternal<Win7ScrollStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16048,6 +22771,12 @@ Win7ScrollViewProvider
 	{
 	}
 	
+	void Win7ScrollViewProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiScrollView::IStyleProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7ScrollViewProvider> Win7ScrollViewProvider::CreateRptr()
 	{
 		throw 0;
@@ -16055,7 +22784,7 @@ Win7ScrollViewProvider
 	
 	rptr<Win7ScrollViewProvider> Win7ScrollViewProvider::operator=(rptr<Win7ScrollViewProvider> value)
 	{
-		vl::presentation::win7::Win7ScrollViewProvider const& _unwrapped_value = *__GacUIInternal<Win7ScrollViewProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7ScrollViewProvider const& _unwrapped_value = *__GacUIInternal<Win7ScrollViewProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16074,6 +22803,12 @@ Win7MultilineTextBoxProvider
 	{
 	}
 	
+	void Win7MultilineTextBoxProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		Win7ScrollViewProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7MultilineTextBoxProvider> Win7MultilineTextBoxProvider::CreateRptr()
 	{
 		throw 0;
@@ -16081,7 +22816,7 @@ Win7MultilineTextBoxProvider
 	
 	rptr<Win7MultilineTextBoxProvider> Win7MultilineTextBoxProvider::operator=(rptr<Win7MultilineTextBoxProvider> value)
 	{
-		vl::presentation::win7::Win7MultilineTextBoxProvider const& _unwrapped_value = *__GacUIInternal<Win7MultilineTextBoxProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7MultilineTextBoxProvider const& _unwrapped_value = *__GacUIInternal<Win7MultilineTextBoxProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16101,6 +22836,13 @@ Win7ListViewProvider
 	{
 	}
 	
+	void Win7ListViewProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		Win7MultilineTextBoxProvider::ClearInternalObjectReference();
+		GuiListViewBase::IStyleProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7ListViewProvider> Win7ListViewProvider::CreateRptr()
 	{
 		throw 0;
@@ -16108,7 +22850,7 @@ Win7ListViewProvider
 	
 	rptr<Win7ListViewProvider> Win7ListViewProvider::operator=(rptr<Win7ListViewProvider> value)
 	{
-		vl::presentation::win7::Win7ListViewProvider const& _unwrapped_value = *__GacUIInternal<Win7ListViewProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7ListViewProvider const& _unwrapped_value = *__GacUIInternal<Win7ListViewProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16127,6 +22869,12 @@ Win7SelectableItemStyle
 	{
 	}
 	
+	void Win7SelectableItemStyle::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		Win7ButtonStyleBase::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7SelectableItemStyle> Win7SelectableItemStyle::CreateRptr()
 	{
 		throw 0;
@@ -16134,7 +22882,7 @@ Win7SelectableItemStyle
 	
 	rptr<Win7SelectableItemStyle> Win7SelectableItemStyle::operator=(rptr<Win7SelectableItemStyle> value)
 	{
-		vl::presentation::win7::Win7SelectableItemStyle const& _unwrapped_value = *__GacUIInternal<Win7SelectableItemStyle>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7SelectableItemStyle const& _unwrapped_value = *__GacUIInternal<Win7SelectableItemStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16153,6 +22901,12 @@ Win7SinglelineTextBoxProvider
 	{
 	}
 	
+	void Win7SinglelineTextBoxProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiSinglelineTextBox::IStyleProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7SinglelineTextBoxProvider> Win7SinglelineTextBoxProvider::CreateRptr()
 	{
 		throw 0;
@@ -16160,7 +22914,7 @@ Win7SinglelineTextBoxProvider
 	
 	rptr<Win7SinglelineTextBoxProvider> Win7SinglelineTextBoxProvider::operator=(rptr<Win7SinglelineTextBoxProvider> value)
 	{
-		vl::presentation::win7::Win7SinglelineTextBoxProvider const& _unwrapped_value = *__GacUIInternal<Win7SinglelineTextBoxProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7SinglelineTextBoxProvider const& _unwrapped_value = *__GacUIInternal<Win7SinglelineTextBoxProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16179,6 +22933,12 @@ Win7TabPageHeaderStyle
 	{
 	}
 	
+	void Win7TabPageHeaderStyle::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		Win7ButtonStyleBase::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7TabPageHeaderStyle> Win7TabPageHeaderStyle::CreateRptr()
 	{
 		throw 0;
@@ -16186,7 +22946,7 @@ Win7TabPageHeaderStyle
 	
 	rptr<Win7TabPageHeaderStyle> Win7TabPageHeaderStyle::operator=(rptr<Win7TabPageHeaderStyle> value)
 	{
-		vl::presentation::win7::Win7TabPageHeaderStyle const& _unwrapped_value = *__GacUIInternal<Win7TabPageHeaderStyle>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7TabPageHeaderStyle const& _unwrapped_value = *__GacUIInternal<Win7TabPageHeaderStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16205,6 +22965,12 @@ Win7TabStyle
 	{
 	}
 	
+	void Win7TabStyle::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiTab::IStyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7TabStyle> Win7TabStyle::CreateRptr()
 	{
 		throw 0;
@@ -16212,7 +22978,7 @@ Win7TabStyle
 	
 	rptr<Win7TabStyle> Win7TabStyle::operator=(rptr<Win7TabStyle> value)
 	{
-		vl::presentation::win7::Win7TabStyle const& _unwrapped_value = *__GacUIInternal<Win7TabStyle>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7TabStyle const& _unwrapped_value = *__GacUIInternal<Win7TabStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16230,6 +22996,11 @@ Win7TextBoxBackground
 	{
 	}
 	
+	void Win7TextBoxBackground::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+	}
+	
 	rptr<Win7TextBoxBackground> Win7TextBoxBackground::CreateRptr()
 	{
 		throw 0;
@@ -16237,31 +23008,31 @@ Win7TextBoxBackground
 	
 	void Win7TextBoxBackground::AssociateStyleController(rptr<GuiControl :: IStyleController> controller)
 	{
-		vl::presentation::controls::GuiControl::IStyleController* _unwrapped_controller = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(*(controller.operator->()));
+		vl::presentation::controls::GuiControl::IStyleController* _unwrapped_controller = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(controller);
 		throw 0;
 	}
 	
 	rptr<GuiGraphicsComposition> Win7TextBoxBackground::InstallBackground(rptr<GuiBoundsComposition> boundsComposition)
 	{
-		vl::presentation::elements::GuiBoundsComposition* _unwrapped_boundsComposition = __GacUIInternal<GuiBoundsComposition>::GetInternalObject(*(boundsComposition.operator->()));
+		vl::presentation::elements::GuiBoundsComposition* _unwrapped_boundsComposition = __GacUIInternal<GuiBoundsComposition>::GetInternalObject(boundsComposition);
 		throw 0;
 	}
 	
 	void Win7TextBoxBackground::InitializeTextElement(rptr<GuiColorizedTextElement> _textElement)
 	{
-		vl::presentation::elements::GuiColorizedTextElement* _unwrapped__textElement = __GacUIInternal<GuiColorizedTextElement>::GetInternalObject(*(_textElement.operator->()));
+		vl::presentation::elements::GuiColorizedTextElement* _unwrapped__textElement = __GacUIInternal<GuiColorizedTextElement>::GetInternalObject(_textElement);
 		throw 0;
 	}
 	
 	rptr<Win7TextBoxBackground> Win7TextBoxBackground::operator=(rptr<Win7TextBoxBackground> value)
 	{
-		vl::presentation::win7::Win7TextBoxBackground const& _unwrapped_value = *__GacUIInternal<Win7TextBoxBackground>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7TextBoxBackground const& _unwrapped_value = *__GacUIInternal<Win7TextBoxBackground>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	void Win7TextBoxBackground::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
 	{
-		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_value = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(value.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_value = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16286,6 +23057,12 @@ Win7TextListProvider
 	{
 	}
 	
+	void Win7TextListProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		TextItemStyleProvider::ITextItemStyleProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7TextListProvider> Win7TextListProvider::CreateRptr()
 	{
 		throw 0;
@@ -16293,7 +23070,7 @@ Win7TextListProvider
 	
 	rptr<Win7TextListProvider> Win7TextListProvider::operator=(rptr<Win7TextListProvider> value)
 	{
-		vl::presentation::win7::Win7TextListProvider const& _unwrapped_value = *__GacUIInternal<Win7TextListProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7TextListProvider const& _unwrapped_value = *__GacUIInternal<Win7TextListProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16312,6 +23089,12 @@ Win7CheckTextListProvider
 	{
 	}
 	
+	void Win7CheckTextListProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		Win7TextListProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7CheckTextListProvider> Win7CheckTextListProvider::CreateRptr()
 	{
 		throw 0;
@@ -16319,7 +23102,7 @@ Win7CheckTextListProvider
 	
 	rptr<Win7CheckTextListProvider> Win7CheckTextListProvider::operator=(rptr<Win7CheckTextListProvider> value)
 	{
-		vl::presentation::win7::Win7CheckTextListProvider const& _unwrapped_value = *__GacUIInternal<Win7CheckTextListProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7CheckTextListProvider const& _unwrapped_value = *__GacUIInternal<Win7CheckTextListProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16338,6 +23121,12 @@ Win7RadioTextListProvider
 	{
 	}
 	
+	void Win7RadioTextListProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		Win7TextListProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7RadioTextListProvider> Win7RadioTextListProvider::CreateRptr()
 	{
 		throw 0;
@@ -16345,7 +23134,7 @@ Win7RadioTextListProvider
 	
 	rptr<Win7RadioTextListProvider> Win7RadioTextListProvider::operator=(rptr<Win7RadioTextListProvider> value)
 	{
-		vl::presentation::win7::Win7RadioTextListProvider const& _unwrapped_value = *__GacUIInternal<Win7RadioTextListProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7RadioTextListProvider const& _unwrapped_value = *__GacUIInternal<Win7RadioTextListProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16364,6 +23153,12 @@ Win7ToolstripButtonStyle
 	{
 	}
 	
+	void Win7ToolstripButtonStyle::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		Win7ButtonStyleBase::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7ToolstripButtonStyle> Win7ToolstripButtonStyle::CreateRptr(bool transparent)
 	{
 		bool _unwrapped_transparent = transparent;
@@ -16372,7 +23167,7 @@ Win7ToolstripButtonStyle
 	
 	rptr<Win7ToolstripButtonStyle> Win7ToolstripButtonStyle::operator=(rptr<Win7ToolstripButtonStyle> value)
 	{
-		vl::presentation::win7::Win7ToolstripButtonStyle const& _unwrapped_value = *__GacUIInternal<Win7ToolstripButtonStyle>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7ToolstripButtonStyle const& _unwrapped_value = *__GacUIInternal<Win7ToolstripButtonStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16391,6 +23186,12 @@ Win7TrackStyle
 	{
 	}
 	
+	void Win7TrackStyle::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		CommonTrackStyle::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7TrackStyle> Win7TrackStyle::CreateRptr(CommonTrackStyle :: Direction _direction)
 	{
 		vl::presentation::common_styles::CommonTrackStyle::Direction _unwrapped__direction = (vl::presentation::common_styles::CommonTrackStyle::Direction)_direction;
@@ -16399,7 +23200,7 @@ Win7TrackStyle
 	
 	rptr<Win7TrackStyle> Win7TrackStyle::operator=(rptr<Win7TrackStyle> value)
 	{
-		vl::presentation::win7::Win7TrackStyle const& _unwrapped_value = *__GacUIInternal<Win7TrackStyle>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7TrackStyle const& _unwrapped_value = *__GacUIInternal<Win7TrackStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16438,6 +23239,12 @@ Win7TreeViewExpandingButtonStyle
 	{
 	}
 	
+	void Win7TreeViewExpandingButtonStyle::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		GuiSelectableButton::IStyleController::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7TreeViewExpandingButtonStyle> Win7TreeViewExpandingButtonStyle::CreateRptr()
 	{
 		throw 0;
@@ -16445,7 +23252,7 @@ Win7TreeViewExpandingButtonStyle
 	
 	rptr<Win7TreeViewExpandingButtonStyle> Win7TreeViewExpandingButtonStyle::operator=(rptr<Win7TreeViewExpandingButtonStyle> value)
 	{
-		vl::presentation::win7::Win7TreeViewExpandingButtonStyle const& _unwrapped_value = *__GacUIInternal<Win7TreeViewExpandingButtonStyle>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7TreeViewExpandingButtonStyle const& _unwrapped_value = *__GacUIInternal<Win7TreeViewExpandingButtonStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16465,6 +23272,13 @@ Win7TreeViewProvider
 	{
 	}
 	
+	void Win7TreeViewProvider::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		Win7MultilineTextBoxProvider::ClearInternalObjectReference();
+		GuiTreeView::IStyleProvider::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7TreeViewProvider> Win7TreeViewProvider::CreateRptr()
 	{
 		throw 0;
@@ -16472,7 +23286,7 @@ Win7TreeViewProvider
 	
 	rptr<Win7TreeViewProvider> Win7TreeViewProvider::operator=(rptr<Win7TreeViewProvider> value)
 	{
-		vl::presentation::win7::Win7TreeViewProvider const& _unwrapped_value = *__GacUIInternal<Win7TreeViewProvider>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7TreeViewProvider const& _unwrapped_value = *__GacUIInternal<Win7TreeViewProvider>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -16491,6 +23305,12 @@ Win7WindowStyle
 	{
 	}
 	
+	void Win7WindowStyle::ClearInternalObjectReference()
+	{
+		__internal_object_reference = 0;
+		Win7EmptyStyle::ClearInternalObjectReference();
+	}
+	
 	rptr<Win7WindowStyle> Win7WindowStyle::CreateRptr()
 	{
 		throw 0;
@@ -16498,7 +23318,7 @@ Win7WindowStyle
 	
 	rptr<Win7WindowStyle> Win7WindowStyle::operator=(rptr<Win7WindowStyle> value)
 	{
-		vl::presentation::win7::Win7WindowStyle const& _unwrapped_value = *__GacUIInternal<Win7WindowStyle>::GetInternalObject(*(value.operator->()));
+		vl::presentation::win7::Win7WindowStyle const& _unwrapped_value = *__GacUIInternal<Win7WindowStyle>::GetInternalObject(value);
 		throw 0;
 	}
 	

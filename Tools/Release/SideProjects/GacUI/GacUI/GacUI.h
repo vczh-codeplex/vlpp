@@ -60,6 +60,7 @@ CharAtt
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		CharAtt(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~CharAtt();
@@ -86,6 +87,7 @@ Color
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Color(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Color();
@@ -131,6 +133,7 @@ ColorItem
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		ColorItem(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~ColorItem();
@@ -160,6 +163,7 @@ ColorEntry
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		ColorEntry(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~ColorEntry();
@@ -194,6 +198,7 @@ Array_of_ColorEntry
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Array_of_ColorEntry(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Array_of_ColorEntry();
@@ -226,6 +231,7 @@ DescriptableObject
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		DescriptableObject(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~DescriptableObject();
@@ -268,6 +274,7 @@ FontProperties
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		FontProperties(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~FontProperties();
@@ -330,6 +337,7 @@ GuiCellOption
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiCellOption(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiCellOption();
@@ -368,6 +376,7 @@ GuiComponent
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiComponent(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiComponent();
@@ -395,6 +404,7 @@ GuiEventArgs
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiEventArgs(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiEventArgs();
@@ -428,6 +438,7 @@ GuiImageData
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiImageData(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiImageData();
@@ -459,6 +470,7 @@ GuiRequestEventArgs
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiRequestEventArgs(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiRequestEventArgs();
@@ -488,6 +500,7 @@ IDescriptable
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		IDescriptable(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~IDescriptable();
@@ -513,6 +526,7 @@ GuiGraphicsEvent_of_GuiEventArgs
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiGraphicsEvent_of_GuiEventArgs(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiGraphicsEvent_of_GuiEventArgs();
@@ -543,6 +557,7 @@ GuiGraphicsEvent_of_GuiEventArgs :: IHandler
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IHandler(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IHandler();
@@ -568,6 +583,7 @@ GuiGraphicsEvent_of_GuiRequestEventArgs
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiGraphicsEvent_of_GuiRequestEventArgs(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiGraphicsEvent_of_GuiRequestEventArgs();
@@ -598,6 +614,7 @@ GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IHandler(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IHandler();
@@ -623,6 +640,7 @@ GuiTabPage
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiTabPage(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiTabPage();
@@ -636,7 +654,7 @@ GuiTabPage
 		const GacString& GetText();
 		void SetText(const GacString& value);
 		bool GetSelected();
-		GuiGraphicsEvent_of_GuiEventArgs on_TextChanged();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_TextChanged();
 		
 	};
 	
@@ -653,6 +671,7 @@ IGuiGraphicsAnimation
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		IGuiGraphicsAnimation(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~IGuiGraphicsAnimation();
@@ -681,6 +700,7 @@ GuiGraphicsAnimationManager
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiGraphicsAnimationManager(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiGraphicsAnimationManager();
@@ -709,6 +729,7 @@ GuiTimeBasedAnimation
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiTimeBasedAnimation(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiTimeBasedAnimation();
@@ -735,6 +756,7 @@ IGuiGraphicsElementFactory
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		IGuiGraphicsElementFactory(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~IGuiGraphicsElementFactory();
@@ -761,6 +783,7 @@ IGuiGraphicsElement
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		IGuiGraphicsElement(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~IGuiGraphicsElement();
@@ -787,6 +810,7 @@ Gui3DBorderElement
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Gui3DBorderElement(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Gui3DBorderElement();
@@ -829,6 +853,7 @@ Gui3DSplitterElement
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Gui3DSplitterElement(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Gui3DSplitterElement();
@@ -875,6 +900,7 @@ GuiGradientBackgroundElement
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiGradientBackgroundElement(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiGradientBackgroundElement();
@@ -910,6 +936,7 @@ GuiImageFrameElement
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiImageFrameElement(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiImageFrameElement();
@@ -946,6 +973,7 @@ GuiRoundBorderElement
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiRoundBorderElement(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiRoundBorderElement();
@@ -978,6 +1006,7 @@ GuiSolidBackgroundElement
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiSolidBackgroundElement(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiSolidBackgroundElement();
@@ -1010,6 +1039,7 @@ GuiSolidBorderElement
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiSolidBorderElement(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiSolidBorderElement();
@@ -1042,6 +1072,7 @@ GuiSolidLabelElement
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiSolidLabelElement(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiSolidLabelElement();
@@ -1085,6 +1116,7 @@ IGuiGraphicsRendererFactory
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		IGuiGraphicsRendererFactory(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~IGuiGraphicsRendererFactory();
@@ -1120,6 +1152,7 @@ IGuiMenuService
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		IGuiMenuService(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~IGuiMenuService();
@@ -1154,6 +1187,7 @@ IList_of_int
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		IList_of_int(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~IList_of_int();
@@ -1179,6 +1213,7 @@ IList_of_MemoryNodeProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		IList_of_MemoryNodeProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~IList_of_MemoryNodeProvider();
@@ -1204,6 +1239,7 @@ INativeAsyncService
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		INativeAsyncService(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~INativeAsyncService();
@@ -1228,6 +1264,7 @@ INativeClipboardService
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		INativeClipboardService(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~INativeClipboardService();
@@ -1277,6 +1314,7 @@ INativeCursor
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		INativeCursor(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~INativeCursor();
@@ -1306,6 +1344,7 @@ INativeImageFrameCache
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		INativeImageFrameCache(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~INativeImageFrameCache();
@@ -1331,6 +1370,7 @@ INativeImageService
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		INativeImageService(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~INativeImageService();
@@ -1372,6 +1412,7 @@ INativeImage
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		INativeImage(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~INativeImage();
@@ -1400,6 +1441,7 @@ INativeInputService
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		INativeInputService(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~INativeInputService();
@@ -1431,6 +1473,7 @@ INativeResourceService
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		INativeResourceService(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~INativeResourceService();
@@ -1459,6 +1502,7 @@ INodeItemPrimaryTextView
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		INodeItemPrimaryTextView(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~INodeItemPrimaryTextView();
@@ -1486,6 +1530,7 @@ INodeProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		INodeProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~INodeProvider();
@@ -1517,6 +1562,7 @@ INodeProviderCallback
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		INodeProviderCallback(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~INodeProviderCallback();
@@ -1545,6 +1591,7 @@ INodeRootProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		INodeRootProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~INodeRootProvider();
@@ -1576,6 +1623,7 @@ IReadonlyList_of_ColorEntry
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		IReadonlyList_of_ColorEntry(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~IReadonlyList_of_ColorEntry();
@@ -1604,6 +1652,7 @@ IReadonlyList_of_GuiGraphicsComposition_raw_pointer
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		IReadonlyList_of_GuiGraphicsComposition_raw_pointer(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~IReadonlyList_of_GuiGraphicsComposition_raw_pointer();
@@ -1632,6 +1681,7 @@ IReadonlyList_of_GuiTabPage_raw_pointer
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		IReadonlyList_of_GuiTabPage_raw_pointer(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~IReadonlyList_of_GuiTabPage_raw_pointer();
@@ -1660,6 +1710,7 @@ IReadonlyList_of_int
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		IReadonlyList_of_int(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~IReadonlyList_of_int();
@@ -1688,6 +1739,7 @@ ITreeViewItemView
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		ITreeViewItemView(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~ITreeViewItemView();
@@ -1716,6 +1768,7 @@ List_of_ObjectString_of_wchar_t
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		List_of_ObjectString_of_wchar_t(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~List_of_ObjectString_of_wchar_t();
@@ -1748,6 +1801,7 @@ ListViewColumn
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		ListViewColumn(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~ListViewColumn();
@@ -1779,6 +1833,7 @@ IList_of_ListViewColumn
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		IList_of_ListViewColumn(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~IList_of_ListViewColumn();
@@ -1804,6 +1859,7 @@ ListViewItem
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		ListViewItem(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~ListViewItem();
@@ -1818,8 +1874,8 @@ ListViewItem
 		void set_largeImage(sptr<GuiImageData> value);
 		GacString get_text();
 		void set_text(GacString value);
-		List_of_ObjectString_of_wchar_t get_subItems();
-		void set_subItems(List_of_ObjectString_of_wchar_t value);
+		rptr<List_of_ObjectString_of_wchar_t> get_subItems();
+		void set_subItems(rptr<List_of_ObjectString_of_wchar_t> value);
 		
 	};
 	
@@ -1836,6 +1892,7 @@ IList_of_ListViewItem
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		IList_of_ListViewItem(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~IList_of_ListViewItem();
@@ -1861,6 +1918,7 @@ Margin
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Margin(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Margin();
@@ -1899,6 +1957,7 @@ MemoryNodeProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		MemoryNodeProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~MemoryNodeProvider();
@@ -1930,6 +1989,7 @@ NativeWindowCharInfo
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		NativeWindowCharInfo(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~NativeWindowCharInfo();
@@ -1962,6 +2022,7 @@ GuiCharEventArgs
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiCharEventArgs(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiCharEventArgs();
@@ -1988,6 +2049,7 @@ GuiGraphicsEvent_of_GuiCharEventArgs
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiGraphicsEvent_of_GuiCharEventArgs(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiGraphicsEvent_of_GuiCharEventArgs();
@@ -2018,6 +2080,7 @@ GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IHandler(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IHandler();
@@ -2043,6 +2106,7 @@ NativeWindowKeyInfo
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		NativeWindowKeyInfo(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~NativeWindowKeyInfo();
@@ -2075,6 +2139,7 @@ GuiKeyEventArgs
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiKeyEventArgs(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiKeyEventArgs();
@@ -2101,6 +2166,7 @@ GuiGraphicsEvent_of_GuiKeyEventArgs
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiGraphicsEvent_of_GuiKeyEventArgs(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiGraphicsEvent_of_GuiKeyEventArgs();
@@ -2131,6 +2197,7 @@ GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IHandler(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IHandler();
@@ -2156,6 +2223,7 @@ NativeWindowMouseInfo
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		NativeWindowMouseInfo(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~NativeWindowMouseInfo();
@@ -2194,6 +2262,7 @@ GuiMouseEventArgs
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiMouseEventArgs(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiMouseEventArgs();
@@ -2220,6 +2289,7 @@ GuiGraphicsEvent_of_GuiMouseEventArgs
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiGraphicsEvent_of_GuiMouseEventArgs(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiGraphicsEvent_of_GuiMouseEventArgs();
@@ -2250,6 +2320,7 @@ GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IHandler(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IHandler();
@@ -2275,6 +2346,7 @@ GuiGraphicsEventReceiver
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiGraphicsEventReceiver(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiGraphicsEventReceiver();
@@ -2286,30 +2358,30 @@ GuiGraphicsEventReceiver
 		rptr<GuiGraphicsEventReceiver> operator=(rptr<GuiGraphicsEventReceiver> value);
 		
 		rptr<GuiGraphicsComposition> GetAssociatedComposition();
-		GuiGraphicsEvent_of_GuiMouseEventArgs on_leftButtonDown();
-		GuiGraphicsEvent_of_GuiMouseEventArgs on_leftButtonUp();
-		GuiGraphicsEvent_of_GuiMouseEventArgs on_leftButtonDoubleClick();
-		GuiGraphicsEvent_of_GuiMouseEventArgs on_middleButtonDown();
-		GuiGraphicsEvent_of_GuiMouseEventArgs on_middleButtonUp();
-		GuiGraphicsEvent_of_GuiMouseEventArgs on_middleButtonDoubleClick();
-		GuiGraphicsEvent_of_GuiMouseEventArgs on_rightButtonDown();
-		GuiGraphicsEvent_of_GuiMouseEventArgs on_rightButtonUp();
-		GuiGraphicsEvent_of_GuiMouseEventArgs on_rightButtonDoubleClick();
-		GuiGraphicsEvent_of_GuiMouseEventArgs on_horizontalWheel();
-		GuiGraphicsEvent_of_GuiMouseEventArgs on_verticalWheel();
-		GuiGraphicsEvent_of_GuiMouseEventArgs on_mouseMove();
-		GuiGraphicsEvent_of_GuiEventArgs on_mouseEnter();
-		GuiGraphicsEvent_of_GuiEventArgs on_mouseLeave();
-		GuiGraphicsEvent_of_GuiKeyEventArgs on_previewKey();
-		GuiGraphicsEvent_of_GuiKeyEventArgs on_keyDown();
-		GuiGraphicsEvent_of_GuiKeyEventArgs on_keyUp();
-		GuiGraphicsEvent_of_GuiKeyEventArgs on_systemKeyDown();
-		GuiGraphicsEvent_of_GuiKeyEventArgs on_systemKeyUp();
-		GuiGraphicsEvent_of_GuiCharEventArgs on_previewCharInput();
-		GuiGraphicsEvent_of_GuiCharEventArgs on_charInput();
-		GuiGraphicsEvent_of_GuiEventArgs on_gotFocus();
-		GuiGraphicsEvent_of_GuiEventArgs on_lostFocus();
-		GuiGraphicsEvent_of_GuiEventArgs on_caretNotify();
+		rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> on_leftButtonDown();
+		rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> on_leftButtonUp();
+		rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> on_leftButtonDoubleClick();
+		rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> on_middleButtonDown();
+		rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> on_middleButtonUp();
+		rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> on_middleButtonDoubleClick();
+		rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> on_rightButtonDown();
+		rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> on_rightButtonUp();
+		rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> on_rightButtonDoubleClick();
+		rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> on_horizontalWheel();
+		rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> on_verticalWheel();
+		rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> on_mouseMove();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_mouseEnter();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_mouseLeave();
+		rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> on_previewKey();
+		rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> on_keyDown();
+		rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> on_keyUp();
+		rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> on_systemKeyDown();
+		rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> on_systemKeyUp();
+		rptr<GuiGraphicsEvent_of_GuiCharEventArgs> on_previewCharInput();
+		rptr<GuiGraphicsEvent_of_GuiCharEventArgs> on_charInput();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_gotFocus();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_lostFocus();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_caretNotify();
 		
 	};
 	
@@ -2326,6 +2398,7 @@ NodeRootProviderBase
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		NodeRootProviderBase(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~NodeRootProviderBase();
@@ -2351,6 +2424,7 @@ MemoryNodeRootProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		MemoryNodeRootProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~MemoryNodeRootProvider();
@@ -2376,6 +2450,7 @@ Point
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Point(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Point();
@@ -2410,6 +2485,7 @@ INativeControllerListener
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		INativeControllerListener(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~INativeControllerListener();
@@ -2444,6 +2520,7 @@ INativeCallbackService
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		INativeCallbackService(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~INativeCallbackService();
@@ -2469,6 +2546,7 @@ INativeWindowService
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		INativeWindowService(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~INativeWindowService();
@@ -2498,6 +2576,7 @@ Size
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Size(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Size();
@@ -2532,6 +2611,7 @@ GuiPolygonElement
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiPolygonElement(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiPolygonElement();
@@ -2569,6 +2649,7 @@ INativeImageFrame
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		INativeImageFrame(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~INativeImageFrame();
@@ -2598,6 +2679,7 @@ Rect
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Rect(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Rect();
@@ -2652,6 +2734,7 @@ IGuiGraphicsRenderTarget
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		IGuiGraphicsRenderTarget(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~IGuiGraphicsRenderTarget();
@@ -2682,6 +2765,7 @@ CharMeasurer
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		CharMeasurer(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~CharMeasurer();
@@ -2709,6 +2793,7 @@ GuiGraphicsResourceManager
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiGraphicsResourceManager(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiGraphicsResourceManager();
@@ -2737,6 +2822,7 @@ IGuiGraphicsRenderer
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		IGuiGraphicsRenderer(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~IGuiGraphicsRenderer();
@@ -2768,6 +2854,7 @@ INativeScreen
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		INativeScreen(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~INativeScreen();
@@ -2796,6 +2883,7 @@ INativeScreenService
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		INativeScreenService(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~INativeScreenService();
@@ -2823,6 +2911,7 @@ INativeController
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		INativeController(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~INativeController();
@@ -2854,6 +2943,7 @@ INativeWindowListener
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		INativeWindowListener(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~INativeWindowListener();
@@ -2912,6 +3002,7 @@ GuiGraphicsHost
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiGraphicsHost(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiGraphicsHost();
@@ -2974,6 +3065,7 @@ GuiGraphicsComposition
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiGraphicsComposition(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiGraphicsComposition();
@@ -3037,6 +3129,7 @@ GuiGraphicsSite
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiGraphicsSite(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiGraphicsSite();
@@ -3062,6 +3155,7 @@ GuiBoundsComposition
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiBoundsComposition(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiBoundsComposition();
@@ -3077,7 +3171,7 @@ GuiBoundsComposition
 		
 		Margin GetAlignmentToParent();
 		void SetAlignmentToParent(Margin value);
-		GuiGraphicsEvent_of_GuiEventArgs on_BoundsChanged();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_BoundsChanged();
 		
 	};
 	
@@ -3094,6 +3188,7 @@ GuiCellComposition
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiCellComposition(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiCellComposition();
@@ -3126,6 +3221,7 @@ GuiControl
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiControl(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiControl();
@@ -3158,11 +3254,11 @@ GuiControl
 		void SetText(const GacString& value);
 		const FontProperties& GetFont();
 		void SetFont(const FontProperties& value);
-		GuiGraphicsEvent_of_GuiEventArgs on_VisibleChanged();
-		GuiGraphicsEvent_of_GuiEventArgs on_EnabledChanged();
-		GuiGraphicsEvent_of_GuiEventArgs on_VisuallyEnabledChanged();
-		GuiGraphicsEvent_of_GuiEventArgs on_TextChanged();
-		GuiGraphicsEvent_of_GuiEventArgs on_FontChanged();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_VisibleChanged();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_EnabledChanged();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_VisuallyEnabledChanged();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_TextChanged();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_FontChanged();
 		
 
 /***********************************************************************
@@ -3177,6 +3273,7 @@ GuiControl :: IStyleController
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IStyleController(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IStyleController();
@@ -3206,6 +3303,7 @@ GuiControl :: IStyleProvider
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IStyleProvider(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IStyleProvider();
@@ -3247,6 +3345,7 @@ GuiButton
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiButton(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiButton();
@@ -3258,7 +3357,7 @@ GuiButton
 		
 		rptr<GuiButton> operator=(rptr<GuiButton> value);
 		
-		GuiGraphicsEvent_of_GuiEventArgs on_Clicked();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_Clicked();
 		
 
 /***********************************************************************
@@ -3273,6 +3372,7 @@ GuiButton :: IStyleController
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IStyleController(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IStyleController();
@@ -3298,6 +3398,7 @@ GuiControlHost
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiControlHost(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiControlHost();
@@ -3351,14 +3452,14 @@ GuiControlHost
 		void SetBounds(Rect value);
 		rptr<INativeScreen> GetRelatedScreen();
 		bool GetOpening();
-		GuiGraphicsEvent_of_GuiEventArgs on_WindowGotFocus();
-		GuiGraphicsEvent_of_GuiEventArgs on_WindowLostFocus();
-		GuiGraphicsEvent_of_GuiEventArgs on_WindowActivated();
-		GuiGraphicsEvent_of_GuiEventArgs on_WindowDeactivated();
-		GuiGraphicsEvent_of_GuiEventArgs on_WindowOpened();
-		GuiGraphicsEvent_of_GuiRequestEventArgs on_WindowClosing();
-		GuiGraphicsEvent_of_GuiEventArgs on_WindowClosed();
-		GuiGraphicsEvent_of_GuiEventArgs on_WindowDestroying();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_WindowGotFocus();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_WindowLostFocus();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_WindowActivated();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_WindowDeactivated();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_WindowOpened();
+		rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> on_WindowClosing();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_WindowClosed();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_WindowDestroying();
 		
 	};
 	
@@ -3375,6 +3476,7 @@ GuiMenuBar
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiMenuBar(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiMenuBar();
@@ -3400,6 +3502,7 @@ GuiMenuButton
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiMenuButton(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiMenuButton();
@@ -3419,7 +3522,7 @@ GuiMenuButton
 		void SetSubMenuOpening(bool value);
 		Size GetPreferredMenuClientSize();
 		void SetPreferredMenuClientSize(Size value);
-		GuiGraphicsEvent_of_GuiEventArgs on_SubMenuOpeningChanged();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_SubMenuOpeningChanged();
 		
 
 /***********************************************************************
@@ -3434,6 +3537,7 @@ GuiMenuButton :: IStyleController
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IStyleController(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IStyleController();
@@ -3461,6 +3565,7 @@ GuiPartialViewComposition
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiPartialViewComposition(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiPartialViewComposition();
@@ -3495,6 +3600,7 @@ GuiScroll
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiScroll(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiScroll();
@@ -3519,11 +3625,11 @@ GuiScroll
 		void SetBigMove(signed __int32 value);
 		signed __int32 GetMinPosition();
 		signed __int32 GetMaxPosition();
-		GuiGraphicsEvent_of_GuiEventArgs on_TotalSizeChanged();
-		GuiGraphicsEvent_of_GuiEventArgs on_PageSizeChanged();
-		GuiGraphicsEvent_of_GuiEventArgs on_PositionChanged();
-		GuiGraphicsEvent_of_GuiEventArgs on_SmallMoveChanged();
-		GuiGraphicsEvent_of_GuiEventArgs on_BigMoveChanged();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_TotalSizeChanged();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_PageSizeChanged();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_PositionChanged();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_SmallMoveChanged();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_BigMoveChanged();
 		
 
 /***********************************************************************
@@ -3538,6 +3644,7 @@ GuiScroll :: ICommandExecutor
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			ICommandExecutor(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~ICommandExecutor();
@@ -3567,6 +3674,7 @@ GuiScroll :: IStyleController
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IStyleController(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IStyleController();
@@ -3606,6 +3714,7 @@ CommonScrollStyle
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		CommonScrollStyle(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~CommonScrollStyle();
@@ -3640,6 +3749,7 @@ CommonTrackStyle
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		CommonTrackStyle(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~CommonTrackStyle();
@@ -3663,6 +3773,7 @@ GuiScrollView
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiScrollView(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiScrollView();
@@ -3696,6 +3807,7 @@ GuiScrollView :: IStyleProvider
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IStyleProvider(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IStyleProvider();
@@ -3723,6 +3835,7 @@ GuiScrollView :: StyleController
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			StyleController(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~StyleController();
@@ -3761,6 +3874,7 @@ GuiListControl
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiListControl(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiListControl();
@@ -3786,9 +3900,9 @@ GuiListControl
 		rptr<GuiListControl :: IItemStyleProvider> GetStyleProvider();
 		rptr<GuiListControl :: IItemArranger> GetArranger();
 		rptr<GuiListControl :: IItemCoordinateTransformer> GetCoordinateTransformer();
-		GuiGraphicsEvent_of_GuiEventArgs on_StyleProviderChanged();
-		GuiGraphicsEvent_of_GuiEventArgs on_ArrangerChanged();
-		GuiGraphicsEvent_of_GuiEventArgs on_CoordinateTransformerChanged();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_StyleProviderChanged();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_ArrangerChanged();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_CoordinateTransformerChanged();
 		
 
 /***********************************************************************
@@ -3803,6 +3917,7 @@ GuiListControl :: IItemArrangerCallback
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IItemArrangerCallback(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IItemArrangerCallback();
@@ -3834,6 +3949,7 @@ GuiListControl :: IItemCoordinateTransformer
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IItemCoordinateTransformer(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IItemCoordinateTransformer();
@@ -3864,6 +3980,7 @@ GuiListControl :: IItemPrimaryTextView
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IItemPrimaryTextView(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IItemPrimaryTextView();
@@ -3891,6 +4008,7 @@ GuiListControl :: IItemProvider
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IItemProvider(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IItemProvider();
@@ -3918,6 +4036,7 @@ GuiListControl :: IItemProviderCallback
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IItemProviderCallback(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IItemProviderCallback();
@@ -3942,6 +4061,7 @@ GuiListControl :: IItemArranger
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IItemArranger(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IItemArranger();
@@ -3973,6 +4093,7 @@ GuiListControl :: IItemStyleController
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IItemStyleController(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IItemStyleController();
@@ -4003,6 +4124,7 @@ GuiListControl :: IItemStyleProvider
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IItemStyleProvider(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IItemStyleProvider();
@@ -4050,6 +4172,7 @@ AxisAlignedItemCoordinateTransformer
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		AxisAlignedItemCoordinateTransformer(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~AxisAlignedItemCoordinateTransformer();
@@ -4077,6 +4200,7 @@ DefaultItemCoordinateTransformer
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		DefaultItemCoordinateTransformer(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~DefaultItemCoordinateTransformer();
@@ -4102,6 +4226,7 @@ GuiScrollContainer
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiScrollContainer(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiScrollContainer();
@@ -4126,6 +4251,7 @@ GuiScrollContainer :: StyleController
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			StyleController(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~StyleController();
@@ -4153,6 +4279,7 @@ GuiSelectableButton
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiSelectableButton(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiSelectableButton();
@@ -4172,9 +4299,9 @@ GuiSelectableButton
 		void SetAutoSelection(bool value);
 		bool GetSelected();
 		void SetSelected(bool value);
-		GuiGraphicsEvent_of_GuiEventArgs on_GroupControllerChanged();
-		GuiGraphicsEvent_of_GuiEventArgs on_AutoSelectionChanged();
-		GuiGraphicsEvent_of_GuiEventArgs on_SelectedChanged();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_GroupControllerChanged();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_AutoSelectionChanged();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_SelectedChanged();
 		
 
 /***********************************************************************
@@ -4189,6 +4316,7 @@ GuiSelectableButton :: GroupController
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			GroupController(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~GroupController();
@@ -4214,6 +4342,7 @@ GuiSelectableButton :: IStyleController
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IStyleController(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IStyleController();
@@ -4237,6 +4366,7 @@ GuiSelectableButton :: MutexGroupController
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			MutexGroupController(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~MutexGroupController();
@@ -4263,6 +4393,7 @@ GuiSelectableListControl
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiSelectableListControl(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiSelectableListControl();
@@ -4280,7 +4411,7 @@ GuiSelectableListControl
 		bool GetMultiSelect();
 		void SetMultiSelect(bool value);
 		rptr<IReadonlyList_of_int> GetSelectedItems();
-		GuiGraphicsEvent_of_GuiEventArgs on_SelectionChanged();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_SelectionChanged();
 		
 
 /***********************************************************************
@@ -4295,6 +4426,7 @@ GuiSelectableListControl :: IItemStyleProvider
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IItemStyleProvider(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IItemStyleProvider();
@@ -4320,6 +4452,7 @@ GuiListViewBase
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiListViewBase(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiListViewBase();
@@ -4346,6 +4479,7 @@ GuiListViewBase :: IStyleProvider
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IStyleProvider(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IStyleProvider();
@@ -4389,6 +4523,7 @@ GuiSideAlignedComposition
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiSideAlignedComposition(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiSideAlignedComposition();
@@ -4421,6 +4556,7 @@ GuiStackItemComposition
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiStackItemComposition(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiStackItemComposition();
@@ -4450,6 +4586,7 @@ GuiTab
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiTab(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiTab();
@@ -4469,7 +4606,7 @@ GuiTab
 		
 		rptr<IReadonlyList_of_GuiTabPage_raw_pointer> GetPages();
 		rptr<GuiTabPage> GetSelectedPage();
-		GuiGraphicsEvent_of_GuiEventArgs on_SelectedPageChanged();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_SelectedPageChanged();
 		
 
 /***********************************************************************
@@ -4484,6 +4621,7 @@ GuiTab :: ICommandExecutor
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			ICommandExecutor(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~ICommandExecutor();
@@ -4507,6 +4645,7 @@ GuiTab :: IStyleController
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IStyleController(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IStyleController();
@@ -4538,6 +4677,7 @@ GuiTableComposition
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiTableComposition(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiTableComposition();
@@ -4576,6 +4716,7 @@ GuiWindow
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiWindow(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiWindow();
@@ -4601,6 +4742,7 @@ GuiPopup
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiPopup(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiPopup();
@@ -4629,6 +4771,7 @@ GuiComboBoxBase
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiComboBoxBase(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiComboBoxBase();
@@ -4643,10 +4786,10 @@ GuiComboBoxBase
 		rptr<GuiComboBoxBase> operator=(rptr<GuiComboBoxBase> value);
 		
 		rptr<GuiPopup> GetPopup();
-		GuiGraphicsEvent_of_GuiEventArgs on_PopupOpened();
-		GuiGraphicsEvent_of_GuiEventArgs on_PopupClosed();
-		GuiGraphicsEvent_of_GuiEventArgs on_ItemSelecting();
-		GuiGraphicsEvent_of_GuiEventArgs on_ItemSelected();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_PopupOpened();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_PopupClosed();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_ItemSelecting();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_ItemSelected();
 		
 
 /***********************************************************************
@@ -4661,6 +4804,7 @@ GuiComboBoxBase :: ICommandExecutor
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			ICommandExecutor(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~ICommandExecutor();
@@ -4685,6 +4829,7 @@ GuiComboBoxBase :: IStyleController
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IStyleController(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IStyleController();
@@ -4715,6 +4860,7 @@ GuiComboBoxListControl
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiComboBoxListControl(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiComboBoxListControl();
@@ -4729,7 +4875,7 @@ GuiComboBoxListControl
 		signed __int32 GetSelectedIndex();
 		void SetSelectedIndex(signed __int32 value);
 		rptr<GuiListControl :: IItemProvider> GetItemProvider();
-		GuiGraphicsEvent_of_GuiEventArgs on_SelectedIndexChanged();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_SelectedIndexChanged();
 		
 	};
 	
@@ -4746,6 +4892,7 @@ GuiMenu
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiMenu(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiMenu();
@@ -4772,6 +4919,7 @@ GuiWindowComposition
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiWindowComposition(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiWindowComposition();
@@ -4800,6 +4948,7 @@ INativeWindow
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		INativeWindow(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~INativeWindow();
@@ -4878,6 +5027,7 @@ INodeItemStyleController
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		INodeItemStyleController(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~INodeItemStyleController();
@@ -4903,6 +5053,7 @@ INodeItemStyleProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		INodeItemStyleProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~INodeItemStyleProvider();
@@ -4936,6 +5087,7 @@ INodeItemView
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		INodeItemView(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~INodeItemView();
@@ -4965,6 +5117,7 @@ GuiVirtualTreeListControl
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiVirtualTreeListControl(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiVirtualTreeListControl();
@@ -4995,6 +5148,7 @@ IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer();
@@ -5023,6 +5177,7 @@ IReadonlyList_of_GuiStackItemComposition_raw_pointer
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		IReadonlyList_of_GuiStackItemComposition_raw_pointer(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~IReadonlyList_of_GuiStackItemComposition_raw_pointer();
@@ -5062,6 +5217,7 @@ GuiStackComposition
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiStackComposition(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiStackComposition();
@@ -5096,6 +5252,7 @@ IReadonlyList_of_GuiWindow_raw_pointer
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		IReadonlyList_of_GuiWindow_raw_pointer(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~IReadonlyList_of_GuiWindow_raw_pointer();
@@ -5124,6 +5281,7 @@ GuiApplication
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiApplication(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiApplication();
@@ -5152,6 +5310,7 @@ ItemProviderBase
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		ItemProviderBase(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~ItemProviderBase();
@@ -5177,6 +5336,7 @@ ItemStyleControllerBase
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		ItemStyleControllerBase(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~ItemStyleControllerBase();
@@ -5200,6 +5360,7 @@ ListViewItemStyleProviderBase
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		ListViewItemStyleProviderBase(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~ListViewItemStyleProviderBase();
@@ -5224,6 +5385,7 @@ ListViewItemStyleProviderBase :: ListViewItemStyleController
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			ListViewItemStyleController(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~ListViewItemStyleController();
@@ -5253,6 +5415,7 @@ ListViewItemStyleProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		ListViewItemStyleProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~ListViewItemStyleProvider();
@@ -5283,6 +5446,7 @@ ListViewItemStyleProvider :: IListViewItemContent
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IListViewItemContent(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IListViewItemContent();
@@ -5309,6 +5473,7 @@ ListViewItemStyleProvider :: IListViewItemContentProvider
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IListViewItemContentProvider(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IListViewItemContentProvider();
@@ -5336,6 +5501,7 @@ ListViewItemStyleProvider :: IListViewItemView
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IListViewItemView(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IListViewItemView();
@@ -5370,6 +5536,7 @@ ListViewItemStyleProvider :: ListViewContentItemStyleController
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			ListViewContentItemStyleController(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~ListViewContentItemStyleController();
@@ -5399,6 +5566,7 @@ GuiVirtualListView
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiVirtualListView(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiVirtualListView();
@@ -5425,6 +5593,7 @@ ListViewBigIconContentProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		ListViewBigIconContentProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~ListViewBigIconContentProvider();
@@ -5450,6 +5619,7 @@ ListViewInformationContentProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		ListViewInformationContentProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~ListViewInformationContentProvider();
@@ -5475,6 +5645,7 @@ ListViewListContentProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		ListViewListContentProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~ListViewListContentProvider();
@@ -5500,6 +5671,7 @@ ListViewSmallIconContentProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		ListViewSmallIconContentProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~ListViewSmallIconContentProvider();
@@ -5525,6 +5697,7 @@ ListViewTileContentProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		ListViewTileContentProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~ListViewTileContentProvider();
@@ -5550,6 +5723,7 @@ ListWrapperProvider_of_ListViewItem
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		ListWrapperProvider_of_ListViewItem(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~ListWrapperProvider_of_ListViewItem();
@@ -5574,6 +5748,7 @@ ListProvider_of_ListViewItem
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		ListProvider_of_ListViewItem(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~ListProvider_of_ListViewItem();
@@ -5599,6 +5774,7 @@ NodeItemProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		NodeItemProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~NodeItemProvider();
@@ -5626,6 +5802,7 @@ NodeItemStyleProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		NodeItemStyleProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~NodeItemStyleProvider();
@@ -5651,6 +5828,7 @@ RangedItemArrangerBase
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		RangedItemArrangerBase(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~RangedItemArrangerBase();
@@ -5674,6 +5852,7 @@ FixedHeightItemArranger
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		FixedHeightItemArranger(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~FixedHeightItemArranger();
@@ -5699,6 +5878,7 @@ FixedHeightMultiColumnItemArranger
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		FixedHeightMultiColumnItemArranger(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~FixedHeightMultiColumnItemArranger();
@@ -5724,6 +5904,7 @@ FixedSizeMultiColumnItemArranger
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		FixedSizeMultiColumnItemArranger(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~FixedSizeMultiColumnItemArranger();
@@ -5749,6 +5930,7 @@ ListViewColumnItemArranger
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		ListViewColumnItemArranger(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~ListViewColumnItemArranger();
@@ -5777,6 +5959,7 @@ ListViewColumnItemArranger :: IColumnItemView
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IColumnItemView(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IColumnItemView();
@@ -5809,6 +5992,7 @@ ListViewColumnItemArranger :: IColumnItemViewCallback
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IColumnItemViewCallback(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IColumnItemViewCallback();
@@ -5835,6 +6019,7 @@ ListViewDetailContentProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		ListViewDetailContentProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~ListViewDetailContentProvider();
@@ -5860,6 +6045,7 @@ ListViewItemProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		ListViewItemProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~ListViewItemProvider();
@@ -5890,6 +6076,7 @@ GuiListView
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiListView(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiListView();
@@ -5917,6 +6104,7 @@ TextItem
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		TextItem(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~TextItem();
@@ -5954,6 +6142,7 @@ IList_of_TextItem
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		IList_of_TextItem(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~IList_of_TextItem();
@@ -5979,6 +6168,7 @@ ListWrapperProvider_of_TextItem
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		ListWrapperProvider_of_TextItem(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~ListWrapperProvider_of_TextItem();
@@ -6003,6 +6193,7 @@ ListProvider_of_TextItem
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		ListProvider_of_TextItem(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~ListProvider_of_TextItem();
@@ -6028,6 +6219,7 @@ TextItemStyleProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		TextItemStyleProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~TextItemStyleProvider();
@@ -6054,6 +6246,7 @@ TextItemStyleProvider :: ITextItemStyleProvider
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			ITextItemStyleProvider(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~ITextItemStyleProvider();
@@ -6078,6 +6271,7 @@ TextItemStyleProvider :: ITextItemView
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			ITextItemView(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~ITextItemView();
@@ -6106,6 +6300,7 @@ TextItemStyleProvider :: TextItemStyleController
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			TextItemStyleController(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~TextItemStyleController();
@@ -6139,6 +6334,7 @@ GuiVirtualTextList
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiVirtualTextList(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiVirtualTextList();
@@ -6165,6 +6361,7 @@ TextItemProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		TextItemProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~TextItemProvider();
@@ -6192,6 +6389,7 @@ GuiTextList
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiTextList(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiTextList();
@@ -6219,6 +6417,7 @@ TextLine
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		TextLine(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~TextLine();
@@ -6270,6 +6469,7 @@ TextPos
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		TextPos(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~TextPos();
@@ -6309,6 +6509,7 @@ GuiTextBoxCommonInterface
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiTextBoxCommonInterface(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiTextBoxCommonInterface();
@@ -6344,7 +6545,7 @@ GuiTextBoxCommonInterface
 		TextPos GetCaretLarge();
 		GacString GetSelectionText();
 		void SetSelectionText(const GacString& value);
-		GuiGraphicsEvent_of_GuiEventArgs on_SelectionChanged();
+		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_SelectionChanged();
 		
 	};
 	
@@ -6361,6 +6562,7 @@ TextLines
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		TextLines(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~TextLines();
@@ -6416,6 +6618,7 @@ GuiColorizedTextElement
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiColorizedTextElement(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiColorizedTextElement();
@@ -6464,6 +6667,7 @@ GuiColorizedTextElement :: ICallback
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			ICallback(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~ICallback();
@@ -6490,6 +6694,7 @@ GuiTextElementOperator
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiTextElementOperator(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiTextElementOperator();
@@ -6534,6 +6739,7 @@ GuiTextElementOperator :: ICallback
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			ICallback(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~ICallback();
@@ -6565,6 +6771,7 @@ GuiTextElementOperator :: DefaultCallback
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			DefaultCallback(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~DefaultCallback();
@@ -6591,6 +6798,7 @@ GuiMultilineTextBox
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiMultilineTextBox(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiMultilineTextBox();
@@ -6619,6 +6827,7 @@ GuiMultilineTextBox :: StyleController
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			StyleController(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~StyleController();
@@ -6649,6 +6858,7 @@ GuiMultilineTextBox :: TextElementOperatorCallback
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			TextElementOperatorCallback(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~TextElementOperatorCallback();
@@ -6675,6 +6885,7 @@ GuiSinglelineTextBox
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiSinglelineTextBox(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiSinglelineTextBox();
@@ -6704,6 +6915,7 @@ GuiSinglelineTextBox :: IStyleProvider
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IStyleProvider(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IStyleProvider();
@@ -6727,6 +6939,7 @@ GuiSinglelineTextBox :: StyleController
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			StyleController(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~StyleController();
@@ -6759,6 +6972,7 @@ GuiSinglelineTextBox :: TextElementOperatorCallback
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			TextElementOperatorCallback(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~TextElementOperatorCallback();
@@ -6785,6 +6999,7 @@ TreeViewItem
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		TreeViewItem(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~TreeViewItem();
@@ -6816,6 +7031,7 @@ TreeViewItemRootProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		TreeViewItemRootProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~TreeViewItemRootProvider();
@@ -6841,6 +7057,7 @@ GuiTreeView
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		GuiTreeView(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~GuiTreeView();
@@ -6868,6 +7085,7 @@ GuiTreeView :: IStyleProvider
 			template<typename T> friend class __GacUIInternal;
 			void* __internal_object_reference;
 			IStyleProvider(void* __internal_object_reference_input);
+			void ClearInternalObjectReference();
 		
 		public:
 			virtual ~IStyleProvider();
@@ -6896,6 +7114,7 @@ TreeViewNodeItemStyleProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		TreeViewNodeItemStyleProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~TreeViewNodeItemStyleProvider();
@@ -6921,6 +7140,7 @@ Win7ButtonColors
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7ButtonColors(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7ButtonColors();
@@ -6997,6 +7217,7 @@ Win7ButtonStyleBase
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7ButtonStyleBase(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7ButtonStyleBase();
@@ -7027,6 +7248,7 @@ Win7ButtonStyle
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7ButtonStyle(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7ButtonStyle();
@@ -7063,6 +7285,7 @@ Win7CheckBoxStyle
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7CheckBoxStyle(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7CheckBoxStyle();
@@ -7088,6 +7311,7 @@ Win7DropDownComboBoxStyle
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7DropDownComboBoxStyle(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7DropDownComboBoxStyle();
@@ -7113,6 +7337,7 @@ Win7EmptyStyle
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7EmptyStyle(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7EmptyStyle();
@@ -7138,6 +7363,7 @@ Win7GroupBoxStyle
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7GroupBoxStyle(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7GroupBoxStyle();
@@ -7163,6 +7389,7 @@ Win7ListViewColumnDropDownStyle
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7ListViewColumnDropDownStyle(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7ListViewColumnDropDownStyle();
@@ -7188,6 +7415,7 @@ Win7ListViewColumnHeaderStyle
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7ListViewColumnHeaderStyle(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7ListViewColumnHeaderStyle();
@@ -7213,6 +7441,7 @@ Win7MenuBarButtonStyle
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7MenuBarButtonStyle(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7MenuBarButtonStyle();
@@ -7238,6 +7467,7 @@ Win7MenuBarStyle
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7MenuBarStyle(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7MenuBarStyle();
@@ -7263,6 +7493,7 @@ Win7MenuItemButtonStyle
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7MenuItemButtonStyle(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7MenuItemButtonStyle();
@@ -7288,6 +7519,7 @@ Win7MenuSplitterStyle
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7MenuSplitterStyle(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7MenuSplitterStyle();
@@ -7313,6 +7545,7 @@ Win7MenuStyle
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7MenuStyle(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7MenuStyle();
@@ -7338,6 +7571,7 @@ Win7ScrollStyle
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7ScrollStyle(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7ScrollStyle();
@@ -7368,6 +7602,7 @@ Win7ScrollViewProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7ScrollViewProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7ScrollViewProvider();
@@ -7393,6 +7628,7 @@ Win7MultilineTextBoxProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7MultilineTextBoxProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7MultilineTextBoxProvider();
@@ -7418,6 +7654,7 @@ Win7ListViewProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7ListViewProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7ListViewProvider();
@@ -7443,6 +7680,7 @@ Win7SelectableItemStyle
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7SelectableItemStyle(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7SelectableItemStyle();
@@ -7468,6 +7706,7 @@ Win7SinglelineTextBoxProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7SinglelineTextBoxProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7SinglelineTextBoxProvider();
@@ -7493,6 +7732,7 @@ Win7TabPageHeaderStyle
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7TabPageHeaderStyle(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7TabPageHeaderStyle();
@@ -7518,6 +7758,7 @@ Win7TabStyle
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7TabStyle(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7TabStyle();
@@ -7543,6 +7784,7 @@ Win7TextBoxBackground
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7TextBoxBackground(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7TextBoxBackground();
@@ -7573,6 +7815,7 @@ Win7TextListProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7TextListProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7TextListProvider();
@@ -7598,6 +7841,7 @@ Win7CheckTextListProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7CheckTextListProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7CheckTextListProvider();
@@ -7623,6 +7867,7 @@ Win7RadioTextListProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7RadioTextListProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7RadioTextListProvider();
@@ -7648,6 +7893,7 @@ Win7ToolstripButtonStyle
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7ToolstripButtonStyle(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7ToolstripButtonStyle();
@@ -7673,6 +7919,7 @@ Win7TrackStyle
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7TrackStyle(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7TrackStyle();
@@ -7707,6 +7954,7 @@ Win7TreeViewExpandingButtonStyle
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7TreeViewExpandingButtonStyle(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7TreeViewExpandingButtonStyle();
@@ -7732,6 +7980,7 @@ Win7TreeViewProvider
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7TreeViewProvider(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7TreeViewProvider();
@@ -7757,6 +8006,7 @@ Win7WindowStyle
 		template<typename T> friend class __GacUIInternal;
 		void* __internal_object_reference;
 		Win7WindowStyle(void* __internal_object_reference_input);
+		void ClearInternalObjectReference();
 	
 	public:
 		virtual ~Win7WindowStyle();

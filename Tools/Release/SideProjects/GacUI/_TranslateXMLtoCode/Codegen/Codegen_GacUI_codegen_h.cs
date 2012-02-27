@@ -83,6 +83,7 @@ namespace _TranslateXMLtoCode.Codegen
             WriteLine("template<typename T> friend class __GacUIInternal;");
             WriteLine("void* __internal_object_reference;");
             WriteLine("{0}(void* __internal_object_reference_input);", udt.Name.Last());
+            WriteLine("void ClearInternalObjectReference();");
             End("");
             Begin("public:");
             WriteLine("virtual ~{0}();", udt.Name.Last());

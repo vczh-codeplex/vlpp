@@ -99,7 +99,7 @@ namespace _TranslateXMLtoCode.Codegen
                     }
 
                 case RgacTypeKind.Class:
-                    return GacUdtTypeName(type.AssociatedRgacType);
+                    return "rptr<" + GacUdtTypeName(type.AssociatedRgacType) + ">";
                 case RgacTypeKind.ClassPointer:
                     return "rptr<" + GacUdtTypeName(type.AssociatedRgacType) + ">";
                 case RgacTypeKind.ClassSmartPointer:
@@ -319,19 +319,15 @@ namespace _TranslateXMLtoCode.Codegen
                     }
 
                 case RgacTypeKind.Class:
+                case RgacTypeKind.ClassReference:
+                case RgacTypeKind.ConstClassReference:
                     return string.Format("*__GacUIInternal<{0}>::GetInternalObject({1})",
                         type.AssociatedRgacType.ToString(),
                         valueCode
                         );
                 case RgacTypeKind.ClassPointer:
                 case RgacTypeKind.ClassSmartPointer:
-                    return string.Format("__GacUIInternal<{0}>::GetInternalObject(*({1}.operator->()))",
-                        type.AssociatedRgacType.ToString(),
-                        valueCode
-                        );
-                case RgacTypeKind.ClassReference:
-                case RgacTypeKind.ConstClassReference:
-                    return string.Format("*__GacUIInternal<{0}>::GetInternalObject(*({1}.operator->()))",
+                    return string.Format("__GacUIInternal<{0}>::GetInternalObject({1})",
                         type.AssociatedRgacType.ToString(),
                         valueCode
                         );
@@ -345,7 +341,7 @@ namespace _TranslateXMLtoCode.Codegen
                         );
                 case RgacTypeKind.StructPointer:
                 case RgacTypeKind.StructSmartPointer:
-                    return string.Format("__GacUIInternal<{0}>::GetInternalObject(*({1}.operator->()))",
+                    return string.Format("__GacUIInternal<{0}>::GetInternalObject({1})",
                         type.AssociatedRgacType.ToString(),
                         valueCode
                         );

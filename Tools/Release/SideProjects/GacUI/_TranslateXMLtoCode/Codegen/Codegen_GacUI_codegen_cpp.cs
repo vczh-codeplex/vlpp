@@ -171,23 +171,6 @@ namespace _TranslateXMLtoCode.Codegen
             }
         }
 
-        protected void GenerateValueExtractor(RgacUDT udt)
-        {
-            WriteLine("template<>");
-            WriteLine("class __GacUIInternal<{0}>", udt.ToString());
-            WriteLine("{");
-            Begin("public:");
-            WriteLine("typedef {0} WrappedObjectType;", udt.ToString());
-            WriteLine("typedef {0} InternalObjectType;", udt.AssociatedGacType.Name);
-            WriteLine("");
-            WriteLine("static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)");
-            Begin("{");
-            WriteLine("return (InternalObjectType*)wrappedObject.__internal_object_reference;");
-            End("}");
-            End("};");
-            WriteLine("");
-        }
-
         protected void GenerateMembers(RgacUDT udt)
         {
             {
@@ -208,6 +191,23 @@ namespace _TranslateXMLtoCode.Codegen
                 if (udt.Kind == RgacUDTKind.Struct)
                 {
                     WriteLine("delete __GacUIInternal<{0}>::GetInternalObject(*this);", udt.Name.Last());
+                }
+                End("}");
+                WriteLine("");
+
+                WriteLine("void {0}ClearInternalObjectReference()",
+                    udt.Name.Aggregate("", (a, b) => a + b + "::")
+                    );
+                Begin("{");
+                WriteLine("__internal_object_reference = 0;");
+                foreach (var baseUdt in udt.BaseClasses
+                    .Where(t => t.Access == GacAccess.Public && this.options.Udts.Contains(t.UDT))
+                    .Select(t => t.UDT)
+                    )
+                {
+                    WriteLine("{0}ClearInternalObjectReference();",
+                        baseUdt.Name.Aggregate("", (a, b) => a + b + "::")
+                        );
                 }
                 End("}");
                 WriteLine("");
@@ -242,6 +242,59 @@ namespace _TranslateXMLtoCode.Codegen
         }
 
         #endregion
+
+        protected void GenerateValueExtractor(RgacUDT udt)
+        {
+            WriteLine("template<>");
+            WriteLine("class __GacUIInternal<{0}>", udt.ToString());
+            WriteLine("{");
+            Begin("public:");
+            WriteLine("typedef {0} WrappedObjectType;", udt.ToString());
+            WriteLine("typedef {0} InternalObjectType;", udt.AssociatedGacType.Name);
+            WriteLine("");
+
+            WriteLine("static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)");
+            Begin("{");
+            WriteLine("return (InternalObjectType*)wrappedObject.__internal_object_reference;");
+            End("}");
+            WriteLine("");
+
+            WriteLine("static InternalObjectType* GetInternalObject(const rptr<WrappedObjectType>& wrappedObject)");
+            Begin("{");
+            WriteLine("return (InternalObjectType*)wrappedObject->__internal_object_reference;");
+            End("}");
+            WriteLine("");
+
+            WriteLine("static Ptr<InternalObjectType> GetInternalObject(const sptr<WrappedObjectType>& wrappedObject)");
+            Begin("{");
+            WriteLine("return _SptrBuilder<WrappedObjectType>::RetrivePtr<InternalObjectType>(wrappedObject);");
+            End("}");
+            WriteLine("");
+
+            if (udt.Kind == RgacUDTKind.Struct)
+            {
+                WriteLine("static WrappedObjectType BuildCopy(const InternalObjectType& input)");
+                Begin("{");
+                WriteLine("return new InternalObjectType(input);");
+                End("}");
+                WriteLine("");
+            }
+
+            WriteLine("static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)");
+            Begin("{");
+            WriteLine("return _RptrBuilder<WrappedObjectType>::CreateRptr(input);");
+            End("}");
+            WriteLine("");
+
+            WriteLine("static sptr<WrappedObjectType> BuildSptr(const vl::Ptr<InternalObjectType>& input)");
+            Begin("{");
+            WriteLine("return _SptrBuilder<WrappedObjectType>::CreateSptr(input);");
+            End("}");
+            WriteLine("");
+
+            End("};");
+            WriteLine("");
+        }
 
         protected void GenerateCppImpl()
         {
