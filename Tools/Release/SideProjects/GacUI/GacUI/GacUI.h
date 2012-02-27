@@ -1140,7 +1140,6 @@ IGuiMenuService
 		rptr<GuiMenu> GetOpeningMenu();
 		
 		static wchar_t const* get_Identifier();
-		static void set_Identifier(wchar_t const* value);
 		
 	};
 	
@@ -1292,7 +1291,6 @@ INativeCursor
 		INativeCursor :: SystemCursorType GetSystemCursorType();
 		
 		static signed __int32 get_SystemCursorCount();
-		static void set_SystemCursorCount(signed __int32 value);
 		
 	};
 	
@@ -1472,7 +1470,6 @@ INodeItemPrimaryTextView
 		GacString GetPrimaryTextViewText(rptr<INodeProvider> node);
 		
 		static wchar_t const* get_Identifier();
-		static void set_Identifier(wchar_t const* value);
 		
 	};
 	
@@ -1702,7 +1699,6 @@ ITreeViewItemView
 		GacString GetNodeText(rptr<INodeProvider> node);
 		
 		static wchar_t const* get_Identifier();
-		static void set_Identifier(wchar_t const* value);
 		
 	};
 	
@@ -1824,7 +1820,6 @@ ListViewItem
 		GacString get_text();
 		void set_text(GacString value);
 		rptr<List_of_ObjectString_of_wchar_t> get_subItems();
-		void set_subItems(rptr<List_of_ObjectString_of_wchar_t> value);
 		
 	};
 	
@@ -2945,7 +2940,6 @@ GuiGraphicsHost
 		rptr<GuiGraphicsAnimationManager> GetAnimationManager();
 		
 		static unsigned __int64 get_CaretInterval();
-		static void set_CaretInterval(unsigned __int64 value);
 		
 	};
 	
@@ -3879,7 +3873,6 @@ GuiListControl :: IItemPrimaryTextView
 			bool ContainsPrimaryText(signed __int32 itemIndex);
 			
 			static wchar_t const* get_Identifier();
-			static void set_Identifier(wchar_t const* value);
 			
 		};
 		
@@ -4942,7 +4935,6 @@ INodeItemView
 		signed __int32 CalculateNodeVisibilityIndex(rptr<INodeProvider> node);
 		
 		static wchar_t const* get_Identifier();
-		static void set_Identifier(wchar_t const* value);
 		
 	};
 	
@@ -5343,7 +5335,6 @@ ListViewItemStyleProvider :: IListViewItemView
 			signed __int32 GetColumnCount();
 			
 			static wchar_t const* get_Identifier();
-			static void set_Identifier(wchar_t const* value);
 			
 		};
 		
@@ -5739,7 +5730,6 @@ ListViewColumnItemArranger
 		static rptr<ListViewColumnItemArranger> CreateRptr();
 		
 		static signed __int32 get_SplitterWidth();
-		static void set_SplitterWidth(signed __int32 value);
 		
 
 /***********************************************************************
@@ -5769,7 +5759,6 @@ ListViewColumnItemArranger :: IColumnItemView
 			signed __int32 GetColumnCount();
 			
 			static wchar_t const* get_Identifier();
-			static void set_Identifier(wchar_t const* value);
 			
 		};
 		
@@ -6063,7 +6052,6 @@ TextItemStyleProvider :: ITextItemView
 			void SetCheckedSilently(signed __int32 itemIndex, bool value);
 			
 			static wchar_t const* get_Identifier();
-			static void set_Identifier(wchar_t const* value);
 			
 		};
 		
@@ -6224,9 +6212,7 @@ TextLine
 		void set_dataLength(signed __int32 value);
 		
 		static signed __int32 get_BlockSize();
-		static void set_BlockSize(signed __int32 value);
 		static signed __int32 get_MaxWidth();
-		static void set_MaxWidth(signed __int32 value);
 		
 	};
 	
@@ -6576,7 +6562,6 @@ GuiMultilineTextBox
 		static rptr<GuiMultilineTextBox> CreateRptr(rptr<GuiScrollView :: IStyleProvider> styleProvider);
 		
 		static signed __int32 get_TextMargin();
-		static void set_TextMargin(signed __int32 value);
 		
 
 /***********************************************************************
@@ -6659,7 +6644,6 @@ GuiSinglelineTextBox
 		static rptr<GuiSinglelineTextBox> CreateRptr(rptr<GuiSinglelineTextBox :: IStyleProvider> styleProvider);
 		
 		static signed __int32 get_TextMargin();
-		static void set_TextMargin(signed __int32 value);
 		
 
 /***********************************************************************
@@ -7302,9 +7286,7 @@ Win7ScrollStyle
 		static rptr<Win7ScrollStyle> CreateRptr(CommonScrollStyle :: Direction _direction);
 		
 		static signed __int32 get_DefaultSize();
-		static void set_DefaultSize(signed __int32 value);
 		static signed __int32 get_ArrowSize();
-		static void set_ArrowSize(signed __int32 value);
 		
 	};
 	
@@ -7625,13 +7607,9 @@ Win7TrackStyle
 		static rptr<Win7TrackStyle> CreateRptr(CommonTrackStyle :: Direction _direction);
 		
 		static signed __int32 get_TrackThickness();
-		static void set_TrackThickness(signed __int32 value);
 		static signed __int32 get_TrackPadding();
-		static void set_TrackPadding(signed __int32 value);
 		static signed __int32 get_HandleLong();
-		static void set_HandleLong(signed __int32 value);
 		static signed __int32 get_HandleShort();
-		static void set_HandleShort(signed __int32 value);
 		
 	};
 	

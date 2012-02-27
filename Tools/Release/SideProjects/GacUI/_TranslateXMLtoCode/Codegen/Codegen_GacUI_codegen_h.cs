@@ -67,11 +67,15 @@ namespace _TranslateXMLtoCode.Codegen
                         GetType(property.PropertyType),
                         property.Name
                         );
-                    WriteLine("{0}void set_{1}({2} value);",
-                        (isStatic ? "static " : ""),
-                        property.Name,
-                        GetType(property.PropertyType)
-                        );
+
+                    if (property.PublicGacFieldAccessor.Type.Kind != GacTypeKind.Const && !property.IsNotAssignableClassField)
+                    {
+                        WriteLine("{0}void set_{1}({2} value);",
+                            (isStatic ? "static " : ""),
+                            property.Name,
+                            GetType(property.PropertyType)
+                            );
+                    }
                 }
             }
         }
