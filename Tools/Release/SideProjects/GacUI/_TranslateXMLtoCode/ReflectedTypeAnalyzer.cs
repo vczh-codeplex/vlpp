@@ -679,6 +679,13 @@ namespace _TranslateXMLtoCode
                                 setters.Add(m.Name.Substring(3), m);
                             }
                         }
+                        else if (m.Name == "operator=")
+                        {
+                            if (udt.Kind != RgacUDTKind.Struct)
+                            {
+                                processed = true;
+                            }
+                        }
                         if (!processed)
                         {
                             if (m.Name != "Wrap" && m.Name != "CreateEnumerator")
@@ -750,8 +757,18 @@ namespace _TranslateXMLtoCode
                         PropertyType = TranslateType(input, udts, field.Type),
                         OwnerUDT = udt,
                         PublicGacFieldAccessor = field,
-                        IsEventField = field.Type.Name.StartsWith("vl::presentation::elements::GuiGraphicsEvent<"),
                     };
+                    prop.IsEventField = field.Type.Name.StartsWith("vl::presentation::elements::GuiGraphicsEvent<");
+                    if (prop.IsNotAssignableClassField = prop.PropertyType.Kind == RgacTypeKind.Class)
+                    {
+                        prop.PropertyType = TranslateType(input, udts,
+                            new GacType
+                            {
+                                Name = field.Type.Name + "&",
+                                Kind = GacTypeKind.Reference,
+                                ElementType = field.Type,
+                            });
+                    }
                     properties.Add(prop);
                 }
             }
@@ -1117,6 +1134,7 @@ namespace _TranslateXMLtoCode
             e.Add(new XAttribute("name", property.Name));
             e.Add(new XAttribute("type", GetTypeName(property.PropertyType)));
             e.Add(new XAttribute("isEvent", property.IsEventField));
+            e.Add(new XAttribute("isNotAssignableClass", property.IsNotAssignableClassField));
             if (property.Getter != null)
             {
                 e.Add(Export(property.Getter));

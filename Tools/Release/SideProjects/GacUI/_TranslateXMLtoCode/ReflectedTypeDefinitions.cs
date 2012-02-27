@@ -135,6 +135,7 @@ namespace _TranslateXMLtoCode
         public RgacMethod Setter { get; set; }
         public GacField PublicGacFieldAccessor { get; set; }
         public bool IsEventField { get; set; }
+        public bool IsNotAssignableClassField { get; set; }
 
         public override string ToString()
         {
