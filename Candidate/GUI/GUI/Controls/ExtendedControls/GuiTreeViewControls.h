@@ -80,7 +80,7 @@ GuiVirtualTreeListControl NodeProvider
 				class INodeItemView : public virtual GuiListControl::IItemPrimaryTextView, public Description<INodeItemView>
 				{
 				public:
-					static const wchar_t*			Identifier;
+					static const wchar_t* const		Identifier;
 
 					virtual INodeProvider*			RequestNode(int index)=0;
 					virtual void					ReleaseNode(INodeProvider* node)=0;
@@ -90,7 +90,7 @@ GuiVirtualTreeListControl NodeProvider
 				class INodeItemPrimaryTextView : public virtual IDescriptable, public Description<INodeItemPrimaryTextView>
 				{
 				public:
-					static const wchar_t*			Identifier;
+					static const wchar_t* const		Identifier;
 					
 					virtual WString					GetPrimaryTextViewText(INodeProvider* node)=0;
 				};
@@ -306,7 +306,7 @@ TreeView
 				class ITreeViewItemView : public virtual INodeItemPrimaryTextView, public Description<ITreeViewItemView>
 				{
 				public:
-					static const wchar_t*			Identifier;
+					static const wchar_t* const		Identifier;
 
 					virtual Ptr<GuiImageData>		GetNodeImage(INodeProvider* node)=0;
 					virtual WString					GetNodeText(INodeProvider* node)=0;

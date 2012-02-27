@@ -15,7 +15,7 @@ namespace gacui_cpp_1_0
 	class __GacUIInternal{};
 
 /***********************************************************************
-CharAtt
+__GacUIInternal<T> Implementations
 ***********************************************************************/
 
 	template<>
@@ -31,6 +31,3248 @@ CharAtt
 		}
 	};
 	
+	template<>
+	class __GacUIInternal<Color>
+	{
+	public:
+		typedef Color WrappedObjectType;
+		typedef vl::presentation::Color InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ColorItem>
+	{
+	public:
+		typedef ColorItem WrappedObjectType;
+		typedef vl::presentation::elements::text::ColorItem InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ColorEntry>
+	{
+	public:
+		typedef ColorEntry WrappedObjectType;
+		typedef vl::presentation::elements::text::ColorEntry InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Array_of_ColorEntry>
+	{
+	public:
+		typedef Array_of_ColorEntry WrappedObjectType;
+		typedef vl::collections::Array<vl::presentation::elements::text::ColorEntry,vl::presentation::elements::text::ColorEntry> InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<DescriptableObject>
+	{
+	public:
+		typedef DescriptableObject WrappedObjectType;
+		typedef vl::presentation::DescriptableObject InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<FontProperties>
+	{
+	public:
+		typedef FontProperties WrappedObjectType;
+		typedef vl::presentation::FontProperties InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiCellOption>
+	{
+	public:
+		typedef GuiCellOption WrappedObjectType;
+		typedef vl::presentation::elements::GuiCellOption InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiComponent>
+	{
+	public:
+		typedef GuiComponent WrappedObjectType;
+		typedef vl::presentation::controls::GuiComponent InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiEventArgs>
+	{
+	public:
+		typedef GuiEventArgs WrappedObjectType;
+		typedef vl::presentation::elements::GuiEventArgs InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiImageData>
+	{
+	public:
+		typedef GuiImageData WrappedObjectType;
+		typedef vl::presentation::controls::GuiImageData InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiRequestEventArgs>
+	{
+	public:
+		typedef GuiRequestEventArgs WrappedObjectType;
+		typedef vl::presentation::elements::GuiRequestEventArgs InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<IDescriptable>
+	{
+	public:
+		typedef IDescriptable WrappedObjectType;
+		typedef vl::presentation::IDescriptable InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiGraphicsEvent_of_GuiEventArgs>
+	{
+	public:
+		typedef GuiGraphicsEvent_of_GuiEventArgs WrappedObjectType;
+		typedef vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiEventArgs> InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiGraphicsEvent_of_GuiEventArgs :: IHandler>
+	{
+	public:
+		typedef GuiGraphicsEvent_of_GuiEventArgs :: IHandler WrappedObjectType;
+		typedef vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiEventArgs>::IHandler InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiGraphicsEvent_of_GuiRequestEventArgs>
+	{
+	public:
+		typedef GuiGraphicsEvent_of_GuiRequestEventArgs WrappedObjectType;
+		typedef vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiRequestEventArgs> InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler>
+	{
+	public:
+		typedef GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler WrappedObjectType;
+		typedef vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiRequestEventArgs>::IHandler InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiTabPage>
+	{
+	public:
+		typedef GuiTabPage WrappedObjectType;
+		typedef vl::presentation::controls::GuiTabPage InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<IGuiGraphicsAnimation>
+	{
+	public:
+		typedef IGuiGraphicsAnimation WrappedObjectType;
+		typedef vl::presentation::elements::IGuiGraphicsAnimation InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiGraphicsAnimationManager>
+	{
+	public:
+		typedef GuiGraphicsAnimationManager WrappedObjectType;
+		typedef vl::presentation::elements::GuiGraphicsAnimationManager InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiTimeBasedAnimation>
+	{
+	public:
+		typedef GuiTimeBasedAnimation WrappedObjectType;
+		typedef vl::presentation::elements::GuiTimeBasedAnimation InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<IGuiGraphicsElementFactory>
+	{
+	public:
+		typedef IGuiGraphicsElementFactory WrappedObjectType;
+		typedef vl::presentation::elements::IGuiGraphicsElementFactory InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<IGuiGraphicsElement>
+	{
+	public:
+		typedef IGuiGraphicsElement WrappedObjectType;
+		typedef vl::presentation::elements::IGuiGraphicsElement InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Gui3DBorderElement>
+	{
+	public:
+		typedef Gui3DBorderElement WrappedObjectType;
+		typedef vl::presentation::elements::Gui3DBorderElement InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Gui3DSplitterElement>
+	{
+	public:
+		typedef Gui3DSplitterElement WrappedObjectType;
+		typedef vl::presentation::elements::Gui3DSplitterElement InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiGradientBackgroundElement>
+	{
+	public:
+		typedef GuiGradientBackgroundElement WrappedObjectType;
+		typedef vl::presentation::elements::GuiGradientBackgroundElement InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiImageFrameElement>
+	{
+	public:
+		typedef GuiImageFrameElement WrappedObjectType;
+		typedef vl::presentation::elements::GuiImageFrameElement InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiRoundBorderElement>
+	{
+	public:
+		typedef GuiRoundBorderElement WrappedObjectType;
+		typedef vl::presentation::elements::GuiRoundBorderElement InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiSolidBackgroundElement>
+	{
+	public:
+		typedef GuiSolidBackgroundElement WrappedObjectType;
+		typedef vl::presentation::elements::GuiSolidBackgroundElement InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiSolidBorderElement>
+	{
+	public:
+		typedef GuiSolidBorderElement WrappedObjectType;
+		typedef vl::presentation::elements::GuiSolidBorderElement InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiSolidLabelElement>
+	{
+	public:
+		typedef GuiSolidLabelElement WrappedObjectType;
+		typedef vl::presentation::elements::GuiSolidLabelElement InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<IGuiGraphicsRendererFactory>
+	{
+	public:
+		typedef IGuiGraphicsRendererFactory WrappedObjectType;
+		typedef vl::presentation::elements::IGuiGraphicsRendererFactory InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<IGuiMenuService>
+	{
+	public:
+		typedef IGuiMenuService WrappedObjectType;
+		typedef vl::presentation::controls::IGuiMenuService InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<IList_of_int>
+	{
+	public:
+		typedef IList_of_int WrappedObjectType;
+		typedef vl::collections::IList<int,int> InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<IList_of_MemoryNodeProvider>
+	{
+	public:
+		typedef IList_of_MemoryNodeProvider WrappedObjectType;
+		typedef vl::collections::IList<vl::Ptr<vl::presentation::controls::tree::MemoryNodeProvider>,vl::presentation::controls::tree::MemoryNodeProvider *> InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<INativeAsyncService>
+	{
+	public:
+		typedef INativeAsyncService WrappedObjectType;
+		typedef vl::presentation::INativeAsyncService InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<INativeClipboardService>
+	{
+	public:
+		typedef INativeClipboardService WrappedObjectType;
+		typedef vl::presentation::INativeClipboardService InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<INativeCursor>
+	{
+	public:
+		typedef INativeCursor WrappedObjectType;
+		typedef vl::presentation::INativeCursor InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<INativeImageFrameCache>
+	{
+	public:
+		typedef INativeImageFrameCache WrappedObjectType;
+		typedef vl::presentation::INativeImageFrameCache InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<INativeImageService>
+	{
+	public:
+		typedef INativeImageService WrappedObjectType;
+		typedef vl::presentation::INativeImageService InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<INativeImage>
+	{
+	public:
+		typedef INativeImage WrappedObjectType;
+		typedef vl::presentation::INativeImage InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<INativeInputService>
+	{
+	public:
+		typedef INativeInputService WrappedObjectType;
+		typedef vl::presentation::INativeInputService InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<INativeResourceService>
+	{
+	public:
+		typedef INativeResourceService WrappedObjectType;
+		typedef vl::presentation::INativeResourceService InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<INodeItemPrimaryTextView>
+	{
+	public:
+		typedef INodeItemPrimaryTextView WrappedObjectType;
+		typedef vl::presentation::controls::tree::INodeItemPrimaryTextView InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<INodeProvider>
+	{
+	public:
+		typedef INodeProvider WrappedObjectType;
+		typedef vl::presentation::controls::tree::INodeProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<INodeProviderCallback>
+	{
+	public:
+		typedef INodeProviderCallback WrappedObjectType;
+		typedef vl::presentation::controls::tree::INodeProviderCallback InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<INodeRootProvider>
+	{
+	public:
+		typedef INodeRootProvider WrappedObjectType;
+		typedef vl::presentation::controls::tree::INodeRootProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<IReadonlyList_of_ColorEntry>
+	{
+	public:
+		typedef IReadonlyList_of_ColorEntry WrappedObjectType;
+		typedef vl::collections::IReadonlyList<vl::presentation::elements::text::ColorEntry,vl::presentation::elements::text::ColorEntry> InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<IReadonlyList_of_GuiGraphicsComposition_raw_pointer>
+	{
+	public:
+		typedef IReadonlyList_of_GuiGraphicsComposition_raw_pointer WrappedObjectType;
+		typedef vl::collections::IReadonlyList<vl::presentation::elements::GuiGraphicsComposition *,vl::presentation::elements::GuiGraphicsComposition *> InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<IReadonlyList_of_GuiTabPage_raw_pointer>
+	{
+	public:
+		typedef IReadonlyList_of_GuiTabPage_raw_pointer WrappedObjectType;
+		typedef vl::collections::IReadonlyList<vl::presentation::controls::GuiTabPage *,vl::presentation::controls::GuiTabPage *> InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<IReadonlyList_of_int>
+	{
+	public:
+		typedef IReadonlyList_of_int WrappedObjectType;
+		typedef vl::collections::IReadonlyList<int,int> InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ITreeViewItemView>
+	{
+	public:
+		typedef ITreeViewItemView WrappedObjectType;
+		typedef vl::presentation::controls::tree::ITreeViewItemView InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<List_of_ObjectString_of_wchar_t>
+	{
+	public:
+		typedef List_of_ObjectString_of_wchar_t WrappedObjectType;
+		typedef vl::collections::List<vl::ObjectString<wchar_t>,vl::ObjectString<wchar_t> > InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ListViewColumn>
+	{
+	public:
+		typedef ListViewColumn WrappedObjectType;
+		typedef vl::presentation::controls::list::ListViewColumn InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<IList_of_ListViewColumn>
+	{
+	public:
+		typedef IList_of_ListViewColumn WrappedObjectType;
+		typedef vl::collections::IList<vl::Ptr<vl::presentation::controls::list::ListViewColumn>,vl::presentation::controls::list::ListViewColumn *> InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ListViewItem>
+	{
+	public:
+		typedef ListViewItem WrappedObjectType;
+		typedef vl::presentation::controls::list::ListViewItem InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<IList_of_ListViewItem>
+	{
+	public:
+		typedef IList_of_ListViewItem WrappedObjectType;
+		typedef vl::collections::IList<vl::Ptr<vl::presentation::controls::list::ListViewItem>,vl::presentation::controls::list::ListViewItem *> InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Margin>
+	{
+	public:
+		typedef Margin WrappedObjectType;
+		typedef vl::presentation::Margin InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<MemoryNodeProvider>
+	{
+	public:
+		typedef MemoryNodeProvider WrappedObjectType;
+		typedef vl::presentation::controls::tree::MemoryNodeProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<NativeWindowCharInfo>
+	{
+	public:
+		typedef NativeWindowCharInfo WrappedObjectType;
+		typedef vl::presentation::NativeWindowCharInfo InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiCharEventArgs>
+	{
+	public:
+		typedef GuiCharEventArgs WrappedObjectType;
+		typedef vl::presentation::elements::GuiCharEventArgs InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiGraphicsEvent_of_GuiCharEventArgs>
+	{
+	public:
+		typedef GuiGraphicsEvent_of_GuiCharEventArgs WrappedObjectType;
+		typedef vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiCharEventArgs> InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler>
+	{
+	public:
+		typedef GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler WrappedObjectType;
+		typedef vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiCharEventArgs>::IHandler InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<NativeWindowKeyInfo>
+	{
+	public:
+		typedef NativeWindowKeyInfo WrappedObjectType;
+		typedef vl::presentation::NativeWindowKeyInfo InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiKeyEventArgs>
+	{
+	public:
+		typedef GuiKeyEventArgs WrappedObjectType;
+		typedef vl::presentation::elements::GuiKeyEventArgs InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiGraphicsEvent_of_GuiKeyEventArgs>
+	{
+	public:
+		typedef GuiGraphicsEvent_of_GuiKeyEventArgs WrappedObjectType;
+		typedef vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiKeyEventArgs> InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler>
+	{
+	public:
+		typedef GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler WrappedObjectType;
+		typedef vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiKeyEventArgs>::IHandler InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<NativeWindowMouseInfo>
+	{
+	public:
+		typedef NativeWindowMouseInfo WrappedObjectType;
+		typedef vl::presentation::NativeWindowMouseInfo InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiMouseEventArgs>
+	{
+	public:
+		typedef GuiMouseEventArgs WrappedObjectType;
+		typedef vl::presentation::elements::GuiMouseEventArgs InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiGraphicsEvent_of_GuiMouseEventArgs>
+	{
+	public:
+		typedef GuiGraphicsEvent_of_GuiMouseEventArgs WrappedObjectType;
+		typedef vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiMouseEventArgs> InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler>
+	{
+	public:
+		typedef GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler WrappedObjectType;
+		typedef vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiMouseEventArgs>::IHandler InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiGraphicsEventReceiver>
+	{
+	public:
+		typedef GuiGraphicsEventReceiver WrappedObjectType;
+		typedef vl::presentation::elements::GuiGraphicsEventReceiver InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<NodeRootProviderBase>
+	{
+	public:
+		typedef NodeRootProviderBase WrappedObjectType;
+		typedef vl::presentation::controls::tree::NodeRootProviderBase InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<MemoryNodeRootProvider>
+	{
+	public:
+		typedef MemoryNodeRootProvider WrappedObjectType;
+		typedef vl::presentation::controls::tree::MemoryNodeRootProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Point>
+	{
+	public:
+		typedef Point WrappedObjectType;
+		typedef vl::presentation::Point InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<INativeControllerListener>
+	{
+	public:
+		typedef INativeControllerListener WrappedObjectType;
+		typedef vl::presentation::INativeControllerListener InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<INativeCallbackService>
+	{
+	public:
+		typedef INativeCallbackService WrappedObjectType;
+		typedef vl::presentation::INativeCallbackService InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<INativeWindowService>
+	{
+	public:
+		typedef INativeWindowService WrappedObjectType;
+		typedef vl::presentation::INativeWindowService InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Size>
+	{
+	public:
+		typedef Size WrappedObjectType;
+		typedef vl::presentation::Size InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiPolygonElement>
+	{
+	public:
+		typedef GuiPolygonElement WrappedObjectType;
+		typedef vl::presentation::elements::GuiPolygonElement InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<INativeImageFrame>
+	{
+	public:
+		typedef INativeImageFrame WrappedObjectType;
+		typedef vl::presentation::INativeImageFrame InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Rect>
+	{
+	public:
+		typedef Rect WrappedObjectType;
+		typedef vl::presentation::Rect InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<IGuiGraphicsRenderTarget>
+	{
+	public:
+		typedef IGuiGraphicsRenderTarget WrappedObjectType;
+		typedef vl::presentation::elements::IGuiGraphicsRenderTarget InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<CharMeasurer>
+	{
+	public:
+		typedef CharMeasurer WrappedObjectType;
+		typedef vl::presentation::elements::text::CharMeasurer InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiGraphicsResourceManager>
+	{
+	public:
+		typedef GuiGraphicsResourceManager WrappedObjectType;
+		typedef vl::presentation::elements::GuiGraphicsResourceManager InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<IGuiGraphicsRenderer>
+	{
+	public:
+		typedef IGuiGraphicsRenderer WrappedObjectType;
+		typedef vl::presentation::elements::IGuiGraphicsRenderer InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<INativeScreen>
+	{
+	public:
+		typedef INativeScreen WrappedObjectType;
+		typedef vl::presentation::INativeScreen InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<INativeScreenService>
+	{
+	public:
+		typedef INativeScreenService WrappedObjectType;
+		typedef vl::presentation::INativeScreenService InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<INativeController>
+	{
+	public:
+		typedef INativeController WrappedObjectType;
+		typedef vl::presentation::INativeController InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<INativeWindowListener>
+	{
+	public:
+		typedef INativeWindowListener WrappedObjectType;
+		typedef vl::presentation::INativeWindowListener InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiGraphicsHost>
+	{
+	public:
+		typedef GuiGraphicsHost WrappedObjectType;
+		typedef vl::presentation::elements::GuiGraphicsHost InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiGraphicsComposition>
+	{
+	public:
+		typedef GuiGraphicsComposition WrappedObjectType;
+		typedef vl::presentation::elements::GuiGraphicsComposition InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiGraphicsSite>
+	{
+	public:
+		typedef GuiGraphicsSite WrappedObjectType;
+		typedef vl::presentation::elements::GuiGraphicsSite InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiBoundsComposition>
+	{
+	public:
+		typedef GuiBoundsComposition WrappedObjectType;
+		typedef vl::presentation::elements::GuiBoundsComposition InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiCellComposition>
+	{
+	public:
+		typedef GuiCellComposition WrappedObjectType;
+		typedef vl::presentation::elements::GuiCellComposition InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiControl>
+	{
+	public:
+		typedef GuiControl WrappedObjectType;
+		typedef vl::presentation::controls::GuiControl InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiControl :: IStyleController>
+	{
+	public:
+		typedef GuiControl :: IStyleController WrappedObjectType;
+		typedef vl::presentation::controls::GuiControl::IStyleController InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiControl :: IStyleProvider>
+	{
+	public:
+		typedef GuiControl :: IStyleProvider WrappedObjectType;
+		typedef vl::presentation::controls::GuiControl::IStyleProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiButton>
+	{
+	public:
+		typedef GuiButton WrappedObjectType;
+		typedef vl::presentation::controls::GuiButton InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiButton :: IStyleController>
+	{
+	public:
+		typedef GuiButton :: IStyleController WrappedObjectType;
+		typedef vl::presentation::controls::GuiButton::IStyleController InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiControlHost>
+	{
+	public:
+		typedef GuiControlHost WrappedObjectType;
+		typedef vl::presentation::controls::GuiControlHost InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiMenuBar>
+	{
+	public:
+		typedef GuiMenuBar WrappedObjectType;
+		typedef vl::presentation::controls::GuiMenuBar InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiMenuButton>
+	{
+	public:
+		typedef GuiMenuButton WrappedObjectType;
+		typedef vl::presentation::controls::GuiMenuButton InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiMenuButton :: IStyleController>
+	{
+	public:
+		typedef GuiMenuButton :: IStyleController WrappedObjectType;
+		typedef vl::presentation::controls::GuiMenuButton::IStyleController InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiPartialViewComposition>
+	{
+	public:
+		typedef GuiPartialViewComposition WrappedObjectType;
+		typedef vl::presentation::elements::GuiPartialViewComposition InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiScroll>
+	{
+	public:
+		typedef GuiScroll WrappedObjectType;
+		typedef vl::presentation::controls::GuiScroll InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiScroll :: ICommandExecutor>
+	{
+	public:
+		typedef GuiScroll :: ICommandExecutor WrappedObjectType;
+		typedef vl::presentation::controls::GuiScroll::ICommandExecutor InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiScroll :: IStyleController>
+	{
+	public:
+		typedef GuiScroll :: IStyleController WrappedObjectType;
+		typedef vl::presentation::controls::GuiScroll::IStyleController InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<CommonScrollStyle>
+	{
+	public:
+		typedef CommonScrollStyle WrappedObjectType;
+		typedef vl::presentation::common_styles::CommonScrollStyle InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<CommonTrackStyle>
+	{
+	public:
+		typedef CommonTrackStyle WrappedObjectType;
+		typedef vl::presentation::common_styles::CommonTrackStyle InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiScrollView>
+	{
+	public:
+		typedef GuiScrollView WrappedObjectType;
+		typedef vl::presentation::controls::GuiScrollView InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiScrollView :: IStyleProvider>
+	{
+	public:
+		typedef GuiScrollView :: IStyleProvider WrappedObjectType;
+		typedef vl::presentation::controls::GuiScrollView::IStyleProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiScrollView :: StyleController>
+	{
+	public:
+		typedef GuiScrollView :: StyleController WrappedObjectType;
+		typedef vl::presentation::controls::GuiScrollView::StyleController InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiListControl>
+	{
+	public:
+		typedef GuiListControl WrappedObjectType;
+		typedef vl::presentation::controls::GuiListControl InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiListControl :: IItemArrangerCallback>
+	{
+	public:
+		typedef GuiListControl :: IItemArrangerCallback WrappedObjectType;
+		typedef vl::presentation::controls::GuiListControl::IItemArrangerCallback InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiListControl :: IItemCoordinateTransformer>
+	{
+	public:
+		typedef GuiListControl :: IItemCoordinateTransformer WrappedObjectType;
+		typedef vl::presentation::controls::GuiListControl::IItemCoordinateTransformer InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiListControl :: IItemPrimaryTextView>
+	{
+	public:
+		typedef GuiListControl :: IItemPrimaryTextView WrappedObjectType;
+		typedef vl::presentation::controls::GuiListControl::IItemPrimaryTextView InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiListControl :: IItemProvider>
+	{
+	public:
+		typedef GuiListControl :: IItemProvider WrappedObjectType;
+		typedef vl::presentation::controls::GuiListControl::IItemProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiListControl :: IItemProviderCallback>
+	{
+	public:
+		typedef GuiListControl :: IItemProviderCallback WrappedObjectType;
+		typedef vl::presentation::controls::GuiListControl::IItemProviderCallback InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiListControl :: IItemArranger>
+	{
+	public:
+		typedef GuiListControl :: IItemArranger WrappedObjectType;
+		typedef vl::presentation::controls::GuiListControl::IItemArranger InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiListControl :: IItemStyleController>
+	{
+	public:
+		typedef GuiListControl :: IItemStyleController WrappedObjectType;
+		typedef vl::presentation::controls::GuiListControl::IItemStyleController InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiListControl :: IItemStyleProvider>
+	{
+	public:
+		typedef GuiListControl :: IItemStyleProvider WrappedObjectType;
+		typedef vl::presentation::controls::GuiListControl::IItemStyleProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<AxisAlignedItemCoordinateTransformer>
+	{
+	public:
+		typedef AxisAlignedItemCoordinateTransformer WrappedObjectType;
+		typedef vl::presentation::controls::list::AxisAlignedItemCoordinateTransformer InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<DefaultItemCoordinateTransformer>
+	{
+	public:
+		typedef DefaultItemCoordinateTransformer WrappedObjectType;
+		typedef vl::presentation::controls::list::DefaultItemCoordinateTransformer InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiScrollContainer>
+	{
+	public:
+		typedef GuiScrollContainer WrappedObjectType;
+		typedef vl::presentation::controls::GuiScrollContainer InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiScrollContainer :: StyleController>
+	{
+	public:
+		typedef GuiScrollContainer :: StyleController WrappedObjectType;
+		typedef vl::presentation::controls::GuiScrollContainer::StyleController InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiSelectableButton>
+	{
+	public:
+		typedef GuiSelectableButton WrappedObjectType;
+		typedef vl::presentation::controls::GuiSelectableButton InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiSelectableButton :: GroupController>
+	{
+	public:
+		typedef GuiSelectableButton :: GroupController WrappedObjectType;
+		typedef vl::presentation::controls::GuiSelectableButton::GroupController InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiSelectableButton :: IStyleController>
+	{
+	public:
+		typedef GuiSelectableButton :: IStyleController WrappedObjectType;
+		typedef vl::presentation::controls::GuiSelectableButton::IStyleController InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiSelectableButton :: MutexGroupController>
+	{
+	public:
+		typedef GuiSelectableButton :: MutexGroupController WrappedObjectType;
+		typedef vl::presentation::controls::GuiSelectableButton::MutexGroupController InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiSelectableListControl>
+	{
+	public:
+		typedef GuiSelectableListControl WrappedObjectType;
+		typedef vl::presentation::controls::GuiSelectableListControl InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiSelectableListControl :: IItemStyleProvider>
+	{
+	public:
+		typedef GuiSelectableListControl :: IItemStyleProvider WrappedObjectType;
+		typedef vl::presentation::controls::GuiSelectableListControl::IItemStyleProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiListViewBase>
+	{
+	public:
+		typedef GuiListViewBase WrappedObjectType;
+		typedef vl::presentation::controls::GuiListViewBase InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiListViewBase :: IStyleProvider>
+	{
+	public:
+		typedef GuiListViewBase :: IStyleProvider WrappedObjectType;
+		typedef vl::presentation::controls::GuiListViewBase::IStyleProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiSideAlignedComposition>
+	{
+	public:
+		typedef GuiSideAlignedComposition WrappedObjectType;
+		typedef vl::presentation::elements::GuiSideAlignedComposition InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiStackItemComposition>
+	{
+	public:
+		typedef GuiStackItemComposition WrappedObjectType;
+		typedef vl::presentation::elements::GuiStackItemComposition InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiTab>
+	{
+	public:
+		typedef GuiTab WrappedObjectType;
+		typedef vl::presentation::controls::GuiTab InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiTab :: ICommandExecutor>
+	{
+	public:
+		typedef GuiTab :: ICommandExecutor WrappedObjectType;
+		typedef vl::presentation::controls::GuiTab::ICommandExecutor InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiTab :: IStyleController>
+	{
+	public:
+		typedef GuiTab :: IStyleController WrappedObjectType;
+		typedef vl::presentation::controls::GuiTab::IStyleController InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiTableComposition>
+	{
+	public:
+		typedef GuiTableComposition WrappedObjectType;
+		typedef vl::presentation::elements::GuiTableComposition InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiWindow>
+	{
+	public:
+		typedef GuiWindow WrappedObjectType;
+		typedef vl::presentation::controls::GuiWindow InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiPopup>
+	{
+	public:
+		typedef GuiPopup WrappedObjectType;
+		typedef vl::presentation::controls::GuiPopup InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiComboBoxBase>
+	{
+	public:
+		typedef GuiComboBoxBase WrappedObjectType;
+		typedef vl::presentation::controls::GuiComboBoxBase InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiComboBoxBase :: ICommandExecutor>
+	{
+	public:
+		typedef GuiComboBoxBase :: ICommandExecutor WrappedObjectType;
+		typedef vl::presentation::controls::GuiComboBoxBase::ICommandExecutor InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiComboBoxBase :: IStyleController>
+	{
+	public:
+		typedef GuiComboBoxBase :: IStyleController WrappedObjectType;
+		typedef vl::presentation::controls::GuiComboBoxBase::IStyleController InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiComboBoxListControl>
+	{
+	public:
+		typedef GuiComboBoxListControl WrappedObjectType;
+		typedef vl::presentation::controls::GuiComboBoxListControl InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiMenu>
+	{
+	public:
+		typedef GuiMenu WrappedObjectType;
+		typedef vl::presentation::controls::GuiMenu InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiWindowComposition>
+	{
+	public:
+		typedef GuiWindowComposition WrappedObjectType;
+		typedef vl::presentation::elements::GuiWindowComposition InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<INativeWindow>
+	{
+	public:
+		typedef INativeWindow WrappedObjectType;
+		typedef vl::presentation::INativeWindow InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<INodeItemStyleController>
+	{
+	public:
+		typedef INodeItemStyleController WrappedObjectType;
+		typedef vl::presentation::controls::tree::INodeItemStyleController InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<INodeItemStyleProvider>
+	{
+	public:
+		typedef INodeItemStyleProvider WrappedObjectType;
+		typedef vl::presentation::controls::tree::INodeItemStyleProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<INodeItemView>
+	{
+	public:
+		typedef INodeItemView WrappedObjectType;
+		typedef vl::presentation::controls::tree::INodeItemView InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiVirtualTreeListControl>
+	{
+	public:
+		typedef GuiVirtualTreeListControl WrappedObjectType;
+		typedef vl::presentation::controls::GuiVirtualTreeListControl InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer>
+	{
+	public:
+		typedef IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer WrappedObjectType;
+		typedef vl::collections::IReadonlyList<vl::presentation::controls::GuiListControl::IItemStyleController *,vl::presentation::controls::GuiListControl::IItemStyleController *> InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<IReadonlyList_of_GuiStackItemComposition_raw_pointer>
+	{
+	public:
+		typedef IReadonlyList_of_GuiStackItemComposition_raw_pointer WrappedObjectType;
+		typedef vl::collections::IReadonlyList<vl::presentation::elements::GuiStackItemComposition *,vl::presentation::elements::GuiStackItemComposition *> InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiStackComposition>
+	{
+	public:
+		typedef GuiStackComposition WrappedObjectType;
+		typedef vl::presentation::elements::GuiStackComposition InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<IReadonlyList_of_GuiWindow_raw_pointer>
+	{
+	public:
+		typedef IReadonlyList_of_GuiWindow_raw_pointer WrappedObjectType;
+		typedef vl::collections::IReadonlyList<vl::presentation::controls::GuiWindow *,vl::presentation::controls::GuiWindow *> InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiApplication>
+	{
+	public:
+		typedef GuiApplication WrappedObjectType;
+		typedef vl::presentation::controls::GuiApplication InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ItemProviderBase>
+	{
+	public:
+		typedef ItemProviderBase WrappedObjectType;
+		typedef vl::presentation::controls::list::ItemProviderBase InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ItemStyleControllerBase>
+	{
+	public:
+		typedef ItemStyleControllerBase WrappedObjectType;
+		typedef vl::presentation::controls::list::ItemStyleControllerBase InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ListViewItemStyleProviderBase>
+	{
+	public:
+		typedef ListViewItemStyleProviderBase WrappedObjectType;
+		typedef vl::presentation::controls::list::ListViewItemStyleProviderBase InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ListViewItemStyleProviderBase :: ListViewItemStyleController>
+	{
+	public:
+		typedef ListViewItemStyleProviderBase :: ListViewItemStyleController WrappedObjectType;
+		typedef vl::presentation::controls::list::ListViewItemStyleProviderBase::ListViewItemStyleController InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ListViewItemStyleProvider>
+	{
+	public:
+		typedef ListViewItemStyleProvider WrappedObjectType;
+		typedef vl::presentation::controls::list::ListViewItemStyleProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ListViewItemStyleProvider :: IListViewItemContent>
+	{
+	public:
+		typedef ListViewItemStyleProvider :: IListViewItemContent WrappedObjectType;
+		typedef vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemContent InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ListViewItemStyleProvider :: IListViewItemContentProvider>
+	{
+	public:
+		typedef ListViewItemStyleProvider :: IListViewItemContentProvider WrappedObjectType;
+		typedef vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemContentProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ListViewItemStyleProvider :: IListViewItemView>
+	{
+	public:
+		typedef ListViewItemStyleProvider :: IListViewItemView WrappedObjectType;
+		typedef vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemView InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ListViewItemStyleProvider :: ListViewContentItemStyleController>
+	{
+	public:
+		typedef ListViewItemStyleProvider :: ListViewContentItemStyleController WrappedObjectType;
+		typedef vl::presentation::controls::list::ListViewItemStyleProvider::ListViewContentItemStyleController InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiVirtualListView>
+	{
+	public:
+		typedef GuiVirtualListView WrappedObjectType;
+		typedef vl::presentation::controls::GuiVirtualListView InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ListViewBigIconContentProvider>
+	{
+	public:
+		typedef ListViewBigIconContentProvider WrappedObjectType;
+		typedef vl::presentation::controls::list::ListViewBigIconContentProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ListViewInformationContentProvider>
+	{
+	public:
+		typedef ListViewInformationContentProvider WrappedObjectType;
+		typedef vl::presentation::controls::list::ListViewInformationContentProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ListViewListContentProvider>
+	{
+	public:
+		typedef ListViewListContentProvider WrappedObjectType;
+		typedef vl::presentation::controls::list::ListViewListContentProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ListViewSmallIconContentProvider>
+	{
+	public:
+		typedef ListViewSmallIconContentProvider WrappedObjectType;
+		typedef vl::presentation::controls::list::ListViewSmallIconContentProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ListViewTileContentProvider>
+	{
+	public:
+		typedef ListViewTileContentProvider WrappedObjectType;
+		typedef vl::presentation::controls::list::ListViewTileContentProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ListWrapperProvider_of_ListViewItem>
+	{
+	public:
+		typedef ListWrapperProvider_of_ListViewItem WrappedObjectType;
+		typedef vl::presentation::controls::list::ListWrapperProvider<vl::Ptr<vl::presentation::controls::list::ListViewItem>,vl::presentation::controls::list::ListViewItem *> InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ListProvider_of_ListViewItem>
+	{
+	public:
+		typedef ListProvider_of_ListViewItem WrappedObjectType;
+		typedef vl::presentation::controls::list::ListProvider<vl::Ptr<vl::presentation::controls::list::ListViewItem> > InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<NodeItemProvider>
+	{
+	public:
+		typedef NodeItemProvider WrappedObjectType;
+		typedef vl::presentation::controls::tree::NodeItemProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<NodeItemStyleProvider>
+	{
+	public:
+		typedef NodeItemStyleProvider WrappedObjectType;
+		typedef vl::presentation::controls::tree::NodeItemStyleProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<RangedItemArrangerBase>
+	{
+	public:
+		typedef RangedItemArrangerBase WrappedObjectType;
+		typedef vl::presentation::controls::list::RangedItemArrangerBase InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<FixedHeightItemArranger>
+	{
+	public:
+		typedef FixedHeightItemArranger WrappedObjectType;
+		typedef vl::presentation::controls::list::FixedHeightItemArranger InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<FixedHeightMultiColumnItemArranger>
+	{
+	public:
+		typedef FixedHeightMultiColumnItemArranger WrappedObjectType;
+		typedef vl::presentation::controls::list::FixedHeightMultiColumnItemArranger InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<FixedSizeMultiColumnItemArranger>
+	{
+	public:
+		typedef FixedSizeMultiColumnItemArranger WrappedObjectType;
+		typedef vl::presentation::controls::list::FixedSizeMultiColumnItemArranger InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ListViewColumnItemArranger>
+	{
+	public:
+		typedef ListViewColumnItemArranger WrappedObjectType;
+		typedef vl::presentation::controls::list::ListViewColumnItemArranger InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ListViewColumnItemArranger :: IColumnItemView>
+	{
+	public:
+		typedef ListViewColumnItemArranger :: IColumnItemView WrappedObjectType;
+		typedef vl::presentation::controls::list::ListViewColumnItemArranger::IColumnItemView InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ListViewColumnItemArranger :: IColumnItemViewCallback>
+	{
+	public:
+		typedef ListViewColumnItemArranger :: IColumnItemViewCallback WrappedObjectType;
+		typedef vl::presentation::controls::list::ListViewColumnItemArranger::IColumnItemViewCallback InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ListViewDetailContentProvider>
+	{
+	public:
+		typedef ListViewDetailContentProvider WrappedObjectType;
+		typedef vl::presentation::controls::list::ListViewDetailContentProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ListViewItemProvider>
+	{
+	public:
+		typedef ListViewItemProvider WrappedObjectType;
+		typedef vl::presentation::controls::list::ListViewItemProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiListView>
+	{
+	public:
+		typedef GuiListView WrappedObjectType;
+		typedef vl::presentation::controls::GuiListView InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<TextItem>
+	{
+	public:
+		typedef TextItem WrappedObjectType;
+		typedef vl::presentation::controls::list::TextItem InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<IList_of_TextItem>
+	{
+	public:
+		typedef IList_of_TextItem WrappedObjectType;
+		typedef vl::collections::IList<vl::presentation::controls::list::TextItem,vl::presentation::controls::list::TextItem> InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ListWrapperProvider_of_TextItem>
+	{
+	public:
+		typedef ListWrapperProvider_of_TextItem WrappedObjectType;
+		typedef vl::presentation::controls::list::ListWrapperProvider<vl::presentation::controls::list::TextItem,vl::presentation::controls::list::TextItem> InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<ListProvider_of_TextItem>
+	{
+	public:
+		typedef ListProvider_of_TextItem WrappedObjectType;
+		typedef vl::presentation::controls::list::ListProvider<vl::presentation::controls::list::TextItem> InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<TextItemStyleProvider>
+	{
+	public:
+		typedef TextItemStyleProvider WrappedObjectType;
+		typedef vl::presentation::controls::list::TextItemStyleProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<TextItemStyleProvider :: ITextItemStyleProvider>
+	{
+	public:
+		typedef TextItemStyleProvider :: ITextItemStyleProvider WrappedObjectType;
+		typedef vl::presentation::controls::list::TextItemStyleProvider::ITextItemStyleProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<TextItemStyleProvider :: ITextItemView>
+	{
+	public:
+		typedef TextItemStyleProvider :: ITextItemView WrappedObjectType;
+		typedef vl::presentation::controls::list::TextItemStyleProvider::ITextItemView InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<TextItemStyleProvider :: TextItemStyleController>
+	{
+	public:
+		typedef TextItemStyleProvider :: TextItemStyleController WrappedObjectType;
+		typedef vl::presentation::controls::list::TextItemStyleProvider::TextItemStyleController InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiVirtualTextList>
+	{
+	public:
+		typedef GuiVirtualTextList WrappedObjectType;
+		typedef vl::presentation::controls::GuiVirtualTextList InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<TextItemProvider>
+	{
+	public:
+		typedef TextItemProvider WrappedObjectType;
+		typedef vl::presentation::controls::list::TextItemProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiTextList>
+	{
+	public:
+		typedef GuiTextList WrappedObjectType;
+		typedef vl::presentation::controls::GuiTextList InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<TextLine>
+	{
+	public:
+		typedef TextLine WrappedObjectType;
+		typedef vl::presentation::elements::text::TextLine InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<TextPos>
+	{
+	public:
+		typedef TextPos WrappedObjectType;
+		typedef vl::presentation::TextPos InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiTextBoxCommonInterface>
+	{
+	public:
+		typedef GuiTextBoxCommonInterface WrappedObjectType;
+		typedef vl::presentation::controls::GuiTextBoxCommonInterface InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<TextLines>
+	{
+	public:
+		typedef TextLines WrappedObjectType;
+		typedef vl::presentation::elements::text::TextLines InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiColorizedTextElement>
+	{
+	public:
+		typedef GuiColorizedTextElement WrappedObjectType;
+		typedef vl::presentation::elements::GuiColorizedTextElement InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiColorizedTextElement :: ICallback>
+	{
+	public:
+		typedef GuiColorizedTextElement :: ICallback WrappedObjectType;
+		typedef vl::presentation::elements::GuiColorizedTextElement::ICallback InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiTextElementOperator>
+	{
+	public:
+		typedef GuiTextElementOperator WrappedObjectType;
+		typedef vl::presentation::controls::GuiTextElementOperator InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiTextElementOperator :: ICallback>
+	{
+	public:
+		typedef GuiTextElementOperator :: ICallback WrappedObjectType;
+		typedef vl::presentation::controls::GuiTextElementOperator::ICallback InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiTextElementOperator :: DefaultCallback>
+	{
+	public:
+		typedef GuiTextElementOperator :: DefaultCallback WrappedObjectType;
+		typedef vl::presentation::controls::GuiTextElementOperator::DefaultCallback InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiMultilineTextBox>
+	{
+	public:
+		typedef GuiMultilineTextBox WrappedObjectType;
+		typedef vl::presentation::controls::GuiMultilineTextBox InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiMultilineTextBox :: StyleController>
+	{
+	public:
+		typedef GuiMultilineTextBox :: StyleController WrappedObjectType;
+		typedef vl::presentation::controls::GuiMultilineTextBox::StyleController InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiMultilineTextBox :: TextElementOperatorCallback>
+	{
+	public:
+		typedef GuiMultilineTextBox :: TextElementOperatorCallback WrappedObjectType;
+		typedef vl::presentation::controls::GuiMultilineTextBox::TextElementOperatorCallback InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiSinglelineTextBox>
+	{
+	public:
+		typedef GuiSinglelineTextBox WrappedObjectType;
+		typedef vl::presentation::controls::GuiSinglelineTextBox InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiSinglelineTextBox :: IStyleProvider>
+	{
+	public:
+		typedef GuiSinglelineTextBox :: IStyleProvider WrappedObjectType;
+		typedef vl::presentation::controls::GuiSinglelineTextBox::IStyleProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiSinglelineTextBox :: StyleController>
+	{
+	public:
+		typedef GuiSinglelineTextBox :: StyleController WrappedObjectType;
+		typedef vl::presentation::controls::GuiSinglelineTextBox::StyleController InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiSinglelineTextBox :: TextElementOperatorCallback>
+	{
+	public:
+		typedef GuiSinglelineTextBox :: TextElementOperatorCallback WrappedObjectType;
+		typedef vl::presentation::controls::GuiSinglelineTextBox::TextElementOperatorCallback InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<TreeViewItem>
+	{
+	public:
+		typedef TreeViewItem WrappedObjectType;
+		typedef vl::presentation::controls::tree::TreeViewItem InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<TreeViewItemRootProvider>
+	{
+	public:
+		typedef TreeViewItemRootProvider WrappedObjectType;
+		typedef vl::presentation::controls::tree::TreeViewItemRootProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiTreeView>
+	{
+	public:
+		typedef GuiTreeView WrappedObjectType;
+		typedef vl::presentation::controls::GuiTreeView InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<GuiTreeView :: IStyleProvider>
+	{
+	public:
+		typedef GuiTreeView :: IStyleProvider WrappedObjectType;
+		typedef vl::presentation::controls::GuiTreeView::IStyleProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<TreeViewNodeItemStyleProvider>
+	{
+	public:
+		typedef TreeViewNodeItemStyleProvider WrappedObjectType;
+		typedef vl::presentation::controls::tree::TreeViewNodeItemStyleProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7ButtonColors>
+	{
+	public:
+		typedef Win7ButtonColors WrappedObjectType;
+		typedef vl::presentation::win7::Win7ButtonColors InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7ButtonStyleBase>
+	{
+	public:
+		typedef Win7ButtonStyleBase WrappedObjectType;
+		typedef vl::presentation::win7::Win7ButtonStyleBase InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7ButtonStyle>
+	{
+	public:
+		typedef Win7ButtonStyle WrappedObjectType;
+		typedef vl::presentation::win7::Win7ButtonStyle InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7CheckBoxStyle>
+	{
+	public:
+		typedef Win7CheckBoxStyle WrappedObjectType;
+		typedef vl::presentation::win7::Win7CheckBoxStyle InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7DropDownComboBoxStyle>
+	{
+	public:
+		typedef Win7DropDownComboBoxStyle WrappedObjectType;
+		typedef vl::presentation::win7::Win7DropDownComboBoxStyle InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7EmptyStyle>
+	{
+	public:
+		typedef Win7EmptyStyle WrappedObjectType;
+		typedef vl::presentation::win7::Win7EmptyStyle InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7GroupBoxStyle>
+	{
+	public:
+		typedef Win7GroupBoxStyle WrappedObjectType;
+		typedef vl::presentation::win7::Win7GroupBoxStyle InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7ListViewColumnDropDownStyle>
+	{
+	public:
+		typedef Win7ListViewColumnDropDownStyle WrappedObjectType;
+		typedef vl::presentation::win7::Win7ListViewColumnDropDownStyle InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7ListViewColumnHeaderStyle>
+	{
+	public:
+		typedef Win7ListViewColumnHeaderStyle WrappedObjectType;
+		typedef vl::presentation::win7::Win7ListViewColumnHeaderStyle InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7MenuBarButtonStyle>
+	{
+	public:
+		typedef Win7MenuBarButtonStyle WrappedObjectType;
+		typedef vl::presentation::win7::Win7MenuBarButtonStyle InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7MenuBarStyle>
+	{
+	public:
+		typedef Win7MenuBarStyle WrappedObjectType;
+		typedef vl::presentation::win7::Win7MenuBarStyle InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7MenuItemButtonStyle>
+	{
+	public:
+		typedef Win7MenuItemButtonStyle WrappedObjectType;
+		typedef vl::presentation::win7::Win7MenuItemButtonStyle InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7MenuSplitterStyle>
+	{
+	public:
+		typedef Win7MenuSplitterStyle WrappedObjectType;
+		typedef vl::presentation::win7::Win7MenuSplitterStyle InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7MenuStyle>
+	{
+	public:
+		typedef Win7MenuStyle WrappedObjectType;
+		typedef vl::presentation::win7::Win7MenuStyle InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7ScrollStyle>
+	{
+	public:
+		typedef Win7ScrollStyle WrappedObjectType;
+		typedef vl::presentation::win7::Win7ScrollStyle InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7ScrollViewProvider>
+	{
+	public:
+		typedef Win7ScrollViewProvider WrappedObjectType;
+		typedef vl::presentation::win7::Win7ScrollViewProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7MultilineTextBoxProvider>
+	{
+	public:
+		typedef Win7MultilineTextBoxProvider WrappedObjectType;
+		typedef vl::presentation::win7::Win7MultilineTextBoxProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7ListViewProvider>
+	{
+	public:
+		typedef Win7ListViewProvider WrappedObjectType;
+		typedef vl::presentation::win7::Win7ListViewProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7SelectableItemStyle>
+	{
+	public:
+		typedef Win7SelectableItemStyle WrappedObjectType;
+		typedef vl::presentation::win7::Win7SelectableItemStyle InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7SinglelineTextBoxProvider>
+	{
+	public:
+		typedef Win7SinglelineTextBoxProvider WrappedObjectType;
+		typedef vl::presentation::win7::Win7SinglelineTextBoxProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7TabPageHeaderStyle>
+	{
+	public:
+		typedef Win7TabPageHeaderStyle WrappedObjectType;
+		typedef vl::presentation::win7::Win7TabPageHeaderStyle InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7TabStyle>
+	{
+	public:
+		typedef Win7TabStyle WrappedObjectType;
+		typedef vl::presentation::win7::Win7TabStyle InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7TextBoxBackground>
+	{
+	public:
+		typedef Win7TextBoxBackground WrappedObjectType;
+		typedef vl::presentation::win7::Win7TextBoxBackground InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7TextListProvider>
+	{
+	public:
+		typedef Win7TextListProvider WrappedObjectType;
+		typedef vl::presentation::win7::Win7TextListProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7CheckTextListProvider>
+	{
+	public:
+		typedef Win7CheckTextListProvider WrappedObjectType;
+		typedef vl::presentation::win7::Win7CheckTextListProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7RadioTextListProvider>
+	{
+	public:
+		typedef Win7RadioTextListProvider WrappedObjectType;
+		typedef vl::presentation::win7::Win7RadioTextListProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7ToolstripButtonStyle>
+	{
+	public:
+		typedef Win7ToolstripButtonStyle WrappedObjectType;
+		typedef vl::presentation::win7::Win7ToolstripButtonStyle InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7TrackStyle>
+	{
+	public:
+		typedef Win7TrackStyle WrappedObjectType;
+		typedef vl::presentation::win7::Win7TrackStyle InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7TreeViewExpandingButtonStyle>
+	{
+	public:
+		typedef Win7TreeViewExpandingButtonStyle WrappedObjectType;
+		typedef vl::presentation::win7::Win7TreeViewExpandingButtonStyle InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7TreeViewProvider>
+	{
+	public:
+		typedef Win7TreeViewProvider WrappedObjectType;
+		typedef vl::presentation::win7::Win7TreeViewProvider InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+	template<>
+	class __GacUIInternal<Win7WindowStyle>
+	{
+	public:
+		typedef Win7WindowStyle WrappedObjectType;
+		typedef vl::presentation::win7::Win7WindowStyle InternalObjectType;
+		
+		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
+		{
+			return (InternalObjectType*)wrappedObject.__internal_object_reference;
+		}
+	};
+	
+
+/***********************************************************************
+CharAtt
+***********************************************************************/
+
 	CharAtt::CharAtt(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -48,6 +3290,7 @@ CharAtt
 	
 	void CharAtt::set_rightOffset(unsigned __int32 value)
 	{
+		unsigned __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	unsigned __int32 CharAtt::get_colorIndex()
@@ -57,6 +3300,7 @@ CharAtt
 	
 	void CharAtt::set_colorIndex(unsigned __int32 value)
 	{
+		unsigned __int32 _unwrapped_value = value;
 		throw 0;
 	}
 
@@ -64,19 +3308,6 @@ CharAtt
 Color
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Color>
-	{
-	public:
-		typedef Color WrappedObjectType;
-		typedef vl::presentation::Color InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Color::Color(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -89,11 +3320,19 @@ Color
 	
 	rptr<Color> Color::CreateRptr(unsigned __int8 _r, unsigned __int8 _g, unsigned __int8 _b, unsigned __int8 _a)
 	{
+		unsigned __int8 _unwrapped__r = _r;
+		unsigned __int8 _unwrapped__g = _g;
+		unsigned __int8 _unwrapped__b = _b;
+		unsigned __int8 _unwrapped__a = _a;
 		throw 0;
 	}
 	
 	Color Color::Create(unsigned __int8 _r, unsigned __int8 _g, unsigned __int8 _b, unsigned __int8 _a)
 	{
+		unsigned __int8 _unwrapped__r = _r;
+		unsigned __int8 _unwrapped__g = _g;
+		unsigned __int8 _unwrapped__b = _b;
+		unsigned __int8 _unwrapped__a = _a;
 		throw 0;
 	}
 	
@@ -109,36 +3348,43 @@ Color
 	
 	signed __int32 Color::Compare(Color color)
 	{
+		vl::presentation::Color _unwrapped_color = *__GacUIInternal<Color>::GetInternalObject(color);
 		throw 0;
 	}
 	
 	bool Color::operator==(Color color)
 	{
+		vl::presentation::Color _unwrapped_color = *__GacUIInternal<Color>::GetInternalObject(color);
 		throw 0;
 	}
 	
 	bool Color::operator!=(Color color)
 	{
+		vl::presentation::Color _unwrapped_color = *__GacUIInternal<Color>::GetInternalObject(color);
 		throw 0;
 	}
 	
 	bool Color::operator<(Color color)
 	{
+		vl::presentation::Color _unwrapped_color = *__GacUIInternal<Color>::GetInternalObject(color);
 		throw 0;
 	}
 	
 	bool Color::operator<=(Color value)
 	{
+		vl::presentation::Color _unwrapped_value = *__GacUIInternal<Color>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	bool Color::operator>(Color color)
 	{
+		vl::presentation::Color _unwrapped_color = *__GacUIInternal<Color>::GetInternalObject(color);
 		throw 0;
 	}
 	
 	bool Color::operator>=(Color value)
 	{
+		vl::presentation::Color _unwrapped_value = *__GacUIInternal<Color>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -149,6 +3395,7 @@ Color
 	
 	void Color::set_r(unsigned __int8 value)
 	{
+		unsigned __int8 _unwrapped_value = value;
 		throw 0;
 	}
 	unsigned __int8 Color::get_g()
@@ -158,6 +3405,7 @@ Color
 	
 	void Color::set_g(unsigned __int8 value)
 	{
+		unsigned __int8 _unwrapped_value = value;
 		throw 0;
 	}
 	unsigned __int8 Color::get_b()
@@ -167,6 +3415,7 @@ Color
 	
 	void Color::set_b(unsigned __int8 value)
 	{
+		unsigned __int8 _unwrapped_value = value;
 		throw 0;
 	}
 	unsigned __int8 Color::get_a()
@@ -176,6 +3425,7 @@ Color
 	
 	void Color::set_a(unsigned __int8 value)
 	{
+		unsigned __int8 _unwrapped_value = value;
 		throw 0;
 	}
 	unsigned __int32 Color::get_value()
@@ -185,6 +3435,7 @@ Color
 	
 	void Color::set_value(unsigned __int32 value)
 	{
+		unsigned __int32 _unwrapped_value = value;
 		throw 0;
 	}
 
@@ -192,19 +3443,6 @@ Color
 ColorItem
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ColorItem>
-	{
-	public:
-		typedef ColorItem WrappedObjectType;
-		typedef vl::presentation::elements::text::ColorItem InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ColorItem::ColorItem(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -232,6 +3470,7 @@ ColorItem
 	
 	void ColorItem::set_text(Color value)
 	{
+		vl::presentation::Color _unwrapped_value = *__GacUIInternal<Color>::GetInternalObject(value);
 		throw 0;
 	}
 	Color ColorItem::get_background()
@@ -241,6 +3480,7 @@ ColorItem
 	
 	void ColorItem::set_background(Color value)
 	{
+		vl::presentation::Color _unwrapped_value = *__GacUIInternal<Color>::GetInternalObject(value);
 		throw 0;
 	}
 
@@ -248,19 +3488,6 @@ ColorItem
 ColorEntry
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ColorEntry>
-	{
-	public:
-		typedef ColorEntry WrappedObjectType;
-		typedef vl::presentation::elements::text::ColorEntry InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ColorEntry::ColorEntry(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -283,11 +3510,13 @@ ColorEntry
 	
 	bool ColorEntry::operator==(const ColorEntry& value)
 	{
+		vl::presentation::elements::text::ColorEntry const& _unwrapped_value = *__GacUIInternal<ColorEntry>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	bool ColorEntry::operator!=(const ColorEntry& value)
 	{
+		vl::presentation::elements::text::ColorEntry const& _unwrapped_value = *__GacUIInternal<ColorEntry>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -298,6 +3527,7 @@ ColorEntry
 	
 	void ColorEntry::set_normal(ColorItem value)
 	{
+		vl::presentation::elements::text::ColorItem _unwrapped_value = *__GacUIInternal<ColorItem>::GetInternalObject(value);
 		throw 0;
 	}
 	ColorItem ColorEntry::get_selectedFocused()
@@ -307,6 +3537,7 @@ ColorEntry
 	
 	void ColorEntry::set_selectedFocused(ColorItem value)
 	{
+		vl::presentation::elements::text::ColorItem _unwrapped_value = *__GacUIInternal<ColorItem>::GetInternalObject(value);
 		throw 0;
 	}
 	ColorItem ColorEntry::get_selectedUnfocused()
@@ -316,6 +3547,7 @@ ColorEntry
 	
 	void ColorEntry::set_selectedUnfocused(ColorItem value)
 	{
+		vl::presentation::elements::text::ColorItem _unwrapped_value = *__GacUIInternal<ColorItem>::GetInternalObject(value);
 		throw 0;
 	}
 
@@ -323,19 +3555,6 @@ ColorEntry
 Array_of_ColorEntry
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Array_of_ColorEntry>
-	{
-	public:
-		typedef Array_of_ColorEntry WrappedObjectType;
-		typedef vl::collections::Array<vl::presentation::elements::text::ColorEntry,vl::presentation::elements::text::ColorEntry> InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Array_of_ColorEntry::Array_of_ColorEntry(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -347,11 +3566,13 @@ Array_of_ColorEntry
 	
 	rptr<Array_of_ColorEntry> Array_of_ColorEntry::CreateRptr(signed __int32 size)
 	{
+		signed __int32 _unwrapped_size = size;
 		throw 0;
 	}
 	
 	bool Array_of_ColorEntry::Contains(const ColorEntry& item)
 	{
+		vl::presentation::elements::text::ColorEntry const& _unwrapped_item = *__GacUIInternal<ColorEntry>::GetInternalObject(item);
 		throw 0;
 	}
 	
@@ -362,31 +3583,38 @@ Array_of_ColorEntry
 	
 	const ColorEntry& Array_of_ColorEntry::Get(signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	ColorEntry& Array_of_ColorEntry::operator[](signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	signed __int32 Array_of_ColorEntry::IndexOf(const ColorEntry& item)
 	{
+		vl::presentation::elements::text::ColorEntry const& _unwrapped_item = *__GacUIInternal<ColorEntry>::GetInternalObject(item);
 		throw 0;
 	}
 	
 	void Array_of_ColorEntry::Set(signed __int32 index, const ColorEntry& item)
 	{
+		signed __int32 _unwrapped_index = index;
+		vl::presentation::elements::text::ColorEntry const& _unwrapped_item = *__GacUIInternal<ColorEntry>::GetInternalObject(item);
 		throw 0;
 	}
 	
 	void Array_of_ColorEntry::Resize(signed __int32 size)
 	{
+		signed __int32 _unwrapped_size = size;
 		throw 0;
 	}
 	
 	rptr<Array_of_ColorEntry> Array_of_ColorEntry::operator=(rptr<Array_of_ColorEntry> value)
 	{
+		vl::collections::Array<vl::presentation::elements::text::ColorEntry,vl::presentation::elements::text::ColorEntry> const& _unwrapped_value = *__GacUIInternal<Array_of_ColorEntry>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -395,19 +3623,6 @@ Array_of_ColorEntry
 DescriptableObject
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<DescriptableObject>
-	{
-	public:
-		typedef DescriptableObject WrappedObjectType;
-		typedef vl::presentation::DescriptableObject InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	DescriptableObject::DescriptableObject(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -430,6 +3645,7 @@ DescriptableObject
 	
 	DescriptableObject& DescriptableObject::operator=(const DescriptableObject& value)
 	{
+		vl::presentation::DescriptableObject const& _unwrapped_value = *__GacUIInternal<DescriptableObject>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -438,19 +3654,6 @@ DescriptableObject
 FontProperties
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<FontProperties>
-	{
-	public:
-		typedef FontProperties WrappedObjectType;
-		typedef vl::presentation::FontProperties InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	FontProperties::FontProperties(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -463,11 +3666,13 @@ FontProperties
 	
 	rptr<FontProperties> FontProperties::CreateRptr(const FontProperties& __that)
 	{
+		vl::presentation::FontProperties const& _unwrapped___that = *__GacUIInternal<FontProperties>::GetInternalObject(__that);
 		throw 0;
 	}
 	
 	FontProperties FontProperties::Create(const FontProperties& __that)
 	{
+		vl::presentation::FontProperties const& _unwrapped___that = *__GacUIInternal<FontProperties>::GetInternalObject(__that);
 		throw 0;
 	}
 	
@@ -483,41 +3688,49 @@ FontProperties
 	
 	signed __int32 FontProperties::Compare(const FontProperties& value)
 	{
+		vl::presentation::FontProperties const& _unwrapped_value = *__GacUIInternal<FontProperties>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	bool FontProperties::operator==(const FontProperties& value)
 	{
+		vl::presentation::FontProperties const& _unwrapped_value = *__GacUIInternal<FontProperties>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	bool FontProperties::operator!=(const FontProperties& value)
 	{
+		vl::presentation::FontProperties const& _unwrapped_value = *__GacUIInternal<FontProperties>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	bool FontProperties::operator<(const FontProperties& value)
 	{
+		vl::presentation::FontProperties const& _unwrapped_value = *__GacUIInternal<FontProperties>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	bool FontProperties::operator<=(const FontProperties& value)
 	{
+		vl::presentation::FontProperties const& _unwrapped_value = *__GacUIInternal<FontProperties>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	bool FontProperties::operator>(const FontProperties& value)
 	{
+		vl::presentation::FontProperties const& _unwrapped_value = *__GacUIInternal<FontProperties>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	bool FontProperties::operator>=(const FontProperties& value)
 	{
+		vl::presentation::FontProperties const& _unwrapped_value = *__GacUIInternal<FontProperties>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	FontProperties& FontProperties::operator=(const FontProperties& __that)
 	{
+		vl::presentation::FontProperties const& _unwrapped___that = *__GacUIInternal<FontProperties>::GetInternalObject(__that);
 		throw 0;
 	}
 	
@@ -528,6 +3741,7 @@ FontProperties
 	
 	void FontProperties::set_fontFamily(GacString value)
 	{
+		vl::ObjectString<wchar_t> _unwrapped_value = value.Buffer();
 		throw 0;
 	}
 	signed __int32 FontProperties::get_size()
@@ -537,6 +3751,7 @@ FontProperties
 	
 	void FontProperties::set_size(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	bool FontProperties::get_bold()
@@ -546,6 +3761,7 @@ FontProperties
 	
 	void FontProperties::set_bold(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	bool FontProperties::get_italic()
@@ -555,6 +3771,7 @@ FontProperties
 	
 	void FontProperties::set_italic(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	bool FontProperties::get_underline()
@@ -564,6 +3781,7 @@ FontProperties
 	
 	void FontProperties::set_underline(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	bool FontProperties::get_strikeline()
@@ -573,6 +3791,7 @@ FontProperties
 	
 	void FontProperties::set_strikeline(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	bool FontProperties::get_antialias()
@@ -582,6 +3801,7 @@ FontProperties
 	
 	void FontProperties::set_antialias(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 
@@ -589,19 +3809,6 @@ FontProperties
 GuiCellOption
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiCellOption>
-	{
-	public:
-		typedef GuiCellOption WrappedObjectType;
-		typedef vl::presentation::elements::GuiCellOption InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiCellOption::GuiCellOption(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -624,21 +3831,25 @@ GuiCellOption
 	
 	bool GuiCellOption::operator==(const GuiCellOption& value)
 	{
+		vl::presentation::elements::GuiCellOption const& _unwrapped_value = *__GacUIInternal<GuiCellOption>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	bool GuiCellOption::operator!=(const GuiCellOption& value)
 	{
+		vl::presentation::elements::GuiCellOption const& _unwrapped_value = *__GacUIInternal<GuiCellOption>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	GuiCellOption GuiCellOption::AbsoluteOption(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	
 	GuiCellOption GuiCellOption::PercentageOption(double value)
 	{
+		double _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -654,6 +3865,7 @@ GuiCellOption
 	
 	void GuiCellOption::set_composeType(GuiCellOption :: ComposeType value)
 	{
+		vl::presentation::elements::GuiCellOption::ComposeType _unwrapped_value = (vl::presentation::elements::GuiCellOption::ComposeType)value;
 		throw 0;
 	}
 	signed __int32 GuiCellOption::get_absolute()
@@ -663,6 +3875,7 @@ GuiCellOption
 	
 	void GuiCellOption::set_absolute(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	double GuiCellOption::get_percentage()
@@ -672,6 +3885,7 @@ GuiCellOption
 	
 	void GuiCellOption::set_percentage(double value)
 	{
+		double _unwrapped_value = value;
 		throw 0;
 	}
 
@@ -679,19 +3893,6 @@ GuiCellOption
 GuiComponent
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiComponent>
-	{
-	public:
-		typedef GuiComponent WrappedObjectType;
-		typedef vl::presentation::controls::GuiComponent InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiComponent::GuiComponent(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -708,6 +3909,7 @@ GuiComponent
 	
 	rptr<GuiComponent> GuiComponent::operator=(rptr<GuiComponent> value)
 	{
+		vl::presentation::controls::GuiComponent const& _unwrapped_value = *__GacUIInternal<GuiComponent>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -721,19 +3923,6 @@ GuiComponent
 GuiEventArgs
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiEventArgs>
-	{
-	public:
-		typedef GuiEventArgs WrappedObjectType;
-		typedef vl::presentation::elements::GuiEventArgs InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiEventArgs::GuiEventArgs(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -756,11 +3945,13 @@ GuiEventArgs
 	
 	rptr<GuiEventArgs> GuiEventArgs::CreateRptr(rptr<GuiGraphicsComposition> composition)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(composition.operator->()));
 		throw 0;
 	}
 	
 	GuiEventArgs GuiEventArgs::Create(rptr<GuiGraphicsComposition> composition)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(composition.operator->()));
 		throw 0;
 	}
 	
@@ -771,6 +3962,7 @@ GuiEventArgs
 	
 	void GuiEventArgs::set_compositionSource(rptr<GuiGraphicsComposition> value)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_value = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	rptr<GuiGraphicsComposition> GuiEventArgs::get_eventSource()
@@ -780,6 +3972,7 @@ GuiEventArgs
 	
 	void GuiEventArgs::set_eventSource(rptr<GuiGraphicsComposition> value)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_value = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	bool GuiEventArgs::get_handled()
@@ -789,6 +3982,7 @@ GuiEventArgs
 	
 	void GuiEventArgs::set_handled(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 
@@ -796,19 +3990,6 @@ GuiEventArgs
 GuiImageData
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiImageData>
-	{
-	public:
-		typedef GuiImageData WrappedObjectType;
-		typedef vl::presentation::controls::GuiImageData InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiImageData::GuiImageData(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -821,11 +4002,15 @@ GuiImageData
 	
 	rptr<GuiImageData> GuiImageData::CreateRptr(sptr<INativeImage> _image, signed __int32 _frameIndex)
 	{
+		vl::Ptr<vl::presentation::INativeImage> _unwrapped__image = __GacUIInternal<INativeImage>::GetInternalObject(*(_image.operator->()));
+		signed __int32 _unwrapped__frameIndex = _frameIndex;
 		throw 0;
 	}
 	
 	GuiImageData GuiImageData::Create(sptr<INativeImage> _image, signed __int32 _frameIndex)
 	{
+		vl::Ptr<vl::presentation::INativeImage> _unwrapped__image = __GacUIInternal<INativeImage>::GetInternalObject(*(_image.operator->()));
+		signed __int32 _unwrapped__frameIndex = _frameIndex;
 		throw 0;
 	}
 	
@@ -841,6 +4026,7 @@ GuiImageData
 	
 	GuiImageData& GuiImageData::operator=(const GuiImageData& value)
 	{
+		vl::presentation::controls::GuiImageData const& _unwrapped_value = *__GacUIInternal<GuiImageData>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -859,19 +4045,6 @@ GuiImageData
 GuiRequestEventArgs
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiRequestEventArgs>
-	{
-	public:
-		typedef GuiRequestEventArgs WrappedObjectType;
-		typedef vl::presentation::elements::GuiRequestEventArgs InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiRequestEventArgs::GuiRequestEventArgs(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiEventArgs(static_cast<__GacUIInternal<GuiEventArgs>::InternalObjectType*>((__GacUIInternal<GuiRequestEventArgs>::InternalObjectType*)__internal_object_reference_input))
@@ -885,11 +4058,13 @@ GuiRequestEventArgs
 	
 	rptr<GuiRequestEventArgs> GuiRequestEventArgs::CreateRptr(rptr<GuiGraphicsComposition> composition)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(composition.operator->()));
 		throw 0;
 	}
 	
 	GuiRequestEventArgs GuiRequestEventArgs::Create(rptr<GuiGraphicsComposition> composition)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(composition.operator->()));
 		throw 0;
 	}
 	
@@ -910,6 +4085,7 @@ GuiRequestEventArgs
 	
 	void GuiRequestEventArgs::set_cancel(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 
@@ -917,19 +4093,6 @@ GuiRequestEventArgs
 IDescriptable
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<IDescriptable>
-	{
-	public:
-		typedef IDescriptable WrappedObjectType;
-		typedef vl::presentation::IDescriptable InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	IDescriptable::IDescriptable(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,DescriptableObject(static_cast<__GacUIInternal<DescriptableObject>::InternalObjectType*>((__GacUIInternal<IDescriptable>::InternalObjectType*)__internal_object_reference_input))
@@ -947,6 +4110,7 @@ IDescriptable
 	
 	rptr<IDescriptable> IDescriptable::operator=(rptr<IDescriptable> value)
 	{
+		vl::presentation::IDescriptable const& _unwrapped_value = *__GacUIInternal<IDescriptable>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -955,19 +4119,6 @@ IDescriptable
 GuiGraphicsEvent_of_GuiEventArgs
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiGraphicsEvent_of_GuiEventArgs>
-	{
-	public:
-		typedef GuiGraphicsEvent_of_GuiEventArgs WrappedObjectType;
-		typedef vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiEventArgs> InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiGraphicsEvent_of_GuiEventArgs::GuiGraphicsEvent_of_GuiEventArgs(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -979,26 +4130,31 @@ GuiGraphicsEvent_of_GuiEventArgs
 	
 	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiGraphicsEvent_of_GuiEventArgs::CreateRptr(rptr<GuiGraphicsComposition> _sender)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_sender.operator->()));
 		throw 0;
 	}
 	
 	bool GuiGraphicsEvent_of_GuiEventArgs::Attach(sptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> handler)
 	{
+		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiEventArgs :: IHandler>::GetInternalObject(*(handler.operator->()));
 		throw 0;
 	}
 	
 	bool GuiGraphicsEvent_of_GuiEventArgs::Detach(sptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> handler)
 	{
+		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiEventArgs :: IHandler>::GetInternalObject(*(handler.operator->()));
 		throw 0;
 	}
 	
 	void GuiGraphicsEvent_of_GuiEventArgs::Execute(GuiEventArgs& argument)
 	{
+		vl::presentation::elements::GuiEventArgs& _unwrapped_argument = *__GacUIInternal<GuiEventArgs>::GetInternalObject(argument);
 		throw 0;
 	}
 	
 	rptr<GuiGraphicsEvent_of_GuiEventArgs> GuiGraphicsEvent_of_GuiEventArgs::operator=(rptr<GuiGraphicsEvent_of_GuiEventArgs> value)
 	{
+		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiEventArgs> const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiEventArgs>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -1009,6 +4165,7 @@ GuiGraphicsEvent_of_GuiEventArgs
 	
 	void GuiGraphicsEvent_of_GuiEventArgs::SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_sender.operator->()));
 		throw 0;
 	}
 	
@@ -1017,19 +4174,6 @@ GuiGraphicsEvent_of_GuiEventArgs
 GuiGraphicsEvent_of_GuiEventArgs :: IHandler
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiGraphicsEvent_of_GuiEventArgs :: IHandler>
-	{
-	public:
-		typedef GuiGraphicsEvent_of_GuiEventArgs :: IHandler WrappedObjectType;
-		typedef vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiEventArgs>::IHandler InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiGraphicsEvent_of_GuiEventArgs::IHandler::IHandler(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<GuiGraphicsEvent_of_GuiEventArgs :: IHandler>::InternalObjectType*)__internal_object_reference_input))
@@ -1042,11 +4186,14 @@ GuiGraphicsEvent_of_GuiEventArgs :: IHandler
 	
 	void GuiGraphicsEvent_of_GuiEventArgs::IHandler::Execute(rptr<GuiGraphicsComposition> sender, GuiEventArgs& argument)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(sender.operator->()));
+		vl::presentation::elements::GuiEventArgs& _unwrapped_argument = *__GacUIInternal<GuiEventArgs>::GetInternalObject(argument);
 		throw 0;
 	}
 	
 	rptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> GuiGraphicsEvent_of_GuiEventArgs::IHandler::operator=(rptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> value)
 	{
+		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiEventArgs>::IHandler const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiEventArgs :: IHandler>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -1055,19 +4202,6 @@ GuiGraphicsEvent_of_GuiEventArgs :: IHandler
 GuiGraphicsEvent_of_GuiRequestEventArgs
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiGraphicsEvent_of_GuiRequestEventArgs>
-	{
-	public:
-		typedef GuiGraphicsEvent_of_GuiRequestEventArgs WrappedObjectType;
-		typedef vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiRequestEventArgs> InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiGraphicsEvent_of_GuiRequestEventArgs::GuiGraphicsEvent_of_GuiRequestEventArgs(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -1079,26 +4213,31 @@ GuiGraphicsEvent_of_GuiRequestEventArgs
 	
 	rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> GuiGraphicsEvent_of_GuiRequestEventArgs::CreateRptr(rptr<GuiGraphicsComposition> _sender)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_sender.operator->()));
 		throw 0;
 	}
 	
 	bool GuiGraphicsEvent_of_GuiRequestEventArgs::Attach(sptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> handler)
 	{
+		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiRequestEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler>::GetInternalObject(*(handler.operator->()));
 		throw 0;
 	}
 	
 	bool GuiGraphicsEvent_of_GuiRequestEventArgs::Detach(sptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> handler)
 	{
+		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiRequestEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler>::GetInternalObject(*(handler.operator->()));
 		throw 0;
 	}
 	
 	void GuiGraphicsEvent_of_GuiRequestEventArgs::Execute(GuiRequestEventArgs& argument)
 	{
+		vl::presentation::elements::GuiRequestEventArgs& _unwrapped_argument = *__GacUIInternal<GuiRequestEventArgs>::GetInternalObject(argument);
 		throw 0;
 	}
 	
 	rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> GuiGraphicsEvent_of_GuiRequestEventArgs::operator=(rptr<GuiGraphicsEvent_of_GuiRequestEventArgs> value)
 	{
+		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiRequestEventArgs> const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiRequestEventArgs>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -1109,6 +4248,7 @@ GuiGraphicsEvent_of_GuiRequestEventArgs
 	
 	void GuiGraphicsEvent_of_GuiRequestEventArgs::SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_sender.operator->()));
 		throw 0;
 	}
 	
@@ -1117,19 +4257,6 @@ GuiGraphicsEvent_of_GuiRequestEventArgs
 GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler>
-	{
-	public:
-		typedef GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler WrappedObjectType;
-		typedef vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiRequestEventArgs>::IHandler InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiGraphicsEvent_of_GuiRequestEventArgs::IHandler::IHandler(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler>::InternalObjectType*)__internal_object_reference_input))
@@ -1142,11 +4269,14 @@ GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler
 	
 	void GuiGraphicsEvent_of_GuiRequestEventArgs::IHandler::Execute(rptr<GuiGraphicsComposition> sender, GuiRequestEventArgs& argument)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(sender.operator->()));
+		vl::presentation::elements::GuiRequestEventArgs& _unwrapped_argument = *__GacUIInternal<GuiRequestEventArgs>::GetInternalObject(argument);
 		throw 0;
 	}
 	
 	rptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> GuiGraphicsEvent_of_GuiRequestEventArgs::IHandler::operator=(rptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> value)
 	{
+		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiRequestEventArgs>::IHandler const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -1155,19 +4285,6 @@ GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler
 GuiTabPage
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiTabPage>
-	{
-	public:
-		typedef GuiTabPage WrappedObjectType;
-		typedef vl::presentation::controls::GuiTabPage InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiTabPage::GuiTabPage(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -1179,6 +4296,7 @@ GuiTabPage
 	
 	rptr<GuiTabPage> GuiTabPage::operator=(rptr<GuiTabPage> value)
 	{
+		vl::presentation::controls::GuiTabPage const& _unwrapped_value = *__GacUIInternal<GuiTabPage>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -1199,6 +4317,7 @@ GuiTabPage
 	
 	void GuiTabPage::SetText(const GacString& value)
 	{
+		vl::ObjectString<wchar_t> _unwrapped_value = value.Buffer();
 		throw 0;
 	}
 	
@@ -1217,19 +4336,6 @@ GuiTabPage
 IGuiGraphicsAnimation
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<IGuiGraphicsAnimation>
-	{
-	public:
-		typedef IGuiGraphicsAnimation WrappedObjectType;
-		typedef vl::presentation::elements::IGuiGraphicsAnimation InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	IGuiGraphicsAnimation::IGuiGraphicsAnimation(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<IGuiGraphicsAnimation>::InternalObjectType*)__internal_object_reference_input))
@@ -1242,6 +4348,8 @@ IGuiGraphicsAnimation
 	
 	void IGuiGraphicsAnimation::Play(signed __int32 currentPosition, signed __int32 totalLength)
 	{
+		signed __int32 _unwrapped_currentPosition = currentPosition;
+		signed __int32 _unwrapped_totalLength = totalLength;
 		throw 0;
 	}
 	
@@ -1252,6 +4360,7 @@ IGuiGraphicsAnimation
 	
 	rptr<IGuiGraphicsAnimation> IGuiGraphicsAnimation::operator=(rptr<IGuiGraphicsAnimation> value)
 	{
+		vl::presentation::elements::IGuiGraphicsAnimation const& _unwrapped_value = *__GacUIInternal<IGuiGraphicsAnimation>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -1270,19 +4379,6 @@ IGuiGraphicsAnimation
 GuiGraphicsAnimationManager
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiGraphicsAnimationManager>
-	{
-	public:
-		typedef GuiGraphicsAnimationManager WrappedObjectType;
-		typedef vl::presentation::elements::GuiGraphicsAnimationManager InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiGraphicsAnimationManager::GuiGraphicsAnimationManager(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -1299,6 +4395,7 @@ GuiGraphicsAnimationManager
 	
 	void GuiGraphicsAnimationManager::AddAnimation(sptr<IGuiGraphicsAnimation> animation)
 	{
+		vl::Ptr<vl::presentation::elements::IGuiGraphicsAnimation> _unwrapped_animation = __GacUIInternal<IGuiGraphicsAnimation>::GetInternalObject(*(animation.operator->()));
 		throw 0;
 	}
 	
@@ -1314,6 +4411,7 @@ GuiGraphicsAnimationManager
 	
 	rptr<GuiGraphicsAnimationManager> GuiGraphicsAnimationManager::operator=(rptr<GuiGraphicsAnimationManager> value)
 	{
+		vl::presentation::elements::GuiGraphicsAnimationManager const& _unwrapped_value = *__GacUIInternal<GuiGraphicsAnimationManager>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -1322,19 +4420,6 @@ GuiGraphicsAnimationManager
 GuiTimeBasedAnimation
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiTimeBasedAnimation>
-	{
-	public:
-		typedef GuiTimeBasedAnimation WrappedObjectType;
-		typedef vl::presentation::elements::GuiTimeBasedAnimation InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiTimeBasedAnimation::GuiTimeBasedAnimation(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IGuiGraphicsAnimation(static_cast<__GacUIInternal<IGuiGraphicsAnimation>::InternalObjectType*>((__GacUIInternal<GuiTimeBasedAnimation>::InternalObjectType*)__internal_object_reference_input))
@@ -1347,16 +4432,19 @@ GuiTimeBasedAnimation
 	
 	rptr<GuiTimeBasedAnimation> GuiTimeBasedAnimation::CreateRptr(signed __int32 totalMilliseconds)
 	{
+		signed __int32 _unwrapped_totalMilliseconds = totalMilliseconds;
 		throw 0;
 	}
 	
 	void GuiTimeBasedAnimation::Restart(signed __int32 totalMilliseconds)
 	{
+		signed __int32 _unwrapped_totalMilliseconds = totalMilliseconds;
 		throw 0;
 	}
 	
 	rptr<GuiTimeBasedAnimation> GuiTimeBasedAnimation::operator=(rptr<GuiTimeBasedAnimation> value)
 	{
+		vl::presentation::elements::GuiTimeBasedAnimation const& _unwrapped_value = *__GacUIInternal<GuiTimeBasedAnimation>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -1365,19 +4453,6 @@ GuiTimeBasedAnimation
 IGuiGraphicsElementFactory
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<IGuiGraphicsElementFactory>
-	{
-	public:
-		typedef IGuiGraphicsElementFactory WrappedObjectType;
-		typedef vl::presentation::elements::IGuiGraphicsElementFactory InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	IGuiGraphicsElementFactory::IGuiGraphicsElementFactory(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -1394,6 +4469,7 @@ IGuiGraphicsElementFactory
 	
 	rptr<IGuiGraphicsElementFactory> IGuiGraphicsElementFactory::operator=(rptr<IGuiGraphicsElementFactory> value)
 	{
+		vl::presentation::elements::IGuiGraphicsElementFactory const& _unwrapped_value = *__GacUIInternal<IGuiGraphicsElementFactory>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -1407,19 +4483,6 @@ IGuiGraphicsElementFactory
 IGuiGraphicsElement
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<IGuiGraphicsElement>
-	{
-	public:
-		typedef IGuiGraphicsElement WrappedObjectType;
-		typedef vl::presentation::elements::IGuiGraphicsElement InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	IGuiGraphicsElement::IGuiGraphicsElement(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<IGuiGraphicsElement>::InternalObjectType*)__internal_object_reference_input))
@@ -1432,6 +4495,7 @@ IGuiGraphicsElement
 	
 	rptr<IGuiGraphicsElement> IGuiGraphicsElement::operator=(rptr<IGuiGraphicsElement> value)
 	{
+		vl::presentation::elements::IGuiGraphicsElement const& _unwrapped_value = *__GacUIInternal<IGuiGraphicsElement>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -1450,19 +4514,6 @@ IGuiGraphicsElement
 Gui3DBorderElement
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Gui3DBorderElement>
-	{
-	public:
-		typedef Gui3DBorderElement WrappedObjectType;
-		typedef vl::presentation::elements::Gui3DBorderElement InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Gui3DBorderElement::Gui3DBorderElement(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IGuiGraphicsElement(static_cast<__GacUIInternal<IGuiGraphicsElement>::InternalObjectType*>((__GacUIInternal<Gui3DBorderElement>::InternalObjectType*)__internal_object_reference_input))
@@ -1475,11 +4526,14 @@ Gui3DBorderElement
 	
 	void Gui3DBorderElement::SetColors(Color value1, Color value2)
 	{
+		vl::presentation::Color _unwrapped_value1 = *__GacUIInternal<Color>::GetInternalObject(value1);
+		vl::presentation::Color _unwrapped_value2 = *__GacUIInternal<Color>::GetInternalObject(value2);
 		throw 0;
 	}
 	
 	rptr<Gui3DBorderElement> Gui3DBorderElement::operator=(rptr<Gui3DBorderElement> value)
 	{
+		vl::presentation::elements::Gui3DBorderElement const& _unwrapped_value = *__GacUIInternal<Gui3DBorderElement>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -1508,19 +4562,6 @@ Gui3DBorderElement
 Gui3DSplitterElement
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Gui3DSplitterElement>
-	{
-	public:
-		typedef Gui3DSplitterElement WrappedObjectType;
-		typedef vl::presentation::elements::Gui3DSplitterElement InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Gui3DSplitterElement::Gui3DSplitterElement(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IGuiGraphicsElement(static_cast<__GacUIInternal<IGuiGraphicsElement>::InternalObjectType*>((__GacUIInternal<Gui3DSplitterElement>::InternalObjectType*)__internal_object_reference_input))
@@ -1533,11 +4574,14 @@ Gui3DSplitterElement
 	
 	void Gui3DSplitterElement::SetColors(Color value1, Color value2)
 	{
+		vl::presentation::Color _unwrapped_value1 = *__GacUIInternal<Color>::GetInternalObject(value1);
+		vl::presentation::Color _unwrapped_value2 = *__GacUIInternal<Color>::GetInternalObject(value2);
 		throw 0;
 	}
 	
 	rptr<Gui3DSplitterElement> Gui3DSplitterElement::operator=(rptr<Gui3DSplitterElement> value)
 	{
+		vl::presentation::elements::Gui3DSplitterElement const& _unwrapped_value = *__GacUIInternal<Gui3DSplitterElement>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -1563,6 +4607,7 @@ Gui3DSplitterElement
 	
 	void Gui3DSplitterElement::SetDirection(Gui3DSplitterElement :: Direction value)
 	{
+		vl::presentation::elements::Gui3DSplitterElement::Direction _unwrapped_value = (vl::presentation::elements::Gui3DSplitterElement::Direction)value;
 		throw 0;
 	}
 	
@@ -1576,19 +4621,6 @@ Gui3DSplitterElement
 GuiGradientBackgroundElement
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiGradientBackgroundElement>
-	{
-	public:
-		typedef GuiGradientBackgroundElement WrappedObjectType;
-		typedef vl::presentation::elements::GuiGradientBackgroundElement InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiGradientBackgroundElement::GuiGradientBackgroundElement(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IGuiGraphicsElement(static_cast<__GacUIInternal<IGuiGraphicsElement>::InternalObjectType*>((__GacUIInternal<GuiGradientBackgroundElement>::InternalObjectType*)__internal_object_reference_input))
@@ -1601,11 +4633,14 @@ GuiGradientBackgroundElement
 	
 	void GuiGradientBackgroundElement::SetColors(Color value1, Color value2)
 	{
+		vl::presentation::Color _unwrapped_value1 = *__GacUIInternal<Color>::GetInternalObject(value1);
+		vl::presentation::Color _unwrapped_value2 = *__GacUIInternal<Color>::GetInternalObject(value2);
 		throw 0;
 	}
 	
 	rptr<GuiGradientBackgroundElement> GuiGradientBackgroundElement::operator=(rptr<GuiGradientBackgroundElement> value)
 	{
+		vl::presentation::elements::GuiGradientBackgroundElement const& _unwrapped_value = *__GacUIInternal<GuiGradientBackgroundElement>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -1631,6 +4666,7 @@ GuiGradientBackgroundElement
 	
 	void GuiGradientBackgroundElement::SetDirection(GuiGradientBackgroundElement :: Direction value)
 	{
+		vl::presentation::elements::GuiGradientBackgroundElement::Direction _unwrapped_value = (vl::presentation::elements::GuiGradientBackgroundElement::Direction)value;
 		throw 0;
 	}
 	
@@ -1641,6 +4677,7 @@ GuiGradientBackgroundElement
 	
 	void GuiGradientBackgroundElement::SetShape(ElementShape :: Type value)
 	{
+		vl::presentation::elements::ElementShape::Type _unwrapped_value = (vl::presentation::elements::ElementShape::Type)value;
 		throw 0;
 	}
 	
@@ -1654,19 +4691,6 @@ GuiGradientBackgroundElement
 GuiImageFrameElement
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiImageFrameElement>
-	{
-	public:
-		typedef GuiImageFrameElement WrappedObjectType;
-		typedef vl::presentation::elements::GuiImageFrameElement InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiImageFrameElement::GuiImageFrameElement(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IGuiGraphicsElement(static_cast<__GacUIInternal<IGuiGraphicsElement>::InternalObjectType*>((__GacUIInternal<GuiImageFrameElement>::InternalObjectType*)__internal_object_reference_input))
@@ -1679,16 +4703,21 @@ GuiImageFrameElement
 	
 	void GuiImageFrameElement::SetImage(sptr<INativeImage> _image, signed __int32 _frameIndex)
 	{
+		vl::Ptr<vl::presentation::INativeImage> _unwrapped__image = __GacUIInternal<INativeImage>::GetInternalObject(*(_image.operator->()));
+		signed __int32 _unwrapped__frameIndex = _frameIndex;
 		throw 0;
 	}
 	
 	void GuiImageFrameElement::SetAlignments(Alignment :: Type horizontal, Alignment :: Type vertical)
 	{
+		vl::presentation::Alignment::Type _unwrapped_horizontal = (vl::presentation::Alignment::Type)horizontal;
+		vl::presentation::Alignment::Type _unwrapped_vertical = (vl::presentation::Alignment::Type)vertical;
 		throw 0;
 	}
 	
 	rptr<GuiImageFrameElement> GuiImageFrameElement::operator=(rptr<GuiImageFrameElement> value)
 	{
+		vl::presentation::elements::GuiImageFrameElement const& _unwrapped_value = *__GacUIInternal<GuiImageFrameElement>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -1724,6 +4753,7 @@ GuiImageFrameElement
 	
 	void GuiImageFrameElement::SetStretch(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -1737,19 +4767,6 @@ GuiImageFrameElement
 GuiRoundBorderElement
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiRoundBorderElement>
-	{
-	public:
-		typedef GuiRoundBorderElement WrappedObjectType;
-		typedef vl::presentation::elements::GuiRoundBorderElement InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiRoundBorderElement::GuiRoundBorderElement(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IGuiGraphicsElement(static_cast<__GacUIInternal<IGuiGraphicsElement>::InternalObjectType*>((__GacUIInternal<GuiRoundBorderElement>::InternalObjectType*)__internal_object_reference_input))
@@ -1762,6 +4779,7 @@ GuiRoundBorderElement
 	
 	rptr<GuiRoundBorderElement> GuiRoundBorderElement::operator=(rptr<GuiRoundBorderElement> value)
 	{
+		vl::presentation::elements::GuiRoundBorderElement const& _unwrapped_value = *__GacUIInternal<GuiRoundBorderElement>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -1777,6 +4795,7 @@ GuiRoundBorderElement
 	
 	void GuiRoundBorderElement::SetColor(Color value)
 	{
+		vl::presentation::Color _unwrapped_value = *__GacUIInternal<Color>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -1787,6 +4806,7 @@ GuiRoundBorderElement
 	
 	void GuiRoundBorderElement::SetRadius(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -1800,19 +4820,6 @@ GuiRoundBorderElement
 GuiSolidBackgroundElement
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiSolidBackgroundElement>
-	{
-	public:
-		typedef GuiSolidBackgroundElement WrappedObjectType;
-		typedef vl::presentation::elements::GuiSolidBackgroundElement InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiSolidBackgroundElement::GuiSolidBackgroundElement(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IGuiGraphicsElement(static_cast<__GacUIInternal<IGuiGraphicsElement>::InternalObjectType*>((__GacUIInternal<GuiSolidBackgroundElement>::InternalObjectType*)__internal_object_reference_input))
@@ -1825,6 +4832,7 @@ GuiSolidBackgroundElement
 	
 	rptr<GuiSolidBackgroundElement> GuiSolidBackgroundElement::operator=(rptr<GuiSolidBackgroundElement> value)
 	{
+		vl::presentation::elements::GuiSolidBackgroundElement const& _unwrapped_value = *__GacUIInternal<GuiSolidBackgroundElement>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -1840,6 +4848,7 @@ GuiSolidBackgroundElement
 	
 	void GuiSolidBackgroundElement::SetColor(Color value)
 	{
+		vl::presentation::Color _unwrapped_value = *__GacUIInternal<Color>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -1850,6 +4859,7 @@ GuiSolidBackgroundElement
 	
 	void GuiSolidBackgroundElement::SetShape(ElementShape :: Type value)
 	{
+		vl::presentation::elements::ElementShape::Type _unwrapped_value = (vl::presentation::elements::ElementShape::Type)value;
 		throw 0;
 	}
 	
@@ -1863,19 +4873,6 @@ GuiSolidBackgroundElement
 GuiSolidBorderElement
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiSolidBorderElement>
-	{
-	public:
-		typedef GuiSolidBorderElement WrappedObjectType;
-		typedef vl::presentation::elements::GuiSolidBorderElement InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiSolidBorderElement::GuiSolidBorderElement(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IGuiGraphicsElement(static_cast<__GacUIInternal<IGuiGraphicsElement>::InternalObjectType*>((__GacUIInternal<GuiSolidBorderElement>::InternalObjectType*)__internal_object_reference_input))
@@ -1888,6 +4885,7 @@ GuiSolidBorderElement
 	
 	rptr<GuiSolidBorderElement> GuiSolidBorderElement::operator=(rptr<GuiSolidBorderElement> value)
 	{
+		vl::presentation::elements::GuiSolidBorderElement const& _unwrapped_value = *__GacUIInternal<GuiSolidBorderElement>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -1903,6 +4901,7 @@ GuiSolidBorderElement
 	
 	void GuiSolidBorderElement::SetColor(Color value)
 	{
+		vl::presentation::Color _unwrapped_value = *__GacUIInternal<Color>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -1913,6 +4912,7 @@ GuiSolidBorderElement
 	
 	void GuiSolidBorderElement::SetShape(ElementShape :: Type value)
 	{
+		vl::presentation::elements::ElementShape::Type _unwrapped_value = (vl::presentation::elements::ElementShape::Type)value;
 		throw 0;
 	}
 	
@@ -1926,19 +4926,6 @@ GuiSolidBorderElement
 GuiSolidLabelElement
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiSolidLabelElement>
-	{
-	public:
-		typedef GuiSolidLabelElement WrappedObjectType;
-		typedef vl::presentation::elements::GuiSolidLabelElement InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiSolidLabelElement::GuiSolidLabelElement(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IGuiGraphicsElement(static_cast<__GacUIInternal<IGuiGraphicsElement>::InternalObjectType*>((__GacUIInternal<GuiSolidLabelElement>::InternalObjectType*)__internal_object_reference_input))
@@ -1951,11 +4938,14 @@ GuiSolidLabelElement
 	
 	void GuiSolidLabelElement::SetAlignments(Alignment :: Type horizontal, Alignment :: Type vertical)
 	{
+		vl::presentation::Alignment::Type _unwrapped_horizontal = (vl::presentation::Alignment::Type)horizontal;
+		vl::presentation::Alignment::Type _unwrapped_vertical = (vl::presentation::Alignment::Type)vertical;
 		throw 0;
 	}
 	
 	rptr<GuiSolidLabelElement> GuiSolidLabelElement::operator=(rptr<GuiSolidLabelElement> value)
 	{
+		vl::presentation::elements::GuiSolidLabelElement const& _unwrapped_value = *__GacUIInternal<GuiSolidLabelElement>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -1971,6 +4961,7 @@ GuiSolidLabelElement
 	
 	void GuiSolidLabelElement::SetColor(Color value)
 	{
+		vl::presentation::Color _unwrapped_value = *__GacUIInternal<Color>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -1981,6 +4972,7 @@ GuiSolidLabelElement
 	
 	void GuiSolidLabelElement::SetFont(const FontProperties& value)
 	{
+		vl::presentation::FontProperties const& _unwrapped_value = *__GacUIInternal<FontProperties>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -1991,6 +4983,7 @@ GuiSolidLabelElement
 	
 	void GuiSolidLabelElement::SetText(const GacString& value)
 	{
+		vl::ObjectString<wchar_t> _unwrapped_value = value.Buffer();
 		throw 0;
 	}
 	
@@ -2011,6 +5004,7 @@ GuiSolidLabelElement
 	
 	void GuiSolidLabelElement::SetWrapLine(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -2021,6 +5015,7 @@ GuiSolidLabelElement
 	
 	void GuiSolidLabelElement::SetEllipse(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -2031,6 +5026,7 @@ GuiSolidLabelElement
 	
 	void GuiSolidLabelElement::SetMultiline(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -2044,19 +5040,6 @@ GuiSolidLabelElement
 IGuiGraphicsRendererFactory
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<IGuiGraphicsRendererFactory>
-	{
-	public:
-		typedef IGuiGraphicsRendererFactory WrappedObjectType;
-		typedef vl::presentation::elements::IGuiGraphicsRendererFactory InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	IGuiGraphicsRendererFactory::IGuiGraphicsRendererFactory(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -2073,6 +5056,7 @@ IGuiGraphicsRendererFactory
 	
 	rptr<IGuiGraphicsRendererFactory> IGuiGraphicsRendererFactory::operator=(rptr<IGuiGraphicsRendererFactory> value)
 	{
+		vl::presentation::elements::IGuiGraphicsRendererFactory const& _unwrapped_value = *__GacUIInternal<IGuiGraphicsRendererFactory>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -2081,19 +5065,6 @@ IGuiGraphicsRendererFactory
 IGuiMenuService
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<IGuiMenuService>
-	{
-	public:
-		typedef IGuiMenuService WrappedObjectType;
-		typedef vl::presentation::controls::IGuiMenuService InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	IGuiMenuService::IGuiMenuService(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<IGuiMenuService>::InternalObjectType*)__internal_object_reference_input))
@@ -2116,16 +5087,19 @@ IGuiMenuService
 	
 	void IGuiMenuService::MenuOpened(rptr<GuiMenu> menu)
 	{
+		vl::presentation::controls::GuiMenu* _unwrapped_menu = __GacUIInternal<GuiMenu>::GetInternalObject(*(menu.operator->()));
 		throw 0;
 	}
 	
 	void IGuiMenuService::MenuClosed(rptr<GuiMenu> menu)
 	{
+		vl::presentation::controls::GuiMenu* _unwrapped_menu = __GacUIInternal<GuiMenu>::GetInternalObject(*(menu.operator->()));
 		throw 0;
 	}
 	
 	rptr<IGuiMenuService> IGuiMenuService::operator=(rptr<IGuiMenuService> value)
 	{
+		vl::presentation::controls::IGuiMenuService const& _unwrapped_value = *__GacUIInternal<IGuiMenuService>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -2144,33 +5118,16 @@ IGuiMenuService
 		throw 0;
 	}
 	
-	wchar_t* IGuiMenuService::get_Identifier()
+	wchar_t const* IGuiMenuService::get_Identifier()
 	{
 		throw 0;
 	}
 	
-	void IGuiMenuService::set_Identifier(wchar_t* value)
-	{
-		throw 0;
-	}
 
 /***********************************************************************
 IList_of_int
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<IList_of_int>
-	{
-	public:
-		typedef IList_of_int WrappedObjectType;
-		typedef vl::collections::IList<int,int> InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	IList_of_int::IList_of_int(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -2182,16 +5139,21 @@ IList_of_int
 	
 	signed __int32 IList_of_int::Insert(signed __int32 index, signed __int32 item)
 	{
+		signed __int32 _unwrapped_index = index;
+		signed __int32 _unwrapped_item = item;
 		throw 0;
 	}
 	
 	bool IList_of_int::Set(signed __int32 index, signed __int32 item)
 	{
+		signed __int32 _unwrapped_index = index;
+		signed __int32 _unwrapped_item = item;
 		throw 0;
 	}
 	
 	rptr<IList_of_int> IList_of_int::operator=(rptr<IList_of_int> value)
 	{
+		vl::collections::IList<int,int> const& _unwrapped_value = *__GacUIInternal<IList_of_int>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -2200,19 +5162,6 @@ IList_of_int
 IList_of_MemoryNodeProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<IList_of_MemoryNodeProvider>
-	{
-	public:
-		typedef IList_of_MemoryNodeProvider WrappedObjectType;
-		typedef vl::collections::IList<vl::Ptr<vl::presentation::controls::tree::MemoryNodeProvider>,vl::presentation::controls::tree::MemoryNodeProvider *> InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	IList_of_MemoryNodeProvider::IList_of_MemoryNodeProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -2224,16 +5173,21 @@ IList_of_MemoryNodeProvider
 	
 	signed __int32 IList_of_MemoryNodeProvider::Insert(signed __int32 index, sptr<MemoryNodeProvider> item)
 	{
+		signed __int32 _unwrapped_index = index;
+		vl::Ptr<vl::presentation::controls::tree::MemoryNodeProvider> _unwrapped_item = __GacUIInternal<MemoryNodeProvider>::GetInternalObject(*(item.operator->()));
 		throw 0;
 	}
 	
 	bool IList_of_MemoryNodeProvider::Set(signed __int32 index, sptr<MemoryNodeProvider> item)
 	{
+		signed __int32 _unwrapped_index = index;
+		vl::Ptr<vl::presentation::controls::tree::MemoryNodeProvider> _unwrapped_item = __GacUIInternal<MemoryNodeProvider>::GetInternalObject(*(item.operator->()));
 		throw 0;
 	}
 	
 	rptr<IList_of_MemoryNodeProvider> IList_of_MemoryNodeProvider::operator=(rptr<IList_of_MemoryNodeProvider> value)
 	{
+		vl::collections::IList<vl::Ptr<vl::presentation::controls::tree::MemoryNodeProvider>,vl::presentation::controls::tree::MemoryNodeProvider *> const& _unwrapped_value = *__GacUIInternal<IList_of_MemoryNodeProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -2242,19 +5196,6 @@ IList_of_MemoryNodeProvider
 INativeAsyncService
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<INativeAsyncService>
-	{
-	public:
-		typedef INativeAsyncService WrappedObjectType;
-		typedef vl::presentation::INativeAsyncService InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	INativeAsyncService::INativeAsyncService(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -2271,6 +5212,7 @@ INativeAsyncService
 	
 	rptr<INativeAsyncService> INativeAsyncService::operator=(rptr<INativeAsyncService> value)
 	{
+		vl::presentation::INativeAsyncService const& _unwrapped_value = *__GacUIInternal<INativeAsyncService>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -2279,19 +5221,6 @@ INativeAsyncService
 INativeClipboardService
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<INativeClipboardService>
-	{
-	public:
-		typedef INativeClipboardService WrappedObjectType;
-		typedef vl::presentation::INativeClipboardService InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	INativeClipboardService::INativeClipboardService(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -2308,11 +5237,13 @@ INativeClipboardService
 	
 	bool INativeClipboardService::SetText(const GacString& value)
 	{
+		vl::ObjectString<wchar_t> _unwrapped_value = value.Buffer();
 		throw 0;
 	}
 	
 	rptr<INativeClipboardService> INativeClipboardService::operator=(rptr<INativeClipboardService> value)
 	{
+		vl::presentation::INativeClipboardService const& _unwrapped_value = *__GacUIInternal<INativeClipboardService>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -2326,19 +5257,6 @@ INativeClipboardService
 INativeCursor
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<INativeCursor>
-	{
-	public:
-		typedef INativeCursor WrappedObjectType;
-		typedef vl::presentation::INativeCursor InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	INativeCursor::INativeCursor(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -2355,10 +5273,16 @@ INativeCursor
 	
 	rptr<INativeCursor> INativeCursor::operator=(rptr<INativeCursor> value)
 	{
+		vl::presentation::INativeCursor const& _unwrapped_value = *__GacUIInternal<INativeCursor>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	INativeCursor :: SystemCursorType INativeCursor::GetSystemCursorType()
+	{
+		throw 0;
+	}
+	
+	signed __int32 INativeCursor::get_SystemCursorCount()
 	{
 		throw 0;
 	}
@@ -2368,19 +5292,6 @@ INativeCursor
 INativeImageFrameCache
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<INativeImageFrameCache>
-	{
-	public:
-		typedef INativeImageFrameCache WrappedObjectType;
-		typedef vl::presentation::INativeImageFrameCache InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	INativeImageFrameCache::INativeImageFrameCache(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -2392,16 +5303,19 @@ INativeImageFrameCache
 	
 	void INativeImageFrameCache::OnAttach(rptr<INativeImageFrame> frame)
 	{
+		vl::presentation::INativeImageFrame* _unwrapped_frame = __GacUIInternal<INativeImageFrame>::GetInternalObject(*(frame.operator->()));
 		throw 0;
 	}
 	
 	void INativeImageFrameCache::OnDetach(rptr<INativeImageFrame> frame)
 	{
+		vl::presentation::INativeImageFrame* _unwrapped_frame = __GacUIInternal<INativeImageFrame>::GetInternalObject(*(frame.operator->()));
 		throw 0;
 	}
 	
 	rptr<INativeImageFrameCache> INativeImageFrameCache::operator=(rptr<INativeImageFrameCache> value)
 	{
+		vl::presentation::INativeImageFrameCache const& _unwrapped_value = *__GacUIInternal<INativeImageFrameCache>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -2410,19 +5324,6 @@ INativeImageFrameCache
 INativeImageService
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<INativeImageService>
-	{
-	public:
-		typedef INativeImageService WrappedObjectType;
-		typedef vl::presentation::INativeImageService InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	INativeImageService::INativeImageService(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -2434,11 +5335,13 @@ INativeImageService
 	
 	sptr<INativeImage> INativeImageService::CreateImageFromFile(const GacString& path)
 	{
+		vl::ObjectString<wchar_t> _unwrapped_path = path.Buffer();
 		throw 0;
 	}
 	
 	rptr<INativeImageService> INativeImageService::operator=(rptr<INativeImageService> value)
 	{
+		vl::presentation::INativeImageService const& _unwrapped_value = *__GacUIInternal<INativeImageService>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -2447,19 +5350,6 @@ INativeImageService
 INativeImage
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<INativeImage>
-	{
-	public:
-		typedef INativeImage WrappedObjectType;
-		typedef vl::presentation::INativeImage InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	INativeImage::INativeImage(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -2471,11 +5361,13 @@ INativeImage
 	
 	rptr<INativeImageFrame> INativeImage::GetFrame(signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	rptr<INativeImage> INativeImage::operator=(rptr<INativeImage> value)
 	{
+		vl::presentation::INativeImage const& _unwrapped_value = *__GacUIInternal<INativeImage>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -2499,19 +5391,6 @@ INativeImage
 INativeInputService
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<INativeInputService>
-	{
-	public:
-		typedef INativeInputService WrappedObjectType;
-		typedef vl::presentation::INativeInputService InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	INativeInputService::INativeInputService(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -2553,16 +5432,19 @@ INativeInputService
 	
 	bool INativeInputService::IsKeyPressing(signed __int32 code)
 	{
+		signed __int32 _unwrapped_code = code;
 		throw 0;
 	}
 	
 	bool INativeInputService::IsKeyToggled(signed __int32 code)
 	{
+		signed __int32 _unwrapped_code = code;
 		throw 0;
 	}
 	
 	rptr<INativeInputService> INativeInputService::operator=(rptr<INativeInputService> value)
 	{
+		vl::presentation::INativeInputService const& _unwrapped_value = *__GacUIInternal<INativeInputService>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -2571,19 +5453,6 @@ INativeInputService
 INativeResourceService
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<INativeResourceService>
-	{
-	public:
-		typedef INativeResourceService WrappedObjectType;
-		typedef vl::presentation::INativeResourceService InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	INativeResourceService::INativeResourceService(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -2595,11 +5464,13 @@ INativeResourceService
 	
 	rptr<INativeCursor> INativeResourceService::GetSystemCursor(INativeCursor :: SystemCursorType type)
 	{
+		vl::presentation::INativeCursor::SystemCursorType _unwrapped_type = (vl::presentation::INativeCursor::SystemCursorType)type;
 		throw 0;
 	}
 	
 	rptr<INativeResourceService> INativeResourceService::operator=(rptr<INativeResourceService> value)
 	{
+		vl::presentation::INativeResourceService const& _unwrapped_value = *__GacUIInternal<INativeResourceService>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -2615,6 +5486,7 @@ INativeResourceService
 	
 	void INativeResourceService::SetDefaultFont(const FontProperties& value)
 	{
+		vl::presentation::FontProperties const& _unwrapped_value = *__GacUIInternal<FontProperties>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -2623,19 +5495,6 @@ INativeResourceService
 INodeItemPrimaryTextView
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<INodeItemPrimaryTextView>
-	{
-	public:
-		typedef INodeItemPrimaryTextView WrappedObjectType;
-		typedef vl::presentation::controls::tree::INodeItemPrimaryTextView InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	INodeItemPrimaryTextView::INodeItemPrimaryTextView(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<INodeItemPrimaryTextView>::InternalObjectType*)__internal_object_reference_input))
@@ -2648,41 +5507,26 @@ INodeItemPrimaryTextView
 	
 	GacString INodeItemPrimaryTextView::GetPrimaryTextViewText(rptr<INodeProvider> node)
 	{
+		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(*(node.operator->()));
 		throw 0;
 	}
 	
 	rptr<INodeItemPrimaryTextView> INodeItemPrimaryTextView::operator=(rptr<INodeItemPrimaryTextView> value)
 	{
+		vl::presentation::controls::tree::INodeItemPrimaryTextView const& _unwrapped_value = *__GacUIInternal<INodeItemPrimaryTextView>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
-	wchar_t* INodeItemPrimaryTextView::get_Identifier()
+	wchar_t const* INodeItemPrimaryTextView::get_Identifier()
 	{
 		throw 0;
 	}
 	
-	void INodeItemPrimaryTextView::set_Identifier(wchar_t* value)
-	{
-		throw 0;
-	}
 
 /***********************************************************************
 INodeProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<INodeProvider>
-	{
-	public:
-		typedef INodeProvider WrappedObjectType;
-		typedef vl::presentation::controls::tree::INodeProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	INodeProvider::INodeProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<INodeProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -2700,16 +5544,19 @@ INodeProvider
 	
 	rptr<INodeProvider> INodeProvider::RequestChild(signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	void INodeProvider::ReleaseChild(rptr<INodeProvider> node)
 	{
+		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(*(node.operator->()));
 		throw 0;
 	}
 	
 	rptr<INodeProvider> INodeProvider::operator=(rptr<INodeProvider> value)
 	{
+		vl::presentation::controls::tree::INodeProvider const& _unwrapped_value = *__GacUIInternal<INodeProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -2720,6 +5567,7 @@ INodeProvider
 	
 	void INodeProvider::SetExpanding(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -2738,19 +5586,6 @@ INodeProvider
 INodeProviderCallback
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<INodeProviderCallback>
-	{
-	public:
-		typedef INodeProviderCallback WrappedObjectType;
-		typedef vl::presentation::controls::tree::INodeProviderCallback InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	INodeProviderCallback::INodeProviderCallback(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<INodeProviderCallback>::InternalObjectType*)__internal_object_reference_input))
@@ -2763,31 +5598,43 @@ INodeProviderCallback
 	
 	void INodeProviderCallback::OnAttached(rptr<INodeRootProvider> provider)
 	{
+		vl::presentation::controls::tree::INodeRootProvider* _unwrapped_provider = __GacUIInternal<INodeRootProvider>::GetInternalObject(*(provider.operator->()));
 		throw 0;
 	}
 	
 	void INodeProviderCallback::OnBeforeItemModified(rptr<INodeProvider> parentNode, signed __int32 start, signed __int32 count, signed __int32 newCount)
 	{
+		vl::presentation::controls::tree::INodeProvider* _unwrapped_parentNode = __GacUIInternal<INodeProvider>::GetInternalObject(*(parentNode.operator->()));
+		signed __int32 _unwrapped_start = start;
+		signed __int32 _unwrapped_count = count;
+		signed __int32 _unwrapped_newCount = newCount;
 		throw 0;
 	}
 	
 	void INodeProviderCallback::OnAfterItemModified(rptr<INodeProvider> parentNode, signed __int32 start, signed __int32 count, signed __int32 newCount)
 	{
+		vl::presentation::controls::tree::INodeProvider* _unwrapped_parentNode = __GacUIInternal<INodeProvider>::GetInternalObject(*(parentNode.operator->()));
+		signed __int32 _unwrapped_start = start;
+		signed __int32 _unwrapped_count = count;
+		signed __int32 _unwrapped_newCount = newCount;
 		throw 0;
 	}
 	
 	void INodeProviderCallback::OnItemExpanded(rptr<INodeProvider> node)
 	{
+		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(*(node.operator->()));
 		throw 0;
 	}
 	
 	void INodeProviderCallback::OnItemCollapsed(rptr<INodeProvider> node)
 	{
+		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(*(node.operator->()));
 		throw 0;
 	}
 	
 	rptr<INodeProviderCallback> INodeProviderCallback::operator=(rptr<INodeProviderCallback> value)
 	{
+		vl::presentation::controls::tree::INodeProviderCallback const& _unwrapped_value = *__GacUIInternal<INodeProviderCallback>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -2796,19 +5643,6 @@ INodeProviderCallback
 INodeRootProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<INodeRootProvider>
-	{
-	public:
-		typedef INodeRootProvider WrappedObjectType;
-		typedef vl::presentation::controls::tree::INodeRootProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	INodeRootProvider::INodeRootProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<INodeRootProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -2826,31 +5660,37 @@ INodeRootProvider
 	
 	rptr<INodeProvider> INodeRootProvider::GetNodeByVisibleIndex(signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	bool INodeRootProvider::AttachCallback(rptr<INodeProviderCallback> value)
 	{
+		vl::presentation::controls::tree::INodeProviderCallback* _unwrapped_value = __GacUIInternal<INodeProviderCallback>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	bool INodeRootProvider::DetachCallback(rptr<INodeProviderCallback> value)
 	{
+		vl::presentation::controls::tree::INodeProviderCallback* _unwrapped_value = __GacUIInternal<INodeProviderCallback>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	rptr<IDescriptable> INodeRootProvider::RequestView(const GacString& identifier)
 	{
+		vl::ObjectString<wchar_t> _unwrapped_identifier = identifier.Buffer();
 		throw 0;
 	}
 	
 	void INodeRootProvider::ReleaseView(rptr<IDescriptable> view)
 	{
+		vl::presentation::IDescriptable* _unwrapped_view = __GacUIInternal<IDescriptable>::GetInternalObject(*(view.operator->()));
 		throw 0;
 	}
 	
 	rptr<INodeRootProvider> INodeRootProvider::operator=(rptr<INodeRootProvider> value)
 	{
+		vl::presentation::controls::tree::INodeRootProvider const& _unwrapped_value = *__GacUIInternal<INodeRootProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -2864,19 +5704,6 @@ INodeRootProvider
 IReadonlyList_of_ColorEntry
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<IReadonlyList_of_ColorEntry>
-	{
-	public:
-		typedef IReadonlyList_of_ColorEntry WrappedObjectType;
-		typedef vl::collections::IReadonlyList<vl::presentation::elements::text::ColorEntry,vl::presentation::elements::text::ColorEntry> InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	IReadonlyList_of_ColorEntry::IReadonlyList_of_ColorEntry(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -2888,6 +5715,7 @@ IReadonlyList_of_ColorEntry
 	
 	bool IReadonlyList_of_ColorEntry::Contains(const ColorEntry& item)
 	{
+		vl::presentation::elements::text::ColorEntry const& _unwrapped_item = *__GacUIInternal<ColorEntry>::GetInternalObject(item);
 		throw 0;
 	}
 	
@@ -2898,21 +5726,25 @@ IReadonlyList_of_ColorEntry
 	
 	const ColorEntry& IReadonlyList_of_ColorEntry::Get(signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	const ColorEntry& IReadonlyList_of_ColorEntry::operator[](signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	signed __int32 IReadonlyList_of_ColorEntry::IndexOf(const ColorEntry& item)
 	{
+		vl::presentation::elements::text::ColorEntry const& _unwrapped_item = *__GacUIInternal<ColorEntry>::GetInternalObject(item);
 		throw 0;
 	}
 	
 	rptr<IReadonlyList_of_ColorEntry> IReadonlyList_of_ColorEntry::operator=(rptr<IReadonlyList_of_ColorEntry> value)
 	{
+		vl::collections::IReadonlyList<vl::presentation::elements::text::ColorEntry,vl::presentation::elements::text::ColorEntry> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_ColorEntry>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -2921,19 +5753,6 @@ IReadonlyList_of_ColorEntry
 IReadonlyList_of_GuiGraphicsComposition_raw_pointer
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<IReadonlyList_of_GuiGraphicsComposition_raw_pointer>
-	{
-	public:
-		typedef IReadonlyList_of_GuiGraphicsComposition_raw_pointer WrappedObjectType;
-		typedef vl::collections::IReadonlyList<vl::presentation::elements::GuiGraphicsComposition *,vl::presentation::elements::GuiGraphicsComposition *> InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	IReadonlyList_of_GuiGraphicsComposition_raw_pointer::IReadonlyList_of_GuiGraphicsComposition_raw_pointer(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -2945,6 +5764,7 @@ IReadonlyList_of_GuiGraphicsComposition_raw_pointer
 	
 	bool IReadonlyList_of_GuiGraphicsComposition_raw_pointer::Contains(rptr<GuiGraphicsComposition> item)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_item = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(item.operator->()));
 		throw 0;
 	}
 	
@@ -2955,21 +5775,25 @@ IReadonlyList_of_GuiGraphicsComposition_raw_pointer
 	
 	rptr<GuiGraphicsComposition> IReadonlyList_of_GuiGraphicsComposition_raw_pointer::Get(signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	rptr<GuiGraphicsComposition> IReadonlyList_of_GuiGraphicsComposition_raw_pointer::operator[](signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	signed __int32 IReadonlyList_of_GuiGraphicsComposition_raw_pointer::IndexOf(rptr<GuiGraphicsComposition> item)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_item = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(item.operator->()));
 		throw 0;
 	}
 	
 	rptr<IReadonlyList_of_GuiGraphicsComposition_raw_pointer> IReadonlyList_of_GuiGraphicsComposition_raw_pointer::operator=(rptr<IReadonlyList_of_GuiGraphicsComposition_raw_pointer> value)
 	{
+		vl::collections::IReadonlyList<vl::presentation::elements::GuiGraphicsComposition *,vl::presentation::elements::GuiGraphicsComposition *> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_GuiGraphicsComposition_raw_pointer>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -2978,19 +5802,6 @@ IReadonlyList_of_GuiGraphicsComposition_raw_pointer
 IReadonlyList_of_GuiTabPage_raw_pointer
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<IReadonlyList_of_GuiTabPage_raw_pointer>
-	{
-	public:
-		typedef IReadonlyList_of_GuiTabPage_raw_pointer WrappedObjectType;
-		typedef vl::collections::IReadonlyList<vl::presentation::controls::GuiTabPage *,vl::presentation::controls::GuiTabPage *> InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	IReadonlyList_of_GuiTabPage_raw_pointer::IReadonlyList_of_GuiTabPage_raw_pointer(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -3002,6 +5813,7 @@ IReadonlyList_of_GuiTabPage_raw_pointer
 	
 	bool IReadonlyList_of_GuiTabPage_raw_pointer::Contains(rptr<GuiTabPage> item)
 	{
+		vl::presentation::controls::GuiTabPage* _unwrapped_item = __GacUIInternal<GuiTabPage>::GetInternalObject(*(item.operator->()));
 		throw 0;
 	}
 	
@@ -3012,21 +5824,25 @@ IReadonlyList_of_GuiTabPage_raw_pointer
 	
 	rptr<GuiTabPage> IReadonlyList_of_GuiTabPage_raw_pointer::Get(signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	rptr<GuiTabPage> IReadonlyList_of_GuiTabPage_raw_pointer::operator[](signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	signed __int32 IReadonlyList_of_GuiTabPage_raw_pointer::IndexOf(rptr<GuiTabPage> item)
 	{
+		vl::presentation::controls::GuiTabPage* _unwrapped_item = __GacUIInternal<GuiTabPage>::GetInternalObject(*(item.operator->()));
 		throw 0;
 	}
 	
 	rptr<IReadonlyList_of_GuiTabPage_raw_pointer> IReadonlyList_of_GuiTabPage_raw_pointer::operator=(rptr<IReadonlyList_of_GuiTabPage_raw_pointer> value)
 	{
+		vl::collections::IReadonlyList<vl::presentation::controls::GuiTabPage *,vl::presentation::controls::GuiTabPage *> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_GuiTabPage_raw_pointer>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -3035,19 +5851,6 @@ IReadonlyList_of_GuiTabPage_raw_pointer
 IReadonlyList_of_int
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<IReadonlyList_of_int>
-	{
-	public:
-		typedef IReadonlyList_of_int WrappedObjectType;
-		typedef vl::collections::IReadonlyList<int,int> InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	IReadonlyList_of_int::IReadonlyList_of_int(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -3059,6 +5862,7 @@ IReadonlyList_of_int
 	
 	bool IReadonlyList_of_int::Contains(signed __int32 item)
 	{
+		signed __int32 _unwrapped_item = item;
 		throw 0;
 	}
 	
@@ -3069,21 +5873,25 @@ IReadonlyList_of_int
 	
 	signed __int32 IReadonlyList_of_int::Get(signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	signed __int32 IReadonlyList_of_int::operator[](signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	signed __int32 IReadonlyList_of_int::IndexOf(signed __int32 item)
 	{
+		signed __int32 _unwrapped_item = item;
 		throw 0;
 	}
 	
 	rptr<IReadonlyList_of_int> IReadonlyList_of_int::operator=(rptr<IReadonlyList_of_int> value)
 	{
+		vl::collections::IReadonlyList<int,int> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_int>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -3092,19 +5900,6 @@ IReadonlyList_of_int
 ITreeViewItemView
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ITreeViewItemView>
-	{
-	public:
-		typedef ITreeViewItemView WrappedObjectType;
-		typedef vl::presentation::controls::tree::ITreeViewItemView InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ITreeViewItemView::ITreeViewItemView(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,INodeItemPrimaryTextView(static_cast<__GacUIInternal<INodeItemPrimaryTextView>::InternalObjectType*>((__GacUIInternal<ITreeViewItemView>::InternalObjectType*)__internal_object_reference_input))
@@ -3117,46 +5912,32 @@ ITreeViewItemView
 	
 	sptr<GuiImageData> ITreeViewItemView::GetNodeImage(rptr<INodeProvider> node)
 	{
+		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(*(node.operator->()));
 		throw 0;
 	}
 	
 	GacString ITreeViewItemView::GetNodeText(rptr<INodeProvider> node)
 	{
+		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(*(node.operator->()));
 		throw 0;
 	}
 	
 	rptr<ITreeViewItemView> ITreeViewItemView::operator=(rptr<ITreeViewItemView> value)
 	{
+		vl::presentation::controls::tree::ITreeViewItemView const& _unwrapped_value = *__GacUIInternal<ITreeViewItemView>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
-	wchar_t* ITreeViewItemView::get_Identifier()
+	wchar_t const* ITreeViewItemView::get_Identifier()
 	{
 		throw 0;
 	}
 	
-	void ITreeViewItemView::set_Identifier(wchar_t* value)
-	{
-		throw 0;
-	}
 
 /***********************************************************************
 List_of_ObjectString_of_wchar_t
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<List_of_ObjectString_of_wchar_t>
-	{
-	public:
-		typedef List_of_ObjectString_of_wchar_t WrappedObjectType;
-		typedef vl::collections::List<vl::ObjectString<wchar_t>,vl::ObjectString<wchar_t> > InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	List_of_ObjectString_of_wchar_t::List_of_ObjectString_of_wchar_t(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -3173,41 +5954,51 @@ List_of_ObjectString_of_wchar_t
 	
 	bool List_of_ObjectString_of_wchar_t::Contains(const GacString& item)
 	{
+		vl::ObjectString<wchar_t> _unwrapped_item = item.Buffer();
 		throw 0;
 	}
 	
 	signed __int32 List_of_ObjectString_of_wchar_t::IndexOf(const GacString& item)
 	{
+		vl::ObjectString<wchar_t> _unwrapped_item = item.Buffer();
 		throw 0;
 	}
 	
 	signed __int32 List_of_ObjectString_of_wchar_t::Add(const GacString& item)
 	{
+		vl::ObjectString<wchar_t> _unwrapped_item = item.Buffer();
 		throw 0;
 	}
 	
 	signed __int32 List_of_ObjectString_of_wchar_t::Insert(signed __int32 index, const GacString& item)
 	{
+		signed __int32 _unwrapped_index = index;
+		vl::ObjectString<wchar_t> _unwrapped_item = item.Buffer();
 		throw 0;
 	}
 	
 	bool List_of_ObjectString_of_wchar_t::Remove(const GacString& item)
 	{
+		vl::ObjectString<wchar_t> _unwrapped_item = item.Buffer();
 		throw 0;
 	}
 	
 	bool List_of_ObjectString_of_wchar_t::Set(signed __int32 index, const GacString& item)
 	{
+		signed __int32 _unwrapped_index = index;
+		vl::ObjectString<wchar_t> _unwrapped_item = item.Buffer();
 		throw 0;
 	}
 	
 	GacString& List_of_ObjectString_of_wchar_t::operator[](signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	rptr<List_of_ObjectString_of_wchar_t> List_of_ObjectString_of_wchar_t::operator=(rptr<List_of_ObjectString_of_wchar_t> value)
 	{
+		vl::collections::List<vl::ObjectString<wchar_t>,vl::ObjectString<wchar_t> > const& _unwrapped_value = *__GacUIInternal<List_of_ObjectString_of_wchar_t>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -3216,19 +6007,6 @@ List_of_ObjectString_of_wchar_t
 ListViewColumn
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ListViewColumn>
-	{
-	public:
-		typedef ListViewColumn WrappedObjectType;
-		typedef vl::presentation::controls::list::ListViewColumn InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ListViewColumn::ListViewColumn(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -3241,16 +6019,21 @@ ListViewColumn
 	
 	rptr<ListViewColumn> ListViewColumn::CreateRptr(const GacString& _text, signed __int32 _size)
 	{
+		vl::ObjectString<wchar_t> _unwrapped__text = _text.Buffer();
+		signed __int32 _unwrapped__size = _size;
 		throw 0;
 	}
 	
 	ListViewColumn ListViewColumn::Create(const GacString& _text, signed __int32 _size)
 	{
+		vl::ObjectString<wchar_t> _unwrapped__text = _text.Buffer();
+		signed __int32 _unwrapped__size = _size;
 		throw 0;
 	}
 	
 	ListViewColumn& ListViewColumn::operator=(const ListViewColumn& value)
 	{
+		vl::presentation::controls::list::ListViewColumn const& _unwrapped_value = *__GacUIInternal<ListViewColumn>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -3261,6 +6044,7 @@ ListViewColumn
 	
 	void ListViewColumn::set_text(GacString value)
 	{
+		vl::ObjectString<wchar_t> _unwrapped_value = value.Buffer();
 		throw 0;
 	}
 	signed __int32 ListViewColumn::get_size()
@@ -3270,6 +6054,7 @@ ListViewColumn
 	
 	void ListViewColumn::set_size(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 
@@ -3277,19 +6062,6 @@ ListViewColumn
 IList_of_ListViewColumn
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<IList_of_ListViewColumn>
-	{
-	public:
-		typedef IList_of_ListViewColumn WrappedObjectType;
-		typedef vl::collections::IList<vl::Ptr<vl::presentation::controls::list::ListViewColumn>,vl::presentation::controls::list::ListViewColumn *> InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	IList_of_ListViewColumn::IList_of_ListViewColumn(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -3301,16 +6073,21 @@ IList_of_ListViewColumn
 	
 	signed __int32 IList_of_ListViewColumn::Insert(signed __int32 index, sptr<ListViewColumn> item)
 	{
+		signed __int32 _unwrapped_index = index;
+		vl::Ptr<vl::presentation::controls::list::ListViewColumn> _unwrapped_item = __GacUIInternal<ListViewColumn>::GetInternalObject(*(item.operator->()));
 		throw 0;
 	}
 	
 	bool IList_of_ListViewColumn::Set(signed __int32 index, sptr<ListViewColumn> item)
 	{
+		signed __int32 _unwrapped_index = index;
+		vl::Ptr<vl::presentation::controls::list::ListViewColumn> _unwrapped_item = __GacUIInternal<ListViewColumn>::GetInternalObject(*(item.operator->()));
 		throw 0;
 	}
 	
 	rptr<IList_of_ListViewColumn> IList_of_ListViewColumn::operator=(rptr<IList_of_ListViewColumn> value)
 	{
+		vl::collections::IList<vl::Ptr<vl::presentation::controls::list::ListViewColumn>,vl::presentation::controls::list::ListViewColumn *> const& _unwrapped_value = *__GacUIInternal<IList_of_ListViewColumn>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -3319,19 +6096,6 @@ IList_of_ListViewColumn
 ListViewItem
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ListViewItem>
-	{
-	public:
-		typedef ListViewItem WrappedObjectType;
-		typedef vl::presentation::controls::list::ListViewItem InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ListViewItem::ListViewItem(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -3344,6 +6108,7 @@ ListViewItem
 	
 	ListViewItem& ListViewItem::operator=(const ListViewItem& value)
 	{
+		vl::presentation::controls::list::ListViewItem const& _unwrapped_value = *__GacUIInternal<ListViewItem>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -3354,6 +6119,7 @@ ListViewItem
 	
 	void ListViewItem::set_smallImage(sptr<GuiImageData> value)
 	{
+		vl::Ptr<vl::presentation::controls::GuiImageData> _unwrapped_value = __GacUIInternal<GuiImageData>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	sptr<GuiImageData> ListViewItem::get_largeImage()
@@ -3363,6 +6129,7 @@ ListViewItem
 	
 	void ListViewItem::set_largeImage(sptr<GuiImageData> value)
 	{
+		vl::Ptr<vl::presentation::controls::GuiImageData> _unwrapped_value = __GacUIInternal<GuiImageData>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	GacString ListViewItem::get_text()
@@ -3372,6 +6139,7 @@ ListViewItem
 	
 	void ListViewItem::set_text(GacString value)
 	{
+		vl::ObjectString<wchar_t> _unwrapped_value = value.Buffer();
 		throw 0;
 	}
 	List_of_ObjectString_of_wchar_t ListViewItem::get_subItems()
@@ -3379,28 +6147,11 @@ ListViewItem
 		throw 0;
 	}
 	
-	void ListViewItem::set_subItems(List_of_ObjectString_of_wchar_t value)
-	{
-		throw 0;
-	}
 
 /***********************************************************************
 IList_of_ListViewItem
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<IList_of_ListViewItem>
-	{
-	public:
-		typedef IList_of_ListViewItem WrappedObjectType;
-		typedef vl::collections::IList<vl::Ptr<vl::presentation::controls::list::ListViewItem>,vl::presentation::controls::list::ListViewItem *> InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	IList_of_ListViewItem::IList_of_ListViewItem(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -3412,16 +6163,21 @@ IList_of_ListViewItem
 	
 	signed __int32 IList_of_ListViewItem::Insert(signed __int32 index, sptr<ListViewItem> item)
 	{
+		signed __int32 _unwrapped_index = index;
+		vl::Ptr<vl::presentation::controls::list::ListViewItem> _unwrapped_item = __GacUIInternal<ListViewItem>::GetInternalObject(*(item.operator->()));
 		throw 0;
 	}
 	
 	bool IList_of_ListViewItem::Set(signed __int32 index, sptr<ListViewItem> item)
 	{
+		signed __int32 _unwrapped_index = index;
+		vl::Ptr<vl::presentation::controls::list::ListViewItem> _unwrapped_item = __GacUIInternal<ListViewItem>::GetInternalObject(*(item.operator->()));
 		throw 0;
 	}
 	
 	rptr<IList_of_ListViewItem> IList_of_ListViewItem::operator=(rptr<IList_of_ListViewItem> value)
 	{
+		vl::collections::IList<vl::Ptr<vl::presentation::controls::list::ListViewItem>,vl::presentation::controls::list::ListViewItem *> const& _unwrapped_value = *__GacUIInternal<IList_of_ListViewItem>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -3430,19 +6186,6 @@ IList_of_ListViewItem
 Margin
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Margin>
-	{
-	public:
-		typedef Margin WrappedObjectType;
-		typedef vl::presentation::Margin InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Margin::Margin(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -3455,11 +6198,19 @@ Margin
 	
 	rptr<Margin> Margin::CreateRptr(signed __int32 _left, signed __int32 _top, signed __int32 _right, signed __int32 _bottom)
 	{
+		signed __int32 _unwrapped__left = _left;
+		signed __int32 _unwrapped__top = _top;
+		signed __int32 _unwrapped__right = _right;
+		signed __int32 _unwrapped__bottom = _bottom;
 		throw 0;
 	}
 	
 	Margin Margin::Create(signed __int32 _left, signed __int32 _top, signed __int32 _right, signed __int32 _bottom)
 	{
+		signed __int32 _unwrapped__left = _left;
+		signed __int32 _unwrapped__top = _top;
+		signed __int32 _unwrapped__right = _right;
+		signed __int32 _unwrapped__bottom = _bottom;
 		throw 0;
 	}
 	
@@ -3475,11 +6226,13 @@ Margin
 	
 	bool Margin::operator==(Margin margin)
 	{
+		vl::presentation::Margin _unwrapped_margin = *__GacUIInternal<Margin>::GetInternalObject(margin);
 		throw 0;
 	}
 	
 	bool Margin::operator!=(Margin margin)
 	{
+		vl::presentation::Margin _unwrapped_margin = *__GacUIInternal<Margin>::GetInternalObject(margin);
 		throw 0;
 	}
 	
@@ -3490,6 +6243,7 @@ Margin
 	
 	void Margin::set_left(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	signed __int32 Margin::get_top()
@@ -3499,6 +6253,7 @@ Margin
 	
 	void Margin::set_top(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	signed __int32 Margin::get_right()
@@ -3508,6 +6263,7 @@ Margin
 	
 	void Margin::set_right(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	signed __int32 Margin::get_bottom()
@@ -3517,6 +6273,7 @@ Margin
 	
 	void Margin::set_bottom(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 
@@ -3524,19 +6281,6 @@ Margin
 MemoryNodeProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<MemoryNodeProvider>
-	{
-	public:
-		typedef MemoryNodeProvider WrappedObjectType;
-		typedef vl::presentation::controls::tree::MemoryNodeProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	MemoryNodeProvider::MemoryNodeProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,INodeProvider(static_cast<__GacUIInternal<INodeProvider>::InternalObjectType*>((__GacUIInternal<MemoryNodeProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -3549,6 +6293,7 @@ MemoryNodeProvider
 	
 	rptr<MemoryNodeProvider> MemoryNodeProvider::CreateRptr(sptr<DescriptableObject> _data)
 	{
+		vl::Ptr<vl::presentation::DescriptableObject> _unwrapped__data = __GacUIInternal<DescriptableObject>::GetInternalObject(*(_data.operator->()));
 		throw 0;
 	}
 	
@@ -3569,6 +6314,7 @@ MemoryNodeProvider
 	
 	rptr<MemoryNodeProvider> MemoryNodeProvider::operator=(rptr<MemoryNodeProvider> value)
 	{
+		vl::presentation::controls::tree::MemoryNodeProvider const& _unwrapped_value = *__GacUIInternal<MemoryNodeProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -3579,6 +6325,7 @@ MemoryNodeProvider
 	
 	void MemoryNodeProvider::SetData(sptr<DescriptableObject> value)
 	{
+		vl::Ptr<vl::presentation::DescriptableObject> _unwrapped_value = __GacUIInternal<DescriptableObject>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -3587,19 +6334,6 @@ MemoryNodeProvider
 NativeWindowCharInfo
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<NativeWindowCharInfo>
-	{
-	public:
-		typedef NativeWindowCharInfo WrappedObjectType;
-		typedef vl::presentation::NativeWindowCharInfo InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	NativeWindowCharInfo::NativeWindowCharInfo(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -3617,6 +6351,7 @@ NativeWindowCharInfo
 	
 	void NativeWindowCharInfo::set_code(wchar_t value)
 	{
+		wchar_t _unwrapped_value = value;
 		throw 0;
 	}
 	bool NativeWindowCharInfo::get_ctrl()
@@ -3626,6 +6361,7 @@ NativeWindowCharInfo
 	
 	void NativeWindowCharInfo::set_ctrl(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	bool NativeWindowCharInfo::get_shift()
@@ -3635,6 +6371,7 @@ NativeWindowCharInfo
 	
 	void NativeWindowCharInfo::set_shift(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	bool NativeWindowCharInfo::get_alt()
@@ -3644,6 +6381,7 @@ NativeWindowCharInfo
 	
 	void NativeWindowCharInfo::set_alt(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	bool NativeWindowCharInfo::get_capslock()
@@ -3653,6 +6391,7 @@ NativeWindowCharInfo
 	
 	void NativeWindowCharInfo::set_capslock(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 
@@ -3660,19 +6399,6 @@ NativeWindowCharInfo
 GuiCharEventArgs
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiCharEventArgs>
-	{
-	public:
-		typedef GuiCharEventArgs WrappedObjectType;
-		typedef vl::presentation::elements::GuiCharEventArgs InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiCharEventArgs::GuiCharEventArgs(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiEventArgs(static_cast<__GacUIInternal<GuiEventArgs>::InternalObjectType*>((__GacUIInternal<GuiCharEventArgs>::InternalObjectType*)__internal_object_reference_input))
@@ -3687,11 +6413,13 @@ GuiCharEventArgs
 	
 	rptr<GuiCharEventArgs> GuiCharEventArgs::CreateRptr(rptr<GuiGraphicsComposition> composition)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(composition.operator->()));
 		throw 0;
 	}
 	
 	GuiCharEventArgs GuiCharEventArgs::Create(rptr<GuiGraphicsComposition> composition)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(composition.operator->()));
 		throw 0;
 	}
 	
@@ -3710,19 +6438,6 @@ GuiCharEventArgs
 GuiGraphicsEvent_of_GuiCharEventArgs
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiGraphicsEvent_of_GuiCharEventArgs>
-	{
-	public:
-		typedef GuiGraphicsEvent_of_GuiCharEventArgs WrappedObjectType;
-		typedef vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiCharEventArgs> InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiGraphicsEvent_of_GuiCharEventArgs::GuiGraphicsEvent_of_GuiCharEventArgs(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -3734,26 +6449,31 @@ GuiGraphicsEvent_of_GuiCharEventArgs
 	
 	rptr<GuiGraphicsEvent_of_GuiCharEventArgs> GuiGraphicsEvent_of_GuiCharEventArgs::CreateRptr(rptr<GuiGraphicsComposition> _sender)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_sender.operator->()));
 		throw 0;
 	}
 	
 	bool GuiGraphicsEvent_of_GuiCharEventArgs::Attach(sptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> handler)
 	{
+		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiCharEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler>::GetInternalObject(*(handler.operator->()));
 		throw 0;
 	}
 	
 	bool GuiGraphicsEvent_of_GuiCharEventArgs::Detach(sptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> handler)
 	{
+		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiCharEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler>::GetInternalObject(*(handler.operator->()));
 		throw 0;
 	}
 	
 	void GuiGraphicsEvent_of_GuiCharEventArgs::Execute(GuiCharEventArgs& argument)
 	{
+		vl::presentation::elements::GuiCharEventArgs& _unwrapped_argument = *__GacUIInternal<GuiCharEventArgs>::GetInternalObject(argument);
 		throw 0;
 	}
 	
 	rptr<GuiGraphicsEvent_of_GuiCharEventArgs> GuiGraphicsEvent_of_GuiCharEventArgs::operator=(rptr<GuiGraphicsEvent_of_GuiCharEventArgs> value)
 	{
+		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiCharEventArgs> const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiCharEventArgs>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -3764,6 +6484,7 @@ GuiGraphicsEvent_of_GuiCharEventArgs
 	
 	void GuiGraphicsEvent_of_GuiCharEventArgs::SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_sender.operator->()));
 		throw 0;
 	}
 	
@@ -3772,19 +6493,6 @@ GuiGraphicsEvent_of_GuiCharEventArgs
 GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler>
-	{
-	public:
-		typedef GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler WrappedObjectType;
-		typedef vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiCharEventArgs>::IHandler InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiGraphicsEvent_of_GuiCharEventArgs::IHandler::IHandler(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler>::InternalObjectType*)__internal_object_reference_input))
@@ -3797,11 +6505,14 @@ GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler
 	
 	void GuiGraphicsEvent_of_GuiCharEventArgs::IHandler::Execute(rptr<GuiGraphicsComposition> sender, GuiCharEventArgs& argument)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(sender.operator->()));
+		vl::presentation::elements::GuiCharEventArgs& _unwrapped_argument = *__GacUIInternal<GuiCharEventArgs>::GetInternalObject(argument);
 		throw 0;
 	}
 	
 	rptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> GuiGraphicsEvent_of_GuiCharEventArgs::IHandler::operator=(rptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> value)
 	{
+		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiCharEventArgs>::IHandler const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -3810,19 +6521,6 @@ GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler
 NativeWindowKeyInfo
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<NativeWindowKeyInfo>
-	{
-	public:
-		typedef NativeWindowKeyInfo WrappedObjectType;
-		typedef vl::presentation::NativeWindowKeyInfo InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	NativeWindowKeyInfo::NativeWindowKeyInfo(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -3840,6 +6538,7 @@ NativeWindowKeyInfo
 	
 	void NativeWindowKeyInfo::set_code(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	bool NativeWindowKeyInfo::get_ctrl()
@@ -3849,6 +6548,7 @@ NativeWindowKeyInfo
 	
 	void NativeWindowKeyInfo::set_ctrl(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	bool NativeWindowKeyInfo::get_shift()
@@ -3858,6 +6558,7 @@ NativeWindowKeyInfo
 	
 	void NativeWindowKeyInfo::set_shift(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	bool NativeWindowKeyInfo::get_alt()
@@ -3867,6 +6568,7 @@ NativeWindowKeyInfo
 	
 	void NativeWindowKeyInfo::set_alt(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	bool NativeWindowKeyInfo::get_capslock()
@@ -3876,6 +6578,7 @@ NativeWindowKeyInfo
 	
 	void NativeWindowKeyInfo::set_capslock(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 
@@ -3883,19 +6586,6 @@ NativeWindowKeyInfo
 GuiKeyEventArgs
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiKeyEventArgs>
-	{
-	public:
-		typedef GuiKeyEventArgs WrappedObjectType;
-		typedef vl::presentation::elements::GuiKeyEventArgs InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiKeyEventArgs::GuiKeyEventArgs(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiEventArgs(static_cast<__GacUIInternal<GuiEventArgs>::InternalObjectType*>((__GacUIInternal<GuiKeyEventArgs>::InternalObjectType*)__internal_object_reference_input))
@@ -3910,11 +6600,13 @@ GuiKeyEventArgs
 	
 	rptr<GuiKeyEventArgs> GuiKeyEventArgs::CreateRptr(rptr<GuiGraphicsComposition> composition)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(composition.operator->()));
 		throw 0;
 	}
 	
 	GuiKeyEventArgs GuiKeyEventArgs::Create(rptr<GuiGraphicsComposition> composition)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(composition.operator->()));
 		throw 0;
 	}
 	
@@ -3933,19 +6625,6 @@ GuiKeyEventArgs
 GuiGraphicsEvent_of_GuiKeyEventArgs
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiGraphicsEvent_of_GuiKeyEventArgs>
-	{
-	public:
-		typedef GuiGraphicsEvent_of_GuiKeyEventArgs WrappedObjectType;
-		typedef vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiKeyEventArgs> InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiGraphicsEvent_of_GuiKeyEventArgs::GuiGraphicsEvent_of_GuiKeyEventArgs(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -3957,26 +6636,31 @@ GuiGraphicsEvent_of_GuiKeyEventArgs
 	
 	rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> GuiGraphicsEvent_of_GuiKeyEventArgs::CreateRptr(rptr<GuiGraphicsComposition> _sender)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_sender.operator->()));
 		throw 0;
 	}
 	
 	bool GuiGraphicsEvent_of_GuiKeyEventArgs::Attach(sptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> handler)
 	{
+		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiKeyEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler>::GetInternalObject(*(handler.operator->()));
 		throw 0;
 	}
 	
 	bool GuiGraphicsEvent_of_GuiKeyEventArgs::Detach(sptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> handler)
 	{
+		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiKeyEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler>::GetInternalObject(*(handler.operator->()));
 		throw 0;
 	}
 	
 	void GuiGraphicsEvent_of_GuiKeyEventArgs::Execute(GuiKeyEventArgs& argument)
 	{
+		vl::presentation::elements::GuiKeyEventArgs& _unwrapped_argument = *__GacUIInternal<GuiKeyEventArgs>::GetInternalObject(argument);
 		throw 0;
 	}
 	
 	rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> GuiGraphicsEvent_of_GuiKeyEventArgs::operator=(rptr<GuiGraphicsEvent_of_GuiKeyEventArgs> value)
 	{
+		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiKeyEventArgs> const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiKeyEventArgs>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -3987,6 +6671,7 @@ GuiGraphicsEvent_of_GuiKeyEventArgs
 	
 	void GuiGraphicsEvent_of_GuiKeyEventArgs::SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_sender.operator->()));
 		throw 0;
 	}
 	
@@ -3995,19 +6680,6 @@ GuiGraphicsEvent_of_GuiKeyEventArgs
 GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler>
-	{
-	public:
-		typedef GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler WrappedObjectType;
-		typedef vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiKeyEventArgs>::IHandler InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiGraphicsEvent_of_GuiKeyEventArgs::IHandler::IHandler(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler>::InternalObjectType*)__internal_object_reference_input))
@@ -4020,11 +6692,14 @@ GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler
 	
 	void GuiGraphicsEvent_of_GuiKeyEventArgs::IHandler::Execute(rptr<GuiGraphicsComposition> sender, GuiKeyEventArgs& argument)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(sender.operator->()));
+		vl::presentation::elements::GuiKeyEventArgs& _unwrapped_argument = *__GacUIInternal<GuiKeyEventArgs>::GetInternalObject(argument);
 		throw 0;
 	}
 	
 	rptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> GuiGraphicsEvent_of_GuiKeyEventArgs::IHandler::operator=(rptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> value)
 	{
+		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiKeyEventArgs>::IHandler const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -4033,19 +6708,6 @@ GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler
 NativeWindowMouseInfo
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<NativeWindowMouseInfo>
-	{
-	public:
-		typedef NativeWindowMouseInfo WrappedObjectType;
-		typedef vl::presentation::NativeWindowMouseInfo InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	NativeWindowMouseInfo::NativeWindowMouseInfo(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -4063,6 +6725,7 @@ NativeWindowMouseInfo
 	
 	void NativeWindowMouseInfo::set_ctrl(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	bool NativeWindowMouseInfo::get_shift()
@@ -4072,6 +6735,7 @@ NativeWindowMouseInfo
 	
 	void NativeWindowMouseInfo::set_shift(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	bool NativeWindowMouseInfo::get_left()
@@ -4081,6 +6745,7 @@ NativeWindowMouseInfo
 	
 	void NativeWindowMouseInfo::set_left(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	bool NativeWindowMouseInfo::get_middle()
@@ -4090,6 +6755,7 @@ NativeWindowMouseInfo
 	
 	void NativeWindowMouseInfo::set_middle(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	bool NativeWindowMouseInfo::get_right()
@@ -4099,6 +6765,7 @@ NativeWindowMouseInfo
 	
 	void NativeWindowMouseInfo::set_right(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	signed __int32 NativeWindowMouseInfo::get_x()
@@ -4108,6 +6775,7 @@ NativeWindowMouseInfo
 	
 	void NativeWindowMouseInfo::set_x(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	signed __int32 NativeWindowMouseInfo::get_y()
@@ -4117,6 +6785,7 @@ NativeWindowMouseInfo
 	
 	void NativeWindowMouseInfo::set_y(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	signed __int32 NativeWindowMouseInfo::get_wheel()
@@ -4126,6 +6795,7 @@ NativeWindowMouseInfo
 	
 	void NativeWindowMouseInfo::set_wheel(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 
@@ -4133,19 +6803,6 @@ NativeWindowMouseInfo
 GuiMouseEventArgs
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiMouseEventArgs>
-	{
-	public:
-		typedef GuiMouseEventArgs WrappedObjectType;
-		typedef vl::presentation::elements::GuiMouseEventArgs InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiMouseEventArgs::GuiMouseEventArgs(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiEventArgs(static_cast<__GacUIInternal<GuiEventArgs>::InternalObjectType*>((__GacUIInternal<GuiMouseEventArgs>::InternalObjectType*)__internal_object_reference_input))
@@ -4160,11 +6817,13 @@ GuiMouseEventArgs
 	
 	rptr<GuiMouseEventArgs> GuiMouseEventArgs::CreateRptr(rptr<GuiGraphicsComposition> composition)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(composition.operator->()));
 		throw 0;
 	}
 	
 	GuiMouseEventArgs GuiMouseEventArgs::Create(rptr<GuiGraphicsComposition> composition)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(composition.operator->()));
 		throw 0;
 	}
 	
@@ -4183,19 +6842,6 @@ GuiMouseEventArgs
 GuiGraphicsEvent_of_GuiMouseEventArgs
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiGraphicsEvent_of_GuiMouseEventArgs>
-	{
-	public:
-		typedef GuiGraphicsEvent_of_GuiMouseEventArgs WrappedObjectType;
-		typedef vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiMouseEventArgs> InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiGraphicsEvent_of_GuiMouseEventArgs::GuiGraphicsEvent_of_GuiMouseEventArgs(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -4207,26 +6853,31 @@ GuiGraphicsEvent_of_GuiMouseEventArgs
 	
 	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> GuiGraphicsEvent_of_GuiMouseEventArgs::CreateRptr(rptr<GuiGraphicsComposition> _sender)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_sender.operator->()));
 		throw 0;
 	}
 	
 	bool GuiGraphicsEvent_of_GuiMouseEventArgs::Attach(sptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> handler)
 	{
+		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiMouseEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler>::GetInternalObject(*(handler.operator->()));
 		throw 0;
 	}
 	
 	bool GuiGraphicsEvent_of_GuiMouseEventArgs::Detach(sptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> handler)
 	{
+		vl::Ptr<vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiMouseEventArgs>::IHandler> _unwrapped_handler = __GacUIInternal<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler>::GetInternalObject(*(handler.operator->()));
 		throw 0;
 	}
 	
 	void GuiGraphicsEvent_of_GuiMouseEventArgs::Execute(GuiMouseEventArgs& argument)
 	{
+		vl::presentation::elements::GuiMouseEventArgs& _unwrapped_argument = *__GacUIInternal<GuiMouseEventArgs>::GetInternalObject(argument);
 		throw 0;
 	}
 	
 	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> GuiGraphicsEvent_of_GuiMouseEventArgs::operator=(rptr<GuiGraphicsEvent_of_GuiMouseEventArgs> value)
 	{
+		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiMouseEventArgs> const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiMouseEventArgs>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -4237,6 +6888,7 @@ GuiGraphicsEvent_of_GuiMouseEventArgs
 	
 	void GuiGraphicsEvent_of_GuiMouseEventArgs::SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_sender.operator->()));
 		throw 0;
 	}
 	
@@ -4245,19 +6897,6 @@ GuiGraphicsEvent_of_GuiMouseEventArgs
 GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler>
-	{
-	public:
-		typedef GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler WrappedObjectType;
-		typedef vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiMouseEventArgs>::IHandler InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiGraphicsEvent_of_GuiMouseEventArgs::IHandler::IHandler(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler>::InternalObjectType*)__internal_object_reference_input))
@@ -4270,11 +6909,14 @@ GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler
 	
 	void GuiGraphicsEvent_of_GuiMouseEventArgs::IHandler::Execute(rptr<GuiGraphicsComposition> sender, GuiMouseEventArgs& argument)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(sender.operator->()));
+		vl::presentation::elements::GuiMouseEventArgs& _unwrapped_argument = *__GacUIInternal<GuiMouseEventArgs>::GetInternalObject(argument);
 		throw 0;
 	}
 	
 	rptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> GuiGraphicsEvent_of_GuiMouseEventArgs::IHandler::operator=(rptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> value)
 	{
+		vl::presentation::elements::GuiGraphicsEvent<vl::presentation::elements::GuiMouseEventArgs>::IHandler const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -4283,19 +6925,6 @@ GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler
 GuiGraphicsEventReceiver
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiGraphicsEventReceiver>
-	{
-	public:
-		typedef GuiGraphicsEventReceiver WrappedObjectType;
-		typedef vl::presentation::elements::GuiGraphicsEventReceiver InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiGraphicsEventReceiver::GuiGraphicsEventReceiver(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -4307,11 +6936,13 @@ GuiGraphicsEventReceiver
 	
 	rptr<GuiGraphicsEventReceiver> GuiGraphicsEventReceiver::CreateRptr(rptr<GuiGraphicsComposition> _sender)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__sender = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_sender.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiGraphicsEventReceiver> GuiGraphicsEventReceiver::operator=(rptr<GuiGraphicsEventReceiver> value)
 	{
+		vl::presentation::elements::GuiGraphicsEventReceiver const& _unwrapped_value = *__GacUIInternal<GuiGraphicsEventReceiver>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -4445,19 +7076,6 @@ GuiGraphicsEventReceiver
 NodeRootProviderBase
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<NodeRootProviderBase>
-	{
-	public:
-		typedef NodeRootProviderBase WrappedObjectType;
-		typedef vl::presentation::controls::tree::NodeRootProviderBase InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	NodeRootProviderBase::NodeRootProviderBase(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,INodeRootProvider(static_cast<__GacUIInternal<INodeRootProvider>::InternalObjectType*>((__GacUIInternal<NodeRootProviderBase>::InternalObjectType*)__internal_object_reference_input))
@@ -4475,6 +7093,7 @@ NodeRootProviderBase
 	
 	rptr<NodeRootProviderBase> NodeRootProviderBase::operator=(rptr<NodeRootProviderBase> value)
 	{
+		vl::presentation::controls::tree::NodeRootProviderBase const& _unwrapped_value = *__GacUIInternal<NodeRootProviderBase>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -4483,19 +7102,6 @@ NodeRootProviderBase
 MemoryNodeRootProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<MemoryNodeRootProvider>
-	{
-	public:
-		typedef MemoryNodeRootProvider WrappedObjectType;
-		typedef vl::presentation::controls::tree::MemoryNodeRootProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	MemoryNodeRootProvider::MemoryNodeRootProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,MemoryNodeProvider(static_cast<__GacUIInternal<MemoryNodeProvider>::InternalObjectType*>((__GacUIInternal<MemoryNodeRootProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -4514,6 +7120,7 @@ MemoryNodeRootProvider
 	
 	rptr<MemoryNodeRootProvider> MemoryNodeRootProvider::operator=(rptr<MemoryNodeRootProvider> value)
 	{
+		vl::presentation::controls::tree::MemoryNodeRootProvider const& _unwrapped_value = *__GacUIInternal<MemoryNodeRootProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -4522,19 +7129,6 @@ MemoryNodeRootProvider
 Point
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Point>
-	{
-	public:
-		typedef Point WrappedObjectType;
-		typedef vl::presentation::Point InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Point::Point(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -4547,11 +7141,15 @@ Point
 	
 	rptr<Point> Point::CreateRptr(signed __int32 _x, signed __int32 _y)
 	{
+		signed __int32 _unwrapped__x = _x;
+		signed __int32 _unwrapped__y = _y;
 		throw 0;
 	}
 	
 	Point Point::Create(signed __int32 _x, signed __int32 _y)
 	{
+		signed __int32 _unwrapped__x = _x;
+		signed __int32 _unwrapped__y = _y;
 		throw 0;
 	}
 	
@@ -4567,11 +7165,13 @@ Point
 	
 	bool Point::operator==(Point point)
 	{
+		vl::presentation::Point _unwrapped_point = *__GacUIInternal<Point>::GetInternalObject(point);
 		throw 0;
 	}
 	
 	bool Point::operator!=(Point point)
 	{
+		vl::presentation::Point _unwrapped_point = *__GacUIInternal<Point>::GetInternalObject(point);
 		throw 0;
 	}
 	
@@ -4582,6 +7182,7 @@ Point
 	
 	void Point::set_x(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	signed __int32 Point::get_y()
@@ -4591,6 +7192,7 @@ Point
 	
 	void Point::set_y(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 
@@ -4598,19 +7200,6 @@ Point
 INativeControllerListener
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<INativeControllerListener>
-	{
-	public:
-		typedef INativeControllerListener WrappedObjectType;
-		typedef vl::presentation::INativeControllerListener InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	INativeControllerListener::INativeControllerListener(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -4627,26 +7216,31 @@ INativeControllerListener
 	
 	void INativeControllerListener::LeftButtonDown(Point position)
 	{
+		vl::presentation::Point _unwrapped_position = *__GacUIInternal<Point>::GetInternalObject(position);
 		throw 0;
 	}
 	
 	void INativeControllerListener::LeftButtonUp(Point position)
 	{
+		vl::presentation::Point _unwrapped_position = *__GacUIInternal<Point>::GetInternalObject(position);
 		throw 0;
 	}
 	
 	void INativeControllerListener::RightButtonDown(Point position)
 	{
+		vl::presentation::Point _unwrapped_position = *__GacUIInternal<Point>::GetInternalObject(position);
 		throw 0;
 	}
 	
 	void INativeControllerListener::RightButtonUp(Point position)
 	{
+		vl::presentation::Point _unwrapped_position = *__GacUIInternal<Point>::GetInternalObject(position);
 		throw 0;
 	}
 	
 	void INativeControllerListener::MouseMoving(Point position)
 	{
+		vl::presentation::Point _unwrapped_position = *__GacUIInternal<Point>::GetInternalObject(position);
 		throw 0;
 	}
 	
@@ -4662,16 +7256,19 @@ INativeControllerListener
 	
 	void INativeControllerListener::NativeWindowCreated(rptr<INativeWindow> window)
 	{
+		vl::presentation::INativeWindow* _unwrapped_window = __GacUIInternal<INativeWindow>::GetInternalObject(*(window.operator->()));
 		throw 0;
 	}
 	
 	void INativeControllerListener::NativeWindowDestroying(rptr<INativeWindow> window)
 	{
+		vl::presentation::INativeWindow* _unwrapped_window = __GacUIInternal<INativeWindow>::GetInternalObject(*(window.operator->()));
 		throw 0;
 	}
 	
 	rptr<INativeControllerListener> INativeControllerListener::operator=(rptr<INativeControllerListener> value)
 	{
+		vl::presentation::INativeControllerListener const& _unwrapped_value = *__GacUIInternal<INativeControllerListener>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -4680,19 +7277,6 @@ INativeControllerListener
 INativeCallbackService
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<INativeCallbackService>
-	{
-	public:
-		typedef INativeCallbackService WrappedObjectType;
-		typedef vl::presentation::INativeCallbackService InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	INativeCallbackService::INativeCallbackService(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -4704,16 +7288,19 @@ INativeCallbackService
 	
 	bool INativeCallbackService::InstallListener(rptr<INativeControllerListener> listener)
 	{
+		vl::presentation::INativeControllerListener* _unwrapped_listener = __GacUIInternal<INativeControllerListener>::GetInternalObject(*(listener.operator->()));
 		throw 0;
 	}
 	
 	bool INativeCallbackService::UninstallListener(rptr<INativeControllerListener> listener)
 	{
+		vl::presentation::INativeControllerListener* _unwrapped_listener = __GacUIInternal<INativeControllerListener>::GetInternalObject(*(listener.operator->()));
 		throw 0;
 	}
 	
 	rptr<INativeCallbackService> INativeCallbackService::operator=(rptr<INativeCallbackService> value)
 	{
+		vl::presentation::INativeCallbackService const& _unwrapped_value = *__GacUIInternal<INativeCallbackService>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -4722,19 +7309,6 @@ INativeCallbackService
 INativeWindowService
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<INativeWindowService>
-	{
-	public:
-		typedef INativeWindowService WrappedObjectType;
-		typedef vl::presentation::INativeWindowService InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	INativeWindowService::INativeWindowService(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -4751,21 +7325,25 @@ INativeWindowService
 	
 	void INativeWindowService::DestroyNativeWindow(rptr<INativeWindow> window)
 	{
+		vl::presentation::INativeWindow* _unwrapped_window = __GacUIInternal<INativeWindow>::GetInternalObject(*(window.operator->()));
 		throw 0;
 	}
 	
 	rptr<INativeWindow> INativeWindowService::GetWindow(Point location)
 	{
+		vl::presentation::Point _unwrapped_location = *__GacUIInternal<Point>::GetInternalObject(location);
 		throw 0;
 	}
 	
 	void INativeWindowService::Run(rptr<INativeWindow> window)
 	{
+		vl::presentation::INativeWindow* _unwrapped_window = __GacUIInternal<INativeWindow>::GetInternalObject(*(window.operator->()));
 		throw 0;
 	}
 	
 	rptr<INativeWindowService> INativeWindowService::operator=(rptr<INativeWindowService> value)
 	{
+		vl::presentation::INativeWindowService const& _unwrapped_value = *__GacUIInternal<INativeWindowService>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -4779,19 +7357,6 @@ INativeWindowService
 Size
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Size>
-	{
-	public:
-		typedef Size WrappedObjectType;
-		typedef vl::presentation::Size InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Size::Size(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -4804,11 +7369,15 @@ Size
 	
 	rptr<Size> Size::CreateRptr(signed __int32 _x, signed __int32 _y)
 	{
+		signed __int32 _unwrapped__x = _x;
+		signed __int32 _unwrapped__y = _y;
 		throw 0;
 	}
 	
 	Size Size::Create(signed __int32 _x, signed __int32 _y)
 	{
+		signed __int32 _unwrapped__x = _x;
+		signed __int32 _unwrapped__y = _y;
 		throw 0;
 	}
 	
@@ -4824,11 +7393,13 @@ Size
 	
 	bool Size::operator==(Size size)
 	{
+		vl::presentation::Size _unwrapped_size = *__GacUIInternal<Size>::GetInternalObject(size);
 		throw 0;
 	}
 	
 	bool Size::operator!=(Size size)
 	{
+		vl::presentation::Size _unwrapped_size = *__GacUIInternal<Size>::GetInternalObject(size);
 		throw 0;
 	}
 	
@@ -4839,6 +7410,7 @@ Size
 	
 	void Size::set_x(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	signed __int32 Size::get_y()
@@ -4848,6 +7420,7 @@ Size
 	
 	void Size::set_y(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 
@@ -4855,19 +7428,6 @@ Size
 GuiPolygonElement
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiPolygonElement>
-	{
-	public:
-		typedef GuiPolygonElement WrappedObjectType;
-		typedef vl::presentation::elements::GuiPolygonElement InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiPolygonElement::GuiPolygonElement(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IGuiGraphicsElement(static_cast<__GacUIInternal<IGuiGraphicsElement>::InternalObjectType*>((__GacUIInternal<GuiPolygonElement>::InternalObjectType*)__internal_object_reference_input))
@@ -4878,13 +7438,19 @@ GuiPolygonElement
 	{
 	}
 	
-	void GuiPolygonElement::SetPoints(Point* p, signed __int32 count)
+	void GuiPolygonElement::SetPoints(Point const* p, signed __int32 count)
 	{
+		vl::collections::Array<vl::presentation::Point> _unwrapped_points(count);
+		for(int i=0;i<count;i++)
+		{
+			_unwrapped_points[i] = *__GacUIInternal<Point>::GetInternalObject(p[i]);
+		}
 		throw 0;
 	}
 	
 	rptr<GuiPolygonElement> GuiPolygonElement::operator=(rptr<GuiPolygonElement> value)
 	{
+		vl::presentation::elements::GuiPolygonElement const& _unwrapped_value = *__GacUIInternal<GuiPolygonElement>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -4900,10 +7466,11 @@ GuiPolygonElement
 	
 	void GuiPolygonElement::SetSize(Size value)
 	{
+		vl::presentation::Size _unwrapped_value = *__GacUIInternal<Size>::GetInternalObject(value);
 		throw 0;
 	}
 	
-	Point* GuiPolygonElement::GetPoints()
+	Point const* GuiPolygonElement::GetPoints()
 	{
 		throw 0;
 	}
@@ -4920,6 +7487,7 @@ GuiPolygonElement
 	
 	void GuiPolygonElement::SetBorderColor(Color value)
 	{
+		vl::presentation::Color _unwrapped_value = *__GacUIInternal<Color>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -4930,6 +7498,7 @@ GuiPolygonElement
 	
 	void GuiPolygonElement::SetBackgroundColor(Color value)
 	{
+		vl::presentation::Color _unwrapped_value = *__GacUIInternal<Color>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -4943,19 +7512,6 @@ GuiPolygonElement
 INativeImageFrame
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<INativeImageFrame>
-	{
-	public:
-		typedef INativeImageFrame WrappedObjectType;
-		typedef vl::presentation::INativeImageFrame InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	INativeImageFrame::INativeImageFrame(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -4967,21 +7523,26 @@ INativeImageFrame
 	
 	bool INativeImageFrame::SetCache(void* key, sptr<INativeImageFrameCache> cache)
 	{
+		void* _unwrapped_key = key;
+		vl::Ptr<vl::presentation::INativeImageFrameCache> _unwrapped_cache = __GacUIInternal<INativeImageFrameCache>::GetInternalObject(*(cache.operator->()));
 		throw 0;
 	}
 	
 	sptr<INativeImageFrameCache> INativeImageFrame::GetCache(void* key)
 	{
+		void* _unwrapped_key = key;
 		throw 0;
 	}
 	
 	sptr<INativeImageFrameCache> INativeImageFrame::RemoveCache(void* key)
 	{
+		void* _unwrapped_key = key;
 		throw 0;
 	}
 	
 	rptr<INativeImageFrame> INativeImageFrame::operator=(rptr<INativeImageFrame> value)
 	{
+		vl::presentation::INativeImageFrame const& _unwrapped_value = *__GacUIInternal<INativeImageFrame>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -5000,19 +7561,6 @@ INativeImageFrame
 Rect
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Rect>
-	{
-	public:
-		typedef Rect WrappedObjectType;
-		typedef vl::presentation::Rect InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Rect::Rect(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -5025,21 +7573,33 @@ Rect
 	
 	rptr<Rect> Rect::CreateRptr(Point p, Size s)
 	{
+		vl::presentation::Point _unwrapped_p = *__GacUIInternal<Point>::GetInternalObject(p);
+		vl::presentation::Size _unwrapped_s = *__GacUIInternal<Size>::GetInternalObject(s);
 		throw 0;
 	}
 	
 	Rect Rect::Create(Point p, Size s)
 	{
+		vl::presentation::Point _unwrapped_p = *__GacUIInternal<Point>::GetInternalObject(p);
+		vl::presentation::Size _unwrapped_s = *__GacUIInternal<Size>::GetInternalObject(s);
 		throw 0;
 	}
 	
 	rptr<Rect> Rect::CreateRptr(signed __int32 _x1, signed __int32 _y1, signed __int32 _x2, signed __int32 _y2)
 	{
+		signed __int32 _unwrapped__x1 = _x1;
+		signed __int32 _unwrapped__y1 = _y1;
+		signed __int32 _unwrapped__x2 = _x2;
+		signed __int32 _unwrapped__y2 = _y2;
 		throw 0;
 	}
 	
 	Rect Rect::Create(signed __int32 _x1, signed __int32 _y1, signed __int32 _x2, signed __int32 _y2)
 	{
+		signed __int32 _unwrapped__x1 = _x1;
+		signed __int32 _unwrapped__y1 = _y1;
+		signed __int32 _unwrapped__x2 = _x2;
+		signed __int32 _unwrapped__y2 = _y2;
 		throw 0;
 	}
 	
@@ -5055,11 +7615,13 @@ Rect
 	
 	bool Rect::operator==(Rect rect)
 	{
+		vl::presentation::Rect _unwrapped_rect = *__GacUIInternal<Rect>::GetInternalObject(rect);
 		throw 0;
 	}
 	
 	bool Rect::operator!=(Rect rect)
 	{
+		vl::presentation::Rect _unwrapped_rect = *__GacUIInternal<Rect>::GetInternalObject(rect);
 		throw 0;
 	}
 	
@@ -5105,26 +7667,33 @@ Rect
 	
 	void Rect::Expand(Size s)
 	{
+		vl::presentation::Size _unwrapped_s = *__GacUIInternal<Size>::GetInternalObject(s);
 		throw 0;
 	}
 	
 	void Rect::Expand(signed __int32 x, signed __int32 y)
 	{
+		signed __int32 _unwrapped_x = x;
+		signed __int32 _unwrapped_y = y;
 		throw 0;
 	}
 	
 	void Rect::Move(Size s)
 	{
+		vl::presentation::Size _unwrapped_s = *__GacUIInternal<Size>::GetInternalObject(s);
 		throw 0;
 	}
 	
 	void Rect::Move(signed __int32 x, signed __int32 y)
 	{
+		signed __int32 _unwrapped_x = x;
+		signed __int32 _unwrapped_y = y;
 		throw 0;
 	}
 	
 	bool Rect::Contains(Point p)
 	{
+		vl::presentation::Point _unwrapped_p = *__GacUIInternal<Point>::GetInternalObject(p);
 		throw 0;
 	}
 	
@@ -5140,6 +7709,7 @@ Rect
 	
 	void Rect::set_x1(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	signed __int32 Rect::get_y1()
@@ -5149,6 +7719,7 @@ Rect
 	
 	void Rect::set_y1(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	signed __int32 Rect::get_x2()
@@ -5158,6 +7729,7 @@ Rect
 	
 	void Rect::set_x2(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	signed __int32 Rect::get_y2()
@@ -5167,6 +7739,7 @@ Rect
 	
 	void Rect::set_y2(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 
@@ -5174,19 +7747,6 @@ Rect
 IGuiGraphicsRenderTarget
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<IGuiGraphicsRenderTarget>
-	{
-	public:
-		typedef IGuiGraphicsRenderTarget WrappedObjectType;
-		typedef vl::presentation::elements::IGuiGraphicsRenderTarget InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	IGuiGraphicsRenderTarget::IGuiGraphicsRenderTarget(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -5208,6 +7768,7 @@ IGuiGraphicsRenderTarget
 	
 	void IGuiGraphicsRenderTarget::PushClipper(Rect clipper)
 	{
+		vl::presentation::Rect _unwrapped_clipper = *__GacUIInternal<Rect>::GetInternalObject(clipper);
 		throw 0;
 	}
 	
@@ -5223,6 +7784,7 @@ IGuiGraphicsRenderTarget
 	
 	rptr<IGuiGraphicsRenderTarget> IGuiGraphicsRenderTarget::operator=(rptr<IGuiGraphicsRenderTarget> value)
 	{
+		vl::presentation::elements::IGuiGraphicsRenderTarget const& _unwrapped_value = *__GacUIInternal<IGuiGraphicsRenderTarget>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -5236,19 +7798,6 @@ IGuiGraphicsRenderTarget
 CharMeasurer
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<CharMeasurer>
-	{
-	public:
-		typedef CharMeasurer WrappedObjectType;
-		typedef vl::presentation::elements::text::CharMeasurer InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	CharMeasurer::CharMeasurer(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<CharMeasurer>::InternalObjectType*)__internal_object_reference_input))
@@ -5261,16 +7810,19 @@ CharMeasurer
 	
 	signed __int32 CharMeasurer::MeasureWidth(wchar_t character)
 	{
+		wchar_t _unwrapped_character = character;
 		throw 0;
 	}
 	
 	rptr<CharMeasurer> CharMeasurer::operator=(rptr<CharMeasurer> value)
 	{
+		vl::presentation::elements::text::CharMeasurer const& _unwrapped_value = *__GacUIInternal<CharMeasurer>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	void CharMeasurer::SetRenderTarget(rptr<IGuiGraphicsRenderTarget> value)
 	{
+		vl::presentation::elements::IGuiGraphicsRenderTarget* _unwrapped_value = __GacUIInternal<IGuiGraphicsRenderTarget>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -5284,19 +7836,6 @@ CharMeasurer
 GuiGraphicsResourceManager
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiGraphicsResourceManager>
-	{
-	public:
-		typedef GuiGraphicsResourceManager WrappedObjectType;
-		typedef vl::presentation::elements::GuiGraphicsResourceManager InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiGraphicsResourceManager::GuiGraphicsResourceManager(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -5308,31 +7847,38 @@ GuiGraphicsResourceManager
 	
 	bool GuiGraphicsResourceManager::RegisterElementFactory(rptr<IGuiGraphicsElementFactory> factory)
 	{
+		vl::presentation::elements::IGuiGraphicsElementFactory* _unwrapped_factory = __GacUIInternal<IGuiGraphicsElementFactory>::GetInternalObject(*(factory.operator->()));
 		throw 0;
 	}
 	
 	bool GuiGraphicsResourceManager::RegisterRendererFactory(const GacString& elementTypeName, rptr<IGuiGraphicsRendererFactory> factory)
 	{
+		vl::ObjectString<wchar_t> _unwrapped_elementTypeName = elementTypeName.Buffer();
+		vl::presentation::elements::IGuiGraphicsRendererFactory* _unwrapped_factory = __GacUIInternal<IGuiGraphicsRendererFactory>::GetInternalObject(*(factory.operator->()));
 		throw 0;
 	}
 	
 	rptr<IGuiGraphicsElementFactory> GuiGraphicsResourceManager::GetElementFactory(const GacString& elementTypeName)
 	{
+		vl::ObjectString<wchar_t> _unwrapped_elementTypeName = elementTypeName.Buffer();
 		throw 0;
 	}
 	
 	rptr<IGuiGraphicsRendererFactory> GuiGraphicsResourceManager::GetRendererFactory(const GacString& elementTypeName)
 	{
+		vl::ObjectString<wchar_t> _unwrapped_elementTypeName = elementTypeName.Buffer();
 		throw 0;
 	}
 	
 	rptr<IGuiGraphicsRenderTarget> GuiGraphicsResourceManager::GetRenderTarget(rptr<INativeWindow> window)
 	{
+		vl::presentation::INativeWindow* _unwrapped_window = __GacUIInternal<INativeWindow>::GetInternalObject(*(window.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiGraphicsResourceManager> GuiGraphicsResourceManager::operator=(rptr<GuiGraphicsResourceManager> value)
 	{
+		vl::presentation::elements::GuiGraphicsResourceManager const& _unwrapped_value = *__GacUIInternal<GuiGraphicsResourceManager>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -5341,19 +7887,6 @@ GuiGraphicsResourceManager
 IGuiGraphicsRenderer
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<IGuiGraphicsRenderer>
-	{
-	public:
-		typedef IGuiGraphicsRenderer WrappedObjectType;
-		typedef vl::presentation::elements::IGuiGraphicsRenderer InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	IGuiGraphicsRenderer::IGuiGraphicsRenderer(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -5365,6 +7898,7 @@ IGuiGraphicsRenderer
 	
 	void IGuiGraphicsRenderer::Initialize(rptr<IGuiGraphicsElement> _element)
 	{
+		vl::presentation::elements::IGuiGraphicsElement* _unwrapped__element = __GacUIInternal<IGuiGraphicsElement>::GetInternalObject(*(_element.operator->()));
 		throw 0;
 	}
 	
@@ -5375,6 +7909,7 @@ IGuiGraphicsRenderer
 	
 	void IGuiGraphicsRenderer::Render(Rect bounds)
 	{
+		vl::presentation::Rect _unwrapped_bounds = *__GacUIInternal<Rect>::GetInternalObject(bounds);
 		throw 0;
 	}
 	
@@ -5385,11 +7920,13 @@ IGuiGraphicsRenderer
 	
 	rptr<IGuiGraphicsRenderer> IGuiGraphicsRenderer::operator=(rptr<IGuiGraphicsRenderer> value)
 	{
+		vl::presentation::elements::IGuiGraphicsRenderer const& _unwrapped_value = *__GacUIInternal<IGuiGraphicsRenderer>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	void IGuiGraphicsRenderer::SetRenderTarget(rptr<IGuiGraphicsRenderTarget> _renderTarget)
 	{
+		vl::presentation::elements::IGuiGraphicsRenderTarget* _unwrapped__renderTarget = __GacUIInternal<IGuiGraphicsRenderTarget>::GetInternalObject(*(_renderTarget.operator->()));
 		throw 0;
 	}
 	
@@ -5408,19 +7945,6 @@ IGuiGraphicsRenderer
 INativeScreen
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<INativeScreen>
-	{
-	public:
-		typedef INativeScreen WrappedObjectType;
-		typedef vl::presentation::INativeScreen InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	INativeScreen::INativeScreen(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -5437,6 +7961,7 @@ INativeScreen
 	
 	rptr<INativeScreen> INativeScreen::operator=(rptr<INativeScreen> value)
 	{
+		vl::presentation::INativeScreen const& _unwrapped_value = *__GacUIInternal<INativeScreen>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -5460,19 +7985,6 @@ INativeScreen
 INativeScreenService
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<INativeScreenService>
-	{
-	public:
-		typedef INativeScreenService WrappedObjectType;
-		typedef vl::presentation::INativeScreenService InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	INativeScreenService::INativeScreenService(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -5484,16 +7996,19 @@ INativeScreenService
 	
 	rptr<INativeScreen> INativeScreenService::GetScreen(rptr<INativeWindow> window)
 	{
+		vl::presentation::INativeWindow* _unwrapped_window = __GacUIInternal<INativeWindow>::GetInternalObject(*(window.operator->()));
 		throw 0;
 	}
 	
 	rptr<INativeScreen> INativeScreenService::GetScreen(signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	rptr<INativeScreenService> INativeScreenService::operator=(rptr<INativeScreenService> value)
 	{
+		vl::presentation::INativeScreenService const& _unwrapped_value = *__GacUIInternal<INativeScreenService>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -5507,19 +8022,6 @@ INativeScreenService
 INativeController
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<INativeController>
-	{
-	public:
-		typedef INativeController WrappedObjectType;
-		typedef vl::presentation::INativeController InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	INativeController::INativeController(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -5571,6 +8073,7 @@ INativeController
 	
 	rptr<INativeController> INativeController::operator=(rptr<INativeController> value)
 	{
+		vl::presentation::INativeController const& _unwrapped_value = *__GacUIInternal<INativeController>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -5579,19 +8082,6 @@ INativeController
 INativeWindowListener
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<INativeWindowListener>
-	{
-	public:
-		typedef INativeWindowListener WrappedObjectType;
-		typedef vl::presentation::INativeWindowListener InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	INativeWindowListener::INativeWindowListener(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -5608,6 +8098,8 @@ INativeWindowListener
 	
 	void INativeWindowListener::Moving(Rect& bounds, bool fixSizeOnly)
 	{
+		vl::presentation::Rect& _unwrapped_bounds = *__GacUIInternal<Rect>::GetInternalObject(bounds);
+		bool _unwrapped_fixSizeOnly = fixSizeOnly;
 		throw 0;
 	}
 	
@@ -5653,6 +8145,7 @@ INativeWindowListener
 	
 	void INativeWindowListener::Closing(bool& cancel)
 	{
+		bool& _unwrapped_cancel = cancel;
 		throw 0;
 	}
 	
@@ -5678,61 +8171,73 @@ INativeWindowListener
 	
 	void INativeWindowListener::LeftButtonDown(const NativeWindowMouseInfo& info)
 	{
+		vl::presentation::NativeWindowMouseInfo const& _unwrapped_info = *__GacUIInternal<NativeWindowMouseInfo>::GetInternalObject(info);
 		throw 0;
 	}
 	
 	void INativeWindowListener::LeftButtonUp(const NativeWindowMouseInfo& info)
 	{
+		vl::presentation::NativeWindowMouseInfo const& _unwrapped_info = *__GacUIInternal<NativeWindowMouseInfo>::GetInternalObject(info);
 		throw 0;
 	}
 	
 	void INativeWindowListener::LeftButtonDoubleClick(const NativeWindowMouseInfo& info)
 	{
+		vl::presentation::NativeWindowMouseInfo const& _unwrapped_info = *__GacUIInternal<NativeWindowMouseInfo>::GetInternalObject(info);
 		throw 0;
 	}
 	
 	void INativeWindowListener::RightButtonDown(const NativeWindowMouseInfo& info)
 	{
+		vl::presentation::NativeWindowMouseInfo const& _unwrapped_info = *__GacUIInternal<NativeWindowMouseInfo>::GetInternalObject(info);
 		throw 0;
 	}
 	
 	void INativeWindowListener::RightButtonUp(const NativeWindowMouseInfo& info)
 	{
+		vl::presentation::NativeWindowMouseInfo const& _unwrapped_info = *__GacUIInternal<NativeWindowMouseInfo>::GetInternalObject(info);
 		throw 0;
 	}
 	
 	void INativeWindowListener::RightButtonDoubleClick(const NativeWindowMouseInfo& info)
 	{
+		vl::presentation::NativeWindowMouseInfo const& _unwrapped_info = *__GacUIInternal<NativeWindowMouseInfo>::GetInternalObject(info);
 		throw 0;
 	}
 	
 	void INativeWindowListener::MiddleButtonDown(const NativeWindowMouseInfo& info)
 	{
+		vl::presentation::NativeWindowMouseInfo const& _unwrapped_info = *__GacUIInternal<NativeWindowMouseInfo>::GetInternalObject(info);
 		throw 0;
 	}
 	
 	void INativeWindowListener::MiddleButtonUp(const NativeWindowMouseInfo& info)
 	{
+		vl::presentation::NativeWindowMouseInfo const& _unwrapped_info = *__GacUIInternal<NativeWindowMouseInfo>::GetInternalObject(info);
 		throw 0;
 	}
 	
 	void INativeWindowListener::MiddleButtonDoubleClick(const NativeWindowMouseInfo& info)
 	{
+		vl::presentation::NativeWindowMouseInfo const& _unwrapped_info = *__GacUIInternal<NativeWindowMouseInfo>::GetInternalObject(info);
 		throw 0;
 	}
 	
 	void INativeWindowListener::HorizontalWheel(const NativeWindowMouseInfo& info)
 	{
+		vl::presentation::NativeWindowMouseInfo const& _unwrapped_info = *__GacUIInternal<NativeWindowMouseInfo>::GetInternalObject(info);
 		throw 0;
 	}
 	
 	void INativeWindowListener::VerticalWheel(const NativeWindowMouseInfo& info)
 	{
+		vl::presentation::NativeWindowMouseInfo const& _unwrapped_info = *__GacUIInternal<NativeWindowMouseInfo>::GetInternalObject(info);
 		throw 0;
 	}
 	
 	void INativeWindowListener::MouseMoving(const NativeWindowMouseInfo& info)
 	{
+		vl::presentation::NativeWindowMouseInfo const& _unwrapped_info = *__GacUIInternal<NativeWindowMouseInfo>::GetInternalObject(info);
 		throw 0;
 	}
 	
@@ -5748,31 +8253,37 @@ INativeWindowListener
 	
 	void INativeWindowListener::KeyDown(const NativeWindowKeyInfo& info)
 	{
+		vl::presentation::NativeWindowKeyInfo const& _unwrapped_info = *__GacUIInternal<NativeWindowKeyInfo>::GetInternalObject(info);
 		throw 0;
 	}
 	
 	void INativeWindowListener::KeyUp(const NativeWindowKeyInfo& info)
 	{
+		vl::presentation::NativeWindowKeyInfo const& _unwrapped_info = *__GacUIInternal<NativeWindowKeyInfo>::GetInternalObject(info);
 		throw 0;
 	}
 	
 	void INativeWindowListener::SysKeyDown(const NativeWindowKeyInfo& info)
 	{
+		vl::presentation::NativeWindowKeyInfo const& _unwrapped_info = *__GacUIInternal<NativeWindowKeyInfo>::GetInternalObject(info);
 		throw 0;
 	}
 	
 	void INativeWindowListener::SysKeyUp(const NativeWindowKeyInfo& info)
 	{
+		vl::presentation::NativeWindowKeyInfo const& _unwrapped_info = *__GacUIInternal<NativeWindowKeyInfo>::GetInternalObject(info);
 		throw 0;
 	}
 	
 	void INativeWindowListener::Char(const NativeWindowCharInfo& info)
 	{
+		vl::presentation::NativeWindowCharInfo const& _unwrapped_info = *__GacUIInternal<NativeWindowCharInfo>::GetInternalObject(info);
 		throw 0;
 	}
 	
 	rptr<INativeWindowListener> INativeWindowListener::operator=(rptr<INativeWindowListener> value)
 	{
+		vl::presentation::INativeWindowListener const& _unwrapped_value = *__GacUIInternal<INativeWindowListener>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -5781,19 +8292,6 @@ INativeWindowListener
 GuiGraphicsHost
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiGraphicsHost>
-	{
-	public:
-		typedef GuiGraphicsHost WrappedObjectType;
-		typedef vl::presentation::elements::GuiGraphicsHost InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiGraphicsHost::GuiGraphicsHost(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -5815,16 +8313,20 @@ GuiGraphicsHost
 	
 	bool GuiGraphicsHost::SetFocus(rptr<GuiGraphicsComposition> composition)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_composition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(composition.operator->()));
 		throw 0;
 	}
 	
 	void GuiGraphicsHost::SetCaretPoint(Point value, rptr<GuiGraphicsComposition> referenceComposition)
 	{
+		vl::presentation::Point _unwrapped_value = *__GacUIInternal<Point>::GetInternalObject(value);
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_referenceComposition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(referenceComposition.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiGraphicsHost> GuiGraphicsHost::operator=(rptr<GuiGraphicsHost> value)
 	{
+		vl::presentation::elements::GuiGraphicsHost const& _unwrapped_value = *__GacUIInternal<GuiGraphicsHost>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -5835,6 +8337,7 @@ GuiGraphicsHost
 	
 	void GuiGraphicsHost::SetNativeWindow(rptr<INativeWindow> _nativeWindow)
 	{
+		vl::presentation::INativeWindow* _unwrapped__nativeWindow = __GacUIInternal<INativeWindow>::GetInternalObject(*(_nativeWindow.operator->()));
 		throw 0;
 	}
 	
@@ -5858,24 +8361,16 @@ GuiGraphicsHost
 		throw 0;
 	}
 	
+	unsigned __int64 GuiGraphicsHost::get_CaretInterval()
+	{
+		throw 0;
+	}
+	
 
 /***********************************************************************
 GuiGraphicsComposition
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiGraphicsComposition>
-	{
-	public:
-		typedef GuiGraphicsComposition WrappedObjectType;
-		typedef vl::presentation::elements::GuiGraphicsComposition InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiGraphicsComposition::GuiGraphicsComposition(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -5892,26 +8387,33 @@ GuiGraphicsComposition
 	
 	bool GuiGraphicsComposition::AddChild(rptr<GuiGraphicsComposition> child)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_child = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(child.operator->()));
 		throw 0;
 	}
 	
 	bool GuiGraphicsComposition::InsertChild(signed __int32 index, rptr<GuiGraphicsComposition> child)
 	{
+		signed __int32 _unwrapped_index = index;
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_child = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(child.operator->()));
 		throw 0;
 	}
 	
 	bool GuiGraphicsComposition::RemoveChild(rptr<GuiGraphicsComposition> child)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_child = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(child.operator->()));
 		throw 0;
 	}
 	
 	bool GuiGraphicsComposition::MoveChild(rptr<GuiGraphicsComposition> child, signed __int32 newIndex)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_child = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(child.operator->()));
+		signed __int32 _unwrapped_newIndex = newIndex;
 		throw 0;
 	}
 	
 	void GuiGraphicsComposition::Render(Size offset)
 	{
+		vl::presentation::Size _unwrapped_offset = *__GacUIInternal<Size>::GetInternalObject(offset);
 		throw 0;
 	}
 	
@@ -5922,6 +8424,7 @@ GuiGraphicsComposition
 	
 	rptr<GuiGraphicsComposition> GuiGraphicsComposition::FindComposition(Point location)
 	{
+		vl::presentation::Point _unwrapped_location = *__GacUIInternal<Point>::GetInternalObject(location);
 		throw 0;
 	}
 	
@@ -5932,6 +8435,7 @@ GuiGraphicsComposition
 	
 	rptr<GuiGraphicsComposition> GuiGraphicsComposition::operator=(rptr<GuiGraphicsComposition> value)
 	{
+		vl::presentation::elements::GuiGraphicsComposition const& _unwrapped_value = *__GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -5947,6 +8451,7 @@ GuiGraphicsComposition
 	
 	void GuiGraphicsComposition::SetOwnedElement(sptr<IGuiGraphicsElement> element)
 	{
+		vl::Ptr<vl::presentation::elements::IGuiGraphicsElement> _unwrapped_element = __GacUIInternal<IGuiGraphicsElement>::GetInternalObject(*(element.operator->()));
 		throw 0;
 	}
 	
@@ -5957,6 +8462,7 @@ GuiGraphicsComposition
 	
 	void GuiGraphicsComposition::SetVisible(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -5967,6 +8473,7 @@ GuiGraphicsComposition
 	
 	void GuiGraphicsComposition::SetMinSizeLimitation(GuiGraphicsComposition :: MinSizeLimitation value)
 	{
+		vl::presentation::elements::GuiGraphicsComposition::MinSizeLimitation _unwrapped_value = (vl::presentation::elements::GuiGraphicsComposition::MinSizeLimitation)value;
 		throw 0;
 	}
 	
@@ -5977,6 +8484,7 @@ GuiGraphicsComposition
 	
 	void GuiGraphicsComposition::SetRenderTarget(rptr<IGuiGraphicsRenderTarget> value)
 	{
+		vl::presentation::elements::IGuiGraphicsRenderTarget* _unwrapped_value = __GacUIInternal<IGuiGraphicsRenderTarget>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -6007,6 +8515,7 @@ GuiGraphicsComposition
 	
 	void GuiGraphicsComposition::SetAssociatedCursor(rptr<INativeCursor> cursor)
 	{
+		vl::presentation::INativeCursor* _unwrapped_cursor = __GacUIInternal<INativeCursor>::GetInternalObject(*(cursor.operator->()));
 		throw 0;
 	}
 	
@@ -6037,6 +8546,7 @@ GuiGraphicsComposition
 	
 	void GuiGraphicsComposition::SetMargin(Margin value)
 	{
+		vl::presentation::Margin _unwrapped_value = *__GacUIInternal<Margin>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -6047,6 +8557,7 @@ GuiGraphicsComposition
 	
 	void GuiGraphicsComposition::SetInternalMargin(Margin value)
 	{
+		vl::presentation::Margin _unwrapped_value = *__GacUIInternal<Margin>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -6057,6 +8568,7 @@ GuiGraphicsComposition
 	
 	void GuiGraphicsComposition::SetPreferredMinSize(Size value)
 	{
+		vl::presentation::Size _unwrapped_value = *__GacUIInternal<Size>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -6090,19 +8602,6 @@ GuiGraphicsComposition
 GuiGraphicsSite
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiGraphicsSite>
-	{
-	public:
-		typedef GuiGraphicsSite WrappedObjectType;
-		typedef vl::presentation::elements::GuiGraphicsSite InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiGraphicsSite::GuiGraphicsSite(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiGraphicsComposition(static_cast<__GacUIInternal<GuiGraphicsComposition>::InternalObjectType*>((__GacUIInternal<GuiGraphicsSite>::InternalObjectType*)__internal_object_reference_input))
@@ -6120,6 +8619,7 @@ GuiGraphicsSite
 	
 	rptr<GuiGraphicsSite> GuiGraphicsSite::operator=(rptr<GuiGraphicsSite> value)
 	{
+		vl::presentation::elements::GuiGraphicsSite const& _unwrapped_value = *__GacUIInternal<GuiGraphicsSite>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -6128,19 +8628,6 @@ GuiGraphicsSite
 GuiBoundsComposition
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiBoundsComposition>
-	{
-	public:
-		typedef GuiBoundsComposition WrappedObjectType;
-		typedef vl::presentation::elements::GuiBoundsComposition InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiBoundsComposition::GuiBoundsComposition(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiGraphicsSite(static_cast<__GacUIInternal<GuiGraphicsSite>::InternalObjectType*>((__GacUIInternal<GuiBoundsComposition>::InternalObjectType*)__internal_object_reference_input))
@@ -6168,11 +8655,13 @@ GuiBoundsComposition
 	
 	rptr<GuiBoundsComposition> GuiBoundsComposition::operator=(rptr<GuiBoundsComposition> value)
 	{
+		vl::presentation::elements::GuiBoundsComposition const& _unwrapped_value = *__GacUIInternal<GuiBoundsComposition>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	void GuiBoundsComposition::SetBounds(Rect value)
 	{
+		vl::presentation::Rect _unwrapped_value = *__GacUIInternal<Rect>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -6183,6 +8672,7 @@ GuiBoundsComposition
 	
 	void GuiBoundsComposition::SetAlignmentToParent(Margin value)
 	{
+		vl::presentation::Margin _unwrapped_value = *__GacUIInternal<Margin>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -6196,19 +8686,6 @@ GuiBoundsComposition
 GuiCellComposition
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiCellComposition>
-	{
-	public:
-		typedef GuiCellComposition WrappedObjectType;
-		typedef vl::presentation::elements::GuiCellComposition InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiCellComposition::GuiCellComposition(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiGraphicsSite(static_cast<__GacUIInternal<GuiGraphicsSite>::InternalObjectType*>((__GacUIInternal<GuiCellComposition>::InternalObjectType*)__internal_object_reference_input))
@@ -6226,11 +8703,16 @@ GuiCellComposition
 	
 	bool GuiCellComposition::SetSite(signed __int32 _row, signed __int32 _column, signed __int32 _rowSpan, signed __int32 _columnSpan)
 	{
+		signed __int32 _unwrapped__row = _row;
+		signed __int32 _unwrapped__column = _column;
+		signed __int32 _unwrapped__rowSpan = _rowSpan;
+		signed __int32 _unwrapped__columnSpan = _columnSpan;
 		throw 0;
 	}
 	
 	rptr<GuiCellComposition> GuiCellComposition::operator=(rptr<GuiCellComposition> value)
 	{
+		vl::presentation::elements::GuiCellComposition const& _unwrapped_value = *__GacUIInternal<GuiCellComposition>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -6264,19 +8746,6 @@ GuiCellComposition
 GuiControl
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiControl>
-	{
-	public:
-		typedef GuiControl WrappedObjectType;
-		typedef vl::presentation::controls::GuiControl InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiControl::GuiControl(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -6288,21 +8757,25 @@ GuiControl
 	
 	rptr<GuiControl> GuiControl::CreateRptr(rptr<GuiControl :: IStyleController> _styleController)
 	{
+		vl::presentation::controls::GuiControl::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiControl> GuiControl::GetChild(signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	rptr<IDescriptable> GuiControl::QueryService(const GacString& identifier)
 	{
+		vl::ObjectString<wchar_t> _unwrapped_identifier = identifier.Buffer();
 		throw 0;
 	}
 	
 	rptr<GuiControl> GuiControl::operator=(rptr<GuiControl> value)
 	{
+		vl::presentation::controls::GuiControl const& _unwrapped_value = *__GacUIInternal<GuiControl>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -6363,6 +8836,7 @@ GuiControl
 	
 	void GuiControl::SetEnabled(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -6373,6 +8847,7 @@ GuiControl
 	
 	void GuiControl::SetVisible(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -6383,6 +8858,7 @@ GuiControl
 	
 	void GuiControl::SetText(const GacString& value)
 	{
+		vl::ObjectString<wchar_t> _unwrapped_value = value.Buffer();
 		throw 0;
 	}
 	
@@ -6393,6 +8869,7 @@ GuiControl
 	
 	void GuiControl::SetFont(const FontProperties& value)
 	{
+		vl::presentation::FontProperties const& _unwrapped_value = *__GacUIInternal<FontProperties>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -6426,19 +8903,6 @@ GuiControl
 GuiControl :: IStyleController
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiControl :: IStyleController>
-	{
-	public:
-		typedef GuiControl :: IStyleController WrappedObjectType;
-		typedef vl::presentation::controls::GuiControl::IStyleController InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiControl::IStyleController::IStyleController(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<GuiControl :: IStyleController>::InternalObjectType*)__internal_object_reference_input))
@@ -6451,26 +8915,31 @@ GuiControl :: IStyleController
 	
 	rptr<GuiControl :: IStyleController> GuiControl::IStyleController::operator=(rptr<GuiControl :: IStyleController> value)
 	{
+		vl::presentation::controls::GuiControl::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	void GuiControl::IStyleController::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_value = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	void GuiControl::IStyleController::SetText(const GacString& value)
 	{
+		vl::ObjectString<wchar_t> _unwrapped_value = value.Buffer();
 		throw 0;
 	}
 	
 	void GuiControl::IStyleController::SetFont(const FontProperties& value)
 	{
+		vl::presentation::FontProperties const& _unwrapped_value = *__GacUIInternal<FontProperties>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	void GuiControl::IStyleController::SetVisuallyEnabled(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -6489,19 +8958,6 @@ GuiControl :: IStyleController
 GuiControl :: IStyleProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiControl :: IStyleProvider>
-	{
-	public:
-		typedef GuiControl :: IStyleProvider WrappedObjectType;
-		typedef vl::presentation::controls::GuiControl::IStyleProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiControl::IStyleProvider::IStyleProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<GuiControl :: IStyleProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -6514,31 +8970,37 @@ GuiControl :: IStyleProvider
 	
 	void GuiControl::IStyleProvider::AssociateStyleController(rptr<GuiControl :: IStyleController> controller)
 	{
+		vl::presentation::controls::GuiControl::IStyleController* _unwrapped_controller = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(*(controller.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiControl :: IStyleProvider> GuiControl::IStyleProvider::operator=(rptr<GuiControl :: IStyleProvider> value)
 	{
+		vl::presentation::controls::GuiControl::IStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiControl :: IStyleProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	void GuiControl::IStyleProvider::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_value = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	void GuiControl::IStyleProvider::SetText(const GacString& value)
 	{
+		vl::ObjectString<wchar_t> _unwrapped_value = value.Buffer();
 		throw 0;
 	}
 	
 	void GuiControl::IStyleProvider::SetFont(const FontProperties& value)
 	{
+		vl::presentation::FontProperties const& _unwrapped_value = *__GacUIInternal<FontProperties>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	void GuiControl::IStyleProvider::SetVisuallyEnabled(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -6547,19 +9009,6 @@ GuiControl :: IStyleProvider
 GuiButton
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiButton>
-	{
-	public:
-		typedef GuiButton WrappedObjectType;
-		typedef vl::presentation::controls::GuiButton InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiButton::GuiButton(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiControl(static_cast<__GacUIInternal<GuiControl>::InternalObjectType*>((__GacUIInternal<GuiButton>::InternalObjectType*)__internal_object_reference_input))
@@ -6572,11 +9021,13 @@ GuiButton
 	
 	rptr<GuiButton> GuiButton::CreateRptr(rptr<GuiButton :: IStyleController> _styleController)
 	{
+		vl::presentation::controls::GuiButton::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiButton :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiButton> GuiButton::operator=(rptr<GuiButton> value)
 	{
+		vl::presentation::controls::GuiButton const& _unwrapped_value = *__GacUIInternal<GuiButton>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -6590,19 +9041,6 @@ GuiButton
 GuiButton :: IStyleController
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiButton :: IStyleController>
-	{
-	public:
-		typedef GuiButton :: IStyleController WrappedObjectType;
-		typedef vl::presentation::controls::GuiButton::IStyleController InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiButton::IStyleController::IStyleController(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiControl :: IStyleController(static_cast<__GacUIInternal<GuiControl :: IStyleController>::InternalObjectType*>((__GacUIInternal<GuiButton :: IStyleController>::InternalObjectType*)__internal_object_reference_input))
@@ -6615,11 +9053,13 @@ GuiButton :: IStyleController
 	
 	void GuiButton::IStyleController::Transfer(GuiButton :: ControlState value)
 	{
+		vl::presentation::controls::GuiButton::ControlState _unwrapped_value = (vl::presentation::controls::GuiButton::ControlState)value;
 		throw 0;
 	}
 	
 	rptr<GuiButton :: IStyleController> GuiButton::IStyleController::operator=(rptr<GuiButton :: IStyleController> value)
 	{
+		vl::presentation::controls::GuiButton::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiButton :: IStyleController>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -6628,19 +9068,6 @@ GuiButton :: IStyleController
 GuiControlHost
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiControlHost>
-	{
-	public:
-		typedef GuiControlHost WrappedObjectType;
-		typedef vl::presentation::controls::GuiControlHost InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiControlHost::GuiControlHost(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiControl(static_cast<__GacUIInternal<GuiControl>::InternalObjectType*>((__GacUIInternal<GuiControlHost>::InternalObjectType*)__internal_object_reference_input))
@@ -6653,6 +9080,7 @@ GuiControlHost
 	
 	rptr<GuiControlHost> GuiControlHost::CreateRptr(rptr<GuiControl :: IStyleController> _styleController)
 	{
+		vl::presentation::controls::GuiControl::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
 		throw 0;
 	}
 	
@@ -6673,16 +9101,19 @@ GuiControlHost
 	
 	bool GuiControlHost::AddComponent(rptr<GuiComponent> component)
 	{
+		vl::presentation::controls::GuiComponent* _unwrapped_component = __GacUIInternal<GuiComponent>::GetInternalObject(*(component.operator->()));
 		throw 0;
 	}
 	
 	bool GuiControlHost::RemoveComponent(rptr<GuiComponent> component)
 	{
+		vl::presentation::controls::GuiComponent* _unwrapped_component = __GacUIInternal<GuiComponent>::GetInternalObject(*(component.operator->()));
 		throw 0;
 	}
 	
 	bool GuiControlHost::ContainsComponent(rptr<GuiComponent> component)
 	{
+		vl::presentation::controls::GuiComponent* _unwrapped_component = __GacUIInternal<GuiComponent>::GetInternalObject(*(component.operator->()));
 		throw 0;
 	}
 	
@@ -6723,6 +9154,7 @@ GuiControlHost
 	
 	rptr<GuiControlHost> GuiControlHost::operator=(rptr<GuiControlHost> value)
 	{
+		vl::presentation::controls::GuiControlHost const& _unwrapped_value = *__GacUIInternal<GuiControlHost>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -6743,6 +9175,7 @@ GuiControlHost
 	
 	void GuiControlHost::SetNativeWindow(rptr<INativeWindow> window)
 	{
+		vl::presentation::INativeWindow* _unwrapped_window = __GacUIInternal<INativeWindow>::GetInternalObject(*(window.operator->()));
 		throw 0;
 	}
 	
@@ -6763,6 +9196,7 @@ GuiControlHost
 	
 	void GuiControlHost::SetShowInTaskBar(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -6773,6 +9207,7 @@ GuiControlHost
 	
 	void GuiControlHost::SetEnabledActivate(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -6783,6 +9218,7 @@ GuiControlHost
 	
 	void GuiControlHost::SetMaximizedBox(bool visible)
 	{
+		bool _unwrapped_visible = visible;
 		throw 0;
 	}
 	
@@ -6793,6 +9229,7 @@ GuiControlHost
 	
 	void GuiControlHost::SetMinimizedBox(bool visible)
 	{
+		bool _unwrapped_visible = visible;
 		throw 0;
 	}
 	
@@ -6803,6 +9240,7 @@ GuiControlHost
 	
 	void GuiControlHost::SetBorder(bool visible)
 	{
+		bool _unwrapped_visible = visible;
 		throw 0;
 	}
 	
@@ -6813,6 +9251,7 @@ GuiControlHost
 	
 	void GuiControlHost::SetSizeBox(bool visible)
 	{
+		bool _unwrapped_visible = visible;
 		throw 0;
 	}
 	
@@ -6823,6 +9262,7 @@ GuiControlHost
 	
 	void GuiControlHost::SetIconVisible(bool visible)
 	{
+		bool _unwrapped_visible = visible;
 		throw 0;
 	}
 	
@@ -6833,6 +9273,7 @@ GuiControlHost
 	
 	void GuiControlHost::SetTitleBar(bool visible)
 	{
+		bool _unwrapped_visible = visible;
 		throw 0;
 	}
 	
@@ -6843,6 +9284,7 @@ GuiControlHost
 	
 	void GuiControlHost::SetTopMost(bool topmost)
 	{
+		bool _unwrapped_topmost = topmost;
 		throw 0;
 	}
 	
@@ -6853,6 +9295,7 @@ GuiControlHost
 	
 	void GuiControlHost::SetClientSize(Size value)
 	{
+		vl::presentation::Size _unwrapped_value = *__GacUIInternal<Size>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -6863,6 +9306,7 @@ GuiControlHost
 	
 	void GuiControlHost::SetBounds(Rect value)
 	{
+		vl::presentation::Rect _unwrapped_value = *__GacUIInternal<Rect>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -6921,19 +9365,6 @@ GuiControlHost
 GuiMenuBar
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiMenuBar>
-	{
-	public:
-		typedef GuiMenuBar WrappedObjectType;
-		typedef vl::presentation::controls::GuiMenuBar InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiMenuBar::GuiMenuBar(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiControl(static_cast<__GacUIInternal<GuiControl>::InternalObjectType*>((__GacUIInternal<GuiMenuBar>::InternalObjectType*)__internal_object_reference_input))
@@ -6946,11 +9377,13 @@ GuiMenuBar
 	
 	rptr<GuiMenuBar> GuiMenuBar::CreateRptr(rptr<GuiControl :: IStyleController> _styleController)
 	{
+		vl::presentation::controls::GuiControl::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiMenuBar> GuiMenuBar::operator=(rptr<GuiMenuBar> value)
 	{
+		vl::presentation::controls::GuiMenuBar const& _unwrapped_value = *__GacUIInternal<GuiMenuBar>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -6959,19 +9392,6 @@ GuiMenuBar
 GuiMenuButton
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiMenuButton>
-	{
-	public:
-		typedef GuiMenuButton WrappedObjectType;
-		typedef vl::presentation::controls::GuiMenuButton InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiMenuButton::GuiMenuButton(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiButton(static_cast<__GacUIInternal<GuiButton>::InternalObjectType*>((__GacUIInternal<GuiMenuButton>::InternalObjectType*)__internal_object_reference_input))
@@ -6984,6 +9404,7 @@ GuiMenuButton
 	
 	rptr<GuiMenuButton> GuiMenuButton::CreateRptr(rptr<GuiMenuButton :: IStyleController> _styleController)
 	{
+		vl::presentation::controls::GuiMenuButton::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiMenuButton :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
 		throw 0;
 	}
 	
@@ -6994,6 +9415,7 @@ GuiMenuButton
 	
 	void GuiMenuButton::CreateSubMenu(rptr<GuiControl :: IStyleController> subMenuStyleController)
 	{
+		vl::presentation::controls::GuiControl::IStyleController* _unwrapped_subMenuStyleController = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(*(subMenuStyleController.operator->()));
 		throw 0;
 	}
 	
@@ -7004,6 +9426,7 @@ GuiMenuButton
 	
 	rptr<GuiMenuButton> GuiMenuButton::operator=(rptr<GuiMenuButton> value)
 	{
+		vl::presentation::controls::GuiMenuButton const& _unwrapped_value = *__GacUIInternal<GuiMenuButton>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -7019,6 +9442,7 @@ GuiMenuButton
 	
 	void GuiMenuButton::SetSubMenuOpening(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -7029,6 +9453,7 @@ GuiMenuButton
 	
 	void GuiMenuButton::SetPreferredMenuClientSize(Size value)
 	{
+		vl::presentation::Size _unwrapped_value = *__GacUIInternal<Size>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -7042,19 +9467,6 @@ GuiMenuButton
 GuiMenuButton :: IStyleController
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiMenuButton :: IStyleController>
-	{
-	public:
-		typedef GuiMenuButton :: IStyleController WrappedObjectType;
-		typedef vl::presentation::controls::GuiMenuButton::IStyleController InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiMenuButton::IStyleController::IStyleController(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiButton :: IStyleController(static_cast<__GacUIInternal<GuiButton :: IStyleController>::InternalObjectType*>((__GacUIInternal<GuiMenuButton :: IStyleController>::InternalObjectType*)__internal_object_reference_input))
@@ -7072,16 +9484,19 @@ GuiMenuButton :: IStyleController
 	
 	rptr<GuiMenuButton :: IStyleController> GuiMenuButton::IStyleController::operator=(rptr<GuiMenuButton :: IStyleController> value)
 	{
+		vl::presentation::controls::GuiMenuButton::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiMenuButton :: IStyleController>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	void GuiMenuButton::IStyleController::SetSubMenuExisting(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
 	void GuiMenuButton::IStyleController::SetSubMenuOpening(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -7090,19 +9505,6 @@ GuiMenuButton :: IStyleController
 GuiPartialViewComposition
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiPartialViewComposition>
-	{
-	public:
-		typedef GuiPartialViewComposition WrappedObjectType;
-		typedef vl::presentation::elements::GuiPartialViewComposition InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiPartialViewComposition::GuiPartialViewComposition(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiGraphicsSite(static_cast<__GacUIInternal<GuiGraphicsSite>::InternalObjectType*>((__GacUIInternal<GuiPartialViewComposition>::InternalObjectType*)__internal_object_reference_input))
@@ -7120,6 +9522,7 @@ GuiPartialViewComposition
 	
 	rptr<GuiPartialViewComposition> GuiPartialViewComposition::operator=(rptr<GuiPartialViewComposition> value)
 	{
+		vl::presentation::elements::GuiPartialViewComposition const& _unwrapped_value = *__GacUIInternal<GuiPartialViewComposition>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -7130,6 +9533,7 @@ GuiPartialViewComposition
 	
 	void GuiPartialViewComposition::SetWidthRatio(double value)
 	{
+		double _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -7140,6 +9544,7 @@ GuiPartialViewComposition
 	
 	void GuiPartialViewComposition::SetWidthPageSize(double value)
 	{
+		double _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -7150,6 +9555,7 @@ GuiPartialViewComposition
 	
 	void GuiPartialViewComposition::SetHeightRatio(double value)
 	{
+		double _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -7160,6 +9566,7 @@ GuiPartialViewComposition
 	
 	void GuiPartialViewComposition::SetHeightPageSize(double value)
 	{
+		double _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -7168,19 +9575,6 @@ GuiPartialViewComposition
 GuiScroll
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiScroll>
-	{
-	public:
-		typedef GuiScroll WrappedObjectType;
-		typedef vl::presentation::controls::GuiScroll InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiScroll::GuiScroll(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiControl(static_cast<__GacUIInternal<GuiControl>::InternalObjectType*>((__GacUIInternal<GuiScroll>::InternalObjectType*)__internal_object_reference_input))
@@ -7193,11 +9587,13 @@ GuiScroll
 	
 	rptr<GuiScroll> GuiScroll::CreateRptr(rptr<GuiScroll :: IStyleController> _styleController)
 	{
+		vl::presentation::controls::GuiScroll::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiScroll :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiScroll> GuiScroll::operator=(rptr<GuiScroll> value)
 	{
+		vl::presentation::controls::GuiScroll const& _unwrapped_value = *__GacUIInternal<GuiScroll>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -7208,6 +9604,7 @@ GuiScroll
 	
 	void GuiScroll::SetTotalSize(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -7218,6 +9615,7 @@ GuiScroll
 	
 	void GuiScroll::SetPageSize(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -7228,6 +9626,7 @@ GuiScroll
 	
 	void GuiScroll::SetPosition(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -7238,6 +9637,7 @@ GuiScroll
 	
 	void GuiScroll::SetSmallMove(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -7248,6 +9648,7 @@ GuiScroll
 	
 	void GuiScroll::SetBigMove(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -7291,19 +9692,6 @@ GuiScroll
 GuiScroll :: ICommandExecutor
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiScroll :: ICommandExecutor>
-	{
-	public:
-		typedef GuiScroll :: ICommandExecutor WrappedObjectType;
-		typedef vl::presentation::controls::GuiScroll::ICommandExecutor InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiScroll::ICommandExecutor::ICommandExecutor(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<GuiScroll :: ICommandExecutor>::InternalObjectType*)__internal_object_reference_input))
@@ -7336,21 +9724,25 @@ GuiScroll :: ICommandExecutor
 	
 	rptr<GuiScroll :: ICommandExecutor> GuiScroll::ICommandExecutor::operator=(rptr<GuiScroll :: ICommandExecutor> value)
 	{
+		vl::presentation::controls::GuiScroll::ICommandExecutor const& _unwrapped_value = *__GacUIInternal<GuiScroll :: ICommandExecutor>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	void GuiScroll::ICommandExecutor::SetTotalSize(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	
 	void GuiScroll::ICommandExecutor::SetPageSize(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	
 	void GuiScroll::ICommandExecutor::SetPosition(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -7359,19 +9751,6 @@ GuiScroll :: ICommandExecutor
 GuiScroll :: IStyleController
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiScroll :: IStyleController>
-	{
-	public:
-		typedef GuiScroll :: IStyleController WrappedObjectType;
-		typedef vl::presentation::controls::GuiScroll::IStyleController InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiScroll::IStyleController::IStyleController(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiControl :: IStyleController(static_cast<__GacUIInternal<GuiControl :: IStyleController>::InternalObjectType*>((__GacUIInternal<GuiScroll :: IStyleController>::InternalObjectType*)__internal_object_reference_input))
@@ -7384,26 +9763,31 @@ GuiScroll :: IStyleController
 	
 	rptr<GuiScroll :: IStyleController> GuiScroll::IStyleController::operator=(rptr<GuiScroll :: IStyleController> value)
 	{
+		vl::presentation::controls::GuiScroll::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiScroll :: IStyleController>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	void GuiScroll::IStyleController::SetCommandExecutor(rptr<GuiScroll :: ICommandExecutor> value)
 	{
+		vl::presentation::controls::GuiScroll::ICommandExecutor* _unwrapped_value = __GacUIInternal<GuiScroll :: ICommandExecutor>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	void GuiScroll::IStyleController::SetTotalSize(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	
 	void GuiScroll::IStyleController::SetPageSize(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	
 	void GuiScroll::IStyleController::SetPosition(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -7412,19 +9796,6 @@ GuiScroll :: IStyleController
 CommonScrollStyle
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<CommonScrollStyle>
-	{
-	public:
-		typedef CommonScrollStyle WrappedObjectType;
-		typedef vl::presentation::common_styles::CommonScrollStyle InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	CommonScrollStyle::CommonScrollStyle(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiScroll :: IStyleController(static_cast<__GacUIInternal<GuiScroll :: IStyleController>::InternalObjectType*>((__GacUIInternal<CommonScrollStyle>::InternalObjectType*)__internal_object_reference_input))
@@ -7437,6 +9808,7 @@ CommonScrollStyle
 	
 	rptr<CommonScrollStyle> CommonScrollStyle::operator=(rptr<CommonScrollStyle> value)
 	{
+		vl::presentation::common_styles::CommonScrollStyle const& _unwrapped_value = *__GacUIInternal<CommonScrollStyle>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -7445,19 +9817,6 @@ CommonScrollStyle
 CommonTrackStyle
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<CommonTrackStyle>
-	{
-	public:
-		typedef CommonTrackStyle WrappedObjectType;
-		typedef vl::presentation::common_styles::CommonTrackStyle InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	CommonTrackStyle::CommonTrackStyle(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiScroll :: IStyleController(static_cast<__GacUIInternal<GuiScroll :: IStyleController>::InternalObjectType*>((__GacUIInternal<CommonTrackStyle>::InternalObjectType*)__internal_object_reference_input))
@@ -7470,6 +9829,7 @@ CommonTrackStyle
 	
 	rptr<CommonTrackStyle> CommonTrackStyle::operator=(rptr<CommonTrackStyle> value)
 	{
+		vl::presentation::common_styles::CommonTrackStyle const& _unwrapped_value = *__GacUIInternal<CommonTrackStyle>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -7478,19 +9838,6 @@ CommonTrackStyle
 GuiScrollView
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiScrollView>
-	{
-	public:
-		typedef GuiScrollView WrappedObjectType;
-		typedef vl::presentation::controls::GuiScrollView InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiScrollView::GuiScrollView(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiControl(static_cast<__GacUIInternal<GuiControl>::InternalObjectType*>((__GacUIInternal<GuiScrollView>::InternalObjectType*)__internal_object_reference_input))
@@ -7508,6 +9855,7 @@ GuiScrollView
 	
 	rptr<GuiScrollView> GuiScrollView::operator=(rptr<GuiScrollView> value)
 	{
+		vl::presentation::controls::GuiScrollView const& _unwrapped_value = *__GacUIInternal<GuiScrollView>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -7538,6 +9886,7 @@ GuiScrollView
 	
 	void GuiScrollView::SetHorizontalAlwaysVisible(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -7548,6 +9897,7 @@ GuiScrollView
 	
 	void GuiScrollView::SetVerticalAlwaysVisible(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -7556,19 +9906,6 @@ GuiScrollView
 GuiScrollView :: IStyleProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiScrollView :: IStyleProvider>
-	{
-	public:
-		typedef GuiScrollView :: IStyleProvider WrappedObjectType;
-		typedef vl::presentation::controls::GuiScrollView::IStyleProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiScrollView::IStyleProvider::IStyleProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiControl :: IStyleProvider(static_cast<__GacUIInternal<GuiControl :: IStyleProvider>::InternalObjectType*>((__GacUIInternal<GuiScrollView :: IStyleProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -7591,11 +9928,13 @@ GuiScrollView :: IStyleProvider
 	
 	rptr<GuiGraphicsComposition> GuiScrollView::IStyleProvider::InstallBackground(rptr<GuiBoundsComposition> boundsComposition)
 	{
+		vl::presentation::elements::GuiBoundsComposition* _unwrapped_boundsComposition = __GacUIInternal<GuiBoundsComposition>::GetInternalObject(*(boundsComposition.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiScrollView :: IStyleProvider> GuiScrollView::IStyleProvider::operator=(rptr<GuiScrollView :: IStyleProvider> value)
 	{
+		vl::presentation::controls::GuiScrollView::IStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -7609,19 +9948,6 @@ GuiScrollView :: IStyleProvider
 GuiScrollView :: StyleController
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiScrollView :: StyleController>
-	{
-	public:
-		typedef GuiScrollView :: StyleController WrappedObjectType;
-		typedef vl::presentation::controls::GuiScrollView::StyleController InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiScrollView::StyleController::StyleController(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiControl :: IStyleController(static_cast<__GacUIInternal<GuiControl :: IStyleController>::InternalObjectType*>((__GacUIInternal<GuiScrollView :: StyleController>::InternalObjectType*)__internal_object_reference_input))
@@ -7634,21 +9960,25 @@ GuiScrollView :: StyleController
 	
 	rptr<GuiScrollView :: StyleController> GuiScrollView::StyleController::CreateRptr(rptr<GuiScrollView :: IStyleProvider> _styleProvider)
 	{
+		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(*(_styleProvider.operator->()));
 		throw 0;
 	}
 	
 	void GuiScrollView::StyleController::AdjustView(Size fullSize)
 	{
+		vl::presentation::Size _unwrapped_fullSize = *__GacUIInternal<Size>::GetInternalObject(fullSize);
 		throw 0;
 	}
 	
 	rptr<GuiScrollView :: StyleController> GuiScrollView::StyleController::operator=(rptr<GuiScrollView :: StyleController> value)
 	{
+		vl::presentation::controls::GuiScrollView::StyleController const& _unwrapped_value = *__GacUIInternal<GuiScrollView :: StyleController>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	void GuiScrollView::StyleController::SetScrollView(rptr<GuiScrollView> _scrollView)
 	{
+		vl::presentation::controls::GuiScrollView* _unwrapped__scrollView = __GacUIInternal<GuiScrollView>::GetInternalObject(*(_scrollView.operator->()));
 		throw 0;
 	}
 	
@@ -7684,6 +10014,7 @@ GuiScrollView :: StyleController
 	
 	void GuiScrollView::StyleController::SetHorizontalAlwaysVisible(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -7694,6 +10025,7 @@ GuiScrollView :: StyleController
 	
 	void GuiScrollView::StyleController::SetVerticalAlwaysVisible(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -7702,19 +10034,6 @@ GuiScrollView :: StyleController
 GuiListControl
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiListControl>
-	{
-	public:
-		typedef GuiListControl WrappedObjectType;
-		typedef vl::presentation::controls::GuiListControl InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiListControl::GuiListControl(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiScrollView(static_cast<__GacUIInternal<GuiScrollView>::InternalObjectType*>((__GacUIInternal<GuiListControl>::InternalObjectType*)__internal_object_reference_input))
@@ -7727,26 +10046,33 @@ GuiListControl
 	
 	rptr<GuiListControl> GuiListControl::CreateRptr(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider, bool acceptFocus)
 	{
+		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(*(_styleProvider.operator->()));
+		vl::presentation::controls::GuiListControl::IItemProvider* _unwrapped__itemProvider = __GacUIInternal<GuiListControl :: IItemProvider>::GetInternalObject(*(_itemProvider.operator->()));
+		bool _unwrapped_acceptFocus = acceptFocus;
 		throw 0;
 	}
 	
 	sptr<GuiListControl :: IItemStyleProvider> GuiListControl::SetStyleProvider(sptr<GuiListControl :: IItemStyleProvider> value)
 	{
+		vl::Ptr<vl::presentation::controls::GuiListControl::IItemStyleProvider> _unwrapped_value = __GacUIInternal<GuiListControl :: IItemStyleProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	sptr<GuiListControl :: IItemArranger> GuiListControl::SetArranger(sptr<GuiListControl :: IItemArranger> value)
 	{
+		vl::Ptr<vl::presentation::controls::GuiListControl::IItemArranger> _unwrapped_value = __GacUIInternal<GuiListControl :: IItemArranger>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	sptr<GuiListControl :: IItemCoordinateTransformer> GuiListControl::SetCoordinateTransformer(sptr<GuiListControl :: IItemCoordinateTransformer> value)
 	{
+		vl::Ptr<vl::presentation::controls::GuiListControl::IItemCoordinateTransformer> _unwrapped_value = __GacUIInternal<GuiListControl :: IItemCoordinateTransformer>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiListControl> GuiListControl::operator=(rptr<GuiListControl> value)
 	{
+		vl::presentation::controls::GuiListControl const& _unwrapped_value = *__GacUIInternal<GuiListControl>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -7790,19 +10116,6 @@ GuiListControl
 GuiListControl :: IItemArrangerCallback
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiListControl :: IItemArrangerCallback>
-	{
-	public:
-		typedef GuiListControl :: IItemArrangerCallback WrappedObjectType;
-		typedef vl::presentation::controls::GuiListControl::IItemArrangerCallback InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiListControl::IItemArrangerCallback::IItemArrangerCallback(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<GuiListControl :: IItemArrangerCallback>::InternalObjectType*)__internal_object_reference_input))
@@ -7815,26 +10128,33 @@ GuiListControl :: IItemArrangerCallback
 	
 	rptr<GuiListControl :: IItemStyleController> GuiListControl::IItemArrangerCallback::RequestItem(signed __int32 itemIndex)
 	{
+		signed __int32 _unwrapped_itemIndex = itemIndex;
 		throw 0;
 	}
 	
 	void GuiListControl::IItemArrangerCallback::ReleaseItem(rptr<GuiListControl :: IItemStyleController> style)
 	{
+		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_style = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(*(style.operator->()));
 		throw 0;
 	}
 	
 	Size GuiListControl::IItemArrangerCallback::GetStylePreferredSize(rptr<GuiListControl :: IItemStyleController> style)
 	{
+		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_style = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(*(style.operator->()));
 		throw 0;
 	}
 	
 	void GuiListControl::IItemArrangerCallback::SetStyleAlignmentToParent(rptr<GuiListControl :: IItemStyleController> style, Margin margin)
 	{
+		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_style = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(*(style.operator->()));
+		vl::presentation::Margin _unwrapped_margin = *__GacUIInternal<Margin>::GetInternalObject(margin);
 		throw 0;
 	}
 	
 	void GuiListControl::IItemArrangerCallback::SetStyleBounds(rptr<GuiListControl :: IItemStyleController> style, Rect bounds)
 	{
+		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_style = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(*(style.operator->()));
+		vl::presentation::Rect _unwrapped_bounds = *__GacUIInternal<Rect>::GetInternalObject(bounds);
 		throw 0;
 	}
 	
@@ -7845,11 +10165,13 @@ GuiListControl :: IItemArrangerCallback
 	
 	rptr<GuiListControl :: IItemArrangerCallback> GuiListControl::IItemArrangerCallback::operator=(rptr<GuiListControl :: IItemArrangerCallback> value)
 	{
+		vl::presentation::controls::GuiListControl::IItemArrangerCallback const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemArrangerCallback>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	void GuiListControl::IItemArrangerCallback::SetViewLocation(Point value)
 	{
+		vl::presentation::Point _unwrapped_value = *__GacUIInternal<Point>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -7863,19 +10185,6 @@ GuiListControl :: IItemArrangerCallback
 GuiListControl :: IItemCoordinateTransformer
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiListControl :: IItemCoordinateTransformer>
-	{
-	public:
-		typedef GuiListControl :: IItemCoordinateTransformer WrappedObjectType;
-		typedef vl::presentation::controls::GuiListControl::IItemCoordinateTransformer InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiListControl::IItemCoordinateTransformer::IItemCoordinateTransformer(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<GuiListControl :: IItemCoordinateTransformer>::InternalObjectType*)__internal_object_reference_input))
@@ -7888,46 +10197,59 @@ GuiListControl :: IItemCoordinateTransformer
 	
 	Size GuiListControl::IItemCoordinateTransformer::RealSizeToVirtualSize(Size size)
 	{
+		vl::presentation::Size _unwrapped_size = *__GacUIInternal<Size>::GetInternalObject(size);
 		throw 0;
 	}
 	
 	Size GuiListControl::IItemCoordinateTransformer::VirtualSizeToRealSize(Size size)
 	{
+		vl::presentation::Size _unwrapped_size = *__GacUIInternal<Size>::GetInternalObject(size);
 		throw 0;
 	}
 	
 	Point GuiListControl::IItemCoordinateTransformer::RealPointToVirtualPoint(Size realFullSize, Point point)
 	{
+		vl::presentation::Size _unwrapped_realFullSize = *__GacUIInternal<Size>::GetInternalObject(realFullSize);
+		vl::presentation::Point _unwrapped_point = *__GacUIInternal<Point>::GetInternalObject(point);
 		throw 0;
 	}
 	
 	Point GuiListControl::IItemCoordinateTransformer::VirtualPointToRealPoint(Size realFullSize, Point point)
 	{
+		vl::presentation::Size _unwrapped_realFullSize = *__GacUIInternal<Size>::GetInternalObject(realFullSize);
+		vl::presentation::Point _unwrapped_point = *__GacUIInternal<Point>::GetInternalObject(point);
 		throw 0;
 	}
 	
 	Rect GuiListControl::IItemCoordinateTransformer::RealRectToVirtualRect(Size realFullSize, Rect rect)
 	{
+		vl::presentation::Size _unwrapped_realFullSize = *__GacUIInternal<Size>::GetInternalObject(realFullSize);
+		vl::presentation::Rect _unwrapped_rect = *__GacUIInternal<Rect>::GetInternalObject(rect);
 		throw 0;
 	}
 	
 	Rect GuiListControl::IItemCoordinateTransformer::VirtualRectToRealRect(Size realFullSize, Rect rect)
 	{
+		vl::presentation::Size _unwrapped_realFullSize = *__GacUIInternal<Size>::GetInternalObject(realFullSize);
+		vl::presentation::Rect _unwrapped_rect = *__GacUIInternal<Rect>::GetInternalObject(rect);
 		throw 0;
 	}
 	
 	Margin GuiListControl::IItemCoordinateTransformer::RealMarginToVirtualMargin(Margin margin)
 	{
+		vl::presentation::Margin _unwrapped_margin = *__GacUIInternal<Margin>::GetInternalObject(margin);
 		throw 0;
 	}
 	
 	Margin GuiListControl::IItemCoordinateTransformer::VirtualMarginToRealMargin(Margin margin)
 	{
+		vl::presentation::Margin _unwrapped_margin = *__GacUIInternal<Margin>::GetInternalObject(margin);
 		throw 0;
 	}
 	
 	rptr<GuiListControl :: IItemCoordinateTransformer> GuiListControl::IItemCoordinateTransformer::operator=(rptr<GuiListControl :: IItemCoordinateTransformer> value)
 	{
+		vl::presentation::controls::GuiListControl::IItemCoordinateTransformer const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemCoordinateTransformer>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -7936,19 +10258,6 @@ GuiListControl :: IItemCoordinateTransformer
 GuiListControl :: IItemPrimaryTextView
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiListControl :: IItemPrimaryTextView>
-	{
-	public:
-		typedef GuiListControl :: IItemPrimaryTextView WrappedObjectType;
-		typedef vl::presentation::controls::GuiListControl::IItemPrimaryTextView InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiListControl::IItemPrimaryTextView::IItemPrimaryTextView(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<GuiListControl :: IItemPrimaryTextView>::InternalObjectType*)__internal_object_reference_input))
@@ -7961,46 +10270,32 @@ GuiListControl :: IItemPrimaryTextView
 	
 	GacString GuiListControl::IItemPrimaryTextView::GetPrimaryTextViewText(signed __int32 itemIndex)
 	{
+		signed __int32 _unwrapped_itemIndex = itemIndex;
 		throw 0;
 	}
 	
 	bool GuiListControl::IItemPrimaryTextView::ContainsPrimaryText(signed __int32 itemIndex)
 	{
+		signed __int32 _unwrapped_itemIndex = itemIndex;
 		throw 0;
 	}
 	
 	rptr<GuiListControl :: IItemPrimaryTextView> GuiListControl::IItemPrimaryTextView::operator=(rptr<GuiListControl :: IItemPrimaryTextView> value)
 	{
+		vl::presentation::controls::GuiListControl::IItemPrimaryTextView const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemPrimaryTextView>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
-	wchar_t* GuiListControl::IItemPrimaryTextView::get_Identifier()
+	wchar_t const* GuiListControl::IItemPrimaryTextView::get_Identifier()
 	{
 		throw 0;
 	}
 	
-	void GuiListControl::IItemPrimaryTextView::set_Identifier(wchar_t* value)
-	{
-		throw 0;
-	}
 
 /***********************************************************************
 GuiListControl :: IItemProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiListControl :: IItemProvider>
-	{
-	public:
-		typedef GuiListControl :: IItemProvider WrappedObjectType;
-		typedef vl::presentation::controls::GuiListControl::IItemProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiListControl::IItemProvider::IItemProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<GuiListControl :: IItemProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -8013,11 +10308,13 @@ GuiListControl :: IItemProvider
 	
 	bool GuiListControl::IItemProvider::AttachCallback(rptr<GuiListControl :: IItemProviderCallback> value)
 	{
+		vl::presentation::controls::GuiListControl::IItemProviderCallback* _unwrapped_value = __GacUIInternal<GuiListControl :: IItemProviderCallback>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	bool GuiListControl::IItemProvider::DetachCallback(rptr<GuiListControl :: IItemProviderCallback> value)
 	{
+		vl::presentation::controls::GuiListControl::IItemProviderCallback* _unwrapped_value = __GacUIInternal<GuiListControl :: IItemProviderCallback>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -8028,16 +10325,19 @@ GuiListControl :: IItemProvider
 	
 	rptr<IDescriptable> GuiListControl::IItemProvider::RequestView(const GacString& identifier)
 	{
+		vl::ObjectString<wchar_t> _unwrapped_identifier = identifier.Buffer();
 		throw 0;
 	}
 	
 	void GuiListControl::IItemProvider::ReleaseView(rptr<IDescriptable> view)
 	{
+		vl::presentation::IDescriptable* _unwrapped_view = __GacUIInternal<IDescriptable>::GetInternalObject(*(view.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiListControl :: IItemProvider> GuiListControl::IItemProvider::operator=(rptr<GuiListControl :: IItemProvider> value)
 	{
+		vl::presentation::controls::GuiListControl::IItemProvider const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -8046,19 +10346,6 @@ GuiListControl :: IItemProvider
 GuiListControl :: IItemProviderCallback
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiListControl :: IItemProviderCallback>
-	{
-	public:
-		typedef GuiListControl :: IItemProviderCallback WrappedObjectType;
-		typedef vl::presentation::controls::GuiListControl::IItemProviderCallback InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiListControl::IItemProviderCallback::IItemProviderCallback(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<GuiListControl :: IItemProviderCallback>::InternalObjectType*)__internal_object_reference_input))
@@ -8071,16 +10358,21 @@ GuiListControl :: IItemProviderCallback
 	
 	void GuiListControl::IItemProviderCallback::OnAttached(rptr<GuiListControl :: IItemProvider> provider)
 	{
+		vl::presentation::controls::GuiListControl::IItemProvider* _unwrapped_provider = __GacUIInternal<GuiListControl :: IItemProvider>::GetInternalObject(*(provider.operator->()));
 		throw 0;
 	}
 	
 	void GuiListControl::IItemProviderCallback::OnItemModified(signed __int32 start, signed __int32 count, signed __int32 newCount)
 	{
+		signed __int32 _unwrapped_start = start;
+		signed __int32 _unwrapped_count = count;
+		signed __int32 _unwrapped_newCount = newCount;
 		throw 0;
 	}
 	
 	rptr<GuiListControl :: IItemProviderCallback> GuiListControl::IItemProviderCallback::operator=(rptr<GuiListControl :: IItemProviderCallback> value)
 	{
+		vl::presentation::controls::GuiListControl::IItemProviderCallback const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemProviderCallback>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -8089,19 +10381,6 @@ GuiListControl :: IItemProviderCallback
 GuiListControl :: IItemArranger
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiListControl :: IItemArranger>
-	{
-	public:
-		typedef GuiListControl :: IItemArranger WrappedObjectType;
-		typedef vl::presentation::controls::GuiListControl::IItemArranger InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiListControl::IItemArranger::IItemArranger(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiListControl :: IItemProviderCallback(static_cast<__GacUIInternal<GuiListControl :: IItemProviderCallback>::InternalObjectType*>((__GacUIInternal<GuiListControl :: IItemArranger>::InternalObjectType*)__internal_object_reference_input))
@@ -8114,6 +10393,7 @@ GuiListControl :: IItemArranger
 	
 	void GuiListControl::IItemArranger::AttachListControl(rptr<GuiListControl> value)
 	{
+		vl::presentation::controls::GuiListControl* _unwrapped_value = __GacUIInternal<GuiListControl>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -8124,21 +10404,25 @@ GuiListControl :: IItemArranger
 	
 	rptr<GuiListControl :: IItemStyleController> GuiListControl::IItemArranger::GetVisibleStyle(signed __int32 itemIndex)
 	{
+		signed __int32 _unwrapped_itemIndex = itemIndex;
 		throw 0;
 	}
 	
 	signed __int32 GuiListControl::IItemArranger::GetVisibleIndex(rptr<GuiListControl :: IItemStyleController> style)
 	{
+		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_style = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(*(style.operator->()));
 		throw 0;
 	}
 	
 	void GuiListControl::IItemArranger::OnViewChanged(Rect bounds)
 	{
+		vl::presentation::Rect _unwrapped_bounds = *__GacUIInternal<Rect>::GetInternalObject(bounds);
 		throw 0;
 	}
 	
 	rptr<GuiListControl :: IItemArranger> GuiListControl::IItemArranger::operator=(rptr<GuiListControl :: IItemArranger> value)
 	{
+		vl::presentation::controls::GuiListControl::IItemArranger const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemArranger>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -8149,6 +10433,7 @@ GuiListControl :: IItemArranger
 	
 	void GuiListControl::IItemArranger::SetCallback(rptr<GuiListControl :: IItemArrangerCallback> value)
 	{
+		vl::presentation::controls::GuiListControl::IItemArrangerCallback* _unwrapped_value = __GacUIInternal<GuiListControl :: IItemArrangerCallback>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -8162,19 +10447,6 @@ GuiListControl :: IItemArranger
 GuiListControl :: IItemStyleController
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiListControl :: IItemStyleController>
-	{
-	public:
-		typedef GuiListControl :: IItemStyleController WrappedObjectType;
-		typedef vl::presentation::controls::GuiListControl::IItemStyleController InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiListControl::IItemStyleController::IItemStyleController(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<GuiListControl :: IItemStyleController>::InternalObjectType*)__internal_object_reference_input))
@@ -8207,6 +10479,7 @@ GuiListControl :: IItemStyleController
 	
 	rptr<GuiListControl :: IItemStyleController> GuiListControl::IItemStyleController::operator=(rptr<GuiListControl :: IItemStyleController> value)
 	{
+		vl::presentation::controls::GuiListControl::IItemStyleController const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -8230,19 +10503,6 @@ GuiListControl :: IItemStyleController
 GuiListControl :: IItemStyleProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiListControl :: IItemStyleProvider>
-	{
-	public:
-		typedef GuiListControl :: IItemStyleProvider WrappedObjectType;
-		typedef vl::presentation::controls::GuiListControl::IItemStyleProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiListControl::IItemStyleProvider::IItemStyleProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<GuiListControl :: IItemStyleProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -8255,6 +10515,7 @@ GuiListControl :: IItemStyleProvider
 	
 	void GuiListControl::IItemStyleProvider::AttachListControl(rptr<GuiListControl> value)
 	{
+		vl::presentation::controls::GuiListControl* _unwrapped_value = __GacUIInternal<GuiListControl>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -8265,26 +10526,32 @@ GuiListControl :: IItemStyleProvider
 	
 	signed __int32 GuiListControl::IItemStyleProvider::GetItemStyleId(signed __int32 itemIndex)
 	{
+		signed __int32 _unwrapped_itemIndex = itemIndex;
 		throw 0;
 	}
 	
 	rptr<GuiListControl :: IItemStyleController> GuiListControl::IItemStyleProvider::CreateItemStyle(signed __int32 styleId)
 	{
+		signed __int32 _unwrapped_styleId = styleId;
 		throw 0;
 	}
 	
 	void GuiListControl::IItemStyleProvider::DestroyItemStyle(rptr<GuiListControl :: IItemStyleController> style)
 	{
+		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_style = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(*(style.operator->()));
 		throw 0;
 	}
 	
 	void GuiListControl::IItemStyleProvider::Install(rptr<GuiListControl :: IItemStyleController> style, signed __int32 itemIndex)
 	{
+		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_style = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(*(style.operator->()));
+		signed __int32 _unwrapped_itemIndex = itemIndex;
 		throw 0;
 	}
 	
 	rptr<GuiListControl :: IItemStyleProvider> GuiListControl::IItemStyleProvider::operator=(rptr<GuiListControl :: IItemStyleProvider> value)
 	{
+		vl::presentation::controls::GuiListControl::IItemStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiListControl :: IItemStyleProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -8293,19 +10560,6 @@ GuiListControl :: IItemStyleProvider
 AxisAlignedItemCoordinateTransformer
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<AxisAlignedItemCoordinateTransformer>
-	{
-	public:
-		typedef AxisAlignedItemCoordinateTransformer WrappedObjectType;
-		typedef vl::presentation::controls::list::AxisAlignedItemCoordinateTransformer InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	AxisAlignedItemCoordinateTransformer::AxisAlignedItemCoordinateTransformer(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiListControl :: IItemCoordinateTransformer(static_cast<__GacUIInternal<GuiListControl :: IItemCoordinateTransformer>::InternalObjectType*>((__GacUIInternal<AxisAlignedItemCoordinateTransformer>::InternalObjectType*)__internal_object_reference_input))
@@ -8318,11 +10572,13 @@ AxisAlignedItemCoordinateTransformer
 	
 	rptr<AxisAlignedItemCoordinateTransformer> AxisAlignedItemCoordinateTransformer::CreateRptr(AxisAlignedItemCoordinateTransformer :: Alignment _alignment)
 	{
+		vl::presentation::controls::list::AxisAlignedItemCoordinateTransformer::Alignment _unwrapped__alignment = (vl::presentation::controls::list::AxisAlignedItemCoordinateTransformer::Alignment)_alignment;
 		throw 0;
 	}
 	
 	rptr<AxisAlignedItemCoordinateTransformer> AxisAlignedItemCoordinateTransformer::operator=(rptr<AxisAlignedItemCoordinateTransformer> value)
 	{
+		vl::presentation::controls::list::AxisAlignedItemCoordinateTransformer const& _unwrapped_value = *__GacUIInternal<AxisAlignedItemCoordinateTransformer>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -8336,19 +10592,6 @@ AxisAlignedItemCoordinateTransformer
 DefaultItemCoordinateTransformer
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<DefaultItemCoordinateTransformer>
-	{
-	public:
-		typedef DefaultItemCoordinateTransformer WrappedObjectType;
-		typedef vl::presentation::controls::list::DefaultItemCoordinateTransformer InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	DefaultItemCoordinateTransformer::DefaultItemCoordinateTransformer(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiListControl :: IItemCoordinateTransformer(static_cast<__GacUIInternal<GuiListControl :: IItemCoordinateTransformer>::InternalObjectType*>((__GacUIInternal<DefaultItemCoordinateTransformer>::InternalObjectType*)__internal_object_reference_input))
@@ -8366,6 +10609,7 @@ DefaultItemCoordinateTransformer
 	
 	rptr<DefaultItemCoordinateTransformer> DefaultItemCoordinateTransformer::operator=(rptr<DefaultItemCoordinateTransformer> value)
 	{
+		vl::presentation::controls::list::DefaultItemCoordinateTransformer const& _unwrapped_value = *__GacUIInternal<DefaultItemCoordinateTransformer>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -8374,19 +10618,6 @@ DefaultItemCoordinateTransformer
 GuiScrollContainer
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiScrollContainer>
-	{
-	public:
-		typedef GuiScrollContainer WrappedObjectType;
-		typedef vl::presentation::controls::GuiScrollContainer InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiScrollContainer::GuiScrollContainer(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiScrollView(static_cast<__GacUIInternal<GuiScrollView>::InternalObjectType*>((__GacUIInternal<GuiScrollContainer>::InternalObjectType*)__internal_object_reference_input))
@@ -8399,11 +10630,13 @@ GuiScrollContainer
 	
 	rptr<GuiScrollContainer> GuiScrollContainer::CreateRptr(rptr<GuiScrollView :: IStyleProvider> styleProvider)
 	{
+		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(*(styleProvider.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiScrollContainer> GuiScrollContainer::operator=(rptr<GuiScrollContainer> value)
 	{
+		vl::presentation::controls::GuiScrollContainer const& _unwrapped_value = *__GacUIInternal<GuiScrollContainer>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -8412,19 +10645,6 @@ GuiScrollContainer
 GuiScrollContainer :: StyleController
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiScrollContainer :: StyleController>
-	{
-	public:
-		typedef GuiScrollContainer :: StyleController WrappedObjectType;
-		typedef vl::presentation::controls::GuiScrollContainer::StyleController InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiScrollContainer::StyleController::StyleController(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiScrollView :: StyleController(static_cast<__GacUIInternal<GuiScrollView :: StyleController>::InternalObjectType*>((__GacUIInternal<GuiScrollContainer :: StyleController>::InternalObjectType*)__internal_object_reference_input))
@@ -8437,16 +10657,19 @@ GuiScrollContainer :: StyleController
 	
 	rptr<GuiScrollContainer :: StyleController> GuiScrollContainer::StyleController::CreateRptr(rptr<GuiScrollView :: IStyleProvider> styleProvider)
 	{
+		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(*(styleProvider.operator->()));
 		throw 0;
 	}
 	
 	void GuiScrollContainer::StyleController::MoveContainer(Point leftTop)
 	{
+		vl::presentation::Point _unwrapped_leftTop = *__GacUIInternal<Point>::GetInternalObject(leftTop);
 		throw 0;
 	}
 	
 	rptr<GuiScrollContainer :: StyleController> GuiScrollContainer::StyleController::operator=(rptr<GuiScrollContainer :: StyleController> value)
 	{
+		vl::presentation::controls::GuiScrollContainer::StyleController const& _unwrapped_value = *__GacUIInternal<GuiScrollContainer :: StyleController>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -8455,19 +10678,6 @@ GuiScrollContainer :: StyleController
 GuiSelectableButton
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiSelectableButton>
-	{
-	public:
-		typedef GuiSelectableButton WrappedObjectType;
-		typedef vl::presentation::controls::GuiSelectableButton InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiSelectableButton::GuiSelectableButton(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiButton(static_cast<__GacUIInternal<GuiButton>::InternalObjectType*>((__GacUIInternal<GuiSelectableButton>::InternalObjectType*)__internal_object_reference_input))
@@ -8480,11 +10690,13 @@ GuiSelectableButton
 	
 	rptr<GuiSelectableButton> GuiSelectableButton::CreateRptr(rptr<GuiSelectableButton :: IStyleController> _styleController)
 	{
+		vl::presentation::controls::GuiSelectableButton::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiSelectableButton :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiSelectableButton> GuiSelectableButton::operator=(rptr<GuiSelectableButton> value)
 	{
+		vl::presentation::controls::GuiSelectableButton const& _unwrapped_value = *__GacUIInternal<GuiSelectableButton>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -8495,6 +10707,7 @@ GuiSelectableButton
 	
 	void GuiSelectableButton::SetGroupController(rptr<GuiSelectableButton :: GroupController> value)
 	{
+		vl::presentation::controls::GuiSelectableButton::GroupController* _unwrapped_value = __GacUIInternal<GuiSelectableButton :: GroupController>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -8505,6 +10718,7 @@ GuiSelectableButton
 	
 	void GuiSelectableButton::SetAutoSelection(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -8515,6 +10729,7 @@ GuiSelectableButton
 	
 	void GuiSelectableButton::SetSelected(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -8538,19 +10753,6 @@ GuiSelectableButton
 GuiSelectableButton :: GroupController
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiSelectableButton :: GroupController>
-	{
-	public:
-		typedef GuiSelectableButton :: GroupController WrappedObjectType;
-		typedef vl::presentation::controls::GuiSelectableButton::GroupController InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiSelectableButton::GroupController::GroupController(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiComponent(static_cast<__GacUIInternal<GuiComponent>::InternalObjectType*>((__GacUIInternal<GuiSelectableButton :: GroupController>::InternalObjectType*)__internal_object_reference_input))
@@ -8563,21 +10765,25 @@ GuiSelectableButton :: GroupController
 	
 	void GuiSelectableButton::GroupController::Attach(rptr<GuiSelectableButton> button)
 	{
+		vl::presentation::controls::GuiSelectableButton* _unwrapped_button = __GacUIInternal<GuiSelectableButton>::GetInternalObject(*(button.operator->()));
 		throw 0;
 	}
 	
 	void GuiSelectableButton::GroupController::Detach(rptr<GuiSelectableButton> button)
 	{
+		vl::presentation::controls::GuiSelectableButton* _unwrapped_button = __GacUIInternal<GuiSelectableButton>::GetInternalObject(*(button.operator->()));
 		throw 0;
 	}
 	
 	void GuiSelectableButton::GroupController::OnSelectedChanged(rptr<GuiSelectableButton> button)
 	{
+		vl::presentation::controls::GuiSelectableButton* _unwrapped_button = __GacUIInternal<GuiSelectableButton>::GetInternalObject(*(button.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiSelectableButton :: GroupController> GuiSelectableButton::GroupController::operator=(rptr<GuiSelectableButton :: GroupController> value)
 	{
+		vl::presentation::controls::GuiSelectableButton::GroupController const& _unwrapped_value = *__GacUIInternal<GuiSelectableButton :: GroupController>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -8586,19 +10792,6 @@ GuiSelectableButton :: GroupController
 GuiSelectableButton :: IStyleController
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiSelectableButton :: IStyleController>
-	{
-	public:
-		typedef GuiSelectableButton :: IStyleController WrappedObjectType;
-		typedef vl::presentation::controls::GuiSelectableButton::IStyleController InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiSelectableButton::IStyleController::IStyleController(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiButton :: IStyleController(static_cast<__GacUIInternal<GuiButton :: IStyleController>::InternalObjectType*>((__GacUIInternal<GuiSelectableButton :: IStyleController>::InternalObjectType*)__internal_object_reference_input))
@@ -8611,11 +10804,13 @@ GuiSelectableButton :: IStyleController
 	
 	rptr<GuiSelectableButton :: IStyleController> GuiSelectableButton::IStyleController::operator=(rptr<GuiSelectableButton :: IStyleController> value)
 	{
+		vl::presentation::controls::GuiSelectableButton::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiSelectableButton :: IStyleController>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	void GuiSelectableButton::IStyleController::SetSelected(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -8624,19 +10819,6 @@ GuiSelectableButton :: IStyleController
 GuiSelectableButton :: MutexGroupController
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiSelectableButton :: MutexGroupController>
-	{
-	public:
-		typedef GuiSelectableButton :: MutexGroupController WrappedObjectType;
-		typedef vl::presentation::controls::GuiSelectableButton::MutexGroupController InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiSelectableButton::MutexGroupController::MutexGroupController(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiSelectableButton :: GroupController(static_cast<__GacUIInternal<GuiSelectableButton :: GroupController>::InternalObjectType*>((__GacUIInternal<GuiSelectableButton :: MutexGroupController>::InternalObjectType*)__internal_object_reference_input))
@@ -8654,6 +10836,7 @@ GuiSelectableButton :: MutexGroupController
 	
 	rptr<GuiSelectableButton :: MutexGroupController> GuiSelectableButton::MutexGroupController::operator=(rptr<GuiSelectableButton :: MutexGroupController> value)
 	{
+		vl::presentation::controls::GuiSelectableButton::MutexGroupController const& _unwrapped_value = *__GacUIInternal<GuiSelectableButton :: MutexGroupController>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -8662,19 +10845,6 @@ GuiSelectableButton :: MutexGroupController
 GuiSelectableListControl
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiSelectableListControl>
-	{
-	public:
-		typedef GuiSelectableListControl WrappedObjectType;
-		typedef vl::presentation::controls::GuiSelectableListControl InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiSelectableListControl::GuiSelectableListControl(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiListControl(static_cast<__GacUIInternal<GuiListControl>::InternalObjectType*>((__GacUIInternal<GuiSelectableListControl>::InternalObjectType*)__internal_object_reference_input))
@@ -8687,16 +10857,21 @@ GuiSelectableListControl
 	
 	rptr<GuiSelectableListControl> GuiSelectableListControl::CreateRptr(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider)
 	{
+		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(*(_styleProvider.operator->()));
+		vl::presentation::controls::GuiListControl::IItemProvider* _unwrapped__itemProvider = __GacUIInternal<GuiListControl :: IItemProvider>::GetInternalObject(*(_itemProvider.operator->()));
 		throw 0;
 	}
 	
 	bool GuiSelectableListControl::GetSelected(signed __int32 itemIndex)
 	{
+		signed __int32 _unwrapped_itemIndex = itemIndex;
 		throw 0;
 	}
 	
 	void GuiSelectableListControl::SetSelected(signed __int32 itemIndex, bool value)
 	{
+		signed __int32 _unwrapped_itemIndex = itemIndex;
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -8707,6 +10882,7 @@ GuiSelectableListControl
 	
 	rptr<GuiSelectableListControl> GuiSelectableListControl::operator=(rptr<GuiSelectableListControl> value)
 	{
+		vl::presentation::controls::GuiSelectableListControl const& _unwrapped_value = *__GacUIInternal<GuiSelectableListControl>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -8717,6 +10893,7 @@ GuiSelectableListControl
 	
 	void GuiSelectableListControl::SetMultiSelect(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -8735,19 +10912,6 @@ GuiSelectableListControl
 GuiSelectableListControl :: IItemStyleProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiSelectableListControl :: IItemStyleProvider>
-	{
-	public:
-		typedef GuiSelectableListControl :: IItemStyleProvider WrappedObjectType;
-		typedef vl::presentation::controls::GuiSelectableListControl::IItemStyleProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiSelectableListControl::IItemStyleProvider::IItemStyleProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiListControl :: IItemStyleProvider(static_cast<__GacUIInternal<GuiListControl :: IItemStyleProvider>::InternalObjectType*>((__GacUIInternal<GuiSelectableListControl :: IItemStyleProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -8760,11 +10924,14 @@ GuiSelectableListControl :: IItemStyleProvider
 	
 	void GuiSelectableListControl::IItemStyleProvider::SetStyleSelected(rptr<GuiListControl :: IItemStyleController> style, bool value)
 	{
+		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_style = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(*(style.operator->()));
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
 	rptr<GuiSelectableListControl :: IItemStyleProvider> GuiSelectableListControl::IItemStyleProvider::operator=(rptr<GuiSelectableListControl :: IItemStyleProvider> value)
 	{
+		vl::presentation::controls::GuiSelectableListControl::IItemStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiSelectableListControl :: IItemStyleProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -8773,19 +10940,6 @@ GuiSelectableListControl :: IItemStyleProvider
 GuiListViewBase
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiListViewBase>
-	{
-	public:
-		typedef GuiListViewBase WrappedObjectType;
-		typedef vl::presentation::controls::GuiListViewBase InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiListViewBase::GuiListViewBase(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiSelectableListControl(static_cast<__GacUIInternal<GuiSelectableListControl>::InternalObjectType*>((__GacUIInternal<GuiListViewBase>::InternalObjectType*)__internal_object_reference_input))
@@ -8798,11 +10952,14 @@ GuiListViewBase
 	
 	rptr<GuiListViewBase> GuiListViewBase::CreateRptr(rptr<GuiListViewBase :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider)
 	{
+		vl::presentation::controls::GuiListViewBase::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiListViewBase :: IStyleProvider>::GetInternalObject(*(_styleProvider.operator->()));
+		vl::presentation::controls::GuiListControl::IItemProvider* _unwrapped__itemProvider = __GacUIInternal<GuiListControl :: IItemProvider>::GetInternalObject(*(_itemProvider.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiListViewBase> GuiListViewBase::operator=(rptr<GuiListViewBase> value)
 	{
+		vl::presentation::controls::GuiListViewBase const& _unwrapped_value = *__GacUIInternal<GuiListViewBase>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -8816,19 +10973,6 @@ GuiListViewBase
 GuiListViewBase :: IStyleProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiListViewBase :: IStyleProvider>
-	{
-	public:
-		typedef GuiListViewBase :: IStyleProvider WrappedObjectType;
-		typedef vl::presentation::controls::GuiListViewBase::IStyleProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiListViewBase::IStyleProvider::IStyleProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiScrollView :: IStyleProvider(static_cast<__GacUIInternal<GuiScrollView :: IStyleProvider>::InternalObjectType*>((__GacUIInternal<GuiListViewBase :: IStyleProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -8851,6 +10995,7 @@ GuiListViewBase :: IStyleProvider
 	
 	rptr<GuiListViewBase :: IStyleProvider> GuiListViewBase::IStyleProvider::operator=(rptr<GuiListViewBase :: IStyleProvider> value)
 	{
+		vl::presentation::controls::GuiListViewBase::IStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiListViewBase :: IStyleProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -8874,19 +11019,6 @@ GuiListViewBase :: IStyleProvider
 GuiSideAlignedComposition
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiSideAlignedComposition>
-	{
-	public:
-		typedef GuiSideAlignedComposition WrappedObjectType;
-		typedef vl::presentation::elements::GuiSideAlignedComposition InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiSideAlignedComposition::GuiSideAlignedComposition(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiGraphicsSite(static_cast<__GacUIInternal<GuiGraphicsSite>::InternalObjectType*>((__GacUIInternal<GuiSideAlignedComposition>::InternalObjectType*)__internal_object_reference_input))
@@ -8904,6 +11036,7 @@ GuiSideAlignedComposition
 	
 	rptr<GuiSideAlignedComposition> GuiSideAlignedComposition::operator=(rptr<GuiSideAlignedComposition> value)
 	{
+		vl::presentation::elements::GuiSideAlignedComposition const& _unwrapped_value = *__GacUIInternal<GuiSideAlignedComposition>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -8914,6 +11047,7 @@ GuiSideAlignedComposition
 	
 	void GuiSideAlignedComposition::SetDirection(GuiSideAlignedComposition :: Direction value)
 	{
+		vl::presentation::elements::GuiSideAlignedComposition::Direction _unwrapped_value = (vl::presentation::elements::GuiSideAlignedComposition::Direction)value;
 		throw 0;
 	}
 	
@@ -8924,6 +11058,7 @@ GuiSideAlignedComposition
 	
 	void GuiSideAlignedComposition::SetMaxLength(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -8934,6 +11069,7 @@ GuiSideAlignedComposition
 	
 	void GuiSideAlignedComposition::SetMaxRatio(double value)
 	{
+		double _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -8942,19 +11078,6 @@ GuiSideAlignedComposition
 GuiStackItemComposition
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiStackItemComposition>
-	{
-	public:
-		typedef GuiStackItemComposition WrappedObjectType;
-		typedef vl::presentation::elements::GuiStackItemComposition InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiStackItemComposition::GuiStackItemComposition(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiGraphicsSite(static_cast<__GacUIInternal<GuiGraphicsSite>::InternalObjectType*>((__GacUIInternal<GuiStackItemComposition>::InternalObjectType*)__internal_object_reference_input))
@@ -8972,11 +11095,13 @@ GuiStackItemComposition
 	
 	rptr<GuiStackItemComposition> GuiStackItemComposition::operator=(rptr<GuiStackItemComposition> value)
 	{
+		vl::presentation::elements::GuiStackItemComposition const& _unwrapped_value = *__GacUIInternal<GuiStackItemComposition>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	void GuiStackItemComposition::SetBounds(Rect value)
 	{
+		vl::presentation::Rect _unwrapped_value = *__GacUIInternal<Rect>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -8987,6 +11112,7 @@ GuiStackItemComposition
 	
 	void GuiStackItemComposition::SetExtraMargin(Margin value)
 	{
+		vl::presentation::Margin _unwrapped_value = *__GacUIInternal<Margin>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -8995,19 +11121,6 @@ GuiStackItemComposition
 GuiTab
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiTab>
-	{
-	public:
-		typedef GuiTab WrappedObjectType;
-		typedef vl::presentation::controls::GuiTab InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiTab::GuiTab(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiControl(static_cast<__GacUIInternal<GuiControl>::InternalObjectType*>((__GacUIInternal<GuiTab>::InternalObjectType*)__internal_object_reference_input))
@@ -9020,36 +11133,45 @@ GuiTab
 	
 	rptr<GuiTab> GuiTab::CreateRptr(rptr<GuiTab :: IStyleController> _styleController)
 	{
+		vl::presentation::controls::GuiTab::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiTab :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
 		throw 0;
 	}
 	
 	bool GuiTab::CreatePage(rptr<GuiTabPage> page, signed __int32 index)
 	{
+		vl::presentation::controls::GuiTabPage* _unwrapped_page = __GacUIInternal<GuiTabPage>::GetInternalObject(*(page.operator->()));
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	rptr<GuiTabPage> GuiTab::CreatePage(signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	bool GuiTab::RemovePage(rptr<GuiTabPage> value)
 	{
+		vl::presentation::controls::GuiTabPage* _unwrapped_value = __GacUIInternal<GuiTabPage>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	bool GuiTab::MovePage(rptr<GuiTabPage> page, signed __int32 newIndex)
 	{
+		vl::presentation::controls::GuiTabPage* _unwrapped_page = __GacUIInternal<GuiTabPage>::GetInternalObject(*(page.operator->()));
+		signed __int32 _unwrapped_newIndex = newIndex;
 		throw 0;
 	}
 	
 	bool GuiTab::SetSelectedPage(rptr<GuiTabPage> value)
 	{
+		vl::presentation::controls::GuiTabPage* _unwrapped_value = __GacUIInternal<GuiTabPage>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiTab> GuiTab::operator=(rptr<GuiTab> value)
 	{
+		vl::presentation::controls::GuiTab const& _unwrapped_value = *__GacUIInternal<GuiTab>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -9073,19 +11195,6 @@ GuiTab
 GuiTab :: ICommandExecutor
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiTab :: ICommandExecutor>
-	{
-	public:
-		typedef GuiTab :: ICommandExecutor WrappedObjectType;
-		typedef vl::presentation::controls::GuiTab::ICommandExecutor InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiTab::ICommandExecutor::ICommandExecutor(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<GuiTab :: ICommandExecutor>::InternalObjectType*)__internal_object_reference_input))
@@ -9098,11 +11207,13 @@ GuiTab :: ICommandExecutor
 	
 	void GuiTab::ICommandExecutor::ShowTab(signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	rptr<GuiTab :: ICommandExecutor> GuiTab::ICommandExecutor::operator=(rptr<GuiTab :: ICommandExecutor> value)
 	{
+		vl::presentation::controls::GuiTab::ICommandExecutor const& _unwrapped_value = *__GacUIInternal<GuiTab :: ICommandExecutor>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -9111,19 +11222,6 @@ GuiTab :: ICommandExecutor
 GuiTab :: IStyleController
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiTab :: IStyleController>
-	{
-	public:
-		typedef GuiTab :: IStyleController WrappedObjectType;
-		typedef vl::presentation::controls::GuiTab::IStyleController InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiTab::IStyleController::IStyleController(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiControl :: IStyleController(static_cast<__GacUIInternal<GuiControl :: IStyleController>::InternalObjectType*>((__GacUIInternal<GuiTab :: IStyleController>::InternalObjectType*)__internal_object_reference_input))
@@ -9136,21 +11234,27 @@ GuiTab :: IStyleController
 	
 	void GuiTab::IStyleController::InsertTab(signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	void GuiTab::IStyleController::SetTabText(signed __int32 index, const GacString& value)
 	{
+		signed __int32 _unwrapped_index = index;
+		vl::ObjectString<wchar_t> _unwrapped_value = value.Buffer();
 		throw 0;
 	}
 	
 	void GuiTab::IStyleController::RemoveTab(signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	void GuiTab::IStyleController::MoveTab(signed __int32 oldIndex, signed __int32 newIndex)
 	{
+		signed __int32 _unwrapped_oldIndex = oldIndex;
+		signed __int32 _unwrapped_newIndex = newIndex;
 		throw 0;
 	}
 	
@@ -9161,16 +11265,19 @@ GuiTab :: IStyleController
 	
 	rptr<GuiTab :: IStyleController> GuiTab::IStyleController::operator=(rptr<GuiTab :: IStyleController> value)
 	{
+		vl::presentation::controls::GuiTab::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiTab :: IStyleController>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	void GuiTab::IStyleController::SetCommandExecutor(rptr<GuiTab :: ICommandExecutor> value)
 	{
+		vl::presentation::controls::GuiTab::ICommandExecutor* _unwrapped_value = __GacUIInternal<GuiTab :: ICommandExecutor>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	void GuiTab::IStyleController::SetSelectedTab(signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
@@ -9179,19 +11286,6 @@ GuiTab :: IStyleController
 GuiTableComposition
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiTableComposition>
-	{
-	public:
-		typedef GuiTableComposition WrappedObjectType;
-		typedef vl::presentation::elements::GuiTableComposition InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiTableComposition::GuiTableComposition(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiBoundsComposition(static_cast<__GacUIInternal<GuiBoundsComposition>::InternalObjectType*>((__GacUIInternal<GuiTableComposition>::InternalObjectType*)__internal_object_reference_input))
@@ -9209,31 +11303,41 @@ GuiTableComposition
 	
 	bool GuiTableComposition::SetRowsAndColumns(signed __int32 _rows, signed __int32 _columns)
 	{
+		signed __int32 _unwrapped__rows = _rows;
+		signed __int32 _unwrapped__columns = _columns;
 		throw 0;
 	}
 	
 	rptr<GuiCellComposition> GuiTableComposition::GetSitedCell(signed __int32 _row, signed __int32 _column)
 	{
+		signed __int32 _unwrapped__row = _row;
+		signed __int32 _unwrapped__column = _column;
 		throw 0;
 	}
 	
 	GuiCellOption GuiTableComposition::GetRowOption(signed __int32 _row)
 	{
+		signed __int32 _unwrapped__row = _row;
 		throw 0;
 	}
 	
 	void GuiTableComposition::SetRowOption(signed __int32 _row, GuiCellOption option)
 	{
+		signed __int32 _unwrapped__row = _row;
+		vl::presentation::elements::GuiCellOption _unwrapped_option = *__GacUIInternal<GuiCellOption>::GetInternalObject(option);
 		throw 0;
 	}
 	
 	GuiCellOption GuiTableComposition::GetColumnOption(signed __int32 _column)
 	{
+		signed __int32 _unwrapped__column = _column;
 		throw 0;
 	}
 	
 	void GuiTableComposition::SetColumnOption(signed __int32 _column, GuiCellOption option)
 	{
+		signed __int32 _unwrapped__column = _column;
+		vl::presentation::elements::GuiCellOption _unwrapped_option = *__GacUIInternal<GuiCellOption>::GetInternalObject(option);
 		throw 0;
 	}
 	
@@ -9244,6 +11348,7 @@ GuiTableComposition
 	
 	rptr<GuiTableComposition> GuiTableComposition::operator=(rptr<GuiTableComposition> value)
 	{
+		vl::presentation::elements::GuiTableComposition const& _unwrapped_value = *__GacUIInternal<GuiTableComposition>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -9264,6 +11369,7 @@ GuiTableComposition
 	
 	void GuiTableComposition::SetCellPadding(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -9277,19 +11383,6 @@ GuiTableComposition
 GuiWindow
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiWindow>
-	{
-	public:
-		typedef GuiWindow WrappedObjectType;
-		typedef vl::presentation::controls::GuiWindow InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiWindow::GuiWindow(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiControlHost(static_cast<__GacUIInternal<GuiControlHost>::InternalObjectType*>((__GacUIInternal<GuiWindow>::InternalObjectType*)__internal_object_reference_input))
@@ -9302,11 +11395,13 @@ GuiWindow
 	
 	rptr<GuiWindow> GuiWindow::CreateRptr(rptr<GuiControl :: IStyleController> _styleController)
 	{
+		vl::presentation::controls::GuiControl::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiWindow> GuiWindow::operator=(rptr<GuiWindow> value)
 	{
+		vl::presentation::controls::GuiWindow const& _unwrapped_value = *__GacUIInternal<GuiWindow>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -9315,19 +11410,6 @@ GuiWindow
 GuiPopup
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiPopup>
-	{
-	public:
-		typedef GuiPopup WrappedObjectType;
-		typedef vl::presentation::controls::GuiPopup InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiPopup::GuiPopup(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiWindow(static_cast<__GacUIInternal<GuiWindow>::InternalObjectType*>((__GacUIInternal<GuiPopup>::InternalObjectType*)__internal_object_reference_input))
@@ -9340,26 +11422,32 @@ GuiPopup
 	
 	rptr<GuiPopup> GuiPopup::CreateRptr(rptr<GuiControl :: IStyleController> _styleController)
 	{
+		vl::presentation::controls::GuiControl::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
 		throw 0;
 	}
 	
 	bool GuiPopup::IsClippedByScreen(Point location)
 	{
+		vl::presentation::Point _unwrapped_location = *__GacUIInternal<Point>::GetInternalObject(location);
 		throw 0;
 	}
 	
 	void GuiPopup::ShowPopup(rptr<GuiControl> control, bool preferredTopBottomSide)
 	{
+		vl::presentation::controls::GuiControl* _unwrapped_control = __GacUIInternal<GuiControl>::GetInternalObject(*(control.operator->()));
+		bool _unwrapped_preferredTopBottomSide = preferredTopBottomSide;
 		throw 0;
 	}
 	
 	void GuiPopup::ShowPopup(Point location)
 	{
+		vl::presentation::Point _unwrapped_location = *__GacUIInternal<Point>::GetInternalObject(location);
 		throw 0;
 	}
 	
 	rptr<GuiPopup> GuiPopup::operator=(rptr<GuiPopup> value)
 	{
+		vl::presentation::controls::GuiPopup const& _unwrapped_value = *__GacUIInternal<GuiPopup>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -9368,19 +11456,6 @@ GuiPopup
 GuiComboBoxBase
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiComboBoxBase>
-	{
-	public:
-		typedef GuiComboBoxBase WrappedObjectType;
-		typedef vl::presentation::controls::GuiComboBoxBase InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiComboBoxBase::GuiComboBoxBase(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiButton(static_cast<__GacUIInternal<GuiButton>::InternalObjectType*>((__GacUIInternal<GuiComboBoxBase>::InternalObjectType*)__internal_object_reference_input))
@@ -9393,6 +11468,7 @@ GuiComboBoxBase
 	
 	rptr<GuiComboBoxBase> GuiComboBoxBase::CreateRptr(rptr<GuiComboBoxBase :: IStyleController> _styleController)
 	{
+		vl::presentation::controls::GuiComboBoxBase::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiComboBoxBase :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
 		throw 0;
 	}
 	
@@ -9403,6 +11479,7 @@ GuiComboBoxBase
 	
 	rptr<GuiComboBoxBase> GuiComboBoxBase::operator=(rptr<GuiComboBoxBase> value)
 	{
+		vl::presentation::controls::GuiComboBoxBase const& _unwrapped_value = *__GacUIInternal<GuiComboBoxBase>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -9436,19 +11513,6 @@ GuiComboBoxBase
 GuiComboBoxBase :: ICommandExecutor
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiComboBoxBase :: ICommandExecutor>
-	{
-	public:
-		typedef GuiComboBoxBase :: ICommandExecutor WrappedObjectType;
-		typedef vl::presentation::controls::GuiComboBoxBase::ICommandExecutor InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiComboBoxBase::ICommandExecutor::ICommandExecutor(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<GuiComboBoxBase :: ICommandExecutor>::InternalObjectType*)__internal_object_reference_input))
@@ -9471,6 +11535,7 @@ GuiComboBoxBase :: ICommandExecutor
 	
 	rptr<GuiComboBoxBase :: ICommandExecutor> GuiComboBoxBase::ICommandExecutor::operator=(rptr<GuiComboBoxBase :: ICommandExecutor> value)
 	{
+		vl::presentation::controls::GuiComboBoxBase::ICommandExecutor const& _unwrapped_value = *__GacUIInternal<GuiComboBoxBase :: ICommandExecutor>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -9479,19 +11544,6 @@ GuiComboBoxBase :: ICommandExecutor
 GuiComboBoxBase :: IStyleController
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiComboBoxBase :: IStyleController>
-	{
-	public:
-		typedef GuiComboBoxBase :: IStyleController WrappedObjectType;
-		typedef vl::presentation::controls::GuiComboBoxBase::IStyleController InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiComboBoxBase::IStyleController::IStyleController(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiButton :: IStyleController(static_cast<__GacUIInternal<GuiButton :: IStyleController>::InternalObjectType*>((__GacUIInternal<GuiComboBoxBase :: IStyleController>::InternalObjectType*)__internal_object_reference_input))
@@ -9529,11 +11581,13 @@ GuiComboBoxBase :: IStyleController
 	
 	rptr<GuiComboBoxBase :: IStyleController> GuiComboBoxBase::IStyleController::operator=(rptr<GuiComboBoxBase :: IStyleController> value)
 	{
+		vl::presentation::controls::GuiComboBoxBase::IStyleController const& _unwrapped_value = *__GacUIInternal<GuiComboBoxBase :: IStyleController>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	void GuiComboBoxBase::IStyleController::SetCommandExecutor(rptr<GuiComboBoxBase :: ICommandExecutor> value)
 	{
+		vl::presentation::controls::GuiComboBoxBase::ICommandExecutor* _unwrapped_value = __GacUIInternal<GuiComboBoxBase :: ICommandExecutor>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -9542,19 +11596,6 @@ GuiComboBoxBase :: IStyleController
 GuiComboBoxListControl
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiComboBoxListControl>
-	{
-	public:
-		typedef GuiComboBoxListControl WrappedObjectType;
-		typedef vl::presentation::controls::GuiComboBoxListControl InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiComboBoxListControl::GuiComboBoxListControl(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiComboBoxBase(static_cast<__GacUIInternal<GuiComboBoxBase>::InternalObjectType*>((__GacUIInternal<GuiComboBoxListControl>::InternalObjectType*)__internal_object_reference_input))
@@ -9567,11 +11608,14 @@ GuiComboBoxListControl
 	
 	rptr<GuiComboBoxListControl> GuiComboBoxListControl::CreateRptr(rptr<GuiComboBoxBase :: IStyleController> _styleController, rptr<GuiSelectableListControl> _containedListControl)
 	{
+		vl::presentation::controls::GuiComboBoxBase::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiComboBoxBase :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
+		vl::presentation::controls::GuiSelectableListControl* _unwrapped__containedListControl = __GacUIInternal<GuiSelectableListControl>::GetInternalObject(*(_containedListControl.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiComboBoxListControl> GuiComboBoxListControl::operator=(rptr<GuiComboBoxListControl> value)
 	{
+		vl::presentation::controls::GuiComboBoxListControl const& _unwrapped_value = *__GacUIInternal<GuiComboBoxListControl>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -9587,6 +11631,7 @@ GuiComboBoxListControl
 	
 	void GuiComboBoxListControl::SetSelectedIndex(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -9605,19 +11650,6 @@ GuiComboBoxListControl
 GuiMenu
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiMenu>
-	{
-	public:
-		typedef GuiMenu WrappedObjectType;
-		typedef vl::presentation::controls::GuiMenu InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiMenu::GuiMenu(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiPopup(static_cast<__GacUIInternal<GuiPopup>::InternalObjectType*>((__GacUIInternal<GuiMenu>::InternalObjectType*)__internal_object_reference_input))
@@ -9630,6 +11662,8 @@ GuiMenu
 	
 	rptr<GuiMenu> GuiMenu::CreateRptr(rptr<GuiControl :: IStyleController> _styleController, rptr<GuiControl> _owner)
 	{
+		vl::presentation::controls::GuiControl::IStyleController* _unwrapped__styleController = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(*(_styleController.operator->()));
+		vl::presentation::controls::GuiControl* _unwrapped__owner = __GacUIInternal<GuiControl>::GetInternalObject(*(_owner.operator->()));
 		throw 0;
 	}
 	
@@ -9640,6 +11674,7 @@ GuiMenu
 	
 	rptr<GuiMenu> GuiMenu::operator=(rptr<GuiMenu> value)
 	{
+		vl::presentation::controls::GuiMenu const& _unwrapped_value = *__GacUIInternal<GuiMenu>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -9648,19 +11683,6 @@ GuiMenu
 GuiWindowComposition
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiWindowComposition>
-	{
-	public:
-		typedef GuiWindowComposition WrappedObjectType;
-		typedef vl::presentation::elements::GuiWindowComposition InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiWindowComposition::GuiWindowComposition(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiGraphicsSite(static_cast<__GacUIInternal<GuiGraphicsSite>::InternalObjectType*>((__GacUIInternal<GuiWindowComposition>::InternalObjectType*)__internal_object_reference_input))
@@ -9678,6 +11700,7 @@ GuiWindowComposition
 	
 	rptr<GuiWindowComposition> GuiWindowComposition::operator=(rptr<GuiWindowComposition> value)
 	{
+		vl::presentation::elements::GuiWindowComposition const& _unwrapped_value = *__GacUIInternal<GuiWindowComposition>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -9688,6 +11711,7 @@ GuiWindowComposition
 	
 	void GuiWindowComposition::SetAttachedWindow(rptr<INativeWindow> window)
 	{
+		vl::presentation::INativeWindow* _unwrapped_window = __GacUIInternal<INativeWindow>::GetInternalObject(*(window.operator->()));
 		throw 0;
 	}
 	
@@ -9696,19 +11720,6 @@ GuiWindowComposition
 INativeWindow
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<INativeWindow>
-	{
-	public:
-		typedef INativeWindow WrappedObjectType;
-		typedef vl::presentation::INativeWindow InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	INativeWindow::INativeWindow(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -9830,11 +11841,13 @@ INativeWindow
 	
 	bool INativeWindow::InstallListener(rptr<INativeWindowListener> listener)
 	{
+		vl::presentation::INativeWindowListener* _unwrapped_listener = __GacUIInternal<INativeWindowListener>::GetInternalObject(*(listener.operator->()));
 		throw 0;
 	}
 	
 	bool INativeWindow::UninstallListener(rptr<INativeWindowListener> listener)
 	{
+		vl::presentation::INativeWindowListener* _unwrapped_listener = __GacUIInternal<INativeWindowListener>::GetInternalObject(*(listener.operator->()));
 		throw 0;
 	}
 	
@@ -9845,6 +11858,7 @@ INativeWindow
 	
 	rptr<INativeWindow> INativeWindow::operator=(rptr<INativeWindow> value)
 	{
+		vl::presentation::INativeWindow const& _unwrapped_value = *__GacUIInternal<INativeWindow>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -9855,6 +11869,7 @@ INativeWindow
 	
 	void INativeWindow::SetBounds(const Rect& bounds)
 	{
+		vl::presentation::Rect const& _unwrapped_bounds = *__GacUIInternal<Rect>::GetInternalObject(bounds);
 		throw 0;
 	}
 	
@@ -9865,6 +11880,7 @@ INativeWindow
 	
 	void INativeWindow::SetClientSize(Size size)
 	{
+		vl::presentation::Size _unwrapped_size = *__GacUIInternal<Size>::GetInternalObject(size);
 		throw 0;
 	}
 	
@@ -9880,6 +11896,7 @@ INativeWindow
 	
 	void INativeWindow::SetTitle(GacString _title)
 	{
+		vl::ObjectString<wchar_t> _unwrapped__title = _title.Buffer();
 		throw 0;
 	}
 	
@@ -9890,6 +11907,7 @@ INativeWindow
 	
 	void INativeWindow::SetWindowCursor(rptr<INativeCursor> _cursor)
 	{
+		vl::presentation::INativeCursor* _unwrapped__cursor = __GacUIInternal<INativeCursor>::GetInternalObject(*(_cursor.operator->()));
 		throw 0;
 	}
 	
@@ -9900,6 +11918,7 @@ INativeWindow
 	
 	void INativeWindow::SetCaretPoint(Point point)
 	{
+		vl::presentation::Point _unwrapped_point = *__GacUIInternal<Point>::GetInternalObject(point);
 		throw 0;
 	}
 	
@@ -9910,6 +11929,7 @@ INativeWindow
 	
 	void INativeWindow::SetParent(rptr<INativeWindow> parent)
 	{
+		vl::presentation::INativeWindow* _unwrapped_parent = __GacUIInternal<INativeWindow>::GetInternalObject(*(parent.operator->()));
 		throw 0;
 	}
 	
@@ -9920,6 +11940,7 @@ INativeWindow
 	
 	void INativeWindow::SetAlwaysPassFocusToParent(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -9930,6 +11951,7 @@ INativeWindow
 	
 	void INativeWindow::SetMaximizedBox(bool visible)
 	{
+		bool _unwrapped_visible = visible;
 		throw 0;
 	}
 	
@@ -9940,6 +11962,7 @@ INativeWindow
 	
 	void INativeWindow::SetMinimizedBox(bool visible)
 	{
+		bool _unwrapped_visible = visible;
 		throw 0;
 	}
 	
@@ -9950,6 +11973,7 @@ INativeWindow
 	
 	void INativeWindow::SetBorder(bool visible)
 	{
+		bool _unwrapped_visible = visible;
 		throw 0;
 	}
 	
@@ -9960,6 +11984,7 @@ INativeWindow
 	
 	void INativeWindow::SetSizeBox(bool visible)
 	{
+		bool _unwrapped_visible = visible;
 		throw 0;
 	}
 	
@@ -9970,6 +11995,7 @@ INativeWindow
 	
 	void INativeWindow::SetIconVisible(bool visible)
 	{
+		bool _unwrapped_visible = visible;
 		throw 0;
 	}
 	
@@ -9980,6 +12006,7 @@ INativeWindow
 	
 	void INativeWindow::SetTitleBar(bool visible)
 	{
+		bool _unwrapped_visible = visible;
 		throw 0;
 	}
 	
@@ -9990,6 +12017,7 @@ INativeWindow
 	
 	void INativeWindow::SetTopMost(bool topmost)
 	{
+		bool _unwrapped_topmost = topmost;
 		throw 0;
 	}
 	
@@ -9998,19 +12026,6 @@ INativeWindow
 INodeItemStyleController
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<INodeItemStyleController>
-	{
-	public:
-		typedef INodeItemStyleController WrappedObjectType;
-		typedef vl::presentation::controls::tree::INodeItemStyleController InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	INodeItemStyleController::INodeItemStyleController(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiListControl :: IItemStyleController(static_cast<__GacUIInternal<GuiListControl :: IItemStyleController>::InternalObjectType*>((__GacUIInternal<INodeItemStyleController>::InternalObjectType*)__internal_object_reference_input))
@@ -10023,6 +12038,7 @@ INodeItemStyleController
 	
 	rptr<INodeItemStyleController> INodeItemStyleController::operator=(rptr<INodeItemStyleController> value)
 	{
+		vl::presentation::controls::tree::INodeItemStyleController const& _unwrapped_value = *__GacUIInternal<INodeItemStyleController>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -10036,19 +12052,6 @@ INodeItemStyleController
 INodeItemStyleProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<INodeItemStyleProvider>
-	{
-	public:
-		typedef INodeItemStyleProvider WrappedObjectType;
-		typedef vl::presentation::controls::tree::INodeItemStyleProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	INodeItemStyleProvider::INodeItemStyleProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<INodeItemStyleProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -10061,11 +12064,13 @@ INodeItemStyleProvider
 	
 	void INodeItemStyleProvider::BindItemStyleProvider(rptr<GuiListControl :: IItemStyleProvider> styleProvider)
 	{
+		vl::presentation::controls::GuiListControl::IItemStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiListControl :: IItemStyleProvider>::GetInternalObject(*(styleProvider.operator->()));
 		throw 0;
 	}
 	
 	void INodeItemStyleProvider::AttachListControl(rptr<GuiListControl> value)
 	{
+		vl::presentation::controls::GuiListControl* _unwrapped_value = __GacUIInternal<GuiListControl>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -10076,31 +12081,39 @@ INodeItemStyleProvider
 	
 	signed __int32 INodeItemStyleProvider::GetItemStyleId(rptr<INodeProvider> node)
 	{
+		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(*(node.operator->()));
 		throw 0;
 	}
 	
 	rptr<INodeItemStyleController> INodeItemStyleProvider::CreateItemStyle(signed __int32 styleId)
 	{
+		signed __int32 _unwrapped_styleId = styleId;
 		throw 0;
 	}
 	
 	void INodeItemStyleProvider::DestroyItemStyle(rptr<INodeItemStyleController> style)
 	{
+		vl::presentation::controls::tree::INodeItemStyleController* _unwrapped_style = __GacUIInternal<INodeItemStyleController>::GetInternalObject(*(style.operator->()));
 		throw 0;
 	}
 	
 	void INodeItemStyleProvider::Install(rptr<INodeItemStyleController> style, rptr<INodeProvider> node)
 	{
+		vl::presentation::controls::tree::INodeItemStyleController* _unwrapped_style = __GacUIInternal<INodeItemStyleController>::GetInternalObject(*(style.operator->()));
+		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(*(node.operator->()));
 		throw 0;
 	}
 	
 	void INodeItemStyleProvider::SetStyleSelected(rptr<INodeItemStyleController> style, bool value)
 	{
+		vl::presentation::controls::tree::INodeItemStyleController* _unwrapped_style = __GacUIInternal<INodeItemStyleController>::GetInternalObject(*(style.operator->()));
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
 	rptr<INodeItemStyleProvider> INodeItemStyleProvider::operator=(rptr<INodeItemStyleProvider> value)
 	{
+		vl::presentation::controls::tree::INodeItemStyleProvider const& _unwrapped_value = *__GacUIInternal<INodeItemStyleProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -10114,19 +12127,6 @@ INodeItemStyleProvider
 INodeItemView
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<INodeItemView>
-	{
-	public:
-		typedef INodeItemView WrappedObjectType;
-		typedef vl::presentation::controls::tree::INodeItemView InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	INodeItemView::INodeItemView(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiListControl :: IItemPrimaryTextView(static_cast<__GacUIInternal<GuiListControl :: IItemPrimaryTextView>::InternalObjectType*>((__GacUIInternal<INodeItemView>::InternalObjectType*)__internal_object_reference_input))
@@ -10139,51 +12139,38 @@ INodeItemView
 	
 	rptr<INodeProvider> INodeItemView::RequestNode(signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	void INodeItemView::ReleaseNode(rptr<INodeProvider> node)
 	{
+		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(*(node.operator->()));
 		throw 0;
 	}
 	
 	signed __int32 INodeItemView::CalculateNodeVisibilityIndex(rptr<INodeProvider> node)
 	{
+		vl::presentation::controls::tree::INodeProvider* _unwrapped_node = __GacUIInternal<INodeProvider>::GetInternalObject(*(node.operator->()));
 		throw 0;
 	}
 	
 	rptr<INodeItemView> INodeItemView::operator=(rptr<INodeItemView> value)
 	{
+		vl::presentation::controls::tree::INodeItemView const& _unwrapped_value = *__GacUIInternal<INodeItemView>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
-	wchar_t* INodeItemView::get_Identifier()
+	wchar_t const* INodeItemView::get_Identifier()
 	{
 		throw 0;
 	}
 	
-	void INodeItemView::set_Identifier(wchar_t* value)
-	{
-		throw 0;
-	}
 
 /***********************************************************************
 GuiVirtualTreeListControl
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiVirtualTreeListControl>
-	{
-	public:
-		typedef GuiVirtualTreeListControl WrappedObjectType;
-		typedef vl::presentation::controls::GuiVirtualTreeListControl InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiVirtualTreeListControl::GuiVirtualTreeListControl(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiSelectableListControl(static_cast<__GacUIInternal<GuiSelectableListControl>::InternalObjectType*>((__GacUIInternal<GuiVirtualTreeListControl>::InternalObjectType*)__internal_object_reference_input))
@@ -10196,16 +12183,20 @@ GuiVirtualTreeListControl
 	
 	rptr<GuiVirtualTreeListControl> GuiVirtualTreeListControl::CreateRptr(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<INodeRootProvider> _nodeRootProvider)
 	{
+		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(*(_styleProvider.operator->()));
+		vl::presentation::controls::tree::INodeRootProvider* _unwrapped__nodeRootProvider = __GacUIInternal<INodeRootProvider>::GetInternalObject(*(_nodeRootProvider.operator->()));
 		throw 0;
 	}
 	
 	sptr<INodeItemStyleProvider> GuiVirtualTreeListControl::SetNodeStyleProvider(sptr<INodeItemStyleProvider> styleProvider)
 	{
+		vl::Ptr<vl::presentation::controls::tree::INodeItemStyleProvider> _unwrapped_styleProvider = __GacUIInternal<INodeItemStyleProvider>::GetInternalObject(*(styleProvider.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiVirtualTreeListControl> GuiVirtualTreeListControl::operator=(rptr<GuiVirtualTreeListControl> value)
 	{
+		vl::presentation::controls::GuiVirtualTreeListControl const& _unwrapped_value = *__GacUIInternal<GuiVirtualTreeListControl>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -10229,19 +12220,6 @@ GuiVirtualTreeListControl
 IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer>
-	{
-	public:
-		typedef IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer WrappedObjectType;
-		typedef vl::collections::IReadonlyList<vl::presentation::controls::GuiListControl::IItemStyleController *,vl::presentation::controls::GuiListControl::IItemStyleController *> InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer::IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -10253,6 +12231,7 @@ IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer
 	
 	bool IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer::Contains(rptr<GuiListControl :: IItemStyleController> item)
 	{
+		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_item = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(*(item.operator->()));
 		throw 0;
 	}
 	
@@ -10263,21 +12242,25 @@ IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer
 	
 	rptr<GuiListControl :: IItemStyleController> IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer::Get(signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	rptr<GuiListControl :: IItemStyleController> IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer::operator[](signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	signed __int32 IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer::IndexOf(rptr<GuiListControl :: IItemStyleController> item)
 	{
+		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_item = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(*(item.operator->()));
 		throw 0;
 	}
 	
 	rptr<IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer> IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer::operator=(rptr<IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer> value)
 	{
+		vl::collections::IReadonlyList<vl::presentation::controls::GuiListControl::IItemStyleController *,vl::presentation::controls::GuiListControl::IItemStyleController *> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -10286,19 +12269,6 @@ IReadonlyList_of_GuiListControl_IItemStyleController_raw_pointer
 IReadonlyList_of_GuiStackItemComposition_raw_pointer
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<IReadonlyList_of_GuiStackItemComposition_raw_pointer>
-	{
-	public:
-		typedef IReadonlyList_of_GuiStackItemComposition_raw_pointer WrappedObjectType;
-		typedef vl::collections::IReadonlyList<vl::presentation::elements::GuiStackItemComposition *,vl::presentation::elements::GuiStackItemComposition *> InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	IReadonlyList_of_GuiStackItemComposition_raw_pointer::IReadonlyList_of_GuiStackItemComposition_raw_pointer(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -10310,6 +12280,7 @@ IReadonlyList_of_GuiStackItemComposition_raw_pointer
 	
 	bool IReadonlyList_of_GuiStackItemComposition_raw_pointer::Contains(rptr<GuiStackItemComposition> item)
 	{
+		vl::presentation::elements::GuiStackItemComposition* _unwrapped_item = __GacUIInternal<GuiStackItemComposition>::GetInternalObject(*(item.operator->()));
 		throw 0;
 	}
 	
@@ -10320,21 +12291,25 @@ IReadonlyList_of_GuiStackItemComposition_raw_pointer
 	
 	rptr<GuiStackItemComposition> IReadonlyList_of_GuiStackItemComposition_raw_pointer::Get(signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	rptr<GuiStackItemComposition> IReadonlyList_of_GuiStackItemComposition_raw_pointer::operator[](signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	signed __int32 IReadonlyList_of_GuiStackItemComposition_raw_pointer::IndexOf(rptr<GuiStackItemComposition> item)
 	{
+		vl::presentation::elements::GuiStackItemComposition* _unwrapped_item = __GacUIInternal<GuiStackItemComposition>::GetInternalObject(*(item.operator->()));
 		throw 0;
 	}
 	
 	rptr<IReadonlyList_of_GuiStackItemComposition_raw_pointer> IReadonlyList_of_GuiStackItemComposition_raw_pointer::operator=(rptr<IReadonlyList_of_GuiStackItemComposition_raw_pointer> value)
 	{
+		vl::collections::IReadonlyList<vl::presentation::elements::GuiStackItemComposition *,vl::presentation::elements::GuiStackItemComposition *> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_GuiStackItemComposition_raw_pointer>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -10343,19 +12318,6 @@ IReadonlyList_of_GuiStackItemComposition_raw_pointer
 GuiStackComposition
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiStackComposition>
-	{
-	public:
-		typedef GuiStackComposition WrappedObjectType;
-		typedef vl::presentation::elements::GuiStackComposition InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiStackComposition::GuiStackComposition(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiBoundsComposition(static_cast<__GacUIInternal<GuiBoundsComposition>::InternalObjectType*>((__GacUIInternal<GuiStackComposition>::InternalObjectType*)__internal_object_reference_input))
@@ -10373,11 +12335,14 @@ GuiStackComposition
 	
 	bool GuiStackComposition::InsertStackItem(signed __int32 index, rptr<GuiStackItemComposition> item)
 	{
+		signed __int32 _unwrapped_index = index;
+		vl::presentation::elements::GuiStackItemComposition* _unwrapped_item = __GacUIInternal<GuiStackItemComposition>::GetInternalObject(*(item.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiStackComposition> GuiStackComposition::operator=(rptr<GuiStackComposition> value)
 	{
+		vl::presentation::elements::GuiStackComposition const& _unwrapped_value = *__GacUIInternal<GuiStackComposition>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -10393,6 +12358,7 @@ GuiStackComposition
 	
 	void GuiStackComposition::SetDirection(GuiStackComposition :: Direction value)
 	{
+		vl::presentation::elements::GuiStackComposition::Direction _unwrapped_value = (vl::presentation::elements::GuiStackComposition::Direction)value;
 		throw 0;
 	}
 	
@@ -10403,6 +12369,7 @@ GuiStackComposition
 	
 	void GuiStackComposition::SetPadding(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -10413,6 +12380,7 @@ GuiStackComposition
 	
 	void GuiStackComposition::SetExtraMargin(Margin value)
 	{
+		vl::presentation::Margin _unwrapped_value = *__GacUIInternal<Margin>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -10421,19 +12389,6 @@ GuiStackComposition
 IReadonlyList_of_GuiWindow_raw_pointer
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<IReadonlyList_of_GuiWindow_raw_pointer>
-	{
-	public:
-		typedef IReadonlyList_of_GuiWindow_raw_pointer WrappedObjectType;
-		typedef vl::collections::IReadonlyList<vl::presentation::controls::GuiWindow *,vl::presentation::controls::GuiWindow *> InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	IReadonlyList_of_GuiWindow_raw_pointer::IReadonlyList_of_GuiWindow_raw_pointer(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -10445,6 +12400,7 @@ IReadonlyList_of_GuiWindow_raw_pointer
 	
 	bool IReadonlyList_of_GuiWindow_raw_pointer::Contains(rptr<GuiWindow> item)
 	{
+		vl::presentation::controls::GuiWindow* _unwrapped_item = __GacUIInternal<GuiWindow>::GetInternalObject(*(item.operator->()));
 		throw 0;
 	}
 	
@@ -10455,21 +12411,25 @@ IReadonlyList_of_GuiWindow_raw_pointer
 	
 	rptr<GuiWindow> IReadonlyList_of_GuiWindow_raw_pointer::Get(signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	rptr<GuiWindow> IReadonlyList_of_GuiWindow_raw_pointer::operator[](signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	signed __int32 IReadonlyList_of_GuiWindow_raw_pointer::IndexOf(rptr<GuiWindow> item)
 	{
+		vl::presentation::controls::GuiWindow* _unwrapped_item = __GacUIInternal<GuiWindow>::GetInternalObject(*(item.operator->()));
 		throw 0;
 	}
 	
 	rptr<IReadonlyList_of_GuiWindow_raw_pointer> IReadonlyList_of_GuiWindow_raw_pointer::operator=(rptr<IReadonlyList_of_GuiWindow_raw_pointer> value)
 	{
+		vl::collections::IReadonlyList<vl::presentation::controls::GuiWindow *,vl::presentation::controls::GuiWindow *> const& _unwrapped_value = *__GacUIInternal<IReadonlyList_of_GuiWindow_raw_pointer>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -10478,19 +12438,6 @@ IReadonlyList_of_GuiWindow_raw_pointer
 GuiApplication
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiApplication>
-	{
-	public:
-		typedef GuiApplication WrappedObjectType;
-		typedef vl::presentation::controls::GuiApplication InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiApplication::GuiApplication(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -10502,11 +12449,13 @@ GuiApplication
 	
 	void GuiApplication::Run(rptr<GuiWindow> _mainWindow)
 	{
+		vl::presentation::controls::GuiWindow* _unwrapped__mainWindow = __GacUIInternal<GuiWindow>::GetInternalObject(*(_mainWindow.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiWindow> GuiApplication::GetWindow(Point location)
 	{
+		vl::presentation::Point _unwrapped_location = *__GacUIInternal<Point>::GetInternalObject(location);
 		throw 0;
 	}
 	
@@ -10517,6 +12466,7 @@ GuiApplication
 	
 	rptr<GuiApplication> GuiApplication::operator=(rptr<GuiApplication> value)
 	{
+		vl::presentation::controls::GuiApplication const& _unwrapped_value = *__GacUIInternal<GuiApplication>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -10530,19 +12480,6 @@ GuiApplication
 ItemProviderBase
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ItemProviderBase>
-	{
-	public:
-		typedef ItemProviderBase WrappedObjectType;
-		typedef vl::presentation::controls::list::ItemProviderBase InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ItemProviderBase::ItemProviderBase(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiListControl :: IItemProvider(static_cast<__GacUIInternal<GuiListControl :: IItemProvider>::InternalObjectType*>((__GacUIInternal<ItemProviderBase>::InternalObjectType*)__internal_object_reference_input))
@@ -10560,6 +12497,7 @@ ItemProviderBase
 	
 	rptr<ItemProviderBase> ItemProviderBase::operator=(rptr<ItemProviderBase> value)
 	{
+		vl::presentation::controls::list::ItemProviderBase const& _unwrapped_value = *__GacUIInternal<ItemProviderBase>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -10568,19 +12506,6 @@ ItemProviderBase
 ItemStyleControllerBase
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ItemStyleControllerBase>
-	{
-	public:
-		typedef ItemStyleControllerBase WrappedObjectType;
-		typedef vl::presentation::controls::list::ItemStyleControllerBase InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ItemStyleControllerBase::ItemStyleControllerBase(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiListControl :: IItemStyleController(static_cast<__GacUIInternal<GuiListControl :: IItemStyleController>::InternalObjectType*>((__GacUIInternal<ItemStyleControllerBase>::InternalObjectType*)__internal_object_reference_input))
@@ -10593,6 +12518,7 @@ ItemStyleControllerBase
 	
 	rptr<ItemStyleControllerBase> ItemStyleControllerBase::operator=(rptr<ItemStyleControllerBase> value)
 	{
+		vl::presentation::controls::list::ItemStyleControllerBase const& _unwrapped_value = *__GacUIInternal<ItemStyleControllerBase>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -10601,19 +12527,6 @@ ItemStyleControllerBase
 ListViewItemStyleProviderBase
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ListViewItemStyleProviderBase>
-	{
-	public:
-		typedef ListViewItemStyleProviderBase WrappedObjectType;
-		typedef vl::presentation::controls::list::ListViewItemStyleProviderBase InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ListViewItemStyleProviderBase::ListViewItemStyleProviderBase(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiSelectableListControl :: IItemStyleProvider(static_cast<__GacUIInternal<GuiSelectableListControl :: IItemStyleProvider>::InternalObjectType*>((__GacUIInternal<ListViewItemStyleProviderBase>::InternalObjectType*)__internal_object_reference_input))
@@ -10631,6 +12544,7 @@ ListViewItemStyleProviderBase
 	
 	rptr<ListViewItemStyleProviderBase> ListViewItemStyleProviderBase::operator=(rptr<ListViewItemStyleProviderBase> value)
 	{
+		vl::presentation::controls::list::ListViewItemStyleProviderBase const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProviderBase>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -10639,19 +12553,6 @@ ListViewItemStyleProviderBase
 ListViewItemStyleProviderBase :: ListViewItemStyleController
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ListViewItemStyleProviderBase :: ListViewItemStyleController>
-	{
-	public:
-		typedef ListViewItemStyleProviderBase :: ListViewItemStyleController WrappedObjectType;
-		typedef vl::presentation::controls::list::ListViewItemStyleProviderBase::ListViewItemStyleController InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ListViewItemStyleProviderBase::ListViewItemStyleController::ListViewItemStyleController(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,ItemStyleControllerBase(static_cast<__GacUIInternal<ItemStyleControllerBase>::InternalObjectType*>((__GacUIInternal<ListViewItemStyleProviderBase :: ListViewItemStyleController>::InternalObjectType*)__internal_object_reference_input))
@@ -10664,11 +12565,13 @@ ListViewItemStyleProviderBase :: ListViewItemStyleController
 	
 	rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> ListViewItemStyleProviderBase::ListViewItemStyleController::CreateRptr(rptr<ListViewItemStyleProviderBase> provider)
 	{
+		vl::presentation::controls::list::ListViewItemStyleProviderBase* _unwrapped_provider = __GacUIInternal<ListViewItemStyleProviderBase>::GetInternalObject(*(provider.operator->()));
 		throw 0;
 	}
 	
 	rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> ListViewItemStyleProviderBase::ListViewItemStyleController::operator=(rptr<ListViewItemStyleProviderBase :: ListViewItemStyleController> value)
 	{
+		vl::presentation::controls::list::ListViewItemStyleProviderBase::ListViewItemStyleController const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProviderBase :: ListViewItemStyleController>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -10679,6 +12582,7 @@ ListViewItemStyleProviderBase :: ListViewItemStyleController
 	
 	void ListViewItemStyleProviderBase::ListViewItemStyleController::SetSelected(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -10687,19 +12591,6 @@ ListViewItemStyleProviderBase :: ListViewItemStyleController
 ListViewItemStyleProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ListViewItemStyleProvider>
-	{
-	public:
-		typedef ListViewItemStyleProvider WrappedObjectType;
-		typedef vl::presentation::controls::list::ListViewItemStyleProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ListViewItemStyleProvider::ListViewItemStyleProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,ListViewItemStyleProviderBase(static_cast<__GacUIInternal<ListViewItemStyleProviderBase>::InternalObjectType*>((__GacUIInternal<ListViewItemStyleProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -10712,16 +12603,19 @@ ListViewItemStyleProvider
 	
 	rptr<ListViewItemStyleProvider> ListViewItemStyleProvider::CreateRptr(rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> itemContentProvider)
 	{
+		vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemContentProvider* _unwrapped_itemContentProvider = __GacUIInternal<ListViewItemStyleProvider :: IListViewItemContentProvider>::GetInternalObject(*(itemContentProvider.operator->()));
 		throw 0;
 	}
 	
 	bool ListViewItemStyleProvider::IsItemStyleAttachedToListView(rptr<GuiListControl :: IItemStyleController> itemStyle)
 	{
+		vl::presentation::controls::GuiListControl::IItemStyleController* _unwrapped_itemStyle = __GacUIInternal<GuiListControl :: IItemStyleController>::GetInternalObject(*(itemStyle.operator->()));
 		throw 0;
 	}
 	
 	rptr<ListViewItemStyleProvider> ListViewItemStyleProvider::operator=(rptr<ListViewItemStyleProvider> value)
 	{
+		vl::presentation::controls::list::ListViewItemStyleProvider const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -10735,19 +12629,6 @@ ListViewItemStyleProvider
 ListViewItemStyleProvider :: IListViewItemContent
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ListViewItemStyleProvider :: IListViewItemContent>
-	{
-	public:
-		typedef ListViewItemStyleProvider :: IListViewItemContent WrappedObjectType;
-		typedef vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemContent InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ListViewItemStyleProvider::IListViewItemContent::IListViewItemContent(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<ListViewItemStyleProvider :: IListViewItemContent>::InternalObjectType*)__internal_object_reference_input))
@@ -10760,11 +12641,15 @@ ListViewItemStyleProvider :: IListViewItemContent
 	
 	void ListViewItemStyleProvider::IListViewItemContent::Install(rptr<GuiListViewBase :: IStyleProvider> styleProvider, rptr<ListViewItemStyleProvider :: IListViewItemView> view, signed __int32 itemIndex)
 	{
+		vl::presentation::controls::GuiListViewBase::IStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiListViewBase :: IStyleProvider>::GetInternalObject(*(styleProvider.operator->()));
+		vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemView* _unwrapped_view = __GacUIInternal<ListViewItemStyleProvider :: IListViewItemView>::GetInternalObject(*(view.operator->()));
+		signed __int32 _unwrapped_itemIndex = itemIndex;
 		throw 0;
 	}
 	
 	rptr<ListViewItemStyleProvider :: IListViewItemContent> ListViewItemStyleProvider::IListViewItemContent::operator=(rptr<ListViewItemStyleProvider :: IListViewItemContent> value)
 	{
+		vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemContent const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProvider :: IListViewItemContent>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -10783,19 +12668,6 @@ ListViewItemStyleProvider :: IListViewItemContent
 ListViewItemStyleProvider :: IListViewItemContentProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ListViewItemStyleProvider :: IListViewItemContentProvider>
-	{
-	public:
-		typedef ListViewItemStyleProvider :: IListViewItemContentProvider WrappedObjectType;
-		typedef vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemContentProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ListViewItemStyleProvider::IListViewItemContentProvider::IListViewItemContentProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<ListViewItemStyleProvider :: IListViewItemContentProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -10818,11 +12690,13 @@ ListViewItemStyleProvider :: IListViewItemContentProvider
 	
 	rptr<ListViewItemStyleProvider :: IListViewItemContent> ListViewItemStyleProvider::IListViewItemContentProvider::CreateItemContent(const FontProperties& font)
 	{
+		vl::presentation::FontProperties const& _unwrapped_font = *__GacUIInternal<FontProperties>::GetInternalObject(font);
 		throw 0;
 	}
 	
 	void ListViewItemStyleProvider::IListViewItemContentProvider::AttachListControl(rptr<GuiListControl> value)
 	{
+		vl::presentation::controls::GuiListControl* _unwrapped_value = __GacUIInternal<GuiListControl>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -10833,6 +12707,7 @@ ListViewItemStyleProvider :: IListViewItemContentProvider
 	
 	rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> ListViewItemStyleProvider::IListViewItemContentProvider::operator=(rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> value)
 	{
+		vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProvider :: IListViewItemContentProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -10841,19 +12716,6 @@ ListViewItemStyleProvider :: IListViewItemContentProvider
 ListViewItemStyleProvider :: IListViewItemView
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ListViewItemStyleProvider :: IListViewItemView>
-	{
-	public:
-		typedef ListViewItemStyleProvider :: IListViewItemView WrappedObjectType;
-		typedef vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemView InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ListViewItemStyleProvider::IListViewItemView::IListViewItemView(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiListControl :: IItemPrimaryTextView(static_cast<__GacUIInternal<GuiListControl :: IItemPrimaryTextView>::InternalObjectType*>((__GacUIInternal<ListViewItemStyleProvider :: IListViewItemView>::InternalObjectType*)__internal_object_reference_input))
@@ -10866,36 +12728,44 @@ ListViewItemStyleProvider :: IListViewItemView
 	
 	sptr<GuiImageData> ListViewItemStyleProvider::IListViewItemView::GetSmallImage(signed __int32 itemIndex)
 	{
+		signed __int32 _unwrapped_itemIndex = itemIndex;
 		throw 0;
 	}
 	
 	sptr<GuiImageData> ListViewItemStyleProvider::IListViewItemView::GetLargeImage(signed __int32 itemIndex)
 	{
+		signed __int32 _unwrapped_itemIndex = itemIndex;
 		throw 0;
 	}
 	
 	GacString ListViewItemStyleProvider::IListViewItemView::GetText(signed __int32 itemIndex)
 	{
+		signed __int32 _unwrapped_itemIndex = itemIndex;
 		throw 0;
 	}
 	
 	GacString ListViewItemStyleProvider::IListViewItemView::GetSubItem(signed __int32 itemIndex, signed __int32 index)
 	{
+		signed __int32 _unwrapped_itemIndex = itemIndex;
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	signed __int32 ListViewItemStyleProvider::IListViewItemView::GetDataColumn(signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	GacString ListViewItemStyleProvider::IListViewItemView::GetColumnText(signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	rptr<ListViewItemStyleProvider :: IListViewItemView> ListViewItemStyleProvider::IListViewItemView::operator=(rptr<ListViewItemStyleProvider :: IListViewItemView> value)
 	{
+		vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemView const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProvider :: IListViewItemView>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -10909,33 +12779,16 @@ ListViewItemStyleProvider :: IListViewItemView
 		throw 0;
 	}
 	
-	wchar_t* ListViewItemStyleProvider::IListViewItemView::get_Identifier()
+	wchar_t const* ListViewItemStyleProvider::IListViewItemView::get_Identifier()
 	{
 		throw 0;
 	}
 	
-	void ListViewItemStyleProvider::IListViewItemView::set_Identifier(wchar_t* value)
-	{
-		throw 0;
-	}
 
 /***********************************************************************
 ListViewItemStyleProvider :: ListViewContentItemStyleController
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ListViewItemStyleProvider :: ListViewContentItemStyleController>
-	{
-	public:
-		typedef ListViewItemStyleProvider :: ListViewContentItemStyleController WrappedObjectType;
-		typedef vl::presentation::controls::list::ListViewItemStyleProvider::ListViewContentItemStyleController InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ListViewItemStyleProvider::ListViewContentItemStyleController::ListViewContentItemStyleController(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,ListViewItemStyleProviderBase :: ListViewItemStyleController(static_cast<__GacUIInternal<ListViewItemStyleProviderBase :: ListViewItemStyleController>::InternalObjectType*>((__GacUIInternal<ListViewItemStyleProvider :: ListViewContentItemStyleController>::InternalObjectType*)__internal_object_reference_input))
@@ -10948,16 +12801,20 @@ ListViewItemStyleProvider :: ListViewContentItemStyleController
 	
 	rptr<ListViewItemStyleProvider :: ListViewContentItemStyleController> ListViewItemStyleProvider::ListViewContentItemStyleController::CreateRptr(rptr<ListViewItemStyleProvider> provider)
 	{
+		vl::presentation::controls::list::ListViewItemStyleProvider* _unwrapped_provider = __GacUIInternal<ListViewItemStyleProvider>::GetInternalObject(*(provider.operator->()));
 		throw 0;
 	}
 	
 	void ListViewItemStyleProvider::ListViewContentItemStyleController::Install(rptr<ListViewItemStyleProvider :: IListViewItemView> view, signed __int32 itemIndex)
 	{
+		vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemView* _unwrapped_view = __GacUIInternal<ListViewItemStyleProvider :: IListViewItemView>::GetInternalObject(*(view.operator->()));
+		signed __int32 _unwrapped_itemIndex = itemIndex;
 		throw 0;
 	}
 	
 	rptr<ListViewItemStyleProvider :: ListViewContentItemStyleController> ListViewItemStyleProvider::ListViewContentItemStyleController::operator=(rptr<ListViewItemStyleProvider :: ListViewContentItemStyleController> value)
 	{
+		vl::presentation::controls::list::ListViewItemStyleProvider::ListViewContentItemStyleController const& _unwrapped_value = *__GacUIInternal<ListViewItemStyleProvider :: ListViewContentItemStyleController>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -10971,19 +12828,6 @@ ListViewItemStyleProvider :: ListViewContentItemStyleController
 GuiVirtualListView
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiVirtualListView>
-	{
-	public:
-		typedef GuiVirtualListView WrappedObjectType;
-		typedef vl::presentation::controls::GuiVirtualListView InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiVirtualListView::GuiVirtualListView(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiListViewBase(static_cast<__GacUIInternal<GuiListViewBase>::InternalObjectType*>((__GacUIInternal<GuiVirtualListView>::InternalObjectType*)__internal_object_reference_input))
@@ -10996,16 +12840,20 @@ GuiVirtualListView
 	
 	rptr<GuiVirtualListView> GuiVirtualListView::CreateRptr(rptr<GuiListViewBase :: IStyleProvider> _styleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider)
 	{
+		vl::presentation::controls::GuiListViewBase::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiListViewBase :: IStyleProvider>::GetInternalObject(*(_styleProvider.operator->()));
+		vl::presentation::controls::GuiListControl::IItemProvider* _unwrapped__itemProvider = __GacUIInternal<GuiListControl :: IItemProvider>::GetInternalObject(*(_itemProvider.operator->()));
 		throw 0;
 	}
 	
 	void GuiVirtualListView::ChangeItemStyle(rptr<ListViewItemStyleProvider :: IListViewItemContentProvider> contentProvider)
 	{
+		vl::presentation::controls::list::ListViewItemStyleProvider::IListViewItemContentProvider* _unwrapped_contentProvider = __GacUIInternal<ListViewItemStyleProvider :: IListViewItemContentProvider>::GetInternalObject(*(contentProvider.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiVirtualListView> GuiVirtualListView::operator=(rptr<GuiVirtualListView> value)
 	{
+		vl::presentation::controls::GuiVirtualListView const& _unwrapped_value = *__GacUIInternal<GuiVirtualListView>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -11014,19 +12862,6 @@ GuiVirtualListView
 ListViewBigIconContentProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ListViewBigIconContentProvider>
-	{
-	public:
-		typedef ListViewBigIconContentProvider WrappedObjectType;
-		typedef vl::presentation::controls::list::ListViewBigIconContentProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ListViewBigIconContentProvider::ListViewBigIconContentProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,ListViewItemStyleProvider :: IListViewItemContentProvider(static_cast<__GacUIInternal<ListViewItemStyleProvider :: IListViewItemContentProvider>::InternalObjectType*>((__GacUIInternal<ListViewBigIconContentProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -11039,11 +12874,13 @@ ListViewBigIconContentProvider
 	
 	rptr<ListViewBigIconContentProvider> ListViewBigIconContentProvider::CreateRptr(Size _iconSize)
 	{
+		vl::presentation::Size _unwrapped__iconSize = *__GacUIInternal<Size>::GetInternalObject(_iconSize);
 		throw 0;
 	}
 	
 	rptr<ListViewBigIconContentProvider> ListViewBigIconContentProvider::operator=(rptr<ListViewBigIconContentProvider> value)
 	{
+		vl::presentation::controls::list::ListViewBigIconContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewBigIconContentProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -11052,19 +12889,6 @@ ListViewBigIconContentProvider
 ListViewInformationContentProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ListViewInformationContentProvider>
-	{
-	public:
-		typedef ListViewInformationContentProvider WrappedObjectType;
-		typedef vl::presentation::controls::list::ListViewInformationContentProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ListViewInformationContentProvider::ListViewInformationContentProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,ListViewItemStyleProvider :: IListViewItemContentProvider(static_cast<__GacUIInternal<ListViewItemStyleProvider :: IListViewItemContentProvider>::InternalObjectType*>((__GacUIInternal<ListViewInformationContentProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -11077,11 +12901,13 @@ ListViewInformationContentProvider
 	
 	rptr<ListViewInformationContentProvider> ListViewInformationContentProvider::CreateRptr(Size _iconSize)
 	{
+		vl::presentation::Size _unwrapped__iconSize = *__GacUIInternal<Size>::GetInternalObject(_iconSize);
 		throw 0;
 	}
 	
 	rptr<ListViewInformationContentProvider> ListViewInformationContentProvider::operator=(rptr<ListViewInformationContentProvider> value)
 	{
+		vl::presentation::controls::list::ListViewInformationContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewInformationContentProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -11090,19 +12916,6 @@ ListViewInformationContentProvider
 ListViewListContentProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ListViewListContentProvider>
-	{
-	public:
-		typedef ListViewListContentProvider WrappedObjectType;
-		typedef vl::presentation::controls::list::ListViewListContentProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ListViewListContentProvider::ListViewListContentProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,ListViewItemStyleProvider :: IListViewItemContentProvider(static_cast<__GacUIInternal<ListViewItemStyleProvider :: IListViewItemContentProvider>::InternalObjectType*>((__GacUIInternal<ListViewListContentProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -11115,11 +12928,13 @@ ListViewListContentProvider
 	
 	rptr<ListViewListContentProvider> ListViewListContentProvider::CreateRptr(Size _iconSize)
 	{
+		vl::presentation::Size _unwrapped__iconSize = *__GacUIInternal<Size>::GetInternalObject(_iconSize);
 		throw 0;
 	}
 	
 	rptr<ListViewListContentProvider> ListViewListContentProvider::operator=(rptr<ListViewListContentProvider> value)
 	{
+		vl::presentation::controls::list::ListViewListContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewListContentProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -11128,19 +12943,6 @@ ListViewListContentProvider
 ListViewSmallIconContentProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ListViewSmallIconContentProvider>
-	{
-	public:
-		typedef ListViewSmallIconContentProvider WrappedObjectType;
-		typedef vl::presentation::controls::list::ListViewSmallIconContentProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ListViewSmallIconContentProvider::ListViewSmallIconContentProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,ListViewItemStyleProvider :: IListViewItemContentProvider(static_cast<__GacUIInternal<ListViewItemStyleProvider :: IListViewItemContentProvider>::InternalObjectType*>((__GacUIInternal<ListViewSmallIconContentProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -11153,11 +12955,13 @@ ListViewSmallIconContentProvider
 	
 	rptr<ListViewSmallIconContentProvider> ListViewSmallIconContentProvider::CreateRptr(Size _iconSize)
 	{
+		vl::presentation::Size _unwrapped__iconSize = *__GacUIInternal<Size>::GetInternalObject(_iconSize);
 		throw 0;
 	}
 	
 	rptr<ListViewSmallIconContentProvider> ListViewSmallIconContentProvider::operator=(rptr<ListViewSmallIconContentProvider> value)
 	{
+		vl::presentation::controls::list::ListViewSmallIconContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewSmallIconContentProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -11166,19 +12970,6 @@ ListViewSmallIconContentProvider
 ListViewTileContentProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ListViewTileContentProvider>
-	{
-	public:
-		typedef ListViewTileContentProvider WrappedObjectType;
-		typedef vl::presentation::controls::list::ListViewTileContentProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ListViewTileContentProvider::ListViewTileContentProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,ListViewItemStyleProvider :: IListViewItemContentProvider(static_cast<__GacUIInternal<ListViewItemStyleProvider :: IListViewItemContentProvider>::InternalObjectType*>((__GacUIInternal<ListViewTileContentProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -11191,11 +12982,13 @@ ListViewTileContentProvider
 	
 	rptr<ListViewTileContentProvider> ListViewTileContentProvider::CreateRptr(Size _iconSize)
 	{
+		vl::presentation::Size _unwrapped__iconSize = *__GacUIInternal<Size>::GetInternalObject(_iconSize);
 		throw 0;
 	}
 	
 	rptr<ListViewTileContentProvider> ListViewTileContentProvider::operator=(rptr<ListViewTileContentProvider> value)
 	{
+		vl::presentation::controls::list::ListViewTileContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewTileContentProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -11204,19 +12997,6 @@ ListViewTileContentProvider
 ListWrapperProvider_of_ListViewItem
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ListWrapperProvider_of_ListViewItem>
-	{
-	public:
-		typedef ListWrapperProvider_of_ListViewItem WrappedObjectType;
-		typedef vl::presentation::controls::list::ListWrapperProvider<vl::Ptr<vl::presentation::controls::list::ListViewItem>,vl::presentation::controls::list::ListViewItem *> InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ListWrapperProvider_of_ListViewItem::ListWrapperProvider_of_ListViewItem(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,ItemProviderBase(static_cast<__GacUIInternal<ItemProviderBase>::InternalObjectType*>((__GacUIInternal<ListWrapperProvider_of_ListViewItem>::InternalObjectType*)__internal_object_reference_input))
@@ -11230,11 +13010,14 @@ ListWrapperProvider_of_ListViewItem
 	
 	bool ListWrapperProvider_of_ListViewItem::NotifyUpdate(signed __int32 start, signed __int32 count)
 	{
+		signed __int32 _unwrapped_start = start;
+		signed __int32 _unwrapped_count = count;
 		throw 0;
 	}
 	
 	rptr<ListWrapperProvider_of_ListViewItem> ListWrapperProvider_of_ListViewItem::operator=(rptr<ListWrapperProvider_of_ListViewItem> value)
 	{
+		vl::presentation::controls::list::ListWrapperProvider<vl::Ptr<vl::presentation::controls::list::ListViewItem>,vl::presentation::controls::list::ListViewItem *> const& _unwrapped_value = *__GacUIInternal<ListWrapperProvider_of_ListViewItem>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -11243,19 +13026,6 @@ ListWrapperProvider_of_ListViewItem
 ListProvider_of_ListViewItem
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ListProvider_of_ListViewItem>
-	{
-	public:
-		typedef ListProvider_of_ListViewItem WrappedObjectType;
-		typedef vl::presentation::controls::list::ListProvider<vl::Ptr<vl::presentation::controls::list::ListViewItem> > InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ListProvider_of_ListViewItem::ListProvider_of_ListViewItem(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,ListWrapperProvider_of_ListViewItem(static_cast<__GacUIInternal<ListWrapperProvider_of_ListViewItem>::InternalObjectType*>((__GacUIInternal<ListProvider_of_ListViewItem>::InternalObjectType*)__internal_object_reference_input))
@@ -11273,6 +13043,7 @@ ListProvider_of_ListViewItem
 	
 	rptr<ListProvider_of_ListViewItem> ListProvider_of_ListViewItem::operator=(rptr<ListProvider_of_ListViewItem> value)
 	{
+		vl::presentation::controls::list::ListProvider<vl::Ptr<vl::presentation::controls::list::ListViewItem> > const& _unwrapped_value = *__GacUIInternal<ListProvider_of_ListViewItem>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -11281,19 +13052,6 @@ ListProvider_of_ListViewItem
 NodeItemProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<NodeItemProvider>
-	{
-	public:
-		typedef NodeItemProvider WrappedObjectType;
-		typedef vl::presentation::controls::tree::NodeItemProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	NodeItemProvider::NodeItemProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,ItemProviderBase(static_cast<__GacUIInternal<ItemProviderBase>::InternalObjectType*>((__GacUIInternal<NodeItemProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -11306,11 +13064,13 @@ NodeItemProvider
 	
 	rptr<NodeItemProvider> NodeItemProvider::CreateRptr(rptr<INodeRootProvider> _root)
 	{
+		vl::presentation::controls::tree::INodeRootProvider* _unwrapped__root = __GacUIInternal<INodeRootProvider>::GetInternalObject(*(_root.operator->()));
 		throw 0;
 	}
 	
 	rptr<NodeItemProvider> NodeItemProvider::operator=(rptr<NodeItemProvider> value)
 	{
+		vl::presentation::controls::tree::NodeItemProvider const& _unwrapped_value = *__GacUIInternal<NodeItemProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -11324,19 +13084,6 @@ NodeItemProvider
 NodeItemStyleProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<NodeItemStyleProvider>
-	{
-	public:
-		typedef NodeItemStyleProvider WrappedObjectType;
-		typedef vl::presentation::controls::tree::NodeItemStyleProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	NodeItemStyleProvider::NodeItemStyleProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiSelectableListControl :: IItemStyleProvider(static_cast<__GacUIInternal<GuiSelectableListControl :: IItemStyleProvider>::InternalObjectType*>((__GacUIInternal<NodeItemStyleProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -11349,11 +13096,13 @@ NodeItemStyleProvider
 	
 	rptr<NodeItemStyleProvider> NodeItemStyleProvider::CreateRptr(sptr<INodeItemStyleProvider> provider)
 	{
+		vl::Ptr<vl::presentation::controls::tree::INodeItemStyleProvider> _unwrapped_provider = __GacUIInternal<INodeItemStyleProvider>::GetInternalObject(*(provider.operator->()));
 		throw 0;
 	}
 	
 	rptr<NodeItemStyleProvider> NodeItemStyleProvider::operator=(rptr<NodeItemStyleProvider> value)
 	{
+		vl::presentation::controls::tree::NodeItemStyleProvider const& _unwrapped_value = *__GacUIInternal<NodeItemStyleProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -11362,19 +13111,6 @@ NodeItemStyleProvider
 RangedItemArrangerBase
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<RangedItemArrangerBase>
-	{
-	public:
-		typedef RangedItemArrangerBase WrappedObjectType;
-		typedef vl::presentation::controls::list::RangedItemArrangerBase InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	RangedItemArrangerBase::RangedItemArrangerBase(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiListControl :: IItemArranger(static_cast<__GacUIInternal<GuiListControl :: IItemArranger>::InternalObjectType*>((__GacUIInternal<RangedItemArrangerBase>::InternalObjectType*)__internal_object_reference_input))
@@ -11387,6 +13123,7 @@ RangedItemArrangerBase
 	
 	rptr<RangedItemArrangerBase> RangedItemArrangerBase::operator=(rptr<RangedItemArrangerBase> value)
 	{
+		vl::presentation::controls::list::RangedItemArrangerBase const& _unwrapped_value = *__GacUIInternal<RangedItemArrangerBase>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -11395,19 +13132,6 @@ RangedItemArrangerBase
 FixedHeightItemArranger
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<FixedHeightItemArranger>
-	{
-	public:
-		typedef FixedHeightItemArranger WrappedObjectType;
-		typedef vl::presentation::controls::list::FixedHeightItemArranger InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	FixedHeightItemArranger::FixedHeightItemArranger(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,RangedItemArrangerBase(static_cast<__GacUIInternal<RangedItemArrangerBase>::InternalObjectType*>((__GacUIInternal<FixedHeightItemArranger>::InternalObjectType*)__internal_object_reference_input))
@@ -11425,6 +13149,7 @@ FixedHeightItemArranger
 	
 	rptr<FixedHeightItemArranger> FixedHeightItemArranger::operator=(rptr<FixedHeightItemArranger> value)
 	{
+		vl::presentation::controls::list::FixedHeightItemArranger const& _unwrapped_value = *__GacUIInternal<FixedHeightItemArranger>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -11433,19 +13158,6 @@ FixedHeightItemArranger
 FixedHeightMultiColumnItemArranger
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<FixedHeightMultiColumnItemArranger>
-	{
-	public:
-		typedef FixedHeightMultiColumnItemArranger WrappedObjectType;
-		typedef vl::presentation::controls::list::FixedHeightMultiColumnItemArranger InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	FixedHeightMultiColumnItemArranger::FixedHeightMultiColumnItemArranger(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,RangedItemArrangerBase(static_cast<__GacUIInternal<RangedItemArrangerBase>::InternalObjectType*>((__GacUIInternal<FixedHeightMultiColumnItemArranger>::InternalObjectType*)__internal_object_reference_input))
@@ -11463,6 +13175,7 @@ FixedHeightMultiColumnItemArranger
 	
 	rptr<FixedHeightMultiColumnItemArranger> FixedHeightMultiColumnItemArranger::operator=(rptr<FixedHeightMultiColumnItemArranger> value)
 	{
+		vl::presentation::controls::list::FixedHeightMultiColumnItemArranger const& _unwrapped_value = *__GacUIInternal<FixedHeightMultiColumnItemArranger>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -11471,19 +13184,6 @@ FixedHeightMultiColumnItemArranger
 FixedSizeMultiColumnItemArranger
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<FixedSizeMultiColumnItemArranger>
-	{
-	public:
-		typedef FixedSizeMultiColumnItemArranger WrappedObjectType;
-		typedef vl::presentation::controls::list::FixedSizeMultiColumnItemArranger InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	FixedSizeMultiColumnItemArranger::FixedSizeMultiColumnItemArranger(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,RangedItemArrangerBase(static_cast<__GacUIInternal<RangedItemArrangerBase>::InternalObjectType*>((__GacUIInternal<FixedSizeMultiColumnItemArranger>::InternalObjectType*)__internal_object_reference_input))
@@ -11501,6 +13201,7 @@ FixedSizeMultiColumnItemArranger
 	
 	rptr<FixedSizeMultiColumnItemArranger> FixedSizeMultiColumnItemArranger::operator=(rptr<FixedSizeMultiColumnItemArranger> value)
 	{
+		vl::presentation::controls::list::FixedSizeMultiColumnItemArranger const& _unwrapped_value = *__GacUIInternal<FixedSizeMultiColumnItemArranger>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -11509,19 +13210,6 @@ FixedSizeMultiColumnItemArranger
 ListViewColumnItemArranger
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ListViewColumnItemArranger>
-	{
-	public:
-		typedef ListViewColumnItemArranger WrappedObjectType;
-		typedef vl::presentation::controls::list::ListViewColumnItemArranger InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ListViewColumnItemArranger::ListViewColumnItemArranger(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,FixedHeightItemArranger(static_cast<__GacUIInternal<FixedHeightItemArranger>::InternalObjectType*>((__GacUIInternal<ListViewColumnItemArranger>::InternalObjectType*)__internal_object_reference_input))
@@ -11539,6 +13227,12 @@ ListViewColumnItemArranger
 	
 	rptr<ListViewColumnItemArranger> ListViewColumnItemArranger::operator=(rptr<ListViewColumnItemArranger> value)
 	{
+		vl::presentation::controls::list::ListViewColumnItemArranger const& _unwrapped_value = *__GacUIInternal<ListViewColumnItemArranger>::GetInternalObject(*(value.operator->()));
+		throw 0;
+	}
+	
+	signed __int32 ListViewColumnItemArranger::get_SplitterWidth()
+	{
 		throw 0;
 	}
 	
@@ -11547,19 +13241,6 @@ ListViewColumnItemArranger
 ListViewColumnItemArranger :: IColumnItemView
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ListViewColumnItemArranger :: IColumnItemView>
-	{
-	public:
-		typedef ListViewColumnItemArranger :: IColumnItemView WrappedObjectType;
-		typedef vl::presentation::controls::list::ListViewColumnItemArranger::IColumnItemView InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ListViewColumnItemArranger::IColumnItemView::IColumnItemView(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<ListViewColumnItemArranger :: IColumnItemView>::InternalObjectType*)__internal_object_reference_input))
@@ -11572,31 +13253,38 @@ ListViewColumnItemArranger :: IColumnItemView
 	
 	bool ListViewColumnItemArranger::IColumnItemView::AttachCallback(rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> value)
 	{
+		vl::presentation::controls::list::ListViewColumnItemArranger::IColumnItemViewCallback* _unwrapped_value = __GacUIInternal<ListViewColumnItemArranger :: IColumnItemViewCallback>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	bool ListViewColumnItemArranger::IColumnItemView::DetachCallback(rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> value)
 	{
+		vl::presentation::controls::list::ListViewColumnItemArranger::IColumnItemViewCallback* _unwrapped_value = __GacUIInternal<ListViewColumnItemArranger :: IColumnItemViewCallback>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	GacString ListViewColumnItemArranger::IColumnItemView::GetColumnText(signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	signed __int32 ListViewColumnItemArranger::IColumnItemView::GetColumnSize(signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	void ListViewColumnItemArranger::IColumnItemView::SetColumnSize(signed __int32 index, signed __int32 value)
 	{
+		signed __int32 _unwrapped_index = index;
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	
 	rptr<ListViewColumnItemArranger :: IColumnItemView> ListViewColumnItemArranger::IColumnItemView::operator=(rptr<ListViewColumnItemArranger :: IColumnItemView> value)
 	{
+		vl::presentation::controls::list::ListViewColumnItemArranger::IColumnItemView const& _unwrapped_value = *__GacUIInternal<ListViewColumnItemArranger :: IColumnItemView>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -11605,33 +13293,16 @@ ListViewColumnItemArranger :: IColumnItemView
 		throw 0;
 	}
 	
-	wchar_t* ListViewColumnItemArranger::IColumnItemView::get_Identifier()
+	wchar_t const* ListViewColumnItemArranger::IColumnItemView::get_Identifier()
 	{
 		throw 0;
 	}
 	
-	void ListViewColumnItemArranger::IColumnItemView::set_Identifier(wchar_t* value)
-	{
-		throw 0;
-	}
 
 /***********************************************************************
 ListViewColumnItemArranger :: IColumnItemViewCallback
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ListViewColumnItemArranger :: IColumnItemViewCallback>
-	{
-	public:
-		typedef ListViewColumnItemArranger :: IColumnItemViewCallback WrappedObjectType;
-		typedef vl::presentation::controls::list::ListViewColumnItemArranger::IColumnItemViewCallback InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ListViewColumnItemArranger::IColumnItemViewCallback::IColumnItemViewCallback(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<ListViewColumnItemArranger :: IColumnItemViewCallback>::InternalObjectType*)__internal_object_reference_input))
@@ -11649,11 +13320,13 @@ ListViewColumnItemArranger :: IColumnItemViewCallback
 	
 	void ListViewColumnItemArranger::IColumnItemViewCallback::OnColumnSizeChanged(signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> ListViewColumnItemArranger::IColumnItemViewCallback::operator=(rptr<ListViewColumnItemArranger :: IColumnItemViewCallback> value)
 	{
+		vl::presentation::controls::list::ListViewColumnItemArranger::IColumnItemViewCallback const& _unwrapped_value = *__GacUIInternal<ListViewColumnItemArranger :: IColumnItemViewCallback>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -11662,19 +13335,6 @@ ListViewColumnItemArranger :: IColumnItemViewCallback
 ListViewDetailContentProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ListViewDetailContentProvider>
-	{
-	public:
-		typedef ListViewDetailContentProvider WrappedObjectType;
-		typedef vl::presentation::controls::list::ListViewDetailContentProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ListViewDetailContentProvider::ListViewDetailContentProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,ListViewItemStyleProvider :: IListViewItemContentProvider(static_cast<__GacUIInternal<ListViewItemStyleProvider :: IListViewItemContentProvider>::InternalObjectType*>((__GacUIInternal<ListViewDetailContentProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -11687,11 +13347,13 @@ ListViewDetailContentProvider
 	
 	rptr<ListViewDetailContentProvider> ListViewDetailContentProvider::CreateRptr(Size _iconSize)
 	{
+		vl::presentation::Size _unwrapped__iconSize = *__GacUIInternal<Size>::GetInternalObject(_iconSize);
 		throw 0;
 	}
 	
 	rptr<ListViewDetailContentProvider> ListViewDetailContentProvider::operator=(rptr<ListViewDetailContentProvider> value)
 	{
+		vl::presentation::controls::list::ListViewDetailContentProvider const& _unwrapped_value = *__GacUIInternal<ListViewDetailContentProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -11700,19 +13362,6 @@ ListViewDetailContentProvider
 ListViewItemProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ListViewItemProvider>
-	{
-	public:
-		typedef ListViewItemProvider WrappedObjectType;
-		typedef vl::presentation::controls::list::ListViewItemProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ListViewItemProvider::ListViewItemProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,ListProvider_of_ListViewItem(static_cast<__GacUIInternal<ListProvider_of_ListViewItem>::InternalObjectType*>((__GacUIInternal<ListViewItemProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -11740,6 +13389,7 @@ ListViewItemProvider
 	
 	rptr<ListViewItemProvider> ListViewItemProvider::operator=(rptr<ListViewItemProvider> value)
 	{
+		vl::presentation::controls::list::ListViewItemProvider const& _unwrapped_value = *__GacUIInternal<ListViewItemProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -11758,19 +13408,6 @@ ListViewItemProvider
 GuiListView
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiListView>
-	{
-	public:
-		typedef GuiListView WrappedObjectType;
-		typedef vl::presentation::controls::GuiListView InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiListView::GuiListView(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiVirtualListView(static_cast<__GacUIInternal<GuiVirtualListView>::InternalObjectType*>((__GacUIInternal<GuiListView>::InternalObjectType*)__internal_object_reference_input))
@@ -11783,11 +13420,13 @@ GuiListView
 	
 	rptr<GuiListView> GuiListView::CreateRptr(rptr<GuiListViewBase :: IStyleProvider> _styleProvider)
 	{
+		vl::presentation::controls::GuiListViewBase::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiListViewBase :: IStyleProvider>::GetInternalObject(*(_styleProvider.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiListView> GuiListView::operator=(rptr<GuiListView> value)
 	{
+		vl::presentation::controls::GuiListView const& _unwrapped_value = *__GacUIInternal<GuiListView>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -11801,19 +13440,6 @@ GuiListView
 TextItem
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<TextItem>
-	{
-	public:
-		typedef TextItem WrappedObjectType;
-		typedef vl::presentation::controls::list::TextItem InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	TextItem::TextItem(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -11824,33 +13450,43 @@ TextItem
 		delete __GacUIInternal<TextItem>::GetInternalObject(*this);
 	}
 	
-	rptr<TextItem> TextItem::CreateRptr(wchar_t* _text, bool _checked)
+	rptr<TextItem> TextItem::CreateRptr(wchar_t const* _text, bool _checked)
 	{
+		wchar_t const* _unwrapped__text = _text;
+		bool _unwrapped__checked = _checked;
 		throw 0;
 	}
 	
-	TextItem TextItem::Create(wchar_t* _text, bool _checked)
+	TextItem TextItem::Create(wchar_t const* _text, bool _checked)
 	{
+		wchar_t const* _unwrapped__text = _text;
+		bool _unwrapped__checked = _checked;
 		throw 0;
 	}
 	
 	rptr<TextItem> TextItem::CreateRptr(const GacString& _text, bool _checked)
 	{
+		vl::ObjectString<wchar_t> _unwrapped__text = _text.Buffer();
+		bool _unwrapped__checked = _checked;
 		throw 0;
 	}
 	
 	TextItem TextItem::Create(const GacString& _text, bool _checked)
 	{
+		vl::ObjectString<wchar_t> _unwrapped__text = _text.Buffer();
+		bool _unwrapped__checked = _checked;
 		throw 0;
 	}
 	
 	rptr<TextItem> TextItem::CreateRptr(const TextItem& item)
 	{
+		vl::presentation::controls::list::TextItem const& _unwrapped_item = *__GacUIInternal<TextItem>::GetInternalObject(item);
 		throw 0;
 	}
 	
 	TextItem TextItem::Create(const TextItem& item)
 	{
+		vl::presentation::controls::list::TextItem const& _unwrapped_item = *__GacUIInternal<TextItem>::GetInternalObject(item);
 		throw 0;
 	}
 	
@@ -11866,16 +13502,19 @@ TextItem
 	
 	bool TextItem::operator==(const TextItem& value)
 	{
+		vl::presentation::controls::list::TextItem const& _unwrapped_value = *__GacUIInternal<TextItem>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	bool TextItem::operator!=(const TextItem& value)
 	{
+		vl::presentation::controls::list::TextItem const& _unwrapped_value = *__GacUIInternal<TextItem>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	TextItem& TextItem::operator=(const TextItem& __that)
 	{
+		vl::presentation::controls::list::TextItem const& _unwrapped___that = *__GacUIInternal<TextItem>::GetInternalObject(__that);
 		throw 0;
 	}
 	
@@ -11894,19 +13533,6 @@ TextItem
 IList_of_TextItem
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<IList_of_TextItem>
-	{
-	public:
-		typedef IList_of_TextItem WrappedObjectType;
-		typedef vl::collections::IList<vl::presentation::controls::list::TextItem,vl::presentation::controls::list::TextItem> InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	IList_of_TextItem::IList_of_TextItem(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -11918,16 +13544,21 @@ IList_of_TextItem
 	
 	signed __int32 IList_of_TextItem::Insert(signed __int32 index, const TextItem& item)
 	{
+		signed __int32 _unwrapped_index = index;
+		vl::presentation::controls::list::TextItem const& _unwrapped_item = *__GacUIInternal<TextItem>::GetInternalObject(item);
 		throw 0;
 	}
 	
 	bool IList_of_TextItem::Set(signed __int32 index, const TextItem& item)
 	{
+		signed __int32 _unwrapped_index = index;
+		vl::presentation::controls::list::TextItem const& _unwrapped_item = *__GacUIInternal<TextItem>::GetInternalObject(item);
 		throw 0;
 	}
 	
 	rptr<IList_of_TextItem> IList_of_TextItem::operator=(rptr<IList_of_TextItem> value)
 	{
+		vl::collections::IList<vl::presentation::controls::list::TextItem,vl::presentation::controls::list::TextItem> const& _unwrapped_value = *__GacUIInternal<IList_of_TextItem>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -11936,19 +13567,6 @@ IList_of_TextItem
 ListWrapperProvider_of_TextItem
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ListWrapperProvider_of_TextItem>
-	{
-	public:
-		typedef ListWrapperProvider_of_TextItem WrappedObjectType;
-		typedef vl::presentation::controls::list::ListWrapperProvider<vl::presentation::controls::list::TextItem,vl::presentation::controls::list::TextItem> InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ListWrapperProvider_of_TextItem::ListWrapperProvider_of_TextItem(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,ItemProviderBase(static_cast<__GacUIInternal<ItemProviderBase>::InternalObjectType*>((__GacUIInternal<ListWrapperProvider_of_TextItem>::InternalObjectType*)__internal_object_reference_input))
@@ -11962,11 +13580,14 @@ ListWrapperProvider_of_TextItem
 	
 	bool ListWrapperProvider_of_TextItem::NotifyUpdate(signed __int32 start, signed __int32 count)
 	{
+		signed __int32 _unwrapped_start = start;
+		signed __int32 _unwrapped_count = count;
 		throw 0;
 	}
 	
 	rptr<ListWrapperProvider_of_TextItem> ListWrapperProvider_of_TextItem::operator=(rptr<ListWrapperProvider_of_TextItem> value)
 	{
+		vl::presentation::controls::list::ListWrapperProvider<vl::presentation::controls::list::TextItem,vl::presentation::controls::list::TextItem> const& _unwrapped_value = *__GacUIInternal<ListWrapperProvider_of_TextItem>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -11975,19 +13596,6 @@ ListWrapperProvider_of_TextItem
 ListProvider_of_TextItem
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<ListProvider_of_TextItem>
-	{
-	public:
-		typedef ListProvider_of_TextItem WrappedObjectType;
-		typedef vl::presentation::controls::list::ListProvider<vl::presentation::controls::list::TextItem> InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	ListProvider_of_TextItem::ListProvider_of_TextItem(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,ListWrapperProvider_of_TextItem(static_cast<__GacUIInternal<ListWrapperProvider_of_TextItem>::InternalObjectType*>((__GacUIInternal<ListProvider_of_TextItem>::InternalObjectType*)__internal_object_reference_input))
@@ -12005,6 +13613,7 @@ ListProvider_of_TextItem
 	
 	rptr<ListProvider_of_TextItem> ListProvider_of_TextItem::operator=(rptr<ListProvider_of_TextItem> value)
 	{
+		vl::presentation::controls::list::ListProvider<vl::presentation::controls::list::TextItem> const& _unwrapped_value = *__GacUIInternal<ListProvider_of_TextItem>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -12013,19 +13622,6 @@ ListProvider_of_TextItem
 TextItemStyleProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<TextItemStyleProvider>
-	{
-	public:
-		typedef TextItemStyleProvider WrappedObjectType;
-		typedef vl::presentation::controls::list::TextItemStyleProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	TextItemStyleProvider::TextItemStyleProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiSelectableListControl :: IItemStyleProvider(static_cast<__GacUIInternal<GuiSelectableListControl :: IItemStyleProvider>::InternalObjectType*>((__GacUIInternal<TextItemStyleProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -12038,11 +13634,13 @@ TextItemStyleProvider
 	
 	rptr<TextItemStyleProvider> TextItemStyleProvider::CreateRptr(rptr<TextItemStyleProvider :: ITextItemStyleProvider> _textItemStyleProvider)
 	{
+		vl::presentation::controls::list::TextItemStyleProvider::ITextItemStyleProvider* _unwrapped__textItemStyleProvider = __GacUIInternal<TextItemStyleProvider :: ITextItemStyleProvider>::GetInternalObject(*(_textItemStyleProvider.operator->()));
 		throw 0;
 	}
 	
 	rptr<TextItemStyleProvider> TextItemStyleProvider::operator=(rptr<TextItemStyleProvider> value)
 	{
+		vl::presentation::controls::list::TextItemStyleProvider const& _unwrapped_value = *__GacUIInternal<TextItemStyleProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -12051,19 +13649,6 @@ TextItemStyleProvider
 TextItemStyleProvider :: ITextItemStyleProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<TextItemStyleProvider :: ITextItemStyleProvider>
-	{
-	public:
-		typedef TextItemStyleProvider :: ITextItemStyleProvider WrappedObjectType;
-		typedef vl::presentation::controls::list::TextItemStyleProvider::ITextItemStyleProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	TextItemStyleProvider::ITextItemStyleProvider::ITextItemStyleProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<TextItemStyleProvider :: ITextItemStyleProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -12086,6 +13671,7 @@ TextItemStyleProvider :: ITextItemStyleProvider
 	
 	rptr<TextItemStyleProvider :: ITextItemStyleProvider> TextItemStyleProvider::ITextItemStyleProvider::operator=(rptr<TextItemStyleProvider :: ITextItemStyleProvider> value)
 	{
+		vl::presentation::controls::list::TextItemStyleProvider::ITextItemStyleProvider const& _unwrapped_value = *__GacUIInternal<TextItemStyleProvider :: ITextItemStyleProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -12094,19 +13680,6 @@ TextItemStyleProvider :: ITextItemStyleProvider
 TextItemStyleProvider :: ITextItemView
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<TextItemStyleProvider :: ITextItemView>
-	{
-	public:
-		typedef TextItemStyleProvider :: ITextItemView WrappedObjectType;
-		typedef vl::presentation::controls::list::TextItemStyleProvider::ITextItemView InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	TextItemStyleProvider::ITextItemView::ITextItemView(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiListControl :: IItemPrimaryTextView(static_cast<__GacUIInternal<GuiListControl :: IItemPrimaryTextView>::InternalObjectType*>((__GacUIInternal<TextItemStyleProvider :: ITextItemView>::InternalObjectType*)__internal_object_reference_input))
@@ -12119,51 +13692,39 @@ TextItemStyleProvider :: ITextItemView
 	
 	GacString TextItemStyleProvider::ITextItemView::GetText(signed __int32 itemIndex)
 	{
+		signed __int32 _unwrapped_itemIndex = itemIndex;
 		throw 0;
 	}
 	
 	bool TextItemStyleProvider::ITextItemView::GetChecked(signed __int32 itemIndex)
 	{
+		signed __int32 _unwrapped_itemIndex = itemIndex;
 		throw 0;
 	}
 	
 	void TextItemStyleProvider::ITextItemView::SetCheckedSilently(signed __int32 itemIndex, bool value)
 	{
+		signed __int32 _unwrapped_itemIndex = itemIndex;
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
 	rptr<TextItemStyleProvider :: ITextItemView> TextItemStyleProvider::ITextItemView::operator=(rptr<TextItemStyleProvider :: ITextItemView> value)
 	{
+		vl::presentation::controls::list::TextItemStyleProvider::ITextItemView const& _unwrapped_value = *__GacUIInternal<TextItemStyleProvider :: ITextItemView>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
-	wchar_t* TextItemStyleProvider::ITextItemView::get_Identifier()
+	wchar_t const* TextItemStyleProvider::ITextItemView::get_Identifier()
 	{
 		throw 0;
 	}
 	
-	void TextItemStyleProvider::ITextItemView::set_Identifier(wchar_t* value)
-	{
-		throw 0;
-	}
 
 /***********************************************************************
 TextItemStyleProvider :: TextItemStyleController
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<TextItemStyleProvider :: TextItemStyleController>
-	{
-	public:
-		typedef TextItemStyleProvider :: TextItemStyleController WrappedObjectType;
-		typedef vl::presentation::controls::list::TextItemStyleProvider::TextItemStyleController InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	TextItemStyleProvider::TextItemStyleController::TextItemStyleController(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,ItemStyleControllerBase(static_cast<__GacUIInternal<ItemStyleControllerBase>::InternalObjectType*>((__GacUIInternal<TextItemStyleProvider :: TextItemStyleController>::InternalObjectType*)__internal_object_reference_input))
@@ -12176,11 +13737,13 @@ TextItemStyleProvider :: TextItemStyleController
 	
 	rptr<TextItemStyleProvider :: TextItemStyleController> TextItemStyleProvider::TextItemStyleController::CreateRptr(rptr<TextItemStyleProvider> provider)
 	{
+		vl::presentation::controls::list::TextItemStyleProvider* _unwrapped_provider = __GacUIInternal<TextItemStyleProvider>::GetInternalObject(*(provider.operator->()));
 		throw 0;
 	}
 	
 	rptr<TextItemStyleProvider :: TextItemStyleController> TextItemStyleProvider::TextItemStyleController::operator=(rptr<TextItemStyleProvider :: TextItemStyleController> value)
 	{
+		vl::presentation::controls::list::TextItemStyleProvider::TextItemStyleController const& _unwrapped_value = *__GacUIInternal<TextItemStyleProvider :: TextItemStyleController>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -12191,6 +13754,7 @@ TextItemStyleProvider :: TextItemStyleController
 	
 	void TextItemStyleProvider::TextItemStyleController::SetSelected(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -12201,6 +13765,7 @@ TextItemStyleProvider :: TextItemStyleController
 	
 	void TextItemStyleProvider::TextItemStyleController::SetChecked(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -12211,6 +13776,7 @@ TextItemStyleProvider :: TextItemStyleController
 	
 	void TextItemStyleProvider::TextItemStyleController::SetText(const GacString& value)
 	{
+		vl::ObjectString<wchar_t> _unwrapped_value = value.Buffer();
 		throw 0;
 	}
 	
@@ -12219,19 +13785,6 @@ TextItemStyleProvider :: TextItemStyleController
 GuiVirtualTextList
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiVirtualTextList>
-	{
-	public:
-		typedef GuiVirtualTextList WrappedObjectType;
-		typedef vl::presentation::controls::GuiVirtualTextList InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiVirtualTextList::GuiVirtualTextList(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiSelectableListControl(static_cast<__GacUIInternal<GuiSelectableListControl>::InternalObjectType*>((__GacUIInternal<GuiVirtualTextList>::InternalObjectType*)__internal_object_reference_input))
@@ -12244,16 +13797,21 @@ GuiVirtualTextList
 	
 	rptr<GuiVirtualTextList> GuiVirtualTextList::CreateRptr(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<TextItemStyleProvider :: ITextItemStyleProvider> _itemStyleProvider, rptr<GuiListControl :: IItemProvider> _itemProvider)
 	{
+		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(*(_styleProvider.operator->()));
+		vl::presentation::controls::list::TextItemStyleProvider::ITextItemStyleProvider* _unwrapped__itemStyleProvider = __GacUIInternal<TextItemStyleProvider :: ITextItemStyleProvider>::GetInternalObject(*(_itemStyleProvider.operator->()));
+		vl::presentation::controls::GuiListControl::IItemProvider* _unwrapped__itemProvider = __GacUIInternal<GuiListControl :: IItemProvider>::GetInternalObject(*(_itemProvider.operator->()));
 		throw 0;
 	}
 	
 	sptr<GuiListControl :: IItemStyleProvider> GuiVirtualTextList::ChangeItemStyle(rptr<TextItemStyleProvider :: ITextItemStyleProvider> itemStyleProvider)
 	{
+		vl::presentation::controls::list::TextItemStyleProvider::ITextItemStyleProvider* _unwrapped_itemStyleProvider = __GacUIInternal<TextItemStyleProvider :: ITextItemStyleProvider>::GetInternalObject(*(itemStyleProvider.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiVirtualTextList> GuiVirtualTextList::operator=(rptr<GuiVirtualTextList> value)
 	{
+		vl::presentation::controls::GuiVirtualTextList const& _unwrapped_value = *__GacUIInternal<GuiVirtualTextList>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -12262,19 +13820,6 @@ GuiVirtualTextList
 TextItemProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<TextItemProvider>
-	{
-	public:
-		typedef TextItemProvider WrappedObjectType;
-		typedef vl::presentation::controls::list::TextItemProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	TextItemProvider::TextItemProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,ListProvider_of_TextItem(static_cast<__GacUIInternal<ListProvider_of_TextItem>::InternalObjectType*>((__GacUIInternal<TextItemProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -12292,16 +13837,21 @@ TextItemProvider
 	
 	void TextItemProvider::SetText(signed __int32 itemIndex, const GacString& value)
 	{
+		signed __int32 _unwrapped_itemIndex = itemIndex;
+		vl::ObjectString<wchar_t> _unwrapped_value = value.Buffer();
 		throw 0;
 	}
 	
 	void TextItemProvider::SetChecked(signed __int32 itemIndex, bool value)
 	{
+		signed __int32 _unwrapped_itemIndex = itemIndex;
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
 	rptr<TextItemProvider> TextItemProvider::operator=(rptr<TextItemProvider> value)
 	{
+		vl::presentation::controls::list::TextItemProvider const& _unwrapped_value = *__GacUIInternal<TextItemProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -12310,19 +13860,6 @@ TextItemProvider
 GuiTextList
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiTextList>
-	{
-	public:
-		typedef GuiTextList WrappedObjectType;
-		typedef vl::presentation::controls::GuiTextList InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiTextList::GuiTextList(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiVirtualTextList(static_cast<__GacUIInternal<GuiVirtualTextList>::InternalObjectType*>((__GacUIInternal<GuiTextList>::InternalObjectType*)__internal_object_reference_input))
@@ -12335,11 +13872,14 @@ GuiTextList
 	
 	rptr<GuiTextList> GuiTextList::CreateRptr(rptr<GuiScrollView :: IStyleProvider> _styleProvider, rptr<TextItemStyleProvider :: ITextItemStyleProvider> _itemStyleProvider)
 	{
+		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(*(_styleProvider.operator->()));
+		vl::presentation::controls::list::TextItemStyleProvider::ITextItemStyleProvider* _unwrapped__itemStyleProvider = __GacUIInternal<TextItemStyleProvider :: ITextItemStyleProvider>::GetInternalObject(*(_itemStyleProvider.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiTextList> GuiTextList::operator=(rptr<GuiTextList> value)
 	{
+		vl::presentation::controls::GuiTextList const& _unwrapped_value = *__GacUIInternal<GuiTextList>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -12353,19 +13893,6 @@ GuiTextList
 TextLine
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<TextLine>
-	{
-	public:
-		typedef TextLine WrappedObjectType;
-		typedef vl::presentation::elements::text::TextLine InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	TextLine::TextLine(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -12388,11 +13915,13 @@ TextLine
 	
 	bool TextLine::operator==(const TextLine& value)
 	{
+		vl::presentation::elements::text::TextLine const& _unwrapped_value = *__GacUIInternal<TextLine>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	bool TextLine::operator!=(const TextLine& value)
 	{
+		vl::presentation::elements::text::TextLine const& _unwrapped_value = *__GacUIInternal<TextLine>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12411,23 +13940,30 @@ TextLine
 		throw 0;
 	}
 	
-	bool TextLine::Modify(signed __int32 start, signed __int32 count, wchar_t* input, signed __int32 inputCount)
+	bool TextLine::Modify(signed __int32 start, signed __int32 count, wchar_t const* input, signed __int32 inputCount)
 	{
+		signed __int32 _unwrapped_start = start;
+		signed __int32 _unwrapped_count = count;
+		wchar_t const* _unwrapped_input = input;
+		signed __int32 _unwrapped_inputCount = inputCount;
 		throw 0;
 	}
 	
 	TextLine TextLine::Split(signed __int32 index)
 	{
+		signed __int32 _unwrapped_index = index;
 		throw 0;
 	}
 	
 	void TextLine::AppendAndFinalize(TextLine& line)
 	{
+		vl::presentation::elements::text::TextLine& _unwrapped_line = *__GacUIInternal<TextLine>::GetInternalObject(line);
 		throw 0;
 	}
 	
 	signed __int32 TextLine::CalculateBufferLength(signed __int32 dataLength)
 	{
+		signed __int32 _unwrapped_dataLength = dataLength;
 		throw 0;
 	}
 	
@@ -12438,6 +13974,7 @@ TextLine
 	
 	void TextLine::set_text(wchar_t* value)
 	{
+		wchar_t* _unwrapped_value = value;
 		throw 0;
 	}
 	rptr<CharAtt> TextLine::get_att()
@@ -12447,6 +13984,7 @@ TextLine
 	
 	void TextLine::set_att(rptr<CharAtt> value)
 	{
+		vl::presentation::elements::text::CharAtt* _unwrapped_value = __GacUIInternal<CharAtt>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	signed __int32 TextLine::get_availableOffsetCount()
@@ -12456,6 +13994,7 @@ TextLine
 	
 	void TextLine::set_availableOffsetCount(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	signed __int32 TextLine::get_bufferLength()
@@ -12465,6 +14004,7 @@ TextLine
 	
 	void TextLine::set_bufferLength(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	signed __int32 TextLine::get_dataLength()
@@ -12474,26 +14014,24 @@ TextLine
 	
 	void TextLine::set_dataLength(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
+	signed __int32 TextLine::get_BlockSize()
+	{
+		throw 0;
+	}
+	
+	signed __int32 TextLine::get_MaxWidth()
+	{
+		throw 0;
+	}
+	
 
 /***********************************************************************
 TextPos
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<TextPos>
-	{
-	public:
-		typedef TextPos WrappedObjectType;
-		typedef vl::presentation::TextPos InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	TextPos::TextPos(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -12506,11 +14044,15 @@ TextPos
 	
 	rptr<TextPos> TextPos::CreateRptr(signed __int32 _row, signed __int32 _column)
 	{
+		signed __int32 _unwrapped__row = _row;
+		signed __int32 _unwrapped__column = _column;
 		throw 0;
 	}
 	
 	TextPos TextPos::Create(signed __int32 _row, signed __int32 _column)
 	{
+		signed __int32 _unwrapped__row = _row;
+		signed __int32 _unwrapped__column = _column;
 		throw 0;
 	}
 	
@@ -12526,36 +14068,43 @@ TextPos
 	
 	signed __int32 TextPos::Compare(const TextPos& value)
 	{
+		vl::presentation::TextPos const& _unwrapped_value = *__GacUIInternal<TextPos>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	bool TextPos::operator==(const TextPos& value)
 	{
+		vl::presentation::TextPos const& _unwrapped_value = *__GacUIInternal<TextPos>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	bool TextPos::operator!=(const TextPos& value)
 	{
+		vl::presentation::TextPos const& _unwrapped_value = *__GacUIInternal<TextPos>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	bool TextPos::operator<(const TextPos& value)
 	{
+		vl::presentation::TextPos const& _unwrapped_value = *__GacUIInternal<TextPos>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	bool TextPos::operator<=(const TextPos& value)
 	{
+		vl::presentation::TextPos const& _unwrapped_value = *__GacUIInternal<TextPos>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	bool TextPos::operator>(const TextPos& value)
 	{
+		vl::presentation::TextPos const& _unwrapped_value = *__GacUIInternal<TextPos>::GetInternalObject(value);
 		throw 0;
 	}
 	
 	bool TextPos::operator>=(const TextPos& value)
 	{
+		vl::presentation::TextPos const& _unwrapped_value = *__GacUIInternal<TextPos>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12566,6 +14115,7 @@ TextPos
 	
 	void TextPos::set_row(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	signed __int32 TextPos::get_column()
@@ -12575,6 +14125,7 @@ TextPos
 	
 	void TextPos::set_column(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 
@@ -12582,19 +14133,6 @@ TextPos
 GuiTextBoxCommonInterface
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiTextBoxCommonInterface>
-	{
-	public:
-		typedef GuiTextBoxCommonInterface WrappedObjectType;
-		typedef vl::presentation::controls::GuiTextBoxCommonInterface InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiTextBoxCommonInterface::GuiTextBoxCommonInterface(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -12646,46 +14184,57 @@ GuiTextBoxCommonInterface
 	
 	GacString GuiTextBoxCommonInterface::GetRowText(signed __int32 row)
 	{
+		signed __int32 _unwrapped_row = row;
 		throw 0;
 	}
 	
 	GacString GuiTextBoxCommonInterface::GetFragmentText(TextPos start, TextPos end)
 	{
+		vl::presentation::TextPos _unwrapped_start = *__GacUIInternal<TextPos>::GetInternalObject(start);
+		vl::presentation::TextPos _unwrapped_end = *__GacUIInternal<TextPos>::GetInternalObject(end);
 		throw 0;
 	}
 	
 	signed __int32 GuiTextBoxCommonInterface::GetRowWidth(signed __int32 row)
 	{
+		signed __int32 _unwrapped_row = row;
 		throw 0;
 	}
 	
 	TextPos GuiTextBoxCommonInterface::GetTextPosFromPoint(Point point)
 	{
+		vl::presentation::Point _unwrapped_point = *__GacUIInternal<Point>::GetInternalObject(point);
 		throw 0;
 	}
 	
 	Point GuiTextBoxCommonInterface::GetPointFromTextPos(TextPos pos)
 	{
+		vl::presentation::TextPos _unwrapped_pos = *__GacUIInternal<TextPos>::GetInternalObject(pos);
 		throw 0;
 	}
 	
 	Rect GuiTextBoxCommonInterface::GetRectFromTextPos(TextPos pos)
 	{
+		vl::presentation::TextPos _unwrapped_pos = *__GacUIInternal<TextPos>::GetInternalObject(pos);
 		throw 0;
 	}
 	
 	TextPos GuiTextBoxCommonInterface::GetNearestTextPos(Point point)
 	{
+		vl::presentation::Point _unwrapped_point = *__GacUIInternal<Point>::GetInternalObject(point);
 		throw 0;
 	}
 	
 	void GuiTextBoxCommonInterface::Select(TextPos begin, TextPos end)
 	{
+		vl::presentation::TextPos _unwrapped_begin = *__GacUIInternal<TextPos>::GetInternalObject(begin);
+		vl::presentation::TextPos _unwrapped_end = *__GacUIInternal<TextPos>::GetInternalObject(end);
 		throw 0;
 	}
 	
 	rptr<GuiTextBoxCommonInterface> GuiTextBoxCommonInterface::operator=(rptr<GuiTextBoxCommonInterface> value)
 	{
+		vl::presentation::controls::GuiTextBoxCommonInterface const& _unwrapped_value = *__GacUIInternal<GuiTextBoxCommonInterface>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -12736,6 +14285,7 @@ GuiTextBoxCommonInterface
 	
 	void GuiTextBoxCommonInterface::SetSelectionText(const GacString& value)
 	{
+		vl::ObjectString<wchar_t> _unwrapped_value = value.Buffer();
 		throw 0;
 	}
 	
@@ -12749,19 +14299,6 @@ GuiTextBoxCommonInterface
 TextLines
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<TextLines>
-	{
-	public:
-		typedef TextLines WrappedObjectType;
-		typedef vl::presentation::elements::text::TextLines InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	TextLines::TextLines(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -12784,46 +14321,68 @@ TextLines
 	
 	TextLine& TextLines::GetLine(signed __int32 row)
 	{
+		signed __int32 _unwrapped_row = row;
 		throw 0;
 	}
 	
 	GacString TextLines::GetText(TextPos start, TextPos end)
 	{
+		vl::presentation::TextPos _unwrapped_start = *__GacUIInternal<TextPos>::GetInternalObject(start);
+		vl::presentation::TextPos _unwrapped_end = *__GacUIInternal<TextPos>::GetInternalObject(end);
 		throw 0;
 	}
 	
 	bool TextLines::RemoveLines(signed __int32 start, signed __int32 count)
 	{
+		signed __int32 _unwrapped_start = start;
+		signed __int32 _unwrapped_count = count;
 		throw 0;
 	}
 	
 	bool TextLines::IsAvailable(TextPos pos)
 	{
+		vl::presentation::TextPos _unwrapped_pos = *__GacUIInternal<TextPos>::GetInternalObject(pos);
 		throw 0;
 	}
 	
 	TextPos TextLines::Normalize(TextPos pos)
 	{
+		vl::presentation::TextPos _unwrapped_pos = *__GacUIInternal<TextPos>::GetInternalObject(pos);
 		throw 0;
 	}
 	
 	TextPos TextLines::Modify(TextPos start, TextPos end, const GacString& input)
 	{
+		vl::presentation::TextPos _unwrapped_start = *__GacUIInternal<TextPos>::GetInternalObject(start);
+		vl::presentation::TextPos _unwrapped_end = *__GacUIInternal<TextPos>::GetInternalObject(end);
+		vl::ObjectString<wchar_t> _unwrapped_input = input.Buffer();
 		throw 0;
 	}
 	
-	TextPos TextLines::Modify(TextPos start, TextPos end, wchar_t* input)
+	TextPos TextLines::Modify(TextPos start, TextPos end, wchar_t const* input)
 	{
+		vl::presentation::TextPos _unwrapped_start = *__GacUIInternal<TextPos>::GetInternalObject(start);
+		vl::presentation::TextPos _unwrapped_end = *__GacUIInternal<TextPos>::GetInternalObject(end);
+		wchar_t const* _unwrapped_input = input;
 		throw 0;
 	}
 	
-	TextPos TextLines::Modify(TextPos start, TextPos end, wchar_t* input, signed __int32 inputCount)
+	TextPos TextLines::Modify(TextPos start, TextPos end, wchar_t const* input, signed __int32 inputCount)
 	{
+		vl::presentation::TextPos _unwrapped_start = *__GacUIInternal<TextPos>::GetInternalObject(start);
+		vl::presentation::TextPos _unwrapped_end = *__GacUIInternal<TextPos>::GetInternalObject(end);
+		wchar_t const* _unwrapped_input = input;
+		signed __int32 _unwrapped_inputCount = inputCount;
 		throw 0;
 	}
 	
-	TextPos TextLines::Modify(TextPos start, TextPos end, wchar_t** inputs, signed __int32* inputCounts, signed __int32 rows)
+	TextPos TextLines::Modify(TextPos start, TextPos end, wchar_t const** inputs, signed __int32* inputCounts, signed __int32 rows)
 	{
+		vl::presentation::TextPos _unwrapped_start = *__GacUIInternal<TextPos>::GetInternalObject(start);
+		vl::presentation::TextPos _unwrapped_end = *__GacUIInternal<TextPos>::GetInternalObject(end);
+		wchar_t const** _unwrapped_inputs = inputs;
+		signed __int32* _unwrapped_inputCounts = inputCounts;
+		signed __int32 _unwrapped_rows = rows;
 		throw 0;
 	}
 	
@@ -12839,31 +14398,37 @@ TextLines
 	
 	void TextLines::MeasureRow(signed __int32 row)
 	{
+		signed __int32 _unwrapped_row = row;
 		throw 0;
 	}
 	
 	signed __int32 TextLines::GetRowWidth(signed __int32 row)
 	{
+		signed __int32 _unwrapped_row = row;
 		throw 0;
 	}
 	
 	TextPos TextLines::GetTextPosFromPoint(Point point)
 	{
+		vl::presentation::Point _unwrapped_point = *__GacUIInternal<Point>::GetInternalObject(point);
 		throw 0;
 	}
 	
 	Point TextLines::GetPointFromTextPos(TextPos pos)
 	{
+		vl::presentation::TextPos _unwrapped_pos = *__GacUIInternal<TextPos>::GetInternalObject(pos);
 		throw 0;
 	}
 	
 	Rect TextLines::GetRectFromTextPos(TextPos pos)
 	{
+		vl::presentation::TextPos _unwrapped_pos = *__GacUIInternal<TextPos>::GetInternalObject(pos);
 		throw 0;
 	}
 	
 	TextLines& TextLines::operator=(const TextLines& value)
 	{
+		vl::presentation::elements::text::TextLines const& _unwrapped_value = *__GacUIInternal<TextLines>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -12879,6 +14444,7 @@ TextLines
 	
 	void TextLines::SetCharMeasurer(rptr<CharMeasurer> value)
 	{
+		vl::presentation::elements::text::CharMeasurer* _unwrapped_value = __GacUIInternal<CharMeasurer>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -12889,6 +14455,7 @@ TextLines
 	
 	void TextLines::SetRenderTarget(rptr<IGuiGraphicsRenderTarget> value)
 	{
+		vl::presentation::elements::IGuiGraphicsRenderTarget* _unwrapped_value = __GacUIInternal<IGuiGraphicsRenderTarget>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -12899,6 +14466,7 @@ TextLines
 	
 	void TextLines::SetText(const GacString& value)
 	{
+		vl::ObjectString<wchar_t> _unwrapped_value = value.Buffer();
 		throw 0;
 	}
 	
@@ -12909,6 +14477,7 @@ TextLines
 	
 	void TextLines::SetTabSpaceCount(signed __int32 value)
 	{
+		signed __int32 _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -12932,19 +14501,6 @@ TextLines
 GuiColorizedTextElement
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiColorizedTextElement>
-	{
-	public:
-		typedef GuiColorizedTextElement WrappedObjectType;
-		typedef vl::presentation::elements::GuiColorizedTextElement InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiColorizedTextElement::GuiColorizedTextElement(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IGuiGraphicsElement(static_cast<__GacUIInternal<IGuiGraphicsElement>::InternalObjectType*>((__GacUIInternal<GuiColorizedTextElement>::InternalObjectType*)__internal_object_reference_input))
@@ -12957,6 +14513,7 @@ GuiColorizedTextElement
 	
 	rptr<GuiColorizedTextElement> GuiColorizedTextElement::operator=(rptr<GuiColorizedTextElement> value)
 	{
+		vl::presentation::elements::GuiColorizedTextElement const& _unwrapped_value = *__GacUIInternal<GuiColorizedTextElement>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -12977,6 +14534,7 @@ GuiColorizedTextElement
 	
 	void GuiColorizedTextElement::SetCallback(rptr<GuiColorizedTextElement :: ICallback> value)
 	{
+		vl::presentation::elements::GuiColorizedTextElement::ICallback* _unwrapped_value = __GacUIInternal<GuiColorizedTextElement :: ICallback>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -12987,6 +14545,7 @@ GuiColorizedTextElement
 	
 	void GuiColorizedTextElement::SetColors(rptr<Array_of_ColorEntry> value)
 	{
+		vl::collections::Array<vl::presentation::elements::text::ColorEntry,vl::presentation::elements::text::ColorEntry> const& _unwrapped_value = *__GacUIInternal<Array_of_ColorEntry>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -12997,6 +14556,7 @@ GuiColorizedTextElement
 	
 	void GuiColorizedTextElement::SetFont(const FontProperties& value)
 	{
+		vl::presentation::FontProperties const& _unwrapped_value = *__GacUIInternal<FontProperties>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13007,6 +14567,7 @@ GuiColorizedTextElement
 	
 	void GuiColorizedTextElement::SetViewPosition(Point value)
 	{
+		vl::presentation::Point _unwrapped_value = *__GacUIInternal<Point>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13017,6 +14578,7 @@ GuiColorizedTextElement
 	
 	void GuiColorizedTextElement::SetVisuallyEnabled(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -13027,6 +14589,7 @@ GuiColorizedTextElement
 	
 	void GuiColorizedTextElement::SetFocused(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -13037,6 +14600,7 @@ GuiColorizedTextElement
 	
 	void GuiColorizedTextElement::SetCaretBegin(TextPos value)
 	{
+		vl::presentation::TextPos _unwrapped_value = *__GacUIInternal<TextPos>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13047,6 +14611,7 @@ GuiColorizedTextElement
 	
 	void GuiColorizedTextElement::SetCaretEnd(TextPos value)
 	{
+		vl::presentation::TextPos _unwrapped_value = *__GacUIInternal<TextPos>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13057,6 +14622,7 @@ GuiColorizedTextElement
 	
 	void GuiColorizedTextElement::SetCaretVisible(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -13067,6 +14633,7 @@ GuiColorizedTextElement
 	
 	void GuiColorizedTextElement::SetCaretColor(Color value)
 	{
+		vl::presentation::Color _unwrapped_value = *__GacUIInternal<Color>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13080,19 +14647,6 @@ GuiColorizedTextElement
 GuiColorizedTextElement :: ICallback
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiColorizedTextElement :: ICallback>
-	{
-	public:
-		typedef GuiColorizedTextElement :: ICallback WrappedObjectType;
-		typedef vl::presentation::elements::GuiColorizedTextElement::ICallback InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiColorizedTextElement::ICallback::ICallback(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<GuiColorizedTextElement :: ICallback>::InternalObjectType*)__internal_object_reference_input))
@@ -13115,6 +14669,7 @@ GuiColorizedTextElement :: ICallback
 	
 	rptr<GuiColorizedTextElement :: ICallback> GuiColorizedTextElement::ICallback::operator=(rptr<GuiColorizedTextElement :: ICallback> value)
 	{
+		vl::presentation::elements::GuiColorizedTextElement::ICallback const& _unwrapped_value = *__GacUIInternal<GuiColorizedTextElement :: ICallback>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -13123,19 +14678,6 @@ GuiColorizedTextElement :: ICallback
 GuiTextElementOperator
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiTextElementOperator>
-	{
-	public:
-		typedef GuiTextElementOperator WrappedObjectType;
-		typedef vl::presentation::controls::GuiTextElementOperator InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiTextElementOperator::GuiTextElementOperator(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -13152,16 +14694,22 @@ GuiTextElementOperator
 	
 	void GuiTextElementOperator::Install(rptr<GuiColorizedTextElement> _textElement, rptr<GuiGraphicsComposition> _textComposition, rptr<GuiControl> _textControl)
 	{
+		vl::presentation::elements::GuiColorizedTextElement* _unwrapped__textElement = __GacUIInternal<GuiColorizedTextElement>::GetInternalObject(*(_textElement.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__textComposition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_textComposition.operator->()));
+		vl::presentation::controls::GuiControl* _unwrapped__textControl = __GacUIInternal<GuiControl>::GetInternalObject(*(_textControl.operator->()));
 		throw 0;
 	}
 	
 	TextPos GuiTextElementOperator::GetNearestTextPos(Point point)
 	{
+		vl::presentation::Point _unwrapped_point = *__GacUIInternal<Point>::GetInternalObject(point);
 		throw 0;
 	}
 	
 	void GuiTextElementOperator::Select(TextPos begin, TextPos end)
 	{
+		vl::presentation::TextPos _unwrapped_begin = *__GacUIInternal<TextPos>::GetInternalObject(begin);
+		vl::presentation::TextPos _unwrapped_end = *__GacUIInternal<TextPos>::GetInternalObject(end);
 		throw 0;
 	}
 	
@@ -13202,6 +14750,7 @@ GuiTextElementOperator
 	
 	rptr<GuiTextElementOperator> GuiTextElementOperator::operator=(rptr<GuiTextElementOperator> value)
 	{
+		vl::presentation::controls::GuiTextElementOperator const& _unwrapped_value = *__GacUIInternal<GuiTextElementOperator>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -13212,6 +14761,7 @@ GuiTextElementOperator
 	
 	void GuiTextElementOperator::SetCallback(rptr<GuiTextElementOperator :: ICallback> value)
 	{
+		vl::presentation::controls::GuiTextElementOperator::ICallback* _unwrapped_value = __GacUIInternal<GuiTextElementOperator :: ICallback>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -13222,6 +14772,7 @@ GuiTextElementOperator
 	
 	void GuiTextElementOperator::SetTextBoxCommonInterface(rptr<GuiTextBoxCommonInterface> value)
 	{
+		vl::presentation::controls::GuiTextBoxCommonInterface* _unwrapped_value = __GacUIInternal<GuiTextBoxCommonInterface>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -13242,6 +14793,7 @@ GuiTextElementOperator
 	
 	void GuiTextElementOperator::SetSelectionText(const GacString& value)
 	{
+		vl::ObjectString<wchar_t> _unwrapped_value = value.Buffer();
 		throw 0;
 	}
 	
@@ -13250,19 +14802,6 @@ GuiTextElementOperator
 GuiTextElementOperator :: ICallback
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiTextElementOperator :: ICallback>
-	{
-	public:
-		typedef GuiTextElementOperator :: ICallback WrappedObjectType;
-		typedef vl::presentation::controls::GuiTextElementOperator::ICallback InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiTextElementOperator::ICallback::ICallback(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,IDescriptable(static_cast<__GacUIInternal<IDescriptable>::InternalObjectType*>((__GacUIInternal<GuiTextElementOperator :: ICallback>::InternalObjectType*)__internal_object_reference_input))
@@ -13275,36 +14814,53 @@ GuiTextElementOperator :: ICallback
 	
 	TextPos GuiTextElementOperator::ICallback::GetLeftWord(TextPos pos)
 	{
+		vl::presentation::TextPos _unwrapped_pos = *__GacUIInternal<TextPos>::GetInternalObject(pos);
 		throw 0;
 	}
 	
 	TextPos GuiTextElementOperator::ICallback::GetRightWord(TextPos pos)
 	{
+		vl::presentation::TextPos _unwrapped_pos = *__GacUIInternal<TextPos>::GetInternalObject(pos);
 		throw 0;
 	}
 	
 	void GuiTextElementOperator::ICallback::GetWord(TextPos pos, TextPos& begin, TextPos& end)
 	{
+		vl::presentation::TextPos _unwrapped_pos = *__GacUIInternal<TextPos>::GetInternalObject(pos);
+		vl::presentation::TextPos& _unwrapped_begin = *__GacUIInternal<TextPos>::GetInternalObject(begin);
+		vl::presentation::TextPos& _unwrapped_end = *__GacUIInternal<TextPos>::GetInternalObject(end);
 		throw 0;
 	}
 	
 	bool GuiTextElementOperator::ICallback::BeforeModify(TextPos& start, TextPos& end, const GacString& originalText, GacString& inputText)
 	{
+		vl::presentation::TextPos& _unwrapped_start = *__GacUIInternal<TextPos>::GetInternalObject(start);
+		vl::presentation::TextPos& _unwrapped_end = *__GacUIInternal<TextPos>::GetInternalObject(end);
+		vl::ObjectString<wchar_t> _unwrapped_originalText = originalText.Buffer();
+		vl::ObjectString<wchar_t> _unwrapped_inputText = inputText.Buffer();
 		throw 0;
 	}
 	
 	void GuiTextElementOperator::ICallback::AfterModify(TextPos originalStart, TextPos originalEnd, const GacString& originalText, TextPos inputStart, TextPos inputEnd, const GacString& inputText)
 	{
+		vl::presentation::TextPos _unwrapped_originalStart = *__GacUIInternal<TextPos>::GetInternalObject(originalStart);
+		vl::presentation::TextPos _unwrapped_originalEnd = *__GacUIInternal<TextPos>::GetInternalObject(originalEnd);
+		vl::ObjectString<wchar_t> _unwrapped_originalText = originalText.Buffer();
+		vl::presentation::TextPos _unwrapped_inputStart = *__GacUIInternal<TextPos>::GetInternalObject(inputStart);
+		vl::presentation::TextPos _unwrapped_inputEnd = *__GacUIInternal<TextPos>::GetInternalObject(inputEnd);
+		vl::ObjectString<wchar_t> _unwrapped_inputText = inputText.Buffer();
 		throw 0;
 	}
 	
 	void GuiTextElementOperator::ICallback::ScrollToView(Point point)
 	{
+		vl::presentation::Point _unwrapped_point = *__GacUIInternal<Point>::GetInternalObject(point);
 		throw 0;
 	}
 	
 	rptr<GuiTextElementOperator :: ICallback> GuiTextElementOperator::ICallback::operator=(rptr<GuiTextElementOperator :: ICallback> value)
 	{
+		vl::presentation::controls::GuiTextElementOperator::ICallback const& _unwrapped_value = *__GacUIInternal<GuiTextElementOperator :: ICallback>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -13323,19 +14879,6 @@ GuiTextElementOperator :: ICallback
 GuiTextElementOperator :: DefaultCallback
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiTextElementOperator :: DefaultCallback>
-	{
-	public:
-		typedef GuiTextElementOperator :: DefaultCallback WrappedObjectType;
-		typedef vl::presentation::controls::GuiTextElementOperator::DefaultCallback InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiTextElementOperator::DefaultCallback::DefaultCallback(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiTextElementOperator :: ICallback(static_cast<__GacUIInternal<GuiTextElementOperator :: ICallback>::InternalObjectType*>((__GacUIInternal<GuiTextElementOperator :: DefaultCallback>::InternalObjectType*)__internal_object_reference_input))
@@ -13348,11 +14891,14 @@ GuiTextElementOperator :: DefaultCallback
 	
 	rptr<GuiTextElementOperator :: DefaultCallback> GuiTextElementOperator::DefaultCallback::CreateRptr(rptr<GuiColorizedTextElement> _textElement, rptr<GuiGraphicsComposition> _textComposition)
 	{
+		vl::presentation::elements::GuiColorizedTextElement* _unwrapped__textElement = __GacUIInternal<GuiColorizedTextElement>::GetInternalObject(*(_textElement.operator->()));
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped__textComposition = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(_textComposition.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiTextElementOperator :: DefaultCallback> GuiTextElementOperator::DefaultCallback::operator=(rptr<GuiTextElementOperator :: DefaultCallback> value)
 	{
+		vl::presentation::controls::GuiTextElementOperator::DefaultCallback const& _unwrapped_value = *__GacUIInternal<GuiTextElementOperator :: DefaultCallback>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -13361,19 +14907,6 @@ GuiTextElementOperator :: DefaultCallback
 GuiMultilineTextBox
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiMultilineTextBox>
-	{
-	public:
-		typedef GuiMultilineTextBox WrappedObjectType;
-		typedef vl::presentation::controls::GuiMultilineTextBox InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiMultilineTextBox::GuiMultilineTextBox(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiScrollView(static_cast<__GacUIInternal<GuiScrollView>::InternalObjectType*>((__GacUIInternal<GuiMultilineTextBox>::InternalObjectType*)__internal_object_reference_input))
@@ -13387,10 +14920,17 @@ GuiMultilineTextBox
 	
 	rptr<GuiMultilineTextBox> GuiMultilineTextBox::CreateRptr(rptr<GuiScrollView :: IStyleProvider> styleProvider)
 	{
+		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(*(styleProvider.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiMultilineTextBox> GuiMultilineTextBox::operator=(rptr<GuiMultilineTextBox> value)
+	{
+		vl::presentation::controls::GuiMultilineTextBox const& _unwrapped_value = *__GacUIInternal<GuiMultilineTextBox>::GetInternalObject(*(value.operator->()));
+		throw 0;
+	}
+	
+	signed __int32 GuiMultilineTextBox::get_TextMargin()
 	{
 		throw 0;
 	}
@@ -13400,19 +14940,6 @@ GuiMultilineTextBox
 GuiMultilineTextBox :: StyleController
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiMultilineTextBox :: StyleController>
-	{
-	public:
-		typedef GuiMultilineTextBox :: StyleController WrappedObjectType;
-		typedef vl::presentation::controls::GuiMultilineTextBox::StyleController InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiMultilineTextBox::StyleController::StyleController(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiScrollView :: StyleController(static_cast<__GacUIInternal<GuiScrollView :: StyleController>::InternalObjectType*>((__GacUIInternal<GuiMultilineTextBox :: StyleController>::InternalObjectType*)__internal_object_reference_input))
@@ -13425,16 +14952,19 @@ GuiMultilineTextBox :: StyleController
 	
 	rptr<GuiMultilineTextBox :: StyleController> GuiMultilineTextBox::StyleController::CreateRptr(rptr<GuiScrollView :: IStyleProvider> styleProvider)
 	{
+		vl::presentation::controls::GuiScrollView::IStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiScrollView :: IStyleProvider>::GetInternalObject(*(styleProvider.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiMultilineTextBox :: StyleController> GuiMultilineTextBox::StyleController::operator=(rptr<GuiMultilineTextBox :: StyleController> value)
 	{
+		vl::presentation::controls::GuiMultilineTextBox::StyleController const& _unwrapped_value = *__GacUIInternal<GuiMultilineTextBox :: StyleController>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	void GuiMultilineTextBox::StyleController::SetViewPosition(Point value)
 	{
+		vl::presentation::Point _unwrapped_value = *__GacUIInternal<Point>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13463,19 +14993,6 @@ GuiMultilineTextBox :: StyleController
 GuiMultilineTextBox :: TextElementOperatorCallback
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiMultilineTextBox :: TextElementOperatorCallback>
-	{
-	public:
-		typedef GuiMultilineTextBox :: TextElementOperatorCallback WrappedObjectType;
-		typedef vl::presentation::controls::GuiMultilineTextBox::TextElementOperatorCallback InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiMultilineTextBox::TextElementOperatorCallback::TextElementOperatorCallback(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiTextElementOperator :: DefaultCallback(static_cast<__GacUIInternal<GuiTextElementOperator :: DefaultCallback>::InternalObjectType*>((__GacUIInternal<GuiMultilineTextBox :: TextElementOperatorCallback>::InternalObjectType*)__internal_object_reference_input))
@@ -13488,11 +15005,13 @@ GuiMultilineTextBox :: TextElementOperatorCallback
 	
 	rptr<GuiMultilineTextBox :: TextElementOperatorCallback> GuiMultilineTextBox::TextElementOperatorCallback::CreateRptr(rptr<GuiMultilineTextBox> _textControl)
 	{
+		vl::presentation::controls::GuiMultilineTextBox* _unwrapped__textControl = __GacUIInternal<GuiMultilineTextBox>::GetInternalObject(*(_textControl.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiMultilineTextBox :: TextElementOperatorCallback> GuiMultilineTextBox::TextElementOperatorCallback::operator=(rptr<GuiMultilineTextBox :: TextElementOperatorCallback> value)
 	{
+		vl::presentation::controls::GuiMultilineTextBox::TextElementOperatorCallback const& _unwrapped_value = *__GacUIInternal<GuiMultilineTextBox :: TextElementOperatorCallback>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -13501,19 +15020,6 @@ GuiMultilineTextBox :: TextElementOperatorCallback
 GuiSinglelineTextBox
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiSinglelineTextBox>
-	{
-	public:
-		typedef GuiSinglelineTextBox WrappedObjectType;
-		typedef vl::presentation::controls::GuiSinglelineTextBox InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiSinglelineTextBox::GuiSinglelineTextBox(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiControl(static_cast<__GacUIInternal<GuiControl>::InternalObjectType*>((__GacUIInternal<GuiSinglelineTextBox>::InternalObjectType*)__internal_object_reference_input))
@@ -13527,10 +15033,17 @@ GuiSinglelineTextBox
 	
 	rptr<GuiSinglelineTextBox> GuiSinglelineTextBox::CreateRptr(rptr<GuiSinglelineTextBox :: IStyleProvider> styleProvider)
 	{
+		vl::presentation::controls::GuiSinglelineTextBox::IStyleProvider* _unwrapped_styleProvider = __GacUIInternal<GuiSinglelineTextBox :: IStyleProvider>::GetInternalObject(*(styleProvider.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiSinglelineTextBox> GuiSinglelineTextBox::operator=(rptr<GuiSinglelineTextBox> value)
+	{
+		vl::presentation::controls::GuiSinglelineTextBox const& _unwrapped_value = *__GacUIInternal<GuiSinglelineTextBox>::GetInternalObject(*(value.operator->()));
+		throw 0;
+	}
+	
+	signed __int32 GuiSinglelineTextBox::get_TextMargin()
 	{
 		throw 0;
 	}
@@ -13540,19 +15053,6 @@ GuiSinglelineTextBox
 GuiSinglelineTextBox :: IStyleProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiSinglelineTextBox :: IStyleProvider>
-	{
-	public:
-		typedef GuiSinglelineTextBox :: IStyleProvider WrappedObjectType;
-		typedef vl::presentation::controls::GuiSinglelineTextBox::IStyleProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiSinglelineTextBox::IStyleProvider::IStyleProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiControl :: IStyleProvider(static_cast<__GacUIInternal<GuiControl :: IStyleProvider>::InternalObjectType*>((__GacUIInternal<GuiSinglelineTextBox :: IStyleProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -13565,11 +15065,13 @@ GuiSinglelineTextBox :: IStyleProvider
 	
 	rptr<GuiGraphicsComposition> GuiSinglelineTextBox::IStyleProvider::InstallBackground(rptr<GuiBoundsComposition> boundsComposition)
 	{
+		vl::presentation::elements::GuiBoundsComposition* _unwrapped_boundsComposition = __GacUIInternal<GuiBoundsComposition>::GetInternalObject(*(boundsComposition.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiSinglelineTextBox :: IStyleProvider> GuiSinglelineTextBox::IStyleProvider::operator=(rptr<GuiSinglelineTextBox :: IStyleProvider> value)
 	{
+		vl::presentation::controls::GuiSinglelineTextBox::IStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiSinglelineTextBox :: IStyleProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -13578,19 +15080,6 @@ GuiSinglelineTextBox :: IStyleProvider
 GuiSinglelineTextBox :: StyleController
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiSinglelineTextBox :: StyleController>
-	{
-	public:
-		typedef GuiSinglelineTextBox :: StyleController WrappedObjectType;
-		typedef vl::presentation::controls::GuiSinglelineTextBox::StyleController InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiSinglelineTextBox::StyleController::StyleController(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiControl :: IStyleController(static_cast<__GacUIInternal<GuiControl :: IStyleController>::InternalObjectType*>((__GacUIInternal<GuiSinglelineTextBox :: StyleController>::InternalObjectType*)__internal_object_reference_input))
@@ -13603,6 +15092,7 @@ GuiSinglelineTextBox :: StyleController
 	
 	rptr<GuiSinglelineTextBox :: StyleController> GuiSinglelineTextBox::StyleController::CreateRptr(rptr<GuiSinglelineTextBox :: IStyleProvider> _styleProvider)
 	{
+		vl::presentation::controls::GuiSinglelineTextBox::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiSinglelineTextBox :: IStyleProvider>::GetInternalObject(*(_styleProvider.operator->()));
 		throw 0;
 	}
 	
@@ -13613,16 +15103,19 @@ GuiSinglelineTextBox :: StyleController
 	
 	rptr<GuiSinglelineTextBox :: StyleController> GuiSinglelineTextBox::StyleController::operator=(rptr<GuiSinglelineTextBox :: StyleController> value)
 	{
+		vl::presentation::controls::GuiSinglelineTextBox::StyleController const& _unwrapped_value = *__GacUIInternal<GuiSinglelineTextBox :: StyleController>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	void GuiSinglelineTextBox::StyleController::SetTextBox(rptr<GuiSinglelineTextBox> value)
 	{
+		vl::presentation::controls::GuiSinglelineTextBox* _unwrapped_value = __GacUIInternal<GuiSinglelineTextBox>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	void GuiSinglelineTextBox::StyleController::SetViewPosition(Point value)
 	{
+		vl::presentation::Point _unwrapped_value = *__GacUIInternal<Point>::GetInternalObject(value);
 		throw 0;
 	}
 	
@@ -13651,19 +15144,6 @@ GuiSinglelineTextBox :: StyleController
 GuiSinglelineTextBox :: TextElementOperatorCallback
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiSinglelineTextBox :: TextElementOperatorCallback>
-	{
-	public:
-		typedef GuiSinglelineTextBox :: TextElementOperatorCallback WrappedObjectType;
-		typedef vl::presentation::controls::GuiSinglelineTextBox::TextElementOperatorCallback InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiSinglelineTextBox::TextElementOperatorCallback::TextElementOperatorCallback(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiTextElementOperator :: DefaultCallback(static_cast<__GacUIInternal<GuiTextElementOperator :: DefaultCallback>::InternalObjectType*>((__GacUIInternal<GuiSinglelineTextBox :: TextElementOperatorCallback>::InternalObjectType*)__internal_object_reference_input))
@@ -13676,11 +15156,13 @@ GuiSinglelineTextBox :: TextElementOperatorCallback
 	
 	rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> GuiSinglelineTextBox::TextElementOperatorCallback::CreateRptr(rptr<GuiSinglelineTextBox> _textControl)
 	{
+		vl::presentation::controls::GuiSinglelineTextBox* _unwrapped__textControl = __GacUIInternal<GuiSinglelineTextBox>::GetInternalObject(*(_textControl.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> GuiSinglelineTextBox::TextElementOperatorCallback::operator=(rptr<GuiSinglelineTextBox :: TextElementOperatorCallback> value)
 	{
+		vl::presentation::controls::GuiSinglelineTextBox::TextElementOperatorCallback const& _unwrapped_value = *__GacUIInternal<GuiSinglelineTextBox :: TextElementOperatorCallback>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -13689,19 +15171,6 @@ GuiSinglelineTextBox :: TextElementOperatorCallback
 TreeViewItem
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<TreeViewItem>
-	{
-	public:
-		typedef TreeViewItem WrappedObjectType;
-		typedef vl::presentation::controls::tree::TreeViewItem InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	TreeViewItem::TreeViewItem(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -13713,6 +15182,8 @@ TreeViewItem
 	
 	rptr<TreeViewItem> TreeViewItem::CreateRptr(sptr<GuiImageData> _image, const GacString& _text)
 	{
+		vl::Ptr<vl::presentation::controls::GuiImageData> _unwrapped__image = __GacUIInternal<GuiImageData>::GetInternalObject(*(_image.operator->()));
+		vl::ObjectString<wchar_t> _unwrapped__text = _text.Buffer();
 		throw 0;
 	}
 	
@@ -13723,6 +15194,7 @@ TreeViewItem
 	
 	rptr<TreeViewItem> TreeViewItem::operator=(rptr<TreeViewItem> value)
 	{
+		vl::presentation::controls::tree::TreeViewItem const& _unwrapped_value = *__GacUIInternal<TreeViewItem>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -13733,6 +15205,7 @@ TreeViewItem
 	
 	void TreeViewItem::set_image(sptr<GuiImageData> value)
 	{
+		vl::Ptr<vl::presentation::controls::GuiImageData> _unwrapped_value = __GacUIInternal<GuiImageData>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	GacString TreeViewItem::get_text()
@@ -13742,6 +15215,7 @@ TreeViewItem
 	
 	void TreeViewItem::set_text(GacString value)
 	{
+		vl::ObjectString<wchar_t> _unwrapped_value = value.Buffer();
 		throw 0;
 	}
 
@@ -13749,19 +15223,6 @@ TreeViewItem
 TreeViewItemRootProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<TreeViewItemRootProvider>
-	{
-	public:
-		typedef TreeViewItemRootProvider WrappedObjectType;
-		typedef vl::presentation::controls::tree::TreeViewItemRootProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	TreeViewItemRootProvider::TreeViewItemRootProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,MemoryNodeRootProvider(static_cast<__GacUIInternal<MemoryNodeRootProvider>::InternalObjectType*>((__GacUIInternal<TreeViewItemRootProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -13779,6 +15240,7 @@ TreeViewItemRootProvider
 	
 	rptr<TreeViewItemRootProvider> TreeViewItemRootProvider::operator=(rptr<TreeViewItemRootProvider> value)
 	{
+		vl::presentation::controls::tree::TreeViewItemRootProvider const& _unwrapped_value = *__GacUIInternal<TreeViewItemRootProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -13787,19 +15249,6 @@ TreeViewItemRootProvider
 GuiTreeView
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiTreeView>
-	{
-	public:
-		typedef GuiTreeView WrappedObjectType;
-		typedef vl::presentation::controls::GuiTreeView InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiTreeView::GuiTreeView(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiVirtualTreeListControl(static_cast<__GacUIInternal<GuiVirtualTreeListControl>::InternalObjectType*>((__GacUIInternal<GuiTreeView>::InternalObjectType*)__internal_object_reference_input))
@@ -13812,6 +15261,8 @@ GuiTreeView
 	
 	rptr<GuiTreeView> GuiTreeView::CreateRptr(rptr<GuiTreeView :: IStyleProvider> _styleProvider, rptr<INodeRootProvider> _nodeRootProvider)
 	{
+		vl::presentation::controls::GuiTreeView::IStyleProvider* _unwrapped__styleProvider = __GacUIInternal<GuiTreeView :: IStyleProvider>::GetInternalObject(*(_styleProvider.operator->()));
+		vl::presentation::controls::tree::INodeRootProvider* _unwrapped__nodeRootProvider = __GacUIInternal<INodeRootProvider>::GetInternalObject(*(_nodeRootProvider.operator->()));
 		throw 0;
 	}
 	
@@ -13822,6 +15273,7 @@ GuiTreeView
 	
 	rptr<GuiTreeView> GuiTreeView::operator=(rptr<GuiTreeView> value)
 	{
+		vl::presentation::controls::GuiTreeView const& _unwrapped_value = *__GacUIInternal<GuiTreeView>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -13835,19 +15287,6 @@ GuiTreeView
 GuiTreeView :: IStyleProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<GuiTreeView :: IStyleProvider>
-	{
-	public:
-		typedef GuiTreeView :: IStyleProvider WrappedObjectType;
-		typedef vl::presentation::controls::GuiTreeView::IStyleProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	GuiTreeView::IStyleProvider::IStyleProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiScrollView :: IStyleProvider(static_cast<__GacUIInternal<GuiScrollView :: IStyleProvider>::InternalObjectType*>((__GacUIInternal<GuiTreeView :: IStyleProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -13870,6 +15309,7 @@ GuiTreeView :: IStyleProvider
 	
 	rptr<GuiTreeView :: IStyleProvider> GuiTreeView::IStyleProvider::operator=(rptr<GuiTreeView :: IStyleProvider> value)
 	{
+		vl::presentation::controls::GuiTreeView::IStyleProvider const& _unwrapped_value = *__GacUIInternal<GuiTreeView :: IStyleProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -13883,19 +15323,6 @@ GuiTreeView :: IStyleProvider
 TreeViewNodeItemStyleProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<TreeViewNodeItemStyleProvider>
-	{
-	public:
-		typedef TreeViewNodeItemStyleProvider WrappedObjectType;
-		typedef vl::presentation::controls::tree::TreeViewNodeItemStyleProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	TreeViewNodeItemStyleProvider::TreeViewNodeItemStyleProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,INodeItemStyleProvider(static_cast<__GacUIInternal<INodeItemStyleProvider>::InternalObjectType*>((__GacUIInternal<TreeViewNodeItemStyleProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -13913,6 +15340,7 @@ TreeViewNodeItemStyleProvider
 	
 	rptr<TreeViewNodeItemStyleProvider> TreeViewNodeItemStyleProvider::operator=(rptr<TreeViewNodeItemStyleProvider> value)
 	{
+		vl::presentation::controls::tree::TreeViewNodeItemStyleProvider const& _unwrapped_value = *__GacUIInternal<TreeViewNodeItemStyleProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -13921,19 +15349,6 @@ TreeViewNodeItemStyleProvider
 Win7ButtonColors
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7ButtonColors>
-	{
-	public:
-		typedef Win7ButtonColors WrappedObjectType;
-		typedef vl::presentation::win7::Win7ButtonColors InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7ButtonColors::Win7ButtonColors(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -13956,21 +15371,28 @@ Win7ButtonColors
 	
 	bool Win7ButtonColors::operator==(const Win7ButtonColors& colors)
 	{
+		vl::presentation::win7::Win7ButtonColors const& _unwrapped_colors = *__GacUIInternal<Win7ButtonColors>::GetInternalObject(colors);
 		throw 0;
 	}
 	
 	bool Win7ButtonColors::operator!=(const Win7ButtonColors& colors)
 	{
+		vl::presentation::win7::Win7ButtonColors const& _unwrapped_colors = *__GacUIInternal<Win7ButtonColors>::GetInternalObject(colors);
 		throw 0;
 	}
 	
 	void Win7ButtonColors::SetAlphaWithoutText(unsigned __int8 a)
 	{
+		unsigned __int8 _unwrapped_a = a;
 		throw 0;
 	}
 	
 	Win7ButtonColors Win7ButtonColors::Blend(const Win7ButtonColors& c1, const Win7ButtonColors& c2, signed __int32 ratio, signed __int32 total)
 	{
+		vl::presentation::win7::Win7ButtonColors const& _unwrapped_c1 = *__GacUIInternal<Win7ButtonColors>::GetInternalObject(c1);
+		vl::presentation::win7::Win7ButtonColors const& _unwrapped_c2 = *__GacUIInternal<Win7ButtonColors>::GetInternalObject(c2);
+		signed __int32 _unwrapped_ratio = ratio;
+		signed __int32 _unwrapped_total = total;
 		throw 0;
 	}
 	
@@ -14016,21 +15438,25 @@ Win7ButtonColors
 	
 	Win7ButtonColors Win7ButtonColors::CheckedNormal(bool selected)
 	{
+		bool _unwrapped_selected = selected;
 		throw 0;
 	}
 	
 	Win7ButtonColors Win7ButtonColors::CheckedActive(bool selected)
 	{
+		bool _unwrapped_selected = selected;
 		throw 0;
 	}
 	
 	Win7ButtonColors Win7ButtonColors::CheckedPressed(bool selected)
 	{
+		bool _unwrapped_selected = selected;
 		throw 0;
 	}
 	
 	Win7ButtonColors Win7ButtonColors::CheckedDisabled(bool selected)
 	{
+		bool _unwrapped_selected = selected;
 		throw 0;
 	}
 	
@@ -14116,6 +15542,7 @@ Win7ButtonColors
 	
 	void Win7ButtonColors::set_borderColor(Color value)
 	{
+		vl::presentation::Color _unwrapped_value = *__GacUIInternal<Color>::GetInternalObject(value);
 		throw 0;
 	}
 	Color Win7ButtonColors::get_backgroundColor()
@@ -14125,6 +15552,7 @@ Win7ButtonColors
 	
 	void Win7ButtonColors::set_backgroundColor(Color value)
 	{
+		vl::presentation::Color _unwrapped_value = *__GacUIInternal<Color>::GetInternalObject(value);
 		throw 0;
 	}
 	Color Win7ButtonColors::get_g1()
@@ -14134,6 +15562,7 @@ Win7ButtonColors
 	
 	void Win7ButtonColors::set_g1(Color value)
 	{
+		vl::presentation::Color _unwrapped_value = *__GacUIInternal<Color>::GetInternalObject(value);
 		throw 0;
 	}
 	Color Win7ButtonColors::get_g2()
@@ -14143,6 +15572,7 @@ Win7ButtonColors
 	
 	void Win7ButtonColors::set_g2(Color value)
 	{
+		vl::presentation::Color _unwrapped_value = *__GacUIInternal<Color>::GetInternalObject(value);
 		throw 0;
 	}
 	Color Win7ButtonColors::get_g3()
@@ -14152,6 +15582,7 @@ Win7ButtonColors
 	
 	void Win7ButtonColors::set_g3(Color value)
 	{
+		vl::presentation::Color _unwrapped_value = *__GacUIInternal<Color>::GetInternalObject(value);
 		throw 0;
 	}
 	Color Win7ButtonColors::get_g4()
@@ -14161,6 +15592,7 @@ Win7ButtonColors
 	
 	void Win7ButtonColors::set_g4(Color value)
 	{
+		vl::presentation::Color _unwrapped_value = *__GacUIInternal<Color>::GetInternalObject(value);
 		throw 0;
 	}
 	Color Win7ButtonColors::get_textColor()
@@ -14170,6 +15602,7 @@ Win7ButtonColors
 	
 	void Win7ButtonColors::set_textColor(Color value)
 	{
+		vl::presentation::Color _unwrapped_value = *__GacUIInternal<Color>::GetInternalObject(value);
 		throw 0;
 	}
 	Color Win7ButtonColors::get_bulletLight()
@@ -14179,6 +15612,7 @@ Win7ButtonColors
 	
 	void Win7ButtonColors::set_bulletLight(Color value)
 	{
+		vl::presentation::Color _unwrapped_value = *__GacUIInternal<Color>::GetInternalObject(value);
 		throw 0;
 	}
 	Color Win7ButtonColors::get_bulletDark()
@@ -14188,6 +15622,7 @@ Win7ButtonColors
 	
 	void Win7ButtonColors::set_bulletDark(Color value)
 	{
+		vl::presentation::Color _unwrapped_value = *__GacUIInternal<Color>::GetInternalObject(value);
 		throw 0;
 	}
 
@@ -14195,19 +15630,6 @@ Win7ButtonColors
 Win7ButtonStyleBase
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7ButtonStyleBase>
-	{
-	public:
-		typedef Win7ButtonStyleBase WrappedObjectType;
-		typedef vl::presentation::win7::Win7ButtonStyleBase InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7ButtonStyleBase::Win7ButtonStyleBase(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiSelectableButton :: IStyleController(static_cast<__GacUIInternal<GuiSelectableButton :: IStyleController>::InternalObjectType*>((__GacUIInternal<Win7ButtonStyleBase>::InternalObjectType*)__internal_object_reference_input))
@@ -14220,6 +15642,7 @@ Win7ButtonStyleBase
 	
 	rptr<Win7ButtonStyleBase> Win7ButtonStyleBase::operator=(rptr<Win7ButtonStyleBase> value)
 	{
+		vl::presentation::win7::Win7ButtonStyleBase const& _unwrapped_value = *__GacUIInternal<Win7ButtonStyleBase>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -14230,6 +15653,7 @@ Win7ButtonStyleBase
 	
 	void Win7ButtonStyleBase::SetTransparentWhenInactive(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -14240,6 +15664,7 @@ Win7ButtonStyleBase
 	
 	void Win7ButtonStyleBase::SetTransparentWhenDisabled(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -14250,6 +15675,7 @@ Win7ButtonStyleBase
 	
 	void Win7ButtonStyleBase::SetAutoSizeForText(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -14258,19 +15684,6 @@ Win7ButtonStyleBase
 Win7ButtonStyle
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7ButtonStyle>
-	{
-	public:
-		typedef Win7ButtonStyle WrappedObjectType;
-		typedef vl::presentation::win7::Win7ButtonStyle InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7ButtonStyle::Win7ButtonStyle(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,Win7ButtonStyleBase(static_cast<__GacUIInternal<Win7ButtonStyleBase>::InternalObjectType*>((__GacUIInternal<Win7ButtonStyle>::InternalObjectType*)__internal_object_reference_input))
@@ -14283,11 +15696,13 @@ Win7ButtonStyle
 	
 	rptr<Win7ButtonStyle> Win7ButtonStyle::CreateRptr(bool verticalGradient)
 	{
+		bool _unwrapped_verticalGradient = verticalGradient;
 		throw 0;
 	}
 	
 	rptr<Win7ButtonStyle> Win7ButtonStyle::operator=(rptr<Win7ButtonStyle> value)
 	{
+		vl::presentation::win7::Win7ButtonStyle const& _unwrapped_value = *__GacUIInternal<Win7ButtonStyle>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -14296,19 +15711,6 @@ Win7ButtonStyle
 Win7CheckBoxStyle
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7CheckBoxStyle>
-	{
-	public:
-		typedef Win7CheckBoxStyle WrappedObjectType;
-		typedef vl::presentation::win7::Win7CheckBoxStyle InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7CheckBoxStyle::Win7CheckBoxStyle(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiSelectableButton :: IStyleController(static_cast<__GacUIInternal<GuiSelectableButton :: IStyleController>::InternalObjectType*>((__GacUIInternal<Win7CheckBoxStyle>::InternalObjectType*)__internal_object_reference_input))
@@ -14321,11 +15723,14 @@ Win7CheckBoxStyle
 	
 	rptr<Win7CheckBoxStyle> Win7CheckBoxStyle::CreateRptr(Win7CheckBoxStyle :: BulletStyle bulletStyle, bool backgroundVisible)
 	{
+		vl::presentation::win7::Win7CheckBoxStyle::BulletStyle _unwrapped_bulletStyle = (vl::presentation::win7::Win7CheckBoxStyle::BulletStyle)bulletStyle;
+		bool _unwrapped_backgroundVisible = backgroundVisible;
 		throw 0;
 	}
 	
 	rptr<Win7CheckBoxStyle> Win7CheckBoxStyle::operator=(rptr<Win7CheckBoxStyle> value)
 	{
+		vl::presentation::win7::Win7CheckBoxStyle const& _unwrapped_value = *__GacUIInternal<Win7CheckBoxStyle>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -14334,19 +15739,6 @@ Win7CheckBoxStyle
 Win7DropDownComboBoxStyle
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7DropDownComboBoxStyle>
-	{
-	public:
-		typedef Win7DropDownComboBoxStyle WrappedObjectType;
-		typedef vl::presentation::win7::Win7DropDownComboBoxStyle InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7DropDownComboBoxStyle::Win7DropDownComboBoxStyle(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,Win7ButtonStyle(static_cast<__GacUIInternal<Win7ButtonStyle>::InternalObjectType*>((__GacUIInternal<Win7DropDownComboBoxStyle>::InternalObjectType*)__internal_object_reference_input))
@@ -14365,6 +15757,7 @@ Win7DropDownComboBoxStyle
 	
 	rptr<Win7DropDownComboBoxStyle> Win7DropDownComboBoxStyle::operator=(rptr<Win7DropDownComboBoxStyle> value)
 	{
+		vl::presentation::win7::Win7DropDownComboBoxStyle const& _unwrapped_value = *__GacUIInternal<Win7DropDownComboBoxStyle>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -14373,19 +15766,6 @@ Win7DropDownComboBoxStyle
 Win7EmptyStyle
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7EmptyStyle>
-	{
-	public:
-		typedef Win7EmptyStyle WrappedObjectType;
-		typedef vl::presentation::win7::Win7EmptyStyle InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7EmptyStyle::Win7EmptyStyle(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiControl :: IStyleController(static_cast<__GacUIInternal<GuiControl :: IStyleController>::InternalObjectType*>((__GacUIInternal<Win7EmptyStyle>::InternalObjectType*)__internal_object_reference_input))
@@ -14398,11 +15778,13 @@ Win7EmptyStyle
 	
 	rptr<Win7EmptyStyle> Win7EmptyStyle::CreateRptr(Color color)
 	{
+		vl::presentation::Color _unwrapped_color = *__GacUIInternal<Color>::GetInternalObject(color);
 		throw 0;
 	}
 	
 	rptr<Win7EmptyStyle> Win7EmptyStyle::operator=(rptr<Win7EmptyStyle> value)
 	{
+		vl::presentation::win7::Win7EmptyStyle const& _unwrapped_value = *__GacUIInternal<Win7EmptyStyle>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -14411,19 +15793,6 @@ Win7EmptyStyle
 Win7GroupBoxStyle
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7GroupBoxStyle>
-	{
-	public:
-		typedef Win7GroupBoxStyle WrappedObjectType;
-		typedef vl::presentation::win7::Win7GroupBoxStyle InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7GroupBoxStyle::Win7GroupBoxStyle(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiControl :: IStyleController(static_cast<__GacUIInternal<GuiControl :: IStyleController>::InternalObjectType*>((__GacUIInternal<Win7GroupBoxStyle>::InternalObjectType*)__internal_object_reference_input))
@@ -14441,6 +15810,7 @@ Win7GroupBoxStyle
 	
 	rptr<Win7GroupBoxStyle> Win7GroupBoxStyle::operator=(rptr<Win7GroupBoxStyle> value)
 	{
+		vl::presentation::win7::Win7GroupBoxStyle const& _unwrapped_value = *__GacUIInternal<Win7GroupBoxStyle>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -14449,19 +15819,6 @@ Win7GroupBoxStyle
 Win7ListViewColumnDropDownStyle
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7ListViewColumnDropDownStyle>
-	{
-	public:
-		typedef Win7ListViewColumnDropDownStyle WrappedObjectType;
-		typedef vl::presentation::win7::Win7ListViewColumnDropDownStyle InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7ListViewColumnDropDownStyle::Win7ListViewColumnDropDownStyle(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiSelectableButton :: IStyleController(static_cast<__GacUIInternal<GuiSelectableButton :: IStyleController>::InternalObjectType*>((__GacUIInternal<Win7ListViewColumnDropDownStyle>::InternalObjectType*)__internal_object_reference_input))
@@ -14479,6 +15836,7 @@ Win7ListViewColumnDropDownStyle
 	
 	rptr<Win7ListViewColumnDropDownStyle> Win7ListViewColumnDropDownStyle::operator=(rptr<Win7ListViewColumnDropDownStyle> value)
 	{
+		vl::presentation::win7::Win7ListViewColumnDropDownStyle const& _unwrapped_value = *__GacUIInternal<Win7ListViewColumnDropDownStyle>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -14487,19 +15845,6 @@ Win7ListViewColumnDropDownStyle
 Win7ListViewColumnHeaderStyle
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7ListViewColumnHeaderStyle>
-	{
-	public:
-		typedef Win7ListViewColumnHeaderStyle WrappedObjectType;
-		typedef vl::presentation::win7::Win7ListViewColumnHeaderStyle InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7ListViewColumnHeaderStyle::Win7ListViewColumnHeaderStyle(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiSelectableButton :: IStyleController(static_cast<__GacUIInternal<GuiSelectableButton :: IStyleController>::InternalObjectType*>((__GacUIInternal<Win7ListViewColumnHeaderStyle>::InternalObjectType*)__internal_object_reference_input))
@@ -14517,6 +15862,7 @@ Win7ListViewColumnHeaderStyle
 	
 	rptr<Win7ListViewColumnHeaderStyle> Win7ListViewColumnHeaderStyle::operator=(rptr<Win7ListViewColumnHeaderStyle> value)
 	{
+		vl::presentation::win7::Win7ListViewColumnHeaderStyle const& _unwrapped_value = *__GacUIInternal<Win7ListViewColumnHeaderStyle>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -14525,19 +15871,6 @@ Win7ListViewColumnHeaderStyle
 Win7MenuBarButtonStyle
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7MenuBarButtonStyle>
-	{
-	public:
-		typedef Win7MenuBarButtonStyle WrappedObjectType;
-		typedef vl::presentation::win7::Win7MenuBarButtonStyle InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7MenuBarButtonStyle::Win7MenuBarButtonStyle(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiMenuButton :: IStyleController(static_cast<__GacUIInternal<GuiMenuButton :: IStyleController>::InternalObjectType*>((__GacUIInternal<Win7MenuBarButtonStyle>::InternalObjectType*)__internal_object_reference_input))
@@ -14555,6 +15888,7 @@ Win7MenuBarButtonStyle
 	
 	rptr<Win7MenuBarButtonStyle> Win7MenuBarButtonStyle::operator=(rptr<Win7MenuBarButtonStyle> value)
 	{
+		vl::presentation::win7::Win7MenuBarButtonStyle const& _unwrapped_value = *__GacUIInternal<Win7MenuBarButtonStyle>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -14563,19 +15897,6 @@ Win7MenuBarButtonStyle
 Win7MenuBarStyle
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7MenuBarStyle>
-	{
-	public:
-		typedef Win7MenuBarStyle WrappedObjectType;
-		typedef vl::presentation::win7::Win7MenuBarStyle InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7MenuBarStyle::Win7MenuBarStyle(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiControl :: IStyleController(static_cast<__GacUIInternal<GuiControl :: IStyleController>::InternalObjectType*>((__GacUIInternal<Win7MenuBarStyle>::InternalObjectType*)__internal_object_reference_input))
@@ -14593,6 +15914,7 @@ Win7MenuBarStyle
 	
 	rptr<Win7MenuBarStyle> Win7MenuBarStyle::operator=(rptr<Win7MenuBarStyle> value)
 	{
+		vl::presentation::win7::Win7MenuBarStyle const& _unwrapped_value = *__GacUIInternal<Win7MenuBarStyle>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -14601,19 +15923,6 @@ Win7MenuBarStyle
 Win7MenuItemButtonStyle
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7MenuItemButtonStyle>
-	{
-	public:
-		typedef Win7MenuItemButtonStyle WrappedObjectType;
-		typedef vl::presentation::win7::Win7MenuItemButtonStyle InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7MenuItemButtonStyle::Win7MenuItemButtonStyle(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiMenuButton :: IStyleController(static_cast<__GacUIInternal<GuiMenuButton :: IStyleController>::InternalObjectType*>((__GacUIInternal<Win7MenuItemButtonStyle>::InternalObjectType*)__internal_object_reference_input))
@@ -14631,6 +15940,7 @@ Win7MenuItemButtonStyle
 	
 	rptr<Win7MenuItemButtonStyle> Win7MenuItemButtonStyle::operator=(rptr<Win7MenuItemButtonStyle> value)
 	{
+		vl::presentation::win7::Win7MenuItemButtonStyle const& _unwrapped_value = *__GacUIInternal<Win7MenuItemButtonStyle>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -14639,19 +15949,6 @@ Win7MenuItemButtonStyle
 Win7MenuSplitterStyle
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7MenuSplitterStyle>
-	{
-	public:
-		typedef Win7MenuSplitterStyle WrappedObjectType;
-		typedef vl::presentation::win7::Win7MenuSplitterStyle InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7MenuSplitterStyle::Win7MenuSplitterStyle(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiControl :: IStyleController(static_cast<__GacUIInternal<GuiControl :: IStyleController>::InternalObjectType*>((__GacUIInternal<Win7MenuSplitterStyle>::InternalObjectType*)__internal_object_reference_input))
@@ -14669,6 +15966,7 @@ Win7MenuSplitterStyle
 	
 	rptr<Win7MenuSplitterStyle> Win7MenuSplitterStyle::operator=(rptr<Win7MenuSplitterStyle> value)
 	{
+		vl::presentation::win7::Win7MenuSplitterStyle const& _unwrapped_value = *__GacUIInternal<Win7MenuSplitterStyle>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -14677,19 +15975,6 @@ Win7MenuSplitterStyle
 Win7MenuStyle
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7MenuStyle>
-	{
-	public:
-		typedef Win7MenuStyle WrappedObjectType;
-		typedef vl::presentation::win7::Win7MenuStyle InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7MenuStyle::Win7MenuStyle(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiControl :: IStyleController(static_cast<__GacUIInternal<GuiControl :: IStyleController>::InternalObjectType*>((__GacUIInternal<Win7MenuStyle>::InternalObjectType*)__internal_object_reference_input))
@@ -14707,6 +15992,7 @@ Win7MenuStyle
 	
 	rptr<Win7MenuStyle> Win7MenuStyle::operator=(rptr<Win7MenuStyle> value)
 	{
+		vl::presentation::win7::Win7MenuStyle const& _unwrapped_value = *__GacUIInternal<Win7MenuStyle>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -14715,19 +16001,6 @@ Win7MenuStyle
 Win7ScrollStyle
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7ScrollStyle>
-	{
-	public:
-		typedef Win7ScrollStyle WrappedObjectType;
-		typedef vl::presentation::win7::Win7ScrollStyle InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7ScrollStyle::Win7ScrollStyle(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,CommonScrollStyle(static_cast<__GacUIInternal<CommonScrollStyle>::InternalObjectType*>((__GacUIInternal<Win7ScrollStyle>::InternalObjectType*)__internal_object_reference_input))
@@ -14740,10 +16013,22 @@ Win7ScrollStyle
 	
 	rptr<Win7ScrollStyle> Win7ScrollStyle::CreateRptr(CommonScrollStyle :: Direction _direction)
 	{
+		vl::presentation::common_styles::CommonScrollStyle::Direction _unwrapped__direction = (vl::presentation::common_styles::CommonScrollStyle::Direction)_direction;
 		throw 0;
 	}
 	
 	rptr<Win7ScrollStyle> Win7ScrollStyle::operator=(rptr<Win7ScrollStyle> value)
+	{
+		vl::presentation::win7::Win7ScrollStyle const& _unwrapped_value = *__GacUIInternal<Win7ScrollStyle>::GetInternalObject(*(value.operator->()));
+		throw 0;
+	}
+	
+	signed __int32 Win7ScrollStyle::get_DefaultSize()
+	{
+		throw 0;
+	}
+	
+	signed __int32 Win7ScrollStyle::get_ArrowSize()
 	{
 		throw 0;
 	}
@@ -14753,19 +16038,6 @@ Win7ScrollStyle
 Win7ScrollViewProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7ScrollViewProvider>
-	{
-	public:
-		typedef Win7ScrollViewProvider WrappedObjectType;
-		typedef vl::presentation::win7::Win7ScrollViewProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7ScrollViewProvider::Win7ScrollViewProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiScrollView :: IStyleProvider(static_cast<__GacUIInternal<GuiScrollView :: IStyleProvider>::InternalObjectType*>((__GacUIInternal<Win7ScrollViewProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -14783,6 +16055,7 @@ Win7ScrollViewProvider
 	
 	rptr<Win7ScrollViewProvider> Win7ScrollViewProvider::operator=(rptr<Win7ScrollViewProvider> value)
 	{
+		vl::presentation::win7::Win7ScrollViewProvider const& _unwrapped_value = *__GacUIInternal<Win7ScrollViewProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -14791,19 +16064,6 @@ Win7ScrollViewProvider
 Win7MultilineTextBoxProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7MultilineTextBoxProvider>
-	{
-	public:
-		typedef Win7MultilineTextBoxProvider WrappedObjectType;
-		typedef vl::presentation::win7::Win7MultilineTextBoxProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7MultilineTextBoxProvider::Win7MultilineTextBoxProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,Win7ScrollViewProvider(static_cast<__GacUIInternal<Win7ScrollViewProvider>::InternalObjectType*>((__GacUIInternal<Win7MultilineTextBoxProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -14821,6 +16081,7 @@ Win7MultilineTextBoxProvider
 	
 	rptr<Win7MultilineTextBoxProvider> Win7MultilineTextBoxProvider::operator=(rptr<Win7MultilineTextBoxProvider> value)
 	{
+		vl::presentation::win7::Win7MultilineTextBoxProvider const& _unwrapped_value = *__GacUIInternal<Win7MultilineTextBoxProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -14829,19 +16090,6 @@ Win7MultilineTextBoxProvider
 Win7ListViewProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7ListViewProvider>
-	{
-	public:
-		typedef Win7ListViewProvider WrappedObjectType;
-		typedef vl::presentation::win7::Win7ListViewProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7ListViewProvider::Win7ListViewProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,Win7MultilineTextBoxProvider(static_cast<__GacUIInternal<Win7MultilineTextBoxProvider>::InternalObjectType*>((__GacUIInternal<Win7ListViewProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -14860,6 +16108,7 @@ Win7ListViewProvider
 	
 	rptr<Win7ListViewProvider> Win7ListViewProvider::operator=(rptr<Win7ListViewProvider> value)
 	{
+		vl::presentation::win7::Win7ListViewProvider const& _unwrapped_value = *__GacUIInternal<Win7ListViewProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -14868,19 +16117,6 @@ Win7ListViewProvider
 Win7SelectableItemStyle
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7SelectableItemStyle>
-	{
-	public:
-		typedef Win7SelectableItemStyle WrappedObjectType;
-		typedef vl::presentation::win7::Win7SelectableItemStyle InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7SelectableItemStyle::Win7SelectableItemStyle(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,Win7ButtonStyleBase(static_cast<__GacUIInternal<Win7ButtonStyleBase>::InternalObjectType*>((__GacUIInternal<Win7SelectableItemStyle>::InternalObjectType*)__internal_object_reference_input))
@@ -14898,6 +16134,7 @@ Win7SelectableItemStyle
 	
 	rptr<Win7SelectableItemStyle> Win7SelectableItemStyle::operator=(rptr<Win7SelectableItemStyle> value)
 	{
+		vl::presentation::win7::Win7SelectableItemStyle const& _unwrapped_value = *__GacUIInternal<Win7SelectableItemStyle>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -14906,19 +16143,6 @@ Win7SelectableItemStyle
 Win7SinglelineTextBoxProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7SinglelineTextBoxProvider>
-	{
-	public:
-		typedef Win7SinglelineTextBoxProvider WrappedObjectType;
-		typedef vl::presentation::win7::Win7SinglelineTextBoxProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7SinglelineTextBoxProvider::Win7SinglelineTextBoxProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiSinglelineTextBox :: IStyleProvider(static_cast<__GacUIInternal<GuiSinglelineTextBox :: IStyleProvider>::InternalObjectType*>((__GacUIInternal<Win7SinglelineTextBoxProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -14936,6 +16160,7 @@ Win7SinglelineTextBoxProvider
 	
 	rptr<Win7SinglelineTextBoxProvider> Win7SinglelineTextBoxProvider::operator=(rptr<Win7SinglelineTextBoxProvider> value)
 	{
+		vl::presentation::win7::Win7SinglelineTextBoxProvider const& _unwrapped_value = *__GacUIInternal<Win7SinglelineTextBoxProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -14944,19 +16169,6 @@ Win7SinglelineTextBoxProvider
 Win7TabPageHeaderStyle
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7TabPageHeaderStyle>
-	{
-	public:
-		typedef Win7TabPageHeaderStyle WrappedObjectType;
-		typedef vl::presentation::win7::Win7TabPageHeaderStyle InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7TabPageHeaderStyle::Win7TabPageHeaderStyle(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,Win7ButtonStyleBase(static_cast<__GacUIInternal<Win7ButtonStyleBase>::InternalObjectType*>((__GacUIInternal<Win7TabPageHeaderStyle>::InternalObjectType*)__internal_object_reference_input))
@@ -14974,6 +16186,7 @@ Win7TabPageHeaderStyle
 	
 	rptr<Win7TabPageHeaderStyle> Win7TabPageHeaderStyle::operator=(rptr<Win7TabPageHeaderStyle> value)
 	{
+		vl::presentation::win7::Win7TabPageHeaderStyle const& _unwrapped_value = *__GacUIInternal<Win7TabPageHeaderStyle>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -14982,19 +16195,6 @@ Win7TabPageHeaderStyle
 Win7TabStyle
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7TabStyle>
-	{
-	public:
-		typedef Win7TabStyle WrappedObjectType;
-		typedef vl::presentation::win7::Win7TabStyle InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7TabStyle::Win7TabStyle(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiTab :: IStyleController(static_cast<__GacUIInternal<GuiTab :: IStyleController>::InternalObjectType*>((__GacUIInternal<Win7TabStyle>::InternalObjectType*)__internal_object_reference_input))
@@ -15012,6 +16212,7 @@ Win7TabStyle
 	
 	rptr<Win7TabStyle> Win7TabStyle::operator=(rptr<Win7TabStyle> value)
 	{
+		vl::presentation::win7::Win7TabStyle const& _unwrapped_value = *__GacUIInternal<Win7TabStyle>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -15020,19 +16221,6 @@ Win7TabStyle
 Win7TextBoxBackground
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7TextBoxBackground>
-	{
-	public:
-		typedef Win7TextBoxBackground WrappedObjectType;
-		typedef vl::presentation::win7::Win7TextBoxBackground InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7TextBoxBackground::Win7TextBoxBackground(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	{
@@ -15049,31 +16237,37 @@ Win7TextBoxBackground
 	
 	void Win7TextBoxBackground::AssociateStyleController(rptr<GuiControl :: IStyleController> controller)
 	{
+		vl::presentation::controls::GuiControl::IStyleController* _unwrapped_controller = __GacUIInternal<GuiControl :: IStyleController>::GetInternalObject(*(controller.operator->()));
 		throw 0;
 	}
 	
 	rptr<GuiGraphicsComposition> Win7TextBoxBackground::InstallBackground(rptr<GuiBoundsComposition> boundsComposition)
 	{
+		vl::presentation::elements::GuiBoundsComposition* _unwrapped_boundsComposition = __GacUIInternal<GuiBoundsComposition>::GetInternalObject(*(boundsComposition.operator->()));
 		throw 0;
 	}
 	
 	void Win7TextBoxBackground::InitializeTextElement(rptr<GuiColorizedTextElement> _textElement)
 	{
+		vl::presentation::elements::GuiColorizedTextElement* _unwrapped__textElement = __GacUIInternal<GuiColorizedTextElement>::GetInternalObject(*(_textElement.operator->()));
 		throw 0;
 	}
 	
 	rptr<Win7TextBoxBackground> Win7TextBoxBackground::operator=(rptr<Win7TextBoxBackground> value)
 	{
+		vl::presentation::win7::Win7TextBoxBackground const& _unwrapped_value = *__GacUIInternal<Win7TextBoxBackground>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	void Win7TextBoxBackground::SetFocusableComposition(rptr<GuiGraphicsComposition> value)
 	{
+		vl::presentation::elements::GuiGraphicsComposition* _unwrapped_value = __GacUIInternal<GuiGraphicsComposition>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
 	void Win7TextBoxBackground::SetVisuallyEnabled(bool value)
 	{
+		bool _unwrapped_value = value;
 		throw 0;
 	}
 	
@@ -15082,19 +16276,6 @@ Win7TextBoxBackground
 Win7TextListProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7TextListProvider>
-	{
-	public:
-		typedef Win7TextListProvider WrappedObjectType;
-		typedef vl::presentation::win7::Win7TextListProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7TextListProvider::Win7TextListProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,TextItemStyleProvider :: ITextItemStyleProvider(static_cast<__GacUIInternal<TextItemStyleProvider :: ITextItemStyleProvider>::InternalObjectType*>((__GacUIInternal<Win7TextListProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -15112,6 +16293,7 @@ Win7TextListProvider
 	
 	rptr<Win7TextListProvider> Win7TextListProvider::operator=(rptr<Win7TextListProvider> value)
 	{
+		vl::presentation::win7::Win7TextListProvider const& _unwrapped_value = *__GacUIInternal<Win7TextListProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -15120,19 +16302,6 @@ Win7TextListProvider
 Win7CheckTextListProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7CheckTextListProvider>
-	{
-	public:
-		typedef Win7CheckTextListProvider WrappedObjectType;
-		typedef vl::presentation::win7::Win7CheckTextListProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7CheckTextListProvider::Win7CheckTextListProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,Win7TextListProvider(static_cast<__GacUIInternal<Win7TextListProvider>::InternalObjectType*>((__GacUIInternal<Win7CheckTextListProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -15150,6 +16319,7 @@ Win7CheckTextListProvider
 	
 	rptr<Win7CheckTextListProvider> Win7CheckTextListProvider::operator=(rptr<Win7CheckTextListProvider> value)
 	{
+		vl::presentation::win7::Win7CheckTextListProvider const& _unwrapped_value = *__GacUIInternal<Win7CheckTextListProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -15158,19 +16328,6 @@ Win7CheckTextListProvider
 Win7RadioTextListProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7RadioTextListProvider>
-	{
-	public:
-		typedef Win7RadioTextListProvider WrappedObjectType;
-		typedef vl::presentation::win7::Win7RadioTextListProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7RadioTextListProvider::Win7RadioTextListProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,Win7TextListProvider(static_cast<__GacUIInternal<Win7TextListProvider>::InternalObjectType*>((__GacUIInternal<Win7RadioTextListProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -15188,6 +16345,7 @@ Win7RadioTextListProvider
 	
 	rptr<Win7RadioTextListProvider> Win7RadioTextListProvider::operator=(rptr<Win7RadioTextListProvider> value)
 	{
+		vl::presentation::win7::Win7RadioTextListProvider const& _unwrapped_value = *__GacUIInternal<Win7RadioTextListProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -15196,19 +16354,6 @@ Win7RadioTextListProvider
 Win7ToolstripButtonStyle
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7ToolstripButtonStyle>
-	{
-	public:
-		typedef Win7ToolstripButtonStyle WrappedObjectType;
-		typedef vl::presentation::win7::Win7ToolstripButtonStyle InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7ToolstripButtonStyle::Win7ToolstripButtonStyle(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,Win7ButtonStyleBase(static_cast<__GacUIInternal<Win7ButtonStyleBase>::InternalObjectType*>((__GacUIInternal<Win7ToolstripButtonStyle>::InternalObjectType*)__internal_object_reference_input))
@@ -15221,11 +16366,13 @@ Win7ToolstripButtonStyle
 	
 	rptr<Win7ToolstripButtonStyle> Win7ToolstripButtonStyle::CreateRptr(bool transparent)
 	{
+		bool _unwrapped_transparent = transparent;
 		throw 0;
 	}
 	
 	rptr<Win7ToolstripButtonStyle> Win7ToolstripButtonStyle::operator=(rptr<Win7ToolstripButtonStyle> value)
 	{
+		vl::presentation::win7::Win7ToolstripButtonStyle const& _unwrapped_value = *__GacUIInternal<Win7ToolstripButtonStyle>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -15234,19 +16381,6 @@ Win7ToolstripButtonStyle
 Win7TrackStyle
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7TrackStyle>
-	{
-	public:
-		typedef Win7TrackStyle WrappedObjectType;
-		typedef vl::presentation::win7::Win7TrackStyle InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7TrackStyle::Win7TrackStyle(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,CommonTrackStyle(static_cast<__GacUIInternal<CommonTrackStyle>::InternalObjectType*>((__GacUIInternal<Win7TrackStyle>::InternalObjectType*)__internal_object_reference_input))
@@ -15259,10 +16393,32 @@ Win7TrackStyle
 	
 	rptr<Win7TrackStyle> Win7TrackStyle::CreateRptr(CommonTrackStyle :: Direction _direction)
 	{
+		vl::presentation::common_styles::CommonTrackStyle::Direction _unwrapped__direction = (vl::presentation::common_styles::CommonTrackStyle::Direction)_direction;
 		throw 0;
 	}
 	
 	rptr<Win7TrackStyle> Win7TrackStyle::operator=(rptr<Win7TrackStyle> value)
+	{
+		vl::presentation::win7::Win7TrackStyle const& _unwrapped_value = *__GacUIInternal<Win7TrackStyle>::GetInternalObject(*(value.operator->()));
+		throw 0;
+	}
+	
+	signed __int32 Win7TrackStyle::get_TrackThickness()
+	{
+		throw 0;
+	}
+	
+	signed __int32 Win7TrackStyle::get_TrackPadding()
+	{
+		throw 0;
+	}
+	
+	signed __int32 Win7TrackStyle::get_HandleLong()
+	{
+		throw 0;
+	}
+	
+	signed __int32 Win7TrackStyle::get_HandleShort()
 	{
 		throw 0;
 	}
@@ -15272,19 +16428,6 @@ Win7TrackStyle
 Win7TreeViewExpandingButtonStyle
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7TreeViewExpandingButtonStyle>
-	{
-	public:
-		typedef Win7TreeViewExpandingButtonStyle WrappedObjectType;
-		typedef vl::presentation::win7::Win7TreeViewExpandingButtonStyle InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7TreeViewExpandingButtonStyle::Win7TreeViewExpandingButtonStyle(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,GuiSelectableButton :: IStyleController(static_cast<__GacUIInternal<GuiSelectableButton :: IStyleController>::InternalObjectType*>((__GacUIInternal<Win7TreeViewExpandingButtonStyle>::InternalObjectType*)__internal_object_reference_input))
@@ -15302,6 +16445,7 @@ Win7TreeViewExpandingButtonStyle
 	
 	rptr<Win7TreeViewExpandingButtonStyle> Win7TreeViewExpandingButtonStyle::operator=(rptr<Win7TreeViewExpandingButtonStyle> value)
 	{
+		vl::presentation::win7::Win7TreeViewExpandingButtonStyle const& _unwrapped_value = *__GacUIInternal<Win7TreeViewExpandingButtonStyle>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -15310,19 +16454,6 @@ Win7TreeViewExpandingButtonStyle
 Win7TreeViewProvider
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7TreeViewProvider>
-	{
-	public:
-		typedef Win7TreeViewProvider WrappedObjectType;
-		typedef vl::presentation::win7::Win7TreeViewProvider InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7TreeViewProvider::Win7TreeViewProvider(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,Win7MultilineTextBoxProvider(static_cast<__GacUIInternal<Win7MultilineTextBoxProvider>::InternalObjectType*>((__GacUIInternal<Win7TreeViewProvider>::InternalObjectType*)__internal_object_reference_input))
@@ -15341,6 +16472,7 @@ Win7TreeViewProvider
 	
 	rptr<Win7TreeViewProvider> Win7TreeViewProvider::operator=(rptr<Win7TreeViewProvider> value)
 	{
+		vl::presentation::win7::Win7TreeViewProvider const& _unwrapped_value = *__GacUIInternal<Win7TreeViewProvider>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	
@@ -15349,19 +16481,6 @@ Win7TreeViewProvider
 Win7WindowStyle
 ***********************************************************************/
 
-	template<>
-	class __GacUIInternal<Win7WindowStyle>
-	{
-	public:
-		typedef Win7WindowStyle WrappedObjectType;
-		typedef vl::presentation::win7::Win7WindowStyle InternalObjectType;
-		
-		static InternalObjectType* GetInternalObject(const WrappedObjectType& wrappedObject)
-		{
-			return (InternalObjectType*)wrappedObject.__internal_object_reference;
-		}
-	};
-	
 	Win7WindowStyle::Win7WindowStyle(void* __internal_object_reference_input)
 	    :__internal_object_reference(__internal_object_reference_input)
 	    ,Win7EmptyStyle(static_cast<__GacUIInternal<Win7EmptyStyle>::InternalObjectType*>((__GacUIInternal<Win7WindowStyle>::InternalObjectType*)__internal_object_reference_input))
@@ -15379,6 +16498,7 @@ Win7WindowStyle
 	
 	rptr<Win7WindowStyle> Win7WindowStyle::operator=(rptr<Win7WindowStyle> value)
 	{
+		vl::presentation::win7::Win7WindowStyle const& _unwrapped_value = *__GacUIInternal<Win7WindowStyle>::GetInternalObject(*(value.operator->()));
 		throw 0;
 	}
 	

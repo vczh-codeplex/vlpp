@@ -742,7 +742,7 @@ namespace _TranslateXMLtoCode
 
             foreach (var field in inputFields.Where(f => f.Access == GacAccess.Public))
             {
-                if (field.Type.Kind != GacTypeKind.Const)
+                if (field.Type.Kind != GacTypeKind.Const || udt.Kind != RgacUDTKind.Enum)
                 {
                     RgacProperty prop = new RgacProperty()
                     {

@@ -27,7 +27,7 @@ Menu Service
 			class IGuiMenuService : public virtual IDescriptable, public Description<IGuiMenuService>
 			{
 			public:
-				static const wchar_t*					Identifier;
+				static const wchar_t* const				Identifier;
 
 				enum Direction
 				{

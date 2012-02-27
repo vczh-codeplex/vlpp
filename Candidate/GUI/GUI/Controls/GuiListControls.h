@@ -60,7 +60,7 @@ List Control
 				class IItemPrimaryTextView : public virtual IDescriptable, public Description<IItemPrimaryTextView>
 				{
 				public:
-					static const wchar_t*						Identifier;
+					static const wchar_t* const					Identifier;
 
 					virtual WString								GetPrimaryTextViewText(int itemIndex)=0;
 					virtual bool								ContainsPrimaryText(int itemIndex)=0;

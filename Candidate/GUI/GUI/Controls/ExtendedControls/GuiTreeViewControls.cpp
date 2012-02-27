@@ -10,8 +10,8 @@ namespace vl
 
 			namespace tree
 			{
-				const wchar_t* INodeItemView::Identifier = L"vl::presentation::controls::tree::INodeItemView";
-				const wchar_t* INodeItemPrimaryTextView::Identifier = L"vl::presentation:;cotnrols::tree::INodeItemPrimaryTextView";
+				const wchar_t* const INodeItemView::Identifier = L"vl::presentation::controls::tree::INodeItemView";
+				const wchar_t* const INodeItemPrimaryTextView::Identifier = L"vl::presentation:;cotnrols::tree::INodeItemPrimaryTextView";
 
 /***********************************************************************
 NodeItemProvider
@@ -849,7 +849,7 @@ GuiVirtualTreeListControl
 TreeViewItem
 ***********************************************************************/
 
-				const wchar_t* ITreeViewItemView::Identifier = L"vl::presentation::controls::tree::ITreeViewItemView";
+				const wchar_t* const ITreeViewItemView::Identifier = L"vl::presentation::controls::tree::ITreeViewItemView";
 
 				TreeViewItem::TreeViewItem()
 				{

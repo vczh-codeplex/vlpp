@@ -64,7 +64,7 @@ namespace _TranslateXMLtoCode.Codegen
                     break;
                 case GacTypeKind.Const:
                     {
-                        return GetType(type.ElementType);
+                        return GetType(type.ElementType) + " const";
                     }
                 case GacTypeKind.UDT:
                     {
@@ -291,6 +291,74 @@ namespace _TranslateXMLtoCode.Codegen
                     .ToArray();
                 throw new ArgumentException();
             }
+        }
+
+        #endregion
+
+        #region Value Wrapping
+
+        #endregion
+
+        #region Value Unwrapping
+
+        protected string UnwrapValue(string valueCode, RgacType type)
+        {
+            switch (type.Kind)
+            {
+                case RgacTypeKind.Primitive:
+                    {
+                        switch (type.PrimitiveKind)
+                        {
+                            case RgacPrimitiveKind.String:
+                            case RgacPrimitiveKind.StringReference:
+                            case RgacPrimitiveKind.ConstStringReference:
+                                return valueCode + ".Buffer()";
+                            default:
+                                return valueCode;
+                        }
+                    }
+
+                case RgacTypeKind.Class:
+                    return string.Format("*__GacUIInternal<{0}>::GetInternalObject({1})",
+                        type.AssociatedRgacType.ToString(),
+                        valueCode
+                        );
+                case RgacTypeKind.ClassPointer:
+                case RgacTypeKind.ClassSmartPointer:
+                    return string.Format("__GacUIInternal<{0}>::GetInternalObject(*({1}.operator->()))",
+                        type.AssociatedRgacType.ToString(),
+                        valueCode
+                        );
+                case RgacTypeKind.ClassReference:
+                case RgacTypeKind.ConstClassReference:
+                    return string.Format("*__GacUIInternal<{0}>::GetInternalObject(*({1}.operator->()))",
+                        type.AssociatedRgacType.ToString(),
+                        valueCode
+                        );
+
+                case RgacTypeKind.Struct:
+                case RgacTypeKind.StructReference:
+                case RgacTypeKind.ConstStructReference:
+                    return string.Format("*__GacUIInternal<{0}>::GetInternalObject({1})",
+                        type.AssociatedRgacType.ToString(),
+                        valueCode
+                        );
+                case RgacTypeKind.StructPointer:
+                case RgacTypeKind.StructSmartPointer:
+                    return string.Format("__GacUIInternal<{0}>::GetInternalObject(*({1}.operator->()))",
+                        type.AssociatedRgacType.ToString(),
+                        valueCode
+                        );
+
+                case RgacTypeKind.Enum:
+                    return string.Format("({0}){1}",
+                        type.OriginalGacType.ToString(),
+                        valueCode
+                        );
+                case RgacTypeKind.OtherGacType:
+                    return valueCode;
+            }
+            return " /*UNKNOWN_TYPE[ " + type.ToString() + " ]*/";
         }
 
         #endregion

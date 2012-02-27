@@ -39,7 +39,7 @@ TextList Style Provider
 					class ITextItemView : public virtual GuiListControl::IItemPrimaryTextView, public Description<ITextItemView>
 					{
 					public:
-						static const wchar_t*					Identifier;
+						static const wchar_t* const				Identifier;
 
 						virtual WString							GetText(int itemIndex)=0;
 						virtual bool							GetChecked(int itemIndex)=0;

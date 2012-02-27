@@ -11,7 +11,7 @@ namespace vl
 IGuiMenuService
 ***********************************************************************/
 
-			const wchar_t* IGuiMenuService::Identifier = L"vl::presentation::controls::IGuiMenuService";
+			const wchar_t* const IGuiMenuService::Identifier = L"vl::presentation::controls::IGuiMenuService";
 
 			IGuiMenuService::IGuiMenuService()
 				:openingMenu(0)
