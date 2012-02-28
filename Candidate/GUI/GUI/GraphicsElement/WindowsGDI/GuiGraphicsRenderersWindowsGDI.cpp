@@ -716,7 +716,7 @@ GuiPolygonElementRenderer
 						points=new POINT[pointCount];
 						for(int i=0;i<pointCount;i++)
 						{
-							Point p=element->GetPoints()[i];
+							Point p=element->GetPoint(i);
 							points[i].x=p.x;
 							points[i].y=p.y;
 						}

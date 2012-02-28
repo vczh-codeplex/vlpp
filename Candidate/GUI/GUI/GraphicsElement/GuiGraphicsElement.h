@@ -484,7 +484,7 @@ Elements
 				Size					GetSize();
 				void					SetSize(Size value);
 
-				const Point*			GetPoints();
+				const Point&			GetPoint(int index);
 				int						GetPointCount();
 				void					SetPoints(const Point* p, int count);
 

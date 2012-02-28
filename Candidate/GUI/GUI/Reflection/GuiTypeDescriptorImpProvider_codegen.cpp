@@ -8659,16 +8659,22 @@ GuiPolygonElement (vl::presentation::elements::GuiPolygonElement)
 				{
 					AddBaseType((gacui_tpimp_type_cache_table.cache_IGuiGraphicsElement));
 					AddMethod(
+						(new MethodDescriptor(L"GetPoint", IMemberDescriptor::Normal))
+						->ReturnType((gacui_tpimp_type_cache_table.cache_Point)->GetConstReferenceType())
+						->Parameter(L"index", (gacui_tpimp_type_cache_table.primary_SInt32))
+						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPolygonElement::method_handler_GetPoint_0))
+					);
+					AddMethod(
 						(new MethodDescriptor(L"SetPoints", IMemberDescriptor::Normal))
 						->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 						->Parameter(L"p", (gacui_tpimp_type_cache_table.cache_Point)->GetPointerType())
 						->Parameter(L"count", (gacui_tpimp_type_cache_table.primary_SInt32))
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPolygonElement::method_handler_SetPoints_0))
+						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPolygonElement::method_handler_SetPoints_1))
 					);
 					AddMethod(
 						(new MethodDescriptor(L"Create", IMemberDescriptor::Static))
 						->ReturnType((gacui_tpimp_type_cache_table.cache_GuiPolygonElement)->GetPointerType())
-						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPolygonElement::method_handler_Create_1))
+						->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPolygonElement::method_handler_Create_2))
 					);
 					AddProperty(
 						(new PropertyDescriptor(L"Size", IMemberDescriptor::Normal))
@@ -8676,22 +8682,13 @@ GuiPolygonElement (vl::presentation::elements::GuiPolygonElement)
 						->Getter(
 							(new MethodDescriptor(L"GetSize", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.cache_Size))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPolygonElement::method_handler_GetSize_2))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPolygonElement::method_handler_GetSize_3))
 						)
 						->Setter(
 							(new MethodDescriptor(L"SetSize", IMemberDescriptor::Normal))
 							->ReturnType((gacui_tpimp_type_cache_table.primary_Void))
 							->Parameter(L"value", (gacui_tpimp_type_cache_table.cache_Size))
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPolygonElement::method_handler_SetSize_3))
-						)
-					);
-					AddProperty(
-						(new PropertyDescriptor(L"Points", IMemberDescriptor::Normal))
-						->PropertyType((gacui_tpimp_type_cache_table.cache_Point)->GetPointerType())
-						->Getter(
-							(new MethodDescriptor(L"GetPoints", IMemberDescriptor::Normal))
-							->ReturnType((gacui_tpimp_type_cache_table.cache_Point)->GetPointerType())
-							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPolygonElement::method_handler_GetPoints_4))
+							->Handler(MethodDescriptor::HandlerFuncType(&gacui_tpimp_GuiPolygonElement::method_handler_SetSize_4))
 						)
 					);
 					AddProperty(
@@ -8746,27 +8743,27 @@ GuiPolygonElement (vl::presentation::elements::GuiPolygonElement)
 			
 			private:
 				
-				static DescriptableValue method_handler_SetPoints_0(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_GetPoint_0(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_Create_1(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_SetPoints_1(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetSize_2(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_Create_2(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_SetSize_3(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_GetSize_3(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}
 				
-				static DescriptableValue method_handler_GetPoints_4(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
+				static DescriptableValue method_handler_SetSize_4(const DescriptableValue& thisObject, const collections::IReadonlyList<DescriptableValue>& parameters)
 				{
 					throw 0;
 				}

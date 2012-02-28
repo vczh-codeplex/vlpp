@@ -173,8 +173,8 @@ ColorEntry
 		static rptr<ColorEntry> CreateRptr();
 		static ColorEntry Create();
 		
-		bool operator==(const ColorEntry& value);
-		bool operator!=(const ColorEntry& value);
+		bool operator==(rptr<ColorEntry> value);
+		bool operator!=(rptr<ColorEntry> value);
 		
 		ColorItem get_normal();
 		void set_normal(ColorItem value);
@@ -207,12 +207,12 @@ Array_of_ColorEntry
 		
 		static rptr<Array_of_ColorEntry> CreateRptr(signed __int32 size);
 		
-		bool Contains(const ColorEntry& item);
+		bool Contains(rptr<ColorEntry> item);
 		signed __int32 Count();
-		const ColorEntry& Get(signed __int32 index);
-		ColorEntry& operator[](signed __int32 index);
-		signed __int32 IndexOf(const ColorEntry& item);
-		void Set(signed __int32 index, const ColorEntry& item);
+		rptr<ColorEntry> Get(signed __int32 index);
+		rptr<ColorEntry> operator[](signed __int32 index);
+		signed __int32 IndexOf(rptr<ColorEntry> item);
+		void Set(signed __int32 index, rptr<ColorEntry> item);
 		void Resize(signed __int32 size);
 		
 	};
@@ -240,7 +240,7 @@ DescriptableObject
 		static rptr<DescriptableObject> CreateRptr();
 		static DescriptableObject Create();
 		
-		DescriptableObject& operator=(const DescriptableObject& value);
+		rptr<DescriptableObject> operator=(rptr<DescriptableObject> value);
 		
 	};
 	
@@ -280,19 +280,19 @@ FontProperties
 	
 	public:
 		
-		static rptr<FontProperties> CreateRptr(const FontProperties& __that);
-		static FontProperties Create(const FontProperties& __that);
+		static rptr<FontProperties> CreateRptr(rptr<FontProperties> __that);
+		static FontProperties Create(rptr<FontProperties> __that);
 		static rptr<FontProperties> CreateRptr();
 		static FontProperties Create();
 		
-		signed __int32 Compare(const FontProperties& value);
-		bool operator==(const FontProperties& value);
-		bool operator!=(const FontProperties& value);
-		bool operator<(const FontProperties& value);
-		bool operator<=(const FontProperties& value);
-		bool operator>(const FontProperties& value);
-		bool operator>=(const FontProperties& value);
-		FontProperties& operator=(const FontProperties& __that);
+		signed __int32 Compare(rptr<FontProperties> value);
+		bool operator==(rptr<FontProperties> value);
+		bool operator!=(rptr<FontProperties> value);
+		bool operator<(rptr<FontProperties> value);
+		bool operator<=(rptr<FontProperties> value);
+		bool operator>(rptr<FontProperties> value);
+		bool operator>=(rptr<FontProperties> value);
+		rptr<FontProperties> operator=(rptr<FontProperties> __that);
 		
 		GacString get_fontFamily();
 		void set_fontFamily(GacString value);
@@ -346,8 +346,8 @@ GuiCellOption
 		static rptr<GuiCellOption> CreateRptr();
 		static GuiCellOption Create();
 		
-		bool operator==(const GuiCellOption& value);
-		bool operator!=(const GuiCellOption& value);
+		bool operator==(rptr<GuiCellOption> value);
+		bool operator!=(rptr<GuiCellOption> value);
 		
 		static GuiCellOption AbsoluteOption(signed __int32 value);
 		static GuiCellOption PercentageOption(double value);
@@ -447,7 +447,7 @@ GuiImageData
 		static rptr<GuiImageData> CreateRptr();
 		static GuiImageData Create();
 		
-		GuiImageData& operator=(const GuiImageData& value);
+		rptr<GuiImageData> operator=(rptr<GuiImageData> value);
 		
 		sptr<INativeImage> GetImage();
 		signed __int32 GetFrameIndex();
@@ -533,7 +533,7 @@ GuiGraphicsEvent_of_GuiEventArgs
 		
 		bool Attach(sptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> handler);
 		bool Detach(sptr<GuiGraphicsEvent_of_GuiEventArgs :: IHandler> handler);
-		void Execute(GuiEventArgs& argument);
+		void Execute(rptr<GuiEventArgs> argument);
 		
 		rptr<GuiGraphicsComposition> GetAssociatedComposition();
 		void SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender);
@@ -557,7 +557,7 @@ GuiGraphicsEvent_of_GuiEventArgs :: IHandler
 			virtual ~IHandler();
 		
 		public:
-			void Execute(rptr<GuiGraphicsComposition> sender, GuiEventArgs& argument);
+			void Execute(rptr<GuiGraphicsComposition> sender, rptr<GuiEventArgs> argument);
 			
 		};
 		
@@ -588,7 +588,7 @@ GuiGraphicsEvent_of_GuiRequestEventArgs
 		
 		bool Attach(sptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> handler);
 		bool Detach(sptr<GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler> handler);
-		void Execute(GuiRequestEventArgs& argument);
+		void Execute(rptr<GuiRequestEventArgs> argument);
 		
 		rptr<GuiGraphicsComposition> GetAssociatedComposition();
 		void SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender);
@@ -612,7 +612,7 @@ GuiGraphicsEvent_of_GuiRequestEventArgs :: IHandler
 			virtual ~IHandler();
 		
 		public:
-			void Execute(rptr<GuiGraphicsComposition> sender, GuiRequestEventArgs& argument);
+			void Execute(rptr<GuiGraphicsComposition> sender, rptr<GuiRequestEventArgs> argument);
 			
 		};
 		
@@ -1058,8 +1058,8 @@ GuiSolidLabelElement
 		
 		Color GetColor();
 		void SetColor(Color value);
-		const FontProperties& GetFont();
-		void SetFont(const FontProperties& value);
+		rptr<FontProperties> GetFont();
+		void SetFont(rptr<FontProperties> value);
 		const GacString& GetText();
 		void SetText(const GacString& value);
 		Alignment :: Type GetHorizontalAlignment();
@@ -1443,7 +1443,7 @@ INativeResourceService
 		
 		rptr<INativeCursor> GetDefaultSystemCursor();
 		FontProperties GetDefaultFont();
-		void SetDefaultFont(const FontProperties& value);
+		void SetDefaultFont(rptr<FontProperties> value);
 		
 	};
 	
@@ -1583,11 +1583,11 @@ IReadonlyList_of_ColorEntry
 	
 	public:
 		
-		bool Contains(const ColorEntry& item);
+		bool Contains(rptr<ColorEntry> item);
 		signed __int32 Count();
-		const ColorEntry& Get(signed __int32 index);
-		const ColorEntry& operator[](signed __int32 index);
-		signed __int32 IndexOf(const ColorEntry& item);
+		rptr<ColorEntry> Get(signed __int32 index);
+		rptr<ColorEntry> operator[](signed __int32 index);
+		signed __int32 IndexOf(rptr<ColorEntry> item);
 		
 	};
 	
@@ -1757,7 +1757,7 @@ ListViewColumn
 		static rptr<ListViewColumn> CreateRptr(const GacString& _text, signed __int32 _size);
 		static ListViewColumn Create(const GacString& _text, signed __int32 _size);
 		
-		ListViewColumn& operator=(const ListViewColumn& value);
+		rptr<ListViewColumn> operator=(rptr<ListViewColumn> value);
 		
 		GacString get_text();
 		void set_text(GacString value);
@@ -1811,7 +1811,7 @@ ListViewItem
 	
 	public:
 		
-		ListViewItem& operator=(const ListViewItem& value);
+		rptr<ListViewItem> operator=(rptr<ListViewItem> value);
 		
 		sptr<GuiImageData> get_smallImage();
 		void set_smallImage(sptr<GuiImageData> value);
@@ -2003,7 +2003,7 @@ GuiGraphicsEvent_of_GuiCharEventArgs
 		
 		bool Attach(sptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> handler);
 		bool Detach(sptr<GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler> handler);
-		void Execute(GuiCharEventArgs& argument);
+		void Execute(rptr<GuiCharEventArgs> argument);
 		
 		rptr<GuiGraphicsComposition> GetAssociatedComposition();
 		void SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender);
@@ -2027,7 +2027,7 @@ GuiGraphicsEvent_of_GuiCharEventArgs :: IHandler
 			virtual ~IHandler();
 		
 		public:
-			void Execute(rptr<GuiGraphicsComposition> sender, GuiCharEventArgs& argument);
+			void Execute(rptr<GuiGraphicsComposition> sender, rptr<GuiCharEventArgs> argument);
 			
 		};
 		
@@ -2118,7 +2118,7 @@ GuiGraphicsEvent_of_GuiKeyEventArgs
 		
 		bool Attach(sptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> handler);
 		bool Detach(sptr<GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler> handler);
-		void Execute(GuiKeyEventArgs& argument);
+		void Execute(rptr<GuiKeyEventArgs> argument);
 		
 		rptr<GuiGraphicsComposition> GetAssociatedComposition();
 		void SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender);
@@ -2142,7 +2142,7 @@ GuiGraphicsEvent_of_GuiKeyEventArgs :: IHandler
 			virtual ~IHandler();
 		
 		public:
-			void Execute(rptr<GuiGraphicsComposition> sender, GuiKeyEventArgs& argument);
+			void Execute(rptr<GuiGraphicsComposition> sender, rptr<GuiKeyEventArgs> argument);
 			
 		};
 		
@@ -2239,7 +2239,7 @@ GuiGraphicsEvent_of_GuiMouseEventArgs
 		
 		bool Attach(sptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> handler);
 		bool Detach(sptr<GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler> handler);
-		void Execute(GuiMouseEventArgs& argument);
+		void Execute(rptr<GuiMouseEventArgs> argument);
 		
 		rptr<GuiGraphicsComposition> GetAssociatedComposition();
 		void SetAssociatedComposition(rptr<GuiGraphicsComposition> _sender);
@@ -2263,7 +2263,7 @@ GuiGraphicsEvent_of_GuiMouseEventArgs :: IHandler
 			virtual ~IHandler();
 		
 		public:
-			void Execute(rptr<GuiGraphicsComposition> sender, GuiMouseEventArgs& argument);
+			void Execute(rptr<GuiGraphicsComposition> sender, rptr<GuiMouseEventArgs> argument);
 			
 		};
 		
@@ -2545,13 +2545,13 @@ GuiPolygonElement
 	
 	public:
 		
+		rptr<Point> GetPoint(signed __int32 index);
 		void SetPoints(Point const* p, signed __int32 count);
 		
 		static rptr<GuiPolygonElement> Create();
 		
 		Size GetSize();
 		void SetSize(Size value);
-		Point const* GetPoints();
 		signed __int32 GetPointCount();
 		Color GetBorderColor();
 		void SetBorderColor(Color value);
@@ -2870,7 +2870,7 @@ INativeWindowListener
 		
 		static rptr<INativeWindowListener> CreateRptr();
 		
-		void Moving(Rect& bounds, bool fixSizeOnly);
+		void Moving(rptr<Rect> bounds, bool fixSizeOnly);
 		void Moved();
 		void Enabled();
 		void Disabled();
@@ -2884,25 +2884,25 @@ INativeWindowListener
 		void Paint();
 		void Destroying();
 		void Destroyed();
-		void LeftButtonDown(const NativeWindowMouseInfo& info);
-		void LeftButtonUp(const NativeWindowMouseInfo& info);
-		void LeftButtonDoubleClick(const NativeWindowMouseInfo& info);
-		void RightButtonDown(const NativeWindowMouseInfo& info);
-		void RightButtonUp(const NativeWindowMouseInfo& info);
-		void RightButtonDoubleClick(const NativeWindowMouseInfo& info);
-		void MiddleButtonDown(const NativeWindowMouseInfo& info);
-		void MiddleButtonUp(const NativeWindowMouseInfo& info);
-		void MiddleButtonDoubleClick(const NativeWindowMouseInfo& info);
-		void HorizontalWheel(const NativeWindowMouseInfo& info);
-		void VerticalWheel(const NativeWindowMouseInfo& info);
-		void MouseMoving(const NativeWindowMouseInfo& info);
+		void LeftButtonDown(rptr<NativeWindowMouseInfo> info);
+		void LeftButtonUp(rptr<NativeWindowMouseInfo> info);
+		void LeftButtonDoubleClick(rptr<NativeWindowMouseInfo> info);
+		void RightButtonDown(rptr<NativeWindowMouseInfo> info);
+		void RightButtonUp(rptr<NativeWindowMouseInfo> info);
+		void RightButtonDoubleClick(rptr<NativeWindowMouseInfo> info);
+		void MiddleButtonDown(rptr<NativeWindowMouseInfo> info);
+		void MiddleButtonUp(rptr<NativeWindowMouseInfo> info);
+		void MiddleButtonDoubleClick(rptr<NativeWindowMouseInfo> info);
+		void HorizontalWheel(rptr<NativeWindowMouseInfo> info);
+		void VerticalWheel(rptr<NativeWindowMouseInfo> info);
+		void MouseMoving(rptr<NativeWindowMouseInfo> info);
 		void MouseEntered();
 		void MouseLeaved();
-		void KeyDown(const NativeWindowKeyInfo& info);
-		void KeyUp(const NativeWindowKeyInfo& info);
-		void SysKeyDown(const NativeWindowKeyInfo& info);
-		void SysKeyUp(const NativeWindowKeyInfo& info);
-		void Char(const NativeWindowCharInfo& info);
+		void KeyDown(rptr<NativeWindowKeyInfo> info);
+		void KeyUp(rptr<NativeWindowKeyInfo> info);
+		void SysKeyDown(rptr<NativeWindowKeyInfo> info);
+		void SysKeyUp(rptr<NativeWindowKeyInfo> info);
+		void Char(rptr<NativeWindowCharInfo> info);
 		
 	};
 	
@@ -3161,8 +3161,8 @@ GuiControl
 		void SetVisible(bool value);
 		const GacString& GetText();
 		void SetText(const GacString& value);
-		const FontProperties& GetFont();
-		void SetFont(const FontProperties& value);
+		rptr<FontProperties> GetFont();
+		void SetFont(rptr<FontProperties> value);
 		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_VisibleChanged();
 		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_EnabledChanged();
 		rptr<GuiGraphicsEvent_of_GuiEventArgs> on_VisuallyEnabledChanged();
@@ -3190,7 +3190,7 @@ GuiControl :: IStyleController
 		public:
 			void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
 			void SetText(const GacString& value);
-			void SetFont(const FontProperties& value);
+			void SetFont(rptr<FontProperties> value);
 			void SetVisuallyEnabled(bool value);
 			
 			rptr<GuiBoundsComposition> GetBoundsComposition();
@@ -3220,7 +3220,7 @@ GuiControl :: IStyleProvider
 			void AssociateStyleController(rptr<GuiControl :: IStyleController> controller);
 			void SetFocusableComposition(rptr<GuiGraphicsComposition> value);
 			void SetText(const GacString& value);
-			void SetFont(const FontProperties& value);
+			void SetFont(rptr<FontProperties> value);
 			void SetVisuallyEnabled(bool value);
 			
 		};
@@ -4822,7 +4822,7 @@ INativeWindow
 		void RedrawContent();
 		
 		Rect GetBounds();
-		void SetBounds(const Rect& bounds);
+		void SetBounds(rptr<Rect> bounds);
 		Size GetClientSize();
 		void SetClientSize(Size size);
 		Rect GetClientBoundsInScreen();
@@ -5299,7 +5299,7 @@ ListViewItemStyleProvider :: IListViewItemContentProvider
 		public:
 			rptr<GuiListControl :: IItemCoordinateTransformer> CreatePreferredCoordinateTransformer();
 			rptr<GuiListControl :: IItemArranger> CreatePreferredArranger();
-			rptr<ListViewItemStyleProvider :: IListViewItemContent> CreateItemContent(const FontProperties& font);
+			rptr<ListViewItemStyleProvider :: IListViewItemContent> CreateItemContent(rptr<FontProperties> font);
 			void AttachListControl(rptr<GuiListControl> value);
 			void DetachListControl();
 			
@@ -5892,14 +5892,14 @@ TextItem
 		static TextItem Create(wchar_t const* _text, bool _checked);
 		static rptr<TextItem> CreateRptr(const GacString& _text, bool _checked);
 		static TextItem Create(const GacString& _text, bool _checked);
-		static rptr<TextItem> CreateRptr(const TextItem& item);
-		static TextItem Create(const TextItem& item);
+		static rptr<TextItem> CreateRptr(rptr<TextItem> item);
+		static TextItem Create(rptr<TextItem> item);
 		static rptr<TextItem> CreateRptr();
 		static TextItem Create();
 		
-		bool operator==(const TextItem& value);
-		bool operator!=(const TextItem& value);
-		TextItem& operator=(const TextItem& __that);
+		bool operator==(rptr<TextItem> value);
+		bool operator!=(rptr<TextItem> value);
+		rptr<TextItem> operator=(rptr<TextItem> __that);
 		
 		const GacString& GetText();
 		bool GetChecked();
@@ -5926,8 +5926,8 @@ IList_of_TextItem
 	
 	public:
 		
-		signed __int32 Insert(signed __int32 index, const TextItem& item);
-		bool Set(signed __int32 index, const TextItem& item);
+		signed __int32 Insert(signed __int32 index, rptr<TextItem> item);
+		bool Set(signed __int32 index, rptr<TextItem> item);
 		
 	};
 	
@@ -6189,14 +6189,14 @@ TextLine
 		static rptr<TextLine> CreateRptr();
 		static TextLine Create();
 		
-		bool operator==(const TextLine& value);
-		bool operator!=(const TextLine& value);
+		bool operator==(rptr<TextLine> value);
+		bool operator!=(rptr<TextLine> value);
 		void Initialize();
 		void Finalize();
 		bool IsReady();
 		bool Modify(signed __int32 start, signed __int32 count, wchar_t const* input, signed __int32 inputCount);
 		TextLine Split(signed __int32 index);
-		void AppendAndFinalize(TextLine& line);
+		void AppendAndFinalize(rptr<TextLine> line);
 		
 		static signed __int32 CalculateBufferLength(signed __int32 dataLength);
 		
@@ -6241,13 +6241,13 @@ TextPos
 		static rptr<TextPos> CreateRptr();
 		static TextPos Create();
 		
-		signed __int32 Compare(const TextPos& value);
-		bool operator==(const TextPos& value);
-		bool operator!=(const TextPos& value);
-		bool operator<(const TextPos& value);
-		bool operator<=(const TextPos& value);
-		bool operator>(const TextPos& value);
-		bool operator>=(const TextPos& value);
+		signed __int32 Compare(rptr<TextPos> value);
+		bool operator==(rptr<TextPos> value);
+		bool operator!=(rptr<TextPos> value);
+		bool operator<(rptr<TextPos> value);
+		bool operator<=(rptr<TextPos> value);
+		bool operator>(rptr<TextPos> value);
+		bool operator>=(rptr<TextPos> value);
 		
 		signed __int32 get_row();
 		void set_row(signed __int32 value);
@@ -6331,7 +6331,7 @@ TextLines
 		static rptr<TextLines> CreateRptr();
 		static TextLines Create();
 		
-		TextLine& GetLine(signed __int32 row);
+		rptr<TextLine> GetLine(signed __int32 row);
 		GacString GetText(TextPos start, TextPos end);
 		bool RemoveLines(signed __int32 start, signed __int32 count);
 		bool IsAvailable(TextPos pos);
@@ -6347,7 +6347,7 @@ TextLines
 		TextPos GetTextPosFromPoint(Point point);
 		Point GetPointFromTextPos(TextPos pos);
 		Rect GetRectFromTextPos(TextPos pos);
-		TextLines& operator=(const TextLines& value);
+		rptr<TextLines> operator=(rptr<TextLines> value);
 		
 		signed __int32 GetCount();
 		rptr<CharMeasurer> GetCharMeasurer();
@@ -6387,13 +6387,13 @@ GuiColorizedTextElement
 		
 		static rptr<GuiColorizedTextElement> Create();
 		
-		TextLines& GetLines();
+		rptr<TextLines> GetLines();
 		rptr<GuiColorizedTextElement :: ICallback> GetCallback();
 		void SetCallback(rptr<GuiColorizedTextElement :: ICallback> value);
 		rptr<IReadonlyList_of_ColorEntry> GetColors();
 		void SetColors(rptr<Array_of_ColorEntry> value);
-		const FontProperties& GetFont();
-		void SetFont(const FontProperties& value);
+		rptr<FontProperties> GetFont();
+		void SetFont(rptr<FontProperties> value);
 		Point GetViewPosition();
 		void SetViewPosition(Point value);
 		bool GetVisuallyEnabled();
@@ -6502,8 +6502,8 @@ GuiTextElementOperator :: ICallback
 		public:
 			TextPos GetLeftWord(TextPos pos);
 			TextPos GetRightWord(TextPos pos);
-			void GetWord(TextPos pos, TextPos& begin, TextPos& end);
-			bool BeforeModify(TextPos& start, TextPos& end, const GacString& originalText, GacString& inputText);
+			void GetWord(TextPos pos, rptr<TextPos> begin, rptr<TextPos> end);
+			bool BeforeModify(rptr<TextPos> start, rptr<TextPos> end, const GacString& originalText, GacString& inputText);
 			void AfterModify(TextPos originalStart, TextPos originalEnd, const GacString& originalText, TextPos inputStart, TextPos inputEnd, const GacString& inputText);
 			void ScrollToView(Point point);
 			
@@ -6881,11 +6881,11 @@ Win7ButtonColors
 		static rptr<Win7ButtonColors> CreateRptr();
 		static Win7ButtonColors Create();
 		
-		bool operator==(const Win7ButtonColors& colors);
-		bool operator!=(const Win7ButtonColors& colors);
+		bool operator==(rptr<Win7ButtonColors> colors);
+		bool operator!=(rptr<Win7ButtonColors> colors);
 		void SetAlphaWithoutText(unsigned __int8 a);
 		
-		static Win7ButtonColors Blend(const Win7ButtonColors& c1, const Win7ButtonColors& c2, signed __int32 ratio, signed __int32 total);
+		static Win7ButtonColors Blend(rptr<Win7ButtonColors> c1, rptr<Win7ButtonColors> c2, signed __int32 ratio, signed __int32 total);
 		static Win7ButtonColors ButtonNormal();
 		static Win7ButtonColors ButtonActive();
 		static Win7ButtonColors ButtonPressed();

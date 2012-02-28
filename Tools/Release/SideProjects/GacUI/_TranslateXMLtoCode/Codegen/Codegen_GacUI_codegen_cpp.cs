@@ -60,6 +60,20 @@ namespace _TranslateXMLtoCode.Codegen
             }
         }
 
+        protected void GenerateResultExtraction(string valueCode, RgacType type)
+        {
+            WriteLine("{0} _wrapped_result = {1};",
+                GetType(type),
+                WrapValue(valueCode, type)
+                );
+            WriteLine("return _wrapped_result;");
+        }
+
+        protected string GenerateParametersPassing(RgacMethod method)
+        {
+            return "(" + (method.ParameterNames.Select(GetUnwrappedParameterName).Aggregate("", (a, b) => a == "" ? b : a + ", " + b)) + ")";
+        }
+
         protected void GenerateConstructor(RgacMethod method)
         {
             WriteLine("rptr<{0}> {1}CreateRptr({2})",
@@ -72,7 +86,12 @@ namespace _TranslateXMLtoCode.Codegen
                 );
             Begin("{");
             GenerateParameterExtraction(method);
-            WriteLine("throw 0;");
+            WriteLine("{0}* _unwrapped_result = new {1}{2};",
+                method.OwnerUDT.AssociatedGacType.ToString(),
+                method.OwnerUDT.AssociatedGacType.ToString(),
+                GenerateParametersPassing(method)
+                );
+            WriteLine("return __GacUIInternal<{0}>::BuildRptr(_unwrapped_result);", method.OwnerUDT.ToString());
             End("}");
             WriteLine("");
 
@@ -88,10 +107,23 @@ namespace _TranslateXMLtoCode.Codegen
                     );
                 Begin("{");
                 GenerateParameterExtraction(method);
-                WriteLine("throw 0;");
+                WriteLine("{0} _unwrapped_result = {1}{2};",
+                    method.OwnerUDT.AssociatedGacType.ToString(),
+                    method.OwnerUDT.AssociatedGacType.ToString(),
+                    GenerateParametersPassing(method)
+                    );
+                WriteLine("return __GacUIInternal<{0}>::BuildCopy(&_unwrapped_result);", method.OwnerUDT.ToString());
                 End("}");
                 WriteLine("");
             }
+        }
+
+        protected string GenerateMethodAccess(RgacMethod method, bool isStatic)
+        {
+            return isStatic
+                ? (method.OwnerUDT.AssociatedGacType.ToString() + "::" + method.Name)
+                : string.Format("__GacUIInternal<{0}>::GetInternalObject(*this)->{1}", method.OwnerUDT.ToString(), method.Name)
+                ;
         }
 
         protected void GenerateMethod(RgacMethod method, bool isStatic)
@@ -113,14 +145,38 @@ namespace _TranslateXMLtoCode.Codegen
                 Begin("{");
                 WriteLine("_unwrapped_points[i] = *__GacUIInternal<Point>::GetInternalObject(p[i]);");
                 End("}");
+                WriteLine("throw 0;");
             }
             else
             {
                 GenerateParameterExtraction(method);
+                if (method.ReturnType.Kind == RgacTypeKind.Primitive && method.ReturnType.PrimitiveKind == RgacPrimitiveKind.Void)
+                {
+                    WriteLine("{0}{1};",
+                        GenerateMethodAccess(method, isStatic),
+                        GenerateParametersPassing(method)
+                        );
+                }
+                else
+                {
+                    WriteLine("{0} _unwrapped_result = {1}{2};",
+                        method.ReturnType.ToString(),
+                        GenerateMethodAccess(method, isStatic),
+                        GenerateParametersPassing(method)
+                        );
+                    GenerateResultExtraction("_unwrapped_result", method.ReturnType);
+                }
             }
-            WriteLine("throw 0;");
             End("}");
             WriteLine("");
+        }
+
+        protected string GenerateVariableAccess(RgacProperty property, bool isStatic)
+        {
+            return isStatic
+                ? (property.OwnerUDT.AssociatedGacType.ToString() + "::" + property.PublicGacFieldAccessor.Name)
+                : string.Format("__GacUIInternal<{0}>::GetInternalObject(*this)->{1}", property.OwnerUDT.ToString(), property.PublicGacFieldAccessor.Name)
+                ;
         }
 
         protected void GenerateProperty(RgacProperty property, bool isStatic)
@@ -139,7 +195,10 @@ namespace _TranslateXMLtoCode.Codegen
                         property.Name
                         );
                     Begin("{");
-                    WriteLine("throw 0;");
+                    GenerateResultExtraction(
+                        GenerateVariableAccess(property, isStatic),
+                        property.PropertyType
+                        );
                     End("}");
                     WriteLine("");
                 }
@@ -151,7 +210,10 @@ namespace _TranslateXMLtoCode.Codegen
                         property.Name
                         );
                     Begin("{");
-                    WriteLine("throw 0;");
+                    GenerateResultExtraction(
+                        GenerateVariableAccess(property, isStatic),
+                        property.PropertyType
+                        );
                     End("}");
                     WriteLine("");
 
@@ -164,8 +226,9 @@ namespace _TranslateXMLtoCode.Codegen
                             );
                         Begin("{");
                         GenerateParameterExtraction("value", property.PropertyType);
-                        WriteLine("throw 0;");
+                        WriteLine("{0} = {1};", GenerateVariableAccess(property, isStatic), GetUnwrappedParameterName("value"));
                         End("}");
+                        WriteLine("");
                     }
                 }
             }
@@ -273,14 +336,14 @@ namespace _TranslateXMLtoCode.Codegen
 
             if (udt.Kind == RgacUDTKind.Struct)
             {
-                WriteLine("static WrappedObjectType BuildCopy(const InternalObjectType& input)");
+                WriteLine("static WrappedObjectType BuildCopy(const InternalObjectType* input)");
                 Begin("{");
-                WriteLine("return new InternalObjectType(input);");
+                WriteLine("return new InternalObjectType(*input);");
                 End("}");
                 WriteLine("");
             }
 
-            WriteLine("static rptr<WrappedObjectType> BuildRptr(InternalObjectType* input)");
+            WriteLine("static rptr<WrappedObjectType> BuildRptr(const InternalObjectType* input)");
             Begin("{");
             WriteLine("return _RptrBuilder<WrappedObjectType>::CreateRptr(input);");
             End("}");

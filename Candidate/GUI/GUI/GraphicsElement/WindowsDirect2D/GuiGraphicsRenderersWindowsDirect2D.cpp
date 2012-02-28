@@ -747,7 +747,7 @@ GuiPolygonElementRenderer
 				oldPoints.Resize(element->GetPointCount());
 				if(oldPoints.Count()>0)
 				{
-					memcpy(&oldPoints[0], element->GetPoints(), sizeof(POINT)*element->GetPointCount());
+					memcpy(&oldPoints[0], &element->GetPoint(0), sizeof(Point)*element->GetPointCount());
 				}
 				if(oldPoints.Count()>=3)
 				{
@@ -890,7 +890,7 @@ GuiPolygonElementRenderer
 				{
 					for(int i=0;i<oldPoints.Count();i++)
 					{
-						if(oldPoints[i]!=element->GetPoints()[i])
+						if(oldPoints[i]!=element->GetPoint(i))
 						{
 							polygonModified=true;
 							break;
