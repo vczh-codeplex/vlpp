@@ -99,26 +99,21 @@ namespace _TranslateXMLtoCode.Codegen
                     }
 
                 case RgacTypeKind.Class:
-                    return "rptr<" + GacUdtTypeName(type.AssociatedRgacType) + ">";
                 case RgacTypeKind.ClassPointer:
+                case RgacTypeKind.ClassReference:
+                case RgacTypeKind.ConstClassReference:
                     return "rptr<" + GacUdtTypeName(type.AssociatedRgacType) + ">";
                 case RgacTypeKind.ClassSmartPointer:
                     return "sptr<" + GacUdtTypeName(type.AssociatedRgacType) + ">";
-                case RgacTypeKind.ClassReference:
-                    return "rptr<" + GacUdtTypeName(type.AssociatedRgacType) + ">";
-                case RgacTypeKind.ConstClassReference:
-                    return "rptr<" + GacUdtTypeName(type.AssociatedRgacType) + ">";
 
                 case RgacTypeKind.Struct:
                     return GacUdtTypeName(type.AssociatedRgacType);
                 case RgacTypeKind.StructPointer:
+                case RgacTypeKind.StructReference:
+                case RgacTypeKind.ConstStructReference:
                     return "rptr<" + GacUdtTypeName(type.AssociatedRgacType) + ">";
                 case RgacTypeKind.StructSmartPointer:
                     return "sptr<" + GacUdtTypeName(type.AssociatedRgacType) + ">";
-                case RgacTypeKind.StructReference:
-                    return GacUdtTypeName(type.AssociatedRgacType) + "&";
-                case RgacTypeKind.ConstStructReference:
-                    return "const " + GacUdtTypeName(type.AssociatedRgacType) + "&";
 
                 case RgacTypeKind.Enum:
                     return GacUdtTypeName(type.AssociatedRgacType);
@@ -296,6 +291,74 @@ namespace _TranslateXMLtoCode.Codegen
         #endregion
 
         #region Value Wrapping
+
+        protected string WrapValue(string valueCode, RgacType type)
+        {
+            switch (type.Kind)
+            {
+                case RgacTypeKind.Primitive:
+                    {
+                        switch (type.PrimitiveKind)
+                        {
+                            case RgacPrimitiveKind.String:
+                            case RgacPrimitiveKind.StringReference:
+                            case RgacPrimitiveKind.ConstStringReference:
+                                return valueCode + ".Buffer()";
+                            default:
+                                return valueCode;
+                        }
+                    }
+
+                case RgacTypeKind.Class:
+                case RgacTypeKind.ClassReference:
+                case RgacTypeKind.ConstClassReference:
+                    return string.Format("__GacUIInternal<{0}>::BuildRptr(&{1})",
+                        type.AssociatedRgacType.ToString(),
+                        valueCode
+                        );
+                case RgacTypeKind.ClassPointer:
+                    return string.Format("__GacUIInternal<{0}>::BuildRptr({1})",
+                        type.AssociatedRgacType.ToString(),
+                        valueCode
+                        );
+                case RgacTypeKind.ClassSmartPointer:
+                    return string.Format("__GacUIInternal<{0}>::BuildSptr({1})",
+                        type.AssociatedRgacType.ToString(),
+                        valueCode
+                        );
+
+                case RgacTypeKind.Struct:
+                    return string.Format("__GacUIInternal<{0}>::BuildCopy(&{1})",
+                        type.AssociatedRgacType.ToString(),
+                        valueCode
+                        );
+                case RgacTypeKind.StructReference:
+                case RgacTypeKind.ConstStructReference:
+                    return string.Format("__GacUIInternal<{0}>::BuildRptr(&{1})",
+                        type.AssociatedRgacType.ToString(),
+                        valueCode
+                        );
+                case RgacTypeKind.StructPointer:
+                    return string.Format("__GacUIInternal<{0}>::BuildRptr({1})",
+                        type.AssociatedRgacType.ToString(),
+                        valueCode
+                        );
+                case RgacTypeKind.StructSmartPointer:
+                    return string.Format("__GacUIInternal<{0}>::BuildSptr({1})",
+                        type.AssociatedRgacType.ToString(),
+                        valueCode
+                        );
+
+                case RgacTypeKind.Enum:
+                    return string.Format("({0}){1}",
+                        GetType(type),
+                        valueCode
+                        );
+                case RgacTypeKind.OtherGacType:
+                    return valueCode;
+            }
+            return " /*UNKNOWN_TYPE[ " + type.ToString() + " ]*/";
+        }
 
         #endregion
 

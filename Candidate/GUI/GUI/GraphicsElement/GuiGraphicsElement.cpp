@@ -571,9 +571,9 @@ GuiPolygonElement
 				}
 			}
 
-			const Point* GuiPolygonElement::GetPoints()
+			const Point& GuiPolygonElement::GetPoint(int index)
 			{
-				return points.Count()==0?0:&points[0];
+				return points[index];
 			}
 
 			int GuiPolygonElement::GetPointCount()

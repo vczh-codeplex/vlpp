@@ -26,9 +26,9 @@ namespace gacui_cpp_1_0
 	class _RptrBuilder
 	{
 	public:
-		static rptr<T> CreateRptr(void* __internal_object_reference_input)
+		static rptr<T> CreateRptr(const void* __internal_object_reference_input)
 		{
-			return rptr<T>(__internal_object_reference_input);
+			return rptr<T>((void*)__internal_object_reference_input);
 		}
 	};
 
