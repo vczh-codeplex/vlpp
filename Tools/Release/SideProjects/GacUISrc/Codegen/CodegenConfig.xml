@@ -6,6 +6,7 @@
   <categories>
     <category name="vlpp" pattern="\Library\"/>
     <category name="gacui" pattern="\GacUILibrary\">
+      <except filename="GacUI_WinMain.cpp" />
       <except filename="GuiTypeDescriptorImpHelper.cpp" />
       <except filename="GuiTypeDescriptorImpProvider_codegen.cpp" />
     </category>

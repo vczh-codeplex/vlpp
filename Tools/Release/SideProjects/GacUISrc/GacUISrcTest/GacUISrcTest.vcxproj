@@ -78,6 +78,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\GacUILibraryExternal\GacUI.cpp" />
+    <ClCompile Include="..\GacUILibraryExternal\Vlpp.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -87,6 +89,11 @@
     <None Include="Resources\Open.png" />
     <None Include="Resources\Save.png" />
     <None Include="Resources\SaveSmall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\GacUILibraryExternal\GacUI.h" />
+    <ClInclude Include="..\GacUILibraryExternal\GacUIIncludes.h" />
+    <ClInclude Include="..\GacUILibraryExternal\Vlpp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

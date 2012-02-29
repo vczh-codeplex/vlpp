@@ -4,7 +4,7 @@
 #include <crtdbg.h>
 #endif
 
-#include "..\GacUILibraryExternal\GacUI.h"
+#include "..\GacUILibraryExternal\GacUIIncludes.h"
 #include <Windows.h>
 
 #define GUI_GRAPHICS_RENDERER_DIRECT2D

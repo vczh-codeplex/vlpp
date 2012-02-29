@@ -6,6 +6,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Codegen", "Codegen\Codegen.csproj", "{F973BC28-8743-4469-AC51-FD7B98180E50}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GacUILibraryExternal", "GacUILibraryExternal", "{56CD44D7-4B27-4131-B541-ECB248169841}"
+	ProjectSection(SolutionItems) = preProject
+		GacUILibraryExternal\GacUI.cpp = GacUILibraryExternal\GacUI.cpp
+		GacUILibraryExternal\GacUI.h = GacUILibraryExternal\GacUI.h
+		GacUILibraryExternal\GacUIIncludes.h = GacUILibraryExternal\GacUIIncludes.h
+		GacUILibraryExternal\Vlpp.cpp = GacUILibraryExternal\Vlpp.cpp
+		GacUILibraryExternal\Vlpp.h = GacUILibraryExternal\Vlpp.h
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GacUISrcTest", "GacUISrcTest\GacUISrcTest.vcxproj", "{7D723840-6F68-4B47-975A-976C308852CB}"
 EndProject
