@@ -1,9 +1,3 @@
-#if _DEBUG
-#define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
-#endif
-
 #include"WinGDIApplication.h"
 
 namespace vl
@@ -145,8 +139,5 @@ int WinMainGDI(HINSTANCE hInstance, void(*RendererMain)())
 	}
 	// destroy controller
 	DestroyWindowsNativeController(controller);
-#if _DEBUG
-	_CrtDumpMemoryLeaks();
-#endif
 	return 0;
 }
