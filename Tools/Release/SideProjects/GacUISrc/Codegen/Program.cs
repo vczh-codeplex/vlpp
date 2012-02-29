@@ -18,7 +18,7 @@ namespace Codegen
                 .Root
                 .Elements(XName.Get("ItemGroup", np))
                 .SelectMany(e => e.Elements(XName.Get("ClCompile", np)))
-                .Select(e => e.Attribute("Include").Value)
+                .Select(e => Path.GetFullPath(Path.GetDirectoryName(projectFile) + "\\" + e.Attribute("Include").Value))
                 .ToArray();
         }
 
@@ -37,6 +37,19 @@ namespace Codegen
                         .Where(f => !exceptions.Contains(Path.GetFileName(f).ToUpper()))
                         .ToArray()
                         );
+            }
+            foreach (var a in categorizedFiles.Keys)
+            {
+                foreach (var b in categorizedFiles.Keys)
+                {
+                    if (a != b)
+                    {
+                        if (categorizedFiles[a].Intersect(categorizedFiles[b]).Count() != 0)
+                        {
+                            throw new ArgumentException();
+                        }
+                    }
+                }
             }
             return categorizedFiles;
         }
@@ -74,6 +87,35 @@ namespace Codegen
                 ScannedFiles.Add(codeFile, result);
             }
             return result;
+        }
+
+        static string[] SortDependecies(Dictionary<string, string[]> dependeicies)
+        {
+            var dep = dependeicies.ToDictionary(p => p.Key, p => new HashSet<string>(p.Value));
+            List<string> sorted = new List<string>();
+            while (dep.Count > 0)
+            {
+                bool found = false;
+                foreach (var p in dep)
+                {
+                    if (p.Value.Count == 0)
+                    {
+                        found = true;
+                        sorted.Add(p.Key);
+                        foreach (var q in dep.Values)
+                        {
+                            q.Remove(p.Key);
+                        }
+                        dep.Remove(p.Key);
+                        break;
+                    }
+                }
+                if (!found)
+                {
+                    throw new ArgumentException();
+                }
+            }
+            return sorted.ToArray();
         }
 
         static void Combine(string[] files, string outputFilename, HashSet<string> systemIncludes, params string[] externalIncludes)
@@ -128,27 +170,112 @@ namespace Codegen
             }
         }
 
+        static void Combine(string inputFilename, string outputFilename, params string[] externalIncludes)
+        {
+            HashSet<string> systemIncludes = new HashSet<string>();
+            string[] files = GetIncludedFiles(inputFilename).Concat(new string[] { inputFilename }).Distinct().ToArray();
+            Combine(files, outputFilename, systemIncludes, externalIncludes);
+        }
+
         static void Main(string[] args)
         {
+            // load configuration
             XDocument config = XDocument.Load("CodegenConfig.xml");
             string folder = Path.GetDirectoryName(typeof(Program).Assembly.Location) + "\\";
 
+            // collect project files
             string[] projectFiles = config.Root
                 .Element("projects")
                 .Elements("project")
                 .Select(e => Path.GetFullPath(folder + e.Attribute("path").Value))
                 .ToArray();
 
-            string[] unprocessedCppFiles = projectFiles.SelectMany(GetCppFiles).ToArray();
-            string[] unprocessedHeaderFiles = unprocessedCppFiles.SelectMany(GetIncludedFiles).ToArray();
+            // collect code files
+            string[] unprocessedCppFiles = projectFiles.SelectMany(GetCppFiles).Distinct().ToArray();
+            string[] unprocessedHeaderFiles = unprocessedCppFiles.SelectMany(GetIncludedFiles).Distinct().ToArray();
 
+            // categorize code files
             var categorizedCppFiles = CategorizeCodeFiles(config, unprocessedCppFiles);
             var categorizedHeaderFiles = CategorizeCodeFiles(config, unprocessedHeaderFiles);
             var outputFolder = Path.GetFullPath(folder + config.Root.Element("output").Attribute("path").Value);
             var categorizedOutput = config.Root
                 .Element("output")
                 .Elements("codepair")
-                .ToDictionary(e => e.Attribute("category").Value, e => Path.GetFullPath(outputFolder + e.Attribute("filename").Value));
+                .ToDictionary(
+                    e => e.Attribute("category").Value,
+                    e => Path.GetFullPath(outputFolder + e.Attribute("filename").Value
+                    ));
+
+            // calculate category dependencies
+            var categoryDependencies = categorizedCppFiles
+                .Keys
+                .Select(k =>
+                    {
+                        var headerFiles = categorizedCppFiles[k]
+                            .SelectMany(GetIncludedFiles)
+                            .Distinct()
+                            .ToArray();
+                        var keys = categorizedHeaderFiles
+                            .Where(p => p.Value.Any(h => headerFiles.Contains(h)))
+                            .Select(p => p.Key)
+                            .Except(new string[] { k })
+                            .ToArray();
+                        return Tuple.Create(k, keys);
+                    })
+                .ToDictionary(t => t.Item1, t => t.Item2);
+
+            // sort categories by dependencies
+            var categoryOrder = SortDependecies(categoryDependencies);
+            Dictionary<string, HashSet<string>> categorizedSystemIncludes = new Dictionary<string, HashSet<string>>();
+
+            // generate code pair header files
+            foreach (var c in categoryOrder)
+            {
+                string output = categorizedOutput[c] + ".h";
+                List<string> includes = new List<string>();
+                foreach (var dep in categoryDependencies[c])
+                {
+                    includes.AddRange(categorizedSystemIncludes[dep]);
+                }
+                HashSet<string> systemIncludes = new HashSet<string>(includes.Distinct());
+                categorizedSystemIncludes.Add(c, systemIncludes);
+                Combine(
+                    categorizedHeaderFiles[c],
+                    output,
+                    systemIncludes,
+                    categoryDependencies[c]
+                        .Select(d => Path.GetFileName(categorizedOutput[d] + ".h"))
+                        .ToArray()
+                    );
+            }
+
+            // generate code pair cpp files
+            foreach (var c in categoryOrder)
+            {
+                string output = categorizedOutput[c];
+                string outputHeader = Path.GetFileName(output + ".h");
+                string outputCpp = output + ".cpp";
+                HashSet<string> systemIncludes = categorizedSystemIncludes[c];
+                Combine(
+                    categorizedCppFiles[c],
+                    outputCpp,
+                    systemIncludes,
+                    outputHeader
+                    );
+            }
+
+            // generate header files
+            var headerOutput = config.Root
+                .Element("output")
+                .Elements("header")
+                .ToDictionary(
+                    e => Path.GetFullPath(folder + e.Attribute("source").Value),
+                    e => Path.GetFullPath(outputFolder + e.Attribute("filename").Value)
+                    );
+            foreach (var o in headerOutput)
+            {
+                Combine(o.Key, o.Value + ".h");
+            }
         }
     }
 }
