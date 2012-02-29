@@ -1,12 +1,6 @@
 #pragma comment(lib, "d2d1.lib")
 #pragma comment(lib, "dwrite.lib")
 
-#if _DEBUG
-#define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
-#endif
-
 #include "WinDirect2DApplication.h"
 
 namespace vl
@@ -191,8 +185,5 @@ int WinMainDirect2D(HINSTANCE hInstance, void(*RendererMain)())
 	}
 	// destroy controller
 	DestroyWindowsNativeController(controller);
-#if _DEBUG
-	_CrtDumpMemoryLeaks();
-#endif
 	return 0;
 }

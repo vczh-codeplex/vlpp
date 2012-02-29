@@ -13,14 +13,7 @@ Interfaces:
 #include "..\..\..\..\..\Library\String.h"
 #include "..\..\..\..\..\Library\Pointer.h"
 #include "..\..\..\..\..\Library\Function.h"
-#include "..\..\..\..\..\Library\Threading.h"
 #include "..\..\..\..\..\Library\Collections\List.h"
 #include "..\..\..\..\..\Library\Collections\Dictionary.h"
-#include "..\..\..\..\..\Library\Collections\OperationCopyFrom.h"
-#include "..\..\..\..\..\Library\Stream\FileStream.h"
-#include "..\..\..\..\..\Library\Stream\CacheStream.h"
-#include "..\..\..\..\..\Library\Stream\CharFormat.h"
-#include "..\..\..\..\..\Library\Stream\Accessor.h"
-#include "..\..\..\..\..\Library\Entity\TreeQuery.h"
 
 #endif
