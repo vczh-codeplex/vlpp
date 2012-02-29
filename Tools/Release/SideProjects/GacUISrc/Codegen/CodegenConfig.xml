@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<codegen>
+  <projects>
+    <project path="..\..\..\GacUISrc\GacUISrc.vcxproj" />
+  </projects>
+  <categories>
+    <category name="vlpp" pattern="\Library\"/>
+    <category name="gacui" pattern="\GacUILibrary\">
+      <except filename="GuiTypeDescriptorImpHelper.cpp" />
+      <except filename="GuiTypeDescriptorImpProvider_codegen.cpp" />
+    </category>
+  </categories>
+  <output path="..\..\..\GacUILibraryExternal\">
+    <codepair category="vlpp" filename="Vlpp" />
+    <codepair category="gacui" filename="GacUI" />
+    <header source="..\..\..\GacUILibrary\GacUI.h" filename="GacUIIncludes" />
+  </output>
+</codegen>

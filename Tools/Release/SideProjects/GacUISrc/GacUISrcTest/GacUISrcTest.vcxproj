@@ -78,12 +78,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\GacUILibraryExternal\GacUI.cpp" />
     <ClCompile Include="Main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\GacUILibraryExternal\GacUI.h" />
-    <ClInclude Include="..\GacUILibraryExternal\GacUIFullFeatures.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Gif.gif" />

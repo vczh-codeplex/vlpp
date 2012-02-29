@@ -22,6 +22,25 @@ namespace Codegen
                 .ToArray();
         }
 
+        static Dictionary<string, string[]> CategorizeCodeFiles(XDocument config, string[] files)
+        {
+            Dictionary<string, string[]> categorizedFiles = new Dictionary<string, string[]>();
+            foreach (var e in config.Root.Element("categories").Elements("category"))
+            {
+                string name = e.Attribute("name").Value;
+                string pattern = e.Attribute("pattern").Value.ToUpper();
+                string[] exceptions = e.Elements("except").Select(x => x.Attribute("filename").Value.ToUpper()).ToArray();
+                categorizedFiles.Add(
+                    name,
+                    files
+                        .Where(f => f.ToUpper().Contains(pattern))
+                        .Where(f => !exceptions.Contains(Path.GetFileName(f).ToUpper()))
+                        .ToArray()
+                        );
+            }
+            return categorizedFiles;
+        }
+
         static Dictionary<string, string[]> ScannedFiles = new Dictionary<string, string[]>();
         static Regex IncludeRegex = new Regex(@"^\s*\#include\s*""(?<path>[^""]+)""\s*$");
         static Regex IncludeSystemRegex = new Regex(@"^\s*\#include\s*\<(?<path>[^""]+)\>\s*$");
@@ -109,43 +128,27 @@ namespace Codegen
             }
         }
 
-        static void GenerateCode(string outputFolder, string[] cppFiles, string[] cppHeaders, string[] userHeaders)
-        {
-            HashSet<string> systemIncludes = new HashSet<string>();
-            Combine(userHeaders, outputFolder + "GacUI.h", systemIncludes);
-            systemIncludes.Clear();
-            Combine(cppHeaders, outputFolder + "GacUIFullFeatures.h", systemIncludes);
-            Combine(cppFiles, outputFolder + "GacUI.cpp", systemIncludes, "GacUIFullFeatures.h");
-        }
-
         static void Main(string[] args)
         {
-            string solutionFolder = Path.GetDirectoryName(typeof(Program).Assembly.Location) + @"\..\..\..\";
-            string projectFile = solutionFolder + @"GacUISrc\GacUISrc.vcxproj";
-            string[] cppFiles = GetCppFiles(projectFile)
-                .Select(s => Path.GetDirectoryName(projectFile) + @"\" + s)
-                .Select(Path.GetFullPath)
-                .Where(s =>
-                    {
-                        string filename = Path.GetFileName(s).ToUpper();
-                        return filename != "MAIN.CPP"
-                            && filename != "GACUI_WINMAIN.CPP"
-                            && filename != "GUITYPEDESCRIPTORIMPHELPER.CPP"
-                            && filename != "GUITYPEDESCRIPTORIMPPROVIDER_CODEGEN.CPP"
-                            ;
-                    })
+            XDocument config = XDocument.Load("CodegenConfig.xml");
+            string folder = Path.GetDirectoryName(typeof(Program).Assembly.Location) + "\\";
+
+            string[] projectFiles = config.Root
+                .Element("projects")
+                .Elements("project")
+                .Select(e => Path.GetFullPath(folder + e.Attribute("path").Value))
                 .ToArray();
 
-            foreach (var cpp in cppFiles)
-            {
-                Console.WriteLine(cpp);
-                GetIncludedFiles(cpp);
-            }
+            string[] unprocessedCppFiles = projectFiles.SelectMany(GetCppFiles).ToArray();
+            string[] unprocessedHeaderFiles = unprocessedCppFiles.SelectMany(GetIncludedFiles).ToArray();
 
-            string gacuiHeader = Path.GetFullPath(solutionFolder + @"GacUILibrary\GacUI.h").ToUpper();
-            string[] cppHeaders = cppFiles.SelectMany(f => GetIncludedFiles(f)).Distinct().ToArray();
-            string[] userHeaders = GetIncludedFiles(gacuiHeader).Concat(new string[] { gacuiHeader }).Distinct().ToArray();
-            GenerateCode(solutionFolder + @"GacUILibraryExternal\", cppFiles, cppHeaders, userHeaders);
+            var categorizedCppFiles = CategorizeCodeFiles(config, unprocessedCppFiles);
+            var categorizedHeaderFiles = CategorizeCodeFiles(config, unprocessedHeaderFiles);
+            var outputFolder = Path.GetFullPath(folder + config.Root.Element("output").Attribute("path").Value);
+            var categorizedOutput = config.Root
+                .Element("output")
+                .Elements("codepair")
+                .ToDictionary(e => e.Attribute("category").Value, e => Path.GetFullPath(outputFolder + e.Attribute("filename").Value));
         }
     }
 }
