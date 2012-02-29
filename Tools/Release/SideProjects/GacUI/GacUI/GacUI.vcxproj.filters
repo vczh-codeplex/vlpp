@@ -368,9 +368,6 @@
     <ClInclude Include="..\..\..\..\..\Library\Collections\OperationSelect.h">
       <Filter>Library\Collections</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationSequence.h">
-      <Filter>Library\Collections</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\..\Library\Collections\OperationSet.h">
       <Filter>Library\Collections</Filter>
     </ClInclude>
@@ -433,6 +430,9 @@
     </ClInclude>
     <ClInclude Include="GacUICommonInternal.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Library\Collections\OperationSequence.h">
+      <Filter>Library\Stream</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
