@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GacUILibraryExternal", "Gac
 		GacUILibraryExternal\GacUI.cpp = GacUILibraryExternal\GacUI.cpp
 		GacUILibraryExternal\GacUI.h = GacUILibraryExternal\GacUI.h
 		GacUILibraryExternal\GacUIIncludes.h = GacUILibraryExternal\GacUIIncludes.h
+		GacUILibraryExternal\SuperUnicode.txt = GacUILibraryExternal\SuperUnicode.txt
 		GacUILibraryExternal\Vlpp.cpp = GacUILibraryExternal\Vlpp.cpp
 		GacUILibraryExternal\Vlpp.h = GacUILibraryExternal\Vlpp.h
 	EndProjectSection
