@@ -122,8 +122,14 @@
     <ClCompile Include="..\GacUILibrary\NativeWindow\Windows\GDI\WinGDIApplication.cpp" />
     <ClCompile Include="..\GacUILibrary\NativeWindow\Windows\WinNativeWindow.cpp" />
     <ClCompile Include="..\GacUILibrary\Reflection\GuiTypeDescriptor.cpp" />
-    <ClCompile Include="..\GacUILibrary\Reflection\GuiTypeDescriptorImpHelper.cpp" />
-    <ClCompile Include="..\GacUILibrary\Reflection\GuiTypeDescriptorImpProvider_codegen.cpp" />
+    <ClCompile Include="..\GacUILibrary\Reflection\GuiTypeDescriptorImpHelper.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\GacUILibrary\Reflection\GuiTypeDescriptorImpProvider_codegen.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -194,8 +200,14 @@
     <ClInclude Include="..\GacUILibrary\NativeWindow\Windows\GDI\WinGDIApplication.h" />
     <ClInclude Include="..\GacUILibrary\NativeWindow\Windows\WinNativeWindow.h" />
     <ClInclude Include="..\GacUILibrary\Reflection\GuiTypeDescriptor.h" />
-    <ClInclude Include="..\GacUILibrary\Reflection\GuiTypeDescriptorImpHelper.h" />
-    <ClInclude Include="..\GacUILibrary\Reflection\GuiTypeDescriptorImpProvider_codegen.h" />
+    <ClInclude Include="..\GacUILibrary\Reflection\GuiTypeDescriptorImpHelper.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\GacUILibrary\Reflection\GuiTypeDescriptorImpProvider_codegen.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
