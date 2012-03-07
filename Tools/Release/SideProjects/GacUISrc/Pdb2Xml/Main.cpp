@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include "dia2.h"
+#include "diacreate.h"
 
 #pragma comment(lib, "diaguids.lib")
 
@@ -16,11 +17,17 @@ IDiaSymbol* CreateDiaSymbol(const wchar_t* pdbPath)
     IDiaSession* pSession=0;
     IDiaSymbol* pSymbol=0;
     CoInitialize(NULL);
-    HRESULT hr = CoCreateInstance(
-        CLSID_DiaSource,
-        NULL,
-        CLSCTX_INPROC_SERVER,
-        IID_IDiaDataSource,
+    //HRESULT hr = CoCreateInstance(
+    //    CLSID_DiaSource,
+    //    NULL,
+    //    CLSCTX_INPROC_SERVER,
+    //    IID_IDiaDataSource,
+    //    (void**) &pSource
+    //    );
+	HRESULT hr = NoRegCoCreate(
+		L"msdia100.dll",
+		CLSID_DiaSource,
+		IID_IDiaDataSource,
         (void**) &pSource
         );
     if(SUCCEEDED(hr))
