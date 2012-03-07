@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GacUILibraryExternal", "Gac
 		GacUILibraryExternal\GacUI.cpp = GacUILibraryExternal\GacUI.cpp
 		GacUILibraryExternal\GacUI.h = GacUILibraryExternal\GacUI.h
 		GacUILibraryExternal\GacUIIncludes.h = GacUILibraryExternal\GacUIIncludes.h
+		GacUILibraryExternal\Release.bat = GacUILibraryExternal\Release.bat
 		GacUILibraryExternal\SuperUnicode.txt = GacUILibraryExternal\SuperUnicode.txt
 		GacUILibraryExternal\Vlpp.cpp = GacUILibraryExternal\Vlpp.cpp
 		GacUILibraryExternal\Vlpp.h = GacUILibraryExternal\Vlpp.h
@@ -17,9 +18,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GacUILibraryExternal", "Gac
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GacUISrcTest", "GacUISrcTest\GacUISrcTest.vcxproj", "{7D723840-6F68-4B47-975A-976C308852CB}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pdb2Xml", "Pdb2Xml\Pdb2Xml.vcxproj", "{A7C0C855-D9F5-45A4-BC03-1884F79998D4}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
+		SccNumberOfProjects = 5
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
 		SccLocalPath0 = .
@@ -32,6 +35,9 @@ Global
 		SccProjectUniqueName3 = GacUISrcTest\\GacUISrcTest.vcxproj
 		SccProjectName3 = GacUISrcTest
 		SccLocalPath3 = GacUISrcTest
+		SccProjectUniqueName4 = Pdb2Xml\\Pdb2Xml.vcxproj
+		SccProjectName4 = Pdb2Xml
+		SccLocalPath4 = Pdb2Xml
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -72,6 +78,16 @@ Global
 		{7D723840-6F68-4B47-975A-976C308852CB}.Release|Win32.ActiveCfg = Release|Win32
 		{7D723840-6F68-4B47-975A-976C308852CB}.Release|Win32.Build.0 = Release|Win32
 		{7D723840-6F68-4B47-975A-976C308852CB}.Release|x86.ActiveCfg = Release|Win32
+		{A7C0C855-D9F5-45A4-BC03-1884F79998D4}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{A7C0C855-D9F5-45A4-BC03-1884F79998D4}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{A7C0C855-D9F5-45A4-BC03-1884F79998D4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A7C0C855-D9F5-45A4-BC03-1884F79998D4}.Debug|Win32.Build.0 = Debug|Win32
+		{A7C0C855-D9F5-45A4-BC03-1884F79998D4}.Debug|x86.ActiveCfg = Debug|Win32
+		{A7C0C855-D9F5-45A4-BC03-1884F79998D4}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{A7C0C855-D9F5-45A4-BC03-1884F79998D4}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{A7C0C855-D9F5-45A4-BC03-1884F79998D4}.Release|Win32.ActiveCfg = Release|Win32
+		{A7C0C855-D9F5-45A4-BC03-1884F79998D4}.Release|Win32.Build.0 = Release|Win32
+		{A7C0C855-D9F5-45A4-BC03-1884F79998D4}.Release|x86.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

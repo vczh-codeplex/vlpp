@@ -37,12 +37,12 @@ Basic Construction
 			{
 			public:
 				/// <summary>
-				/// Access the graphics element factory that is used to create this graphics elements.
+				/// Access the <see cref="IGuiGraphicsElementFactory"></see> that is used to create this graphics elements.
 				/// </summary>
 				/// <returns>Returns the related factory.</returns>
 				virtual IGuiGraphicsElementFactory*		GetFactory()=0;
 				/// <summary>
-				/// Access the associated graphics renderer for this graphics element.
+				/// Access the associated <see cref="IGuiGraphicsRenderer"></see> for this graphics element.
 				/// </summary>
 				/// <returns>Returns the related renderer.</returns>
 				virtual IGuiGraphicsRenderer*			GetRenderer()=0;
@@ -61,7 +61,7 @@ Basic Construction
 				/// <returns>Returns the name of graphics elements.</returns>
 				virtual WString							GetElementTypeName()=0;
 				/// <summary>
-				/// Create a graphics element.
+				/// Create a <see cref="IGuiGraphicsElement"></see>.
 				/// </summary>
 				/// <returns>Returns the created graphics elements.</returns>
 				virtual IGuiGraphicsElement*			Create()=0;
@@ -74,13 +74,13 @@ Basic Construction
 			{
 			public:
 				/// <summary>
-				/// Access the graphics renderer factory that is used to create this graphics renderer.
+				/// Access the graphics <see cref="IGuiGraphicsRendererFactory"></see> that is used to create this graphics renderer.
 				/// </summary>
 				/// <returns>Returns the related factory.</returns>
 				virtual IGuiGraphicsRendererFactory*	GetFactory()=0;
 
 				/// <summary>
-				/// Initialize the grpahics renderer by binding a graphics element to it.
+				/// Initialize the grpahics renderer by binding a <see cref="IGuiGraphicsElement"></see> to it.
 				/// </summary>
 				/// <param name="element">The graphics element to bind.</param>
 				virtual void							Initialize(IGuiGraphicsElement* element)=0;
@@ -89,7 +89,7 @@ Basic Construction
 				/// </summary>
 				virtual void							Finalize()=0;
 				/// <summary>
-				/// Set a graphics render target to this element.
+				/// Set a <see cref="IGuiGraphicsRenderTarget"></see> to this element.
 				/// </summary>
 				/// <param name="renderTarget">The graphics render target. It can be NULL.</param>
 				virtual void							SetRenderTarget(IGuiGraphicsRenderTarget* renderTarget)=0;
@@ -117,7 +117,7 @@ Basic Construction
 			{
 			public:
 				/// <summary>
-				/// Create a graphics renderer.
+				/// Create a <see cref="IGuiGraphicsRenderer"></see>.
 				/// </summary>
 				/// <returns>Returns the created graphics renderer.</returns>
 				virtual IGuiGraphicsRenderer*			Create()=0;
@@ -149,10 +149,12 @@ Basic Construction
 				/// <summary>
 				/// Get the combined clipper
 				/// </summary>
+				/// <returns>The combined clipper</returns>
 				virtual Rect							GetClipper()=0;
 				/// <summary>
-				/// Test is the combined clipper is too small to enable any pixel to be changed.
+				/// Test is the combined clipper is as large as the render target.
 				/// </summary>
+				/// <returns>Return true if the combined clipper is as large as the render target.</returns>
 				virtual bool							IsClipperCoverWholeTarget()=0;
 			};
 
@@ -160,6 +162,9 @@ Basic Construction
 Resource Manager
 ***********************************************************************/
 
+			/// <summary>
+			/// This is a class for managing grpahics element factories and graphics renderer factories
+			/// </summary>
 			class GuiGraphicsResourceManager : public Object
 			{
 				typedef collections::Dictionary<WString, Ptr<IGuiGraphicsElementFactory>>		elementFactoryMap;
@@ -168,18 +173,55 @@ Resource Manager
 				elementFactoryMap						elementFactories;
 				rendererFactoryMap						rendererFactories;
 			public:
+				/// <summary>
+				/// Create a graphics resource manager without any predefined factories
+				/// </summary>
 				GuiGraphicsResourceManager();
 				~GuiGraphicsResourceManager();
 
+				/// <summary>
+				/// Register a <see cref="IGuiGraphicsElementFactory"></see> using the element type from <see cref="IGuiGraphicsElementFactory::GetElementTypeName"></see>.
+				/// </summary>
+				/// <param name="factory">The instance of the graphics element factory to register.</param>
+				/// <returns>Returns true if this operations succeeded.</returns>
 				virtual bool							RegisterElementFactory(IGuiGraphicsElementFactory* factory);
+				/// <summary>
+				/// Register a <see cref="IGuiGraphicsRendererFactory"></see> and bind it to a registered <see cref="IGuiGraphicsElementFactory"></see>.
+				/// </summary>
+				/// <param name="elementTypeName">The element type to represent a graphics element factory.</param>
+				/// <param name="factory">The instance of the graphics renderer factory to register.</param>
+				/// <returns>Returns true if this operations succeeded.</returns>
 				virtual bool							RegisterRendererFactory(const WString& elementTypeName, IGuiGraphicsRendererFactory* factory);
+				/// <summary>
+				/// Get the instance of a registered <see cref="IGuiGraphicsElementFactory"></see> that is binded to a specified element type.
+				/// </summary>
+				/// <param name="elementTypeName">The element type to get a corresponding graphics element factory.</param>
 				virtual IGuiGraphicsElementFactory*		GetElementFactory(const WString& elementTypeName);
+				/// <summary>
+				/// Get the instance of a registered <see cref="IGuiGraphicsRendererFactory"></see> that is binded to a specified element type.
+				/// </summary>
+				/// <param name="elementTypeName">The element type to get a corresponding graphics renderer factory.</param>
 				virtual IGuiGraphicsRendererFactory*	GetRendererFactory(const WString& elementTypeName);
+				/// <summary>
+				/// Get the instance of a <see cref="IGuiGraphicsRenderTarget"></see> that is binded to an <see cref="INativeWindow"></see>.
+				/// </summary>
 				virtual IGuiGraphicsRenderTarget*		GetRenderTarget(INativeWindow* window)=0;
 			};
 
+			/// <summary>
+			/// Get the current <see cref="GuiGraphicsResourceManager"></see>.
+			/// </summary>
+			/// <returns>Returns the current resource manager.</returns>
 			extern GuiGraphicsResourceManager*			GetGuiGraphicsResourceManager();
+			/// <summary>
+			/// Set the current <see cref="GuiGraphicsResourceManager"></see>.
+			/// </summary>
+			/// <params name="resourceManager">The resource manager to set.</params>
 			extern void									SetGuiGraphicsResourceManager(GuiGraphicsResourceManager* resourceManager);
+			/// <summary>
+			/// Helper function to register a <see cref="IGuiGraphicsElementFactory"></see> with a <see cref="IGuiGraphicsRendererFactory"></see> and bind them together.
+			/// </summary>
+			/// <returns>Returns true if this operations succeeded.</returns>
 			extern bool									RegisterFactories(IGuiGraphicsElementFactory* elementFactory, IGuiGraphicsRendererFactory* rendererFactory);
 
 /***********************************************************************
