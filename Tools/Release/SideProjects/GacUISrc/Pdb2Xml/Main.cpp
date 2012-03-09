@@ -59,7 +59,7 @@ int wmain(int argc, wchar_t* argv[])
 	}
 	else
 	{
-		std::wcout<<L"_TranslatePDBtoXML.exe <pdb-path> <xml-path>"<<std::endl;
+		std::wcout<<L"Pdb2Xml.exe <pdb-path> <xml-path>"<<std::endl;
 	}
 	return 0;
 }

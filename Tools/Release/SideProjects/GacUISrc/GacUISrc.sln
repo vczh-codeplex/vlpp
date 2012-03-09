@@ -20,9 +20,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GacUISrcTest", "GacUISrcTes
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pdb2Xml", "Pdb2Xml\Pdb2Xml.vcxproj", "{A7C0C855-D9F5-45A4-BC03-1884F79998D4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xml2Doc", "Xml2Doc\Xml2Doc.csproj", "{46703730-321F-414E-AC6E-EF273AF6256D}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
+		SccNumberOfProjects = 6
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
 		SccLocalPath0 = .
@@ -38,6 +40,9 @@ Global
 		SccProjectUniqueName4 = Pdb2Xml\\Pdb2Xml.vcxproj
 		SccProjectName4 = Pdb2Xml
 		SccLocalPath4 = Pdb2Xml
+		SccProjectUniqueName5 = Xml2Doc\\Xml2Doc.csproj
+		SccProjectName5 = Xml2Doc
+		SccLocalPath5 = Xml2Doc
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -88,6 +93,16 @@ Global
 		{A7C0C855-D9F5-45A4-BC03-1884F79998D4}.Release|Win32.ActiveCfg = Release|Win32
 		{A7C0C855-D9F5-45A4-BC03-1884F79998D4}.Release|Win32.Build.0 = Release|Win32
 		{A7C0C855-D9F5-45A4-BC03-1884F79998D4}.Release|x86.ActiveCfg = Release|Win32
+		{46703730-321F-414E-AC6E-EF273AF6256D}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{46703730-321F-414E-AC6E-EF273AF6256D}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{46703730-321F-414E-AC6E-EF273AF6256D}.Debug|Win32.ActiveCfg = Debug|x86
+		{46703730-321F-414E-AC6E-EF273AF6256D}.Debug|x86.ActiveCfg = Debug|x86
+		{46703730-321F-414E-AC6E-EF273AF6256D}.Debug|x86.Build.0 = Debug|x86
+		{46703730-321F-414E-AC6E-EF273AF6256D}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{46703730-321F-414E-AC6E-EF273AF6256D}.Release|Mixed Platforms.Build.0 = Release|x86
+		{46703730-321F-414E-AC6E-EF273AF6256D}.Release|Win32.ActiveCfg = Release|x86
+		{46703730-321F-414E-AC6E-EF273AF6256D}.Release|x86.ActiveCfg = Release|x86
+		{46703730-321F-414E-AC6E-EF273AF6256D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
