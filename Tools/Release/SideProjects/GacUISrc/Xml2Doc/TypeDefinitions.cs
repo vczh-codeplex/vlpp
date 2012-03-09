@@ -40,9 +40,13 @@ namespace Xml2Doc
         Normal,
     }
 
-    class GacUDT
+    class GacSymbol
     {
         public string Name { get; set; }
+    }
+
+    class GacUDT : GacSymbol
+    {
         public bool IsAbstract { get; set; }
         public GacUDTKind Kind { get; set; }
         public GacBaseClass[] BaseClasses { get; set; }
@@ -81,9 +85,8 @@ namespace Xml2Doc
         public GacUDT UDT { get; set; }
     }
 
-    class GacField
+    class GacField : GacSymbol
     {
-        public string Name { get; set; }
         public GacAccess Access { get; set; }
         public GacType Type { get; set; }
         public GacUDT OwnerUDT { get; set; }
@@ -104,9 +107,8 @@ namespace Xml2Doc
         }
     }
 
-    class GacMethod
+    class GacMethod : GacSymbol
     {
-        public string Name { get; set; }
         public GacMethodKind Kind { get; set; }
         public GacAccess Access { get; set; }
         public GacType Type { get; set; }
@@ -399,11 +401,12 @@ namespace Xml2Doc
             return udts;
         }
 
-        public static GacMethod[] LoadFunctions(Dictionary<string, GacUDT> udts, XDocument document)
+        public static Dictionary<string, GacMethod[]> LoadFunctions(Dictionary<string, GacUDT> udts, XDocument document)
         {
             var methods = document.Root.Element("functions").Elements("method")
                 .Select(e => TranslateMethod(udts, e, null))
-                .ToArray();
+                .GroupBy(m => m.Name)
+                .ToDictionary(g => g.Key, g => g.ToArray());
             return methods;
         }
     }
