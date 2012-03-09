@@ -68,10 +68,6 @@ namespace Xml2Doc
             CppName result = new CppName();
             result.Name = ParseName(name, ref index);
             result.Parameters = new CppName[0];
-            if (result.Name.EndsWith("*"))
-            {
-                result.Name = result.Name.Substring(0, result.Name.Length - 1).Trim() + "_raw_pointer";
-            }
             if (ParseChar(name, '<', ref index))
             {
                 List<CppName> parameters = new List<CppName>();
@@ -112,6 +108,16 @@ namespace Xml2Doc
         }
 
         #endregion
+
+        public IEnumerable<CppName> Cascade()
+        {
+            CppName current = this;
+            while (current != null)
+            {
+                yield return current;
+                current = current.Member;
+            }
+        }
 
         public override string ToString()
         {
