@@ -30,6 +30,9 @@ namespace Xml2Doc
                     .ToDictionary(p => p.Key, p => Tuple.Create(p.Value, DocItemProvider.FindSymbol(p.Value, udts, funcs)));
 
                 Console.WriteLine("Writing merged xml documentation...");
+                XElement merged = DocItemSerializer.Serialize(matchedDocItems, udts, funcs);
+                XDocument xmlMerged = new XDocument(merged);
+                xmlMerged.Save(args[2]);
             }
             else
             {
