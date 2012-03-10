@@ -126,5 +126,13 @@ namespace Xml2Doc
                 + (Member == null ? "" : " :: " + Member.ToString())
                 ;
         }
+
+        public string ToPdbString()
+        {
+            return Name
+                + (Parameters.Length == 0 ? "" : "<" + Parameters.Select(n => n.ToPdbString()).Aggregate("", (a, b) => a == "" ? b : a + "," + b) + ">")
+                + (Member == null ? "" : "::" + Member.ToPdbString())
+                ;
+        }
     }
 }
