@@ -11,6 +11,35 @@ namespace Xml2Doc
         public string Name { get; set; }
         public GacMethod Method { get; set; }
         public XElement MethodDocItem { get; set; }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
+
+        public XElement ToXElement()
+        {
+            return new XElement("function",
+                new XAttribute("name", this.Name),
+                new XAttribute("fullName", this.Method.Name),
+                new XAttribute("isStatic", this.Method.OwnerUDT == null ? true : this.Method.OwnerUDT.Methods.Contains(this.Method)),
+                new XAttribute("access", this.Method.Access),
+                new XAttribute("kind", this.Method.Kind),
+                new XElement("returnType", this.Method.Type.ReturnType.ToString()),
+                this.Method.Type.ParameterTypes
+                    .Select(t => new XElement("parameterType", t.ToString()))
+                    .ToArray(),
+                this.Method.ParameterNames.Zip(
+                    this.Method.Type.ParameterTypes,
+                    (a, b) => new XElement("parameterPair",
+                        new XAttribute("name", a),
+                        b.ToString()
+                        )
+                    )
+                    .ToArray(),
+                new XElement("document", this.MethodDocItem)
+                );
+        }
     }
 
     class DocItemContainer
@@ -51,6 +80,19 @@ namespace Xml2Doc
     {
         public DocType Type { get; set; }
         public GacBaseClass BaseClass { get; set; }
+
+        public override string ToString()
+        {
+            return this.BaseClass.Access.ToString() + " " + this.Type.ToString();
+        }
+
+        public XElement ToXElement()
+        {
+            return new XElement("baseType",
+                new XAttribute("fullName", this.BaseClass.UDT.Name),
+                new XAttribute("access", this.BaseClass.Access.ToString())
+                );
+        }
     }
 
     class DocType : DocItemContainer
@@ -59,18 +101,44 @@ namespace Xml2Doc
         public DocBaseType[] BaseTypes { get; set; }
         public GacUDT Udt { get; set; }
         public XElement UdtDocItem { get; set; }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
+
+        public XElement ToXElement()
+        {
+            return new XElement("type",
+                new XAttribute("name", this.Name),
+                new XAttribute("fullName", this.Udt.Name),
+                new XElement("document", this.UdtDocItem),
+                this.BaseTypes.Select(t => t.ToXElement()).ToArray(),
+                this.Types.Select(t => t.Value.ToXElement()).ToArray(),
+                this.Functions.Select(t =>
+                    new XElement("functionGroup",
+                        new XAttribute("name", t.Key),
+                        t.Value.Select(f => f.ToXElement()).ToArray()
+                        )
+                    ).ToArray()
+                );
+        }
     }
 
     class DocNamespace : DocItemContainer
     {
         public string Name { get; set; }
-
         public Dictionary<string, DocNamespace> Namespaces { get; private set; }
 
         public DocNamespace()
         {
             this.Name = "";
             this.Namespaces = new Dictionary<string, DocNamespace>();
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
         }
 
         public DocNamespace GetNamespace(IEnumerable<string> namespaces)
@@ -90,6 +158,21 @@ namespace Xml2Doc
                 }
                 return ns.GetNamespace(namespaces.Skip(1));
             }
+        }
+
+        public XElement ToXElement()
+        {
+            return new XElement("namespace",
+                new XAttribute("name", this.Name),
+                this.Namespaces.Select(t => t.Value.ToXElement()).ToArray(),
+                this.Types.Select(t => t.Value.ToXElement()).ToArray(),
+                this.Functions.Select(t =>
+                    new XElement("functionGroup",
+                        new XAttribute("name", t.Key),
+                        t.Value.Select(f => f.ToXElement()).ToArray()
+                        )
+                    ).ToArray()
+                );
         }
     }
 
@@ -128,6 +211,7 @@ namespace Xml2Doc
                 }
                 resultType = (DocType)ic;
                 resultType.Udt = udt;
+                this.typeCache.Add(udt, resultType);
             }
             return resultType;
         }
@@ -171,12 +255,19 @@ namespace Xml2Doc
 
         static DocRootNamespace Categorize(Dictionary<GacUDT, Tuple<XElement, Tuple<XElement, GacMethod>[]>> typeGroupedItems, Tuple<XElement, GacMethod>[] gfuncItems, Dictionary<string, GacUDT> udts)
         {
-            HashSet<GacUDT> hashUdts = new HashSet<GacUDT>(udts.Values);
+            HashSet<GacUDT> hashUdts = new HashSet<GacUDT>(typeGroupedItems.Keys);
             DocRootNamespace root = new DocRootNamespace();
             foreach (var p in typeGroupedItems)
             {
                 DocType type = root.GetType(p.Key, udts);
                 FillType(type, p, root, udts, hashUdts);
+            }
+            foreach (var m in gfuncItems)
+            {
+                CppName[] names = CppName.Parse(m.Item2.Name).Cascade().ToArray();
+                string[] nsNames = names.Take(names.Length - 1).Select(n => n.Name).ToArray();
+                var ns = root.GetNamespace(nsNames);
+                BuildFunction(ns, m);
             }
             return root;
         }
@@ -212,7 +303,7 @@ namespace Xml2Doc
 
             var docAssembly = Categorize(typeGroupedItems, gfuncItems, udts);
 
-            XElement root = new XElement("cppdoc");
+            XElement root = new XElement("cppdoc", docAssembly.ToXElement());
             return root;
         }
     }
