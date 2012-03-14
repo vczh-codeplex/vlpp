@@ -1246,3 +1246,49 @@ TEST_CASE(TestRegexLexer4)
 		}
 	}
 }
+
+/***********************************************************************
+–‘ƒ‹≤‚ ‘
+***********************************************************************/
+
+namespace TestRegexSpeedHelper
+{
+	void FindRows(WString* lines, int count, const WString& pattern)
+	{
+		Regex regex(pattern);
+		DateTime dt1=DateTime::LocalTime();
+		for(int i=0;i<10000000;i++)
+		{
+			for(int j=0;j<count;j++)
+			{
+				bool result=regex.TestHead(lines[j]);
+				TEST_ASSERT(result);
+			}
+		}
+		DateTime dt2=DateTime::LocalTime();
+		unsigned __int64 ms=dt2.totalMilliseconds-dt1.totalMilliseconds;
+		vl::unittest::UnitTest::PrintInfo(L"Running 10000000 times of Regex::TestHead uses: "+i64tow(ms)+L" milliseconds.");
+	}
+}
+using namespace TestRegexSpeedHelper;
+
+TEST_CASE(TestRegexSpeed1)
+{
+#ifdef _DEBUG
+	vl::unittest::UnitTest::PrintInfo(L"Pass TestRegexSpeed1 under Debug mode");
+#endif
+#ifdef NDEBUG
+	WString pattern=L"(\\.*A\\.*B\\.*C|\\.*A\\.*C\\.*B|\\.*B\\.*A\\.*C|\\.*B\\.*C\\.*A|\\.*C\\.*A\\.*B|\\.*C\\.*B\\.*A)";
+	WString lines[]=
+	{
+		L"XAYBZC",
+		L"XAYCZB",
+		L"XBYAZC",
+		L"XBYCZA",
+		L"XCYAZB",
+		L"XCYBZA",
+	};
+	FindRows(lines, sizeof(lines)/sizeof(*lines), pattern);
+	FindRows(lines, sizeof(lines)/sizeof(*lines), pattern);
+#endif
+}
