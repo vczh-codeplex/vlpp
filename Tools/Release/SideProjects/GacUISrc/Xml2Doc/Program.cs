@@ -8,6 +8,36 @@ namespace Xml2Doc
 {
     class Program
     {
+        static XElement[] SplitDocItem(XElement docItem)
+        {
+            string name = docItem.Attribute("name").Value;
+            if (name.StartsWith("F:"))
+            {
+                XElement[] summaries = docItem.Elements("summary").ToArray();
+                if (summaries.Length != 1 || summaries[0].Value.StartsWith("[T:"))
+                {
+                    string fieldName = name.Substring(2);
+                    XElement[] results = new XElement[summaries.Length];
+                    for(int i=0;i<summaries.Length;i++)
+                    {
+                        var summary = summaries[i];
+                        string text = summary.Value;
+                        int index = text.IndexOf(']');
+                        string type = text.Substring(3, index - 3);
+
+                        name = "F:" + type + "." + fieldName;
+                        text = text.Substring(index + 1);
+                        results[i] = new XElement("member",
+                            new XAttribute("name", name),
+                            new XElement("summary", text)
+                            );
+                    }
+                    return results;
+                }
+            }
+            return new XElement[] { docItem };
+        }
+
         static void Main(string[] args)
         {
             if (args.Length == 3)
@@ -22,7 +52,7 @@ namespace Xml2Doc
                 var docItems = xmlDoc
                     .Root
                     .Elements("members")
-                    .SelectMany(e => e.Elements("member"))
+                    .SelectMany(e => e.Elements("member").SelectMany(SplitDocItem))
                     .ToDictionary(e => e.Attribute("name").Value, e => e);
 
                 Console.WriteLine("Matching document items with pdb symbols...");
