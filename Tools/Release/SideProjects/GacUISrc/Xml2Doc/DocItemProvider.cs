@@ -57,6 +57,19 @@ namespace Xml2Doc
             return m1 ?? m2;
         }
 
+        static GacField PickField(GacUDT udt, string fieldLocalName)
+        {
+            var fields =
+                udt.Constants.Concat(udt.Fields).Concat(udt.StaticFields)
+                .Where(f => f.Name == fieldLocalName)
+                .ToArray();
+            if (fields.Length != 1)
+            {
+                throw new ArgumentException();
+            }
+            return fields[0];
+        }
+
         public static GacSymbol FindSymbol(XElement docItem, Dictionary<string, GacUDT> udts, Dictionary<string, GacMethod[]> funcs)
         {
             string name = docItem.Attribute("name").Value;
@@ -68,6 +81,19 @@ namespace Xml2Doc
                     {
                         string className = ConvertDocNameToCppName(name);
                         return udts[className];
+                    }
+                case "F:":
+                    {
+                        string typeName = "";
+                        string fieldLocalName = "";
+                        {
+                            int pointIndex = name.LastIndexOf('.');
+                            typeName = ConvertDocNameToCppName(name.Substring(0, pointIndex));
+                            fieldLocalName = name.Substring(pointIndex + 1);
+                        }
+
+                        GacUDT udt = udts[typeName];
+                        return PickField(udt, fieldLocalName);
                     }
                 case "M:":
                     {
