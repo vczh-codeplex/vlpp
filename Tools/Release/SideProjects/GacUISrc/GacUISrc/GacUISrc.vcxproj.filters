@@ -46,9 +46,6 @@
     <Filter Include="GacUI\NativeWindow\Windows\Direct2D">
       <UniqueIdentifier>{82c665c5-dab8-4218-a437-0b369d014f24}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GacUI\NativeWindow\Windows\GDI">
-      <UniqueIdentifier>{2d46c7a0-279a-4667-95a5-69c08668482d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GacUI\Reflection">
       <UniqueIdentifier>{6e032fd6-313c-4f68-b9b3-a509c3b02d14}</UniqueIdentifier>
     </Filter>
@@ -60,6 +57,9 @@
     </Filter>
     <Filter Include="Library\Stream">
       <UniqueIdentifier>{1bcca5c5-9f92-4c36-9050-f92e41f91f47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GacUI\NativeWindow\Windows\GDI">
+      <UniqueIdentifier>{2d46c7a0-279a-4667-95a5-69c08668482d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
