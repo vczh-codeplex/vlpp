@@ -27,6 +27,7 @@ namespace ServiceConfigurations
     {
         void StartListeningPort(int port);
         void StopListeningPort(int port);
+        void StopListeningAllPort();
         int[] GetListeningPorts();
     }
 
