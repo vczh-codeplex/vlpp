@@ -178,6 +178,7 @@
     <ClCompile Include="SimulatorScene9.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Textures\Antares.bmp" />
     <None Include="..\Textures\Earth.bmp" />
     <None Include="..\Textures\EarthNormal.bmp" />
     <None Include="..\Textures\SkyBox\+x.bmp" />
@@ -186,6 +187,12 @@
     <None Include="..\Textures\SkyBox\-x.bmp" />
     <None Include="..\Textures\SkyBox\-y.bmp" />
     <None Include="..\Textures\SkyBox\-z.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="..\Textures\conference.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </Object>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

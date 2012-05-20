@@ -12,6 +12,11 @@ extern "C"
 		{
 			textureEarthNormal->filter=Texture::Cubic;
 		}
+		Texture* textureAntares=scene->scene.LoadTexture(textureFolder+L"Antares.bmp");
+		{
+			textureAntares->filter=Texture::Cubic;
+		}
+
 		scene->scene.environmentLight=Color(0.2, 0.2, 0.2);
 		{
 			ParallelLight light;
@@ -45,10 +50,11 @@ extern "C"
 		}
 		{
 			Geometry* g=new Cube;
-			g->localMatrix=MatrixScale(200, 10, 150)*MatrixOffset(0, 150, 0);
+			g->localMatrix=MatrixScale(200, 10, 200)*MatrixOffset(0, 150, 0);
 			g->material.color=Color(0, 1, 0.5);
 			g->material.enableReflection=true;
 			g->material.reflection=0.5;
+			g->material.textureDiffuse=textureAntares;
 			g->Update();
 			scene->scene.geometries.Add(g);
 		}
