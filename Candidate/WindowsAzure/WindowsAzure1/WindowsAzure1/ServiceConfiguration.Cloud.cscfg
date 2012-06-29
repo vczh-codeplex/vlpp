@@ -3,7 +3,7 @@
   <Role name="MyWindowsAzureWebsite">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=killkula;AccountKey=aHR8HkBI2fwV9VlWYbAcEItmFaCl52FHVOMIwR4HiLeakCqniIgludsC+KMImCeLQ6Pg64dFp6Yo9hSdDg9Pmw==" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>
