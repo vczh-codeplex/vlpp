@@ -5,9 +5,11 @@ Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "AzureMVC3Test", "AzureMVC3T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureMVC3WebSite", "AzureMVC3WebSite\AzureMVC3WebSite.csproj", "{1061D50A-F53F-4BBF-87F0-7D290B0222D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureMVC3WebSite2", "AzureMVC3WebSite2\AzureMVC3WebSite2.csproj", "{D0B44CBF-1A28-42B3-B046-8A27129991D4}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
+		SccNumberOfProjects = 4
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
 		SccLocalPath0 = .
@@ -17,6 +19,9 @@ Global
 		SccProjectUniqueName2 = AzureMVC3WebSite\\AzureMVC3WebSite.csproj
 		SccProjectName2 = AzureMVC3WebSite
 		SccLocalPath2 = AzureMVC3WebSite
+		SccProjectUniqueName3 = AzureMVC3WebSite2\\AzureMVC3WebSite2.csproj
+		SccProjectName3 = AzureMVC3WebSite2
+		SccLocalPath3 = AzureMVC3WebSite2
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +36,10 @@ Global
 		{1061D50A-F53F-4BBF-87F0-7D290B0222D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1061D50A-F53F-4BBF-87F0-7D290B0222D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1061D50A-F53F-4BBF-87F0-7D290B0222D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0B44CBF-1A28-42B3-B046-8A27129991D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0B44CBF-1A28-42B3-B046-8A27129991D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0B44CBF-1A28-42B3-B046-8A27129991D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0B44CBF-1A28-42B3-B046-8A27129991D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
