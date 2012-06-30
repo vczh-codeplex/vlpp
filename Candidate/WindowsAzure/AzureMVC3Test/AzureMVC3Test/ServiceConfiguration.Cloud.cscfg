@@ -6,4 +6,10 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=azureteststorageeastasia;AccountKey=5PC2wRv273E0cComm6hdZmiZ7sAAQsACsMH0ErB5cObbh//FpyhBUlfzeOT27AO0j804XIhLXtr1/GWUBrREyw==" />
     </ConfigurationSettings>
   </Role>
+  <Role name="AzureMVC3WebSite2">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+    </ConfigurationSettings>
+  </Role>
 </ServiceConfiguration>

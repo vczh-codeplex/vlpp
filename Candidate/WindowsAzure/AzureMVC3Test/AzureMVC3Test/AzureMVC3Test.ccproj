@@ -41,6 +41,14 @@
     <ServiceConfiguration Include="ServiceConfiguration.Cloud.cscfg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AzureMVC3WebSite2\AzureMVC3WebSite2.csproj">
+      <Name>AzureMVC3WebSite2</Name>
+      <Project>{d0b44cbf-1a28-42b3-b046-8a27129991d4}</Project>
+      <Private>True</Private>
+      <RoleType>Web</RoleType>
+      <RoleName>AzureMVC3WebSite2</RoleName>
+      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+    </ProjectReference>
     <ProjectReference Include="..\AzureMVC3WebSite\AzureMVC3WebSite.csproj">
       <Name>AzureMVC3WebSite</Name>
       <Project>{1061d50a-f53f-4bbf-87f0-7d290b0222d9}</Project>
