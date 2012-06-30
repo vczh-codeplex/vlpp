@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="AzureMVC3Test" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="1" osVersion="*" schemaVersion="2012-05.1.7">
+  <Role name="AzureMVC3WebSite">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=azureteststorageeastasia;AccountKey=5PC2wRv273E0cComm6hdZmiZ7sAAQsACsMH0ErB5cObbh//FpyhBUlfzeOT27AO0j804XIhLXtr1/GWUBrREyw==" />
+    </ConfigurationSettings>
+  </Role>
+</ServiceConfiguration>

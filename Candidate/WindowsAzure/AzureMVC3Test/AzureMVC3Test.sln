@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "AzureMVC3Test", "AzureMVC3Test\AzureMVC3Test.ccproj", "{22AA58B8-A831-457E-A682-1F7A8B75901D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureMVC3WebSite", "AzureMVC3WebSite\AzureMVC3WebSite.csproj", "{1061D50A-F53F-4BBF-87F0-7D290B0222D9}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = AzureMVC3Test\\AzureMVC3Test.ccproj
+		SccProjectName1 = AzureMVC3Test
+		SccLocalPath1 = AzureMVC3Test
+		SccProjectUniqueName2 = AzureMVC3WebSite\\AzureMVC3WebSite.csproj
+		SccProjectName2 = AzureMVC3WebSite
+		SccLocalPath2 = AzureMVC3WebSite
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{22AA58B8-A831-457E-A682-1F7A8B75901D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22AA58B8-A831-457E-A682-1F7A8B75901D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22AA58B8-A831-457E-A682-1F7A8B75901D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22AA58B8-A831-457E-A682-1F7A8B75901D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1061D50A-F53F-4BBF-87F0-7D290B0222D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1061D50A-F53F-4BBF-87F0-7D290B0222D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1061D50A-F53F-4BBF-87F0-7D290B0222D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1061D50A-F53F-4BBF-87F0-7D290B0222D9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
