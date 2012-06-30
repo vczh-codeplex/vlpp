@@ -15,7 +15,7 @@
       <Import moduleName="Diagnostics" />
     </Imports>
   </WebRole>
-  <WebRole name="AzureMVC3WebSite2" vmsize="Small">
+  <WebRole name="AzureMVC3WebSite2" vmsize="ExtraSmall">
     <Sites>
       <Site name="Web">
         <Bindings>
