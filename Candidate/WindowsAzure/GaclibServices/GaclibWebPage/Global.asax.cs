@@ -22,9 +22,15 @@ namespace GaclibWebPage
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                "Default", // Route name
-                "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
+                "Default",
+                "",
+                new { controller = "Home", action = "Index" }
+            );
+
+            routes.MapRoute(
+                "TopNavigationPage",
+                "{action}.html",
+                new { controller = "Home" }
             );
 
         }
