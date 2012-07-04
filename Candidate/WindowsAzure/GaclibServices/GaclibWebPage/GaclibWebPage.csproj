@@ -105,8 +105,14 @@
     <Compile Include="WebRole.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\favicon.ico" />
+    <Content Include="Content\GacLib.png" />
+    <Content Include="Content\GacLib_Logo.gif" />
+    <Content Include="Content\GacLib_LogoAndTitle.gif" />
+    <Content Include="Content\GacLib_LogoAndTitle_Large.png" />
+    <Content Include="Content\PageStyle.css" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\DocStyle.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -11,6 +11,7 @@ namespace GaclibWebPage.Controllers
     {
         public ActionResult Index(NavigationBarModel model)
         {
+            model.ActiveButton = NavigationButtons.Home;
             return View(model);
         }
     }
