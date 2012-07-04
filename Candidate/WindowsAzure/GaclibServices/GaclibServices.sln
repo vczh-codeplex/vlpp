@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "GaclibServices", "GaclibServices\GaclibServices.ccproj", "{0EA681C6-412C-44E0-B9DB-FC9D9C763600}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GaclibWebPage", "GaclibWebPage\GaclibWebPage.csproj", "{4629481D-EB9E-43DB-B0D7-6C3F4265D002}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = GaclibServices\\GaclibServices.ccproj
+		SccProjectName1 = GaclibServices
+		SccLocalPath1 = GaclibServices
+		SccProjectUniqueName2 = GaclibWebPage\\GaclibWebPage.csproj
+		SccProjectName2 = GaclibWebPage
+		SccLocalPath2 = GaclibWebPage
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0EA681C6-412C-44E0-B9DB-FC9D9C763600}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EA681C6-412C-44E0-B9DB-FC9D9C763600}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EA681C6-412C-44E0-B9DB-FC9D9C763600}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EA681C6-412C-44E0-B9DB-FC9D9C763600}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4629481D-EB9E-43DB-B0D7-6C3F4265D002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4629481D-EB9E-43DB-B0D7-6C3F4265D002}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4629481D-EB9E-43DB-B0D7-6C3F4265D002}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4629481D-EB9E-43DB-B0D7-6C3F4265D002}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
