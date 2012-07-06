@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.StorageClient;
 using System.Threading;
+using System.Data.Services.Common;
 
 namespace AzureStorageTest
 {
@@ -117,7 +118,7 @@ namespace AzureStorageTest
             }
 
             Console.WriteLine("Uploading data...");
-            for (int i = 0; i<30; i++)
+            for (int i = 0; i < 30; i++)
             {
                 containerIn.AddMessage(new CloudQueueMessage("queue message " + i.ToString()));
             }
@@ -141,9 +142,85 @@ namespace AzureStorageTest
             }
         }
 
+        class SquareRow : TableServiceEntity
+        {
+            public int Number { get; set; }
+            public int Squared { get; set; }
+        }
+
+        class DoubleRow : TableServiceEntity
+        {
+            public int Number { get; set; }
+            public int Doubled { get; set; }
+        }
+
         static void DoTables(CloudStorageAccount account)
         {
             Console.WriteLine("=======================TABLE==========================");
+            CloudTableClient tableClient = new CloudTableClient(account.TableEndpoint.AbsoluteUri, account.Credentials);
+            TableServiceContext context = tableClient.GetDataServiceContext();
+
+            Console.WriteLine("Clearning container...");
+            tableClient.DeleteTableIfExist("AzureStorageTestTableFrom");
+            tableClient.DeleteTableIfExist("AzureStorageTestTableTo");
+
+            Console.WriteLine("Creating container...");
+            while (true)
+            {
+                try
+                {
+                    tableClient.CreateTable("AzureStorageTestTableFrom");
+                    break;
+                }
+                catch (Exception)
+                {
+                    Thread.Sleep(1000);
+                }
+            }
+            while (true)
+            {
+                try
+                {
+                    tableClient.CreateTable("AzureStorageTestTableTo");
+                    break;
+                }
+                catch (Exception)
+                {
+                    Thread.Sleep(1000);
+                }
+            }
+
+            Console.WriteLine("Uploading data...");
+            for (int i = 0; i < 30; i++)
+            {
+                SquareRow row = new SquareRow()
+                {
+                    Number = i,
+                    Squared = i * i,
+                    PartitionKey = "0",
+                    RowKey = Guid.NewGuid().ToString(),
+                };
+                context.AddObject("AzureStorageTestTableFrom", row);
+            }
+            context.SaveChanges();
+
+            Console.WriteLine("Checking data...");
+            var query =
+                from row in context.CreateQuery<SquareRow>("AzureStorageTestTableFrom")
+                where row.Number < 10
+                select row;
+            foreach (var square in query)
+            {
+                DoubleRow row = new DoubleRow()
+                {
+                    Number = square.Squared,
+                    Doubled = square.Squared * 2,
+                    PartitionKey = "0",
+                    RowKey = Guid.NewGuid().ToString(),
+                };
+                context.AddObject("AzureStorageTestTableTo", row);
+            }
+            context.SaveChanges();
         }
     }
 }
