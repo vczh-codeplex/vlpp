@@ -9,10 +9,34 @@ namespace ConsoleServer
 {
     class Program
     {
-        [Route("/hello/{name1},{name2}")]
-        public string Index(string name2, string name1)
+        [Route("/index.htm")]
+        public string Index()
         {
-            return string.Format("<b>Hello {0} - {1}!</b>", name1, name2);
+            return @"
+<html>
+<head><title>Vczh's Website</title></head>
+<body>
+<p><strong>Welcome to Vczh's Website.</strong></p>
+<p><a href=""./hello/vczh.htm"">vczh</a></p>
+<p><a href=""./hello/JJLee.htm"">JJLee</a></p>
+</body>
+</html>
+";
+        }
+
+        [Route("/hello/{name}.htm")]
+        public string Hello(string name)
+        {
+            string html = @"
+<html>
+<head><title>Vczh's Website</title></head>
+<body>
+Hello, <strong>{0}</strong>.
+<a href=""../index.htm"">Home page</a>
+</body>
+</html>
+";
+            return string.Format(html, name);
         }
 
         static void Main(string[] args)
