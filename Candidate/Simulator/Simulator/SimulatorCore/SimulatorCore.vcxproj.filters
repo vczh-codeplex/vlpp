@@ -370,6 +370,9 @@
     <None Include="..\Textures\Antares.bmp">
       <Filter>Textures</Filter>
     </None>
+    <None Include="..\Textures\ArthasLee.bmp">
+      <Filter>Textures</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Object Include="..\Textures\conference.obj">

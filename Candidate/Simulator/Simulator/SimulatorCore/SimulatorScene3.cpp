@@ -8,7 +8,7 @@ extern "C"
 
 		SceneHandle* scene=new SceneHandle;
 		InstallSky(&scene->scene);
-		Texture* textureEarth=scene->scene.LoadTexture(textureFolder+L"Earth.bmp");
+		Texture* textureEarth=scene->scene.LoadTexture(textureFolder+L"ArthasLee.bmp");
 		Texture* textureEarthNormal=scene->scene.LoadTexture(textureFolder+L"EarthNormal.bmp");
 		{
 			textureEarth->filter=Texture::Cubic;
