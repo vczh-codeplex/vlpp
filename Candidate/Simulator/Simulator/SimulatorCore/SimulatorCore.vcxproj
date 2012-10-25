@@ -179,6 +179,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Textures\Antares.bmp" />
+    <None Include="..\Textures\ArthasLee.bmp" />
     <None Include="..\Textures\Earth.bmp" />
     <None Include="..\Textures\EarthNormal.bmp" />
     <None Include="..\Textures\SkyBox\+x.bmp" />

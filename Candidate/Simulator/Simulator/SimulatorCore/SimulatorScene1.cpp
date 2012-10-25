@@ -12,7 +12,7 @@ extern "C"
 		{
 			textureEarthNormal->filter=Texture::Cubic;
 		}
-		Texture* textureAntares=scene->scene.LoadTexture(textureFolder+L"Antares.bmp");
+		Texture* textureAntares=scene->scene.LoadTexture(textureFolder+L"Earth.bmp");
 		{
 			textureAntares->filter=Texture::Cubic;
 		}
