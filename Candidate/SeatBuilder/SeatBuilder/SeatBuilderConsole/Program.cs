@@ -39,10 +39,7 @@ namespace SeatBuilderConsole
                     .ToArray();
             }
 
-            foreach (var inputPath in new string[]
-                {
-                    @"..\..\..\..\Input\市局中级名册（第一批）.xml",
-                })
+            foreach (var inputPath in Directory.GetFiles(@"..\..\..\..\Input\", "*.xml"))
             {
                 PersonWorkbook pwb = new PersonWorkbook(inputPath);
                 foreach (var worksheet in pwb.Worksheets)
