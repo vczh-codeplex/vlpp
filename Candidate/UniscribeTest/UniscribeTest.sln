@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UniscribeTest", "UniscribeTest\UniscribeTest.vcxproj", "{32FBBD0C-2D9A-4D5F-ABCA-CE9B98EE01E8}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 2
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs02
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = UniscribeTest\\UniscribeTest.vcxproj
+		SccProjectName1 = UniscribeTest
+		SccLocalPath1 = UniscribeTest
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{32FBBD0C-2D9A-4D5F-ABCA-CE9B98EE01E8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{32FBBD0C-2D9A-4D5F-ABCA-CE9B98EE01E8}.Debug|Win32.Build.0 = Debug|Win32
+		{32FBBD0C-2D9A-4D5F-ABCA-CE9B98EE01E8}.Release|Win32.ActiveCfg = Release|Win32
+		{32FBBD0C-2D9A-4D5F-ABCA-CE9B98EE01E8}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
