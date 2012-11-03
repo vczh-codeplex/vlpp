@@ -188,6 +188,18 @@ FINISH_SCRIPT_SHAPE:
 		placeInfos.push_back(placeInfo);
 	}
 
+	vector<BYTE> bidiLevels;
+	vector<int> v2ls;
+	vector<int> l2vs;
+	bidiLevels.resize(placeInfos.size());
+	v2ls.resize(placeInfos.size());
+	l2vs.resize(placeInfos.size());
+	for(int i=0;i<(int)placeInfos.size();i++)
+	{
+		bidiLevels[i]==placeInfos[i]->sa.s.uBidiLevel;
+	}
+	ScriptLayout((int)bidiLevels.size(), &bidiLevels[0], &v2ls[0], &l2vs[0]);
+
 	for(int i=0;i<(int)scriptRanges.size();i++)
 	{
 		ScriptFreeCache(&scriptRanges[0]->cache);
