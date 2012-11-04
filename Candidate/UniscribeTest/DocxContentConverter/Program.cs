@@ -1,0 +1,97 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+
+namespace DocxContentConverter
+{
+    class Program
+    {
+        class FontInfo
+        {
+            public string Name { get; set; }
+            public bool Bold { get; set; }
+            public string Color { get; set; }
+            public string Size { get; set; }
+        }
+
+        static void Main(string[] args)
+        {
+            XDocument document = XDocument.Load("content.xml");
+            string fo = "urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0";
+            string office = "urn:oasis:names:tc:opendocument:xmlns:office:1.0";
+            string style = "urn:oasis:names:tc:opendocument:xmlns:style:1.0";
+            string text = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
+
+            var styles = document
+                .Root
+                .Element(XName.Get("automatic-styles", office))
+                .Elements(XName.Get("style", style))
+                .Select(s =>
+                    Tuple.Create(
+                        s.Attribute(XName.Get("name", style)).Value,
+                        s.Element(XName.Get("text-properties", style))
+                        )
+                    )
+                .Where(t => t.Item2 != null)
+                .ToDictionary(
+                    t => t.Item1,
+                    t => new FontInfo
+                    {
+                        Name = t.Item2.Attribute(XName.Get("font-name", style)).Value,
+                        Bold = t.Item2.Attribute(XName.Get("font-weight", fo)) != null && t.Item2.Attribute(XName.Get("font-weight", fo)).Value == "bold",
+                        Color = t.Item2.Attribute(XName.Get("color", fo)).Value,
+                        Size = t.Item2.Attribute(XName.Get("font-size", fo)).Value,
+                    });
+
+            var paragraphs = document
+                .Root
+                .Element(XName.Get("body", office))
+                .Element(XName.Get("text", office))
+                .Elements(XName.Get("p", text))
+                .ToArray();
+
+            var spans = paragraphs
+                .Select(p =>
+                    Tuple.Create(
+                        p.Attribute(XName.Get("style-name", text)).Value,
+                        p.Elements(XName.Get("span", text))
+                            .Select(s =>
+                                Tuple.Create(
+                                    s.Attribute(XName.Get("style-name", text)).Value,
+                                    s.Value
+                                    )
+                                )
+                            .ToArray()
+                        )
+                    )
+                .ToArray();
+
+            XDocument output = new XDocument();
+            output.Add(
+                new XElement("document",
+                    spans.Select(p =>
+                        new XElement(
+                            "p",
+                            p.Item2.Select(s =>
+                                {
+                                    var fontInfo = styles[s.Item1];
+                                    return new XElement(
+                                        "s",
+                                        new XAttribute("font", fontInfo.Name),
+                                        new XAttribute("bold", fontInfo.Bold),
+                                        new XAttribute("color", fontInfo.Color),
+                                        new XAttribute("size", fontInfo.Size),
+                                        s.Item2
+                                        );
+                                })
+                            )
+                        )
+                    )
+                );
+            output.Save("document.xml");
+        }
+    }
+}
