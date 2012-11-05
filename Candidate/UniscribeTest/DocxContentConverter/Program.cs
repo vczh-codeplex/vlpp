@@ -15,6 +15,11 @@ namespace DocxContentConverter
             public bool Bold { get; set; }
             public string Color { get; set; }
             public string Size { get; set; }
+
+            public override string ToString()
+            {
+                return Name + "#" + Bold + "#" + Color + "#" + Size;
+            }
         }
 
         static void Main(string[] args)
@@ -75,18 +80,41 @@ namespace DocxContentConverter
                     spans.Select(p =>
                         new XElement(
                             "p",
-                            p.Item2.Select(s =>
-                                {
-                                    var fontInfo = styles[s.Item1];
-                                    return new XElement(
-                                        "s",
-                                        new XAttribute("font", fontInfo.Name),
-                                        new XAttribute("bold", fontInfo.Bold),
-                                        new XAttribute("color", fontInfo.Color),
-                                        new XAttribute("size", fontInfo.Size),
-                                        s.Item2
-                                        );
-                                })
+                            p.Item2
+                                .Aggregate(new Tuple<string, string>[] { }, (a, b) =>
+                                    {
+                                        if (a.Length == 0)
+                                        {
+                                            return new Tuple<string, string>[] { b };
+                                        }
+                                        else
+                                        {
+                                            var last = a.Last();
+                                            var fontInfo1 = styles[last.Item1];
+                                            var fontInfo2 = styles[b.Item1];
+                                            if (fontInfo1.ToString() == fontInfo2.ToString())
+                                            {
+                                                a[a.Length - 1] = Tuple.Create(last.Item1, last.Item2 + b.Item2);
+                                                return a;
+                                            }
+                                            else
+                                            {
+                                                return a.Concat(new Tuple<string, string>[] { b }).ToArray();
+                                            }
+                                        }
+                                    })
+                                .Select(s =>
+                                    {
+                                        var fontInfo = styles[s.Item1];
+                                        return new XElement(
+                                            "s",
+                                            new XAttribute("font", fontInfo.Name),
+                                            new XAttribute("bold", fontInfo.Bold),
+                                            new XAttribute("color", fontInfo.Color),
+                                            new XAttribute("size", fontInfo.Size),
+                                            s.Item2
+                                            );
+                                    })
                             )
                         )
                     )
