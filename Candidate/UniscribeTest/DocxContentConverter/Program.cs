@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,21 @@ namespace DocxContentConverter
             public override string ToString()
             {
                 return Name + "#" + Bold + "#" + Color + "#" + Size;
+            }
+        }
+
+        static IEnumerable<XElement> RecursiveElements(XElement parent, XName name)
+        {
+            foreach (var e in parent.Elements())
+            {
+                if (e.Name == name)
+                {
+                    yield return e;
+                }
+                foreach (var se in RecursiveElements(e, name))
+                {
+                    yield return se;
+                }
             }
         }
 
@@ -62,7 +78,7 @@ namespace DocxContentConverter
                 .Select(p =>
                     Tuple.Create(
                         p.Attribute(XName.Get("style-name", text)).Value,
-                        p.Elements(XName.Get("span", text))
+                        RecursiveElements(p, XName.Get("span", text))
                             .Select(s =>
                                 Tuple.Create(
                                     s.Attribute(XName.Get("style-name", text)).Value,
@@ -120,6 +136,28 @@ namespace DocxContentConverter
                     )
                 );
             output.Save("document.xml");
+
+            using (StreamWriter writer = new StreamWriter("document.txt"))
+            {
+                foreach (var p in output.Root.Elements("p"))
+                {
+                    if (p.HasElements)
+                    {
+                        foreach (var s in p.Elements("s"))
+                        {
+                            writer.WriteLine(
+                                "<s>{0}:{1}:{2}:{3}:{4}</s>",
+                                s.Attribute("font").Value,
+                                s.Attribute("bold").Value,
+                                s.Attribute("color").Value,
+                                s.Attribute("size").Value,
+                                s.Value
+                                );
+                        }
+                        writer.WriteLine();
+                    }
+                }
+            }
         }
     }
 }
