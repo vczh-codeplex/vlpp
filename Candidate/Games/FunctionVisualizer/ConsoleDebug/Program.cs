@@ -12,6 +12,40 @@ namespace ConsoleDebug
         static void Main(string[] args)
         {
             {
+                string e = "(k1 *Cs1 + k2 * Co2) / (k1 * C1 + k2 * C2)";
+                {
+                    RawExpression exp = RawExpression.Parse(e);
+                    RawExpression dk1 = exp.Different("k1").Simplify();
+                    RawExpression dk2 = exp.Different("k2").Simplify();
+
+                    Console.WriteLine("input:\t\t" + e);
+                    Console.WriteLine("parse:\t\t" + exp.ToCode());
+                    Console.WriteLine("dk1:\t\t" + dk1.ToCode());
+                    Console.WriteLine("dk2:\t\t" + dk2.ToCode());
+                }
+
+                // cs1 = 128, Co2 = 1024, C1 = 256, C2 = 2048
+                Dictionary<string, double> values = new Dictionary<string, double>
+                {
+                    {"Cs1", 128},
+                    {"Co2", 1024},
+                    {"C1", 256},
+                    {"C2", 2048},
+                };
+                foreach (var p in values)
+                {
+                    Console.WriteLine("{0} => {1}", p.Value, p.Key);
+                }
+                {
+                    RawExpression exp = RawExpression.Parse(e).Apply(values).Simplify();
+                    RawExpression dk1 = exp.Different("k1").Simplify();
+                    RawExpression dk2 = exp.Different("k2").Simplify();
+                    Console.WriteLine("applied:\t" + exp.ToCode());
+                    Console.WriteLine("dk1:\t\t" + dk1.ToCode());
+                    Console.WriteLine("dk2:\t\t" + dk2.ToCode());
+                }
+            }
+            {
                 string[] expressions =
                 {
                     "1",
@@ -33,7 +67,6 @@ namespace ConsoleDebug
                     "sec(x)",
                     "csc(x)",
                 };
-
                 foreach (var e in expressions)
                 {
                     RawExpression exp = RawExpression.Parse(e);
@@ -49,7 +82,6 @@ namespace ConsoleDebug
                     Debug.Assert(exp.ToCode() == RawExpression.Parse(exp.ToCode()).ToCode());
                 }
             }
-
             {
                 string[] expressions =
                 {
