@@ -141,21 +141,18 @@ namespace DocxContentConverter
             {
                 foreach (var p in output.Root.Elements("p"))
                 {
-                    if (p.HasElements)
+                    foreach (var s in p.Elements("s"))
                     {
-                        foreach (var s in p.Elements("s"))
-                        {
-                            writer.WriteLine(
-                                "<s>{0}:{1}:{2}:{3}:{4}</s>",
-                                s.Attribute("font").Value,
-                                s.Attribute("bold").Value,
-                                s.Attribute("color").Value,
-                                s.Attribute("size").Value,
-                                s.Value
-                                );
-                        }
-                        writer.WriteLine();
+                        writer.WriteLine(
+                            "<s>{0}:{1}:{2}:{3}:{4}</s>",
+                            s.Attribute("font").Value,
+                            s.Attribute("bold").Value,
+                            s.Attribute("color").Value,
+                            s.Attribute("size").Value,
+                            s.Value
+                            );
                     }
+                    writer.WriteLine("<p/>");
                 }
             }
         }
