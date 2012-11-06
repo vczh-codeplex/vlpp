@@ -74,15 +74,11 @@ namespace FvSurface
         }
 
         const int scale = 50;
-        const string input = "(k1 *Cs1 + k2 * Co2) / (k1 * C1 + k2 * C2)";
-        const string v1 = "k1";
-        const string v2 = "k2";
+        const string input = "(x-0.5)*(x-0.5)+(y-0.5)*(y-0.5)";
+        const string v1 = "y";
+        const string v2 = "x";
         static readonly Dictionary<string, double> values = new Dictionary<string, double>
         {
-            {"Cs1", 198},
-            {"Co2", 675},
-            {"C1", 567},
-            {"C2", 2300},
         };
 
         private RawExpression surfaceExpression = RawExpression.Parse(input).Apply(values).Simplify();
@@ -157,7 +153,7 @@ namespace FvSurface
             {
                 for (int y = 0; y <= scale; y++)
                 {
-                    this.surfaceValues[x, y] = 2 * (this.surfaceValues[x, y] - this.surfaceMin) / (this.surfaceMax - this.surfaceMin) - 1;
+                    //this.surfaceValues[x, y] = 2 * (this.surfaceValues[x, y] - this.surfaceMin) / (this.surfaceMax - this.surfaceMin) - 1;
                 }
             }
         }
