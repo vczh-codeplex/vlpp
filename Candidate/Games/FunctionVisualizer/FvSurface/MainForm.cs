@@ -92,7 +92,7 @@ namespace FvSurface
 
         private double viewAlpha = Math.PI / 4;
         private double viewBeta = Math.PI / 4;
-        private double viewDistance = 1.5;
+        private double viewDistance = 1.8;
 
         private bool dragging = false;
         private Point draggingPosition;
@@ -157,7 +157,7 @@ namespace FvSurface
             {
                 for (int y = 0; y <= scale; y++)
                 {
-                    this.surfaceValues[x, y] = (this.surfaceValues[x, y] - this.surfaceMin) / (this.surfaceMax - this.surfaceMin);
+                    this.surfaceValues[x, y] = 2 * (this.surfaceValues[x, y] - this.surfaceMin) / (this.surfaceMax - this.surfaceMin) - 1;
                 }
             }
         }
