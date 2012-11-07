@@ -83,8 +83,6 @@ namespace FvSurface
 
         private RawExpression surfaceExpression = RawExpression.Parse(input).Apply(values).Simplify();
         private double[,] surfaceValues = null;
-        private double surfaceMin = 0;
-        private double surfaceMax = 0;
 
         private double viewAlpha = Math.PI / 4;
         private double viewBeta = Math.PI / 4;
@@ -103,7 +101,7 @@ namespace FvSurface
             return v;
         }
 
-        private Point Convert(Point3D p, int w, int h)
+        private Point3D Project(Point3D p)
         {
             Point3D v = ViewPoint(viewAlpha, viewBeta, viewDistance);
             Point3D vy = ViewPoint(viewAlpha, viewBeta + Math.PI / 2, 1);
@@ -116,8 +114,14 @@ namespace FvSurface
             double cy = Point3D.Dot(proj, vy) / viewDistance;
             double cx = Point3D.Dot(proj, vx) / viewDistance;
 
+            return new Point3D(cx, cy, scale);
+        }
+
+        private Point Project(Point3D p, int w, int h)
+        {
+            Point3D q = Project(p);
             int m = Math.Min(w, h);
-            return new Point((int)((cx + 0.5) * m) + (w - m) / 2, (int)((0.5 - cy) * m) + (h - m) / 2);
+            return new Point((int)((q.x + 0.5) * m) + (w - m) / 2, (int)((0.5 - q.y) * m) + (h - m) / 2);
         }
 
         private double ScaleToAxis(int i)
@@ -133,13 +137,31 @@ namespace FvSurface
             return new Point3D(vx, vy, vz);
         }
 
+        private Point3D GetAxisPoint(int x, int y)
+        {
+            double vx = ScaleToAxis(x);
+            double vy = ScaleToAxis(y);
+            return new Point3D(vx, vy, 0);
+        }
+
         private void Line(Point3D p1, Point3D p2, Graphics g, Pen pen)
         {
             int w = this.ClientSize.Width;
             int h = this.ClientSize.Height;
-            Point q1 = Convert(p1, w, h);
-            Point q2 = Convert(p2, w, h);
+            Point q1 = Project(p1, w, h);
+            Point q2 = Project(p2, w, h);
             g.DrawLine(pen, q1, q2);
+        }
+
+        private void Polygon(Point3D[] ps, Graphics g, Pen pen, Brush brush)
+        {
+            int w = this.ClientSize.Width;
+            int h = this.ClientSize.Height;
+            Point[] projectedPs = ps
+                .Select(p => Project(p, w, h))
+                .ToArray();
+            g.FillPolygon(brush, projectedPs);
+            g.DrawPolygon(pen, projectedPs);
         }
 
         public MainForm()
@@ -158,13 +180,24 @@ namespace FvSurface
                     this.surfaceValues[x, y] = surfaceExpression.Execute(new Dictionary<string, double> { { v1, vx }, { v2, vy } });
                 }
             }
-            this.surfaceMin = this.surfaceValues.Cast<double>().Where(d => !double.IsNaN(d)).Min();
-            this.surfaceMax = this.surfaceValues.Cast<double>().Where(d => !double.IsNaN(d)).Max();
-            for (int x = 0; x <= scale; x++)
+        }
+
+        private void PaintPart(Point far, Point near, Graphics g)
+        {
+            int vx = (near.X - far.X);
+            int vy = (near.Y - far.Y);
+            vx = vx < 0 ? -1 : vx > 0 ? 1 : 0;
+            vy = vy < 0 ? -1 : vy > 0 ? 1 : 0;
+            for (int x = far.X; x != near.X; x += vx)
             {
-                for (int y = 0; y <= scale; y++)
+                for (int y = far.Y; y != near.Y; y += vy)
                 {
-                    //this.surfaceValues[x, y] = 2 * (this.surfaceValues[x, y] - this.surfaceMin) / (this.surfaceMax - this.surfaceMin) - 1;
+                    int x1 = x;
+                    int y1 = y;
+                    int x2 = x + vx;
+                    int y2 = y + vy;
+                    Point3D[] points = new Point3D[] { GetPoint(x1, y1), GetPoint(x1, y2), GetPoint(x2, y2), GetPoint(x2, y1) };
+                    Polygon(points, g, Pens.Black, Brushes.White);
                 }
             }
         }
@@ -175,27 +208,81 @@ namespace FvSurface
             e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             e.Graphics.FillRectangle(Brushes.White, e.ClipRectangle);
 
-            for (int x = 0; x <= scale; x++)
+            Point[] corners = new Point[]
             {
-                for (int y = 0; y < scale; y++)
-                {
-                    Point3D p1 = GetPoint(x, y);
-                    Point3D p2 = GetPoint(x, y + 1);
-                    if (!double.IsNaN(p1.z) && !double.IsNaN(p2.z))
-                    {
-                        Line(p1, p2, e.Graphics, Pens.Black);
-                    }
-                }
+                new Point(0, 0),
+                new Point(0, scale),
+                new Point(scale, 0),
+                new Point(scale, scale),
+            };
+
+            Point3D[] projectedCorners = corners
+                .Select(p => Project(GetAxisPoint(p.X, p.Y)))
+                .ToArray();
+
+            int[] indices = Enumerable
+                .Range(0, 4)
+                .OrderBy(i => projectedCorners[i].z)
+                .ToArray();
+
+            int fl = projectedCorners[indices[0]].x < projectedCorners[indices[1]].x ? indices[0] : indices[1];
+            int fr = indices[0] + indices[1] - fl;
+            int nl = projectedCorners[indices[2]].x < projectedCorners[indices[3]].x ? indices[2] : indices[3];
+            int nr = indices[2] + indices[3] - nl;
+
+            if (projectedCorners[fl].x <= projectedCorners[nl].x && projectedCorners[fr].x <= projectedCorners[nr].x)
+            {
+                PaintPart(corners[fr], corners[nl], e.Graphics);
             }
-            for (int y = 0; y <= scale; y++)
+            else if (projectedCorners[fl].x >= projectedCorners[nl].x && projectedCorners[fr].x >= projectedCorners[nr].x)
             {
-                for (int x = 0; x < scale; x++)
+                PaintPart(corners[fl], corners[nr], e.Graphics);
+            }
+            else
+            {
+                int vx = (corners[fr].X - corners[fl].X) / scale;
+                int vy = (corners[fr].Y - corners[fl].Y) / scale;
+                int ux = (corners[nl].X - corners[fl].X) / scale;
+                int uy = (corners[nl].Y - corners[fl].Y) / scale;
+                int ms = -1;
+                for (int i = 0; i < scale; i++)
                 {
-                    Point3D p1 = GetPoint(x, y);
-                    Point3D p2 = GetPoint(x + 1, y);
-                    if (!double.IsNaN(p1.z) && !double.IsNaN(p2.z))
+                    int cvx1 = vx * i;
+                    int cvx2 = vx * (i + 1);
+                    int cvy1 = vy * i;
+                    int cvy2 = vy * (i + 1);
+
+                    Point cfl = new Point(corners[fl].X + cvx1, corners[fl].Y + cvy1);
+                    Point cfr = new Point(corners[fl].X + cvx2, corners[fl].Y + cvy2);
+                    Point cnl = new Point(corners[nl].X + cvx1, corners[nl].Y + cvy1);
+                    Point cnr = new Point(corners[nl].X + cvx2, corners[nl].Y + cvy2);
+
+                    Point3D pcfl = Project(GetAxisPoint(cfl.X, cfl.Y));
+                    Point3D pcfr = Project(GetAxisPoint(cfr.X, cfr.Y));
+                    Point3D pcnl = Project(GetAxisPoint(cnl.X, cnl.Y));
+                    Point3D pcnr = Project(GetAxisPoint(cnr.X, cnr.Y));
+
+                    ms = i;
+                    break;
+                }
+
+                if (ms != 1)
+                {
+                    for (int u = 0; u < scale; u++)
                     {
-                        Line(p1, p2, e.Graphics, Pens.Black);
+                        Point ufl = new Point(corners[fl].X + u * ux, corners[fl].Y + u * uy);
+                        Point ufr = new Point(corners[fr].X + u * ux, corners[fr].Y + u * uy);
+                        Point unl = new Point(corners[fl].X + (u + 1) * ux, corners[fl].Y + (u + 1) * uy);
+                        Point unr = new Point(corners[fr].X + (u + 1) * ux, corners[fr].Y + (u + 1) * uy);
+
+                        Point cfl = new Point(ufl.X + ms * vx, ufl.Y + ms * vy);
+                        Point cfr = new Point(ufl.X + (ms + 1) * vx, ufl.Y + (ms + 1) * vy);
+                        Point cnl = new Point(unl.X + ms * vx, unl.Y + ms * vy);
+                        Point cnr = new Point(unl.X + (ms + 1) * vx, unl.Y + (ms + 1) * vy);
+
+                        PaintPart(ufl, cnl, e.Graphics);
+                        PaintPart(ufr, cnr, e.Graphics);
+                        PaintPart(cfl, cnr, e.Graphics);
                     }
                 }
             }
