@@ -63,7 +63,7 @@ namespace DocxContentConverter
                     {
                         Name = t.Item2.Attribute(XName.Get("font-name", style)).Value,
                         Bold = t.Item2.Attribute(XName.Get("font-weight", fo)) != null && t.Item2.Attribute(XName.Get("font-weight", fo)).Value == "bold",
-                        Color = t.Item2.Attribute(XName.Get("color", fo)).Value,
+                        Color = t.Item2.Attribute(XName.Get("color", fo)) != null ? t.Item2.Attribute(XName.Get("color", fo)).Value : "#000000",
                         Size = t.Item2.Attribute(XName.Get("font-size", fo)).Value,
                     });
 
