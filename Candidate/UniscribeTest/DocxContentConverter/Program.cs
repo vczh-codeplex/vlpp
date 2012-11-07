@@ -25,15 +25,23 @@ namespace DocxContentConverter
 
         static IEnumerable<XElement> RecursiveElements(XElement parent, XName name)
         {
+            if (parent.Name == name)
+            {
+                yield return parent;
+                yield break;
+            }
             foreach (var e in parent.Elements())
             {
                 if (e.Name == name)
                 {
                     yield return e;
                 }
-                foreach (var se in RecursiveElements(e, name))
+                else
                 {
-                    yield return se;
+                    foreach (var se in RecursiveElements(e, name))
+                    {
+                        yield return se;
+                    }
                 }
             }
         }
@@ -67,25 +75,48 @@ namespace DocxContentConverter
                         Size = t.Item2.Attribute(XName.Get("font-size", fo)).Value,
                     });
 
-            var paragraphs = document
-                .Root
-                .Element(XName.Get("body", office))
-                .Element(XName.Get("text", office))
-                .Elements(XName.Get("p", text))
+            var paragraphs =
+                 RecursiveElements(
+                    document
+                        .Root
+                        .Element(XName.Get("body", office))
+                        .Element(XName.Get("text", office))
+                    , XName.Get("p", text)
+                    )
                 .ToArray();
 
             var spans = paragraphs
                 .Select(p =>
                     Tuple.Create(
                         p.Attribute(XName.Get("style-name", text)).Value,
-                        RecursiveElements(p, XName.Get("span", text))
-                            .Select(s =>
-                                Tuple.Create(
-                                    s.Attribute(XName.Get("style-name", text)).Value,
-                                    s.Value
-                                    )
-                                )
-                            .ToArray()
+                        p.Nodes().Aggregate(new Tuple<string, string>[] { }, (xs, x) =>
+                            {
+                                if (x is XText)
+                                {
+                                    return xs
+                                        .Concat(
+                                            new Tuple<string, string>[] { Tuple.Create(p.Attribute(XName.Get("style-name", text)).Value, x.ToString()) })
+                                        .ToArray();
+                                }
+                                else
+                                {
+                                    var ys = RecursiveElements(x as XElement, XName.Get("span", text))
+                                        .Select(s =>
+                                            Tuple.Create(
+                                                s.Attribute(XName.Get("style-name", text)).Value,
+                                                s.Nodes()
+                                                    .Select(n =>
+                                                        n is XText ? n.ToString() :
+                                                        n is XElement && (n as XElement).Name.LocalName == "line-break" ? "\r\n" :
+                                                        ""
+                                                        )
+                                                    .Aggregate((a, b) => a + b)
+                                                )
+                                            )
+                                        .ToArray();
+                                    return xs.Concat(ys).ToArray();
+                                }
+                            })
                         )
                     )
                 .ToArray();
@@ -137,7 +168,7 @@ namespace DocxContentConverter
                 );
             output.Save("document.xml");
 
-            using (StreamWriter writer = new StreamWriter("document.txt"))
+            using (StreamWriter writer = new StreamWriter("document2.txt"))
             {
                 foreach (var p in output.Root.Elements("p"))
                 {
