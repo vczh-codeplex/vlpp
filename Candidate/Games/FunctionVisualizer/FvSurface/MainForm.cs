@@ -73,8 +73,8 @@ namespace FvSurface
             }
         }
 
-        const int scale = 50;
-        const string input = "(x-0.5)*(x-0.5)+(y-0.5)*(y-0.5)";
+        const int scale = 60;
+        const string input = "(sin(x*10)+cos(y*10))/10";
         const string v1 = "y";
         const string v2 = "x";
         static readonly Dictionary<string, double> values = new Dictionary<string, double>
@@ -88,7 +88,7 @@ namespace FvSurface
 
         private double viewAlpha = Math.PI / 4;
         private double viewBeta = Math.PI / 4;
-        private double viewDistance = 1.8;
+        private double viewDistance = 3;
 
         private bool dragging = false;
         private Point draggingPosition;
@@ -105,8 +105,6 @@ namespace FvSurface
 
         private Point Convert(Point3D p, int w, int h)
         {
-            p = p - new Point3D(0.5, 0.5, 0.5);
-
             Point3D v = ViewPoint(viewAlpha, viewBeta, viewDistance);
             Point3D vy = ViewPoint(viewAlpha, viewBeta + Math.PI / 2, 1);
             Point3D vx = Point3D.Mul(vy, v);
@@ -120,6 +118,19 @@ namespace FvSurface
 
             int m = Math.Min(w, h);
             return new Point((int)((cx + 0.5) * m) + (w - m) / 2, (int)((0.5 - cy) * m) + (h - m) / 2);
+        }
+
+        private double ScaleToAxis(int i)
+        {
+            return 2 * i / (double)scale - 1;
+        }
+
+        private Point3D GetPoint(int x, int y)
+        {
+            double vx = ScaleToAxis(x);
+            double vy = ScaleToAxis(y);
+            double vz = this.surfaceValues[x, y];
+            return new Point3D(vx, vy, vz);
         }
 
         private void Line(Point3D p1, Point3D p2, Graphics g, Pen pen)
@@ -142,8 +153,8 @@ namespace FvSurface
             {
                 for (int y = 0; y <= scale; y++)
                 {
-                    double vx = x / (double)scale;
-                    double vy = y / (double)scale;
+                    double vx = ScaleToAxis(x);
+                    double vy = ScaleToAxis(y);
                     this.surfaceValues[x, y] = surfaceExpression.Execute(new Dictionary<string, double> { { v1, vx }, { v2, vy } });
                 }
             }
@@ -160,20 +171,19 @@ namespace FvSurface
 
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
+            e.Graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             e.Graphics.FillRectangle(Brushes.White, e.ClipRectangle);
 
             for (int x = 0; x <= scale; x++)
             {
                 for (int y = 0; y < scale; y++)
                 {
-                    double vx = x / (double)scale;
-                    double vy1 = y / (double)scale;
-                    double vy2 = (y + 1) / (double)scale;
-                    double vz1 = this.surfaceValues[x, y];
-                    double vz2 = this.surfaceValues[x, y + 1];
-                    if (!double.IsNaN(vz1) && !double.IsNaN(vz2))
+                    Point3D p1 = GetPoint(x, y);
+                    Point3D p2 = GetPoint(x, y + 1);
+                    if (!double.IsNaN(p1.z) && !double.IsNaN(p2.z))
                     {
-                        Line(new Point3D(vx, vy1, vz1), new Point3D(vx, vy2, vz2), e.Graphics, Pens.Black);
+                        Line(p1, p2, e.Graphics, Pens.Black);
                     }
                 }
             }
@@ -181,14 +191,11 @@ namespace FvSurface
             {
                 for (int x = 0; x < scale; x++)
                 {
-                    double vx1 = x / (double)scale;
-                    double vx2 = (x + 1) / (double)scale;
-                    double vy = y / (double)scale;
-                    double vz1 = this.surfaceValues[x, y];
-                    double vz2 = this.surfaceValues[x + 1, y];
-                    if (!double.IsNaN(vz1) && !double.IsNaN(vz2))
+                    Point3D p1 = GetPoint(x, y);
+                    Point3D p2 = GetPoint(x + 1, y);
+                    if (!double.IsNaN(p1.z) && !double.IsNaN(p2.z))
                     {
-                        Line(new Point3D(vx1, vy, vz1), new Point3D(vx2, vy, vz2), e.Graphics, Pens.Black);
+                        Line(p1, p2, e.Graphics, Pens.Black);
                     }
                 }
             }
