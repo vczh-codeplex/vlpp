@@ -46,13 +46,104 @@ namespace DocxContentConverter
             }
         }
 
+        const string fo = "urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0";
+        const string office = "urn:oasis:names:tc:opendocument:xmlns:office:1.0";
+        const string style = "urn:oasis:names:tc:opendocument:xmlns:style:1.0";
+        const string table = "urn:oasis:names:tc:opendocument:xmlns:table:1.0";
+        const string text = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
+
+        static Tuple<string, string, string> GetTextItem(string paragraphStyle, string textStyle, string text)
+        {
+            if (paragraphStyle == null || textStyle == null) throw new ArgumentException();
+            return Tuple.Create(paragraphStyle, textStyle, text);
+        }
+
+        static IEnumerable<Tuple<string, string, string>> ExtractText(XElement paragraphParent, string paragraphStyle, string textStyle, int listIndex)
+        {
+            foreach (XNode node in paragraphParent.Nodes())
+            {
+                if (node is XElement)
+                {
+                    XElement element = node as XElement;
+                    switch (element.Name.ToString())
+                    {
+                        case "{" + text + "}p":
+                            {
+                                var styleName = element.Attribute(XName.Get("style-name", text)).Value;
+                                foreach (var p in ExtractText(element, styleName, styleName, listIndex))
+                                {
+                                    yield return p;
+                                }
+                            }
+                            break;
+                        case "{" + text + "}span":
+                            {
+                                var styleName = element.Attribute(XName.Get("style-name", text)).Value;
+                                foreach (var p in ExtractText(element, paragraphStyle, styleName, listIndex))
+                                {
+                                    yield return p;
+                                }
+                            }
+                            break;
+                        case "{" + text + "}line-break":
+                            yield return GetTextItem(paragraphStyle, textStyle, "\r\n");
+                            break;
+                        case "{" + text + "}s":
+                            yield return GetTextItem(paragraphStyle, textStyle, " ");
+                            break;
+                        case "{" + text + "}a":
+                        case "{" + table + "}table":
+                        case "{" + table + "}table-row":
+                        case "{" + table + "}table-cell":
+                            foreach (var p in ExtractText(element, paragraphStyle, textStyle, listIndex))
+                            {
+                                yield return p;
+                            }
+                            break;
+                        case "{" + text + "}list":
+                            {
+                                listIndex = 0;
+                                foreach (XElement item in element.Elements(XName.Get("list-item", text)))
+                                {
+                                    foreach (var p in ExtractText(item, paragraphStyle, textStyle, ++listIndex))
+                                    {
+                                        yield return p;
+                                    }
+                                }
+                            }
+                            break;
+                        case "{" + text + "}list-item":
+                            listIndex += 1;
+                            foreach (var p in ExtractText(element, paragraphStyle, textStyle, listIndex))
+                            {
+                                yield return p;
+                            }
+                            break;
+                        case "{urn:oasis:names:tc:opendocument:xmlns:drawing:1.0}custom-shape":
+                        case "{urn:oasis:names:tc:opendocument:xmlns:drawing:1.0}frame":
+                        case "{" + text + "}soft-page-break":
+                        case "{" + text + "}bookmark-start":
+                        case "{" + text + "}bookmark-end":
+                        case "{" + table + "}table-columns":
+                            break;
+                        default:
+                            throw new ArgumentException();
+                    }
+                }
+                else if (node is XText)
+                {
+                    yield return GetTextItem(paragraphStyle, textStyle, node.ToString());
+                }
+                else
+                {
+                    throw new ArgumentException();
+                }
+            }
+        }
+
         static void Main(string[] args)
         {
             XDocument document = XDocument.Load("content.xml");
-            string fo = "urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0";
-            string office = "urn:oasis:names:tc:opendocument:xmlns:office:1.0";
-            string style = "urn:oasis:names:tc:opendocument:xmlns:style:1.0";
-            string text = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
 
             var styles = document
                 .Root
@@ -75,48 +166,17 @@ namespace DocxContentConverter
                         Size = t.Item2.Attribute(XName.Get("font-size", fo)).Value,
                     });
 
-            var paragraphs =
-                 RecursiveElements(
-                    document
-                        .Root
-                        .Element(XName.Get("body", office))
-                        .Element(XName.Get("text", office))
-                    , XName.Get("p", text)
-                    )
-                .ToArray();
+            var paragraphParent = document
+                .Root
+                .Element(XName.Get("body", office))
+                .Element(XName.Get("text", office));
 
-            var spans = paragraphs
-                .Select(p =>
+            var spans = ExtractText(paragraphParent, null, null, 0)
+                .GroupBy(s => s.Item1)
+                .Select(g =>
                     Tuple.Create(
-                        p.Attribute(XName.Get("style-name", text)).Value,
-                        p.Nodes().Aggregate(new Tuple<string, string>[] { }, (xs, x) =>
-                            {
-                                if (x is XText)
-                                {
-                                    return xs
-                                        .Concat(
-                                            new Tuple<string, string>[] { Tuple.Create(p.Attribute(XName.Get("style-name", text)).Value, x.ToString()) })
-                                        .ToArray();
-                                }
-                                else
-                                {
-                                    var ys = RecursiveElements(x as XElement, XName.Get("span", text))
-                                        .Select(s =>
-                                            Tuple.Create(
-                                                s.Attribute(XName.Get("style-name", text)).Value,
-                                                s.Nodes()
-                                                    .Select(n =>
-                                                        n is XText ? n.ToString() :
-                                                        n is XElement && (n as XElement).Name.LocalName == "line-break" ? "\r\n" :
-                                                        ""
-                                                        )
-                                                    .Aggregate((a, b) => a + b)
-                                                )
-                                            )
-                                        .ToArray();
-                                    return xs.Concat(ys).ToArray();
-                                }
-                            })
+                        g.Key,
+                        g.Select(t => Tuple.Create(t.Item2, t.Item3)).ToArray()
                         )
                     )
                 .ToArray();
