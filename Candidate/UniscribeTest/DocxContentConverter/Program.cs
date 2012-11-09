@@ -132,7 +132,7 @@ namespace DocxContentConverter
                 }
                 else if (node is XText)
                 {
-                    yield return GetTextItem(paragraphStyle, textStyle, node.ToString());
+                    yield return GetTextItem(paragraphStyle, textStyle, node.ToString().Trim());
                 }
                 else
                 {
