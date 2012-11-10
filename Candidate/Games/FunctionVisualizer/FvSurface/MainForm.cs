@@ -74,7 +74,7 @@ namespace FvSurface
         }
 
         const int scale = 60;
-        const string input = "(sin(x*10)+cos(y*10))/10";
+        const string input = "(2/exp(2*(x*x+y*y)^0.5)) * (cos(10*(x*x+y*y)^0.5)/4)";
         const string v1 = "y";
         const string v2 = "x";
         static readonly Dictionary<string, double> values = new Dictionary<string, double>
@@ -126,7 +126,7 @@ namespace FvSurface
 
         private double ScaleToAxis(int i)
         {
-            return 2 * i / (double)scale - 1;
+            return 1.5 * (2 * i / (double)scale - 1);
         }
 
         private Point3D GetPoint(int x, int y)
