@@ -141,9 +141,9 @@ namespace DocxContentConverter
             }
         }
 
-        static void Main(string[] args)
+        static void Convert(string from, string to)
         {
-            XDocument document = XDocument.Load("content.xml");
+            XDocument document = XDocument.Load(from);
 
             var styles = document
                 .Root
@@ -189,46 +189,45 @@ namespace DocxContentConverter
                             "p",
                             p.Item2
                                 .Aggregate(new Tuple<string, string>[] { }, (a, b) =>
+                                {
+                                    if (a.Length == 0)
                                     {
-                                        if (a.Length == 0)
+                                        return new Tuple<string, string>[] { b };
+                                    }
+                                    else
+                                    {
+                                        var last = a.Last();
+                                        var fontInfo1 = styles[last.Item1];
+                                        var fontInfo2 = styles[b.Item1];
+                                        if (fontInfo1.ToString() == fontInfo2.ToString())
                                         {
-                                            return new Tuple<string, string>[] { b };
+                                            a[a.Length - 1] = Tuple.Create(last.Item1, last.Item2 + b.Item2);
+                                            return a;
                                         }
                                         else
                                         {
-                                            var last = a.Last();
-                                            var fontInfo1 = styles[last.Item1];
-                                            var fontInfo2 = styles[b.Item1];
-                                            if (fontInfo1.ToString() == fontInfo2.ToString())
-                                            {
-                                                a[a.Length - 1] = Tuple.Create(last.Item1, last.Item2 + b.Item2);
-                                                return a;
-                                            }
-                                            else
-                                            {
-                                                return a.Concat(new Tuple<string, string>[] { b }).ToArray();
-                                            }
+                                            return a.Concat(new Tuple<string, string>[] { b }).ToArray();
                                         }
-                                    })
+                                    }
+                                })
                                 .Select(s =>
-                                    {
-                                        var fontInfo = styles[s.Item1];
-                                        return new XElement(
-                                            "s",
-                                            new XAttribute("font", fontInfo.Name),
-                                            new XAttribute("bold", fontInfo.Bold),
-                                            new XAttribute("color", fontInfo.Color),
-                                            new XAttribute("size", fontInfo.Size),
-                                            s.Item2
-                                            );
-                                    })
+                                {
+                                    var fontInfo = styles[s.Item1];
+                                    return new XElement(
+                                        "s",
+                                        new XAttribute("font", fontInfo.Name),
+                                        new XAttribute("bold", fontInfo.Bold),
+                                        new XAttribute("color", fontInfo.Color),
+                                        new XAttribute("size", fontInfo.Size),
+                                        s.Item2
+                                        );
+                                })
                             )
                         )
                     )
                 );
-            output.Save("document.xml");
 
-            using (StreamWriter writer = new StreamWriter("document2.txt"))
+            using (StreamWriter writer = new StreamWriter(to))
             {
                 foreach (var p in output.Root.Elements("p"))
                 {
@@ -246,6 +245,11 @@ namespace DocxContentConverter
                     writer.WriteLine("<p/>");
                 }
             }
+        }
+
+        static void Main(string[] args)
+        {
+            Convert("content2.xml", "document2.txt");
         }
     }
 }
