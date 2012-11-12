@@ -91,6 +91,9 @@ namespace DocxContentConverter
                         case "{" + text + "}s":
                             yield return GetTextItem(paragraphStyle, textStyle, " ");
                             break;
+                        case "{" + text + "}tab":
+                            yield return GetTextItem(paragraphStyle, textStyle, "\t");
+                            break;
                         case "{" + text + "}a":
                         case "{" + table + "}table":
                         case "{" + table + "}table-row":
@@ -249,6 +252,7 @@ namespace DocxContentConverter
 
         static void Main(string[] args)
         {
+            Convert("content.xml", "document.txt");
             Convert("content2.xml", "document2.txt");
         }
     }
