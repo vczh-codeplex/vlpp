@@ -73,9 +73,10 @@ namespace FvSurface
             }
         }
 
-        const int scale = 60;
+        const int scale = 80;
         //const string input = "-0.1/((x-0.001)*(x-0.001)+y*y)^0.5 + 0.3/((x-0.501)*(x-0.501)+y*y)^0.5";
-        const string input = "sin(x*10)/(5+50*x^4) + cos(y*10)/(5+50*y^4)";
+        //const string input = "sin(x*10)/(5+50*x^4) + cos(y*10)/(5+50*y^4)";
+        const string input = "cos(10*(x*x+y*y))/10";
         const string v1 = "y";
         const string v2 = "x";
         static readonly Dictionary<string, double> values = new Dictionary<string, double>
