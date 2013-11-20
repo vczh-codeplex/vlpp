@@ -9,39 +9,45 @@ using namespace std;
 struct Category
 {
 	string								name;
-	int									soldPrice = 0;
-	int									fullPrice = 0;
-	int									displayPrice = 0;
+	int									soldPrice = 0;			// price that you want to buy one, if this is not a prior category
+	int									fullPrice = 0;			// price that you want to build one without using any existing stuff
+	int									displayPrice = 0;		// minimum price that you need to get a new one
 	int									capacity = 0;
 
 	vector<weak_ptr<Category>>			parents;
 	vector<weak_ptr<Category>>			children;
 
-	void UpdatePrice(map<string, int>& virtualCapacities)
+	int CalculateDisplayPrice(map<string, int>& virtualCapacities)
 	{
-		if (displayPrice == 0)
+		auto it = virtualCapacities.find(name);
+		if (it->second == 0)
 		{
 			if (soldPrice == -1)
 			{
-				for (auto c : children)
+				int result = 0;
+				for (auto child : children)
 				{
-					auto child = c.lock();
-					auto it = virtualCapacities.find(child->name);
-					if (it->second == 0)
-					{
-						child->UpdatePrice(virtualCapacities);
-						displayPrice += child->displayPrice;
-					}
-					else
-					{
-						it->second--;
-					}
+					result += child.lock()->CalculateDisplayPrice(virtualCapacities);
 				}
+				return result;
 			}
 			else
 			{
-				displayPrice = soldPrice;
+				return soldPrice;
 			}
+		}
+		else
+		{
+			it->second--;
+			return 0;
+		}
+	}
+
+	void UpdateDisplayPrice(map<string, int> virtualCapacities)
+	{
+		if (displayPrice == 0)
+		{
+			displayPrice = CalculateDisplayPrice(virtualCapacities);
 		}
 	}
 
@@ -111,7 +117,7 @@ struct Shop
 		return true;
 	}
 
-	void UpdatePrice()
+	void UpdateDisplayPrice()
 	{
 		map<string, int> vc;
 		for (auto pair : categories)
@@ -122,11 +128,7 @@ struct Shop
 
 		for (auto pair : categories)
 		{
-			if (pair.second->displayPrice == 0)
-			{
-				auto vc2 = vc;
-				pair.second->UpdatePrice(vc2);
-			}
+			pair.second->UpdateDisplayPrice(vc);
 		}
 	}
 
@@ -173,13 +175,13 @@ int main()
 	shop.AddChild("F", "D");
 	
 	shop.UpdateFullPrice();
-	shop.UpdatePrice();
+	shop.UpdateDisplayPrice();
 	shop.Print();
 
 	cout << "=========================" << endl;
 	shop.Give("E", 1);
 	shop.Give("A", 1);
-	shop.UpdatePrice();
+	shop.UpdateDisplayPrice();
 	shop.Print();
 	return 0;
 }
