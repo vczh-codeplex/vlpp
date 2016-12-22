@@ -137,6 +137,7 @@ namespace vl
 			
 			RegexTokens(regex_internal::PureInterpretor* _pure, collections::Array<vint>& _stateTokens, const WString& _code, vint _codeIndex);
 		public:
+			RegexTokens(const RegexTokens& regexTokens);
 
 			collections::IEnumerator<RegexToken>*		CreateEnumerator()const;
 			void										ReadToEnd(collections::List<RegexToken>& tokens, bool(*discard)(vint)=0)const;

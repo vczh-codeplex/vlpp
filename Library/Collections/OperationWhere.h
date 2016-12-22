@@ -101,6 +101,11 @@ Where
 			{
 			}
 
+			WhereEnumerable(const WhereEnumerable<T>& se)
+				:selector(se.selector)
+			{
+			}
+
 			IEnumerator<T>* CreateEnumerator()const
 			{
 				return new Enumerator(CopyEnumerator(), selector);

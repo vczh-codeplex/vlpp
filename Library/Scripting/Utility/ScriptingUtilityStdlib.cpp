@@ -152,22 +152,20 @@ namespace vl
 						REGISTER_LIGHT_FUNCTION(log10, double(double), log10) &&
 						REGISTER_LIGHT_FUNCTION(floor, double(double), floor) &&
 						REGISTER_LIGHT_FUNCTION(ceil, double(double), ceil) &&
-						REGISTER_LIGHT_FUNCTION(abs, double(double), abs) &&
+						REGISTER_LIGHT_FUNCTION(abs, double(double), fabs) &&
 
-						REGISTER_LIGHT_FUNCTION(sinf, float(float), sin) &&
-						REGISTER_LIGHT_FUNCTION(cosf, float(float), cos) &&
-						REGISTER_LIGHT_FUNCTION(tanf, float(float), tan) &&
-						REGISTER_LIGHT_FUNCTION(asinf, float(float), asin) &&
-						REGISTER_LIGHT_FUNCTION(acosf, float(float), acos) &&
-						REGISTER_LIGHT_FUNCTION(atanf, float(float), atan) &&
-						REGISTER_LIGHT_FUNCTION(expf, float(float), exp) &&
-						REGISTER_LIGHT_FUNCTION(log2f, float(float), log) &&
-						REGISTER_LIGHT_FUNCTION(log10f, float(float), log10) &&
-						REGISTER_LIGHT_FUNCTION(floorf, float(float), floor) &&
-						REGISTER_LIGHT_FUNCTION(ceilf, float(float), ceil) &&
-						REGISTER_LIGHT_FUNCTION(absf, float(float), abs) &&
-
-						REGISTER_LIGHT_FUNCTION(rand16, vint(), __rand16) &&
+						REGISTER_LIGHT_FUNCTION(sinf, float(float), sinf) &&
+						REGISTER_LIGHT_FUNCTION(cosf, float(float), cosf) &&
+						REGISTER_LIGHT_FUNCTION(tanf, float(float), tanf) &&
+						REGISTER_LIGHT_FUNCTION(asinf, float(float), asinf) &&
+						REGISTER_LIGHT_FUNCTION(acosf, float(float), acosf) &&
+						REGISTER_LIGHT_FUNCTION(atanf, float(float), atanf) &&
+						REGISTER_LIGHT_FUNCTION(expf, float(float), expf) &&
+						REGISTER_LIGHT_FUNCTION(log2f, float(float), logf) &&
+						REGISTER_LIGHT_FUNCTION(log10f, float(float), log10f) &&
+						REGISTER_LIGHT_FUNCTION(floorf, float(float), floorf) &&
+						REGISTER_LIGHT_FUNCTION(ceilf, float(float), ceilf) &&
+						REGISTER_LIGHT_FUNCTION(absf, float(float), fabsf) &&
 						true;
 				}
 			public:

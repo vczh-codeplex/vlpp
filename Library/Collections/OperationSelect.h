@@ -93,6 +93,11 @@ Select
 			{
 			}
 
+			SelectEnumerable(const SelectEnumerable<T, K>& se)
+				:selector(se.selector)
+			{
+			}
+
 			IEnumerator<K>* CreateEnumerator()const
 			{
 				return new Enumerator(CopyEnumerator(), selector);
