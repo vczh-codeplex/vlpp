@@ -548,6 +548,15 @@ RegexTokens
 		{
 		}
 
+		RegexTokens::RegexTokens(const RegexTokens& regexTokens)
+			:pure(regexTokens.pure)
+			, stateTokens(regexTokens.stateTokens)
+			, code(regexTokens.code)
+			, codeIndex(regexTokens.codeIndex)
+		{
+
+		}
+
 		IEnumerator<RegexToken>* RegexTokens::CreateEnumerator()const
 		{
 			return new RegexTokenEnumerator(pure, stateTokens, code.Buffer(), codeIndex);
